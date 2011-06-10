@@ -1,0 +1,2 @@
+INSERT INTO Activity(activityID, organizationID, parentID, title, identifierRef, resourceParameters)
+VALUES (:e.identifier, (select o.id from organization o where o.packageID = :packageID AND o.organizationID = :organizationID), :parentID, :e.title, :identifierRef, :resourceParameters)

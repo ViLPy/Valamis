@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.jstree.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
+
+        <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"></link>
+        <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
+        <script type="text/javascript" language="javascript">
+            var globalActivitiesData;
+
+            function addOption(element,key, value)
+            {
+                $(element).
+                    append($("<option></option>").
+                    attr("value",key).
+                    text(value));
+            }
+
+            $(function() {
+                $.get('/scorm-player/resources/Packages/', function(data) {
+                    var obj = eval("(" + data + ")").rows;
+                    for (var i=0; i < obj.length; i++)
+                        addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
+
+                    updateOrganizations();
+                });
+                
+                $('#SCORMNavigationBackward').button({
+                    icons: {
+                        primary: "ui-icon-circle-triangle-w"
+                    }
+                }).click(selectPrevNode);
+                $('#SCORMNavigationForward').button({
+                    icons: {
+                        secondary: "ui-icon-circle-triangle-e"
+                    }
+                }).click(selectNextNode);
+                
+                // upload translations
+                jQuery.i18n.properties({
+                    name:'Titles', 
+                    path:'/scorm-player/i18n/', 
+                    mode:'both',
+                    callback: function() {
+                        updateTitles();
+                    }
+                });
+            });
+            
+            function updateTitles()
+            {
+                //i18n specific methods
+            }
+
+            function updateOrganizations()
+            {
+                $('#SCORMOrganizations').html("");
+                $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/', function(data) {
+                    var obj = eval(data);
+                    for (var i=0; i < obj.length; i++)
+                        addOption('#SCORMOrganizations', obj[i].id, unescape(obj[i].title));
+
+                    createTree();
+                });
+            }
+
+            function updateView(itemID)
+            {
+                $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/'+$('#SCORMOrganizations').val()+'/Activities/'+itemID+'/GetResource', function(data) {
+                    $('#SCORMDataOutput').attr("src",data);
+                });
+            }
+
+            /// jsTree
+            function createTree()
+            {
+                $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/'+$('#SCORMOrganizations').val()+'/Activities/', function(data) {
+                    globalActivitiesData = eval(data);
+                    var items = "";
+                    for (var i=0; i < globalActivitiesData.length; i++)
+                        items += addTreeItem(globalActivitiesData[i]);
+
+                    $("#SCORMTree").html("<ul>" + items + "</ul>");
+                    $("#SCORMTree").jstree({ 
+                        "themes" : {
+                            "url" : "css/jstree/style.css",
+                            "dots" : false,
+                            "icons" : false
+                        },
+                        "plugins" : [ "html_data", "ui", "themes" ] 
+                    }).bind("select_node.jstree", function (event, data) {      
+                        updateView(data.rslt.obj.attr("id"));
+                        updateNavigationButtons();
+                        //alert(data.inst.get_text(data.rslt.obj) + " - " + data.rslt.obj.attr("id")); // ID - Text
+                    });
+                });
+            }
+            
+            function addTreeItem(item)
+            {
+                if (item.childActivities.length == 0)
+                    return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a></li>";
+                else
+                {
+                    var innerItems = "";
+                    for (var i=0; i < item.childActivities.length; i++)
+                        innerItems += addTreeItem(item.childActivities[i])
+                    return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a><ul>"+ innerItems +"</ul></li>";
+                }
+            }
+            
+            function selectNextNode()
+            {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                if (!jsTree.is_leaf(currentNode))
+                    jsTree.open_node(currentNode);
+                
+                var nextNode = jsTree._get_next(currentNode);
+                if (currentNode.length == 0) // current node not found, jmp to first
+                    nextNode = $('#SCORMTree').children("ul:first").children("li:first");
+                
+                jsTree.reselect(currentNode); // drop selection from current
+                jsTree.select_node(nextNode);
+                updateNavigationButtons();
+            }
+            
+            function selectPrevNode()
+            {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                var prevNode = jsTree._get_prev(currentNode);
+                if (currentNode.length == 0) // not found
+                    prevNode = $('#SCORMTree').children("ul:first").children("li:last");
+                
+                if (!jsTree.is_leaf(prevNode))
+                {
+                    if (!jsTree.is_open(prevNode))
+                    {
+                        jsTree.open_node(prevNode);
+                        prevNode = prevNode.children("ul:first").children("li:last");
+                    }
+                }
+                
+                jsTree.reselect(currentNode); // drop selection from current
+                jsTree.select_node(prevNode);
+                updateNavigationButtons();
+            }
+            
+            function updateNavigationButtons()
+            {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                var prevNode = jsTree._get_prev(currentNode);
+                var nextNode = jsTree._get_next(currentNode);
+                
+                $('#SCORMNavigationBackward').button( "option", "disabled", !prevNode );
+                $('#SCORMNavigationForward').button( "option", "disabled", ((nextNode.length == 0) && (jsTree.is_leaf(currentNode))) );
+            }
+        </script>
+    </head>
+    <body>
+        <div id="SCORMApplicationContainer">
+
+            <table>
+                <tr valign="top">
+                    <td>
+                        <div id="SCORMMenu">
+                            <div>
+                                <select id="SCORMPackages" onChange="updateOrganizations()"></select>
+                                <select id="SCORMOrganizations" onChange="createTree()"></select>
+                            </div>
+                            <div id="SCORMTree"></div>
+                        </div>
+                    </td>
+                    <td style="width: 100%; height: 500px">
+                        <iframe id="SCORMDataOutput" src="" style="width: 100%; height: 100%"></iframe>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <center>
+                            <button id="SCORMNavigationBackward">Backward</button>
+                            <button id="SCORMNavigationForward">Forward</button>
+                        </center>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

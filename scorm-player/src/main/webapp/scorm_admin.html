@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+
+        <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"></link>
+        <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
+
+        <script src="js/fileuploader.js" type="text/javascript"></script>
+        <link href="css/fileuploader.css" rel="stylesheet" type="text/css">	
+
+        <script type="text/javascript" language="javascript">
+            var globalActivitiesData;
+            var uploader;
+
+            function addOption(element,key, value)
+            {
+                $(element).
+                    append($("<option></option>").
+                    attr("value",key).
+                    text(value));
+            }
+
+            $(function() {
+                $('#SCORMPackagesGrid').jqGrid({
+                    url:'/scorm-player/resources/Packages/Sorted',
+                    datatype: "json",
+                    mtype: 'GET',
+                    //rowNum: 1000,
+                    //forceFit: true,
+                    colNames:['ID1', 'Title1', 'Summary1'],
+                    colModel:[
+                        {name:'id', index: 'id', width:80, align:"center"},
+                        {name:'title', index: 'title', editable: true, width:150, formatter:textFormatter},
+                        {name:'summary', index: 'summary', editable: true, edittype:"textarea", 
+                            editoptions:{rows:"4",cols:"30"}, width:280, formatter:textFormatter, sortable: false}
+                    ],
+                    //sortname: 'id',
+                    //sortorder: "asc",
+                    caption: "Packages list",
+                    toolbar: [true,"top"],
+                    pager: '#SCORMPager',
+                    editurl:"/scorm-player/resources/Packages/UpdateTitle",
+                    rowList: [],        // disable page size dropdown
+                    pgbuttons: false,     // disable page control like next, back button
+                    pgtext: null,         // disable pager text like 'Page 0 of 10'
+                    viewrecords: false, // disable current view record text like 'View 1-10 of 100' 
+                    ondblClickRow: function(row){
+                        $('#SCORMPackagesGrid').editGridRow(row, {width:400, viewPagerButtons:false, reloadAfterSubmit:true, closeAfterEdit:true, closeOnEscape:true});
+                    }
+                }).jqGrid('navGrid','#SCORMPager',
+                {add:false, del:false, search: false}, //options
+                {width:400, viewPagerButtons:false, reloadAfterSubmit:true, closeAfterEdit:true, closeOnEscape:true}, // edit options
+                {}, // add options
+                {}, // del options
+                {}); // search options
+                
+                $("#t_SCORMPackagesGrid").height(30)
+                .append("<input type='button' id='SCORMPackageUploadButton' style='height:30px' value='Add a new scorm package'/>")
+                .append("<input type='button' id='SCORMPackageAdminButton' style='height:30px' value='Admin interface'/>");
+                
+                $("#SCORMPackageUploadButton").click(function(){
+                    showUploadDialog();
+                });
+                
+                $("#SCORMPackageAdminButton").click(function(){
+                    $('#SCORMAdminDialog').dialog('open');
+                });
+                
+                $('#SCORMUploadDialog').dialog({autoOpen: false, width: 350});
+                $('#SCORMAdminDialog').dialog({autoOpen: false, width: 400});
+                
+                // autoresize jqGrid on window resize
+                $(window).bind('resize', function() {
+                    $("#SCORMPackagesGrid").setGridWidth($('#gbox_SCORMPackagesGrid').parent().width()).setGridHeight(500)
+                }).trigger('resize');
+                
+                // upload translations
+                jQuery.i18n.properties({
+                    name:'Titles', 
+                    path:'/scorm-player/i18n/', 
+                    mode:'both',
+                    language:'',
+                    callback: function() {
+                        updateTitles();
+                    }
+                });
+                
+                resetDBInfo();
+            });
+            
+            function renewDatabase()
+            {
+                if (confirm("This will delete ALL data from ALL packages for ALL users! Are you sure?"))
+                {
+                    $.get('/scorm-player/resources/Administering/RenewDatabase', function(data) {
+                        alert("Database renewed!");
+                        $('#SCORMPackagesGrid').trigger("reloadGrid");
+                    });
+                }
+            }
+            
+            function resetDBInfo()
+            {
+                $.get('/scorm-player/resources/Administering/GetDBInfo', function(data) {
+                    var infoPack = eval('(' + data + ')');
+                    $('#SCORMServerName').val(infoPack.server);
+                    $('#SCORMDatabaseName').val(infoPack.database);
+                    $('#SCORMDatabaseUserLogin').val(infoPack.login);
+                    $('#SCORMDatabaseUserPassword').val(infoPack.password);
+                });
+            }
+            
+            // set file uploader params: title & summary
+            function buildFormData()
+            {
+                uploader.setParams({
+                    title: escape($('#SCORMPackageTitle').val()),
+                    summary: escape($('#SCORMPackageSummary').val())
+                });
+            }
+            
+            // jqGrid specific
+            function textFormatter(cellvalue, options, rowObject)
+            {
+                return (cellvalue!="")?unescape(cellvalue.replace(/[+]/g," ")):"&nbsp"; // field must contain smthng
+            }
+            
+            // i18n methods
+            function updateTitles()
+            {
+                // some other translations
+                uploader = new qq.FileUploader({
+                    element: document.getElementById('SCORMFileUploader'),
+                    action: '/scorm-player/resources/Upload/Package',
+                    debug: false,
+                    allowedExtensions: ['zip'],
+                    onSubmit: buildFormData,
+                    buttonTitle: jQuery.i18n.prop('packageUpload'),
+                    filesTitle: jQuery.i18n.prop('packageFilesLabel'),
+                    onComplete: function() {
+                        $('#SCORMPackagesGrid').trigger("reloadGrid");
+                        $('#SCORMUploadDialog').dialog('close');
+                    }
+                });
+                $("#SCORMPackageUploadButton").val(jQuery.i18n.prop('packageAdd'));
+                $('#SCORMPackagesGrid').jqGrid('setLabel', 0, jQuery.i18n.prop('packageIDColumn'));
+                $('#SCORMPackagesGrid').jqGrid('setLabel', 1, jQuery.i18n.prop('packageTitleColumn'));
+                $('#SCORMPackagesGrid').jqGrid('setLabel', 2, jQuery.i18n.prop('packageSummaryColumn'));
+                
+                $('#SCORMPackageTitleLabel').text(jQuery.i18n.prop('packageNameLabel'));
+                $('#SCORMPackageSummaryLabel').text(jQuery.i18n.prop('packageSummaryLabel'));
+            }
+
+            function showUploadDialog()
+            {
+                $('#qq-upload-list').text("");
+                $('#SCORMPackageTitle').val("");
+                $('#SCORMPackageSummary').val("");
+                $('#SCORMUploadDialog').dialog('open');
+            }
+        </script>
+    </head>
+    <body>
+        <div id="SCORMApplicationContainer">
+            <table id="SCORMPackagesGrid"></table>
+            <div id="SCORMPager"></div>
+        </div>
+        <div id="SCORMUploadDialog" title="Package uploader">
+            <p>
+                <b id="SCORMPackageTitleLabel">Name:</b><br>
+                <input type="text" id="SCORMPackageTitle">
+            </p>
+            <hr>
+            <p>
+                <b id="SCORMPackageSummaryLabel">Summary:</b><br>
+                <textarea id="SCORMPackageSummary" rows=4 cols=30></textarea>
+            </p>
+            <hr>
+            <div id="SCORMFileUploader"></div>
+        </div>
+
+        <div id="SCORMAdminDialog" title="PostgreSQL database connection settings">
+            <form action="/scorm-player/resources/Administering/UpdateDBInfo" method="post">
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Server name:</td>
+                            <td>
+                                <input name="ServerName" type="text" id="SCORMServerName" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Database name:</td>
+                            <td>
+                                <input name="DBName" type="text" id="SCORMDatabaseName" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>User login:</td>
+                            <td>
+                                <input name="Login" type="text" id="SCORMDatabaseUserLogin" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>User password:</td>
+                            <td>
+                                <input name="Password" type="password" id="SCORMDatabaseUserPassword" value="" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="button" id="SCORMResetDatabaseSettings" onclick="resetDBInfo()" value="Reset">
+                <input type="submit" id="SCORMSaveDatabaseSettings" value="Save">
+                <input type="button"  id="SCORMSaveDatabaseSettings" onclick="renewDatabase()" value="Reinitialize DB">
+            </form>
+        </div>
+    </body>
+</html>
