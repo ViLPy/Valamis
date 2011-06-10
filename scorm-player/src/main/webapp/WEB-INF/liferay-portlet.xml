@@ -15,6 +15,7 @@
         <footer-portlet-javascript>/js/jquery.jstree.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.i18n.properties-min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/fileuploader.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery-iframe-resizer.js</footer-portlet-javascript>
     </portlet>
     <role-mapper>
         <role-name>administrator</role-name>

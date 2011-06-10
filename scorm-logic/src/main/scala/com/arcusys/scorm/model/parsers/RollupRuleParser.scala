@@ -11,7 +11,7 @@ class RollupRuleParser(val rollupRuleElement: Elem) {
     val minimumPercent = (rollupRuleElement %? "minimumPercent").getOrElse("0.0")
     val rollupConditionsElement = rollupRuleElement \! ("imsss","rollupConditions")
     val conditionCombination = (rollupConditionsElement %? "conditionCombination").getOrElse("any")
-    val ruleActionElement = rollupRuleElement \! ("imsss","ruleAction")
+    val ruleActionElement = rollupRuleElement \! ("imsss","rollupAction")
     val ruleAction = ruleActionElement %! "action"
 
     val rollupRule = new RollupRule(

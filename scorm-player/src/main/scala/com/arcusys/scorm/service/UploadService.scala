@@ -142,6 +142,12 @@ class UploadService
         if(entry.isDirectory()) {
           (new File(directory + entry.getName())).mkdir
         } else {
+          // if zip-file doesn't contains directory structure
+          val rootDirectories = extractRootDirectories(entry.getName())
+          for (i <- 1 to rootDirectories.size ) {
+            val currentDir = new File(directory + rootDirectories.splitAt(i)._1.mkString("/"))
+            if (!currentDir.exists) currentDir.mkdir
+          }
           copyInputStream(zipFile.getInputStream(entry), new BufferedOutputStream(new FileOutputStream(directory + entry.getName())))
         }
       }
@@ -151,6 +157,8 @@ class UploadService
     }
   }
 
+  private def extractRootDirectories(filename:String) = filename.split("/").dropRight(1) // split path to directory list and drop filename from list
+  
   private def copyInputStream(in:InputStream, out: OutputStream) =
   {
     try {
