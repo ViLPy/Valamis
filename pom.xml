@@ -11,6 +11,7 @@
     <modules>
         <module>scorm-logic</module>
         <module>scorm-player</module>
+		<module>scorm-quiz-model</module>
     </modules>
     <repositories>
         <repository>

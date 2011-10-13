@@ -9,14 +9,43 @@
         <header-portlet-css>/css/ui.jqgrid.css</header-portlet-css>
         <header-portlet-css>/css/fileuploader.css</header-portlet-css>
         <header-portlet-css>/css/jstree/style.css</header-portlet-css>
-        
+       
         <footer-portlet-javascript>/js/grid.locale-en.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.jqGrid.min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.jstree.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.i18n.properties-min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/fileuploader.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery-iframe-resizer.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/questionbank/jsTree.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
     </portlet>
+
+    <portlet>
+        <portlet-name>SCORMQuestionBank</portlet-name>
+        <instanceable>true</instanceable>
+
+        <header-portlet-css>/css/smoothness/jquery-ui-1.8.14.custom.css</header-portlet-css>
+        <header-portlet-css>/css/ui.jqgrid.css</header-portlet-css>
+        <header-portlet-css>/css/fileuploader.css</header-portlet-css>
+        <header-portlet-css>/js/redactor/css/redactor.css</header-portlet-css>
+        <header-portlet-css>/css/chosen/chosen.css</header-portlet-css>
+        <header-portlet-css>/css/main.css</header-portlet-css>
+
+        <footer-portlet-javascript>/js/grid.locale-en.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.jqGrid.min.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.jstree.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.i18n.properties-min.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/fileuploader.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery-iframe-resizer.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/questionbank/jsTree.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.layout.min-1.2.0.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/redactor/redactor.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mustache.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
+    </portlet>
+
     <role-mapper>
         <role-name>administrator</role-name>
         <role-link>Administrator</role-link>

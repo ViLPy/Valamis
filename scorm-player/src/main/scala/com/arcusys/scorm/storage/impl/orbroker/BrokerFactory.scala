@@ -4,7 +4,7 @@ import org.orbroker._
 import org.orbroker.config.dynamic._
 import org.orbroker.config._
 
-import com.arcusys.scorm.service.PropertyUtil
+import com.arcusys.scorm.util.PropertyUtil
 
 object BrokerFactory
 {

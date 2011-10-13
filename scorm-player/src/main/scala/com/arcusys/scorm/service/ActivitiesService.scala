@@ -1,31 +1,37 @@
 package com.arcusys.scorm.service
 
-import javax.ws.rs._
-import javax.ws.rs.core._
-import scala.xml._
+import org.scalatra.ScalatraServlet
 import com.arcusys.scorm.model._
 import com.arcusys.scorm.service.StorageFactory._
-import com.sun.jersey.api.NotFoundException
-import com.arcusys.scorm.service.JSON._
-import com.arcusys.scorm.service.PathBuilder._
+import com.arcusys.scorm.util.JSON._
+import com.arcusys.scorm.service.util.PathBuilder._
 
-class ActivitiesService(val packageID: Int, val organizationID: String)
+class ActivitiesService extends ScalatraServlet
 {
-  @GET
-  def getAll = toJSON(buildOutputJSON(getActivitiesStorage.getAllByParam(packageID, organizationID))) //throw new Exception(">-- " + getActivitiesStorage.getAllByParam(packageID, organizationID).toString)//
-
-  @GET
-  @Path("{id}")
-  def getByID(@PathParam("id") id:String) = 
-    try { toJSON(buildOutputJSON(getActivitiesStorage.getByID(packageID, organizationID, id).get))}
-  catch { case _=> new NotFoundException }
+  before() { contentType = "text/html" }
   
-  @GET
-  @Path("{id}/GetResource")
-  def getResource(@PathParam("id") id: Int) = 
-  {
+  get("/package/:packageID/organization/:organizationID") {
+    val packageID = params.getOrElse("packageID", halt(405, "Package is not specified")).toInt
+    val organizationID = params.getOrElse("organizationID", halt(405, "Organization is not specified"))
+    toJSON(buildOutputJSON(getActivitiesStorage.getAllByParam(packageID, organizationID)))
+  }
+
+  get("/package/:packageID/organization/:organizationID/activity/:id") {
+    val packageID = params.getOrElse("packageID", halt(405, "Package is not specified")).toInt
+    val organizationID = params.getOrElse("organizationID", halt(405, "Organization is not specified"))
+    val id = params.getOrElse("id", halt(405, "ID is not specified"))
+    try { toJSON(buildOutputJSON(getActivitiesStorage.getByID(packageID, organizationID, id).get))}
+    catch { case _=> halt(404) }
+  }
+  
+  get("/package/:packageID/organization/:organizationID/activity/:id/GetResource") {
+    val packageID = params.getOrElse("packageID", halt(405, "Package is not specified")).toInt
+    val organizationID = params.getOrElse("organizationID", halt(405, "Organization is not specified"))
+    val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
+    contentType = "text/plain"
+    
     val activity = getActivitiesStorage.getByID(id).get
-    if (!activity.isInstanceOf[LeafActivity]) throw new NotFoundException
+    if (!activity.isInstanceOf[LeafActivity]) halt()
     val resource = getResourcesStorage.getByID(packageID, activity.asInstanceOf[LeafActivity].resourceIdentifier)
     buildURL(packageID, 
              resource.get.href.getOrElse("") + activity.asInstanceOf[LeafActivity].resourceParameters.getOrElse(""),
@@ -34,69 +40,38 @@ class ActivitiesService(val packageID: Int, val organizationID: String)
   }
   
   /*------------------
-   *  XML support
+   *  JSON support
    *------------------*/
-   private def buildOutputXML(activity: Activity): Elem =
-   {
-      def writeContainerField:Elem =
-      {
-        val asContainer = activity.asInstanceOf[ContainerActivity]
-        buildOutputXML(asContainer.childActivities.toIndexedSeq)
-      }
 
-      def writeLeafField:Elem =
-      {
-        val asLeaf = activity.asInstanceOf[LeafActivity]
-        <leafData>
-          <resourceID>{asLeaf.resourceIdentifier}</resourceID>
-          <resourceParam>{asLeaf.resourceParameters}</resourceParam>
-        </leafData>
-      }
-
-      <activity id={activity.identifier} title = {activity.title} visible={activity.visible.toString}>
-        { if (activity.isInstanceOf[ContainerActivity]) writeContainerField
-         else if (activity.isInstanceOf[LeafActivity]) writeLeafField }
-      </activity>
+  private def buildOutputJSON(activity: Activity): Map[String ,Any] =
+  {
+    def writeContainerField =
+    {
+      val asContainer = activity.asInstanceOf[ContainerActivity]
+      (for(activity<-asContainer.childActivities) yield buildOutputJSON(activity))
     }
 
-   private def buildOutputXML(sequence: IndexedSeq[Activity]): Elem =
-   {
-      <activities>{for(activity<-sequence) yield buildOutputXML(activity)}</activities>
-    }
-
-   /*------------------
-    *  JSON support
-    *------------------*/
-
-   private def buildOutputJSON(activity: Activity): Map[String ,Any] =
-   {
-      def writeContainerField =
-      {
-        val asContainer = activity.asInstanceOf[ContainerActivity]
-        (for(activity<-asContainer.childActivities) yield buildOutputJSON(activity))
-      }
-
-      def writeLeafField =
-      {
-        val asLeaf = activity.asInstanceOf[LeafActivity]
-        Map(
-          "resourceID"->asLeaf.resourceIdentifier,
-          "resourceParam"->asLeaf.resourceParameters.getOrElse("")
-        )
-      }
-
+    def writeLeafField =
+    {
+      val asLeaf = activity.asInstanceOf[LeafActivity]
       Map(
-        "id"->activity.identifier,
-        "title"->activity.title,
-        "visible"->activity.visible,
-        "childActivities" -> (if (activity.isInstanceOf[ContainerActivity]) writeContainerField else Seq()),
-        "leafData" -> (if (activity.isInstanceOf[LeafActivity]) writeLeafField else Map())
+        "resourceID"->asLeaf.resourceIdentifier,
+        "resourceParam"->asLeaf.resourceParameters.getOrElse("")
       )
     }
 
-   private def buildOutputJSON(sequence: IndexedSeq[Activity]): IndexedSeq[Map[String,Any]] =
-   {
-      (for(activity<-sequence) yield buildOutputJSON(activity))
-    }
+    Map(
+      "id"->activity.identifier,
+      "title"->activity.title,
+      "visible"->activity.visible,
+      "childActivities" -> (if (activity.isInstanceOf[ContainerActivity]) writeContainerField else Seq()),
+      "leafData" -> (if (activity.isInstanceOf[LeafActivity]) writeLeafField else Map())
+    )
+  }
+
+  private def buildOutputJSON(sequence: IndexedSeq[Activity]): IndexedSeq[Map[String,Any]] =
+  {
+    sequence.map(activity => buildOutputJSON(activity))
+  }
  
-   }
+}

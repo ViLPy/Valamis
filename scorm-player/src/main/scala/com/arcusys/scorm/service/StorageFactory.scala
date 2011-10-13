@@ -8,4 +8,7 @@ object StorageFactory
   def getActivitiesStorage = new ActivitiesStorageImpl
   def getOrganizationsStorage = new OrganizationsStorageImpl
   def getResourcesStorage = new ResourcesStorageImpl
+  def getQuestionCategoryStorage = new QuestionCategoryStorageImpl
+  def getQuestionStorage = new QuestionStorageImpl
+  def getAnswerStorage = new AnswerStorageImpl
 }

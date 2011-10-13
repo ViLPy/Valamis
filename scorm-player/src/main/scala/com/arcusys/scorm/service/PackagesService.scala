@@ -1,42 +1,30 @@
 package com.arcusys.scorm.service
 
-import javax.ws.rs._
-import javax.ws.rs.core._
 import com.arcusys.scorm.service.StorageFactory._
-import com.arcusys.scorm.service.JSON._
+import com.arcusys.scorm.util.JSON._
 import com.arcusys.scorm.model._
+import org.scalatra.ScalatraServlet
 import scala.xml._
 
-@Path("/Packages")
-class PackagesService
+class PackagesService extends ScalatraServlet
 {
-  @GET
-  def getAllByDefault() = 
-    toJSON(buildJSONResponse("id","asc",getPackageStorage.getAll))
+  before() { contentType = "text/html" }
   
-  @GET
-  @Path("/Sorted")
-  def getAll(@QueryParam("sidx") sidx:String,
-             @QueryParam("sord") sord:String = "asc") = 
-               toJSON(buildJSONResponse(sidx, sord, getPackageStorage.getAll))
+  get("/") {
+    toJSON(buildJSONResponse("id","asc",getPackageStorage.getAll))
+  }
+  
+  get("/Sorted") {
+    val paramSidx = params.getOrElse("sidx","")
+    val paramSord = params.getOrElse("sord","asc")
+    toJSON(buildJSONResponse(paramSidx, paramSord, getPackageStorage.getAll))
+  }
 
-  @Path("{id}/Organizations")
-  def getOrganizationsService(@PathParam("id") id:Int) = new OrganizationsService(id)
-
-  @Path("{id}/Resources")
-  def getResourcesService(@PathParam("id") id:Int) = new ResourcesService(id)
-
-  @POST
-  @Path("/UpdateTitle")
-  def updatePackagesTitle(values: String) =
-  {
-    val properties = Map(
-      values.split("&").map{ // split input string into an array
-        property => // map it into a key-value array
-        property.substring(0, property.indexOf("=")) -> property.substring(property.indexOf("=") + 1) // extract key and value from string
-      }:_*) // cast into a Map[String, String]
+  post("/UpdateTitle") {
+    val id = params.getOrElse("id", halt(405, "ID is not specified"))
+    val title = params.getOrElse("title", "")
+    val summary = params.getOrElse("summary", "")
     
-    val id = properties("id")
     val currentManifest = getPackageStorage.getByID(id.toInt).get
     val updatedManifest = new Manifest(id,
                                        None,
@@ -44,10 +32,11 @@ class PackagesService
                                        currentManifest.metadata,
                                        currentManifest.defaultOrganizationIdentifier,
                                        currentManifest.resourcesBase,
-                                       properties("title"),
-                                       Some(properties("summary")))
+                                       title,
+                                       Some(summary))
     getPackageStorage.modify(id.toInt, updatedManifest)
-    Response.ok("{\"message\":\"\",\"id\":"+id+"}").build
+    
+    toJSON(Map("message"->"", "id"->id))
   }
 
   private def buildJSONResponse(sidx:String, sord:String, sequence:IndexedSeq[Manifest]) =
@@ -62,7 +51,7 @@ class PackagesService
           (if (sord.equals("asc")) e1.identifier.toLowerCase < e2.identifier.toLowerCase
            else e1.identifier.toLowerCase > e2.identifier.toLowerCase ))
     }
-      
+    // create data structure for jqGrid
     Map("total"->1,
         "page"->0,
         "records"->newSeq.size,
