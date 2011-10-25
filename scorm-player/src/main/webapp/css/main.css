@@ -5,6 +5,7 @@
 }
 body {
     font-size:14px;
+    background-image: url("category-bank/bgnoise.png")
 }
 #SCORMBankWrapper {
     white-space:nowrap;
@@ -53,6 +54,9 @@ body {
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
+}
+.toolbarSelectField {
+    background-image: url("category-bank/books.png");
 }
 .toolbarAddCategory {
     background-image: url("category-bank/folder_add.png");
@@ -139,7 +143,7 @@ body {
     margin-bottom: 5px;
 }
 
-#SCORMFixedPanel {
+.SCORMFixedPanel {
     margin-left: -10px;
     margin-top: -10px;
     padding-left: 10px;
@@ -194,6 +198,7 @@ body {
     margin-top:44px;
 }
 #SCORMCategoryView, #SCORMCategoryEdit {
+    margin-top:45px;
     border: 1px solid #EEEEEE;
     border-radius: 10px 10px 10px 10px;
     padding: 10px;

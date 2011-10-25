@@ -1,15 +1,15 @@
 <div id="SCORMAnswer_{{id}}" class="SCORManswer">
 <div class="SCORMAnswerTitle">Answer #<span id="SCORMAnswerTitleID_{{id}}" /></div>
-	<div id="SCORMAnswerText_{{id}}"></div>
-	<button onclick="showEdit('Answer text','#SCORMAnswerText_{{id}}')" class="editButton">
+	<div id="SCORMAnswerText_{{id}}">{{text}}</div>
+	<button id="buttonSCORMEditText_{{id}}" class="editButton">
             <span>Edit answer text</span>
         </button>
-        <button onclick="deleteAnswer('{{id}}')" class="deleteButton">
+        <button id="buttonSCORMDeleteAnswer_{{id}}" class="deleteButton">
             <span>Delete answer</span>
         </button>
         <br>
-        <div id="SCORMAnswerSubquestionText_{{id}}"></div>
-	<button onclick="showEdit('Answer text','#SCORMAnswerSubquestionText_{{id}}')" class="editButton">
+        <div id="SCORMAnswerSubquestionText_{{id}}">{{subquestion}}</div>
+	<button id="buttonSCORMEditSubquestionText_{{id}}" class="editButton">
             <span>Edit subquestion text</span>
         </button>
 </div>

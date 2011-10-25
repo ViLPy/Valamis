@@ -59,7 +59,4 @@ class PackagesService extends ScalatraServlet
                                       "cell"->List(pack.identifier, pack.title, pack.summary.getOrElse("")))))
   }
 
-  /* @GET
-   @Path("{id}/Activities")
-   def getAllActivitiesFromGivenPackage(@PathParam("id") id:String) = {} */
 }

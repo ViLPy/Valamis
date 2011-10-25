@@ -16,9 +16,6 @@ class OrganizationsService extends ScalatraServlet
     toJSON(buildOutputJSON(getOrganizationsStorage.getByPackageID(packageID)))
   }
 
-  /*@Path("{organizationID}/Activities")
-   def getActivitiesService(@PathParam("organizationID") id:String) = new ActivitiesService(packageID, id)*/
-
   private def buildOutputJSON(sequence: IndexedSeq[Organization]) =
   {
     sequence.map(organization => Map("id"->organization.identifier,

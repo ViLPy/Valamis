@@ -47,7 +47,7 @@ object QuestionSerializer {
     }
     
     Map("attr"->Map("id"->question.id, 
-                    "rel"->"default", 
+                    "rel"->"entity", 
                     "text"->question.text,
                     "isBounded"->isBounded,
                     "isCaseSensitive"->isCaseSensitive,

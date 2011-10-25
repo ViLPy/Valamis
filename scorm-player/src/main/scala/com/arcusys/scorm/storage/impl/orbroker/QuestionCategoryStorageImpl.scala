@@ -16,8 +16,8 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage with GenericEn
   def idParam = "id"
 
   def getChildren(parentID: Option[Int]) = {
-        broker.readOnly() { session => session.selectAll(Token(Symbol(tablePath), Extractor),
-                                                         "parentID"->parentID.getOrElse(-1)) }
+    broker.readOnly() { session => session.selectAll(Token(Symbol(tablePath), Extractor),
+                                                     "parentID"->parentID.getOrElse(-1)) }
   }
   
   object Extractor extends RowExtractor[QuestionCategory]
