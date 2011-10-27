@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 
-package com.arcusys.scorm.service
+package com.arcusys.scorm.util
+
+import scala.util.parsing.json.JSON._
 
 object JSON
 {
@@ -19,7 +21,12 @@ object JSON
       case l: Seq[Any] => if (!l.isEmpty) "[" + prepareList(l).reduceLeft[String]( (result, n) => result + "," + n) + "]" else "[]"
       case c: Char => "\"" + c + "\""
       case s: String => "\"" + s + "\""
+      case b: Boolean => "\"" + b.toString + "\""
       case _ => obj.toString
     }
+  }
+  
+  def toObject(json: String): Any = {
+    parseFull(json).getOrElse(throw new Exception("Can't parse JSON: " + json))
   }
 }

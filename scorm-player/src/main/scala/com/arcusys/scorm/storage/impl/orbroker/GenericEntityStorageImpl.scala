@@ -28,6 +28,8 @@ trait GenericEntityStorageImpl[E]
     broker.readOnly() { session => session.selectOne(Token(Symbol(tablePath), extractor), (defParams :+ (idParam->id)):_*) }
   }
 
+  // will return database ID as first param and entity as second
+  // added for SCORM id, where database id isn't equal to id in SCORM package
   def create(entity: E): (Int, E) = {
     val id = broker.transactional() { session =>
       val id = session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (defParams :+ ("e"->entity)):_*)
@@ -56,12 +58,14 @@ trait GenericEntityStorageImpl[E]
     }
   }
 
+  // will return database ID as first param and entity as second
+  // added for SCORM id, where database id isn't equal to id in SCORM package
   def modify(entity: E): (Int, E) =
   {
     val id = broker.transactional() { session =>
       val id = session.executeForKey(Token(Symbol(tablePath + "_update"), IntExtractor), (defParams :+ ("e"->entity)):_*)
       session.commit
-      id.get
+      id.getOrElse(throw new Exception("Can't get id for entity " + entity.toString))
     }
     defParams.clear
     (id -> getByID(id).getOrElse(throw new Exception()))

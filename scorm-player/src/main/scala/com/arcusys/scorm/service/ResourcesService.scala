@@ -1,49 +1,16 @@
 package com.arcusys.scorm.service
 
-import java.util.Properties
-import javax.ws.rs._
-import javax.ws.rs.core._
+import org.scalatra.ScalatraServlet
 import scala.xml._
 import com.arcusys.scorm.model._
 import com.arcusys.scorm.service.StorageFactory._
 
-object PathBuilder
+class ResourcesService extends ScalatraServlet
 {
-  // get real path to .class file
-  val sourceLocation = getClass.getProtectionDomain.getCodeSource.getLocation.getPath
-  // extract path to SCORM packages data directory
-  lazy val outputRealDir = sourceLocation.substring(0, sourceLocation.lastIndexOf("/WEB-INF")) + "/SCORMData/"
-  lazy val outputWebDir = {
-    val properties = new Properties
-    val resourceStream = Thread.currentThread.getContextClassLoader.getResourceAsStream("resources.properties")
-    properties.load(resourceStream)
-    properties.getProperty("outputWebDir","")
+  get("/package/:packageID") {
+    val packageID = params.getOrElse("packageID", halt(405, "Package is not specified")).toInt
+    buildOutput(getResourcesStorage.getByPackageID(packageID)).toString
   }
-
-
-  def buildRealPath(packageID: Int, resourceHref: String, manifestBase: String = "", resourceBase: String = ""):String =
-  {
-    (outputRealDir + "data/" + 
-     packageID.toString + "/" + 
-     (if (!manifestBase.isEmpty) {manifestBase + "/"} else "") + 
-     (if (!resourceBase.isEmpty) {resourceBase + "/"} else "") + 
-     resourceHref)
-  }
-  
-  def buildURL(packageID: Int, resourceHref: String, manifestBase: String, resourceBase: String):String =
-  {
-    (outputWebDir + "data/" + 
-     packageID.toString + "/" + 
-     (if (!manifestBase.isEmpty) {manifestBase + "/"} else "") + 
-     (if (!resourceBase.isEmpty) {resourceBase + "/"} else "") + 
-     resourceHref)
-  }
-}
-
-class ResourcesService(val packageID: Int)
-{
-  @GET
-  def getAll = buildOutput(getResourcesStorage.getByPackageID(packageID)).toString
 
   private def buildOutput(sequence: IndexedSeq[Resource]) =
   {

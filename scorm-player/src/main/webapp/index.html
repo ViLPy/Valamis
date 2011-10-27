@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
-        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
         <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        <!--{{^isPortlet}}-->
+        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
         <script type="text/javascript" language="javascript" src="js/jquery.jstree.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
 
@@ -11,6 +11,7 @@
         <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-iframe-resizer.js"></script>
+        <!--{{/isPortlet}}-->
         <script type="text/javascript" language="javascript">
             var globalActivitiesData;
 
@@ -22,219 +23,157 @@
                     text(value));
             }
 
-        $(function() {
-            $.get('/scorm-player/resources/Packages/', function(data) {
-                var obj = eval("(" + data + ")").rows;
-                for (var i=0; i < obj.length; i++)
-                    addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
+            $(function() {
+                $.get('/scorm-player/services/packages/', function(data) {
+                    var obj = eval("(" + data + ")").rows;
+                    for (var i=0; i < obj.length; i++)
+                        addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
 
-                updateOrganizations();
-            });
+                    updateOrganizations();
+                });
                 
-            $('#SCORMNavigationBackward').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-circle-triangle-w"
-                }
-            }).click(selectPrevNode);
-            $('#SCORMNavigationForward').button({
-                text: false,
-                icons: {
-                    secondary: "ui-icon-circle-triangle-e"
-                }
-            }).click(selectNextNode);
-                
-            $('#SCORMNavigationFirst').button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-arrowthickstop-1-w"
-                }
-            }).click(gotoFirst);
-            $('#SCORMNavigationLast').button({
-                text: false,
-                icons: {
-                    secondary: "ui-icon-arrowthickstop-1-e"
-                }
-            }).click(gotoLast);
-                
-            // upload translations
-            jQuery.i18n.properties({
-                name:'Titles', 
-                path:'/scorm-player/i18n/', 
-                mode:'both',
-                callback: function() {
-                    updateTitles();
-                }
-            });
-                
-            resizeIFrame();
-            $(window).resize(resizeIFrame);
-        });
-            
-        function resizeIFrame() {
-            /*var htmlHeight = $("#SCORMDataOutput").contents().height() + 30;
-                var windowHeight = $(window).height() - 150;
-                //if (htmlHeight <= windowHeight)
-                    $("#SCORMDataOutput").height(htmlHeight);
-                //else
-                //    $("#scormData").height(windowHeight)
-            var options = {
-                heightOffset: 40
-            };*/
-            var windowHeight = $(window).height() - 150;
-            $("#SCORMDataOutput").height(windowHeight);
-            //jQuery('iframe').iframeAutoHeight(options);
-        }
-            
-        function updateTitles()
-        {
-            //i18n specific methods
-        }
-
-        function updateOrganizations()
-        {
-            $('#SCORMOrganizations').html("");
-            $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/', function(data) {
-                var obj = eval(data);
-                for (var i=0; i < obj.length; i++)
-                    addOption('#SCORMOrganizations', obj[i].id, unescape(obj[i].title));
-
-                createTree();
-            });
-        }
-
-        function updateView(itemID)
-        {
-            $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/'+$('#SCORMOrganizations').val()+'/Activities/'+itemID+'/GetResource', function(data) {
-                $('#SCORMDataOutput').attr("src",data);
-                resizeIFrame();
-            }).error(function() { $('#SCORMDataOutput').attr("src",""); });
-        }
-
-        /// jsTree
-        function createTree()
-        {
-            $.get('/scorm-player/resources/Packages/'+$('#SCORMPackages').val()+'/Organizations/'+$('#SCORMOrganizations').val()+'/Activities/', function(data) {
-                globalActivitiesData = eval(data);
-                var items = "";
-                for (var i=0; i < globalActivitiesData.length; i++)
-                    items += addTreeItem(globalActivitiesData[i]);
-
-                $("#SCORMTree").html("<ul>" + items + "</ul>");
-                $("#SCORMTree").jstree({ 
-                    "themes" : {
-                        "url" : "css/jstree/style.css",
-                        "dots" : false,
-                        "icons" : false
-                    },
-                    "plugins" : [ "html_data", "ui", "themes" ] 
-                }).bind("select_node.jstree", function (event, data) {      
-                    updateView(data.rslt.obj.attr("id"));
+                $('#SCORMNavigationBackward').button({
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-circle-triangle-w"
+                    }
+                }).click(function(){
+                    selectPrevNode();
                     updateNavigationButtons();
-                    //alert(data.inst.get_text(data.rslt.obj) + " - " + data.rslt.obj.attr("id")); // ID - Text
-                }).bind("click.jstree", function (event) {      
-                    var jsTree = jQuery.jstree._reference('#SCORMTree');
-                    var currentNode = jsTree.get_selected();
-                    if (!jsTree.is_leaf(currentNode)){
-                        if (!jsTree.is_open(currentNode))
-                            jsTree.open_node(currentNode);
-                        else
-                            jsTree.close_node(currentNode);
+                });
+                
+                $('#SCORMNavigationForward').button({
+                    text: false,
+                    icons: {
+                        secondary: "ui-icon-circle-triangle-e"
+                    }
+                }).click(function(){
+                    selectNextNode();
+                    updateNavigationButtons();
+                });
+                
+                $('#SCORMNavigationFirst').button({
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-arrowthickstop-1-w"
+                    }
+                }).click(function(){
+                    gotoFirst();
+                    updateNavigationButtons();
+                });
+                
+                $('#SCORMNavigationLast').button({
+                    text: false,
+                    icons: {
+                        secondary: "ui-icon-arrowthickstop-1-e"
+                    }
+                }).click(function(){
+                    gotoLast();
+                    updateNavigationButtons();
+                });
+                
+                // upload translations
+                jQuery.i18n.properties({
+                    name:'Titles', 
+                    path:'/scorm-player/i18n/', 
+                    mode:'both',
+                    callback: function() {
+                        updateTitles();
                     }
                 });
+                
+                resizeIFrame();
+                $(window).resize(resizeIFrame);
             });
-        }
             
-        function addTreeItem(item)
-        {
-            if (item.childActivities.length == 0)
-                return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a></li>";
-            else
-            {
-                var innerItems = "";
-                for (var i=0; i < item.childActivities.length; i++)
-                    innerItems += addTreeItem(item.childActivities[i])
-                return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a><ul>"+ innerItems +"</ul></li>";
+            function resizeIFrame() {
+                var windowHeight = $(window).height() - 150;
+                $("#SCORMDataOutput").height(windowHeight);
             }
-        }
             
-        function selectNextNode()
-        {
-            var jsTree = jQuery.jstree._reference('#SCORMTree');
-                
-            var currentNode = jsTree.get_selected();
-            if (!jsTree.is_leaf(currentNode))
-                jsTree.open_node(currentNode);
-                
-            var nextNode = jsTree._get_next(currentNode);
-            if (currentNode.length == 0) // current node not found, jmp to first
-                nextNode = $('#SCORMTree').children("ul:first").children("li:first");
-                
-            jsTree.reselect(currentNode); // drop selection from current
-            jsTree.select_node(nextNode);
-            updateNavigationButtons();
-        }
-            
-        function selectPrevNode()
-        {
-            var jsTree = jQuery.jstree._reference('#SCORMTree');
-                
-            var currentNode = jsTree.get_selected();
-            var prevNode = jsTree._get_prev(currentNode);
-            if (currentNode.length == 0) // not found
-                prevNode = $('#SCORMTree').children("ul:first").children("li:last");
-                
-            if (!jsTree.is_leaf(prevNode))
+            function updateTitles()
             {
-                if (!jsTree.is_open(prevNode))
+                //i18n specific methods
+            }
+
+            function updateOrganizations()
+            {
+                $('#SCORMOrganizations').html("");
+                $.get('/scorm-player/services/organizations/package/'+$('#SCORMPackages').val(), function(data) {
+                    var obj = eval(data);
+                    for (var i=0; i < obj.length; i++)
+                        addOption('#SCORMOrganizations', obj[i].id, unescape(obj[i].title));
+
+                    createTree();
+                });
+            }
+
+            function updateView(itemID)
+            {
+                $.get('/scorm-player/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val()+'/activity/'+itemID+'/GetResource', function(data) {
+                    $('#SCORMDataOutput').attr("src",data);
+                    resizeIFrame();
+                }).error(function() { $('#SCORMDataOutput').attr("src",""); });
+            }
+
+            /// jsTree
+            function createTree()
+            {
+                $.get('/scorm-player/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val(), function(data) {
+                    globalActivitiesData = eval(data);
+                    var items = "";
+                    for (var i=0; i < globalActivitiesData.length; i++)
+                        items += addTreeItem(globalActivitiesData[i]);
+
+                    $("#SCORMTree").html("<ul>" + items + "</ul>");
+                    $("#SCORMTree").jstree({ 
+                        "themes" : {
+                            "url" : "css/jstree/style.css",
+                            "dots" : false,
+                            "icons" : false
+                        },
+                        "plugins" : [ "html_data", "ui", "themes" ] 
+                    }).bind("select_node.jstree", function (event, data) {      
+                        updateView(data.rslt.obj.attr("id"));
+                        updateNavigationButtons();
+                        //alert(data.inst.get_text(data.rslt.obj) + " - " + data.rslt.obj.attr("id")); // ID - Text
+                    }).bind("click.jstree", function (event) {      
+                        var jsTree = jQuery.jstree._reference('#SCORMTree');
+                        var currentNode = jsTree.get_selected();
+                        if (!jsTree.is_leaf(currentNode)){
+                            if (!jsTree.is_open(currentNode))
+                                jsTree.open_node(currentNode);
+                            else
+                                jsTree.close_node(currentNode);
+                        }
+                    });
+                });
+            }
+            
+            function addTreeItem(item)
+            {
+                if (item.childActivities.length == 0)
+                    return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a></li>";
+                else
                 {
-                    jsTree.open_node(prevNode);
-                    prevNode = prevNode.children("ul:first").children("li:last");
+                    var innerItems = "";
+                    for (var i=0; i < item.childActivities.length; i++)
+                        innerItems += addTreeItem(item.childActivities[i])
+                    return "<li id='"+item.id+"'><a href='#'>"+ item.title +"</a><ul>"+ innerItems +"</ul></li>";
                 }
             }
-                
-            jsTree.reselect(currentNode); // drop selection from current
-            jsTree.select_node(prevNode);
-            updateNavigationButtons();
-        }
             
-        function gotoFirst() {
-            var jsTree = jQuery.jstree._reference('#SCORMTree');
-            var currentNode = jsTree.get_selected();
-                
-            first = $('#SCORMTree').children("ul:first").children("li:first");
-            jsTree.reselect(currentNode); // drop selection from current
-            jsTree.select_node(first);
-            updateNavigationButtons();
-        }
-            
-        function gotoLast() {
-            var jsTree = jQuery.jstree._reference('#SCORMTree');
-            var currentNode = jsTree.get_selected();
-                
-            lastNode = $('#SCORMTree').children("ul:first").children("li:last");
-            if (!jsTree.is_leaf(lastNode))
+            function updateNavigationButtons()
             {
-                if (!jsTree.is_open(lastNode))
-                    jsTree.open_node(lastNode);
-                lastNode = lastNode.children("ul:first").children("li:last");
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                var prevNode = jsTree._get_prev(currentNode);
+                var nextNode = jsTree._get_next(currentNode);
+                
+                $('#SCORMNavigationBackward').button( "option", "disabled", !prevNode );
+                $('#SCORMNavigationForward').button( "option", "disabled", ((nextNode.length == 0) && (jsTree.is_leaf(currentNode))) );
             }
-            jsTree.reselect(currentNode); // drop selection from current
-            jsTree.select_node(lastNode);
-            updateNavigationButtons();
-        }
-            
-        function updateNavigationButtons()
-        {
-            var jsTree = jQuery.jstree._reference('#SCORMTree');
-                
-            var currentNode = jsTree.get_selected();
-            var prevNode = jsTree._get_prev(currentNode);
-            var nextNode = jsTree._get_next(currentNode);
-                
-            $('#SCORMNavigationBackward').button( "option", "disabled", !prevNode );
-            $('#SCORMNavigationForward').button( "option", "disabled", ((nextNode.length == 0) && (jsTree.is_leaf(currentNode))) );
-        }
         </script>
     </head>
     <body>
@@ -283,5 +222,6 @@
                 </tr>
             </table>
         </div>
+        <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
     </body>
 </html>

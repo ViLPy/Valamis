@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    
+    <filter>
+        <filter-name>SCORMQuestionBankView</filter-name>
+        <filter-class>com.arcusys.scorm.view.QuestionBankView</filter-class>
+    </filter>
+    <filter>
+        <filter-name>SCORMUserView</filter-name>
+        <filter-class>com.arcusys.scorm.view.UserView</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SCORMQuestionBankView</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SCORMUserView</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
     <servlet>
-        <servlet-name>ServletAdaptor</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>PackagesService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.PackagesService</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrganizationsService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.OrganizationsService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResourcesService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.ResourcesService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActivitiesService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.ActivitiesService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.AdminService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UploadService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.UploadService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuestionService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.question.QuestionService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CategoryService</servlet-name>
+        <servlet-class>com.arcusys.scorm.service.question.CategoryService</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
-        <servlet-name>ServletAdaptor</servlet-name>
-        <url-pattern>/resources/*</url-pattern>
+        <servlet-name>PackagesService</servlet-name>
+        <url-pattern>/services/packages/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrganizationsService</servlet-name>
+        <url-pattern>/services/organizations/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResourcesService</servlet-name>
+        <url-pattern>/services/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActivitiesService</servlet-name>
+        <url-pattern>/services/activities/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminService</servlet-name>
+        <url-pattern>/services/administering/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadService</servlet-name>
+        <url-pattern>/services/upload/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionService</servlet-name>
+        <url-pattern>/services/question/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryService</servlet-name>
+        <url-pattern>/services/category/*</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

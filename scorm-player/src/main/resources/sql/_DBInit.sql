@@ -62,3 +62,50 @@ CREATE TABLE Resource
 ) WITH (
   OIDS=FALSE
 );
+
+DROP TABLE IF EXISTS Answer CASCADE;
+
+CREATE TABLE Answer
+(
+  id serial,
+  description text,
+  isCorrect boolean,
+  questionID integer,
+  rangeFrom decimal,
+  rangeTo decimal,
+  subquestionText text,
+  answerPosition integer,
+  answerType integer,
+  CONSTRAINT Answer_pk PRIMARY KEY (id)
+) WITH (
+  OIDS=FALSE
+);
+
+DROP TABLE IF EXISTS QuestionCategory CASCADE;
+
+CREATE TABLE QuestionCategory
+(
+  id serial,
+  title text,
+  description text,
+  parentID integer,
+  CONSTRAINT QuestionCategory_pk PRIMARY KEY (id)
+) WITH (
+  OIDS=FALSE
+);
+
+DROP TABLE IF EXISTS Question CASCADE;
+
+CREATE TABLE Question
+(
+  id serial,
+  categoryID integer,
+  title text,
+  description text,
+  isBounded boolean,
+  isCaseSensitive boolean,
+  questionType integer,
+  CONSTRAINT Question_pk PRIMARY KEY (id)
+) WITH (
+  OIDS=FALSE
+);

@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        
+        <!--{{^isPortlet}}-->
+        <link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>
+        <script type="text/javascript" src="js/jquery.jstree.js"></script>
+        <script type="text/javascript" src="js/jquery.i18n.properties-min.js"></script>
+
+        <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"/>
+        <script type="text/javascript" src="js/grid.locale-en.js"></script>
+        <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
+
+        <script type="text/javascript" src="js/redactor/redactor.js"></script>
+        <link type="text/css" rel="stylesheet" href="js/redactor/css/redactor.css"/>
+
+        <script type="text/javascript" src="js/blockUI.js"></script>
+
+        <script type="text/javascript" src="js/mustache.js"></script>
+        <script type="text/javascript" src="js/event.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/RichEditView.js"></script>
+        <script type="text/javascript" src="js/jstree.helpers.js"></script>
+        <script type="text/javascript" src="js/TemplateCache.js"></script>
+
+        <script type="text/javascript" src="js/bank/AnswerModel.js"></script>
+        <script type="text/javascript" src="js/bank/AnswerController.js"></script>
+        <script type="text/javascript" src="js/bank/AnswerView.js"></script>
+
+        <script type="text/javascript" src="js/bank/CategoryModelProxy.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionModelProxy.js"></script>
+        <script type="text/javascript" src="js/bank/CollectionModel.js"></script>
+        <script type="text/javascript" src="js/bank/ItemView.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionbankController.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionbankView.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
+
+        <script type="text/javascript" src="js/bank/index.js"></script>
+        <!--{{/isPortlet}}-->
+    </head>
+    <body id="SCORMBankLayout">
+        <div id="SCORMBankWrapper">
+            <div id="SCORMBankHeader"></div>
+            <div id="leftPart" class="ui-layout-west">
+                <div id="SCORMQuestionBankToolbar">
+                    <button title="Add category" class="toolbarButton toolbarAddCategory" id="buttonAddCategory"></button>
+                    <button title="Delete category" class="toolbarButton toolbarDeleteCategory" id="buttonDeleteCategory"></button>
+                    <button title="Add question" class="toolbarButton toolbarAddQuestion" id="buttonAddQuestion"></button>
+                    <button title="Delete question" class="toolbarButton toolbarDeleteQuestion" id="buttonDeleteQuestion"></button>
+                </div>
+                <div id="SCORMQuestionBankTree"></div>
+            </div>
+
+            <div id="rightPart" class="ui-layout-center">
+                <div id="ItemView"></div>
+                <div id="RichTextEdit"></div>
+            </div>
+            <div style="width:100%; clear: both"></div>
+        </div>
+        <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
+    </body>
+</html>

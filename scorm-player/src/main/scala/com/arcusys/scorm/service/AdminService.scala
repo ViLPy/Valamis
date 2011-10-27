@@ -2,22 +2,21 @@ package com.arcusys.scorm.service
 
 import java.io._
 import java.util.Properties
-import javax.ws.rs._
-import javax.ws.rs.core._
 import com.arcusys.scorm.service.StorageFactory._
-import com.arcusys.scorm.service.JSON._
+import com.arcusys.scorm.util.JSON._
+import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.scorm.storage.impl.orbroker.BrokerFactory
+import org.scalatra.ScalatraServlet
+import com.arcusys.scorm.service.util.PathBuilder
 
-@Path("/Administering")
-class AdminService
+class AdminService extends ScalatraServlet
 {
-  @POST
-  @Path("/UpdateDBInfo")
-  def updateDBInfo(@FormParam("ServerName") serverName:String,
-                   @FormParam("DBName") dbName:String,
-                   @FormParam("Login") login:String,
-                   @FormParam("Password") passwd:String) = 
-  {
+  post("/UpdateDBInfo") {
+    val serverName = params.getOrElse("ServerName", halt(405, "Server is not specified"))
+    val dbName = params.getOrElse("DBName", halt(405, "DB is not specified"))
+    val login = params.getOrElse("Login", "")
+    val passwd = params.getOrElse("Password", "")
+      
     val properties = new Properties
     properties.setProperty("server", serverName)
     properties.setProperty("database", dbName)
@@ -27,25 +26,19 @@ class AdminService
     BrokerFactory.refresh
   }
   
-  @GET
-  @Path("/GetDBInfo")
-  def getDBInfo = 
-  {
+  get("/GetDBInfo") {
     val properties = PropertyUtil.load("db")
-    val infoPack = toJSON(Map("server" -> properties.getProperty("server", ""),
-                              "database" -> properties.getProperty("database", ""),
-                              "login" -> properties.getProperty("login", ""),
-                              "password" -> properties.getProperty("password", "")))
-    infoPack
+    toJSON(Map("server" -> properties.getProperty("server", ""),
+               "database" -> properties.getProperty("database", ""),
+               "login" -> properties.getProperty("login", ""),
+               "password" -> properties.getProperty("password", "")))
   }
   
-  @GET
-  @Path("/RenewDatabase")
-  def renewAll = 
-  {
+  post("/RenewDatabase") {
+    contentType = "text/plain"
     getPackageStorage.renewTotally
     if (emptyDir(new File(PathBuilder.outputRealDir + "/data")))
-      Response.ok("yep").build
+      "yep"
     else
       throw new Exception("Can't remove all files!")
   }

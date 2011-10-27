@@ -1,4 +1,4 @@
-package com.arcusys.scorm.service
+package com.arcusys.scorm.util
 
 import java.io.FileReader
 import java.io.FileWriter
