@@ -55,6 +55,17 @@ body {
     margin-bottom: 5px;
     margin-left: 5px;
 }
+
+.toolbarButton:hover {
+    width: 30px;
+    height: 30px;
+    background-repeat:no-repeat;
+    background-position:center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
 .toolbarSelectField {
     background-image: url("category-bank/books.png");
 }
@@ -74,6 +85,28 @@ body {
     background-image: url("category-bank/book_edit.png");
 }
 .toolbarDeleteQuestion {
+    background-image: url("category-bank/book_delete.png");
+}
+
+.toolbarSelectField:hover {
+    background-image: url("category-bank/books.png");
+}
+.toolbarAddCategory:hover {
+    background-image: url("category-bank/folder_add.png");
+}
+.toolbarEditCategory:hover {
+    background-image: url("category-bank/folder_edit.png");
+}
+.toolbarDeleteCategory:hover {
+    background-image: url("category-bank/folder_delete.png");
+}
+.toolbarAddQuestion:hover {
+    background-image: url("category-bank/book_add.png");
+}
+.toolbarEditQuestion:hover {
+    background-image: url("category-bank/book_edit.png");
+}
+.toolbarDeleteQuestion:hover {
     background-image: url("category-bank/book_delete.png");
 }
 /* ---------- BUTTONS------------- */
@@ -159,7 +192,7 @@ body {
 #SCORMQuestionTypeDiv {
     margin-top:45px;
 }
-.SCORManswer, #SCORMQuestionText {
+.SCORManswer, #SCORMQuestionText, .SCORMRoundedBorder {
     border: 1px solid #CCCCCC;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -211,7 +244,7 @@ body {
 }
 
 textarea {
-	width:auto;
+    width:auto;
 }
 
 /* ------------- OVERWRITING THINGS-------------------- */

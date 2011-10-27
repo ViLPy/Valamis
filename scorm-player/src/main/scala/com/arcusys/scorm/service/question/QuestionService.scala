@@ -26,7 +26,7 @@ class QuestionService extends ScalatraServlet
     val questionType = params.getOrElse("type", halt(405, "Type is not specified")).toInt
     val categoryID = params.getOrElse("categoryID", "-1").toInt
     val title = params.getOrElse("title", halt(405, "Title is not specified"))
-    val text = params.getOrElse("text", halt(405, "Text is not specified"))
+    val text = params.getOrElse("text", "")
     val isBounded = params.getOrElse("isBounded", halt(405, "'is bound' flag is not specified")).toBoolean
     val isCaseSensitive = params.getOrElse("isCaseSensitive", halt(405, "Case sensitivity is not specified")).toBoolean
 
@@ -111,6 +111,8 @@ class QuestionService extends ScalatraServlet
     for (answer <- question.answers) {
       getAnswerStorage.delete(answer.id)
     }
+    
+    System.out.println(answersJSON)
       
     // and add new answers
     val answersRawDataList = JSON.toObject(answersJSON).asInstanceOf[List[Map[String, Any]]]

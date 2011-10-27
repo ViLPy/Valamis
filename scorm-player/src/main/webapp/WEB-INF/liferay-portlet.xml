@@ -31,19 +31,28 @@
         <header-portlet-css>/css/chosen/chosen.css</header-portlet-css>
         <header-portlet-css>/css/main.css</header-portlet-css>
 
-        <footer-portlet-javascript>/js/grid.locale-en.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/jquery.jqGrid.min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.jstree.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.i18n.properties-min.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/fileuploader.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/jquery-iframe-resizer.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/questionbank/jsTree.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/jquery.layout.min-1.2.0.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/grid.locale-en.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.jqGrid.min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/redactor/redactor.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/blockUI.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/mustache.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/event.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/utils.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/RichEditView.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jstree.helpers.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/TemplateCache.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/AnswerModel.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/AnswerController.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/AnswerView.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/CategoryModelProxy.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/QuestionModelProxy.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/CollectionModel.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/ItemView.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/QuestionbankController.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/QuestionbankView.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/bank/index.js</footer-portlet-javascript>
     </portlet>
 
     <role-mapper>

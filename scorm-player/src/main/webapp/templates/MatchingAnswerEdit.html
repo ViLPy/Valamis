@@ -1,15 +1,25 @@
 <div id="SCORMAnswer_{{id}}" class="SCORManswer">
-<div class="SCORMAnswerTitle">Answer #<span id="SCORMAnswerTitleID_{{id}}" /></div>
-	<div id="SCORMAnswerText_{{id}}">{{text}}</div>
-	<button id="buttonSCORMEditText_{{id}}" class="editButton">
-            <span>Edit answer text</span>
-        </button>
-        <button id="buttonSCORMDeleteAnswer_{{id}}" class="deleteButton">
-            <span>Delete answer</span>
-        </button>
-        <br>
-        <div id="SCORMAnswerSubquestionText_{{id}}">{{subquestion}}</div>
-	<button id="buttonSCORMEditSubquestionText_{{id}}" class="editButton">
-            <span>Edit subquestion text</span>
-        </button>
+    <div class="SCORMAnswerTitle">Answer #<span id="SCORMAnswerTitleID_{{id}}" /></div>
+    <table width="100%">
+        <tr>
+            <td width="50%" style="padding-right: 20px">
+                <b>Sentence:</b>
+                <div id="SCORMAnswerText_{{id}}" class="SCORMRoundedBorder">{{text}}</div>
+                <button id="buttonSCORMEditText_{{id}}" class="editButton">
+                    <span>Edit text</span>
+                </button>
+            </td>
+            <td width="50%" style="padding-right: 20px">
+                <b>Should be matched with:</b>
+                <div id="SCORMAnswerSubquestionText_{{id}}" class="SCORMRoundedBorder">{{subquestion}}</div>
+                <button id="buttonSCORMEditSubquestionText_{{id}}" class="editButton">
+                    <span>Edit text</span>
+                </button>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <button id="buttonSCORMDeleteAnswer_{{id}}" class="deleteButton">
+        <span>Delete answer</span>
+    </button>
 </div>

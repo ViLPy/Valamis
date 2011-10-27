@@ -50,7 +50,7 @@ AnswerView.prototype = {
             stop: function() { 
                 _this.updateIndeces(); 
             }
-        }).disableSelection();
+        });
     },
     
     updateIndeces: function(){
@@ -70,56 +70,20 @@ AnswerView.prototype = {
         var _entityID = entity.id;
         
         if (entity instanceof ChoiceAnswer) {
-            this.domElement.append(Mustache.to_html(this.cache.getTemplate("ChoiceAnswerEdit"), entity.toJSON()));
-            $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
-            $("#buttonSCORMEditText_" + _entityID).click(function(){
-                RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
-                    entity.answerText = data;
-                });
-            });
-            $("#SCORMAnswerIsCorrect_" + _entityID).change(function(){
-                entity.isCorrect = $("#SCORMAnswerIsCorrect_" + _entityID).is(':checked');
-            });
+            this.addChoiceAnswer(entity);
             
         } else if (entity instanceof ShortAnswer) {
-            this.domElement.append(Mustache.to_html(this.cache.getTemplate("ShortAnswerEdit"), entity.toJSON()));
-            $("#buttonSCORMEditText_" + _entityID).click(function(){
-                RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
-                    entity.answerText = data;
-                });
-            });
+            this.addShortAnswer(entity);
+            
         } else if (entity instanceof NumericAnswer) {
-            this.domElement.append(Mustache.to_html(this.cache.getTemplate("NumericAnswerEdit"), entity.toJSON()));
-            $("#SCORMAnswerRangeFrom_" + _entityID).change(function(){
-                entity.rangeFrom = parseFloat($("#SCORMAnswerRangeFrom_" + _entityID).val());
-            });
-            $("#SCORMAnswerRangeTo_" + _entityID).change(function(){
-                entity.rangeTo = parseFloat($("#SCORMAnswerRangeTo_" + _entityID).val());
-            });
+            this.addNumericAnswer(entity);
             
         } else if (entity instanceof PositioningAnswer) {
-            this.domElement.append(Mustache.to_html(this.cache.getTemplate("PositioningAnswerEdit"), entity.toJSON()));
-            $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
-            $("#buttonSCORMEditText_" + _entityID).click(function(){
-                RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
-                    entity.answerText = data;
-                });
-            });
-            $("#SCORMAnswerIsCorrect_" + _entityID).change(function(){
-                entity.isCorrect = $("#SCORMAnswerIsCorrect_" + _entityID).is(':checked');
-            });
+            this.addPositioningAnswer(entity);
+            
         } else if (entity instanceof MatchingAnswer) {
-            this.domElement.append(Mustache.to_html(this.cache.getTemplate("MatchingAnswerEdit"), entity.toJSON()));
-            $("#buttonSCORMEditText_" + _entityID).click(function(){
-                RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
-                    entity.answerText = data;
-                });
-            });
-            $("#buttonSCORMEditSubquestionText_" + _entityID).click(function(){
-                RichEditView.show('Subquestion text','SCORMAnswerSubquestionText_' + _entityID, function(data){
-                    entity.subquestionText = data;
-                });
-            });
+            this.addMatchingAnswer(entity);
+            
         }
         
         $("#buttonSCORMDeleteAnswer_" + _entityID).click(function(){
@@ -129,7 +93,73 @@ AnswerView.prototype = {
         $("#SCORMAnswerTitleID_" + _entityID).html(this.nextAnswerTitle);
         this.nextAnswerTitle++;
         
+        $("#SCORMQuestionAnswersEditors").sortable( "refresh" );
+        
         this.updateIndeces();
+    },
+    
+    addChoiceAnswer : function(entity) {
+        var _entityID = entity.id;
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ChoiceAnswerEdit"), entity.toJSON()));
+        $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
+        $("#buttonSCORMEditText_" + _entityID).click(function(){
+            RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
+                entity.answerText = data;
+            });
+        });
+        $("#SCORMAnswerIsCorrect_" + _entityID).change(function(){
+            entity.isCorrect = $("#SCORMAnswerIsCorrect_" + _entityID).is(':checked');
+        });
+    },
+    
+    addShortAnswer : function(entity) {
+        var _entityID = entity.id;
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ShortAnswerEdit"), entity.toJSON()));
+        $("#buttonSCORMEditText_" + _entityID).click(function(){
+            RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
+                entity.answerText = data;
+            });
+        });
+    },
+    
+    addNumericAnswer : function(entity) {
+        var _entityID = entity.id;
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("NumericAnswerEdit"), entity.toJSON()));
+        $("#SCORMAnswerRangeFrom_" + _entityID).change(function(){
+            entity.rangeFrom = parseFloat($("#SCORMAnswerRangeFrom_" + _entityID).val());
+        });
+        $("#SCORMAnswerRangeTo_" + _entityID).change(function(){
+            entity.rangeTo = parseFloat($("#SCORMAnswerRangeTo_" + _entityID).val());
+        });
+    },
+    
+    addPositioningAnswer : function(entity) {
+        var _entityID = entity.id;
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("PositioningAnswerEdit"), entity.toJSON()));
+        $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
+        $("#buttonSCORMEditText_" + _entityID).click(function(){
+            RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
+                entity.answerText = data;
+            });
+        });
+        $("#SCORMAnswerIsCorrect_" + _entityID).change(function(){
+            entity.isCorrect = $("#SCORMAnswerIsCorrect_" + _entityID).is(':checked');
+        });
+    },
+    
+    addMatchingAnswer : function(entity) {
+        var _entityID = entity.id;
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("MatchingAnswerEdit"), entity.toJSON()));
+        $("#buttonSCORMEditText_" + _entityID).click(function(){
+            RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
+                entity.answerText = data;
+            });
+        });
+        $("#buttonSCORMEditSubquestionText_" + _entityID).click(function(){
+            RichEditView.show('Subquestion text','SCORMAnswerSubquestionText_' + _entityID, function(data){
+                entity.subquestionText = data;
+            });
+        });
     },
     
     doEmpty : function() {

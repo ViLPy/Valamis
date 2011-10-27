@@ -104,7 +104,7 @@ var ChoiceAnswer = function(){
     this.isCorrect = false;
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + this.answerText + '", "isCorrect":"' + this.isCorrect + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "isCorrect":"' + this.isCorrect + '"}';
     }
     
     this.toJSON = function() {
@@ -112,7 +112,7 @@ var ChoiceAnswer = function(){
     }
     
     this.fromJSON = function(data) {
-        if (Utils.isExists(data.text)) this.answerText = data.text;
+        if (Utils.isExists(data.text)) this.answerText = unescape(data.text);
         if (Utils.isExists(data.isCorrect)) this.isCorrect = (data.isCorrect === "true");
     }
 };
@@ -122,7 +122,7 @@ var ShortAnswer = function(){
     this.answerText = "";
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + this.answerText + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '"}';
     }
     
     this.toJSON = function() {
@@ -130,7 +130,7 @@ var ShortAnswer = function(){
     }
     
     this.fromJSON = function(data) {
-        if (Utils.isExists(data.text)) this.answerText = data.text;
+        if (Utils.isExists(data.text)) this.answerText = unescape(data.text);
     }
 };
 
@@ -159,7 +159,7 @@ var PositioningAnswer = function(){
     this.isCorrect = false;
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + this.answerText + '", "isCorrect":"' + this.isCorrect + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "isCorrect":"' + this.isCorrect + '"}';
     }
     
     this.toJSON = function() {
@@ -167,7 +167,7 @@ var PositioningAnswer = function(){
     }
     
     this.fromJSON = function(data) {
-        if (Utils.isExists(data.text)) this.answerText = data.text;
+        if (Utils.isExists(data.text)) this.answerText = unescape(data.text);
         if (Utils.isExists(data.isCorrect)) this.isCorrect = (data.isCorrect === "true");
     }
 };
@@ -178,7 +178,7 @@ var MatchingAnswer = function(){
     this.subquestionText = "";
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + this.answerText + '", "subquestion":"'+this.subquestionText+'"}';
+        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "subquestion":"'+this.subquestionText+'"}';
     }
     
     this.toJSON = function() {
@@ -186,7 +186,7 @@ var MatchingAnswer = function(){
     }
     
     this.fromJSON = function(data) {
-        if (Utils.isExists(data.text)) this.answerText = data.text;
+        if (Utils.isExists(data.text)) this.answerText = unescape(data.text);
         if (Utils.isExists(data.subquestionText)) this.subquestionText = data.subquestionText;
     }
 };

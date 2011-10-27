@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
     <head>
-        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
         <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        <!--{{^isPortlet}}-->
+        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
         <script type="text/javascript" language="javascript" src="js/jquery.jstree.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
 
@@ -11,6 +11,7 @@
         <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-iframe-resizer.js"></script>
+        <!--{{/isPortlet}}-->
         <script type="text/javascript" language="javascript">
             var globalActivitiesData;
 
@@ -221,5 +222,6 @@
                 </tr>
             </table>
         </div>
+        <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
     </body>
 </html>

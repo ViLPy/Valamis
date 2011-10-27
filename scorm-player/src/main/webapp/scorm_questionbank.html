@@ -1,346 +1,46 @@
-<!DOCTYPE html>
 <html>
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"></link>
-        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
-        <script type="text/javascript" language="javascript" src="js/jquery.jstree.js"></script>
-        <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        
+        <!--{{^isPortlet}}-->
+        <link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>
+        <script type="text/javascript" src="js/jquery.jstree.js"></script>
+        <script type="text/javascript" src="js/jquery.i18n.properties-min.js"></script>
 
-        <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"></link>
-        <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
-        <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
-        <script type="text/javascript" language="javascript" src="js/jquery-iframe-resizer.js"></script>
+        <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"/>
+        <script type="text/javascript" src="js/grid.locale-en.js"></script>
+        <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
 
-        <script type="text/javascript" language="javascript" src="js/jquery.layout.min-1.2.0.js"></script>
-        <script type="text/javascript" language="javascript" src="js/redactor/redactor.js"></script>
-        <link type="text/css" rel="stylesheet" href="js/redactor/css/redactor.css"></link>
+        <script type="text/javascript" src="js/redactor/redactor.js"></script>
+        <link type="text/css" rel="stylesheet" href="js/redactor/css/redactor.css"/>
 
-        <script type="text/javascript" language="javascript" src="js/mustache.js"></script>
+        <script type="text/javascript" src="js/blockUI.js"></script>
 
-        <script type="text/javascript" language="javascript" src="js/chosen.jquery.min.js"></script>
-        <link type="text/css" rel="stylesheet" href="css/chosen/chosen.css"></link>
+        <script type="text/javascript" src="js/mustache.js"></script>
+        <script type="text/javascript" src="js/event.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/RichEditView.js"></script>
+        <script type="text/javascript" src="js/jstree.helpers.js"></script>
+        <script type="text/javascript" src="js/TemplateCache.js"></script>
 
-        <script type="text/javascript" language="javascript" src="js/questionbank/jsTree.js"></script>
-        <script type="text/javascript" language="javascript" src="js/questionbank/jsTreeHelpers.js"></script>
-        <script type="text/javascript" language="javascript" src="js/questionbank/jsTreeHelpers.js"></script>
+        <script type="text/javascript" src="js/bank/AnswerModel.js"></script>
+        <script type="text/javascript" src="js/bank/AnswerController.js"></script>
+        <script type="text/javascript" src="js/bank/AnswerView.js"></script>
 
-        <link type="text/css" rel="stylesheet" href="css/main.css"></link>
-        <script type="text/javascript" language="javascript">
-            // TODO: add table style from redaktor CSS into main CSS to enable table styling
-            var SCORMRedactor;
-            var currentAnswersCount;
-            
-            var cachedTemplates = new Array();
-            
-            $(function() {
-                //initLayout();
-                initToolbar();
-                createTree();
-                precache();
-				
-                $("#SCORMCategoryCreateDialog").dialog({
-                    autoOpen: false,
-                    buttons: {
-                        Create: function() {
-                            createNewCategory();
-                            $( this ).dialog( "close" );
-                        },
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }});
-                $("#SCORMRichTextEdit").dialog({
-                    width: 800, 
-                    resizable: false,
-                    autoOpen: false,
-                    buttons: {
-                        Ok: function() {
-                            var currentElementID = $( this ).data('currentElement');
-                            $(currentElementID).html(SCORMRedactor.getHtml());
-                            $( this ).dialog( "close" );
-                        },
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }});
-                SCORMRedactor = $('#SCORMRedactor').redactor();
-                $('#SCORMQuestionType').change(function(){
-                    onQuestionTypeChange();
-                });
-                
-                $("#SCORMQuestionAnswersEditors").sortable({
-                    placeholder: "ui-state-highlight"
-                }).disableSelection();
-                
-            hideForms();
-        });
+        <script type="text/javascript" src="js/bank/CategoryModelProxy.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionModelProxy.js"></script>
+        <script type="text/javascript" src="js/bank/CollectionModel.js"></script>
+        <script type="text/javascript" src="js/bank/ItemView.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionbankController.js"></script>
+        <script type="text/javascript" src="js/bank/QuestionbankView.js"></script>
 
-        function precache() {
-            var contextPath = "";
-            if ($("#SCORMContextPath") && $("#SCORMContextPath").length > 0){
-                contextPath = $("#SCORMContextPath").val() + "/";
-            }
-            $.get(contextPath + "templates/ChoiceAnswerEdit.html", function(template){
-                cachedTemplates[0] = template;
-            });
-            $.get(contextPath + "templates/ShortAnswerEdit.html", function(template){
-                cachedTemplates[1] = template;
-            });
-            $.get(contextPath + "templates/NumericAnswerEdit.html", function(template){
-                cachedTemplates[2] = template;
-            });
-            $.get(contextPath + "templates/PositioningAnswerEdit.html", function(template){
-                cachedTemplates[3] = template;
-            });
-            $.get(contextPath + "templates/MatchingAnswerEdit.html", function(template){
-                cachedTemplates[4] = template;
-            });
-        }
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
 
-        /// DOM operating
-        function initToolbar() {
-            $("#buttonAddCategory").button().click(function (){
-                createNewCategory();
-            });
-            $("#buttonDeleteCategory").button().click(function() {
-                deleteCategory();
-            });
-            $("#buttonAddQuestion").button().click(function() {
-                createNewQuestion();
-            });
-            $("#buttonDeleteQuestion").button().click(function(){
-                deleteQuestion();
-            });
-        }
-            
-        function initLayout() {
-            var layout = $("#SCORMBankLayout").layout({ applyDefaultStyles: true });
-            layout.sizePane("west", 300);
-        }
-            
-        function hideForms(){
-            $("#SCORMQuestionEditor").hide();
-            $("#SCORMCategoryView").hide();
-            $("#SCORMCategoryEdit").hide();
-        }
-            
-        function showCategoryInfo(){
-            hideForms();
-            $("#SCORMCategoryView").show();
-                
-            var node = getCurrentNode();
-                
-            $("#SCORMCategoryNameView").html(jQuery.jstree._reference('#SCORMQuestionBankTree').get_text());
-            $("#SCORMCategoryDescriptionView").html(unescape(node.attr("description")));
-        }
-            
-        function showCategoryEdit(){
-            hideForms();
-            $("#SCORMCategoryEdit").show();
-                
-            var node = getCurrentNode();
-                
-            $("#SCORMCategoryNameEdit").val(jQuery.jstree._reference('#SCORMQuestionBankTree').get_text());
-            $("#SCORMCategoryDescriptionEdit").val(node.attr("description"));
-        }
-            
-        function updateControlsInQuestionEdit() {
-            var currentQuestion = getCurrentNode();
-            var currentQuestionType = currentQuestion.attr("questionType");
-            $("#SCORMQuestionType").val("type"+currentQuestionType);
-            $("#SCORMQuestionIsBounded").hide();
-            $("#SCORMQuestionIsCaseSensitive").hide();
-            $("#SCORMQuestionAnswers").show();
-            $("#SCORMQuestionAnswersEditors").empty();
-            switch(currentQuestionType) {
-                case "0":
-                case "3":
-                    $("#SCORMQuestionBounded").attr("checked", eval(currentQuestion.attr("isBounded")));
-                    $("#SCORMQuestionIsBounded").show();
-                    break;
-                case "1":
-                    $("#SCORMQuestionCaseSensitive").attr("checked", eval(currentQuestion.attr("isCaseSensitive")));
-                    $("#SCORMQuestionIsCaseSensitive").show();
-                    break;
-                case "5":
-                case "6":
-                    $("#SCORMQuestionAnswers").hide();
-                    break;
-            }
-        }
-            
-        function onQuestionTypeChange() {
-            var currentQuestion = getCurrentNode();
-            currentQuestion.attr("questionType", $("#SCORMQuestionType").val().replace("type", ""))
-            updateControlsInQuestionEdit();
-                
-            // clear answers
-            currentAnswersCount = 0;
-            $('#SCORMQuestionAnswersEditors').empty();
-            var currentQuestion = getCurrentNode();
-            currentQuestion.attr("answers","[]");
-        }
-            
-        function showQuestionEdit() {
-            var currentQuestion = getCurrentNode();
-            updateControlsInQuestionEdit();
-            hideForms();
-                
-            var currentQuestion = getCurrentNode();
-            var questionType = currentQuestion.attr("questionType");
-            var answers = eval(currentQuestion.attr("answers"));
-                
-            $("#SCORMQuestionTextView").html(unescape(currentQuestion.attr("text")));
-            $("#SCORMQuestionTitleEdit").val(jQuery.jstree._reference('#SCORMQuestionBankTree').get_text());
-            $("#SCORMQuestionEditor").show();
-            showAnswers(questionType, answers);
-            currentAnswersCount = answers.length;
-        }
-
-        function showAnswers(questionType, answers) {
-            for (var i = 0; i<answers.length; i++) {
-                addAnswer(i);
-                switch (questionType) {
-                    case "0":
-                        $("#SCORMAnswerText_"+i).html(deSerializeHtml(answers[i].text));
-                        $("#SCORMAnswerIsCorrect_"+i).attr("checked", answers[i].isCorrect=="true");
-                        break;
-                    case "1":
-                        $("#SCORMAnswerText_"+i).html(deSerializeHtml(answers[i].text));
-                        break;
-                    case "2":
-                        $("#SCORMAnswerRangeFrom_"+i).val(answers[i].rangeFrom);
-                        $("#SCORMAnswerRangeTo_"+i).val(answers[i].rangeTo);
-                        break;
-                    case "3":
-                        $("#SCORMAnswerText_"+i).html(deSerializeHtml(answers[i].text));
-                        $("#SCORMAnswerIsCorrect_"+i).attr("checked", answers[i].isCorrect=="true");
-                        break;
-                    case "4":
-                        $("#SCORMAnswerText_"+i).html(deSerializeHtml(answers[i].text));
-                        $("#SCORMAnswerSubquestionText_"+i).html(deSerializeHtml(answers[i].subquestionText));
-                        break;
-                }
-            }
-        }
-            
-        function showEdit(title, element) {
-            $("#SCORMRichTextEdit").data('currentElement',element);
-                
-            SCORMRedactor.setHtml($(element).html());
-            $("#SCORMRichTextEdit").dialog("option", "title", title);
-            $("#SCORMRichTextEdit").dialog("open");
-        }
-
-        function serializeAnswers() {
-            var currentQuestion = getCurrentNode();
-            var questionType = currentQuestion.attr("questionType");
-            switch (questionType) {
-                case "0":
-                    return serializeChoiceAnswer();
-                case "1":
-                    return serializeShortAnswer();
-                case "2":
-                    return serializeNumericAnswer();
-                case "3":
-                    return serializePositioningAnswer();
-                case "4":
-                    return serializeMatchingAnswer();
-            }
-        }
-                        
-        // serialization
-        function serializeHtml(html) {
-            return escape(html);//replace(/\\/g,"\\").replace(/\"/g,"\\\""); // escape slashes and quotes
-        }
-
-        function deSerializeHtml(html) {
-            return unescape(html);//replace(/\\/g,"\\").replace(/\"/g,"\\\""); // escape slashes and quotes
-        }
-
-        function serializeChoiceAnswer() {
-            var result = "[";
-            for (var i=0; i<currentAnswersCount; i++) {
-                var answerText = serializeHtml($("#SCORMAnswerText_"+i).html());
-                var isCorrect = $("#SCORMAnswerIsCorrect_"+i).is(':checked');
-                if (i>0) result += ",";
-                result += "{\"text\":\""+answerText+"\", \"isCorrect\":\""+isCorrect+"\"}";
-            }
-            return (result + "]");
-        }
-            
-        function serializeShortAnswer() {
-            var result = "[";
-            for (var i=0; i<currentAnswersCount; i++) {
-                var answerText = serializeHtml($("#SCORMAnswerText_"+i).html());
-                if (i>0) result += ",";
-                result += "{\"text\":\""+answerText+"\"}";
-            }
-            return (result + "]");
-        }
-            
-        function serializeNumericAnswer() {
-            var result = "[";
-            for (var i=0; i<currentAnswersCount; i++) {
-                var rangeFrom = $("#SCORMAnswerRangeFrom_"+i).val();
-                var rangeTo = $("#SCORMAnswerRangeTo_"+i).val();
-                if (i>0) result += ",";
-                result += "{\"from\":\""+rangeFrom+"\", \"to\":\""+rangeTo+"\"}";
-            }
-            return (result + "]");
-        }
-            
-        function serializePositioningAnswer(){
-            var answers = $("#SCORMQuestionAnswersEditors").sortable("toArray");
-            var result = "[";
-            for (var i=0; i<answers.length; i++) {
-                var answerID = answers[i].replace("SCORMAnswer_", "");
-                var answerText = serializeHtml($("#SCORMAnswerText_"+answerID).html());
-                var isCorrect = $("#SCORMAnswerIsCorrect_"+answerID).is(':checked');
-                if (i>0) result += ",";
-                result += "{\"text\":\""+answerText+"\", \"isCorrect\":\""+isCorrect+"\"}";
-            }
-            return (result + "]");
-        }
-            
-        function serializeMatchingAnswer() {
-            var result = "[";
-            for (var i=0; i<currentAnswersCount; i++) {
-                var answerText = serializeHtml($("#SCORMAnswerText_"+i).html());
-                var subquestionText = serializeHtml($("#SCORMAnswerSubquestionText_"+i).html());
-                if (i>0) result += ",";
-                result += "{\"text\":\""+answerText+"\", \"subquestion\":\""+subquestionText+"\"}";
-            }
-            return (result + "]");
-        }
-
-        function appendAnswer(template, data) {
-            $("#SCORMQuestionAnswersEditors").append(Mustache.to_html(template, data));
-        }
-
-        function addAnswer(id) {
-            var currentQuestion = getCurrentNode();
-            var questionType = currentQuestion.attr("questionType");
-            var data = {"id" : id};
-            appendAnswer(cachedTemplates[questionType], data);
-            $("#SCORMAnswerTitleID_" + id).html(id+1);
-            currentAnswersCount++;
-            $( "#SCORMQuestionAnswersEditors" ).sortable("refresh");
-        }
-            
-        function deleteAnswer(id) {
-            $("#SCORMAnswer_" + id).remove();
-            var currentIndex = 1;
-            for (var i = 0; i<currentAnswersCount; i++){
-                if (i == id) continue;
-                $("#SCORMAnswerTitleID_" + i).html(currentIndex++);
-            }
-            currentAnswersCount--;
-        }
-        </script>
+        <script type="text/javascript" src="js/bank/index.js"></script>
+        <!--{{/isPortlet}}-->
     </head>
     <body id="SCORMBankLayout">
         <div id="SCORMBankWrapper">
@@ -356,62 +56,11 @@
             </div>
 
             <div id="rightPart" class="ui-layout-center">
-                <div id="SCORMQuestionEditor">
-                    <div id="SCORMFixedPanel">
-                        <button onclick="updateQuestion()" class="importantButton saveButton"><span>Save question</span></button> 
-                        <button onclick="deleteQuestion()" class="deleteButton"><span>Delete question</span></button>
-                    </div>
-                    <div id="SCORMQuestionTypeDiv">
-                        Question type: 
-                        <select id="SCORMQuestionType" onchange="onQuestionTypeChange()">
-                            <option value="type0">Choice question</option>
-                            <option value="type1">Short answer question</option>
-                            <option value="type2">Numeric question</option>
-                            <option value="type3">Positioning question</option>
-                            <option value="type4">Matching question</option>
-                            <option value="type5">Essay question</option>
-                            <option value="type6">Embedded answer question</option>
-                        </select>
-                    </div>
-                    <div id="SCORMQuestionTitle">
-                        Question title:
-                        <input type="text" id="SCORMQuestionTitleEdit" />
-                    </div> 
-                    <div>Question text:</div>
-                    <div id="SCORMQuestionText">
-
-                        <div id="SCORMQuestionTextView"></div>
-                        <button onclick="showEdit('Question text','#SCORMQuestionTextView')" class="editButton"><span>Edit question text</span></button>
-                        <div id="SCORMQuestionIsBounded">
-                            <input type="checkbox" id="SCORMQuestionBounded" /> bounded question
-                        </div>
-                        <div id="SCORMQuestionIsCaseSensitive">
-                            <input type="checkbox" id="SCORMQuestionCaseSensitive" /> case sensitive
-                        </div>
-                    </div>
-                    <div id="SCORMQuestionAnswers">
-                        <div id="SCORMQuestionAnswersEditors"></div>
-                        <button onclick="addAnswer(currentAnswersCount)" class="importantButton addButton"><span>Add answer</span></button>
-                    </div>
-                </div>
-                <div id="SCORMCategory">
-                    <div id="SCORMCategoryView">
-                        <span>Category:</span> <div id="SCORMCategoryNameView"></div>
-                        <span>Description:</span> <div id="SCORMCategoryDescriptionView"></div>
-                        <button onclick="showCategoryEdit()" class="importantButton editButton"><span>Edit</span></button>
-                    </div>
-                    <div id="SCORMCategoryEdit">
-                        <span>Category:</span> <br><input id="SCORMCategoryNameEdit" type="text"/>
-                        <br>
-                        <span>Description:</span><br> <textarea id="SCORMCategoryDescriptionEdit"></textarea><br>
-                        <button onclick="updateCategory()" class="importantButton saveButton"><span>Save</span></button> <button onclick="showCategoryInfo()" class="cancelButton"><span>Cancel</span></button>
-                    </div>
-                </div>
-                <div id="SCORMRichTextEdit">
-                    <textarea name="SCORMRedactor" id="SCORMRedactor" style="height: 300px; width: 100%;"></textarea>
-                </div>
+                <div id="ItemView"></div>
+                <div id="RichTextEdit"></div>
             </div>
             <div style="width:100%; clear: both"></div>
         </div>
+        <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
     </body>
 </html>
