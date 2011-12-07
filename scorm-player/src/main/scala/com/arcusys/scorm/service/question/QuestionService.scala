@@ -112,8 +112,6 @@ class QuestionService extends ScalatraServlet
       getAnswerStorage.delete(answer.id)
     }
     
-    System.out.println(answersJSON)
-      
     // and add new answers
     val answersRawDataList = JSON.toObject(answersJSON).asInstanceOf[List[Map[String, Any]]]
     val answersSeq = answersRawDataList.map(e=>createAnswer(e)).toSeq
