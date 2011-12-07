@@ -16,8 +16,7 @@
         <footer-portlet-javascript>/js/jquery.i18n.properties-min.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/fileuploader.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery-iframe-resizer.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/questionbank/jsTree.js</footer-portlet-javascript>
-        <footer-portlet-javascript>/js/questionbank/jsTreeHelpers.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/jquery.form.js</footer-portlet-javascript>
     </portlet>
 
     <portlet>

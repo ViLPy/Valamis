@@ -159,6 +159,18 @@
                 $('#SCORMPackageSummary').val("");
                 $('#SCORMUploadDialog').dialog('open');
             }
+            
+            function saveDatabase() {
+                $('#settingsForm').ajaxSubmit({
+                    type: "POST",
+                    url: '/scorm-player/services/administering/UpdateDBInfo',        
+                    dataType: 'html',
+                    success: function(data){
+                        $('#SCORMPackagesGrid').trigger("reloadGrid");
+                        $('#SCORMAdminDialog').dialog('close');
+                    }
+                })
+            }
         </script>
     </head>
     <body>
@@ -181,7 +193,7 @@
         </div>
 
         <div id="SCORMAdminDialog" title="PostgreSQL database connection settings">
-            <form action="/scorm-player/services/administering/UpdateDBInfo" method="post">
+            <form id="settingsForm" method="post">
                 <table border="0">
                     <tbody>
                         <tr>
@@ -211,7 +223,7 @@
                     </tbody>
                 </table>
                 <input type="button" id="SCORMResetDatabaseSettings" onclick="resetDBInfo()" value="Reset">
-                <input type="submit" id="SCORMSaveDatabaseSettings" value="Save">
+                <input type="button" id="SCORMSaveDatabaseSettings" onclick="saveDatabase()" value="Save">
                 <input type="button"  id="SCORMSaveDatabaseSettings" onclick="renewDatabase()" value="Reinitialize DB">
             </form>
         </div>

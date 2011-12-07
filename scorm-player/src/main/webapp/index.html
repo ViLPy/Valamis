@@ -163,6 +163,72 @@
                 }
             }
             
+            function selectNextNode()
+            {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                if (!jsTree.is_leaf(currentNode))
+                    jsTree.open_node(currentNode);
+                
+                var nextNode = jsTree._get_next(currentNode);
+                if (currentNode.length == 0) // current node not found, jmp to first
+                    nextNode = $('#SCORMTree').children("ul:first").children("li:first");
+                
+                jsTree.deselect_all(); // drop selection from current
+                jsTree.select_node(nextNode);
+                updateNavigationButtons();
+            }
+            
+            function selectPrevNode()
+            {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                
+                var currentNode = jsTree.get_selected();
+                var prevNode = jsTree._get_prev(currentNode);
+                if (currentNode.length == 0) // not found
+                    prevNode = $('#SCORMTree').children("ul:first").children("li:last");
+                
+                if (!jsTree.is_leaf(prevNode))
+                {
+                    if (!jsTree.is_open(prevNode))
+                    {
+                        jsTree.open_node(prevNode);
+                        prevNode = prevNode.children("ul:first").children("li:last");
+                    }
+                }
+                
+                jsTree.deselect_all(); // drop selection from current
+                jsTree.select_node(prevNode);
+                updateNavigationButtons();
+            }
+            
+            function gotoFirst() {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                var currentNode = jsTree.get_selected();
+                
+                first = $('#SCORMTree').children("ul:first").children("li:first");
+                jsTree.deselect_all(); // drop selection from current
+                jsTree.select_node(first);
+                updateNavigationButtons();
+            }
+            
+            function gotoLast() {
+                var jsTree = jQuery.jstree._reference('#SCORMTree');
+                var currentNode = jsTree.get_selected();
+                
+                lastNode = $('#SCORMTree').children("ul:first").children("li:last");
+                if (!jsTree.is_leaf(lastNode))
+                {
+                    if (!jsTree.is_open(lastNode))
+                        jsTree.open_node(lastNode);
+                    lastNode = lastNode.children("ul:first").children("li:last");
+                }
+                jsTree.deselect_all(); // drop selection from current
+                jsTree.select_node(lastNode);
+                updateNavigationButtons();
+            }
+            
             function updateNavigationButtons()
             {
                 var jsTree = jQuery.jstree._reference('#SCORMTree');
