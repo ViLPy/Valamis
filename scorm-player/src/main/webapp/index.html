@@ -11,6 +11,7 @@
         <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-iframe-resizer.js"></script>
+        <script type="text/javascript" language="javascript" src="js/utils.js"></script>
         <!--{{/isPortlet}}-->
         <script type="text/javascript" language="javascript">
             var globalActivitiesData;
@@ -24,7 +25,7 @@
             }
 
             $(function() {
-                $.get('/scorm-player/services/packages/', function(data) {
+                $.get(Utils.getContextPath() + '/services/packages/', function(data) {
                     var obj = eval("(" + data + ")").rows;
                     for (var i=0; i < obj.length; i++)
                         addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
@@ -75,7 +76,7 @@
                 // upload translations
                 jQuery.i18n.properties({
                     name:'Titles', 
-                    path:'/scorm-player/i18n/', 
+                    path:Utils.getContextPath() + '/i18n/', 
                     mode:'both',
                     callback: function() {
                         updateTitles();
@@ -99,7 +100,7 @@
             function updateOrganizations()
             {
                 $('#SCORMOrganizations').html("");
-                $.get('/scorm-player/services/organizations/package/'+$('#SCORMPackages').val(), function(data) {
+                $.get(Utils.getContextPath() + '/services/organizations/package/'+$('#SCORMPackages').val(), function(data) {
                     var obj = eval(data);
                     for (var i=0; i < obj.length; i++)
                         addOption('#SCORMOrganizations', obj[i].id, unescape(obj[i].title));
@@ -110,7 +111,7 @@
 
             function updateView(itemID)
             {
-                $.get('/scorm-player/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val()+'/activity/'+itemID+'/GetResource', function(data) {
+                $.get(Utils.getContextPath() + '/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val()+'/activity/'+itemID+'/GetResource', function(data) {
                     $('#SCORMDataOutput').attr("src",data);
                     resizeIFrame();
                 }).error(function() { $('#SCORMDataOutput').attr("src",""); });
@@ -119,7 +120,7 @@
             /// jsTree
             function createTree()
             {
-                $.get('/scorm-player/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val(), function(data) {
+                $.get(Utils.getContextPath() + '/services/activities/package/'+$('#SCORMPackages').val()+'/organization/'+$('#SCORMOrganizations').val(), function(data) {
                     globalActivitiesData = eval(data);
                     var items = "";
                     for (var i=0; i < globalActivitiesData.length; i++)
@@ -128,7 +129,7 @@
                     $("#SCORMTree").html("<ul>" + items + "</ul>");
                     $("#SCORMTree").jstree({ 
                         "themes" : {
-                            "url" : "css/jstree/style.css",
+                            "url" : Utils.getContextPath() + "/css/jstree/style.css",
                             "dots" : false,
                             "icons" : false
                         },
