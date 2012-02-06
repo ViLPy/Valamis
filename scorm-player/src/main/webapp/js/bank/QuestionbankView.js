@@ -1,11 +1,11 @@
+var currentNodeId ="";
 var QuestionbankView = function(collectionModel, collectionController) {
     this.model = collectionModel;
     this.controller = collectionController;
     this.jsTreeHelpers = null;
-    
+    this.isSaved=true;
     this.nodeCache = [];
 };
-
 QuestionbankView.prototype = {
     
     init : function(domElementID){
@@ -24,12 +24,12 @@ QuestionbankView.prototype = {
     
             _this.model.onGet.attach(function(notifier, id){
                 _this.nodeCache[id].children("a").removeClass("jstree-loading");
-                _this.addItem(notifier, id, false);
             });
     
             _this.model.onDelete.attach(function(notifier, id) {
-                _this.jsTreeHelpers.deleteNode(_this.nodeCache[id]);
-                delete _this.nodeCache[id];
+                _this.jsTreeHelpers.deleteNode(_this.jsTreeHelpers.getCurrentNode());
+                //_this.jsTreeHelpers.deleteNode(_this.nodeCache[id]);
+                //delete _this.nodeCache[id];
             });
     
             _this.model.onUpdate.attach(function(notifier, entity){
@@ -86,7 +86,39 @@ QuestionbankView.prototype = {
                     }
                 }]
             },
-            "plugins" : [ "themes", "ui", "json_data", "types" ]
+            "crrm" : {
+                "move" : {
+                    "check_move" : function (m) {
+                        var dndMode = m.p;
+                        var fromRel = m.o.attr("rel");
+                        var toRel = m.r.attr("rel");
+                        var nextNode = m.r.next();
+                        var prevNode = m.r.prev();
+                        var p = this._get_parent(m.o);
+                        if(!p) return false;
+                        if(dndMode=="last" && toRel=="folder")
+                            return true;
+                        if(dndMode=="inside" && toRel=="folder")
+                            return true;
+                        if((dndMode=="before" || dndMode=="after") && fromRel=="entity" && toRel=="entity")
+                            return true;
+                        if(dndMode=="after" && fromRel=="entity" && toRel=="folder" && (nextNode.attr("rel")=="entity" || nextNode.length ==0))
+                            return true;
+                        if(dndMode=="last" && fromRel=="entity" && toRel=="folder")
+                            return true;
+                        if( fromRel=="folder" && toRel=="folder")
+                            return true;
+                        if( fromRel=="folder" && toRel=="entity" && prevNode.attr("rel")=="folder" && dndMode=="before")
+                            return true;
+                        return false;
+                    }
+                }
+            },
+            "dnd" : {
+                "drop_target" : false,
+                "drag_target" : false
+            },
+            "plugins" : [ "themes", "ui", "json_data", "types","dnd","crrm" ]
         }).bind("select_node.jstree", function(event, data) {
             switch (data.rslt.obj.attr("rel")) {
                 case "folder":
@@ -100,6 +132,14 @@ QuestionbankView.prototype = {
         }).bind("dblclick.jstree", function() {
             var jsTreeHelper = _this.jsTreeHelpers;
             jsTreeHelper.toggleNode(jsTreeHelper.getCurrentNode());
+        }).bind("move_node.jstree", function (event, data){ 
+            _this.controller.selectItem(data.rslt.o.attr("rel"),data.rslt.o.attr("id"));           
+            _this.controller.updateQuestionParent({
+                targetId : data.rslt.r.attr("id"),
+                dndMode:data.rslt.p,
+                itemType:data.rslt.r.attr("rel")
+            });
+                        
         }).bind("open_node.jstree", function(e, data) {
             var element = data.rslt.obj;
             if (_this.jsTreeHelpers.isLoaded(element)) {
@@ -113,9 +153,9 @@ QuestionbankView.prototype = {
     
     addItem: function(notifier, entity, needSelect){
         var currentNode = this.jsTreeHelpers.getCurrentNode();
-        var newCategory = null
+        var newCategory = null;
         if (entity instanceof CategoryModelProxy) {
-            newCategory = this.jsTreeHelpers.createNewNode(entity.rawJSON, this.nodeCache[entity.parentID]);
+            newCategory = this.jsTreeHelpers.createNewNode(entity.rawJSON, this.nodeCache[entity.parentID],needSelect);
             this.nodeCache[newCategory.attr("id")] = newCategory;
             if (needSelect) {
                 this.jsTreeHelpers.selectNode(newCategory);
@@ -124,6 +164,7 @@ QuestionbankView.prototype = {
             }
         } else if (entity instanceof QuestionModelProxy) {
             newCategory = this.jsTreeHelpers.createNewNode(entity.rawJSON, this.nodeCache[entity.categoryID]);
+            //this.nodeCache[newCategory.attr("id")] = newCategory;
             if (needSelect) {
                 this.jsTreeHelpers.selectNode(newCategory);
             } else {

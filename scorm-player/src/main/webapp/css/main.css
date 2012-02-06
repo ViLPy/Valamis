@@ -169,8 +169,15 @@ body {
 .saveButton span {
     background: url("category-bank/save.png") no-repeat scroll left center transparent;
 }
-
-
+#SCORMToggleButton{
+    width: 16px;
+    height: 50px;
+    height:35px;
+    background: url("left-arrow.png") no-repeat scroll left center transparent;
+}
+.toggle-button-active{
+    background: url("right-arrow.png") no-repeat scroll left center transparent !important;
+}
 /* ------------RIGHT PART-------------------- */
 #rightPart div {
     margin-bottom: 5px;
@@ -192,7 +199,7 @@ body {
 #SCORMQuestionTypeDiv {
     margin-top:45px;
 }
-.SCORManswer, #SCORMQuestionText, .SCORMRoundedBorder {
+.SCORManswer, #SCORMQuestionText,#SCORMExplanationText, .SCORMRoundedBorder {
     border: 1px solid #CCCCCC;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -201,6 +208,11 @@ body {
 }
 
 #rightPart #SCORMQuestionText {
+    background-color: rgba(193, 215, 234, 0.3);
+    margin-bottom:15px;
+}
+
+#rightPart #SCORMExplanationText {
     background-color: rgba(193, 215, 234, 0.3);
     margin-bottom:15px;
 }
@@ -250,3 +262,22 @@ textarea {
 /* ------------- OVERWRITING THINGS-------------------- */
 
 .jstree a {white-space:normal;}
+
+.image-wrapper{
+    float:left;
+    text-align:center;
+    cursor: pointer;
+}
+.image{
+    width:100px;
+    height: 74px;
+}
+.folder{
+    width:100px;
+    height: 74px;
+    background: url("folder.png") no-repeat scroll left center transparent;
+}
+.text-wrapper{
+    margin-left:-10px;
+    margin-top:-10px;
+}

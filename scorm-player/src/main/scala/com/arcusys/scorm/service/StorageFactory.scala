@@ -1,6 +1,7 @@
 package com.arcusys.scorm.service
 
 import com.arcusys.scorm.storage.impl.orbroker._
+import com.arcusys.scorm.storage.quiz.impl.orbroker._
 
 object StorageFactory
 {

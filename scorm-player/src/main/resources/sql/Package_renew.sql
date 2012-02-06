@@ -8,6 +8,7 @@ CREATE TABLE Package
   base text,
   resourcesBase text,
   summary text,
+  visibility boolean,
   CONSTRAINT Package_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE

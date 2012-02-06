@@ -10,4 +10,4 @@ AND id = :id
     AND categoryID = :categoryID
     </#if>
 </#if>
-ORDER BY id
+ORDER BY "position",id

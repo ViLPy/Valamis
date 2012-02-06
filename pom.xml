@@ -11,7 +11,7 @@
     <modules>
         <module>scorm-logic</module>
         <module>scorm-player</module>
-		<module>scorm-quiz-model</module>
+        <module>scorm-quiz-model</module>
     </modules>
     <repositories>
         <repository>
@@ -31,6 +31,10 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>arcusys.repos</id>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-releases</url>
         </repository>
     </repositories>
 </project>

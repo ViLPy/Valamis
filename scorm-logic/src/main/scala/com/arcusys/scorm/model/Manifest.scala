@@ -6,7 +6,7 @@ class Manifest(
   /**
    * Manifest identifier
    */
-  val identifier: String,
+  val id: String,
   /**
    * Version of the manifest. Used to disrtinguish between manifests with the same identifier
    */
@@ -16,7 +16,9 @@ class Manifest(
   val defaultOrganizationIdentifier: Option[String],
   val resourcesBase: Option[String],
   val title: String,
-  val summary: Option[String] = None) {
+  val summary: Option[String] = None,
+  val visibility: Boolean = true)
+{
   val organizations = Map[String, Organization]()
   val allActivities = Map[String, Activity]();
   val resources = Map[String, Resource]();

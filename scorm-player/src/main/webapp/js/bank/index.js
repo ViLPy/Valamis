@@ -6,7 +6,7 @@ $(function() {
     var collectionModel = new CollectionModel();
     var collectionController = new QuestionbankController(collectionModel);
     var collectionView = new QuestionbankView(collectionModel, collectionController);
-    var itemView = new ItemView(collectionModel, collectionController);
+    var itemView = new ItemView(collectionView,collectionModel, collectionController);
 
     RichEditView.init("RichTextEdit");
     
@@ -33,16 +33,71 @@ $(function() {
 
     function initToolbar() {
         $("#buttonAddCategory").button().click(function(){
-            collectionController.createCategory();
+            if(itemView.isSaved == false){
+                if(confirm('You really want to exit without saving?'))
+                {
+                    itemView.isSaved = false;
+                    collectionView.isSaved =itemView.isSaved;
+                    collectionController.createCategory();
+                }else{
+                    
+            }
+            }else{
+                itemView.isSaved = false;
+                collectionView.isSaved =itemView.isSaved;
+                collectionController.createCategory();
+            }
         });
         $("#buttonDeleteCategory").button().click(function(){
-            collectionController.deleteCategory();
+            if(itemView.isSaved == false){
+                if(confirm('You really want to exit without saving?'))
+                {
+                    itemView.isSaved = true;
+                    collectionView.isSaved =itemView.isSaved;
+                    collectionController.deleteCategory();
+                }else{
+                    
+            }
+            }else{
+                itemView.isSaved = true;
+                collectionView.isSaved =itemView.isSaved;
+                collectionController.deleteCategory();
+            }
+            
         });
         $("#buttonAddQuestion").button().click(function(){
-            collectionController.createQuestion();
+            if(itemView.isSaved == false){
+                if(confirm('You really want to exit without saving?'))
+                {
+                    itemView.isSaved = false;
+                    collectionView.isSaved =itemView.isSaved;
+                    collectionController.createQuestion();
+                }else{
+                    
+            }
+            }else{
+                itemView.isSaved = false;
+                collectionView.isSaved =itemView.isSaved;
+                collectionController.createQuestion();
+            }
+            
         });
         $("#buttonDeleteQuestion").button().click(function(){
-            collectionController.deleteQuestion();
+            if(itemView.isSaved == false){
+                if(confirm('You really want to exit without saving?'))
+                {
+                    itemView.isSaved = true;
+                    collectionView.isSaved =itemView.isSaved;
+                    collectionController.deleteQuestion();
+                }else{
+                    
+            }
+            }else{
+                itemView.isSaved = true;
+                collectionView.isSaved =itemView.isSaved;
+                collectionController.deleteQuestion();
+            }
+            
         });
     }
 

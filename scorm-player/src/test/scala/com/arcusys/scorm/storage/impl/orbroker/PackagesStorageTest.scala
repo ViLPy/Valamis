@@ -35,7 +35,7 @@ class PackagesStorageTest
   {
     val manifest = new Manifest("12", None, Some("NoneBase"), null, Some("defaultOrganizationIdentifier"), Some("resourcesBase"), "title")
     val testPackage = packagesStorage.create(manifest)
-    val createdPackage = packagesStorage.getByID(testPackage._1).get
+    val createdPackage = packagesStorage.getByID(testPackage.id.toInt).get
     assertEquals(createdPackage.base, manifest.base)
     assertEquals(createdPackage.defaultOrganizationIdentifier, manifest.defaultOrganizationIdentifier)
     assertEquals(createdPackage.resourcesBase, manifest.resourcesBase)

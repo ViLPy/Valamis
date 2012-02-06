@@ -11,7 +11,7 @@ class ADLManifestParserTest {
   val manifest = new ManifestParser(root).parse
   @Test
   def testManifest = {
-    assertEquals("LMSTestPackage_RU-12b", manifest.identifier)
+    assertEquals("LMSTestPackage_RU-12b", manifest.id)
     assertEquals(Some("1.0"), manifest.version)
   }
 
@@ -33,7 +33,7 @@ class ADLManifestParserTest {
   @Test
   def testOrganization = {
     val organization1 = manifest.organizations("org1");
-    assertEquals("org1", organization1.identifier);
+    assertEquals("org1", organization1.id);
     assertEquals(true, organization1.objectivesGlobalToSystem);
     assertEquals(true, organization1.sharedDataGlobalToSystem);
   }
@@ -48,14 +48,14 @@ class ADLManifestParserTest {
     val organization = manifest.organizations("org1")
     val activities = organization.activities
     assertEquals(8, activities.size)
-    assertEquals("intro", activities(0).identifier)
-    assertEquals("pretest", activities(1).identifier)
-    assertEquals("module1", activities(2).identifier)
-    assertEquals("module2", activities(3).identifier)
-    assertEquals("module3", activities(4).identifier)
-    assertEquals("assessment", activities(5).identifier)
-    assertEquals("results", activities(6).identifier)
-    assertEquals("conclude", activities(7).identifier)
+    assertEquals("intro", activities(0).id)
+    assertEquals("pretest", activities(1).id)
+    assertEquals("module1", activities(2).id)
+    assertEquals("module2", activities(3).id)
+    assertEquals("module3", activities(4).id)
+    assertEquals("assessment", activities(5).id)
+    assertEquals("results", activities(6).id)
+    assertEquals("conclude", activities(7).id)
     assertEquals("Introduction", activities(0).title)
     val containerActivity = activities(5).asInstanceOf[ContainerActivity]
     val sequencing = containerActivity.childActivities(0).sequencing.get
@@ -69,7 +69,7 @@ class ADLManifestParserTest {
   def testResources = {
     val resources = manifest.resources
     assertEquals(53, resources.size)
-    assertEquals("res-intro", resources("res-intro").identifier)
+    assertEquals("res-intro", resources("res-intro").id)
     assertEquals("webcontent", resources("res-intro").resourceType)
     assertEquals(ResourceScormType.Asset, resources("res-intro").scormType)
     assertEquals("Competency%20Based%20Strategy%20Introduction/introduction_competency.html", resources("res-intro").href.get)

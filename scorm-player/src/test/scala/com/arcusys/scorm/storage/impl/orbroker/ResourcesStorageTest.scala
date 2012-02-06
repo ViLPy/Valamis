@@ -27,7 +27,7 @@ class ResourcesStorageTest
   def canCreate =
   {
     val p = packagesStorage.create(new Manifest("12", None, None, null, Some("defaultOrganizationIdentifier"), Some("resourcesBase"), "title"))
-    val r = resourcesStorage.create(p._1, new Resource("HJF23-13", "sco", Some("http://google.com"), None, ResourceScormType.Sco, None))
+    val r = resourcesStorage.create(p.id.toInt, new Resource("HJF23-13", "sco", Some("http://google.com"), None, ResourceScormType.Sco, None))
     assertEquals(1, resourcesStorage.getAll.size)
   }
   
@@ -36,16 +36,16 @@ class ResourcesStorageTest
   {
     val p = packagesStorage.create(new Manifest("12", None, None, null, Some("defaultOrganizationIdentifier"), Some("resourcesBase"), "title"))
     packagesStorage.create(new Manifest("Dummy", None, None, null, Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase"), "DummyTitle"))
-    val r = new Resource("HJF23-13", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None)
-    val createdResource = resourcesStorage.create(p._1, r)
-    val newResource = resourcesStorage.getByID(createdResource._1).get
-    assertEquals(newResource.identifier, r.identifier)
+    val r = new Resource("1", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None)
+    val createdResource = resourcesStorage.create(p.id.toInt, r)
+    val newResource = resourcesStorage.getByID(createdResource.id.toInt).get
+    assertEquals(newResource.id, r.id)
     assertEquals(newResource.resourceType, r.resourceType)
     assertEquals(newResource.href, r.href)
     assertEquals(newResource.base, r.base)
     
-    val newResource2 = resourcesStorage.getByID(p._1, r.identifier).get
-    assertEquals(newResource2.identifier, r.identifier)
+    val newResource2 = resourcesStorage.getByID(p.id.toInt, r.id.toInt).get
+    assertEquals(newResource2.id, r.id)
     assertEquals(newResource2.resourceType, r.resourceType)
     assertEquals(newResource2.href, r.href)
     assertEquals(newResource2.base, r.base)
@@ -56,12 +56,12 @@ class ResourcesStorageTest
   {
     val package1 = packagesStorage.create(new Manifest("12", None, None, null, Some("defaultOrganizationIdentifier"), Some("resourcesBase"), "title"))
     val package2 = packagesStorage.create(new Manifest("Dummy", None, None, null, Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase"), "DummyTitle"))
-    resourcesStorage.create(package1._1, new Resource("HJF23-13", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
-    resourcesStorage.create(package1._1, new Resource("HJF23-14", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
-    resourcesStorage.create(package1._1, new Resource("HJF23-15", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
-    resourcesStorage.create(package2._1, new Resource("HJF23-16", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
+    resourcesStorage.create(package1.id.toInt, new Resource("HJF23-13", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
+    resourcesStorage.create(package1.id.toInt, new Resource("HJF23-14", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
+    resourcesStorage.create(package1.id.toInt, new Resource("HJF23-15", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
+    resourcesStorage.create(package2.id.toInt, new Resource("HJF23-16", "sco", Some("http://google.com"), Some("None"), ResourceScormType.Sco, None))
     
-    assertEquals(3, resourcesStorage.getByPackageID(package1._1).size)
-    assertEquals(1, resourcesStorage.getByPackageID(package2._1).size)
+    assertEquals(3, resourcesStorage.getByPackageID(package1.id.toInt).size)
+    assertEquals(1, resourcesStorage.getByPackageID(package2.id.toInt).size)
   }
 }

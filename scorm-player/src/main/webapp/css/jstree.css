@@ -56,6 +56,9 @@
 #vakata-contextmenu.jstree-default-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
 #vakata-contextmenu.jstree-default-context li ul { margin-left:-4px; }
 
+.jstree a { white-space:normal; height: auto;
+}
+
 /* IE6 BEGIN */
 .jstree-default li, 
 .jstree-default ins,

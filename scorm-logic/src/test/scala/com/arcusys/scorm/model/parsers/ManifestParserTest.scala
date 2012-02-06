@@ -11,7 +11,7 @@ class ManifestParserTest {
   val manifest = new ManifestParser(root).parse
   @Test
   def testManifest = {
-    assertEquals("SAMPLE1", manifest.identifier)
+    assertEquals("SAMPLE1", manifest.id)
     assertEquals(Some("1.3"), manifest.version)
     assertEquals(Some("mycontent/"), manifest.base)
   }
@@ -36,11 +36,11 @@ class ManifestParserTest {
   @Test
   def testOrganization = {
     val organization1 = manifest.organizations("TOC1");
-    assertEquals("TOC1", organization1.identifier);
+    assertEquals("TOC1", organization1.id);
     assertEquals(true, organization1.objectivesGlobalToSystem);
     assertEquals(true, organization1.sharedDataGlobalToSystem);
     val organization2 = manifest.organizations("TOC2");
-    assertEquals("TOC2", organization2.identifier);
+    assertEquals("TOC2", organization2.id);
     assertEquals(false, organization2.objectivesGlobalToSystem);
     assertEquals(false, organization2.sharedDataGlobalToSystem);
   }
@@ -57,15 +57,15 @@ class ManifestParserTest {
     val organization = manifest.organizations("TOC1")
     val activities = organization.activities
     assertEquals(3, activities.size)
-    assertEquals("ITEM1", activities(0).identifier)
-    assertEquals("ITEM2", activities(1).identifier)
-    assertEquals("ITEM3", activities(2).identifier)
+    assertEquals("ITEM1", activities(0).id)
+    assertEquals("ITEM2", activities(1).id)
+    assertEquals("ITEM3", activities(2).id)
     assertEquals("Item 1", activities(0).title)
     assertEquals(1, activities(0).metadata.get.externalMetadataLocations.size)
     val containerActivity = activities(0).asInstanceOf[ContainerActivity]
     assertEquals(2, containerActivity.childActivities.size)
     val leafActivity = containerActivity.childActivities(0).asInstanceOf[LeafActivity]
-    assertEquals("ITEM11", leafActivity.identifier)
+    assertEquals("ITEM11", leafActivity.id)
     assertEquals("Item 1.1", leafActivity.title)
     assertEquals("RES11", leafActivity.resourceIdentifier)
     assertEquals("?Topic=1", leafActivity.resourceParameters.get)
@@ -88,7 +88,7 @@ class ManifestParserTest {
     val resources = manifest.resources
     assertEquals(5, resources.size)
     assertEquals(Some("myresources/"), manifest.resourcesBase)
-    assertEquals("RES12", resources("RES12").identifier)
+    assertEquals("RES12", resources("RES12").id)
     assertEquals("webcontent", resources("RES12").resourceType)
     assertEquals(ResourceScormType.Sco, resources("RES12").scormType)
     assertEquals("res12/", resources("RES12").base.get)
@@ -101,10 +101,10 @@ class ManifestParserTest {
     assertEquals(1, resources("RES12").files(0).metadata.get.externalMetadataLocations.size)
     assertEquals(1, resources("RES12").dependencyIdentifiers.size)
     assertEquals("RES11", resources("RES12").dependencyIdentifiers(0))
-    assertEquals("RES2", resources("RES2").identifier)
-    assertEquals("RES3", resources("RES3").identifier)
-    assertEquals("RES11", resources("RES11").identifier)
-    assertEquals("RES_", resources("RES_").identifier)
+    assertEquals("RES2", resources("RES2").id)
+    assertEquals("RES3", resources("RES3").id)
+    assertEquals("RES11", resources("RES11").id)
+    assertEquals("RES_", resources("RES_").id)
   }
 
   @Test

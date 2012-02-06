@@ -25,8 +25,8 @@ class OrganizationParser(val organizationElement: Elem, val manifest: Manifest, 
       metadata, completionThreshold, sequencing)
     itemElements.foreach(itemElement => {
       val activity = new ActivityParser(itemElement.asInstanceOf[Elem], manifest).parse
-      if (manifest.allActivities.contains(activity.identifier)) throw new SCORMParserException("<item> elements with non-unique `identifier` attributes found")
-      manifest.allActivities(activity.identifier) = activity
+      if (manifest.allActivities.contains(activity.id)) throw new SCORMParserException("<item> elements with non-unique `identifier` attributes found")
+      manifest.allActivities(activity.id) = activity
       organization.activities += activity
     })
     organization

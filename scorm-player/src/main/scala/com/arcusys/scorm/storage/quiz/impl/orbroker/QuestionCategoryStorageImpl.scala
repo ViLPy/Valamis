@@ -1,7 +1,8 @@
-package com.arcusys.scorm.storage.impl.orbroker
+package com.arcusys.scorm.storage.quiz.impl.orbroker
 
 import com.arcusys.scorm.model.quiz._
-import com.arcusys.scorm.storage._
+import com.arcusys.scorm.storage.quiz._
+import com.arcusys.scorm.storage.impl.orbroker.GenericEntityStorageImpl
 import org.orbroker.Row
 import org.orbroker.RowExtractor
 
@@ -27,7 +28,9 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage with GenericEn
         row.integer("id").get,
         row.string("title").get, 
         row.string("description").get,
-        row.integer("parentID"))
+        row.integer("parentID"),
+        row.integer("position").get
+      )
     }
   }
 }

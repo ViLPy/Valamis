@@ -14,7 +14,7 @@ class LMSTestPackage_CM01Test {
 
   @Test
   def testManifest = {
-    assertEquals("LMSTestPackage_CM-01", manifest.identifier)
+    assertEquals("LMSTestPackage_CM-01", manifest.id)
     assertEquals(Some("1.1.1"), manifest.version)
     assertEquals(None, manifest.base)
   }
@@ -38,7 +38,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testOrganization = {
     val organization = manifest.organizations("CM-01")
-    assertEquals("CM-01", organization.identifier)
+    assertEquals("CM-01", organization.id)
     assertEquals(true, organization.objectivesGlobalToSystem)
     assertEquals(true, organization.sharedDataGlobalToSystem)
     assertEquals(None, organization.metadata)
@@ -59,7 +59,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testActivity1 = {
     val activity = manifest.organizations("CM-01").activities(0)
-    assertEquals("activity_1", activity.identifier)
+    assertEquals("activity_1", activity.id)
     assertEquals("Activity 1", activity.title)
     assertEquals(3, activity.hiddenNavigationControls.size)
     assertTrue(activity.hiddenNavigationControls.contains(NavigationControlType.Continue))
@@ -118,7 +118,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testActivity2 = {
     val activity = manifest.organizations("CM-01").activities(1)
-    assertEquals("activity_2", activity.identifier)
+    assertEquals("activity_2", activity.id)
     assertEquals("Activity 2", activity.title)
     assertEquals(3, activity.hiddenNavigationControls.size)
     assertTrue(activity.hiddenNavigationControls.contains(NavigationControlType.Continue))
@@ -194,7 +194,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testActivity3 = {
     val activity = manifest.organizations("CM-01").activities(2)
-    assertEquals("activity_3", activity.identifier)
+    assertEquals("activity_3", activity.id)
     assertEquals("Activity 3", activity.title)
     assertEquals(3, activity.hiddenNavigationControls.size)
     assertTrue(activity.hiddenNavigationControls.contains(NavigationControlType.Continue))
@@ -326,7 +326,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceSEQ01 = {
     val resource = manifest.resources("SEQ01")
-    assertEquals("SEQ01", resource.identifier)
+    assertEquals("SEQ01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Sco, resource.scormType)
     assertEquals("resources/", resource.base.get)
@@ -346,7 +346,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceLMSFNCTS01 = {
     val resource = manifest.resources("LMSFNCTS01")
-    assertEquals("LMSFNCTS01", resource.identifier)
+    assertEquals("LMSFNCTS01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals(None, resource.base)
@@ -361,7 +361,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceJAR01 = {
     val resource = manifest.resources("JAR01")
-    assertEquals("JAR01", resource.identifier)
+    assertEquals("JAR01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals("common/", resource.base.get)
@@ -376,7 +376,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceABOUT01 = {
     val resource = manifest.resources("ABOUT01")
-    assertEquals("ABOUT01", resource.identifier)
+    assertEquals("ABOUT01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals(None, resource.base)
@@ -391,7 +391,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceEMULATION01 = {
     val resource = manifest.resources("EMULATION01")
-    assertEquals("EMULATION01", resource.identifier)
+    assertEquals("EMULATION01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals(None, resource.base)
@@ -407,7 +407,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceBROWSERDETECT01 = {
     val resource = manifest.resources("BROWSERDETECT01")
-    assertEquals("BROWSERDETECT01", resource.identifier)
+    assertEquals("BROWSERDETECT01", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals(None, resource.base)
@@ -422,7 +422,7 @@ class LMSTestPackage_CM01Test {
   @Test
   def testResourceLMSINCLUDE = {
     val resource = manifest.resources("LMSINCLUDE")
-    assertEquals("LMSINCLUDE", resource.identifier)
+    assertEquals("LMSINCLUDE", resource.id)
     assertEquals("webcontent", resource.resourceType)
     assertEquals(ResourceScormType.Asset, resource.scormType)
     assertEquals(None, resource.base)

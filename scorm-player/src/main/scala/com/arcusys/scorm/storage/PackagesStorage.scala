@@ -4,11 +4,12 @@ import com.arcusys.scorm.model._
 
 trait PackagesStorage
 {
-  def getAll: IndexedSeq[Manifest]  
+  def getOnlyVisible: IndexedSeq[Manifest]
+  def getAll: IndexedSeq[Manifest]
   def getByID(id: Int): Option[Manifest]
-  def create(entity: Manifest): (Int,Manifest)
+  def create(entity: Manifest): Manifest
   def delete(id: Int): Unit
   def renew: Unit
-  def modify(id: Int, entity: Manifest): (Int,Manifest)
+  def modify(id: Int, entity: Manifest): Manifest
   def renewTotally
 }

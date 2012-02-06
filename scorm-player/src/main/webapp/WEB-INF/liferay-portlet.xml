@@ -5,10 +5,11 @@
         <portlet-name>SCORMApplication</portlet-name>
         <instanceable>true</instanceable>
         
-        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.10.custom.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
         <header-portlet-css>/css/ui.jqgrid.css</header-portlet-css>
         <header-portlet-css>/css/fileuploader.css</header-portlet-css>
         <header-portlet-css>/css/jstree/style.css</header-portlet-css>
+        <header-portlet-css>/css/main.css</header-portlet-css>
        
         <footer-portlet-javascript>/js/grid.locale-en.js</footer-portlet-javascript>
         <footer-portlet-javascript>/js/jquery.jqGrid.min.js</footer-portlet-javascript>

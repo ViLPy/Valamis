@@ -3,7 +3,7 @@ package com.arcusys.scorm.model
 import scala.collection.mutable.Buffer
 
 class Resource(
-  val identifier: String,
+  val id: String,
   val resourceType: String,
   val href: Option[String],
   /**

@@ -1,9 +1,9 @@
 <html>
     <head>
-        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
+        <script type="text/javascript" language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
         <!--{{^isPortlet}}-->
-        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"/>
+        <link type="text/css" href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
 
         <link type="text/css" href="css/ui.jqgrid.css" rel="stylesheet"/>
         <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
@@ -33,12 +33,13 @@
                     url: Utils.getContextPath() + 'services/packages/Sorted',
                     datatype: "json",
                     mtype: 'GET',
-                    colNames:['ID1', 'Title1', 'Summary1'],
+                    colNames:['ID1', 'Title1', 'Summary1', 'Visibility'],
                     colModel:[
                         {name:'id', index: 'id', width:80, align:"center"},
                         {name:'title', index: 'title', editable: true, width:150, formatter:textFormatter},
                         {name:'summary', index: 'summary', editable: true, edittype:"textarea", 
-                            editoptions:{rows:"4",cols:"30"}, width:280, formatter:textFormatter, sortable: false}
+                            editoptions:{rows:"4",cols:"30"}, width:280, formatter:textFormatter, sortable: false},
+                        {name:'visibility', index: 'visibility', editable: true, edittype:"checkbox", formatter: visibilityFormatter, unformat: visibilityUnformat, editoptions: { value:"true:false" }}
                     ],
                     //sortname: 'id',
                     //sortorder: "asc",
@@ -54,12 +55,15 @@
                         $('#SCORMPackagesGrid').editGridRow(row, {width:400, viewPagerButtons:false, reloadAfterSubmit:true, closeAfterEdit:true, closeOnEscape:true});
                     }
                 }).jqGrid('navGrid','#SCORMPager',
-                {add:false, del:false, search: false}, //options
+                {add:false, del:true, search: false}, //options
                 {width:400, viewPagerButtons:false, reloadAfterSubmit:true, closeAfterEdit:true, closeOnEscape:true});
                 
                 $("#t_SCORMPackagesGrid").height(30)
-                .append("<input type='button' id='SCORMPackageUploadButton' style='height:30px' value='Add a new scorm package'/>")
+                .append("<input type='button' id='SCORMPackageUploadButton' style='height:30px' value='Add a new scorm package'/>");
+                /*{{#isAdmin}}*/
+                $("#t_SCORMPackagesGrid").height(30)
                 .append("<input type='button' id='SCORMPackageAdminButton' style='height:30px' value='Admin interface'/>");
+                /*{{/isAdmin}}*/
                 
                 $("#SCORMPackageUploadButton").click(function(){
                     showUploadDialog();
@@ -88,35 +92,29 @@
                     }
                 });
                 
+                /*{{#isAdmin}}*/
                 resetDBInfo();
+                /*{{/isAdmin}}*/
             });
-            
-            function renewDatabase()
-            {
-                if (confirm("This will delete ALL data from ALL packages for ALL users! Are you sure?"))
-                {
-                    $.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function(data) {
-                        alert("Database renewed!");
-                        $('#SCORMPackagesGrid').trigger("reloadGrid");
-                    });
-                }
-            }
-            
-            function resetDBInfo()
-            {
-                $.get(Utils.getContextPath() + '/services/administering/GetDBInfo', function(data) {
-                    var infoPack = eval('(' + data + ')');
-                    $('#SCORMServerName').val(infoPack.server);
-                    $('#SCORMDatabaseName').val(infoPack.database);
-                    $('#SCORMDatabaseUserLogin').val(infoPack.login);
-                    $('#SCORMDatabaseUserPassword').val(infoPack.password);
-                });
-            }
-            
+                        
             // jqGrid specific
             function textFormatter(cellvalue, options, rowObject)
             {
-                return (cellvalue!="")?unescape(cellvalue.replace(/[+]/g," ")):"&nbsp"; // field must contain smthng
+                return (cellvalue!="")?unescape(cellvalue.replace(/[+]/g," ")):"&nbsp"; // field must contain something
+            }
+            
+            function visibilityUnformat(cellvalue, options, cell) {
+                return $('input',cell).is(':checked');
+            }
+            
+            function visibilityFormatter(cellvalue, options, rowObject) {
+                var checked = (cellvalue == true);
+                return "<input type='checkbox' " + (checked?"checked='checked'":"") + " onchange='updatePackageVisibility(" + rowObject[0] + ", this)'/> visible for users";
+            }
+            
+            function updatePackageVisibility(id, object) {
+                var checked = $(object).is(':checked');
+                $.post(Utils.getContextPath() + '/services/packages/UpdateVisibility', {"id": id, "visibility": checked});
             }
             
             function uploadPackage() {
@@ -161,6 +159,7 @@
                 $('#SCORMUploadDialog').dialog('open');
             }
             
+            /*{{#isAdmin}}*/
             function saveDatabase() {
                 $('#settingsForm').ajaxSubmit({
                     type: "POST",
@@ -172,6 +171,29 @@
                     }
                 })
             }
+            
+            function renewDatabase()
+            {
+                if (confirm("This will delete ALL data from ALL packages for ALL users! Are you sure?"))
+                {
+                    $.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function(data) {
+                        alert("Database renewed!");
+                        $('#SCORMPackagesGrid').trigger("reloadGrid");
+                    });
+                }
+            }
+            
+            function resetDBInfo()
+            {
+                $.get(Utils.getContextPath() + '/services/administering/GetDBInfo', function(data) {
+                    var infoPack = data;
+                    $('#SCORMServerName').val(infoPack.server);
+                    $('#SCORMDatabaseName').val(infoPack.database);
+                    $('#SCORMDatabaseUserLogin').val(infoPack.login);
+                    $('#SCORMDatabaseUserPassword').val(infoPack.password);
+                });
+            }
+            /*{{/isAdmin}}*/
         </script>
     </head>
     <body>
@@ -186,13 +208,13 @@
                 <hr>
                 <b id="SCORMPackageSummaryLabel">Summary:</b><br>
                 <textarea name="summary" id="SCORMPackageSummary" rows=4 cols=30></textarea>
-
+                <br>
                 <input type="file" name="file" id="newPackages" size="50"/>
                 <hr>
                 <button type="button" onclick="uploadPackage()" >Upload</button>
             </form>
         </div>
-
+        <!--{{#isAdmin}}-->
         <div id="SCORMAdminDialog" title="PostgreSQL database connection settings">
             <form id="settingsForm" method="post">
                 <table border="0">
@@ -228,6 +250,7 @@
                 <input type="button"  id="SCORMSaveDatabaseSettings" onclick="renewDatabase()" value="Reinitialize DB">
             </form>
         </div>
+        <!--{{/isAdmin}}-->
         <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
     </body>
 </html>

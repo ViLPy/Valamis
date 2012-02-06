@@ -6,10 +6,14 @@ CREATE TABLE Question
   categoryID integer,
   title text,
   description text,
-  isBounded boolean,
+  explanationText text,
+  forceCorrectCount boolean,
   isCaseSensitive boolean,
   questionType integer,
+  "position" integer,
   CONSTRAINT Question_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE Question ADD CONSTRAINT Question_fk1 FOREIGN KEY (categoryID) REFERENCES QuestionCategory(id) ON DELETE CASCADE;

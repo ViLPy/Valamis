@@ -22,7 +22,7 @@ class OrganizationsStorageImpl extends OrganizationsStorage with GenericEntitySt
     getAll
   }
 
-  def getByID(packageID: Int, organizationID: String) =
+  def getByID(packageID: Int, organizationID: Int) =
   {
     broker.readOnly() { session => session.selectOne(Token(Symbol(tablePath), Extractor), 
                                                      "packageID"->packageID,
@@ -39,7 +39,7 @@ class OrganizationsStorageImpl extends OrganizationsStorage with GenericEntitySt
   object Extractor extends RowExtractor[Organization]
   {
     def extract(row: Row) = new Organization(
-      row.string("organizationID").get,
+      row.integer("id").get.toString,
       "hierarchical", // structure
       false, //objectivesGlobalToSystem
       false, //sharedDataGlobalToSystem

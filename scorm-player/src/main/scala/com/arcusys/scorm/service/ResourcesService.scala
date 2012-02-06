@@ -7,7 +7,7 @@ import com.arcusys.scorm.service.StorageFactory._
 
 class ResourcesService extends ScalatraServlet
 {
-  get("/package/:packageID") {
+  /*get("/package/:packageID") {
     val packageID = params.getOrElse("packageID", halt(405, "Package is not specified")).toInt
     buildOutput(getResourcesStorage.getByPackageID(packageID)).toString
   }
@@ -17,12 +17,12 @@ class ResourcesService extends ScalatraServlet
     //TODO: what if no base and href
     <resources>
       {for(resource<-sequence) yield
-        <resource id={resource.identifier} base={resource.base.getOrElse("")} href={resource.href.getOrElse("")}>
+        <resource id={resource.scormIdentifier} base={resource.base.getOrElse("")} href={resource.href.getOrElse("")}>
             <resourceType>{resource.resourceType}</resourceType>
             <resourceFiles>{for (file<-resource.files) yield (<file href={file.href}/>)}</resourceFiles>
             <dependencies>{for (id<-resource.dependencyIdentifiers) yield (<dependencyID id={id}/>)}</dependencies>
         </resource>
       }
     </resources>
-  }
+  }*/
 }

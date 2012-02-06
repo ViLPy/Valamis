@@ -1,27 +1,29 @@
 package com.arcusys.scorm.view
-import mustache.Mustache
+import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
 
-class QuestionBankView extends GenericPortlet with ScalatraFilter {
+class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport {
   override def destroy {}
   
   override def doView(request: RenderRequest, response: RenderResponse) =
   {
     val out = response.getWriter
     val contextPath = request.getContextPath
-    out.println(generateResponse(contextPath, getPortletContext.getRealPath("/scorm_questionbank.html"), true))
+    out.println(generateResponse(contextPath, "scorm_questionbank.html", true))
+  }
+  
+  before() {
+    contentType="text/html"
   }
   
   get("/QuestionBank") {
-    contentType="text/html"
     val contextPath = servletContext.getContextPath
-    generateResponse(contextPath, servletContext.getRealPath("scorm_questionbank.html"), false)
+    generateResponse(contextPath, "scorm_questionbank.html", false)
   }
   
   def generateResponse(contextPath: String, templateName: String, isPortlet: Boolean) = {
-    val template = new Mustache(scala.io.Source.fromFile(templateName).mkString)
-    val data = Map("contextPath"->contextPath) + (if (isPortlet) ("isPortlet"->true) else ("isServlet"->true))
-    template.render(data)
+    val data = Map("contextPath"->contextPath, "isPortlet"->isPortlet)
+    mustache(data, templateName)
   }
 }

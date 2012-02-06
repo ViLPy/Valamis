@@ -15,12 +15,12 @@ CollectionModel.prototype = {
     doGet: function(parentID){
         var _this = this;
         var _parentID = parentID;
-        $.get(Utils.getContextPath() + "/services/category/Children" + "?id=" + parentID,
+        $.get(Utils.getContextPath() + "/services/category/children/" + parentID,
             function(response) {
-                var objects = eval("(" + response + ")");
+                var objects = response;
                 for(key in objects) {
                     var object = objects[key];
-                    if (object.attr.rel == "folder"){
+                    if (object.type == "folder"){
                         _this.doAddCategory(object);
                     } else {
                         _this.doAddQuestion(object);
@@ -32,8 +32,7 @@ CollectionModel.prototype = {
     
     doAddCategory: function(data){
         var category = new CategoryModelProxy();
-        category.rawJSON = data;
-        category.fromJSON(data);
+        category.fromJSON(category.toRawJSON(data));
         if (!this.elements["folder" + category.id]) {
             this.elements["folder" + category.id] = category;
             this.bindDefaultEvents(category);
@@ -57,6 +56,7 @@ CollectionModel.prototype = {
     doCreateCategory: function(parentID) {
         var proxyModel = new CategoryModelProxy();
         var _this = this;
+        
         proxyModel.onCreate.attach(function(entity){
             _this.currentElement = entity;
             _this.elements["folder" + entity.id] = entity;
@@ -89,12 +89,21 @@ CollectionModel.prototype = {
             
         } else if (this.currentElement instanceof QuestionModelProxy) {
             this.currentElement.type = data.type;
-            this.currentElement.isBounded = data.isBounded;
+            this.currentElement.forceCorrectCount = data.forceCorrectCount;
             this.currentElement.isCaseSensitive = data.isCaseSensitive;
             this.currentElement.title = data.title;
             this.currentElement.text = data.text;
+            this.currentElement.explanationText = data.explanationText;
         }
         this.currentElement.doUpdate();
+    },
+    doUpdateParent: function(data) {
+        this.currentElement.dndMode = data.dndMode;
+        this.currentElement.targetId = data.targetId;
+        if(data.dndMode !="last"){
+            this.currentElement.itemType = data.itemType;
+        }
+        this.currentElement.doMove();
     },
     
     doDelete: function(id){

@@ -3,5 +3,6 @@ UPDATE Package SET
     title = :e.title,
     base = :e.base,
     resourcesBase = :e.resourcesBase,
-    summary = :e.summary
+    summary = :e.summary,
+    visibility = :e.visibility
 WHERE id = :id

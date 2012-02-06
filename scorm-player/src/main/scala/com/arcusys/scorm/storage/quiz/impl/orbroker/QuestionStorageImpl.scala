@@ -1,7 +1,8 @@
-package com.arcusys.scorm.storage.impl.orbroker
+package com.arcusys.scorm.storage.quiz.impl.orbroker
 
 import com.arcusys.scorm.model.quiz._
-import com.arcusys.scorm.storage._
+import com.arcusys.scorm.storage.quiz._
+import com.arcusys.scorm.storage.impl.orbroker.GenericEntityStorageImpl
 import org.orbroker.Row
 import org.orbroker.RowExtractor
 
@@ -22,19 +23,19 @@ class QuestionStorageImpl extends QuestionStorage with GenericEntityStorageImpl[
                                                      "categoryID"->categoryID.getOrElse(-1)) }
   }
   
-  def createQuestion(entity: Question[Answer]): (Int,Question[Answer]) = {
+  def createQuestion(entity: Question[Answer]): Question[Answer] = {
     defParams.clear
     defParams += "questionType"->QuestionSerializer.getTypeIDByEntity(entity)
     // match entity type and fill needed fields
     entity match {
       case e:ChoiceQuestion => {
-          defParams += "isBounded"->e.isBounded
+          defParams += "forceCorrectCount"->e.forceCorrectCount
         }
       case e:ShortAnswerQuestion => {
           defParams += "isCaseSensitive"->e.isCaseSensitive
         }
       case e:PositioningQuestion => {
-          defParams += "isBounded"->e.isBounded
+          defParams += "forceCorrectCount"->e.forceCorrectCount
         }
       case _ => {/*do nothing*/}
     }
@@ -42,19 +43,19 @@ class QuestionStorageImpl extends QuestionStorage with GenericEntityStorageImpl[
     create(entity)
   }
   
-  def modifyQuestion(entity: Question[Answer]): (Int,Question[Answer]) = {
+  def modifyQuestion(entity: Question[Answer]): Question[Answer] = {
     defParams.clear
     // match entity type and fill needed fields
     defParams += "questionType"->QuestionSerializer.getTypeIDByEntity(entity)
     entity match {
       case e:ChoiceQuestion => {
-          defParams += "isBounded"->e.isBounded
+          defParams += "forceCorrectCount"->e.forceCorrectCount
         }
       case e:ShortAnswerQuestion => {
           defParams += "isCaseSensitive"->e.isCaseSensitive
         }
       case e:PositioningQuestion => {
-          defParams += "isBounded"->e.isBounded
+          defParams += "forceCorrectCount"->e.forceCorrectCount
         }
       case _ => {/*do nothing*/}
     }
@@ -75,40 +76,54 @@ class QuestionStorageImpl extends QuestionStorage with GenericEntityStorageImpl[
                                  row.integer("categoryID"),
                                  row.string("title").get,
                                  row.string("description").get,
+                                 row.string("explanationText").get,
                                  answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[ChoiceAnswer]),
-                                 row.bit("isBounded").get)
+                                 row.bit("forceCorrectCount").get,
+                                 row.integer("position").get)
         case 1 => ShortAnswerQuestion(questionID,
                                       row.integer("categoryID"),
                                       row.string("title").get,
                                       row.string("description").get,
+                                      row.string("explanationText").get,
                                       answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[ShortAnswer]),
-                                      row.bit("isCaseSensitive").get)
+                                      row.bit("isCaseSensitive").get,
+                                      row.integer("position").get)
         case 2 => NumericQuestion(questionID,
                                   row.integer("categoryID"),
                                   row.string("title").get,
                                   row.string("description").get,
-                                  answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[NumericAnswer]))
+                                  row.string("explanationText").get,
+                                  answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[NumericAnswer]),
+                                  row.integer("position").get)
         case 3 => PositioningQuestion(questionID,
                                       row.integer("categoryID"),
                                       row.string("title").get,
                                       row.string("description").get,
+                                      row.string("explanationText").get,
                                       answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[PositioningAnswer]),
-                                      row.bit("isBounded").get)
+                                      row.bit("forceCorrectCount").get,
+                                      row.integer("position").get)
         case 4 => MatchingQuestion(questionID,
                                    row.integer("categoryID"),
                                    row.string("title").get,
                                    row.string("description").get,
-                                   answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[MatchingAnswer]))
+                                   row.string("explanationText").get,
+                                   answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[MatchingAnswer]),
+                                   row.integer("position").get)
         case 5 => EssayQuestion(questionID,
                                 row.integer("categoryID"),
                                 row.string("title").get,
                                 row.string("description").get,
-                                answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[EssayAnswer]))
+                                row.string("explanationText").get,
+                                answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[EssayAnswer]),
+                                row.integer("position").get)
         case 6 => EmbeddedAnswerQuestion(questionID,
                                          row.integer("categoryID"),
                                          row.string("title").get,
                                          row.string("description").get,
-                                         answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[EmbeddedAnswer]))
+                                         row.string("explanationText").get,
+                                         answerStorage.getByQuestion(questionID).map(e=>e.asInstanceOf[EmbeddedAnswer]),
+                                         row.integer("position").get)
         case _ => throw new Exception("Oops! Can't create question " + row.integer("id").getOrElse(-1))
       }
     }

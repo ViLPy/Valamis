@@ -30,14 +30,14 @@ trait GenericEntityStorageImpl[E]
 
   // will return database ID as first param and entity as second
   // added for SCORM id, where database id isn't equal to id in SCORM package
-  def create(entity: E): (Int, E) = {
+  def create(entity: E): E = {
     val id = broker.transactional() { session =>
       val id = session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (defParams :+ ("e"->entity)):_*)
       session.commit
       id.get
     }
     defParams.clear
-    (id -> getByID(id).getOrElse(throw new Exception()))
+    getByID(id).getOrElse(throw new Exception("Some problems in entity creation"))
   }
 
   def delete(id: Int) = {
@@ -60,7 +60,7 @@ trait GenericEntityStorageImpl[E]
 
   // will return database ID as first param and entity as second
   // added for SCORM id, where database id isn't equal to id in SCORM package
-  def modify(entity: E): (Int, E) =
+  def modify(entity: E): E =
   {
     val id = broker.transactional() { session =>
       val id = session.executeForKey(Token(Symbol(tablePath + "_update"), IntExtractor), (defParams :+ ("e"->entity)):_*)
@@ -68,6 +68,6 @@ trait GenericEntityStorageImpl[E]
       id.getOrElse(throw new Exception("Can't get id for entity " + entity.toString))
     }
     defParams.clear
-    (id -> getByID(id).getOrElse(throw new Exception()))
+    getByID(id).getOrElse(throw new Exception("Some "))
   }
 }

@@ -2,14 +2,14 @@ package com.arcusys.scorm.service
 
 import java.io._
 import java.util.Properties
+import com.arcusys.scala.scalatra.json.JsonSupport
 import com.arcusys.scorm.service.StorageFactory._
-import com.arcusys.scorm.util.JSON._
 import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.scorm.storage.impl.orbroker.BrokerFactory
 import org.scalatra.ScalatraServlet
 import com.arcusys.scorm.service.util.PathBuilder
 
-class AdminService extends ScalatraServlet
+class AdminService extends ScalatraServlet with JsonSupport
 {
   post("/UpdateDBInfo") {
     val serverName = params.getOrElse("ServerName", halt(405, "Server is not specified"))
@@ -28,10 +28,10 @@ class AdminService extends ScalatraServlet
   
   get("/GetDBInfo") {
     val properties = PropertyUtil.load("db")
-    toJSON(Map("server" -> properties.getProperty("server", ""),
-               "database" -> properties.getProperty("database", ""),
-               "login" -> properties.getProperty("login", ""),
-               "password" -> properties.getProperty("password", "")))
+    json(Map("server" -> properties.getProperty("server", ""),
+             "database" -> properties.getProperty("database", ""),
+             "login" -> properties.getProperty("login", ""),
+             "password" -> properties.getProperty("password", "")))
   }
   
   post("/RenewDatabase") {

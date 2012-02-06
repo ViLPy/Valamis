@@ -1,8 +1,10 @@
 <html>
     <head>
-        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
         <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>
         <!--{{^isPortlet}}-->
+        <script type="text/javascript" language="javascript" src="js/utils.js"></script>
+
         <link type="text/css" href="css/custom-theme/jquery-ui-1.8.10.custom.css" rel="stylesheet"></link>
         <script type="text/javascript" language="javascript" src="js/jquery.jstree.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.i18n.properties-min.js"></script>
@@ -11,7 +13,7 @@
         <script type="text/javascript" language="javascript" src="js/grid.locale-en.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.jqGrid.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery-iframe-resizer.js"></script>
-        <script type="text/javascript" language="javascript" src="js/utils.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
         <!--{{/isPortlet}}-->
         <script type="text/javascript" language="javascript">
             var globalActivitiesData;
@@ -25,12 +27,18 @@
             }
 
             $(function() {
+                $('#SCORMApplicationContainerEmpty').hide();
                 $.get(Utils.getContextPath() + '/services/packages/', function(data) {
-                    var obj = eval("(" + data + ")").rows;
-                    for (var i=0; i < obj.length; i++)
-                        addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
+                    var obj = data.rows;
+                    if (obj.length == 0) {
+                        $('#SCORMApplicationContainer').hide();
+                        $('#SCORMApplicationContainerEmpty').show();
+                    } else {
+                        for (var i=0; i < obj.length; i++)
+                            addOption('#SCORMPackages', obj[i].id, unescape(obj[i].cell[1].replace(/[+]/g," ")));
 
-                    updateOrganizations();
+                        updateOrganizations();
+                    }
                 });
                 
                 $('#SCORMNavigationBackward').button({
@@ -46,7 +54,7 @@
                 $('#SCORMNavigationForward').button({
                     text: false,
                     icons: {
-                        secondary: "ui-icon-circle-triangle-e"
+                        primary: "ui-icon-circle-triangle-e"
                     }
                 }).click(function(){
                     selectNextNode();
@@ -66,7 +74,7 @@
                 $('#SCORMNavigationLast').button({
                     text: false,
                     icons: {
-                        secondary: "ui-icon-arrowthickstop-1-e"
+                        primary: "ui-icon-arrowthickstop-1-e"
                     }
                 }).click(function(){
                     gotoLast();
@@ -104,7 +112,9 @@
                     var obj = eval(data);
                     for (var i=0; i < obj.length; i++)
                         addOption('#SCORMOrganizations', obj[i].id, unescape(obj[i].title));
-
+                    if(obj.length<=1){
+                        $('#SCORMOrganizations').hide("");
+                    }
                     createTree();
                 });
             }
@@ -241,22 +251,36 @@
                 $('#SCORMNavigationBackward').button( "option", "disabled", !prevNode );
                 $('#SCORMNavigationForward').button( "option", "disabled", ((nextNode.length == 0) && (jsTree.is_leaf(currentNode))) );
             }
+            function toggleLeftMenu(){
+                if ($('#SCORMTogglePanel').is(':visible')) {
+                    $("#SCORMTogglePanel").hide("slide"); 
+                    $("#SCORMToggleButton").toggleClass("toggle-button-active");
+                }
+                else{
+                    $("#SCORMTogglePanel").show("slide"); 
+                    $("#SCORMToggleButton").toggleClass("toggle-button-active");
+                }
+            }
         </script>
     </head>
     <body>
         <div id="SCORMApplicationContainer">
 
-            <table>
+            <table style="width: 100%">
                 <tr valign="top">
-                    <td>
+                    <td id="SCORMTogglePanel">
                         <div id="SCORMMenu">
                             <div>
+                                <b>SCORM package:</b>
                                 <select id="SCORMPackages" onChange="updateOrganizations()" style="width: 200px"></select>
+                                <br>
+                                <b>Package content:</b>
                                 <select id="SCORMOrganizations" onChange="createTree()" style="width: 200px"></select>
                             </div>
                             <div id="SCORMTree"></div>
                         </div>
                     </td>
+                    <td valign="middle"><button id ="SCORMToggleButton" onClick="toggleLeftMenu()"></button></td>
                     <td style="width: 100%">
                         <table style="width: 100%">
                             <tr>
@@ -267,19 +291,19 @@
                             <tr>
                                 <td style="text-align:center;">
                                     <div class="nav">
-                                        <button id="SCORMNavigationFirst"></button>
+                                        <button id="SCORMNavigationFirst" class="navBtn"></button>
                                         <br>First
                                     </div>
                                     <div class="nav">
-                                        <button id="SCORMNavigationBackward"></button>
+                                        <button id="SCORMNavigationBackward" class="navBtn"></button>
                                         <br>Prev.
                                     </div>
                                     <div class="nav">
-                                        <button id="SCORMNavigationForward"></button>
+                                        <button id="SCORMNavigationForward" class="navBtn"></button>
                                         <br>Next
                                     </div>
                                     <div class="nav">
-                                        <button id="SCORMNavigationLast"></button>
+                                        <button id="SCORMNavigationLast" class="navBtn"></button>
                                         <br>Last
                                     </div>
                                 </td>
@@ -288,6 +312,9 @@
                     </td>
                 </tr>
             </table>
+        </div>
+        <div id="SCORMApplicationContainerEmpty">
+            <h3 align="center">No packages to display</h3>
         </div>
         <input type="hidden" id="SCORMContextPath" value ="{{contextPath}}"/>
     </body>

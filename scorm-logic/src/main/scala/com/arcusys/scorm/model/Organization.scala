@@ -2,7 +2,7 @@ package com.arcusys.scorm.model
 import scala.collection.mutable.Buffer
 
 class Organization(
-  val identifier: String,
+  val id: String,
   val structure: String,
   val objectivesGlobalToSystem: Boolean,
   val sharedDataGlobalToSystem: Boolean,

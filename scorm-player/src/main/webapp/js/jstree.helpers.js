@@ -104,7 +104,7 @@ var jsTreeHelpers = function(domElementID) {
         if (!jsTreeRef.is_open(currentNode)) jsTreeRef.open_node(currentNode);
     }
 
-    this.createNewNode = function(data, parent) {
+    this.createNewNode = function(data, parent,needSelect) {
         var _this = this;
         var parentNode = parent || (function(){
             var currentNode = _this.getCurrentNode();
@@ -115,8 +115,20 @@ var jsTreeHelpers = function(domElementID) {
             }
         })();
         jsTreeRef.select_node(parentNode);
-        
+        if(needSelect){
+            if (data.attr.rel=="folder"){
+                var children = parentNode.children("ul").children("li"); // get all child nodes
+                var position=0;
+                for(var i=0;i<children.length; i++ ){
+                    
+                    if( children[i].attributes.getNamedItem("rel").nodeValue == "folder")
+                        position++;
+                }
+                return $('#' + domElementID).jstree("create_node", null, position, data);
+            }
+        }
         return $('#' + domElementID).jstree("create_node", null, "last", data);
+
     }
     
     this.toggleNode = function(node) {

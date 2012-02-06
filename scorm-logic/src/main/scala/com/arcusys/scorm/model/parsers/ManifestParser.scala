@@ -38,8 +38,8 @@ class ManifestParser(val root: Elem) {
     for (e<-resourceElements) {
       e.foreach(resourceElement => {
           val resource = new ResourceParser(resourceElement.asInstanceOf[Elem], manifest.metadata.schemaversion, adlcpNs).parse
-          if (manifest.resources.contains(resource.identifier)) throw new SCORMParserException("<resources> element contains <resource> elements with non-unique identifier attributes")
-          manifest.resources(resource.identifier) = resource
+          if (manifest.resources.contains(resource.id)) throw new SCORMParserException("<resources> element contains <resource> elements with non-unique identifier attributes")
+          manifest.resources(resource.id) = resource
         })
     }
     manifest.resources.keySet.foreach(resourceIdentifier => 
@@ -51,9 +51,9 @@ class ManifestParser(val root: Elem) {
     organizationElements.foreach(organizationElement =>
       {        
         val organization = new OrganizationParser(organizationElement.asInstanceOf[Elem], manifest, adlcpNs, adlseqNs).parse
-        if (organization.identifier == manifest.defaultOrganizationIdentifier.get) defaultOrganizationFound = true
-        if (manifest.organizations.contains(organization.identifier)) throw new SCORMParserException("<organizations> element contains <organization> elements with non-unique identifier attributes")
-        manifest.organizations(organization.identifier) = organization
+        if (organization.id == manifest.defaultOrganizationIdentifier.get) defaultOrganizationFound = true
+        if (manifest.organizations.contains(organization.id)) throw new SCORMParserException("<organizations> element contains <organization> elements with non-unique identifier attributes")
+        manifest.organizations(organization.id) = organization
       })
 
     if (!defaultOrganizationFound) throw new SCORMParserException("Organization referenced by the default attribute of the <organizations> element not found among the <organization> elements while searching by identifier: "+manifest.defaultOrganizationIdentifier)

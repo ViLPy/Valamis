@@ -10,4 +10,4 @@ AND id = :id
     AND parentID = :parentID
     </#if>
 </#if>
-ORDER BY id
+ORDER BY "position",id

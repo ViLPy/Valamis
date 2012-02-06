@@ -64,8 +64,8 @@ class ActivityParser(val activityElement: Elem, val manifest: Manifest) {
         childActivityElements.foreach(childActivityElement =>
           {
             val childActivity = new ActivityParser(childActivityElement.asInstanceOf[Elem], manifest).parse
-            if (manifest.allActivities.contains(childActivity.identifier)) throw new SCORMParserException("<item> elements with non-unique `identifier` attributes found")
-            manifest.allActivities(childActivity.identifier) = childActivity
+            if (manifest.allActivities.contains(childActivity.id)) throw new SCORMParserException("<item> elements with non-unique `identifier` attributes found")
+            manifest.allActivities(childActivity.id) = childActivity
             activity.asInstanceOf[ContainerActivity].childActivities += childActivity
           });
       } else throw new SCORMParserException("Container <item> element does not contain child <item> elements")

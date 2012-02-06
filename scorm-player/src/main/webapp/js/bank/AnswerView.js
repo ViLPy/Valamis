@@ -1,7 +1,6 @@
 var AnswerView = function(controller){
     this.model = null;
     this.controller = controller;
-    
     this.cache = null;
     this.domElement = null;
     
@@ -41,7 +40,6 @@ var AnswerView = function(controller){
 AnswerView.prototype = {
     init : function(domElementID, cache) {
         var _this = this;
-        
         this.domElement = $("#" + domElementID);
         this.cache = cache;
         
@@ -100,7 +98,7 @@ AnswerView.prototype = {
     
     addChoiceAnswer : function(entity) {
         var _entityID = entity.id;
-        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ChoiceAnswerEdit"), entity.toJSON()));
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ChoiceAnswerEdit"), entity.unescapedJSON()));
         $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
         $("#buttonSCORMEditText_" + _entityID).click(function(){
             RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
@@ -114,7 +112,7 @@ AnswerView.prototype = {
     
     addShortAnswer : function(entity) {
         var _entityID = entity.id;
-        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ShortAnswerEdit"), entity.toJSON()));
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("ShortAnswerEdit"), entity.unescapedJSON()));
         $("#buttonSCORMEditText_" + _entityID).click(function(){
             RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
                 entity.answerText = data;
@@ -135,7 +133,7 @@ AnswerView.prototype = {
     
     addPositioningAnswer : function(entity) {
         var _entityID = entity.id;
-        this.domElement.append(Mustache.to_html(this.cache.getTemplate("PositioningAnswerEdit"), entity.toJSON()));
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("PositioningAnswerEdit"), entity.unescapedJSON()));
         $("#SCORMAnswerIsCorrect_" + _entityID).attr("checked", entity.isCorrect);
         $("#buttonSCORMEditText_" + _entityID).click(function(){
             RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
@@ -149,15 +147,15 @@ AnswerView.prototype = {
     
     addMatchingAnswer : function(entity) {
         var _entityID = entity.id;
-        this.domElement.append(Mustache.to_html(this.cache.getTemplate("MatchingAnswerEdit"), entity.toJSON()));
+        this.domElement.append(Mustache.to_html(this.cache.getTemplate("MatchingAnswerEdit"), entity.unescapedJSON()));
         $("#buttonSCORMEditText_" + _entityID).click(function(){
             RichEditView.show('Answer text','SCORMAnswerText_' + _entityID, function(data){
                 entity.answerText = data;
             });
         });
-        $("#buttonSCORMEditSubquestionText_" + _entityID).click(function(){
-            RichEditView.show('Subquestion text','SCORMAnswerSubquestionText_' + _entityID, function(data){
-                entity.subquestionText = data;
+        $("#buttonSCORMEditMatchingText_" + _entityID).click(function(){
+            RichEditView.show('Matching text','SCORMAnswerMatchingText_' + _entityID, function(data){
+                entity.matchingText = data;
             });
         });
     },

@@ -4,9 +4,6 @@ WHERE 1 = 1
 AND id = :id
 </#if>
 <#if organizationID??>
-AND organizationID = (select id from organization where packageID = :packageID AND organizationID = :organizationID)
-</#if>
-<#if activityID??>
-AND activityID = :activityID
+AND organizationID = :organizationID
 </#if>
 ORDER BY id

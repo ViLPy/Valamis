@@ -8,9 +8,13 @@ var AnswersModel = function(){
     this.onEmpty = new Event(this);
     
     this.toString = function(){
-        this.answers = this.answers.filter(function(element){
-            return (element != null);
-        })
+        var filteredAnswers = [];
+        for (key in this.answers) {
+            // thx to IE we can't use Array filter method
+            if (this.answers[key] != null) filteredAnswers[key] = this.answers[key];
+        }
+        this.answers = filteredAnswers;
+        
         this.orderedAnswers = [];
         for (var i = 0; i < this.answerOrder.length; i++) {
             this.orderedAnswers.push(this.answers[this.answerOrder[i]]);
@@ -93,6 +97,8 @@ AnswersModel.prototype = {
     },
     doEmpty: function() {
         this.answers = [];
+        this.answerOrder = [];
+        this.nextID = 0;
         this.onEmpty.notify();
     }
 };
@@ -104,11 +110,19 @@ var ChoiceAnswer = function(){
     this.isCorrect = false;
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "isCorrect":"' + this.isCorrect + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(encodeURIComponent(this.answerText.replace(/[\n]/g, '\\n'))) + '", "isCorrect":"' + this.isCorrect + '"}';
     }
     
     this.toJSON = function() {
         return eval("(" + this.toString() + ")");
+    }
+    
+    this.unescapedJSON = function() { // for mustache and unicode symbols
+        return {
+            id: this.id,
+            text: this.answerText,
+            isCorrect: this.isCorrect
+        };
     }
     
     this.fromJSON = function(data) {
@@ -122,11 +136,18 @@ var ShortAnswer = function(){
     this.answerText = "";
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(encodeURIComponent(this.answerText.replace(/[\n]/g, '\\n'))) + '"}';
     }
     
     this.toJSON = function() {
         return eval("(" + this.toString() + ")");
+    }
+    
+    this.unescapedJSON = function() { // for mustache and unicode symbols
+        return {
+            id: this.id,
+            text: this.answerText
+        };
     }
     
     this.fromJSON = function(data) {
@@ -159,11 +180,19 @@ var PositioningAnswer = function(){
     this.isCorrect = false;
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "isCorrect":"' + this.isCorrect + '"}';
+        return '{"id":' + this.id + ', "text":"' + escape(encodeURIComponent(this.answerText.replace(/[\n]/g, '\\n'))) + '", "isCorrect":"' + this.isCorrect + '"}';
     }
     
     this.toJSON = function() {
         return eval("(" + this.toString() + ")");
+    }
+    
+    this.unescapedJSON = function() { // for mustache and unicode symbols
+        return {
+            id: this.id,
+            text: this.answerText,
+            isCorrect: this.isCorrect
+        };
     }
     
     this.fromJSON = function(data) {
@@ -175,18 +204,28 @@ var PositioningAnswer = function(){
 var MatchingAnswer = function(){
     this.id = 0;
     this.answerText = "";
-    this.subquestionText = "";
+    this.matchingText = "";
     
     this.toString = function(){
-        return '{"id":' + this.id + ', "text":"' + escape(this.answerText) + '", "subquestion":"'+this.subquestionText+'"}';
+        return '{"id":' + this.id 
+            + ', "text":"' + escape(encodeURIComponent(this.answerText.replace(/[\n]/g, '\\n'))) 
+            + '", "matchingText":"'+escape(encodeURIComponent(this.matchingText.replace(/[\n]/g, '\\n')))+'"}';
     }
     
     this.toJSON = function() {
         return eval("(" + this.toString() + ")");
     }
     
+    this.unescapedJSON = function() { // for mustache and unicode symbols
+        return {
+            id: this.id,
+            text: this.answerText,
+            matchingText: this.matchingText
+        };
+    }
+    
     this.fromJSON = function(data) {
         if (Utils.isExists(data.text)) this.answerText = unescape(data.text);
-        if (Utils.isExists(data.subquestionText)) this.subquestionText = data.subquestionText;
+        if (Utils.isExists(data.matchingText)) this.matchingText = unescape(data.matchingText);
     }
 };

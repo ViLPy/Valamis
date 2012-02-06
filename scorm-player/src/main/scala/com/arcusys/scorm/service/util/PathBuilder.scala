@@ -5,37 +5,35 @@
 
 package com.arcusys.scorm.service.util
 
-import java.util.Properties
-
 object PathBuilder
 {
   // get real path to .class file
   val sourceLocation = getClass.getProtectionDomain.getCodeSource.getLocation.getPath
   // extract path to SCORM packages data directory
   lazy val outputRealDir = sourceLocation.substring(0, sourceLocation.lastIndexOf("/WEB-INF")) + "/SCORMData/"
+  //lazy val outputAbstractDir = sourceLocation.substring(sourceLocation.lastIndexOf("/scorm-player"), sourceLocation.lastIndexOf("/WEB-INF")) + "/SCORMData/"
   lazy val outputWebDir = {
-    val properties = new Properties
-    val resourceStream = Thread.currentThread.getContextClassLoader.getResourceAsStream("resources.properties")
-    properties.load(resourceStream)
-    properties.getProperty("outputWebDir","")
+    // parse context path
+    val realDir = sourceLocation.substring(0, sourceLocation.lastIndexOf("/WEB-INF"))
+    realDir.substring(realDir.lastIndexOf("/")) + "/SCORMData/"
   }
 
 
   def buildRealPath(packageID: Int, resourceHref: String, manifestBase: String = "", resourceBase: String = ""):String =
   {
-    (outputRealDir + "data/" + 
+    outputRealDir + "data/" + 
      packageID.toString + "/" + 
      (if (!manifestBase.isEmpty) {manifestBase + "/"} else "") + 
      (if (!resourceBase.isEmpty) {resourceBase + "/"} else "") + 
-     resourceHref)
+     resourceHref
   }
   
   def buildURL(packageID: Int, resourceHref: String, manifestBase: String, resourceBase: String):String =
   {
-    (outputWebDir + "data/" + 
+    "/SCORMData/data/" + 
      packageID.toString + "/" + 
      (if (!manifestBase.isEmpty) {manifestBase + "/"} else "") + 
      (if (!resourceBase.isEmpty) {resourceBase + "/"} else "") + 
-     resourceHref)
+     resourceHref
   }
 }

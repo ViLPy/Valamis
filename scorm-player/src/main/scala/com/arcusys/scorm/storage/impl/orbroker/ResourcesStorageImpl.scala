@@ -22,11 +22,11 @@ class ResourcesStorageImpl extends ResourcesStorage with GenericEntityStorageImp
     getAll
   }
 
-  def getByID(packageID: Int, resourceID: String) =
+  def getByID(packageID: Int, resourceID: Int) =
   {
     broker.readOnly() { session => session.selectOne(Token(Symbol(tablePath), Extractor),
                                                      "packageID"->packageID,
-                                                     "resourceID"->resourceID) }
+                                                     "id"->resourceID) }
   }
 
   def create(packageID: Int, entity: Resource) =
@@ -41,7 +41,7 @@ class ResourcesStorageImpl extends ResourcesStorage with GenericEntityStorageImp
   object Extractor extends RowExtractor[Resource]
   {
     def extract(row: Row) = new Resource(
-      row.string("resourceID").get,
+      row.integer("id").get.toString,
       row.string("resourceType").get,
       row.string("href"),
       row.string("base"),
