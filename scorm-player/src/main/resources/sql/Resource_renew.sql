@@ -4,7 +4,6 @@ CREATE TABLE Resource
 (
   id serial,
   packageID integer NOT NULL,
-  resourceID text NOT NULL,
   resourceType text,
   scormType text,
   href text,
@@ -13,3 +12,5 @@ CREATE TABLE Resource
 ) WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE Resource ADD CONSTRAINT Resource_fk1 FOREIGN KEY (packageID) REFERENCES Package(id) ON DELETE CASCADE;

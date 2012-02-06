@@ -8,10 +8,12 @@ CREATE TABLE Answer
   questionID integer,
   rangeFrom decimal,
   rangeTo decimal,
-  subquestionText text,
+  matchingText text,
   answerPosition integer,
   answerType integer,
   CONSTRAINT Answer_pk PRIMARY KEY (id)
 ) WITH (
   OIDS=FALSE
 );
+
+ALTER TABLE Answer ADD CONSTRAINT Answer_fk1 FOREIGN KEY (questionID) REFERENCES Question(id) ON DELETE CASCADE;

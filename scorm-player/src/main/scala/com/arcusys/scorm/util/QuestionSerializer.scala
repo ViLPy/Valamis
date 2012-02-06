@@ -1,6 +1,7 @@
 package com.arcusys.scorm.util
 
 import com.arcusys.scorm.model.quiz._
+import com.arcusys.scala.json.Json._
 
 object QuestionSerializer {
   def getTypeIDByEntity(entity: AnyRef) = {
@@ -18,7 +19,7 @@ object QuestionSerializer {
   
   def buildItemMap(question: Question[Answer]) = {
     def buildAnswersData = {
-      JSON.toJSON(question match {
+      toJson(question match {
           case e:ChoiceQuestion => 
             for (answer<-e.answers) yield Map("text"->answer.text, "isCorrect"->answer.isCorrect)
           case e:ShortAnswerQuestion => 
@@ -28,16 +29,16 @@ object QuestionSerializer {
           case e:PositioningQuestion => 
             for (answer<-e.answers) yield Map("text"->answer.text, "isCorrect"->answer.isCorrect)
           case e:MatchingQuestion => 
-            for (answer<-e.answers) yield Map("text"->answer.text, "subquestionText"->answer.subquestionText.getOrElse(""))
+            for (answer<-e.answers) yield Map("text"->answer.text, "matchingText"->answer.matchingText.getOrElse(""))
           case e:EssayQuestion => Seq[Map[String,Any]]()
           case e:EmbeddedAnswerQuestion => Seq[Map[String,Any]]()
           case _ => throw new Exception("Service: Oops! Can't recognize question type")
         }).replaceAll("\"", "'")
     }
     
-    val isBounded = question match {
-      case e:ChoiceQuestion => e.isBounded
-      case e:PositioningQuestion => e.isBounded
+    val forceCorrectCount = question match {
+      case e:ChoiceQuestion => e.forceCorrectCount
+      case e:PositioningQuestion => e.forceCorrectCount
       case _ => false
     }
     
@@ -49,11 +50,13 @@ object QuestionSerializer {
     Map("attr"->Map("id"->question.id, 
                     "rel"->"entity", 
                     "text"->question.text,
-                    "isBounded"->isBounded,
+                    "explanationText"-> question.explanationText,
+                    "forceCorrectCount"->forceCorrectCount,
                     "isCaseSensitive"->isCaseSensitive,
                     "answers"->buildAnswersData,
                     "questionType"->getTypeIDByEntity(question),
-                    "categoryID"->question.categoryID.getOrElse(-1)),
+                    "categoryID"->question.categoryID.getOrElse(-1),
+                    "position"->question.position),
         "data"->question.title)
   }
   

@@ -1,2 +1,2 @@
-INSERT INTO Organization(organizationID, packageID, title)
-VALUES (:e.identifier, :packageID, :e.title)
+INSERT INTO Organization(packageID, title)
+VALUES (:packageID, :e.title)

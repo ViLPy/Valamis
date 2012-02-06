@@ -6,7 +6,4 @@ AND id = :id
 <#if packageID??>
 AND packageID = :packageID
 </#if>
-<#if resourceID??>
-AND resourceID = :resourceID
-</#if>
 ORDER BY id

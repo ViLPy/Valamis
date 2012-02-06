@@ -2,26 +2,28 @@
  * jsTree default theme 1.0
  * Supported features: dots/no-dots, icons/no-icons, focused, loading
  * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
- */
+*/
 
 div #SCORMMenu {
-	margin-right:7px;
-	background-color: #EEEDED;
-	border: 1px solid #CDCDCD;
+    margin-right:7px;
+    background-color: #EEEDED;
+    border: 1px solid #CDCDCD;
     padding: 7px;
     height:100%;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
 }
-
+#SCORMMenu{
+    width: 200px;
+}
 div #SCORMMenu select {
-	margin-bottom:5px;
+    margin-bottom:5px;
 }
 
 #scormData {
-	border: 1px solid #CDCDCD;
-	-moz-border-radius: 4px;
+    border: 1px solid #CDCDCD;
+    -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
     width:100%;
@@ -97,6 +99,7 @@ div #SCORMMenu select {
 .jstree-default .jstree-unchecked a .jstree-checkbox { _background-position:-2px -19px; }
 /* IE6 END */
 
-			.jstree a {
-	white-space:normal;
+.jstree a {
+    white-space:normal;
+    height: auto;
 }

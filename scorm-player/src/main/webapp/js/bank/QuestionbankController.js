@@ -1,5 +1,6 @@
 var QuestionbankController = function(model){
     this.model = model;
+    this.isSaved=true;
 };
 
 QuestionbankController.prototype = {
@@ -30,11 +31,15 @@ QuestionbankController.prototype = {
     updateCategory: function(data) {
         this.model.doUpdate(data);
     },
-    
+    updateCategoryParent: function(data) {
+        this.model.doUpdateParent(data);
+    },
     updateQuestion: function(data) {
         this.model.doUpdate(data);
     },
-    
+    updateQuestionParent: function(data) {
+        this.model.doUpdateParent(data);
+    },
     deleteCategory: function() {
         // let's check current node!
         var nodeToDelete = -1;

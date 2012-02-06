@@ -1,13 +1,11 @@
 var RLANG = {
 	html: 'Ver HTML',
 	video: 'V&iacute;deo',
-	charmap: 'Charmap',
 	image: 'Imagem',
 	table: 'Tabela',
 	link: 'Link',
 	link_insert: 'Inserir link ...',
 	unlink: 'Remover Link',
-	fullscreen: 'Tela Cheia',
 	styles: 'Estilos',
 	paragraph: 'Par&aacute;grafo',
 	quote: 'Cita&ccedil;&atilde;o',
@@ -28,10 +26,6 @@ var RLANG = {
 	orderedlist: 'Lista ordenada',	
 	outdent: 'Remover identa&ccedil;&atilde;o',
 	indent: 'Identar',
-	align: 'Alinhar',
-	align_left: 'Alinhar a esquerda',
-	align_center: 'Centralizar',
-	align_right: 'Alinhar a direita',
 	redo: 'Refazer',
 	undo: 'Voltar',
 	cut: 'Inserir divis&atilde;o',
@@ -70,5 +64,8 @@ var RLANG = {
 	video_html_code: 'Video embed code',
 	file: 'File',		
 	upload: 'Upload',
-	download: 'Download'		
+	download: 'Download',
+	choose: 'Choose',
+	or_choose: 'Or choose',
+	drop_file_here: 'Drop file here'			
 };

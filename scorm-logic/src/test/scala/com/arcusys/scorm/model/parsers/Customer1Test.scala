@@ -13,7 +13,7 @@ class Customer1Test {
 
   @Test
   def testManifest = {
-    assertEquals("eXenewPackage44f81a2d1e045bb4fa7", manifest.identifier)
+    assertEquals("eXenewPackage44f81a2d1e045bb4fa7", manifest.id)
     assertEquals(None, manifest.version)
     assertEquals(None, manifest.base)
   }
@@ -38,7 +38,7 @@ class Customer1Test {
   @Test
   def testOrganization = {
     val organization = manifest.organizations("eXenewPackage44f81a2d1e045bb4fa8");
-    assertEquals("eXenewPackage44f81a2d1e045bb4fa8", organization.identifier);
+    assertEquals("eXenewPackage44f81a2d1e045bb4fa8", organization.id);
     assertEquals(true, organization.objectivesGlobalToSystem);
     assertEquals(true, organization.sharedDataGlobalToSystem);
     assertEquals(None, organization.metadata);
@@ -50,12 +50,12 @@ class Customer1Test {
     val organization = manifest.organizations("eXenewPackage44f81a2d1e045bb4fa8");
     val activities = organization.activities;
     assertEquals(1, activities.size);
-    assertEquals("ITEM-eXenewPackage44f81a2d1e045bb4fa9", activities(0).identifier);
+    assertEquals("ITEM-eXenewPackage44f81a2d1e045bb4fa9", activities(0).id);
     assertEquals("Home", activities(0).title);
     val containerActivity = activities(0).asInstanceOf[ContainerActivity];
     assertEquals(1, containerActivity.childActivities.size);
     val leafActivity = containerActivity.childActivities(0).asInstanceOf[LeafActivity];
-    assertEquals("ITEM-eXenewPackage44f81a2d1e045bb4fab", leafActivity.identifier);
+    assertEquals("ITEM-eXenewPackage44f81a2d1e045bb4fab", leafActivity.id);
     assertEquals("page 2", leafActivity.title);
     assertEquals("RES-eXenewPackage44f81a2d1e045bb4fac", leafActivity.resourceIdentifier);
     assertEquals(None, leafActivity.resourceParameters);
@@ -71,7 +71,7 @@ class Customer1Test {
     assertEquals(2, resources.size)
     assertEquals(None, manifest.resourcesBase)
 
-    assertEquals("RES-eXenewPackage44f81a2d1e045bb4faa", resources("RES-eXenewPackage44f81a2d1e045bb4faa").identifier)
+    assertEquals("RES-eXenewPackage44f81a2d1e045bb4faa", resources("RES-eXenewPackage44f81a2d1e045bb4faa").id)
     assertEquals("webcontent", resources("RES-eXenewPackage44f81a2d1e045bb4faa").resourceType)
     assertEquals(ResourceScormType.Sco, resources("RES-eXenewPackage44f81a2d1e045bb4faa").scormType)
     assertEquals(None, resources("RES-eXenewPackage44f81a2d1e045bb4faa").base)
@@ -90,7 +90,7 @@ class Customer1Test {
     assertEquals("panel-amusements.png", resources("RES-eXenewPackage44f81a2d1e045bb4faa").files(9).href)
     assertEquals("icon_question.gif", resources("RES-eXenewPackage44f81a2d1e045bb4faa").files(10).href)
 
-    assertEquals("RES-eXenewPackage44f81a2d1e045bb4fac", resources("RES-eXenewPackage44f81a2d1e045bb4fac").identifier)
+    assertEquals("RES-eXenewPackage44f81a2d1e045bb4fac", resources("RES-eXenewPackage44f81a2d1e045bb4fac").id)
     assertEquals("webcontent", resources("RES-eXenewPackage44f81a2d1e045bb4fac").resourceType)
     assertEquals(ResourceScormType.Sco, resources("RES-eXenewPackage44f81a2d1e045bb4fac").scormType)
     assertEquals(None, resources("RES-eXenewPackage44f81a2d1e045bb4fac").base)

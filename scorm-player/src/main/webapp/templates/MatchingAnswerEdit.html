@@ -2,17 +2,17 @@
     <div class="SCORMAnswerTitle">Answer #<span id="SCORMAnswerTitleID_{{id}}" /></div>
     <table width="100%">
         <tr>
-            <td width="50%" style="padding-right: 20px">
+            <td width="50%" style="padding-right: 20px; vertical-align: top">
                 <b>Sentence:</b>
-                <div id="SCORMAnswerText_{{id}}" class="SCORMRoundedBorder">{{text}}</div>
+                <div id="SCORMAnswerText_{{id}}" class="SCORMRoundedBorder">{{{text}}}</div>
                 <button id="buttonSCORMEditText_{{id}}" class="editButton">
                     <span>Edit text</span>
                 </button>
             </td>
-            <td width="50%" style="padding-right: 20px">
+            <td width="50%" style="padding-right: 20px; vertical-align: top">
                 <b>Should be matched with:</b>
-                <div id="SCORMAnswerSubquestionText_{{id}}" class="SCORMRoundedBorder">{{subquestion}}</div>
-                <button id="buttonSCORMEditSubquestionText_{{id}}" class="editButton">
+                <div id="SCORMAnswerMatchingText_{{id}}" class="SCORMRoundedBorder">{{{matchingText}}}</div>
+                <button id="buttonSCORMEditMatchingText_{{id}}" class="editButton">
                     <span>Edit text</span>
                 </button>
             </td>

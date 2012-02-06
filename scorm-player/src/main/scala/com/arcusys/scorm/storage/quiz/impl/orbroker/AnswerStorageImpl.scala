@@ -1,7 +1,8 @@
-package com.arcusys.scorm.storage.impl.orbroker
+package com.arcusys.scorm.storage.quiz.impl.orbroker
 
 import com.arcusys.scorm.model.quiz._
-import com.arcusys.scorm.storage._
+import com.arcusys.scorm.storage.quiz._
+import com.arcusys.scorm.storage.impl.orbroker.GenericEntityStorageImpl
 import org.orbroker.Row
 import org.orbroker.RowExtractor
 
@@ -21,7 +22,7 @@ class AnswerStorageImpl extends AnswerStorage with GenericEntityStorageImpl[Answ
                                                      "questionID"->questionID) }
   }
   
-  def create(questionID: Int, position: Int, entity: Answer): (Int,Answer) = {
+  def create(questionID: Int, position: Int, entity: Answer): Answer = {
     defParams.clear
     defParams += "questionID"->questionID
     defParams += "answerPosition"->position
@@ -48,7 +49,7 @@ class AnswerStorageImpl extends AnswerStorage with GenericEntityStorageImpl[Answ
         }
       case e:MatchingAnswer => {
           defParams += "description"->e.text
-          defParams += "subquestionText"->e.subquestionText
+          defParams += "matchingText"->e.matchingText
           defParams += "answerType"->4
         }
       case e:EssayAnswer => defParams += "answerType"->5
@@ -80,7 +81,7 @@ class AnswerStorageImpl extends AnswerStorage with GenericEntityStorageImpl[Answ
                                     row.bit("isCorrect").get)
         case 4 => MatchingAnswer(row.integer("id").get,
                                  row.string("description").get,
-                                 row.string("subquestionText"))
+                                 row.string("matchingText"))
         case 5 => EssayAnswer(row.integer("id").get)
         case 6 => EmbeddedAnswer(row.integer("id").get)
         case _ => throw new Exception("Oops! Can't create answer " + row.integer("id").getOrElse(-1))

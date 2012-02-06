@@ -15,7 +15,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
   def extractor = Extractor
   def idParam = "id"
 
-  def getAllByParam(packageID: Int, organizationID: String): IndexedSeq[Activity] =
+  def getAllByParam(packageID: Int, organizationID: Int): IndexedSeq[Activity] =
   {
     val allActivities = broker.readOnly() { session => session.selectAll(Token(Symbol(tablePath), Extractor),
                                                                          "packageID"->packageID,
@@ -26,7 +26,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
 
     def getContainer(activity: ContainerActivity):Activity =
     {
-      activity.asInstanceOf[ContainerActivity].childActivities ++= allLeafActivities.filter(leaf=>leaf.parentID!=None && leaf.parentID.get == activity.identifier).map
+      activity.asInstanceOf[ContainerActivity].childActivities ++= allLeafActivities.filter(leaf=>leaf.parentID!=None && leaf.parentID.get == activity.id).map
       {
         subActivity =>
         if (subActivity.isInstanceOf[ContainerActivity]) getContainer(subActivity.asInstanceOf[ContainerActivity])
@@ -43,7 +43,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
     }.filter(activity=> (!activity.isInstanceOf[LeafActivity] || activity.parentID.isEmpty))
   }
 
-  def getByID(packageID: Int, organizationID: String, activityID: String): Option[Activity] =
+  def getByID(packageID: Int, organizationID: Int, activityID: Int): Option[Activity] =
   {
     broker.readOnly() { session => session.selectOne(Token(Symbol(tablePath), Extractor),
                                                      "packageID"->packageID,
@@ -51,7 +51,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
                                                      "activityID"->activityID) }
   }
 
-  def create(packageID: Int, organizationID: String, entity: Activity, parentID: Option[Int] = None) =
+  def create(packageID: Int, organizationID: Int, entity: Activity, parentID: Option[Int] = None) =
   {
     defParams.clear
     defParams += "packageID"->packageID
@@ -76,7 +76,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
       val parentId = row.string("parentID")
       if (identifierRef.isEmpty)
         new ContainerActivity(
-          row.string("id").get,
+          row.integer("id").get.toString,
           true, //visible
           row.string("title").get,
           None, //metadata
@@ -87,7 +87,7 @@ class ActivitiesStorageImpl extends ActivitiesStorage with GenericEntityStorageI
 
       else // leaf activity
         new LeafActivity(
-          row.string("id").get,
+          row.integer("id").get.toString,
           true, //visible
           row.string("title").get,
           None, //metadata

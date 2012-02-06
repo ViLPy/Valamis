@@ -2,7 +2,7 @@ package com.arcusys.scorm.model
 import scala.collection.immutable.Set
 
 class Activity(
-  val identifier: String,
+  val id: String,
   val visible: Boolean,
   val title: String,
   val metadata: Option[Metadata],

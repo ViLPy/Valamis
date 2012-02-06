@@ -1,2 +1,2 @@
-INSERT INTO Question(categoryID, title, description, isBounded, isCaseSensitive, questionType)
-VALUES (:e.categoryID, :e.title, :e.text, :isBounded, :isCaseSensitive, :questionType)
+INSERT INTO Question(categoryID, title, description, explanationText, forceCorrectCount, isCaseSensitive, questionType, "position")
+VALUES (:e.categoryID, :e.title, :e.text, :e.explanationText, :forceCorrectCount, :isCaseSensitive, :questionType, :e.position)

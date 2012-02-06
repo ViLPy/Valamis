@@ -4,6 +4,6 @@ UPDATE Answer SET
     questionID = :questionID,
     rangeFrom = :rangeFrom,
     rangeTo = :rangeTo,
-    subquestionText = :subquestionText,
+    matchingText = :matchingText,
     answerPosition = :answerPosition
 WHERE id = :e.id

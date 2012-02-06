@@ -1,8 +1,9 @@
-var ItemView = function(model, controller){
+var ItemView = function(collectionView,model, controller){
+    this.collectionView = collectionView;
     this.view = null;
     this.model = model;
     this.controller = controller;
-    
+    this.isSaved = true;
     this.answerEditView = null;
 }
 
@@ -36,28 +37,39 @@ ItemView.prototype = {
         (function attachControls(){
             // category
             $("#buttonUpdateCategory").click(function(){
+                _this.isSaved = true;
+                _this.collectionView.isSaved =_this.isSaved;
                 _this.controller.updateCategory({
                     name: $("#SCORMCategoryNameEdit").val(),
-                    description: $("#SCORMCategoryDescriptionEdit").val()
+                    description: $("#SCORMCategoryDescription").html()
                 });
+                var currentElement = _this.model.currentElement;
+                _this.doView(currentElement);
             });
             $("#buttonShowCategoryEdit").click(function(){
+                _this.isSaved = false;
+                _this.collectionView.isSaved =_this.isSaved;
                 var currentElement = _this.model.currentElement;
                 _this.doEdit(currentElement);
             });
             $("#buttonShowCategoryInfo").click(function(){
+                _this.isSaved = true;
+                _this.collectionView.isSaved =_this.isSaved;
                 var currentElement = _this.model.currentElement;
                 _this.doView(currentElement);
             });
         
             // question edit
             $("#buttonUpdateQuestion").click(function(){
+                _this.isSaved = true;
+                _this.collectionView.isSaved =_this.isSaved;
                 _this.controller.updateQuestion({
                     type : $("#SCORMQuestionType").val().replace("type",""),
-                    isBounded : $("#SCORMQuestionBounded").is(':checked'),
+                    forceCorrectCount : $("#SCORMQuestionBounded").is(':checked'),
                     isCaseSensitive : $("#SCORMQuestionCaseSensitive").is(':checked'),
                     title : $("#SCORMQuestionTitleEdit").val(),
-                    text : escape($("#SCORMQuestionTextView").html())
+                    text : escape($("#SCORMQuestionTextView").html()),
+                    explanationText:escape($("#SCORMExplanationTextView").html())
                 });
             });
         
@@ -67,6 +79,8 @@ ItemView.prototype = {
             });
             
             $("#SCORMButtonAddAnswer").click(function(){
+                _this.isSaved = false;
+                _this.collectionView.isSaved =_this.isSaved;
                 _this.answerEditView.controller.doAdd(parseInt($("#SCORMQuestionType").val().replace("type","")));
             });
         })();
@@ -112,7 +126,7 @@ ItemView.prototype = {
             $("#SCORMCategoryEdit").show();
             
             $("#SCORMCategoryNameEdit").val(entity.title);
-            $("#SCORMCategoryDescriptionEdit").val(entity.description);
+            $("#SCORMCategoryDescription").html(entity.description);
         } else if (entity instanceof QuestionModelProxy) {
             this._showQuestionEdit(entity);
         }
@@ -128,10 +142,11 @@ ItemView.prototype = {
         this.answerEditView.setModel(this.model.currentElement.answers);
             
         $("#SCORMQuestionType").val("type"+entity.type);
-        $("#SCORMQuestionBounded").attr("checked", entity.isBounded);
+        $("#SCORMQuestionBounded").attr("checked", entity.forceCorrectCount);
         $("#SCORMQuestionCaseSensitive").attr("checked", entity.isCaseSensitive);
         $("#SCORMQuestionTitleEdit").val(entity.title);
         $("#SCORMQuestionTextView").html(unescape(entity.text));
+        $("#SCORMExplanationTextView").html(unescape(entity.explanationText));
         this.doUpdateView();
             
         $("#SCORMQuestionEditor").show();

@@ -1,7 +1,12 @@
 <div id="SCORMCategoryEdit">
     <span><b>Category:</b></span> <br><input id="SCORMCategoryNameEdit" type="text"/>
     <br>
-    <span><b>Description:</b></span><br> <textarea id="SCORMCategoryDescriptionEdit"></textarea><br>
+    <span><b>Description:</b></span><br>
+    <div id="SCORMCategoryDescription" class="SCORMRoundedBorder"></div>
+    <button onclick="RichEditView.show('Category description','SCORMCategoryDescription')" class="editButton">
+        <span>Edit category description</span>
+    </button>
+    <br>
     <button id="buttonUpdateCategory" class="importantButton saveButton"><span>Save</span></button> 
     <button id="buttonShowCategoryInfo" class="cancelButton"><span>Cancel</span></button>
 </div>

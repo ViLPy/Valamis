@@ -3,7 +3,7 @@ package com.arcusys.scorm.model
 import scala.collection.mutable.Buffer
 
 class LeafActivity(
-  identifier: String,
+  id: String,
   visible: Boolean,
   title: String,
   metadata: Option[Metadata],
@@ -16,6 +16,6 @@ class LeafActivity(
   val dataFromLMS: Option[String],
   parentID: Option[String]
   )
-  extends Activity(identifier, visible, title, metadata, completionThreshold, sequencing, hiddenNavigationControls, parentID) {
+  extends Activity(id, visible, title, metadata, completionThreshold, sequencing, hiddenNavigationControls, parentID) {
   val data = Buffer[ActivityDataMap]()
 }

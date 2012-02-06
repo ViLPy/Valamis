@@ -3,7 +3,7 @@ package com.arcusys.scorm.model
 import scala.collection.mutable.Buffer
 
 class ContainerActivity(
-  identifier: String,
+  id: String,
   visible: Boolean,
   title: String,
   metadata: Option[Metadata],
@@ -12,6 +12,6 @@ class ContainerActivity(
   hiddenNavigationControls: Set[NavigationControlType.Value],
   parentID: Option[String]
   )
-  extends Activity(identifier, visible, title, metadata, completionThreshold, sequencing, hiddenNavigationControls, parentID) {  
+  extends Activity(id, visible, title, metadata, completionThreshold, sequencing, hiddenNavigationControls, parentID) {  
   val childActivities = Buffer[Activity]()  
 }
