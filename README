@@ -1,4 +1,6 @@
-The project is an implementation of the SCORM set of standards for e-learning for the Liferay portal. Supported Liferay version is currently 6.0.5 CE.
+# SCORM
+
+The project is an implementation of the SCORM set of standards for e-learning for the Liferay portal. Supported Liferay version is currently 6.0.5+ CE. Also checked with 6.1.
 The targeted version of SCORM is 2004 4th edition.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -16,3 +18,8 @@ If deployed against a servlet container, the end-user features are available at 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for quiz editor.
 
 The solution will be further developed to support the full set of requirements from the SCORM set of standards.
+
+## Version 3 - Question base portlet stabilized. Update: 06.02.2012
+ - Added functionality to upload and add image and file attachements in Questionbank.
+ - Added drag-n-dropfor question and category in TreeView
+ - A lot of small improvements regarding to UI
