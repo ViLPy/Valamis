@@ -24,12 +24,10 @@ class CategoryService extends ScalatraServlet with JsonSupport
     val title = params.getOrElse("title", halt(405, "Title is not specified"))
     val description = params.getOrElse("description", halt(405, "Description is not specified"))
     val parentID = params.getOrElse("parentID", "-1").toInt
-    val checkParentID = if (parentID == -1) { None } else {Some(parentID)}
-    val isFieldOfKnowledge = params.getOrElse("isFieldOfKnowledge", "false").toBoolean
-    val optionParentID = if(parentID < 0) { None } else { Some(parentID) }
+    val checkParentID = if (parentID == -1) None else Some(parentID)
+    val optionParentID = if(parentID < 0) None else Some(parentID)
     val categories = getQuestionCategoryStorage.getChildren(checkParentID)
     val position = if(categories.size>0)categories.map(category=>category.position).max + 1 else 0
-    
     json(buildOutputCategoryJSON(getQuestionCategoryStorage.getByID(getQuestionCategoryStorage.create(QuestionCategory(0, title, description, optionParentID,position)).id).get))
   }
   
@@ -37,20 +35,19 @@ class CategoryService extends ScalatraServlet with JsonSupport
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
     val title = params.getOrElse("title", halt(405, "Title is not specified"))
     val description = params.getOrElse("description", halt(405, "Description is not specified"))
-    val parentID = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category")).parentID
-    val position = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category")).position
-    
-    json(buildOutputCategoryJSON(getQuestionCategoryStorage.modify(QuestionCategory(id, title, description, parentID, position))))
+    val category = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category"))
+    json(buildOutputCategoryJSON(getQuestionCategoryStorage.modify(QuestionCategory(id, title, description, category.parentID, category.position))))
   }
   
   post("/move") {
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
-    val title = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category")).title
-    val description = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category")).description
-    val parentID = getQuestionCategoryStorage.getByID(id).get.parentID
-    val dndMode = params.getOrElse("dndMode", halt(405, ""))
-    val targetId = params.getOrElse("targetId", halt(405, "-1")).toInt
-    val itemType = params.getOrElse("itemType", halt(405, ""))
+    val category = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category"))
+    val title = category.title
+    val description = category.description
+    val parentID = category.parentID
+    val dndMode = params.getOrElse("dndMode", "")
+    val targetId = params.getOrElse("targetId", "-1").toInt
+    val itemType = params.getOrElse("itemType", "")
     
     val (defaultPosition,categories) = if((dndMode.equals("before") || dndMode.equals("after")) && itemType.equals("folder")){
       val targetCategory =getQuestionCategoryStorage.getByID(targetId).get
@@ -99,27 +96,18 @@ class CategoryService extends ScalatraServlet with JsonSupport
   
   post("/delete") {
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
-    val categoryQuestions = getQuestionStorage.getByCategory(Some(id))
-    for (question<-categoryQuestions) {
-      for (answer<-question.answers) getAnswerStorage.delete(answer.id)
-      getQuestionStorage.delete(question.id)
-    }
-
     getQuestionCategoryStorage.delete(id)
   }
   
   //[{attr:{"id":_id, "rel":"folder"}, "data":_name,"state":"closed"}]
   private def buildOutputCategoryJSON(category:QuestionCategory) = {
-    (Map("id"->category.id, 
-         "description"->category.description.toString, 
-         "parentID"->category.parentID.getOrElse(-1),
-         "position"->category.position,
-         "title"->category.title,
-         "type"->"folder"))
+    Map("id"->category.id, 
+        "description"->category.description.toString, 
+        "parentID"->category.parentID.getOrElse(-1),
+        "position"->category.position,
+        "title"->category.title,
+        "type"->"folder")
   }
-  private def buildOutputCategoriesJSON(dataSeq:Seq[QuestionCategory]) = {
-    (for(category<-dataSeq) yield
-      buildOutputCategoryJSON(category)
-    )
-  }
+  
+  private def buildOutputCategoriesJSON(categories:Seq[QuestionCategory]) = categories.map(buildOutputCategoryJSON(_))
 }
