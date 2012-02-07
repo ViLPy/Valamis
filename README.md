@@ -23,3 +23,11 @@ The solution will be further developed to support the full set of requirements f
  - Added functionality to upload and add image and file attachements in Questionbank.
  - Added drag-n-dropfor question and category in TreeView
  - A lot of small improvements regarding to UI
+ 
+### Building
+
+This is Maven2 project, so you can use IDE that you like.
+Tested on Netbeans 6.8+ up to current Netbeans 7.1 release.
+
+#### Tests
+For running tests on local machine for scorm-player you should change db.properties file inside resources directory and setup you current PostgreSQL instance.
