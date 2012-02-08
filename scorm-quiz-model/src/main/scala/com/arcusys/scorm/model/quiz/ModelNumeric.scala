@@ -17,8 +17,7 @@ case class NumericQuestion(id: Int,
                            title: String,
                            text: String,
                            explanationText: String,
-                           answers: Seq[NumericAnswer],
-                           position:Int) extends Question[NumericAnswer]
+                           answers: Seq[NumericAnswer]) extends Question[NumericAnswer]
 
 /**
  * A correct answer to a Numeric question

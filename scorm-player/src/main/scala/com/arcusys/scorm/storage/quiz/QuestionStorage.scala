@@ -11,4 +11,5 @@ trait QuestionStorage
   def delete(id: Int): Unit
   def renew: Unit
   def modifyQuestion(entity: Question[Answer]): Question[Answer]
+  def move(entity: Question[Answer], moveToCategory: Boolean, isMoveAfter: Boolean, targetID: Int, categoryID: Option[Int]): Question[Answer]
 }

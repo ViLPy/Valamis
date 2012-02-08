@@ -29,7 +29,7 @@ var AnswerView = function(controller){
         
         this.model.onDelete.attach(function(notifier, id){
             $("#SCORMAnswer_" + id).remove();
-            _this.updateIndeces();
+            _this.updateIndices();
             _this.nextAnswerTitle--;
         });
         
@@ -46,12 +46,12 @@ AnswerView.prototype = {
         $("#SCORMQuestionAnswersEditors").sortable({
             placeholder: "ui-state-highlight",
             stop: function() { 
-                _this.updateIndeces(); 
+                _this.updateIndices(); 
             }
         });
     },
     
-    updateIndeces: function(){
+    updateIndices: function(){
         var answers = $("#SCORMQuestionAnswersEditors").sortable("toArray");
         this.model.answerOrder = [];
         var currentIndex = 1;
@@ -93,7 +93,7 @@ AnswerView.prototype = {
         
         $("#SCORMQuestionAnswersEditors").sortable( "refresh" );
         
-        this.updateIndeces();
+        this.updateIndices();
     },
     
     addChoiceAnswer : function(entity) {

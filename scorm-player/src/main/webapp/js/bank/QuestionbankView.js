@@ -33,7 +33,7 @@ QuestionbankView.prototype = {
             });
     
             _this.model.onUpdate.attach(function(notifier, entity){
-                _this.jsTreeHelpers.renameNode(_this.nodeCache[entity.id], entity.title);
+                _this.jsTreeHelpers.renameNode(_this.jsTreeHelpers.getCurrentNode()/*_this.nodeCache[entity.id]*/, entity.title);
             });
         })();
 
@@ -133,7 +133,7 @@ QuestionbankView.prototype = {
             var jsTreeHelper = _this.jsTreeHelpers;
             jsTreeHelper.toggleNode(jsTreeHelper.getCurrentNode());
         }).bind("move_node.jstree", function (event, data){ 
-            _this.controller.selectItem(data.rslt.o.attr("rel"),data.rslt.o.attr("id"));           
+            _this.controller.selectItem(data.rslt.o.attr("rel"),data.rslt.o.attr("id"));
             _this.controller.updateQuestionParent({
                 targetId : data.rslt.r.attr("id"),
                 dndMode:data.rslt.p,

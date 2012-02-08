@@ -19,8 +19,7 @@ case class ShortAnswerQuestion(id: Int,
                                text: String,
                                explanationText: String,
                                answers: Seq[ShortAnswer],
-                               isCaseSensitive: Boolean,
-                               position:Int) extends Question[ShortAnswer]
+                               isCaseSensitive: Boolean) extends Question[ShortAnswer]
 
 /**
  * A correct answer to a Short Answer question

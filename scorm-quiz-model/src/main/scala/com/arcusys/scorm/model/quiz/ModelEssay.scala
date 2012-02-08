@@ -9,8 +9,7 @@ case class EssayQuestion(id: Int,
                          title: String,
                          text: String,
                          explanationText: String,
-                         answers: Seq[EssayAnswer],
-                         position:Int) extends Question[EssayAnswer]
+                         answers: Seq[EssayAnswer]) extends Question[EssayAnswer]
 
 // probably we doesn't need this class, 'cause in these cases we can use only question class
 case class EssayAnswer(id: Int) extends Answer

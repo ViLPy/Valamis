@@ -10,8 +10,7 @@ case class EmbeddedAnswerQuestion(id: Int,
                                   title: String,
                                   text: String,
                                   explanationText: String,
-                                  answers: Seq[EmbeddedAnswer],
-                                  position:Int) extends Question[EmbeddedAnswer]
+                                  answers: Seq[EmbeddedAnswer]) extends Question[EmbeddedAnswer]
 
 // probably we doesn't need this answer class, 'cause in these cases we can use only question class
 case class EmbeddedAnswer(id: Int) extends Answer
