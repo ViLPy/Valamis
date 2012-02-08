@@ -55,8 +55,7 @@ object QuestionSerializer {
                     "isCaseSensitive"->isCaseSensitive,
                     "answers"->buildAnswersData,
                     "questionType"->getTypeIDByEntity(question),
-                    "categoryID"->question.categoryID.getOrElse(-1),
-                    "position"->question.position),
+                    "categoryID"->question.categoryID.getOrElse(-1)),
         "data"->question.title)
   }
   

@@ -16,8 +16,7 @@ case class MatchingQuestion(id: Int,
                             title: String,
                             text: String,
                             explanationText: String,
-                            answers: Seq[MatchingAnswer],
-                            position:Int) extends Question[MatchingAnswer]
+                            answers: Seq[MatchingAnswer]) extends Question[MatchingAnswer]
 
 /**
  * A key-value pair for a Matching question

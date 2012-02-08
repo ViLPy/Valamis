@@ -11,5 +11,4 @@ package com.arcusys.scorm.model.quiz
 case class QuestionCategory(id: Int, 
                             title: String, 
                             description: String,
-                            parentID: Option[Int],
-                            position:Int)
+                            parentID: Option[Int])

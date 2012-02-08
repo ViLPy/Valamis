@@ -19,8 +19,7 @@ case class PositioningQuestion(id: Int,
                                text: String,
                                explanationText: String,
                                answers: Seq[PositioningAnswer],
-                               forceCorrectCount: Boolean,
-                               position:Int) extends Question[PositioningAnswer]
+                               forceCorrectCount: Boolean) extends Question[PositioningAnswer]
 
 
 /**

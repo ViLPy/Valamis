@@ -18,8 +18,7 @@ case class ChoiceQuestion(id: Int,
                           text: String,
                           explanationText: String,
                           answers: Seq[ChoiceAnswer],
-                          forceCorrectCount: Boolean,
-                          position:Int) extends Question[ChoiceAnswer]
+                          forceCorrectCount: Boolean) extends Question[ChoiceAnswer]
 
 /**
  * An option for a Choice question

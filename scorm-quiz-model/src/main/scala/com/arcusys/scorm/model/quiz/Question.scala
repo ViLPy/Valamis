@@ -17,6 +17,4 @@ trait Question[+AnswerType<:Answer]{
   val explanationText: String
   /** The ordered sequence of answer options or correct answers */
   val answers: Seq[AnswerType]
-  /** Relative position of this question among siblings*/
-  val position: Int
 }

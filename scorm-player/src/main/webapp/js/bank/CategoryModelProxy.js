@@ -5,7 +5,6 @@ var CategoryModelProxy = function(){
     this.title = "New category";
     this.description = "";
     this.parentID = -1;
-    this.position = 0;
     this.dndMode = "";
     this.targetId = -2;
     this.itemType = "";
@@ -19,7 +18,6 @@ var CategoryModelProxy = function(){
         "&title=" + this.title + 
         "&description=" + escape(encodeURIComponent(this.description.replace(/[\n]/g, '\\n'))) + 
         "&parentID=" + this.parentID+
-        "&position=" + this.position+
         "&dndMode=" + this.dndMode+
         "&targetId=" + this.targetId+
         "&itemType=" + this.itemType;
@@ -31,8 +29,7 @@ var CategoryModelProxy = function(){
                 "id": json.id,
                 "rel": "folder",
                 "description": json.description,
-                "parentID": json.parentID,
-                "position": json.position
+                "parentID": json.parentID
             },
             "data": json.title,
             "state": "closed"
@@ -45,7 +42,6 @@ var CategoryModelProxy = function(){
         if (Utils.isExists(data.data)) this.title = data.data;
         if (Utils.isExists(data.attr.description)) this.description = unescape(data.attr.description);
         if (Utils.isExists(data.attr.parentID)) this.parentID = data.attr.parentID;
-        if (Utils.isExists(data.attr.position)) this.position = data.attr.position;
         if (Utils.isExists(data.attr.dndMode)) this.dndMode = data.attr.dndMode;
         if (Utils.isExists(data.attr.targetId)) this.targetId = data.attr.targetId;
         if (Utils.isExists(data.attr.itemType)) this.itemType = data.attr.itemType;
@@ -82,7 +78,6 @@ CategoryModelProxy.prototype = {
             this.toString(),
             function(response){
                 _this.fromJSON(_this.toRawJSON(response));
-                _this.onUpdate.notify();
             });
     },
     

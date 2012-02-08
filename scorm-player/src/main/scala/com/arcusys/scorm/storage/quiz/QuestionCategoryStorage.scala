@@ -23,6 +23,12 @@ trait QuestionCategoryStorage
    */
   def modify(entity: QuestionCategory): QuestionCategory
 
+  /**
+   *Move and persist category
+   *@return persisted category with DB-assigned fields
+   */
+  def move(entity: QuestionCategory, isMoveToEnd: Boolean, isMoveAfterTarget: Boolean, targetID: Int): QuestionCategory
+  
   /** Delete a category by ID*/
   def delete(id: Int): Unit
 

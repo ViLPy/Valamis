@@ -7,7 +7,6 @@ var QuestionModelProxy = function(answers){
     this.title = "New question";
     this.text = "";
     this.explanationText="";
-    this.position = 0;
     this.dndMode="";
     this.targetId = -2;
     this.itemType = "";
@@ -29,7 +28,6 @@ var QuestionModelProxy = function(answers){
         "&text=" + escape(this.text) + 
         "&explanationText=" + escape(this.explanationText) + 
         "&answers=" + this.answers.toString()+
-        "&position=" + this.position+
         "&dndMode=" + this.dndMode+
         "&targetId=" + this.targetId+
         "&itemType=" + this.itemType;
@@ -44,7 +42,6 @@ var QuestionModelProxy = function(answers){
         if (Utils.isExists(data.attr.isCaseSensitive)) this.isCaseSensitive = (data.attr.isCaseSensitive === "true");
         if (Utils.isExists(data.attr.questionType)) this.type = data.attr.questionType;
         if (Utils.isExists(data.attr.categoryID)) this.categoryID = data.attr.categoryID;
-        if (Utils.isExists(data.attr.position)) this.position = data.attr.position;
         if (Utils.isExists(data.attr.dndMode)) this.dndMode = data.attr.dndMode;
         if (Utils.isExists(data.attr.targetId)) this.targetId = data.attr.targetId;
         if (Utils.isExists(data.attr.itemType)) this.itemType = data.attr.itemType;
@@ -93,7 +90,6 @@ QuestionModelProxy.prototype = {
             function(response){
                 _this.rawJSON = response;
                 _this.fromJSON(_this.rawJSON);
-                _this.onUpdate.notify();
             })
     },
     
