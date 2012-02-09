@@ -27,6 +27,7 @@ class QuestionStorageImpl extends QuestionStorage with GenericEntityStorageImpl[
   def createQuestion(entity: Question[Answer]): Question[Answer] = {
     defParams.clear
     defParams += "questionType"->QuestionSerializer.getTypeIDByEntity(entity)
+    if (entity.categoryID != None) defParams += "categoryID"->entity.categoryID
     // match entity type and fill needed fields
     entity match {
       case e:ChoiceQuestion => {
@@ -63,16 +64,18 @@ class QuestionStorageImpl extends QuestionStorage with GenericEntityStorageImpl[
     modify(entity)
   }
   
-  def move(entity: Question[Answer], moveToCategory: Boolean, isMoveAfter: Boolean, targetID: Int, categoryID: Option[Int]): Question[Answer] = {
-    defParams += ("e"->entity, "targetId"->targetID, "moveToCategory"->moveToCategory, "moveAfter"->isMoveAfter)
-    if (categoryID != None) defParams += "categoryID"->categoryID
+  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): Question[Answer] = {
+    defParams.clear
+    defParams += ("id"->id, "moveAfter"->moveAfterTarget)
+    if (siblingID != None) defParams += "siblingID"->siblingID
+    if (parentID != None) defParams += "parentID"->parentID
     
     broker.transactional() { session =>
       session.execute(Token(Symbol(tablePath + "_move"), IntExtractor), defParams:_*)
       session.commit
     }
     defParams.clear
-    getByID(entity.id).getOrElse(throw new Exception("Some errors occured while move"))
+    getByID(id).getOrElse(throw new Exception("Some errors occured while move"))
   }
   
   object Extractor extends RowExtractor[Question[Answer]]

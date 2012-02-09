@@ -9,6 +9,5 @@ UPDATE Question SET
 <#if isCaseSensitive??>
     isCaseSensitive = :isCaseSensitive,
 </#if>
-    questionType = :questionType,
-    "position" =:e.position
+    questionType = :questionType
 WHERE id = :e.id

@@ -77,23 +77,23 @@ class QuestionService extends ScalatraServlet with JsonSupport
   post("/move") {
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
     val dndMode = params.getOrElse("dndMode", halt(405, ""))
-    val targetId = params.getOrElse("targetId", halt(405, "-2")).toInt
+    val targetID = params.getOrElse("targetId", halt(405, "-2")).toInt
     val itemType = params.getOrElse("itemType", halt(405, ""))
     
-    val question = getQuestionStorage.getByID(id).getOrElse(halt(404, "Can't find category"))
-    val isMoveToCategory = (dndMode.equals("last") || (dndMode.equals("after") && itemType.equals("folder")))
     val isMoveAfterTarget = dndMode.equals("after")
     
-    val parentID = if (targetId != -1 && dndMode.equals("last")) Some(targetId)
-    else if (targetId != -1 && (dndMode.equals("after") && itemType.equals("folder"))) getQuestionCategoryStorage.getByID(targetId).getOrElse(halt(404, "Can't find category")).parentID
-    else if (!isMoveToCategory) getQuestionStorage.getByID(targetId).getOrElse(halt(404, "Can't find category")).categoryID
+    val siblingID = if ((dndMode.equals("last") || (dndMode.equals("after") && itemType.equals("folder")))) None
+    else Some(targetID)
+    
+    val parentID = if (targetID != -1 && dndMode.equals("last")) Some(targetID)
+    else if (targetID != -1 && (dndMode.equals("after") && itemType.equals("folder"))) getQuestionCategoryStorage.getByID(targetID).getOrElse(halt(404, "Can't find category")).parentID
+    else if (siblingID != None) getQuestionStorage.getByID(targetID).getOrElse(halt(404, "Can't find category")).categoryID
     else None
-    
-    
-    json(QuestionSerializer.buildItemMap(getQuestionStorage.move(question, isMoveToCategory, isMoveAfterTarget, targetId, parentID)))
+        
+    json(QuestionSerializer.buildItemMap(getQuestionStorage.move(id, parentID, siblingID, isMoveAfterTarget)))
        
-  }
-  
+  } 
+ 
   post("/delete") {
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
     val question = getQuestionStorage.getByID(id).getOrElse(halt(404, "Can't find question with id:" + id))

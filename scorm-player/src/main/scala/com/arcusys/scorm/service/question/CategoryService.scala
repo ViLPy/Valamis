@@ -27,7 +27,7 @@ class CategoryService extends ScalatraServlet with JsonSupport
     val checkParentID = if (parentID == -1) None else Some(parentID)
     val optionParentID = if(parentID < 0) None else Some(parentID)
     val categories = getQuestionCategoryStorage.getChildren(checkParentID)
-    json(buildOutputCategoryJSON(getQuestionCategoryStorage.getByID(getQuestionCategoryStorage.create(QuestionCategory(0, title, description, optionParentID)).id).get))
+    json(buildOutputCategoryJSON(getQuestionCategoryStorage.getByID(getQuestionCategoryStorage.createCategory(QuestionCategory(0, title, description, optionParentID)).id).get))
   }
   
   post("/update") {
@@ -41,19 +41,19 @@ class CategoryService extends ScalatraServlet with JsonSupport
   post("/move") {
     val id = params.getOrElse("id", halt(405, "ID is not specified")).toInt
     val dndMode = params.getOrElse("dndMode", "")
-    val targetId = params.getOrElse("targetId", "-1").toInt
+    val targetID = params.getOrElse("targetId", "-1").toInt
     val itemType = params.getOrElse("itemType", "")
     
-    val isMoveToEnd = (dndMode.equals("last") || (dndMode.equals("before") && itemType.equals("entity")))
     val isMoveAfterTarget = dndMode.equals("after")
     
-    val parentID = if (targetId != -1 && isMoveToEnd) Some(targetId)
-    else if (!isMoveToEnd) getQuestionCategoryStorage.getByID(targetId).getOrElse(halt(404, "Can't find category")).parentID
+    val siblingID = if ((dndMode.equals("last") || (dndMode.equals("before") && itemType.equals("entity")))) None
+    else Some(targetID)
+    
+    val parentID = if (targetID != -1 && siblingID!=None) getQuestionCategoryStorage.getByID(targetID).getOrElse(halt(404, "Can't find category")).parentID
+    else if (siblingID == None) Some(targetID)
     else None
     
-    val category = getQuestionCategoryStorage.getByID(id).getOrElse(halt(404, "Can't find category")).copy(parentID = parentID)
-    
-    json(buildOutputCategoryJSON(getQuestionCategoryStorage.move(category, isMoveToEnd, isMoveAfterTarget, targetId)))
+    json(buildOutputCategoryJSON(getQuestionCategoryStorage.move(id, parentID, siblingID, isMoveAfterTarget)))
     
   }
   

@@ -49,22 +49,13 @@ $(function() {
             }
         });
         $("#buttonDeleteCategory").button().click(function(){
-            if(itemView.isSaved == false){
-                if(confirm('You really want to exit without saving?'))
-                {
-                    itemView.isSaved = true;
-                    collectionView.isSaved =itemView.isSaved;
-                    collectionController.deleteCategory();
-                }else{
-                    
-            }
-            }else{
+            if (!itemView.isSaved && confirm('You really want to exit without saving?') || !itemView.isSaved){
                 itemView.isSaved = true;
                 collectionView.isSaved =itemView.isSaved;
                 collectionController.deleteCategory();
-            }
-            
+            }            
         });
+        
         $("#buttonAddQuestion").button().click(function(){
             if(itemView.isSaved == false){
                 if(confirm('You really want to exit without saving?'))
@@ -83,21 +74,11 @@ $(function() {
             
         });
         $("#buttonDeleteQuestion").button().click(function(){
-            if(itemView.isSaved == false){
-                if(confirm('You really want to exit without saving?'))
-                {
-                    itemView.isSaved = true;
-                    collectionView.isSaved =itemView.isSaved;
-                    collectionController.deleteQuestion();
-                }else{
-                    
-            }
-            }else{
+            if (!itemView.isSaved && confirm('You really want to exit without saving?') || !itemView.isSaved){
                 itemView.isSaved = true;
                 collectionView.isSaved =itemView.isSaved;
                 collectionController.deleteQuestion();
-            }
-            
+            }            
         });
     }
 

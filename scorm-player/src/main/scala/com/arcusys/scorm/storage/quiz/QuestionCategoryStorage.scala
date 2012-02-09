@@ -15,7 +15,7 @@ trait QuestionCategoryStorage
   /** Persist a new category.
    *@return persisted category with DB-assigned fields
    */
-  def create(entity: QuestionCategory): QuestionCategory
+  def createCategory(entity: QuestionCategory): QuestionCategory
 
   /**
    *Persist new property values for category with given ID.
@@ -27,7 +27,7 @@ trait QuestionCategoryStorage
    *Move and persist category
    *@return persisted category with DB-assigned fields
    */
-  def move(entity: QuestionCategory, isMoveToEnd: Boolean, isMoveAfterTarget: Boolean, targetID: Int): QuestionCategory
+  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuestionCategory
   
   /** Delete a category by ID*/
   def delete(id: Int): Unit

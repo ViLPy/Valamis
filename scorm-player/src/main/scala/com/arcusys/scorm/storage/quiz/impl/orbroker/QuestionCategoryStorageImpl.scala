@@ -22,16 +22,24 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage with GenericEn
                                                      "parentID"->parentID.getOrElse(-1)) }
   }
   
-  def move(entity: QuestionCategory, isMoveToEnd: Boolean, isMoveAfterTarget: Boolean, targetID: Int) = {
-    defParams += ("e"->entity, "targetId"->targetID, "moveToEnd"->isMoveToEnd, "moveAfter"->isMoveAfterTarget)
-    if (entity.parentID != None) defParams += "hasParentID"->true
+  def createCategory(entity: QuestionCategory): QuestionCategory = {
+    defParams.clear
+    if (entity.parentID != None) defParams += "parentID"->entity.parentID
+    create(entity)
+  }
+  
+  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean) = {
+    defParams.clear
+    defParams += ("id"->id, "moveAfter"->moveAfterTarget)
+    if (siblingID != None) defParams += "siblingID"->siblingID
+    if (parentID != None) defParams += "parentID"->parentID
     
     broker.transactional() { session =>
       session.execute(Token(Symbol(tablePath + "_move"), IntExtractor), defParams:_*)
       session.commit
     }
     defParams.clear
-    getByID(entity.id).getOrElse(throw new Exception("Some errors occured while move"))
+    getByID(id).getOrElse(throw new Exception("Some errors occured while move"))
   }
   
   object Extractor extends RowExtractor[QuestionCategory]
