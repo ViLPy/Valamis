@@ -19,6 +19,8 @@ If deployed against a portlet container, the end-user features are available via
 
 The solution will be further developed to support the full set of requirements from the SCORM set of standards.
 
+**After deploying** please login as portal administrator, go to SCORM View portlet preferences and re-initalize database from admin. dialog.
+
 ## Version 3 - Question base portlet stabilized. Update: 06.02.2012
  - Added functionality to upload and add image and file attachements in Questionbank.
  - Added drag-n-dropfor question and category in TreeView
