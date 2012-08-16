@@ -1,0 +1,2 @@
+INSERT INTO LMSUser(id, username, preferredAudioLevel, preferredLanguage, preferredDeliverySpeed, preferredAudioCaptioning)
+VALUES (:e.id, :e.name, :e.preferredAudioLevel, :e.preferredLanguage, :e.preferredDeliverySpeed, :e.preferredAudioCaptioning)

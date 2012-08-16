@@ -13,13 +13,17 @@ The user interface is available in two forms - a standalone web application, whi
 
 The solution uses its own PostgreSQL database. You only need it created and accessible, there's an admin feature that lets you initialize the database structure before use.
 
-If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Quiz editor is available at '/QuestionBank'
+If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Quiz editor is available at '/QuestionBank'. **But** you should have portlet-api jar inside of your app.server.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for quiz editor.
 
 The solution will be further developed to support the full set of requirements from the SCORM set of standards.
 
 **After deploying** please login as portal administrator, go to SCORM View portlet preferences and re-initalize database from admin. dialog.
+
+###Known issues
+Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
+`com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
 ## Version 3 - Question base portlet stabilized. Update: 06.02.2012
  - Added functionality to upload and add image and file attachements in Questionbank.

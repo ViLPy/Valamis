@@ -1,0 +1,250 @@
+<!-- Quiz custom pages view template -->
+<script type="text/mustache" id="quizCustomPagesView">
+    <div id="SCORMStaticPagesView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{quizWelcomePageSubTitleLabel}}</div>
+                <abbr title="{{editRichTextTooltipLabel}}">
+                    <button id="SCORMEditButtonWelcome"
+                            class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMQuizWelcomePage" class="SCORMResult">{{{welcomePage}}}</div>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{quiFinalPageSubTitleLabel}}</div>
+                <abbr title="{{editRichTextTooltipLabel}}">
+                    <button id="SCORMEditButtonFinal"
+                            class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMQuizFinalPage" class="SCORMResult">{{{finalPage}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<!-- QuizList view template -->
+<script type="text/mustache" id="availableQuizListView">
+    <div id="quizListWidget">
+        <div id="SCORMQuizHeader">
+            <input placeholder="{{quizSearchPlaceholderLabel}}" type="text" id="quizSearch" class="SCORMSearch"/>
+            <abbr title="Sort">
+                <button id="sortList" class="textButton sortButton">{{sortOrderAscLabel}}</button>
+            </abbr>
+        </div>
+        <div id="SCORMQuestionAnswers" class="SCORMAddNewButton">
+            <div id="SCORMQuestionAnswersEditors"></div>
+            <button id="SCORMButtonAddQuiz">{{addNewQuizButtonLabel}}</button>
+        </div>
+        <ul class="quizList" id="quizList"></ul>
+    </div>
+</script>
+<!-- QuizListItem view template -->
+<script type="text/mustache" id="availableQuizListItemView">
+    <div class="availableQuizItem">
+        <div class="itemHeader">
+            <div class="quizItemTitle">{{title}}</div>
+            <abbr title="{{quizRemoveButtonTooltipLabel}}">
+                <button id="quizDelete" class="button28 removeQuizButton buttonRemove"></button>
+            </abbr>
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button id="quizEdit" class="button28 removeQuizButton buttonEdit"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+
+                <div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}} {{questionsSelectedAmountLabel}}</div>
+                        <abbr title="Add questions">
+                            <button id="buttonOpen" class="button24x18 buttonList editQuestionsButton"></button>
+                        </abbr>
+
+                        <div style="clear:both"></div>
+                    </div>
+
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{quizDescriptionSubtitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+                </div>
+
+                <abbr title="{{installQuizButtonTooltipLabel}}">
+                    <button id="buttonInstall" class="button28 buttonInstall quizManagementButton"></button>
+                </abbr>
+                <abbr title="{{downloadQuizButtonTooltipLabel}}">
+                    <button id="buttonDownload" class="button28 buttonDownload quizManagementButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="availableQuizListItemEdit">
+    <div class="availableQuizItem">
+        <div class="itemHeader">
+            <input type='text' class="quizItemTitle" id='quizTitle' title='{{requiredFieldTooltipLabel}}' value='{{title}}'/>
+            <abbr title="{{quizRemoveButtonTooltipLabel}}">
+                <button id="quizDelete" class="button28 removeQuizButton buttonRemove"></button>
+            </abbr>
+            <abbr title="{{quizSaveButtonTooltipLabel}}">
+                <button id="quizUpdate" class="button28 removeQuizButton buttonDone"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+
+                <div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}} {{questionsSelectedAmountLabel}}</div>
+                        <abbr title="{{addQuestionsButtonTooltipLabel}}">
+                            <button id="buttonOpen" class="button24x18 buttonList editQuestionsButton"></button>
+                        </abbr>
+
+                        <div style="clear:both"></div>
+                    </div>
+
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{quizDescriptionSubtitleLabel}}</div>
+                        <abbr title="{{quizEditDescriptionButtonTooltipLabel}}">
+                            <button id="SCORMEditText"
+                                    class="button24x18 buttonPen questionarieEditTextButton"></button>
+                        </abbr>
+
+                        <div style="clear:both"></div>
+                    </div>
+                    <div id="quizDescription" class="SCORMResult">{{{description}}}</div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizPage">
+    <div class="fluidRowsContent">
+        <div class="fluidLeftPart ui-layout-west">
+            <div id="quizTreeView_{{cid}}"></div>
+        </div>
+        <div class="fluidRightPart ui-layout-center">
+            <div class="SCORMPackageListHeaderButtons">
+                <abbr title="{{removeTreeElementButtonLabel}}">
+                    <button id="quizRemoveElement" class="button28 editQuizButton buttonRemove"></button>
+                </abbr>
+                <abbr title="{{addQuestionTreeElementButtonLabel}}">
+                    <button id="quizAddQuestions" class="button28 editQuizButton buttonAddQuestion"></button>
+                </abbr>
+                <abbr title="{{addCategoryTreeElementButtonLabel}}">
+                    <button id="quizAddCategory" class="button28 editQuizButton buttonAddCategory"></button>
+                </abbr>
+                <abbr title="{{editTreeElementButtonLabel}}">
+                    <button id="elementEdit" class="button28 editQuizButton buttonEdit"></button>
+                </abbr>
+                <abbr title="{{saveTreeElementButtonLabel}}">
+                    <button id="elementUpdate" class="button28 editQuizButton buttonDone"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div id="quizContent_{{cid}}">
+            </div>
+        </div>
+        <div style="width:100%; clear: both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizCategoryView">
+    <div id="SCORMCategoryView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryNameView" class="SCORMResult">{{title}}</div>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizCategoryEditView">
+    <div id="SCORMCategoryView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <input type="text" id="SCORMCategoryNameEdit" title='{{requiredFieldTooltipLabel}}' class="SCORMResult" value="{{title}}"/>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
+                <abbr title="{{categoryEditDescriptionButtonTooltipLabel}}">
+                    <button id="SCORMEditButtonDescription"
+                            class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizQuestionView">
+    <div id="SCORMQuestionContentDiv">
+        <div id="SCORMQuestionTypeDiv">
+            <div class="quizSectionType">{{questionTypeLabel}}</div>
+            {{questionTypeString}}
+            <div style="clear:both"></div>
+        </div>
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{title}}</div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTextLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult">{{{text}}}</div>
+        </div>
+
+        <div id="SCORMQuestionExplanation">
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionExplanationTextLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult">{{{explanationText}}}</div>
+        </div>
+        <div id="SCORMQuestionIsBounded" class="SCORMCheckbox">
+            <input type="checkbox" id="SCORMQuestionBounded"/> {{questionNotifyUserCorrectAmountLabel}}
+        </div>
+        <div id="SCORMQuestionIsCaseSensitive" class="SCORMCheckbox">
+            <input type="checkbox" id="SCORMQuestionCaseSensitive"/> {{questionCaseSensitiveLabel}}
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
