@@ -1,0 +1,229 @@
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" language="javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
+    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
+
+    <script type="text/javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
+    <script type="text/javascript" src="{{contextPath}}/js/libs/jstreegrid.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
+    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/gradebook.css"/>
+
+    <script type="text/javascript">
+        var previewData = [];
+        var currentActivityID;
+
+        $(function () {
+            $("#dialog-form").dialog({
+                autoOpen:false,
+                width:350,
+                modal:true
+            });
+        });
+
+        function drawTree(jsonData) {
+            if (jsonData.length <= 0) {
+                $("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
+            } else {
+                $("#jsTreeGradebook").empty().jstree({
+                    plugins:["themes", "json_data", "grid", "types"],
+                    json_data:{data:jsonData},
+                    "themes":{
+                        "url":Utils.getContextPath() + "/css/jstree/style.css",
+                        "dots":true,
+                        "icons":true
+                    },
+                    "types":{
+                        "valid_children":[ "folder" ],
+                        "types":{
+                            "entity":{
+                                "icon":{
+                                    "image":Utils.getContextPath() + "/img/icons/book.png"
+                                },
+                                "valid_children":"none"
+                            },
+                            "folder":{
+                                "icon":{
+                                    "image":Utils.getContextPath() + "/img/icons/folder.png"
+                                },
+                                "valid_children":[ "folder", "entity"]
+                            }
+                        }
+                    },
+                    grid:{
+                        columns:[
+                            {width:350, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
+                            {cellClass:"col1", value:"correctShare", width:200, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
+                            {cellClass:"col2", value:"userResponse", width:200, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
+                        ],
+                        resizable:true
+                    }
+                }).bind("open_node.jstree",function (event, data) {
+                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                        }).bind("close_node.jstree", function (event, data) {
+                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                        });
+
+                var jsTreeRef = jQuery.jstree._reference("#jsTreeGradebook");
+                jsTreeRef.open_all();
+
+                $("#jsTreeGradebook").delegate("a", "click", function (e) {
+                    $("#jsTreeGradebook").jstree("toggle_node", this);
+                });
+            }
+        }
+
+        function formatEntityToJSTree(entity) {
+            var correctShare;
+            if (entity.share === null || entity.share === undefined) {
+                correctShare = "{{unknownCorrectShareLabel}}";
+            } else {
+                correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%"
+            }
+            // branch
+            if (entity.children && entity.children.length > 0) {
+                var formattedChildren = [];
+                for (var i = 0; i < entity.children.length; i++) {
+                    formattedChildren.push(formatEntityToJSTree(entity.children[i]));
+                }
+                return {
+                    data:entity.title,
+                    attr:{rel:"folder", correctShare:correctShare},
+                    children:formattedChildren
+                };
+            } else { // leaf
+                return {
+                    data:entity.title,
+                    attr:{rel:"entity", correctShare:correctShare, userResponse:generatePreviewButton(entity)}
+                };
+            }
+        }
+
+        function generatePreviewButton(data) {
+            var response = "";
+            if (data.userResponse && data.userResponse != "") {
+                response = "<button class='smallTextbutton' onclick='review(\"" + data.id + "\")'>{{reviewButtonLabel}}</button>";
+                previewData[data.id] = data;
+            }
+            return response;
+        }
+
+        function review(id) {
+            currentActivityID = id;
+            $("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
+            $("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
+            $("#dialog-form").dialog('open');
+        }
+
+        function printReport() {
+            var packageID = $("#gradebookPackageChoice").val();
+            var userID = $("#gradebookUserChoice").val();
+
+            window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + packageID + "/user/" + userID,
+                    $.proxy(function (data) {
+                        drawTree(formatEntityToJSTree(data));
+                    }, this)
+            );
+        }
+
+        /*{{#isAdmin}}*/
+        function markAsPassed() {
+            var packageID = $("#gradebookPackageChoice").val();
+            var userID = $("#gradebookUserChoice").val();
+            window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
+                packageID:packageID,
+                userID:userID,
+                activityID:currentActivityID,
+                status:"passed",
+                score:"1.0"
+
+            });
+            closeReviewDialog();
+            printReport();
+        }
+
+        function markAsFailed() {
+            var packageID = $("#gradebookPackageChoice").val();
+            var userID = $("#gradebookUserChoice").val();
+            window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
+                packageID:packageID,
+                userID:userID,
+                activityID:currentActivityID,
+                status:"failed",
+                score:"1.0"
+            });
+            closeReviewDialog();
+            printReport();
+        }
+        /*{{/isAdmin}}*/
+        function closeReviewDialog() {
+            $("#dialog-form").dialog('close');
+        }
+    </script>
+</head>
+<body onload="printReport()">
+<div class="projectLearnGeneric">
+    <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
+    <br clear="all"/>
+
+    <div id="gradebookSettings" class="gradebookSettings">
+        <div class="SCORMGradebookPackageChoice">
+            <select id="gradebookPackageChoice" onchange="printReport()">
+                {{#packages}}
+                <option value="{{id}}">{{name}}</option>
+                {{/packages}}
+            </select>
+        </div>
+        <div class="SCORMGradebookUserChoice">
+            <!--{{#isAdmin}}-->
+            <select id="gradebookUserChoice" onchange="printReport()">
+                {{#users}}
+                <option value="{{id}}">{{name}}</option>
+                {{/users}}
+            </select>
+            <!--{{/isAdmin}}-->
+            <!--{{^isAdmin}}-->
+            <b>{{userName}}</b>
+            <input type="hidden" id="gradebookUserChoice" value="{{userID}}"/>
+            <!--{{/isAdmin}}-->
+        </div>
+    </div>
+    <div id="gradebookTable" class="gradebookTable">
+        <div id="jsTreeGradebook"></div>
+    </div>
+    <div id="dialog-form" title="{{reviewDialogTitleLabel}}">
+        <div id="reviewContentQuestionText"></div>
+        <hr>
+        <pre id="reviewContent"></pre>
+        <br>
+
+        <div class="SCORMGradebookDialogButtons">
+            <input type="button" class="textbutton" onclick="closeReviewDialog()"
+                   value="{{reviewDialogCloseButtonLabel}}"/>
+
+            <!--{{#isAdmin}}-->
+            <div class="float-right">
+                <input type="button" class="textbutton" onclick="markAsPassed()"
+                       value="{{reviewDialogPassedButtonLabel}}"/>
+                <input type="button" class="textbutton" onclick="markAsFailed()"
+                       value="{{reviewDialogFailedButtonLabel}}"/>
+            </div>
+            <!--{{/isAdmin}}-->
+            <div class="clear"></div>
+        </div>
+    </div>
+    <br>
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<portlet-app version="2.0"
+             xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+    <portlet>
+        <portlet-name>SCORMApplication</portlet-name>
+        <portlet-class>com.arcusys.learn.view.UserView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>SCORM Application</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>SCORMQuestionBank</portlet-name>
+        <portlet-class>com.arcusys.learn.view.QuestionBankView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>SCORM Question editor</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>SCORMQuizes</portlet-name>
+        <portlet-class>com.arcusys.learn.view.QuizView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>SCORM Quiz editor</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>Gradebook</portlet-name>
+        <portlet-class>com.arcusys.learn.view.GradebookView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>SCORM Gradebook viewer</title>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

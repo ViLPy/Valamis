@@ -1,0 +1,345 @@
+<html>
+<head>
+<title>Questionbank editor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
+
+<!--<link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>-->
+<link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
+<script type="text/javascript" src="{{contextPath}}/js/libs/jquery.i18n.properties-min.js"></script>
+
+<!-- jsTree helpers -->
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/jstree.helper.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/jquery.jstree.ext.js"></script>
+
+<!-- Models -->
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
+
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/AnswerModel.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/QuestionModel.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/CategoryModel.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/CollectionProxy.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/CollectionTreeView.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/EntityView.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/AnswerView.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/AnswerCollectionView.js"></script>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/CategorizationAnswer.js"></script>
+
+<!-- RichEdit -->
+<script type="text/javascript" src="{{contextPath}}/js/libs/redactor/redactor.js"></script>
+<link type="text/css" rel="stylesheet" href="{{contextPath}}/js/libs/redactor/css/redactor.css"/>
+<script type="text/javascript" language="javascript" src="{{contextPath}}/js/widgets/richedit.js"></script>
+
+<script type="text/javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
+<script type="text/javascript" src="{{contextPath}}/js/libs/mustache.js"></script>
+<script type="text/javascript" src="{{contextPath}}/js/libs/blockUI.js"></script>
+<script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
+<script type='text/javascript' src='{{contextPath}}/js/libs/jquery.tipsy.js'></script>
+<link rel="stylesheet" href="{{contextPath}}/css/tipsy.css" type="text/css"/>
+
+<link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
+<link rel="stylesheet" type="text/css" href="{{contextPath}}/css/questionbank.css"/>
+
+<script type="text/javascript">
+var scormLanguageData = {};
+
+$(function () {
+    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
+});
+
+function loadDefaultLanguage() {
+    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_en.properties', onLanguageLoad, onLanguageError);
+}
+
+function onLanguageLoad(properties) {
+    scormLanguageData = properties;
+    initView();
+}
+
+function onLanguageError() {
+    alert('Translation resource loading failed!');
+}
+
+function initView() {
+    var MainApp = Backbone.View.extend({
+        events:{
+            "click #questionbankAddCategory":"addCategory",
+            "click #questionbankAddCategoryBottom":"addCategory",
+            "click #questionbankAddQuestions":"addQuestion",
+            "click #questionbankAddQuestionsBottom":"addQuestion",
+            "click #questionbankEdit":"edit",
+            "click #questionbankEditBottom":"edit",
+            "click #questionbankUpdate":"updateModel",
+            "click #questionbankUpdateBottom":"updateModel",
+            "click #questionbankRemoveElement":"removeElement",
+            "click #questionbankRemoveElementBottom":"removeElement"
+        },
+
+        initialize:function () {
+            this.selectNodeOnCreation = false;
+
+            var loader = new TemplateLoader();
+            loader.on('complete', this.initViews, this);
+            loader.fetch("templates/scorm_questionbank_templates.html");
+        },
+
+        initViews:function () {
+            this.questionbankCollection = new QuestionBankCollectionProxy();
+            this.questionbankCollectionView = new QuestionBankCollectionTreeView({
+                el:$("#SCORMQuestionBankTree"),
+                collection:this.questionbankCollection,
+                language: scormLanguageData
+            });
+
+            this.entityView = new EntityView({
+                el:$("#ItemView"),
+                language: scormLanguageData
+            });
+            this.entityView.on('change-view', this.updateControls, this);
+
+            this.questionbankCollectionView.bind('clear-selection', this.entityView.clear, this.entityView);
+            this.questionbankCollectionView.bind('model-selection', this.renderSelectedNode, this);
+            this.questionbankCollectionView.treeView.bind('node-added', this.selectNewNode, this);
+
+            this.questionbankCollection.fetchForParent();
+            this.updateControls('default');
+        },
+
+        selectNewNode:function (node) {
+            if (this.selectNodeOnCreation) {
+                this.questionbankCollectionView.treeView.selectNode(node);
+                this.selectNodeOnCreation = false;
+            }
+        },
+
+        renderSelectedNode:function (model) {
+            this.entityView.render(model);
+            if (model.get('newModel')) {
+                this.edit();
+            }
+        },
+
+        edit:function () {
+            this.entityView.edit();
+            $("#SCORMAddAnswersButtonBlock").show();
+            $("#questionbankEdit").hide();
+            $("#questionbankUpdate").show();
+            $("#questionbankEditBottom").hide();
+            $("#questionbankUpdateBottom").show();
+
+            $("#questionbankAddCategory").hide();
+            $("#questionbankAddQuestions").hide();
+            $("#questionbankRemoveElement").hide();
+            $("#questionbankAddCategoryBottom").hide();
+            $("#questionbankAddQuestionsBottom").hide();
+            $("#questionbankRemoveElementBottom").hide();
+        },
+
+        updateModel:function () {
+            if (!this.entityView.saveModel()) return;
+            $("#SCORMAddAnswersButtonBlock").hide();
+            $("#questionbankUpdate").hide();
+            $("#questionbankEdit").show();
+            $("#questionbankUpdateBottom").hide();
+            $("#questionbankEditBottom").show();
+
+            if (this.entityView.currentView instanceof CategoryView) {
+                $("#questionbankAddCategory").show();
+                $("#questionbankAddCategoryBottom").show();
+            }
+            $("#questionbankAddQuestions").show();
+            $("#questionbankRemoveElement").show();
+            $("#questionbankAddQuestionsBottom").show();
+            $("#questionbankRemoveElementBottom").show();
+        },
+
+        updateControls:function (viewType) {
+            switch (viewType) {
+                case 'question':
+                    $("#SCORMAddAnswersButtonBlock").hide();
+
+                    $("#quizContentBottomMenu").show();
+                    $("#questionbankAddCategoryBottom").hide();
+                    $("#questionbankAddQuestionsBottom").show();
+                    $("#questionbankRemoveElementBottom").show();
+                    $("#questionbankEditBottom").show();
+                    $("#questionbankUpdateBottom").hide();
+
+                    $("#questionbankAddCategory").hide();
+                    $("#questionbankAddQuestions").show();
+                    $("#questionbankRemoveElement").show();
+                    $("#questionbankEdit").show();
+                    $("#questionbankUpdate").hide();
+                    break;
+                case 'category':
+                    $("#quizContentBottomMenu").show();
+                    $("#questionbankUpdateBottom").hide();
+                    $("#questionbankEditBottom").show();
+                    $("#questionbankAddCategoryBottom").show();
+                    $("#questionbankAddQuestionsBottom").show();
+                    $("#questionbankRemoveElementBottom").show();
+
+                    $("#questionbankUpdate").hide();
+                    $("#questionbankEdit").show();
+                    $("#questionbankAddCategory").show();
+                    $("#questionbankAddQuestions").show();
+                    $("#questionbankRemoveElement").show();
+                    break;
+                default:
+                    $("#quizContentBottomMenu").hide();
+                    $("#questionbankUpdate").hide();
+                    $("#questionbankEdit").hide();
+                    $("#questionbankAddCategory").show();
+                    $("#questionbankAddQuestions").show();
+                    $("#questionbankRemoveElement").hide();
+                    break;
+            }
+        },
+
+        resolveCurrentParentID:function () {
+            var currentID = this.questionbankCollectionView.treeView.getNodeID(this.questionbankCollectionView.treeView.getCurrentNode());
+            var model = this.questionbankCollection.getEntity(currentID);
+
+            var parentID = -1;
+            if (model && model instanceof CategoryModel) {
+                parentID = model.id;
+            } else if (model && model instanceof QuestionModel) {
+                parentID = model.get('categoryID');
+            }
+            return parentID;
+        },
+
+        addCategory:function () {
+            $('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
+            this.selectNodeOnCreation = true;
+            var newCategory = new CategoryModel({
+                parentID:this.resolveCurrentParentID()
+            });
+            newCategory.save({}, {
+                success:jQuery.proxy(function (category) {
+                    this.questionbankCollection.addCategory(_.extend(category.toJSON(), {newModel:true}));
+                    $('#projectLearnGeneric').unblock();
+                    $.growlUI('{{overlayAddCategoryMessageLabel}}', '{{overlayCompleteMessageLabel}}');
+                }, this),
+                error:function () {
+                    $('#projectLearnGeneric').unblock();
+                    $.growlWarning('{{overlayAddCategoryMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                }
+            });
+        },
+
+        addQuestion:function () {
+            $('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
+            this.selectNodeOnCreation = true;
+            var newQuestion = new QuestionModel({
+                categoryID:this.resolveCurrentParentID()
+            });
+            newQuestion.save({}, {
+                success:jQuery.proxy(function (question) {
+                    this.questionbankCollection.addQuestion(_.extend(question.toJSON(), {newModel:true}));
+                    $('#projectLearnGeneric').unblock();
+                    $.growlUI('{{overlayAddQuestionMessageLabel}}', '{{overlayCompleteMessageLabel}}');
+                }, this),
+                error:function () {
+                    $('#projectLearnGeneric').unblock();
+                    $.growlWarning('{{overlayAddQuestionMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                }
+            });
+        },
+
+        removeElement:function () {
+            if (confirm("{{warningDeleteNodeLabel}}")) {
+                var currentID = this.questionbankCollectionView.treeView.getNodeID(this.questionbankCollectionView.treeView.getCurrentNode());
+                this.questionbankCollection.drop(currentID);
+            }
+        }
+    });
+
+    window.App = new MainApp({
+        el:$('body')
+    });
+
+    if (!window.RichEdit || !(window.RichEdit instanceof RichEdit)) {
+        window.RichEdit = new RichEdit({
+            el:$("#RichTextEdit")
+        });
+    }
+}
+</script>
+</head>
+<body id="SCORMBankLayout">
+<div class="projectLearnGeneric" id="projectLearnGeneric">
+    <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
+    <br clear="all"/>
+
+    <div id="SCORMBankWrapper">
+        <div class="fluidLeftPart ui-layout-west">
+            <div id="SCORMQuestionBankTree"></div>
+        </div>
+
+        <div class="fluidRightPart ui-layout-center">
+            <div id="quizContent_">
+                <div class="SCORMPackageListHeaderButtons">
+                    <abbr title="{{buttonRemoveTooltipLabel}}">
+                        <button id="questionbankRemoveElement"
+                                class="button28 questionarieTreeEditButton buttonRemove"></button>
+                    </abbr>
+                    <abbr title="{{buttonAddQuestionTooltipLabel}}">
+                        <button id="questionbankAddQuestions"
+                                class="button28 questionarieTreeEditButton buttonAddQuestion"></button>
+                    </abbr>
+                    <abbr title="{{buttonAddCategoryTooltipLabel}}">
+                        <button id="questionbankAddCategory"
+                                class="button28 questionarieTreeEditButton buttonAddCategory"></button>
+                    </abbr>
+                    <abbr title="{{buttonEditTooltipLabel}}">
+                        <button id="questionbankEdit" class="button28 questionarieTreeEditButton buttonEdit"></button>
+                    </abbr>
+                    <abbr title="{{buttonSaveTooltipLabel}}">
+                        <button id="questionbankUpdate" class="button28 questionarieTreeEditButton buttonDone"></button>
+                    </abbr>
+
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+            <div id="ItemView"></div>
+            <div id="quizContentBottomMenu">
+                <div class="SCORMPackageListHeaderButtonsBottom">
+                    <abbr title="{{buttonRemoveTooltipLabel}}">
+                        <button id="questionbankRemoveElementBottom"
+                                class="button28 questionarieTreeEditButton buttonRemove"></button>
+                    </abbr>
+                    <abbr title="{{buttonAddQuestionTooltipLabel}}">
+                        <button id="questionbankAddQuestionsBottom"
+                                class="button28 questionarieTreeEditButton buttonAddQuestion"></button>
+                    </abbr>
+                    <abbr title="{{buttonAddCategoryTooltipLabel}}">
+                        <button id="questionbankAddCategoryBottom"
+                                class="button28 questionarieTreeEditButton buttonAddCategory"></button>
+                    </abbr>
+                    <abbr title="{{buttonEditTooltipLabel}}">
+                        <button id="questionbankEditBottom"
+                                class="button28 questionarieTreeEditButton buttonEdit"></button>
+                    </abbr>
+                    <abbr title="{{buttonSaveTooltipLabel}}">
+                        <button id="questionbankUpdateBottom"
+                                class="button28 questionarieTreeEditButton buttonDone"></button>
+                    </abbr>
+
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+            <div id="RichTextEdit"></div>
+        </div>
+        <div style="width:100%; clear: both"></div>
+    </div>
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</div>
+</body>
+</html>

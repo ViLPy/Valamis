@@ -1,0 +1,472 @@
+/* ------------ MAIN CONTENT ----------------*/
+
+.portlet-learn-scorm .SCORMPackageListHeaderButtons {
+    background-color: #D9DCDD;
+    font-weight: bold;
+    margin-bottom: 12px;
+    padding: 3px;
+}
+
+.portlet-learn-scorm .SCORMPackageListHeaderButtonsBottom {
+    background-color: #D9DCDD;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.portlet-learn-scorm .rounded {
+    border: 1px solid #CCCCCC;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.portlet-learn-scorm .rounded3px {
+    border: 1px solid #CCCCCC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.portlet-learn-scorm .padded {
+    padding: 5px;
+}
+
+.portlet-learn-scorm .customIconButton {
+    background-repeat: no-repeat !important;
+    background-position: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.portlet-learn-scorm .toolbarButton {
+    background-repeat: no-repeat !important;
+    background-position: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+    background-position: center;
+}
+
+.portlet-learn-scorm .important {
+    background: #c7e4cb url("../css/smoothness/images/ui-bg_glass_75_green_1x400.png") 50% 50% repeat scroll;
+    border-color: #B6C7AE #87A479 #617F53;
+}
+
+.portlet-learn-scorm .unimportant {
+    background: #c9c9c9 url("../css/smoothness/images/ui-bg_glass_75_c9c9c9_1x400.png") 50% 50% repeat scroll;
+}
+
+.portlet-learn-scorm .fluidRowsContent {
+    border: 1px solid #CCCCCC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.portlet-learn-scorm .fluidLeftPart {
+    float: left;
+    padding: 10px;
+    width: auto;
+    white-space: normal;
+    min-width: 150px;
+    max-width: 60%;
+    margin-right: 2%;
+}
+
+.portlet-learn-scorm .fluidRightPart {
+    background: #EDEEEF;
+    border: 1px solid #BBBDBE;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    overflow: auto;
+    padding: 10px;
+    white-space: normal;
+    width: auto;
+}
+
+.portlet-learn-scorm .staticToolbar {
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #808080;
+    width: 100%;
+    height: 40px;
+    top: 0px;
+    background-color: #eee;
+    padding-top: 2px;
+}
+
+.portlet-learn-scorm .staticToolbar70px {
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #808080;
+    width: 100%;
+    height: 70px;
+    top: 0px;
+    background-color: #eee;
+    padding-top: 2px;
+}
+
+/* ------------- Buttons -------------------- */
+
+.portlet-learn-scorm .questionarieTreeEditButton, .portlet-learn-scorm .questionarieEditTextButton, .portlet-learn-scorm .questionbankAnswerEdit, .portlet-learn-scorm .questionbankButton, .portlet-learn-scorm .SCORMSave {
+    float: right;
+}
+
+.portlet-learn-scorm .buttonAddCategory {
+    background-position: 0px 0px !important;
+}
+
+.portlet-learn-scorm .buttonAddCategory:hover {
+    background-position: -28px 0px !important;
+}
+
+.portlet-learn-scorm .buttonAddQuestion {
+    background-position: 0px -28px !important;
+}
+
+.portlet-learn-scorm .buttonAddQuestion:hover {
+    background-position: -28px -28px !important;
+}
+
+.portlet-learn-scorm .buttonEdit {
+    background-position: 0px -112px !important;
+}
+
+.portlet-learn-scorm .buttonEdit:hover {
+    background-position: -28px -112px !important;
+}
+
+.portlet-learn-scorm .buttonDone {
+    background-position: 0px -280px !important;
+}
+
+.portlet-learn-scorm .buttonDone:hover {
+    background-position: -28px -280px !important;
+}
+
+.portlet-learn-scorm .buttonRemove {
+    background-position: 0px -56px !important;
+}
+
+.portlet-learn-scorm .buttonRemove:hover {
+    background-position: -28px -56px !important;
+}
+
+.portlet-learn-scorm .buttonPen {
+    background-position: 0px -18px !important;
+}
+
+.portlet-learn-scorm .buttonPen:hover {
+    background-position: -24px -18px !important;
+}
+
+.portlet-learn-scorm .questionbankAnswerDelete {
+    background-position: 0px -51px !important;
+}
+
+.portlet-learn-scorm .questionbankAnswerDelete:hover {
+    background-position: -24px -51px !important;
+}
+
+.portlet-learn-scorm .SCORMAddNewButton {
+    color: #000 !important;
+    background: #FFF !important;
+    display: block;
+    -moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+    padding: 7px !important;
+    margin-top: 10px !important;
+    -webkit-box-shadow: 0 0 6px -2px #8C9395 !important;
+    box-shadow: 0 0 6px -2px #8C9395 !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddAnswer {
+    color: #000 !important;
+    background: url("../img/add-new.png") no-repeat transparent !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: sans-serif !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddAnswer:hover {
+    background: url("../img/add-new-hover.png") no-repeat transparent !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: sans-serif !important;
+    color: #D34040 !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddOption {
+    color: #000 !important;
+    background: url("../img/add-new.png") no-repeat transparent !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: normal;
+    font-family: sans-serif !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddOption:hover {
+    background: url("../img/add-new-hover.png") no-repeat transparent !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: normal;
+    font-family: sans-serif !important;
+    color: #D34040 !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddElement {
+    color: #000 !important;
+    background: url("../img/add-new.png") no-repeat scroll 0 0 transparent !important;
+    border: medium none !important;
+    cursor: pointer !important;
+    font-family: sans-serif !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+}
+
+.portlet-learn-scorm #SCORMButtonAddElement:hover {
+    background: url("../img/add-new-hover.png") no-repeat transparent !important;
+    height: 22px !important;
+    padding-left: 26px !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    color: #D34040 !important;
+}
+
+/* ------------- OVERWRITING THINGS-------------------- */
+
+.portlet-learn-scorm .jstree a {
+    white-space: normal;
+}
+
+.portlet-learn-scorm .image-wrapper {
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+
+.portlet-learn-scorm .image {
+    width: 100px;
+    height: 74px;
+}
+
+.portlet-learn-scorm .folder {
+    width: 100px;
+    height: 74px;
+    background: url("../js/libs/redactor/css/images/folder.png") no-repeat scroll left center transparent;
+}
+
+.portlet-learn-scorm .text-wrapper {
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.portlet-learn-scorm #SCORMQuestionBankToolbar {
+    margin: -10px -15px 5px -10px;
+    height: 42px;
+}
+
+.portlet-learn-scorm #SCORMBankWrapper {
+    white-space: nowrap;
+    position: relative;
+}
+
+.portlet-learn-scorm #SCORMBankHeader {
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    background-color: #eee;
+    background-color: rgba(238, 238, 238, 0.9);
+    padding-top: 2px;
+}
+
+.portlet-learn-scorm #SCORMCategoryView, .portlet-learn-scorm #SCORMCategoryEdit, .portlet-learn-scorm #SCORMQuestionContentDiv {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 6px;
+    background: #edeeef;
+    margin: 5px;
+}
+
+.portlet-learn-scorm .SCORMDescription,
+.portlet-learn-scorm .SCORMExplanation,
+.portlet-learn-scorm .SCORMQuestion,
+.portlet-learn-scorm .SCORMText {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #CCCCCC;
+    padding: 5px 20px;
+}
+
+.portlet-learn-scorm .SCORMAnswer {
+    background: none repeat scroll 0 0 #FFFFFF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px 5px 5px 5px;
+    -webkit-box-shadow: 0 0 6px -2px #8C9395 !important;
+    box-shadow: 0 0 6px -2px #8C9395 !important;
+    cursor: move;
+    display: block;
+    margin-top: 10px;
+    padding: 7px;
+}
+
+.portlet-learn-scorm .SCORMOption {
+    border-bottom: solid 1px #CCC;
+}
+
+.portlet-learn-scorm #SCORMQuestionEditor {
+    overflow: auto;
+}
+
+.portlet-learn-scorm .SCORMFixedPanel {
+    margin-left: -10px;
+    margin-top: -10px;
+    padding-left: 10px;
+    position: absolute;
+    height: 40px;
+    padding-top: 2px;
+}
+
+.portlet-learn-scorm .filledArea {
+    background-color: rgba(193, 215, 234, 0.3);
+    margin-bottom: 15px;
+}
+
+.portlet-learn-scorm #SCORMQuestionText {
+    background-color: rgba(193, 215, 234, 0.3);
+    margin-bottom: 15px;
+}
+
+.portlet-learn-scorm #SCORMExplanationText {
+    background-color: rgba(193, 215, 234, 0.3);
+    margin-bottom: 15px;
+}
+
+.portlet-learn-scorm #SCORMQuestionAnswersEditors .ui-sortable-helper {
+    border: 1px dashed #CCCCCC;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* ------------- 2nd Edition -------------------- */
+
+.portlet-learn-scorm .quizSection {
+    border-bottom: 1px solid #CCCCCC;
+    margin: 2px 0 10px;
+}
+
+.portlet-learn-scorm .quizSectionTitle {
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.portlet-learn-scorm .SCORMResult {
+    margin: 7px 0px 10px 0px;
+}
+
+.portlet-learn-scorm #SCORMQuestionTypeDiv {
+    margin: 0 0 10px;
+}
+
+.portlet-learn-scorm #SCORMQuestionType {
+    margin: 0 6px;
+}
+
+.portlet-learn-scorm .quizSectionType {
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    padding-right: 2px;
+    padding-top: 2px;
+    color: #D34040;
+}
+
+.portlet-learn-scorm .SCORMCheckbox {
+    margin: 14px 0;
+}
+
+.portlet-learn-scorm .SCORMAnswerTitle {
+    float: left;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    max-width: 80%;
+    padding: 3px 6px 3px 0;
+}
+
+.portlet-learn-scorm .SCORMAnswerText {
+    float: left;
+    width: 80%;
+}
+
+.portlet-learn-scorm input#SCORMAnswerText,
+.portlet-learn-scorm input#SCORMAnswerRangeFrom,
+.portlet-learn-scorm input#SCORMAnswerRangeTo {
+    border: solid 1px #B3B3B3;
+    padding: 4px;
+    background: #FFF;
+}
+
+.portlet-learn-scorm input#SCORMAnswerText:focus,
+.portlet-learn-scorm input#SCORMAnswerRangeFrom:focus,
+.portlet-learn-scorm input#SCORMAnswerRangeTo:focus {
+    border: solid 1px #B3B3B3;
+    padding: 4px;
+    background: #EFECBD;
+}
+
+.portlet-learn-scorm .SCORMAnswerHeader {
+    padding: 4px 0;
+}
+
+.portlet-learn-scorm .SCORMAnswerTextArea {
+    padding: 5px 0 8px 0;
+}
+
+.portlet-learn-scorm .answerSectionTitle {
+    font-weight: bold;
+    padding: 2px 0;
+}
+
+.portlet-learn-scorm .SCORMQuestionTitleEdit {
+    margin-bottom: 8px;
+}
+
+.portlet-learn-scorm #ItemView {
+    font-size: 14px;
+}

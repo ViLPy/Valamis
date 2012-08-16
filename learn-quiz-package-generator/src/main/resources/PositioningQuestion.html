@@ -1,0 +1,69 @@
+<script type="text/javascript">
+    var data = {{{answers}}};
+    var mappedData = [];
+
+    $(document).ready(function(){
+        var shuffled = shuffle(data);
+        for (var i = 0; i<shuffled.length; i++) {
+            var newLI = $("<li>");
+            newLI.addClass("ui-state-default");
+            newLI.attr("id", shuffled[i].id);
+            newLI.html(shuffled[i].text);
+            $("#sortable").append(newLI);
+
+            mappedData[shuffled[i].id] = shuffled[i].text;
+        }
+        PreparePositioningQuestionView();
+        getAPI().Initialize("");
+    })
+
+    function gatherData() {
+        var mappedRightAnswers = [];
+        var userAnswers = [];
+        var answerIDs = $("#sortable").sortable('toArray');
+
+        var isPassed = true;
+        for (var i = 0; i<data.length; i++) {
+            if (data[i].id != answerIDs[i]) {
+                isPassed = false;
+            }
+            mappedRightAnswers.push(data[i].text);
+            userAnswers.push(mappedData[answerIDs[i]]);
+        }
+
+        // this will check is user answer right
+        getAPI().SetValue("cmi.interactions.0.type", "sequencing");
+        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
+        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", mappedRightAnswers.join("[,]"));
+
+        if (isPassed) {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "passed");
+            getAPI().SetValue("cmi.score.scaled", "1.0");
+        } else {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "failed");
+            getAPI().SetValue("cmi.score.scaled", "0.0");
+        }
+    }
+</script>
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+
+        <h2 class="SCORMPlayerQuestionSubtitle">Place this collection by using "drag and drop":</h2>
+    </div>
+    <div class="playerMainArea">
+        <div class="playerPlacingAnswers">
+            <ul id="sortable"></ul>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerNext">
+            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
+            </button>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

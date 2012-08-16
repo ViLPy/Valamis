@@ -1,0 +1,259 @@
+/* ------------ MAIN CONTENT ----------------*/
+
+.SCORMWell {
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+	background-color: #D9DCDD;
+    border: 1px solid #BBBDBE;
+	margin: 0px;
+	padding: 12px;
+}
+
+.SCORMPackageList {
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+	background-color: #fff;
+    border: 1px solid #fff;
+	margin: 10px 0px 5px 0;
+	padding: 5px 5px 10px 5px;
+	box-shadow: 0px 0px 8px -2px #A5A9AA;
+}
+
+.SCORMPackageListHeader {
+	padding: 3px;
+	font-weight:bold;
+	background-color: #EDEEEF;
+    border: 1px solid #EDEEEF;
+}
+
+.SCORMPackageListHeaderText {
+	padding: 7px 7px 6px 7px;
+	float: left;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.SCORMPackageListHeaderButtons {
+    float: right;
+    margin-top: 3px;
+}
+
+.listTitle {
+    background: #fff
+}
+
+.sortable {
+    cursor: pointer
+}
+
+.scormSortIcon {
+    display: inline-block;
+}
+
+.SCORMHighlitedPackage {
+	background: #EFECBD;
+}
+
+#scormPackageTable {
+    background: #fff;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.portlet-learn-scorm #scormPackageTable th {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    padding: 10px 10px 3px 10px;
+    border-bottom: 2px solid #CCC;
+}
+
+.portlet-learn-scorm #scormPackageTable td {
+    border-bottom: 1px solid #CCC;
+    color: #333333;
+    padding: 11px 10px 10px 10px;
+}
+
+.portlet-learn-scorm #scormPackageTable tbody tr:hover td {
+    background: #EFECBD;
+    color: #000;
+}
+
+.scormPackageIDColumn {
+    width: 10%;
+}
+
+.scormPackageTitleColumn {
+    width: 20%;
+}
+
+.scormPackageSummaryColumn {
+}
+
+.scormPackageVisibilityColumn {
+    width: 5%;
+}
+
+/* ------------ BUTTONS ----------------*/
+
+.portlet-learn-scorm .buttonAddPackage{
+    background-color: #D9DCDD !important;
+	background-position:0px 0px !important;
+}
+.portlet-learn-scorm .buttonAddPackage:hover{
+	background-position:-32px 0px !important;
+}
+
+.portlet-learn-scorm .buttonAdmin{
+    background-color: #D9DCDD !important;
+	background-position:0px -32px !important;
+}
+.portlet-learn-scorm .buttonAdmin:hover{
+	background-position:-32px -32px !important;
+}
+
+.portlet-learn-scorm .buttonReload {
+	background-position:0px -84px !important;
+}
+.portlet-learn-scorm .buttonReload:hover{
+	background-position:-28px -84px !important;
+}
+
+.portlet-learn-scorm .buttonEdit {
+	background-position:0px -112px !important;
+}
+.portlet-learn-scorm .buttonEdit:hover{
+	background-position:-28px -112px !important;
+}
+
+.portlet-learn-scorm .buttonRemove {
+	background-position:0px -56px !important;
+}
+.portlet-learn-scorm .buttonRemove:hover{
+	background-position:-28px -56px !important;
+}
+
+.portlet-learn-scorm .buttonDone {
+	background-position:0px -280px !important;
+}
+.portlet-learn-scorm .buttonDone:hover{
+	background-position:-28px -280px !important;
+}
+
+/* ------------ Search ----------------*/
+
+.portlet-learn-scorm .SCORMWell .SCORMSearch {
+	background: #FFF;
+	border: solid 2px #A5A9AA;
+	outline: none;
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 7px 6px 6px 30px;
+    font-family: sans-serif;
+    font-size: 14px;
+    background-image: url("../img/icons/search.png");
+    background-position: 8px 4px;
+	background-repeat: no-repeat;
+	color: #000;
+	box-shadow: 0px 0px 8px -2px #A5A9AA;
+}
+
+.portlet-learn-scorm .SCORMWell .SCORMSearch:focus {
+ 	background-color: #EFECBD;
+	border-color: #333333;
+	box-shadow: 0px 0px 10px -2px #A5A9AA;
+} 
+
+/* ------------ Package uploader window ----------------*/
+
+.SCORMGreyLabel {
+	width: 95%;
+}
+
+.SCORMGreyLabel, .projectLearnGeneric textarea {
+	background: #D9DCDD !important;
+	border: none !important;
+	outline: none !important;
+	-moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+    padding: 6px 5px 5px 5px !important;
+	color: #000 !important;
+	margin: 3px 0 5px 0 !important;
+}
+
+.SCORMGreyLabel:focus, 
+.projectLearnGeneric textarea:focus {
+	background: #EFECBD !important;
+}
+
+.SCORMPackageLabel {
+ 	font-size: 14px;
+}
+
+.SCORMUploadDialog input[type="text"], 
+.SCORMUploadDialog input[type="password"], 
+.SCORMUploadDialog input[type="file"], 
+.SCORMUploadDialog input[type="submit"], 
+.SCORMUploadDialog input[type="button"], 
+.SCORMUploadDialog input[type="reset"] {
+    background: #D9DCDD !important;
+	border: none !important;
+	outline: none !important;
+	-moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+    padding: 6px 5px 5px 5px !important;
+	color: #000 !important;
+	margin: 3px 0 5px 0 !important;
+    font: 1em Tahoma, Arial, sans-serif !important;
+}
+
+/* ------------ PostgreSQL database window ----------------*/
+
+.SCORMAdminDialogFields input[type="text"], 
+.SCORMAdminDialogFields input[type="password"], 
+.SCORMAdminDialogFields input[type="file"], 
+.SCORMAdminDialogFields input[type="submit"], 
+.SCORMAdminDialogFields input[type="button"], 
+.SCORMAdminDialogFields input[type="reset"] {
+    background: #D9DCDD !important;
+	border: none !important;
+	outline: none !important;
+	-moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+    padding: 6px 5px 5px 5px !important;
+	color: #000 !important;
+	margin: 3px 0 5px 0 !important;
+    font: 1em Tahoma, Arial, sans-serif !important;
+}
+
+.portlet-learn-scorm td.tableLeftColumn {
+ 	padding: 0 10px 0 0;
+ 	font-size: 14px;
+} 
+
+.SCORMAdminDialogFields {
+ 	margin: 3px 0;
+} 
+
+
+.SCORMAdminDialogExtra {
+ 	margin: 5px 0;
+ 	border-top: solid 1px #CCCCCC;
+ 	border-bottom: solid 1px #CCCCCC;
+ 	padding: 5px 0;
+} 
+
+.questionCheckbox  {
+ 	margin: 0 5px 0 0;
+} 
+
+.SCORMAdminDialogButtons {
+ 	margin: 5px 0;
+} 

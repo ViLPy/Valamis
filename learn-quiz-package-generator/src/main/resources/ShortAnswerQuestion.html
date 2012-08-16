@@ -1,0 +1,53 @@
+<script type="text/javascript">
+    var dataToCompare = {{{answers}}};
+    var isCaseSensitive = {{{isCaseSensitive}}};
+
+    $(document).ready(function () {
+        getAPI().Initialize("");
+    });
+
+    function gatherData() {
+        // this will check is user answer right
+        var userAnswer = $("#scormAnswer").val();
+        getAPI().SetValue("cmi.interactions.0.type", "fill_in");
+        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswer);
+
+        var isPassed = false;
+        for (var j = 0; j < dataToCompare.length; j++) {
+            if (isCaseSensitive) {
+                if (dataToCompare[j] == userAnswer) {
+                    isPassed = true;
+                }
+            } else {
+                if (dataToCompare[j].toLowerCase() == userAnswer.toLowerCase()) {
+                    isPassed = true;
+                }
+            }
+            getAPI().SetValue("cmi.interactions.0.correct_responses."+j+".pattern", dataToCompare[j]);
+        }
+
+        if (isPassed) {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "passed");
+            getAPI().SetValue("cmi.score.scaled", "1.0");
+        } else {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "failed");
+            getAPI().SetValue("cmi.score.scaled", "0.0");
+        }
+    }
+</script>
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+        <h2 class="SCORMPlayerQuestionSubtitle">Type the value:</h2>
+    </div>
+    <div class="playerMainArea">
+        <input class="playerShortAnswerField" id="scormAnswer" type="text" value=""/>
+    </div>
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerNext"><button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button></div>
+        <div class="clear"></div>
+    </div>
+</div>

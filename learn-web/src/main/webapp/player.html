@@ -1,0 +1,144 @@
+<html>
+<head>
+    <script type="text/javascript" language="javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
+    <script type="text/javascript" src="{{contextPath}}/js/libs/mustache.js"></script>
+    <script type="text/javascript" src="{{contextPath}}/js/libs/list.js"></script>
+    <script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/grid.locale-en.js"></script>
+    <script type="text/javascript" language="javascript"
+            src="{{contextPath}}/js/libs/jquery.i18n.properties-min.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.form.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
+
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/fileuploader.js"></script>
+
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PackageModel.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PackageView.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PlayerView.js"></script>
+
+    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
+
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/validator.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/dataModel.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteBase.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteData.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
+    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
+    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/player.css"/>
+
+    <script type="text/javascript" language="javascript">
+        var scormPackages = new PackageModelCollection();
+        var scormPlayer;
+        var scormPackagesView;
+        var scormPlayerLanguageData = {};
+
+        $(function () {
+            window.LearnAjax.setHeader("scormUserID", "{{userID}}");
+            window.LearnAjax.setHeader("scormUserName", "{{userName}}");
+            window.API_1484_11 = new SCORM2004_4API();
+
+            // upload translations
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
+        });
+
+        function loadDefaultLanguage() {
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_en.properties', onLanguageLoad, onLanguageError);
+        }
+
+        function onLanguageLoad(properties) {
+            scormPlayerLanguageData = properties;
+            initView();
+        }
+
+        function onLanguageError() {
+            alert('Translation resource loading failed!');
+        }
+
+        function initView() {
+            var loader = new TemplateLoader();
+            loader.on('complete', function () {
+                scormPlayer = new PlayerView({el:$("#SCORMPlayerView"), language:scormPlayerLanguageData});
+                $("#SCORMPlayerView").hide();
+                scormPlayer.on('exit', exit);
+                scormPlayer.on('suspend', suspend);
+                scormPlayer.on('endSession', togglePlayer);
+                window.scormPlayerView = scormPlayer;
+
+                scormPackagesView = new PackageListView({el:$("#packageList"), collection:scormPackages, language:scormPlayerLanguageData});
+                $("#packageSearch").keyup(function () {
+                    scormPackagesView.filterPackages($("#packageSearch").val());
+                });
+                scormPackagesView.on('start', startPackage);
+                scormPackagesView.on('resume', resumePackage);
+                scormPackages.fetch();
+            }, this);
+            loader.fetch("templates/player_templates.html");
+        }
+
+        function suspend() {
+            scormPackagesView.reloadPackageList();
+            togglePlayer();
+        }
+
+        function exit() {
+            scormPackagesView.reloadPackageList();
+        }
+
+        function startPackage(data) {
+            scormPlayer.setName(data.packageName);
+            scormPlayer.load(data.id);
+            togglePlayer();
+        }
+
+        function resumePackage(data) {
+            scormPlayer.setName(data.packageName);
+            scormPlayer.loadAndResume(data.id);
+            togglePlayer();
+        }
+
+        function scormGetNext() {
+            scormPlayer.doContinue();
+        }
+        function scormGetPrev() {
+            scormPlayer.doPrevious();
+        }
+        function scormJump(target) {
+            scormPlayer.doJump(target);
+        }
+
+        function togglePlayer() {
+            $("#SCORMPlayerContainer").toggle();
+            $("#SCORMPlayerView").toggle();
+        }
+    </script>
+</head>
+<body>
+<div class="projectLearnGeneric">
+    <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
+    <div id="SCORMPlayerContainer">
+        <br clear="all"/>
+
+        <div class="SCORMWell">
+            <div style="float: left">
+                <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageSearch" class="SCORMSearch"/>
+            </div>
+            <br style="clear: both"/>
+
+            <div id="packageList" class="SCORMPackageList"></div>
+        </div>
+    </div>
+    <div id="SCORMPlayerView"></div>
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+</html>

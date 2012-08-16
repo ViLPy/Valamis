@@ -1,0 +1,104 @@
+/* ------------ BASIC LAYOUT ----------------*/
+
+* {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+body {
+    font-size:14px;
+    font-family: "Tahoma", sans-serif;
+    margin: 1px;
+}
+
+.SCORMTitle {
+	text-align: center;
+	font-weight: bold;
+    margin:0px 5px 18px 0px;
+    background-color: #D9DCDD;
+    padding: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+	float: left;
+	font-size: 16px;
+	text-shadow: -1px -1px #FFFFFF;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+/* ------------ Buttons  ----------------*/
+
+.textbutton {
+	background: none repeat scroll 0 0 #333333;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 3px 8px 4px;
+    font-size: 14px;
+    margin: 7px 0 0 0;
+    cursor: pointer;
+}
+
+.textbutton:hover {
+	background: #D34040;
+}
+
+.smallTextbutton {
+	background: none repeat scroll 0 0 #333333;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 2px 3px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.smallTextbutton:hover {
+	background: #D34040; 
+}
+
+.button32 {
+	border: 0px;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-image:url('../img/sprite-32x32.png');
+	margin-left: 3px;
+}
+
+.button28 {
+    background-image: url("../img/sprite-28x28.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0 none;
+    cursor: pointer;
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+}
+
+.button24x18 {
+	border: 0px;
+	width: 24px;
+	height: 18px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-image:url('../img/sprite-24x18.png');
+	background-color: transparent;
+	margin-bottom: 1px;
+	float: right;
+}
+
+
+

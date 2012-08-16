@@ -1,0 +1,83 @@
+<script type="text/javascript">
+    var dataToCompare = {{{answer}}};
+
+    $(document).ready(function () {
+        getAPI().Initialize("");
+    });
+
+    function gatherData() {
+        // this will check is user answer right
+        var userAnswers = [];
+        //{{#multipleChoice}}
+        $(".playerMainArea > :checkbox").each(function (index, elem) {
+            if ($(elem).attr("checked")) {
+                userAnswers.push(parseInt($(elem).attr('id').replace("scormAnswer", "")));
+            }
+        });
+        //{{/multipleChoice}}
+        //{{^multipleChoice}}
+        $(".playerMainArea > :radio").each(function (index, elem) {
+            if ($(elem).prop("checked")) {
+                userAnswers.push(parseInt($(elem).attr('id').replace("scormAnswer", "")));
+            }
+        });
+        //{{/multipleChoice}}
+        var isPassed = (userAnswers.length == dataToCompare.length);
+        if (isPassed) {
+            for (var i = 0; i < userAnswers.length; i++) {
+                var found = false;
+                for (var j = 0; j < dataToCompare.length; j++) {
+                    if (dataToCompare[j] == userAnswers[i]) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    isPassed = false;
+                    break;
+                }
+            }
+        }
+
+        getAPI().SetValue("cmi.interactions.0.type", "choice");
+        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
+        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", dataToCompare.join("[,]"));
+
+        if (isPassed) {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "passed");
+            getAPI().SetValue("cmi.score.scaled", "1.0");
+        } else {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "failed");
+            getAPI().SetValue("cmi.score.scaled", "0.0");
+        }
+    }
+</script>
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+
+        <h2 class="SCORMPlayerQuestionSubtitle">Choose correct</h2>
+    </div>
+    <div class="playerMainArea">
+        <b>Choose correct answers:</b>
+        <br>
+        {{#answers}}
+        {{#multipleChoice}}
+        <input type="checkbox" id="scormAnswer{{id}}" class="checkbox"/><label>{{{text}}}</label><br>
+        {{/multipleChoice}}
+        {{^multipleChoice}}
+        <input type="radio" id="scormAnswer{{id}}" class="radio"/><label>{{{text}}}</label><br>
+        {{/multipleChoice}}
+        {{/answers}}
+    </div>
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerNext">
+            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
+            </button>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

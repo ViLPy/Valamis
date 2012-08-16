@@ -1,0 +1,92 @@
+<script type="text/javascript">
+    var dataToCompare = {{{answers}}};
+    $(document).ready(function () {
+        getAPI().Initialize("");
+        PrepareCategorizationQuestionView();
+    });
+
+    function gatherData() {
+        // this will check is user answer right
+        var userAnswers = [];
+        var patterAnswers = [];
+        var answers = $(".categorizationAnswerBoxs").each(function (index, element) {
+            var group = $("th", $(element)).html().toString().trim();
+            var answers = $("ul > li", $(element));
+            answers.each(function (answerIndex, answerElement) {
+                var answer = $(answerElement).html().toString().trim();
+                userAnswers.push([group, answer].join("[.]"));
+            });
+        });
+
+        var isPassed = true;
+        for (var i = 0; i<dataToCompare.length; i++) {
+            var cmpString = decodeURIComponent(dataToCompare[i].text) + "[.]" + decodeURIComponent(dataToCompare[i].matchingText);
+            patterAnswers.push(cmpString);
+            var found = false;
+            for (var j = 0; j<userAnswers.length; j++) {
+                if (cmpString == userAnswers[j]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                isPassed = false;
+            }
+
+        }
+        var mergedAnswers = userAnswers.join("[,]");
+
+        getAPI().SetValue("cmi.interactions.0.type", "matching");
+        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
+        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", patterAnswers.join("[,]"));
+
+        if (isPassed) {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "passed");
+            getAPI().SetValue("cmi.score.scaled", "1.0");
+        } else {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "failed");
+            getAPI().SetValue("cmi.score.scaled", "0.0");
+        }
+    }
+</script>
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+   		<h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+   		<h2 class="SCORMPlayerQuestionSubtitle">Distribute items to categories by using "drag and drop":</h2>
+   	</div>
+    <div class="playerMainArea">
+        <div class="playerCategorizeAnswers">
+            <ul id="sortable" class="categorizationAnswerElements">
+                {{#matchingText}}
+                <li class="ui-state-default acceptable">{{{.}}}</li>
+                {{/matchingText}}
+            </ul>
+
+            {{#answerText}}
+            <table class="categorizationAnswerBoxs">
+                <tr>
+                    <th>
+                        {{{.}}}
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <ul class="answerContainer ui-droppable"></ul>
+                    </td>
+                </tr>
+            </table>
+            {{/answerText}}
+        </div>
+    </div>
+    <div class="clear"></div>
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerNext">
+            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
+            </button>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

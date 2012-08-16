@@ -1,0 +1,81 @@
+@import "generic.less";
+
+body {
+    //font-size: 62.5%;
+    font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+}
+
+#SCORMQuestionBankToolbar {
+    margin: -10px -15px 5px -10px;
+    height:42px;            
+}
+
+#SCORMBankWrapper {
+    white-space: nowrap;
+    position: relative;
+}
+
+#SCORMBankHeader {
+    .shadow;
+    width:100%;
+    height:40px;
+    position: absolute;
+    top:0;
+    background-color:  #eee;
+    background-color: rgba(238, 238, 238, 0.9);
+    padding-top:2px;
+}
+
+#SCORMCategoryView, #SCORMCategoryEdit, #SCORMQuestionContentDiv {
+    .rounded3px;
+    padding: 10px;
+    margin-top:45px;
+}
+
+.SCORMDescription, .SCORMExplanation, .SCORMQuestion, .SCORMText {
+    .borderRadiusMixin(10px);
+    border: 1px solid #CCCCCC;
+    padding: 5px 20px;
+}
+
+.SCORMAnswer {
+    .SCORMDescription;
+    cursor: move;
+    margin-bottom: 5px;
+}
+
+#SCORMQuestionEditor {
+    overflow: auto;
+}
+
+.SCORMFixedPanel {
+    margin-left: -10px;
+    margin-top: -10px;
+    padding-left: 10px;
+    position: absolute;
+    height:40px;
+    padding-top: 2px;		
+}
+
+.filledArea {
+    background-color: rgba(193, 215, 234, 0.3);
+    margin-bottom:15px;
+}
+
+#SCORMQuestionText {
+    .filledArea;
+}
+
+#SCORMExplanationText {
+    .filledArea;
+}
+
+#SCORMQuestionAnswersEditors .ui-sortable-helper {
+    border: 1px dashed #CCCCCC;
+    background-color:#fff;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.SCORMAnswerTitle {
+    font-weight: bold;
+}

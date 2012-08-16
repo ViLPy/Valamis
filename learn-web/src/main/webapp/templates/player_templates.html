@@ -1,0 +1,81 @@
+<!--Package row view-->
+<script type="text/mustache" id="packageRow">
+    <td>{{{title}}}</td>
+    <td>{{{summary}}}</td>
+    <td>
+        {{#suspendedID}}
+        <button id="resumePackage" class='smallTextbutton'>{{packageViewButtonResumeLabel}}</button>
+        {{/suspendedID}}
+        {{^suspendedID}}
+        <button id="startPackage" class='smallTextbutton'>{{packageViewButtonStartLabel}}</button>
+        {{/suspendedID}}
+    </td>
+</script>
+
+<!--Package list view-->
+<script type="text/mustache" id="packageListTemplate">
+    <div class="SCORMPackageListHeader">
+        <div class="SCORMPackageListHeaderText">{{packageViewSubTitleLabel}}</div>
+        <div class="SCORMPackageListHeaderButtons">
+            <abbr title="{{packageListReloadButtonLabel}}">
+                <button id="SCORMPackageListReload" class="button28 buttonReload"></button>
+            </abbr>
+        </div>
+        <div style="clear:both"/>
+    </div>
+    <table style="width: 100%" cellpadding="0" cellspacing="0" id="scormPackageTable">
+        <thead>
+        <tr>
+            <th scope="col" class="scormPackageTitleColumn sortable listTitle" ref="title">{{packageViewTableTitleColumnLabel}}</th>
+            <th scope="col" class="scormPackageSummaryColumn listTitle">{{packageViewTableSummaryColumnLabel}}</th>
+            <th scope="col" class="scormPackageVisibilityColumn listTitle">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody id="SCORMPackagesGrid">
+        </tbody>
+    </table>
+</script>
+
+<script type="text/mustache" id="SCORMPlayerContent">
+    <div id="SCORMApplicationContainer">
+        <div style="text-align:center;">
+            <div id="SCORMNavigation" class="SCORMNavigation">
+                <button id="SCORMNavigationBackward" class="smallTextbutton marged" style="float: left">{{navigationButtonBackLabel}}</button>
+                <button id="SCORMNavigationForward" class="smallTextbutton marged" style="float: left">{{navigationButtonNextLabel}}</button>
+                <button id="SCORMNavigationExit" class='smallTextbutton marged' style="float: left">{{navigationButtonExitLabel}}</button>
+                <button id="SCORMNavigationSuspend" class='smallTextbutton marged' style="float: left">{{navigationButtonSuspendLabel}}</button>
+            </div>
+        </div>
+        <br clear="all"/>
+        <table style="width: 100%">
+            <tr valign="top">
+                <td id="SCORMTogglePanel">
+                    <div id="SCORMMenu">
+                        <div>
+                            <b>{{packageNameSubTitleLabel}}</b> <div id='currentPackageName'></div>
+                            <br>
+                            <div class="SCORMMenuheader">{{packageContentSubTitleLabel}}</div>
+                            <select id="SCORMOrganizations" style="width: 200px"></select>
+                        </div>
+                        <div id="SCORMTree"></div>
+                    </div>
+                </td>
+                <td valign="middle">
+                    <abbr title="Hide tree">
+                        <button id="SCORMToggleButton" class="SCORMToggleButton"></button>
+                    </abbr>
+                </td>
+                <td style="width: 100%">
+                    <table style="width: 100%">
+                        <tr>
+                            <td id="scormData" class="scormData">
+                                <iframe id="SCORMDataOutput" src=""
+                                        style="width: 100%; height: 100%; border:0;"></iframe>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</script>

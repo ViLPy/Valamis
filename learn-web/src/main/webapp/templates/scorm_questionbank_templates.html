@@ -1,0 +1,425 @@
+<script type="text/mustache" id="defaultView">
+    <b>{{rootViewLabel}}</b>
+</script>
+
+<script type="text/mustache" id="categoryView">
+    <div id="SCORMCategoryView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categorySubTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryNameView" class="SCORMResult">{{title}}</div>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="categoryEditView">
+    <div id="SCORMCategoryView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categorySubTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <input type='text' id='SCORMCategoryNameEdit' title='{{requiredFieldTooltipLabel}}' value='{{title}}'/>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
+                <abbr title="{{categoryEditDescriptionButtonTooltipLabel}}">
+                    <button id="SCORMEditButtonDescription"
+                            class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="questionView">
+    <div id="SCORMQuestionContentDiv">
+        <div id="SCORMQuestionTypeDiv">
+            <div class="quizSectionType">{{questionTypeString}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{title}}</div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTextLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult">{{{text}}}</div>
+        </div>
+
+        <div id="SCORMQuestionExplanation">
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionExplanationLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult">{{{explanationText}}}</div>
+        </div>
+        <div id="SCORMQuestionIsBounded" class="SCORMCheckbox">
+            <input type="checkbox" disabled="disabled" id="SCORMQuestionBounded"/> {{questionNotifyUserCorrectAmountLabel}}
+        </div>
+        <div id="SCORMQuestionIsCaseSensitive" class="SCORMCheckbox">
+            <input type="checkbox" disabled="disabled" id="SCORMQuestionCaseSensitive"/> {{questionCaseSensitiveLabel}}
+        </div>
+        <div id="SCORMQuestionAnswers">
+            <div id="SCORMQuestionAnswersEditors"></div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="questionEditView">
+    <div id="SCORMQuestionContentDiv">
+        <div id="SCORMQuestionTypeDiv">
+            <div class="quizSectionType">{{questionTypeLabel}}</div>
+            <select id="SCORMQuestionType">
+                <option value="type0">{{choiceQuestionTypeLabel}}</option>
+                <option value="type1">{{shortAnswerQuestionTypeLabel}}</option>
+                <option value="type2">{{numericQuestionTypeLabel}}</option>
+                <option value="type3">{{positioningQuestionTypeLabel}}</option>
+                <option value="type4">{{matchingQuestionTypeLabel}}</option>
+                <option value="type5">{{essayQuestionTypeLabel}}</option>
+                <!--<option value="type6">Embedded answer question</option>-->
+                <option value="type7">{{categorizationQuestionTypeLabel}}</option>
+            </select>
+        </div>
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <input type='text' id='SCORMQuestionTitleEdit' title='{{requiredFieldTooltipLabel}}' value='{{title}}'/>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTextLabel}}</div>
+                <abbr title="{{questionEditTextButtonTooltipLabel}}">
+                    <button id="SCORMEditText" class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult" id="SCORMQuestionTextView">{{{text}}}</div>
+        </div>
+
+        <div id="SCORMQuestionExplanation">
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionExplanationLabel}}</div>
+                <abbr title="{{questionEditExplanationTextButtonTooltipLabel}}">
+                    <button id="SCORMEditExplanation" class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult" id="SCORMExplanationTextView">{{{explanationText}}}</div>
+        </div>
+        <div id="SCORMQuestionIsBounded" class="SCORMCheckbox">
+            <input type="checkbox" id="SCORMQuestionBounded"/> {{questionNotifyUserCorrectAmountLabel}}
+        </div>
+        <div id="SCORMQuestionIsCaseSensitive" class="SCORMCheckbox">
+            <input type="checkbox" id="SCORMQuestionCaseSensitive"/> {{questionCaseSensitiveLabel}}
+        </div>
+        <div id="SCORMQuestionAnswers">
+            <div id="SCORMQuestionAnswersEditors"></div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="answerCollectionView">
+    <div id="SCORMQuestionAnswersEditors"></div>
+    <div class="SCORMAddNewButton" id='SCORMAddAnswersButtonBlock'>
+        <abbr title="{{addNewAnswersButtonLabel}}">
+            <button id="SCORMButtonAddAnswer">{{addNewAnswersButtonLabel}}</button>
+        </abbr>
+    </div>
+</script>
+
+<!-- Answers -->
+<!-- Choice Answer -->
+<script type="text/mustache" id="choiceAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText">{{{answerText}}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <input type="checkbox" id="SCORMAnswerIsCorrect" disabled="disabled"/> {{answerCorrectnessLabel}}
+    </div>
+</script>
+
+<script type="text/mustache" id="choiceAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="SCORMAnswerRemove" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+            <abbr title="{{answerEditTextButtonTooltipLabel}}">
+                <button id="buttonSCORMEditText" class="button24x18 buttonPen questionbankAnswerEdit"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <input type="checkbox" id="SCORMAnswerIsCorrect"/> {{answerCorrectnessLabel}}
+    </div>
+</script>
+
+<!-- Short Answer -->
+<script type="text/mustache" id="shortAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            {{{answerText}}}
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="shortAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="SCORMAnswerRemove" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <input type="text" id="SCORMAnswerText" value="{{{answerText}}}"></input>
+        </div>
+    </div>
+</script>
+
+<!-- Numeric Answer -->
+<script type="text/mustache" id="numericAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTexArea">{{rangeFromLabel}} {{rangeFrom}}</div>
+        <div class="SCORMAnswerTextArea">{{rangeToLabel}} {{rangeTo}}</div>
+    </div>
+</script>
+
+<script type="text/mustache" id="numericAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="SCORMAnswerRemove" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTexArea">{{rangeFromLabel}} <input type="text" id="SCORMAnswerRangeFrom" value="{{rangeFrom}}"/>
+        </div>
+        <div class="SCORMAnswerTextArea">{{rangeToLabel}} <input type="text" id="SCORMAnswerRangeTo" value="{{rangeTo}}"/></div>
+    </div>
+</script>
+
+<!-- Positioning Answer -->
+<script type="text/mustache" id="positioningAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText">{{{answerText}}}</div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</script>
+<script type="text/mustache" id="positioningAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="SCORMAnswerRemove" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+            <abbr title="{{answerEditTextButtonTooltipLabel}}">
+                <button id="buttonSCORMEditText" class="button24x18 buttonPen questionbankAnswerEdit"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</script>
+
+<!-- Matching Answer -->
+<script type="text/mustache" id="matchingAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{matchingSentenceLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+            <br>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{matchingElementLabel}}</div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            {{{matchingText}}}
+        </div>
+    </div>
+</script>
+<script type="text/mustache" id="matchingAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="SCORMAnswerRemove" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{matchingSentenceLabel}}</div>
+                <abbr title="{{answerEditTextButtonTooltipLabel}}">
+                    <button id="buttonSCORMEditText" class="button24x18 buttonPen questionarieEditTextButton"></button>
+                </abbr>
+
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+            <br>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{matchingElementLabel}}</div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <input type="text" id="SCORMAnswerMatchingText" value="{{{matchingText}}}"></input>
+        </div>
+    </div>
+</script>
+
+<!-- Categorization Answer -->
+<script type="text/mustache" id="categorizationAnswerView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{categorizationCategoryLabel}}</div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText">{{{answerText}}}</div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{categorizationMatchingElementsLabel}}</div>
+        </div>
+        <div id="SCORMAnswerOptions"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="categorizationOption">
+    <div class="SCORMAnswerTextArea SCORMOption">
+        <div class="SCORMAnswerText">{{{text}}}</div>
+        <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="categorizationAnswerEditView">
+    <div id="SCORMAnswer_{{cid}}" class="SCORMAnswer">
+        <div class="SCORMAnswerHeader">
+            <div class="SCORMAnswerTitle">{{answerIndexLabel}}<span id="SCORMAnswerTitleID_{{cid}}"/>{{position}}</div>
+            <abbr title="{{answerRemoveButtonTooltipLabel}}">
+                <button id="deleteAnswer" class="button28 buttonRemove questionbankButton"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{categorizationCategoryLabel}}</div>
+        </div>
+        <div class="SCORMAnswerTextArea">
+            <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+            <abbr title="{{answerEditTextButtonTooltipLabel}}">
+                <button id="buttonSCORMEditText" class="button24x18 buttonPen questionbankAnswerEdit"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{categorizationMatchingElementsLabel}}</div>
+        </div>
+        <div id="SCORMAnswerOptions"></div>
+
+        <div id="SCORMAddElement" class="SCORMAddNewButton">
+            <abbr title="{{categorizationAddNewMatchingElementLabel}}">
+                <button id="SCORMButtonAddOption">{{categorizationAddNewMatchingElementLabel}}</button>
+            </abbr>
+        </div>
+
+    </div>
+</script>
+
+<script type="text/mustache" id="categorizationOptionEdit">
+    <div class="SCORMAnswerTextArea SCORMOption">
+        <div class="SCORMAnswerOptionText" id="SCORMAnswerOptionText">{{{text}}}</div>
+        <abbr title="{{categorizationRemoveOptionLabel}}">
+            <button id="SCORMButtonRemoveOption"
+                    class="button24x18 buttonDelete questionbankAnswerDelete"></button>
+        </abbr>
+        <abbr title="{{categorizationEditOptionTextTooltipLabel}}">
+            <button id="buttonSCORMEditOptionText" class="button24x18 buttonPen questionbankAnswerEdit"></button>
+        </abbr>
+
+        <div style="clear:both"></div>
+    </div>
+</script>
