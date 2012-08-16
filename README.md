@@ -5,8 +5,7 @@ The targeted version of SCORM is 2004 4th edition.
 All server-side code is written using the Scala programming language for the JVM.
 
 The current implementation is only able do display static SCORM content with respect towards the different content organizations and the activity structure in each organization.
-Also added simple question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.). At that moment only quiz editor is available. 
-Quiz player will be available later.
+Also added simple question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.)
 
 Administrative features let you manage SCORM packages, uploading the them in standard zipped format.
 The user interface is available in two forms - a standalone web application, which may be deployed against any servlet container, and a JSR-compliant portlet, which may be deployed against a standards-based portlet container. The portlet version has been tested on Liferay, but does not depend on its specific features.
@@ -25,7 +24,14 @@ The solution will be further developed to support the full set of requirements f
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
-## Version 3 - Question base portlet stabilized. Update: 06.02.2012
+## Version 1.0 - Release. Update: 16.08.2012
+ - SCORM 2004 4th Ed. support improved in part of Sequencing and RTE
+ - Added quiz generation support
+ - Added gradebook portlet
+ - UI refactored
+ - Source code refactoring and unit testing
+
+## Version 0.3 - Question base portlet stabilized. Update: 06.02.2012
  - Added functionality to upload and add image and file attachements in Questionbank.
  - Added drag-n-dropfor question and category in TreeView
  - A lot of small improvements regarding to UI
@@ -33,7 +39,6 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
 ### Building
 
 This is Maven2 project, so you can use IDE that you like.
-Tested on Netbeans 6.8+ up to current Netbeans 7.1 release.
 
 #### Tests
 For running tests on local machine for scorm-player you should change db.properties file inside resources directory and setup you current PostgreSQL instance.
