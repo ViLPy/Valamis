@@ -4,7 +4,7 @@ QuestionbankSelectDialog = Backbone.View.extend({
 	var that = this;
 	var tree = this.initQuestionSelectTree(this.$el.append("<div></div>"));
 			
-	this.questionDialog = $( "#questionChooseDialog" ).dialog({
+	this.questionDialog = jQuery( "#questionChooseDialog" ).dialog({
 	    autoOpen: false,
 	    modal: true,
 	    buttons: {
@@ -21,17 +21,17 @@ QuestionbankSelectDialog = Backbone.View.extend({
 			    questions.push(model.id);
 			}
 		    }
-		    jQuery.when($.get(Utils.getContextPath() + "/services/category/children/withQuestions/", {
+		    jQuery.when(jQuery.get(Utils.getContextPath() + "/services/category/children/withQuestions/", {
 			categories: categories.join(';'), 
 			questions: questions.join(';')
 		    })).done(function(response) {
 			that.callback.call(that.callbackContext,response);
 		    })
 		    
-		    $( this ).dialog( "close" );
+            jQuery( this ).dialog( "close" );
 		},
 		Cancel: function() {
-		    $( this ).dialog( "close" );
+            jQuery( this ).dialog( "close" );
 		}
 	    },
 	    open: function() {
@@ -94,7 +94,7 @@ QuestionbankSelectDialog = Backbone.View.extend({
 	    "plugins" : [ "themes", "ui", "json_data", "types", "checkbox" ]
 	}
 	var treeView = new jsTreeView({
-	    el : $(node),
+	    el : jQuery(node),
 	    collection : treeData,
 	    initParams : treeInitParams
 	});

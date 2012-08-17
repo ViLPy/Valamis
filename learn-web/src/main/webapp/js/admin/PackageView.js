@@ -5,7 +5,7 @@ PackageView = Backbone.View.extend({
     },
 
     initialize:function () {
-        this.$el = $('<tr>');
+        this.$el = jQuery('<tr>');
         this.$el.attr("id", this.model.id);
     },
 
@@ -27,13 +27,13 @@ PackageView = Backbone.View.extend({
 
     showEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#packageRowEdit").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageRowEdit").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
     },
 
     showDefault:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#packageRow").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageRow").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
     },
 
@@ -72,14 +72,14 @@ PackageListView = Backbone.View.extend({
 
     render:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#packageListTemplate").html(), language);
+        var template = Mustache.to_html(jQuery("#packageListTemplate").html(), language);
         this.$el.html(template);
         this.$("#SCORMPackageDone").hide();
-        this.scormPackageList = $("#SCORMPackagesGrid").List();
+        this.scormPackageList = jQuery("#SCORMPackagesGrid").List();
         this.$(".sortable").each(jQuery.proxy(function (index, element) {
-            var dom = $(element);
+            var dom = jQuery(element);
             this.sortableAscOrder[dom.attr('ref')] = true;
-            var icon = $('<div>');
+            var icon = jQuery('<div>');
             icon.addClass('ui-icon');
             icon.addClass('ui-icon-triangle-1-n');
             icon.addClass('scormSortIcon');
@@ -125,10 +125,10 @@ PackageListView = Backbone.View.extend({
     },
 
     sortPackages:function (event) {
-        var targetRow = $(event.target);
+        var targetRow = jQuery(event.target);
         var ref = targetRow.attr('ref');
         this.sortableAscOrder[ref] = !this.sortableAscOrder[ref];
-        $('.ui-icon', targetRow).toggleClass("ui-icon-triangle-1-n").toggleClass("ui-icon-triangle-1-s");
+        jQuery('.ui-icon', targetRow).toggleClass("ui-icon-triangle-1-n").toggleClass("ui-icon-triangle-1-s");
         this.scormPackageList.sort(ref, this.sortableAscOrder[ref] ? "asc" : "desc");
     },
 

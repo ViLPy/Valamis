@@ -2,14 +2,14 @@
 <head>
     <title></title>
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+            src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+            src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
+
+    <script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
+    <script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
     <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
 
     <script type="text/javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/libs/jstreegrid.js"></script>
@@ -18,11 +18,12 @@
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/gradebook.css"/>
 
     <script type="text/javascript">
+        var jQuery1816 = jQuery.noConflict();
         var previewData = [];
         var currentActivityID;
 
-        $(function () {
-            $("#dialog-form").dialog({
+        jQuery1816(function () {
+            jQuery1816("#dialog-form").dialog({
                 autoOpen:false,
                 width:350,
                 modal:true
@@ -31,9 +32,9 @@
 
         function drawTree(jsonData) {
             if (jsonData.length <= 0) {
-                $("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
+                jQuery1816("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
             } else {
-                $("#jsTreeGradebook").empty().jstree({
+                jQuery1816("#jsTreeGradebook").empty().jstree({
                     plugins:["themes", "json_data", "grid", "types"],
                     json_data:{data:jsonData},
                     "themes":{
@@ -67,18 +68,18 @@
                         resizable:true
                     }
                 }).bind("open_node.jstree",function (event, data) {
-                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         }).bind("close_node.jstree", function (event, data) {
-                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         });
 
-                var jsTreeRef = jQuery.jstree._reference("#jsTreeGradebook");
+                var jsTreeRef = jQuery1816.jstree._reference("#jsTreeGradebook");
                 jsTreeRef.open_all();
 
-                $("#jsTreeGradebook").delegate("a", "click", function (e) {
-                    $("#jsTreeGradebook").jstree("toggle_node", this);
+                jQuery1816("#jsTreeGradebook").delegate("a", "click", function (e) {
+                    jQuery1816("#jsTreeGradebook").jstree("toggle_node", this);
                 });
             }
         }
@@ -120,17 +121,17 @@
 
         function review(id) {
             currentActivityID = id;
-            $("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
-            $("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
-            $("#dialog-form").dialog('open');
+            jQuery1816("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
+            jQuery1816("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
+            jQuery1816("#dialog-form").dialog('open');
         }
 
         function printReport() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816("#gradebookPackageChoice").val();
+            var userID = jQuery1816("#gradebookUserChoice").val();
 
             window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + packageID + "/user/" + userID,
-                    $.proxy(function (data) {
+                    jQuery1816.proxy(function (data) {
                         drawTree(formatEntityToJSTree(data));
                     }, this)
             );
@@ -138,8 +139,8 @@
 
         /*{{#isAdmin}}*/
         function markAsPassed() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816("#gradebookPackageChoice").val();
+            var userID = jQuery1816("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -153,8 +154,8 @@
         }
 
         function markAsFailed() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816("#gradebookPackageChoice").val();
+            var userID = jQuery1816("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -167,7 +168,7 @@
         }
         /*{{/isAdmin}}*/
         function closeReviewDialog() {
-            $("#dialog-form").dialog('close');
+            jQuery1816("#dialog-form").dialog('close');
         }
     </script>
 </head>
@@ -212,7 +213,7 @@
                    value="{{reviewDialogCloseButtonLabel}}"/>
 
             <!--{{#isAdmin}}-->
-            <div class="float-right">
+            <div class="float-right" style="float: right;">
                 <input type="button" class="textbutton" onclick="markAsPassed()"
                        value="{{reviewDialogPassedButtonLabel}}"/>
                 <input type="button" class="textbutton" onclick="markAsFailed()"

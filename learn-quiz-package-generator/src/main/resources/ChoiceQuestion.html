@@ -1,7 +1,7 @@
 <script type="text/javascript">
     var dataToCompare = {{{answer}}};
 
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
 
@@ -9,16 +9,16 @@
         // this will check is user answer right
         var userAnswers = [];
         //{{#multipleChoice}}
-        $(".playerMainArea > :checkbox").each(function (index, elem) {
-            if ($(elem).attr("checked")) {
-                userAnswers.push(parseInt($(elem).attr('id').replace("scormAnswer", "")));
+        jQuery(".playerMainArea > :checkbox").each(function (index, elem) {
+            if (jQuery(elem).attr("checked")) {
+                userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
             }
         });
         //{{/multipleChoice}}
         //{{^multipleChoice}}
-        $(".playerMainArea > :radio").each(function (index, elem) {
-            if ($(elem).prop("checked")) {
-                userAnswers.push(parseInt($(elem).attr('id').replace("scormAnswer", "")));
+        jQuery(".playerMainArea > :radio").each(function (index, elem) {
+            if (jQuery(elem).prop("checked")) {
+                userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
             }
         });
         //{{/multipleChoice}}

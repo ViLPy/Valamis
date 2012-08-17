@@ -14,7 +14,7 @@ PlayerView = Backbone.View.extend({
     },
     render:function () {
         var language = this.options.language;
-        var template = $("#SCORMPlayerContent").html();
+        var template = jQuery("#SCORMPlayerContent").html();
         this.$el.html(Mustache.to_html(template, language));
     },
 
@@ -46,8 +46,8 @@ PlayerView = Backbone.View.extend({
             items += addTreeItem(data[i]);
         }
         var that = this;
-        $("#SCORMTree").html("<ul>" + items + "</ul>");
-        $("#SCORMTree").jstree({
+        jQuery("#SCORMTree").html("<ul>" + items + "</ul>");
+        jQuery("#SCORMTree").jstree({
             "themes":{
                 "url":Utils.getContextPath() + "/css/jstree/style.css",
                 "dots":false,
@@ -79,8 +79,8 @@ PlayerView = Backbone.View.extend({
         window.LearnAjax.setHeader("currentScormPackageID", this.packageID.toString());
 
         function addOption(element, key, value) {
-            $(element).
-                append($("<option></option>").
+            jQuery(element).
+                append(jQuery("<option></option>").
                 attr("value", key).
                 text(value));
         }
@@ -90,11 +90,11 @@ PlayerView = Backbone.View.extend({
             addOption('#SCORMOrganizations', organizationsData[i].id, decodeURIComponent(organizationsData[i].title));
         }
         if (organizationsData.length === 1) {
-            $('#SCORMOrganizations').hide("");
+            jQuery('#SCORMOrganizations').hide("");
         } else if (organizationsData.length === 0) {
             return;
         } else {
-            $('#SCORMOrganizations').show("");
+            jQuery('#SCORMOrganizations').show("");
         }
 
         this.organizationID = organizationsData[0].id;
@@ -108,23 +108,23 @@ PlayerView = Backbone.View.extend({
 
     loadView:function (data) {
         function resizeIFrame() {
-            var windowHeight = $(window).height() - 150;
-            $("#SCORMDataOutput").height(windowHeight);
+            var windowHeight = jQuery(window).height() - 150;
+            jQuery("#SCORMDataOutput").height(windowHeight);
         }
 
         function hideNavigationControls(control) {
             switch (control) {
                 case "continue":
-                    $("#SCORMNavigationForward").hide();
+                    jQuery("#SCORMNavigationForward").hide();
                     break;
                 case "previous":
-                    $("#SCORMNavigationBackward").hide();
+                    jQuery("#SCORMNavigationBackward").hide();
                     break;
                 case "exitAll":
-                    $("#SCORMNavigationExit").hide();
+                    jQuery("#SCORMNavigationExit").hide();
                     break;
                 case "suspendAll":
-                    $("#SCORMNavigationSuspend").hide();
+                    jQuery("#SCORMNavigationSuspend").hide();
                     break;
                 default:
                     break;
@@ -132,10 +132,10 @@ PlayerView = Backbone.View.extend({
         }
 
         function showNavigationControls() {
-            this.$("#SCORMNavigationForward").show();
-            this.$("#SCORMNavigationBackward").show();
-            this.$("#SCORMNavigationExit").show();
-            this.$("#SCORMNavigationSuspend").show();
+            jQuery("#SCORMNavigationForward").show();
+            jQuery("#SCORMNavigationBackward").show();
+            jQuery("#SCORMNavigationExit").show();
+            jQuery("#SCORMNavigationSuspend").show();
         }
 
         if (data.endSession) {
@@ -144,7 +144,7 @@ PlayerView = Backbone.View.extend({
 
         if (data.currentActivity) {
             this.selectNode(data.currentActivity);
-            $('#SCORMDataOutput').attr("src", data.activityURL);
+            jQuery('#SCORMDataOutput').attr("src", data.activityURL);
             resizeIFrame();
             API_1484_11.setActivity(this.packageID, this.organizationID, data.currentActivity);
 
@@ -157,20 +157,20 @@ PlayerView = Backbone.View.extend({
                 this.onSuspend = false;
                 this.trigger('suspend');
             }
-            $('#SCORMDataOutput').attr("src", "");
+            jQuery('#SCORMDataOutput').attr("src", "");
         }
     },
 
     load:function (packageID) {
         this.packageID = packageID;
         this.initView();
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("start"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("start"));
     },
 
     loadAndResume:function (packageID) {
         this.packageID = packageID;
         this.initView();
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("resumeAll"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("resumeAll"));
     },
 
     getNavigationRequestURL:function (requestType) {
@@ -179,34 +179,34 @@ PlayerView = Backbone.View.extend({
     },
 
     doPrevious:function () {
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("previous"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("previous"));
     },
 
     doContinue:function () {
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("continue"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("continue"));
     },
 
     doExit:function () {
         this.trigger('exit');
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("exitAll"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("exitAll"));
     },
 
     doSuspend:function () {
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("suspendAll"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("suspendAll"));
         this.onSuspend = true;
     },
 
     doChoice:function (id) {
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("choice{" + id + "}"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("choice{" + id + "}"));
     },
     doJump:function (id) {
-        $('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("jump{" + id + "}"));
+        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("jump{" + id + "}"));
     },
 
 
     selectNode:function (id) {
         this.jsTreeRef.deselect_all(); // drop selection from current
-        this.jsTreeRef.select_node($("#" + id));
+        this.jsTreeRef.select_node(jQuery("#" + id));
     },
 
     toggleLeftMenu:function () {

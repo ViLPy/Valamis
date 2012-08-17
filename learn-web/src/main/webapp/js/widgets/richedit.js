@@ -5,31 +5,31 @@ RichEdit = Backbone.View.extend({
         
 	var that = this;
         
-	$("#SCORMRichTextEditDialog"+this.cid).dialog({
+        jQuery("#SCORMRichTextEditDialog"+this.cid).dialog({
 	    width: 800, 
 	    resizable: false,
 	    autoOpen: false,
 	    modal: true,
 	    buttons: {
 		Ok: function() {
-		    $(that.editElement).html(that.redactor.getHtml());
-		    $( this ).dialog( "close" );
+            jQuery(that.editElement).html(that.redactor.getHtml());
+            jQuery( this ).dialog( "close" );
 		    that.callback.call(that.callbackContext, that.redactor.getHtml());
 		},
 		Cancel: function() {
-		    $( this ).dialog( "close" );
+            jQuery( this ).dialog( "close" );
 		}
 	    }
 	});
-	this.redactor = $('#SCORMRedactor'+this.cid).redactor();
+	this.redactor = jQuery('#SCORMRedactor'+this.cid).redactor();
     },
     show : function(title, element, callback, context){
 	this.callback = callback || this.callback;
 	this.callbackContext = context || this;
 	this.editElement = element;
-	this.redactor.setHtml($(element).html());
+	this.redactor.setHtml(jQuery(element).html());
         
-	$("#SCORMRichTextEditDialog"+this.cid).dialog("option", "title", title);
-	$("#SCORMRichTextEditDialog"+this.cid).dialog("open");
+        jQuery("#SCORMRichTextEditDialog"+this.cid).dialog("option", "title", title);
+        jQuery("#SCORMRichTextEditDialog"+this.cid).dialog("open");
     }
 });

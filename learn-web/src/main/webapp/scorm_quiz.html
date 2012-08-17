@@ -3,13 +3,13 @@
     <title>Quiz editor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+            src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
+            src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
+    <script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
+    <script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
+    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
 
     <script type="text/javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/libs/mustache.js"></script>
@@ -45,9 +45,10 @@
     <link rel="stylesheet" type="text/css" href="{{contextPath}}/css/quizmanagement.css">
 
     <script type="text/javascript" language="javascript">
+        var jQuery1816 = jQuery.noConflict();
         var scormLanguageData = {};
 
-        $(function () {
+        jQuery1816(function () {
             Utils.i18nLoader(Utils.getContextPath() + '/i18n/quiz_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
         });
 
@@ -67,20 +68,19 @@
         function initView() {
             window.AppView = Backbone.View.extend({
                 initialize:function () {
-                    jQuery.ajaxSetup({ cache:false });
                     var loader = new TemplateLoader();
                     loader.on('complete', this.initViews, this);
                     loader.fetch("templates/scorm_quiz_templates.html");
                 },
 
                 initViews:function () {
-                    this.questionChooseDialog = new QuestionbankSelectDialog({el:$("#questionChooseDialog"), language:scormLanguageData});
+                    this.questionChooseDialog = new QuestionbankSelectDialog({el:jQuery1816("#questionChooseDialog"), language:scormLanguageData});
 
                     this.availableQuizList = new QuizCollection();
-                    this.availableQuizes = new AvailableQuizListView({collection:this.availableQuizList, el:$('#quizList'), language:scormLanguageData});
+                    this.availableQuizes = new AvailableQuizListView({collection:this.availableQuizList, el:jQuery1816('#quizList'), language:scormLanguageData});
 
                     this.openedQuizCollection = new QuizCollection();
-                    this.openedQuizes = new OpenedQuizView({collection:this.openedQuizCollection, el:$('#quizTabs'), language:scormLanguageData});
+                    this.openedQuizes = new OpenedQuizView({collection:this.openedQuizCollection, el:jQuery1816('#quizTabs'), language:scormLanguageData});
 
                     this.availableQuizes.bind('quiz-open', this.openQuiz, this);
                     this.availableQuizes.bind('quiz-remove', this.closeQuiz, this);
@@ -104,7 +104,7 @@
 
             window.App = new AppView();
             if (!window.RichEdit || !(window.RichEdit instanceof RichEdit)) {
-                window.RichEdit = new RichEdit({el:$("#SCORMQuizEditRichEdit")});
+                window.RichEdit = new RichEdit({el:jQuery1816("#SCORMQuizEditRichEdit")});
             }
         }
 

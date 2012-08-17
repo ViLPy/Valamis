@@ -41,7 +41,7 @@ EntityView = Backbone.View.extend({
     clear:function () {
         this.$el.empty();
         var language = this.options.language;
-        this.$el.html(Mustache.to_html($("#defaultView").html(), language));
+        this.$el.html(Mustache.to_html(jQuery("#defaultView").html(), language));
         this.trigger('change-view', 'default');
     }
 });
@@ -60,7 +60,7 @@ CategoryView = Backbone.View.extend({
     },
 
     initialize:function () {
-        this.$el = $("<div>");
+        this.$el = jQuery("<div>");
         this.resetTemporaryModel();
         this.renderView();
     },
@@ -80,16 +80,16 @@ CategoryView = Backbone.View.extend({
 
     saveModel:function () {
         if (!this.updateModel()) return false;
-        $('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
+        jQuery('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
         var that = this;
         this.model.save(this.temporaryModel.toJSON(), {
             success:jQuery.proxy(function (question) {
-                $('#projectLearnGeneric').unblock();
-                $.growlUI(that.options.language['overlayCategorySaveMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlUI(that.options.language['overlayCategorySaveMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
             }, this),
             error:function () {
-                $('#projectLearnGeneric').unblock();
-                $.growlWarning(that.options.language['overlayCategorySaveMessageLabel'], that.options.language['overlayProcessMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlWarning(that.options.language['overlayCategorySaveMessageLabel'], that.options.language['overlayProcessMessageLabel']);
             }
         });
         this.renderView();
@@ -106,7 +106,7 @@ CategoryView = Backbone.View.extend({
 
     renderView:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#categoryView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#categoryView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             description:decodeURIComponent(this.model.get('description'))
         }, language)));
@@ -116,7 +116,7 @@ CategoryView = Backbone.View.extend({
 
     renderEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#categoryEditView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#categoryEditView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             description:decodeURIComponent(this.model.get('description'))
         }, language)));
@@ -144,7 +144,7 @@ QuestionView = Backbone.View.extend({
 
     initialize:function () {
         this.answerCollectionView = null;
-        this.$el = $("<div>");
+        this.$el = jQuery("<div>");
         this.resetTemporaryModel();
         this.renderView();
     },
@@ -172,16 +172,16 @@ QuestionView = Backbone.View.extend({
 
     saveModel:function () {
         if (!this.updateModel()) return false;
-        $('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
+        jQuery('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
         var that = this;
         this.model.save(this.temporaryModel.toJSON(), {
             success:function () {
-                $('#projectLearnGeneric').unblock();
-                $.growlUI(that.options.language['overlayQuestionSaveMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlUI(that.options.language['overlayQuestionSaveMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
             },
             error:function () {
-                $('#projectLearnGeneric').unblock();
-                $.growlWarning(that.options.language['overlayQuestionSaveMessageLabel'], that.options.language['overlayFailedMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlWarning(that.options.language['overlayQuestionSaveMessageLabel'], that.options.language['overlayFailedMessageLabel']);
             }
         });
         this.renderView();
@@ -194,7 +194,7 @@ QuestionView = Backbone.View.extend({
 
     renderView:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#questionView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#questionView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             text:decodeURIComponent(this.model.get('text')),
             explanationText:decodeURIComponent(this.model.get('explanationText')),
@@ -214,7 +214,7 @@ QuestionView = Backbone.View.extend({
 
     renderEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#questionEditView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#questionEditView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             text:decodeURIComponent(this.model.get('text')),
             explanationText:decodeURIComponent(this.model.get('explanationText')),

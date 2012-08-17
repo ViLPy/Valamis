@@ -49,7 +49,7 @@ QuizCategoryView = Backbone.View.extend({
     },
 
     initialize:function () {
-        this.$el = $("<div>");
+        this.$el = jQuery("<div>");
         this.resetTemporaryModel();
         this.renderView();
     },
@@ -64,7 +64,7 @@ QuizCategoryView = Backbone.View.extend({
 
     renderView:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#quizCategoryView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#quizCategoryView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             description:decodeURIComponent(this.model.get('description'))
         }, language)));
@@ -73,7 +73,7 @@ QuizCategoryView = Backbone.View.extend({
 
     renderEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#quizCategoryEditView").html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#quizCategoryEditView").html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             description:decodeURIComponent(this.model.get('description'))
         }, language)));
@@ -83,16 +83,16 @@ QuizCategoryView = Backbone.View.extend({
 
     saveModel:function () {
         if (!this.updateModel()) return false;
-        $('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
+        jQuery('#projectLearnGeneric').block({ message:this.options.language['overlayProcessMessageLabel'] });
         var that = this;
         this.model.save(this.temporaryModel.toJSON(), {
             success:function () {
-                $('#projectLearnGeneric').unblock();
-                $.growlUI(that.options.language['overlaySaveQuizCategoryMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlUI(that.options.language['overlaySaveQuizCategoryMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
             },
             error:function () {
-                $('#projectLearnGeneric').unblock();
-                $.growlWarning(that.options.language['overlaySaveQuizCategoryMessageLabel'], that.options.language['overlayFailedMessageLabel']);
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlWarning(that.options.language['overlaySaveQuizCategoryMessageLabel'], that.options.language['overlayFailedMessageLabel']);
             }
         });
         this.renderView();

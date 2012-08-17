@@ -1,14 +1,14 @@
 <script>
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
         getAPI().Initialize("");
     });
     
     function gatherData() {
 	// this will check is user answer right
-        var userAnswer = $("#scormAnswer").val();
+        var userAnswer = jQuery("#scormAnswer").val();
         getAPI().SetValue("cmi.interactions.0.type", "long_fill_in");
         getAPI().SetValue("cmi.interactions.0.learner_response", encodeURIComponent(userAnswer));
-        getAPI().SetValue("cmi.interactions.0.description", encodeURIComponent($('.SCORMPlayerQuestionTitle').html()));
+        getAPI().SetValue("cmi.interactions.0.description", encodeURIComponent(jQuery('.SCORMPlayerQuestionTitle').html()));
         getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", "");
         getAPI().SetValue("cmi.score.scaled", "0.0");
 

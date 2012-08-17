@@ -10,7 +10,7 @@ AnswerCollectionView = Backbone.View.extend({
 
     render:function () {
         var language = this.options.language;
-        var template = Mustache.to_html($("#answerCollectionView").html(), _.extend({
+        var template = Mustache.to_html(jQuery("#answerCollectionView").html(), _.extend({
             cid:this.cid
         }, language));
         this.$el.empty().append(template);

@@ -25,7 +25,7 @@ _.extend(TemplateLoader.prototype, (function () {
     }
 
     function fetch(templates, parent) {
-        parentElement = parent || $('body');
+        parentElement = parent || jQuery('body');
 
         if (_.isArray(templates)) {
             numberOfCachedDocuments = templates.length;

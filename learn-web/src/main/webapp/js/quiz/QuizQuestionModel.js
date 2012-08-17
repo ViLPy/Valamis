@@ -55,14 +55,14 @@ QuizQuestionView = Backbone.View.extend({
     },
 
     initialize:function () {
-        this.$el = $("<div>");
+        this.$el = jQuery("<div>");
         this.render();
     },
 
     render:function () {
         var questionModel = new QuestionModel(this.model.get('question'));
         var language = this.options.language;
-        var template = Mustache.to_html($("#quizQuestionView").html(), _.extend(questionModel.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery("#quizQuestionView").html(), _.extend(questionModel.toJSON(), _.extend({
             cid:this.cid,
             typeString:questionModel.getStringType(),
             text:decodeURIComponent(questionModel.get('text')),

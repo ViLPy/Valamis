@@ -1,8 +1,8 @@
 var Utils = {
     getContextPath:function () {
         var contextPath = "/scorm-player/";
-        if ($("#SCORMContextPath") && $("#SCORMContextPath").length > 0) {
-            contextPath = $("#SCORMContextPath").val() + "/";
+        if (jQuery("#SCORMContextPath") && jQuery("#SCORMContextPath").length > 0) {
+            contextPath = jQuery("#SCORMContextPath").val() + "/";
         }
         return contextPath;
     },
@@ -78,7 +78,7 @@ var LearnAjaxHelper = (function () {
     }
 
     LearnAjaxHelper.prototype.syncRequest = function (url, method, data) {
-        return $.parseJSON($.ajax({
+        return jQuery.parseJSON(jQuery.ajax({
             url:url,
             async:false,
             type:method || "get",

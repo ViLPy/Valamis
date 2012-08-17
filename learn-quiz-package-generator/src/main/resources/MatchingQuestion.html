@@ -1,14 +1,14 @@
 <script type="text/javascript">
     var dataToCompare = "{{{answerData}}}";
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
         getAPI().Initialize("");
     });
 
     function gatherData() {
         var userAnswers = [];
-        $("#scormQuestionData tr").each(function(index, element) {
-            var question = $(".matchingQuestionVariant", $(element)).html();
-            var answer = $("select", $(element)).val();
+        jQuery("#scormQuestionData tr").each(function(index, element) {
+            var question = jQuery(".matchingQuestionVariant", jQuery(element)).html();
+            var answer = jQuery("select", jQuery(element)).val();
             userAnswers.push([question, answer].join("[.]"));
         });
         var userAnswersMerged = userAnswers.join("[,]");
