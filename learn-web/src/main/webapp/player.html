@@ -1,5 +1,6 @@
 <html>
 <head>
+    <!--{{^isPortlet}}-->
     <script type="text/javascript" language="javascript"
             src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
@@ -13,12 +14,8 @@
     <script type="text/javascript" src="{{contextPath}}/js/libs/list.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/grid.locale-en.js"></script>
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery.i18n.properties-min.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.form.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/fileuploader.js"></script>
 
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PackageModel.js"></script>
@@ -35,64 +32,63 @@
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/player.css"/>
-
+    <!--{{/isPortlet}}-->
     <script type="text/javascript" language="javascript">
-        var jQuery1816 = jQuery.noConflict();
-        var scormPackages = new PackageModelCollection();
+        var jQuery1816Player = jQuery.noConflict();
+        var scormPlayerPackages = new PlayerPackageModelCollection();
         var scormPlayer;
-        var scormPackagesView;
+        var scormPlayerPackagesView;
         var scormPlayerLanguageData = {};
 
-        jQuery1816(function () {
+        jQuery1816Player(function () {
             window.LearnAjax.setHeader("scormUserID", "{{userID}}");
             window.LearnAjax.setHeader("scormUserName", "{{userName}}");
             window.API_1484_11 = new SCORM2004_4API();
 
             // upload translations
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_{{language}}.properties', onPlayerLanguageLoad, loadDefaultLanguageForPlayer);
         });
 
-        function loadDefaultLanguage() {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_en.properties', onLanguageLoad, onLanguageError);
+        function loadDefaultLanguageForPlayer() {
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_en.properties', onPlayerLanguageLoad, onPlayerLanguageError);
         }
 
-        function onLanguageLoad(properties) {
+        function onPlayerLanguageLoad(properties) {
             scormPlayerLanguageData = properties;
-            initView();
+            initPlayerView();
         }
 
-        function onLanguageError() {
+        function onPlayerLanguageError() {
             alert('Translation resource loading failed!');
         }
 
-        function initView() {
-            var loader = new TemplateLoader();
-            loader.on('complete', function () {
-                scormPlayer = new PlayerView({el:jQuery1816("#SCORMPlayerView"), language:scormPlayerLanguageData});
-                jQuery1816("#SCORMPlayerView").hide();
+        function initPlayerView() {
+            var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
+                scormPlayer = new PlayerView({el:jQuery1816Player("#SCORMPlayerView"), language:scormPlayerLanguageData});
+                jQuery1816Player("#SCORMPlayerView").hide();
                 scormPlayer.on('exit', exit);
                 scormPlayer.on('suspend', suspend);
                 scormPlayer.on('endSession', togglePlayer);
                 window.scormPlayerView = scormPlayer;
 
-                scormPackagesView = new PackageListView({el:jQuery1816("#packageList"), collection:scormPackages, language:scormPlayerLanguageData});
-                jQuery1816("#packageSearch").keyup(function () {
-                    scormPackagesView.filterPackages(jQuery1816("#packageSearch").val());
+                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packageList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
+                jQuery1816Player("#packageSearch").keyup(function () {
+                    scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
                 });
-                scormPackagesView.on('start', startPackage);
-                scormPackagesView.on('resume', resumePackage);
-                scormPackages.fetch();
-            }, this);
+                scormPlayerPackagesView.on('start', startPackage);
+                scormPlayerPackagesView.on('resume', resumePackage);
+                scormPlayerPackages.fetch();
+            }, this));
             loader.fetch("templates/player_templates.html");
         }
 
         function suspend() {
-            scormPackagesView.reloadPackageList();
+            scormPlayerPackagesView.reloadPackageList();
             togglePlayer();
         }
 
         function exit() {
-            scormPackagesView.reloadPackageList();
+            scormPlayerPackagesView.reloadPackageList();
         }
 
         function startPackage(data) {
@@ -118,8 +114,8 @@
         }
 
         function togglePlayer() {
-            jQuery1816("#SCORMPlayerContainer").toggle();
-            jQuery1816("#SCORMPlayerView").toggle();
+            jQuery1816Player("#SCORMPlayerContainer").toggle();
+            jQuery1816Player("#SCORMPlayerView").toggle();
         }
     </script>
 </head>

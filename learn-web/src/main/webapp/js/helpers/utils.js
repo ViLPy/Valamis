@@ -10,18 +10,18 @@ var Utils = {
         function propertyFileParser(data) {
             function stripLine(line) {
                 var result = line;
-                if (line.trim().indexOf('#') === 0) {
+                if (jQuery.trim(line).indexOf('#') === 0) {
                     result = line.substr(0, line.indexOf('#'));
                 }
-                return result.trim();
+                return jQuery.trim(result);
             }
 
             function splitKeyValue(line) {
                 var result = {};
                 var index = line.indexOf('=');
                 if (index >= 0) {
-                    result['key'] = line.substr(0, index).trim();
-                    result['value'] = line.substr(index + 1).trim();
+                    result['key'] = jQuery.trim(line.substr(0, index));
+                    result['value'] = jQuery.trim(line.substr(index + 1));
                     return result;
                 }
                 return null;
@@ -83,17 +83,18 @@ var LearnAjaxHelper = (function () {
             async:false,
             type:method || "get",
             headers:headers,
-            data:data
+            data:data,
+            cache:false
         }).responseText);
-    }
+    };
 
     LearnAjaxHelper.prototype.setHeader = function (key, value) {
         headers[key] = value;
-    }
+    };
 
     LearnAjaxHelper.prototype.getHeader = function (key) {
         return headers[key];
-    }
+    };
 
     return LearnAjaxHelper;
 })();

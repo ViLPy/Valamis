@@ -2,9 +2,8 @@ package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
 import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageImpl
 import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateStorage
-import com.arcusys.scorm.lms.sequencing.{ObjectiveState, ActivityState}
+import com.arcusys.learn.scorm.tracking.model.{ObjectiveState, ActivityState}
 import org.orbroker.Row
-import com.arcusys.learn.scorm.manifest.model.Activity
 import com.arcusys.learn.scorm.manifest.storage.impl.orbroker.ActivitiesStorageImpl
 
 class ActivityStateStorageImpl extends KeyedEntityStorageImpl[ActivityState]("ActivityState", "id") with ActivityStateStorage {
@@ -14,6 +13,10 @@ class ActivityStateStorageImpl extends KeyedEntityStorageImpl[ActivityState]("Ac
   override def renew() {
     super.renew()
     objectiveStateStorage.renew()
+  }
+
+  def getCurrentActivityStateForAttempt(attemptID: Int ) = {
+    getOne("attemptID"->attemptID)
   }
 
   def createOrganization(treeID: Int, state: ActivityState) {

@@ -1,6 +1,7 @@
 <html>
 <head>
     <title></title>
+    <!--{{^isPortlet}}-->
     <script type="text/javascript" language="javascript"
             src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
@@ -16,14 +17,15 @@
 
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/gradebook.css"/>
-
+    <!--{{/isPortlet}}-->
     <script type="text/javascript">
-        var jQuery1816 = jQuery.noConflict();
+        var jQuery1816Gradebook = jQuery.noConflict();
         var previewData = [];
         var currentActivityID;
 
-        jQuery1816(function () {
-            jQuery1816("#dialog-form").dialog({
+        jQuery1816Gradebook(function () {
+            jQuery1816Gradebook("#noGradebookContent").hide();
+            jQuery1816Gradebook("#dialog-form").dialog({
                 autoOpen:false,
                 width:350,
                 modal:true
@@ -32,9 +34,9 @@
 
         function drawTree(jsonData) {
             if (jsonData.length <= 0) {
-                jQuery1816("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
+                jQuery1816Gradebook("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
             } else {
-                jQuery1816("#jsTreeGradebook").empty().jstree({
+                jQuery1816Gradebook("#jsTreeGradebook").empty().jstree({
                     plugins:["themes", "json_data", "grid", "types"],
                     json_data:{data:jsonData},
                     "themes":{
@@ -61,25 +63,25 @@
                     },
                     grid:{
                         columns:[
-                            {width:350, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
-                            {cellClass:"col1", value:"correctShare", width:200, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
-                            {cellClass:"col2", value:"userResponse", width:200, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
+                            {width:250, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
+                            {cellClass:"col1", value:"correctShare", width:150, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
+                            {cellClass:"col2", value:"userResponse", width:150, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
                         ],
                         resizable:true
                     }
                 }).bind("open_node.jstree",function (event, data) {
-                            jQuery1816("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            jQuery1816("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         }).bind("close_node.jstree", function (event, data) {
-                            jQuery1816("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            jQuery1816("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         });
 
-                var jsTreeRef = jQuery1816.jstree._reference("#jsTreeGradebook");
+                var jsTreeRef = jQuery1816Gradebook.jstree._reference("#jsTreeGradebook");
                 jsTreeRef.open_all();
 
-                jQuery1816("#jsTreeGradebook").delegate("a", "click", function (e) {
-                    jQuery1816("#jsTreeGradebook").jstree("toggle_node", this);
+                jQuery1816Gradebook("#jsTreeGradebook").delegate("a", "click", function (e) {
+                    jQuery1816Gradebook("#jsTreeGradebook").jstree("toggle_node", this);
                 });
             }
         }
@@ -89,7 +91,7 @@
             if (entity.share === null || entity.share === undefined) {
                 correctShare = "{{unknownCorrectShareLabel}}";
             } else {
-                correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%"
+                correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%";
             }
             // branch
             if (entity.children && entity.children.length > 0) {
@@ -121,26 +123,31 @@
 
         function review(id) {
             currentActivityID = id;
-            jQuery1816("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
-            jQuery1816("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
-            jQuery1816("#dialog-form").dialog('open');
+            jQuery1816Gradebook("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
+            jQuery1816Gradebook("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
+            jQuery1816Gradebook("#dialog-form").dialog('open');
         }
 
         function printReport() {
-            var packageID = jQuery1816("#gradebookPackageChoice").val();
-            var userID = jQuery1816("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
 
             window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + packageID + "/user/" + userID,
-                    jQuery1816.proxy(function (data) {
+                    jQuery1816Gradebook.proxy(function (data) {
+                        jQuery1816Gradebook("#noGradebookContent").hide();
+                        jQuery1816Gradebook("#gradebookWrapper").show();
                         drawTree(formatEntityToJSTree(data));
                     }, this)
-            );
+            ).fail(function () {
+                        jQuery1816Gradebook("#gradebookWrapper").hide();
+                        jQuery1816Gradebook("#noGradebookContent").show();
+                    });
         }
 
         /*{{#isAdmin}}*/
         function markAsPassed() {
-            var packageID = jQuery1816("#gradebookPackageChoice").val();
-            var userID = jQuery1816("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -154,8 +161,8 @@
         }
 
         function markAsFailed() {
-            var packageID = jQuery1816("#gradebookPackageChoice").val();
-            var userID = jQuery1816("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -168,7 +175,7 @@
         }
         /*{{/isAdmin}}*/
         function closeReviewDialog() {
-            jQuery1816("#dialog-form").dialog('close');
+            jQuery1816Gradebook("#dialog-form").dialog('close');
         }
     </script>
 </head>
@@ -199,9 +206,15 @@
             <!--{{/isAdmin}}-->
         </div>
     </div>
-    <div id="gradebookTable" class="gradebookTable">
-        <div id="jsTreeGradebook"></div>
+    <div id="gradebookWrapper">
+        <div id="gradebookTable" class="gradebookTable">
+            <div id="jsTreeGradebook"></div>
+        </div>
     </div>
+    <div id="noGradebookContent">
+        <b>{{noContentLabel}}</b>
+    </div>
+
     <div id="dialog-form" title="{{reviewDialogTitleLabel}}">
         <div id="reviewContentQuestionText"></div>
         <hr>

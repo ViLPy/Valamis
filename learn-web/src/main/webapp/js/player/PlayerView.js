@@ -149,8 +149,10 @@ PlayerView = Backbone.View.extend({
             API_1484_11.setActivity(this.packageID, this.organizationID, data.currentActivity);
 
             showNavigationControls();
-            for (var i = 0; i < data.hiddenUI.length; i++) {
-                hideNavigationControls(data.hiddenUI[i]);
+            if (data.hiddenUI) {
+                for (var i = 0; i < data.hiddenUI.length; i++) {
+                    hideNavigationControls(data.hiddenUI[i]);
+                }
             }
         } else {
             if (this.onSuspend) {

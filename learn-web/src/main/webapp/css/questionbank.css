@@ -440,6 +440,7 @@
     border: solid 1px #B3B3B3;
     padding: 4px;
     background: #FFF;
+    color: #000 !important;
 }
 
 .portlet-learn-scorm input#SCORMAnswerText:focus,
@@ -448,6 +449,7 @@
     border: solid 1px #B3B3B3;
     padding: 4px;
     background: #EFECBD;
+    color: #000 !important;
 }
 
 .portlet-learn-scorm .SCORMAnswerHeader {

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script type="text/javascript" src="../../../jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../../../underscore-min-1.3.1.js"></script>
+    <script type="text/javascript" src="../../../backbone-min-0.9.0.js"></script>
+    <script type="text/javascript" src="../../../jquery.form.js"></script>
+    <script type="text/javascript" src="../../../blockUI.js"></script>
+    <script type="text/javascript" src="../../../mustache.js"></script>
+    <script type="text/javascript" src="../../../../helpers/BackboneSync.js"></script>
+    <script type="text/javascript" src="js/pluginView.js"></script>
+    <script type="text/javascript" src="js/ElementModel.js"></script>
+    <script type="text/javascript" src="js/ImageView.js"></script>
+    <script type="text/javascript" src="js/FileView.js"></script>
+    <script type="text/javascript">
+        var serviceURL = tinyMCEPopup.editor.settings.fileServiceURL;
+        var fetchURL = "/get-files";
+        var uploadURL = "/upload-file";
+        var createDirURL = "/create-folder";
+        var inst = tinyMCEPopup.editor;
+        var elementCollection, mainView;
+
+        function addImageElement(name, imgUrl, thumbUrl) {
+            var template = Mustache.to_html(jQuery("#imageItemView").html(), {"imgSrc":thumbUrl, "title":name});
+            jQuery('#fileContent').append(template);
+            return "<img src='" + imgUrl + "'>";
+        }
+
+        function resizeContent() {
+            $("#content").height($(window).innerHeight() - 76);
+            $("#sideLeft").height($(window).innerHeight() - 76);
+        }
+
+        jQuery(function () {
+            _.extend(ElementCollection.prototype, {
+                storage:{
+                    findAll:function (currentDir) {
+                        return jQuery.get(serviceURL + fetchURL + "?currentDir=" + (currentDir || ""));
+                    }
+                }
+            });
+
+            elementCollection = new ElementCollection();
+            mainView = new PluginView({el:jQuery("#mainView"), collection:elementCollection});
+            elementCollection.fetch("");
+            resizeContent();
+
+            $(window).resize(resizeContent);
+        });
+
+        function createDir() {
+            jQuery.blockUI({ message:"Creating directory" });
+            jQuery.post(serviceURL + createDirURL, {
+                'dirName':jQuery('#dirName').val(),
+                'currentDirectory':mainView.getCurrentDirectory()
+            }, function (resp) {
+                if (resp == "false") {
+                    jQuery.unblockUI();
+                    jQuery.growlWarning("Creating directory", "Failed");
+                } else {
+                    elementCollection.add({isDirectory:true, name:jQuery('#dirName').val()});
+                    jQuery.unblockUI();
+                }
+            });
+        }
+
+        function uploadImage() {
+            jQuery.blockUI({ message:"Processing upload" });
+            var fileName = jQuery("#newFiles")[0].value;
+            if (fileName.length > 0) {
+                jQuery('#fileUploader').ajaxSubmit({
+                    type:"POST",
+                    url:serviceURL + uploadURL,
+                    dataType:'json',
+                    data: {'currentDirectory':mainView.getCurrentDirectory()},
+                    success:function (data) {
+                        elementCollection.add(data);
+                        jQuery.unblockUI();
+                    },
+                    error:function () {
+                        jQuery.unblockUI();
+                        jQuery.growlWarning("Uploading file", "Failed");
+                    }
+                });
+            }
+            return false;
+        }
+
+        function cancelModal() {
+            jQuery.unblockUI();
+        }
+
+        function showUpload() {
+            jQuery.blockUI({ message:$('#uploadDialog'), css:{ width:'275px', padding:'20px' } });
+        }
+
+        function showNewDir() {
+            jQuery.blockUI({ message:$('#newDirDialog'), css:{ width:'275px', padding:'20px' } });
+        }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection"/>
+</head>
+<body>
+<!-- All icons taken from http://www.fatcow.com/free-icons -->
+<div id="mainView"></div>
+
+<div id="uploadDialog" style="display:none; cursor: default">
+    <form id="fileUploader" action="" enctype="multipart/form-data">
+        <input type="file" name="file" id="newFiles"/>
+        <br>
+        <input type="button" onclick="uploadImage()" value="Upload"/>
+        <input type="button" onclick="cancelModal()" value="Cancel"/>
+    </form>
+</div>
+
+<div id="newDirDialog" style="display:none; cursor: default">
+    <label for="dirName">New directory name:</label>
+    <input type="text" id="dirName"/>
+    <br>
+    <input type="button" onclick="createDir()" value="Create"/>
+    <input type="button" onclick="cancelModal()" value="Cancel"/>
+</div>
+
+<div style="display:none; cursor: default" id="pluginView">
+    <div id="wrapper">
+        <div id="header">
+            <div id="fileUploaderBlock">
+                <div onclick="showNewDir()" title="Create folder" class="menuBarButton rightMargin">
+                    <img src="img/folder_add.png" alt="Create dir">
+                </div>
+                <div onclick="showUpload()" title="Upload" class="menuBarButton">
+                    <img src="img/page_white_put.png" alt="Upload">
+                </div>
+                <div class="menuBarSeparator"></div>
+                <div id="showAsFilesButton" title="Show as files" class="menuBarButton">
+                    <img src="img/file_manager.png" alt="Files only">
+                </div>
+                <div id="showImagesButton" title="Show images only" class="menuBarButton">
+                    <img src="img/images.png" alt="Images only">
+                </div>
+                <div class="menuBarSeparator"></div>
+                <div id="filePath" class="filePath"></div>
+            </div>
+        </div>
+        <div id="middle">
+            <div id="container">
+                <div id="content">
+                    <div id="fileContent"></div>
+                    <br style="clear: both;">
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="infoBar" class="infoBar"></div>
+            <br style='clear: both;'>
+        </div>
+    </div>
+</div>
+
+<div style="display:none; cursor: default" id="imageItemView">
+    <div id="imageItem" class='imageItem' title={{title}}>
+        <center><img src="{{imgSrc}}" class=''></center>
+
+        <div id="imageTitle" class='imageItemTitle'>{{title}}</div>
+    </div>
+</div>
+
+<div style="display:none; cursor: default" id="imageDirView">
+    <div id="imageDir" class='imageDir' title={{title}}>
+        <center>
+            <b>Directory:</b>
+            <br>
+            <div id="imageDirTitle" class='imageDirTitle'>{{title}}</div>
+        </center>
+    </div>
+</div>
+
+<div style="display:none; cursor: default" id="fileItemView">
+    <div id="fileItem" class='fileItem'>
+        <img src="{{iconSrc}}" style='float: left;'>
+
+        <div id="fileTitle" style='float: left;' class='fileItemTitle'>{{title}}</div>
+        <br style="clear: both;">
+    </div>
+</div>
+
+<div style="display:none; cursor: default" id="tinyMCEImageContent">
+    <img src="{{imgSrc}}">
+</div>
+<div style="display:none; cursor: default" id="tinyMCEFileContent">
+    <div>Attachment: <a href="{{url}}" target="_blank">{{name}}</a></div>
+</div>
+
+</body>
+</html>

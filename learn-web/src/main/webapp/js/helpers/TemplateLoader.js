@@ -1,44 +1,37 @@
-var TemplateLoader = function () {
+var TemplateLoader = function (onComplete) {
+    this.numberOfCachedDocuments = 0;
+    this.alreadyCached = 0;
+    this.parentElement = 0;
+    this.callback = onComplete;
 };
-// add event support
-_.extend(TemplateLoader.prototype, Backbone.Events);
 
-// extend with functions
-_.extend(TemplateLoader.prototype, (function () {
+TemplateLoader.prototype = {
+    fetch:function (templates, parent) {
 
-    var numberOfCachedDocuments = 0;
-    var alreadyCached = 0;
-    var parentElement;
-
-    function _addTemplate(url) {
-        jQuery.get(Utils.getContextPath() + url, jQuery.proxy(function (template) {
-            jQuery(parentElement).append(template);
-            alreadyCached++;
-            _checkProgress.call(this);
-        }, this));
-    }
-
-    function _checkProgress() {
-        if (alreadyCached === numberOfCachedDocuments) {
-            this.trigger('complete');
+        function addTemplate(url) {
+            jQuery.get(Utils.getContextPath() + url, jQuery.proxy(function (template) {
+                jQuery(this.parentElement).append(template);
+                this.alreadyCached++;
+                checkProgress.call(this);
+            }, this));
         }
-    }
 
-    function fetch(templates, parent) {
-        parentElement = parent || jQuery('body');
+        function checkProgress() {
+            if (this.alreadyCached === this.numberOfCachedDocuments) {
+                this.callback.call(this);
+            }
+        }
+
+        this.parentElement = parent || jQuery('body');
 
         if (_.isArray(templates)) {
-            numberOfCachedDocuments = templates.length;
-            alreadyCached = 0;
-            _.each(templates, _addTemplate, this);
+            this.numberOfCachedDocuments = templates.length;
+            this.alreadyCached = 0;
+            _.each(templates, addTemplate, this);
         } else if (_.isString(templates)) {
-            numberOfCachedDocuments = 1;
-            alreadyCached = 0;
-            _addTemplate.call(this, templates);
+            this.numberOfCachedDocuments = 1;
+            this.alreadyCached = 0;
+            addTemplate.call(this, templates);
         }
     }
-
-    return {
-        fetch:fetch
-    }
-})());
+};

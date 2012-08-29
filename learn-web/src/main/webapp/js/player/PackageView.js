@@ -1,4 +1,4 @@
-PackageView = Backbone.View.extend({
+PlayerPackageView = Backbone.View.extend({
     events:{
         "click":"setActive",
         "click #startPackage":"startPackage",
@@ -35,7 +35,7 @@ PackageView = Backbone.View.extend({
     }
 });
 
-PackageListView = Backbone.View.extend({
+PlayerPackageListView = Backbone.View.extend({
     events:{
         "click .sortable":"sortPackages",
         "click #SCORMPackageListReload":"reloadPackageList"
@@ -85,7 +85,7 @@ PackageListView = Backbone.View.extend({
     },
 
     addPackage:function (pkg) {
-        var view = new PackageView({
+        var view = new PlayerPackageView({
             model:pkg,
             language:this.options.language
         });

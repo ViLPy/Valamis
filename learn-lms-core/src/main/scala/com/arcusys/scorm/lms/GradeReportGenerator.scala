@@ -36,7 +36,7 @@ class GradeReportGenerator {
   }
 
   def getForCurrentAttempt(userID: Int, packageID: Int) = {
-    attemptStorage.getLast(userID, packageID).map {
+    attemptStorage.getLast(userID, packageID, complete = true).map {
       activeAttempt =>
         val organizations = activityStorage.getAllOrganizations(activeAttempt.packageID)
         //TODO: doesn't work for multiple orgs yet

@@ -1,11 +1,11 @@
-PackageModel = Backbone.Model.extend({
+PlayerPackageModel = Backbone.Model.extend({
     defaults:{
         title:"",
         summary:""
     }
 });
 
-_.extend(PackageModel.prototype, {
+_.extend(PlayerPackageModel.prototype, {
     storage:{
         create:function (model) {
         },
@@ -21,8 +21,8 @@ _.extend(PackageModel.prototype, {
     }
 });
 
-PackageModelCollection = Backbone.Collection.extend({
-    model:PackageModel,
+PlayerPackageModelCollection = Backbone.Collection.extend({
+    model:PlayerPackageModel,
 
     storage:{
         findAll:function () {

@@ -10,10 +10,10 @@
         var userAnswers = [];
         var patterAnswers = [];
         var answers = jQuery(".categorizationAnswerBoxs").each(function (index, element) {
-            var group = jQuery("th", jQuery(element)).html().toString().trim();
+            var group = jQuery("th", jQuery.trim(jQuery(element).html().toString()));
             var answers = jQuery("ul > li", jQuery(element));
             answers.each(function (answerIndex, answerElement) {
-                var answer = jQuery(answerElement).html().toString().trim();
+                var answer = jQuery.trim(jQuery(answerElement).html().toString());
                 userAnswers.push([group, answer].join("[.]"));
             });
         });

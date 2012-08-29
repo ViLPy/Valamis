@@ -14,27 +14,27 @@ Quiz = Backbone.Model.extend({
 _.extend(Quiz.prototype, {
     storage:{
         create:function (model) {
-            return jQuery.post(Utils.getContextPath() + "/services/quiz/", model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/", model.toJSON());
         },
 
         update:function (model) {
-            return jQuery.post(Utils.getContextPath() + "/services/quiz/update/" + model.id, model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/update/" + model.id, model.toJSON());
         },
 
         find:function (model) {
-            return jQuery.get(Utils.getContextPath() + "/services/quiz/" + model.id);
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/" + model.id);
         },
 
         findAll:function () {
-            return jQuery.get(Utils.getContextPath() + "/services/quiz/");
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/");
         },
 
         destroy:function (model) {
-            return jQuery.post(Utils.getContextPath() + "/services/quiz/delete/" + model.id);
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/delete/" + model.id);
         },
 
         install:function (model) {
-            return jQuery.post(Utils.getContextPath() + "/services/generator/ZipInstall/" + model.id);
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/generator/ZipInstall/" + model.id);
         }
     }
 });
@@ -44,7 +44,7 @@ QuizCollection = Backbone.Collection.extend({
     model:Quiz,
     storage:{
         findAll:function () {
-            return jQuery.get(Utils.getContextPath() + "/services/quiz/");
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/");
         }
     }
 });
@@ -173,7 +173,8 @@ QuizEditView = Backbone.View.extend({
         jQuery('#projectLearnGeneric').block({ message:this.options.language["overlayProcessMessageLabel"] });
         var quizCategory = new QuizCategoryModel({
             quizID:this.model.id,
-            parentID:this.resolveCurrentParentID()
+            parentID:this.resolveCurrentParentID(),
+            isNew: true
         });
         quizCategory.save({}, {
             success:jQuery.proxy(function (param) {
@@ -203,7 +204,7 @@ QuizEditView = Backbone.View.extend({
     },
 
     showContentDialog:function () {
-        window.App.questionChooseDialog.open(this.addContent, this);
+        window.QuizApp.questionChooseDialog.open(this.addContent, this);
     },
 
     removeSelected:function () {
@@ -262,6 +263,7 @@ QuizEditView = Backbone.View.extend({
         this.$("#quizContent_" + this.cid).append(view.render().$el);
         this.currentContent = view;
         if (view.model.get("isNew")) {
+            view.model.set("isNew", false);
             this.editElement();
         }
     },
@@ -455,16 +457,16 @@ QuizEditView = Backbone.View.extend({
         var language = this.options.language;
 
         if (model instanceof QuizCategoryModel) {
+            this.updateControls('category');
             this.renderViewContent(new QuizCategoryView({
                 model:model,
                 language:language
             }));
-            this.updateControls('category');
         } else if (model instanceof QuizQuestionModel) {
+            this.updateControls('question');
             this.renderViewContent(new QuizQuestionView({
                 model:model,
                 language:language}));
-            this.updateControls('question');
         }
     }
 });

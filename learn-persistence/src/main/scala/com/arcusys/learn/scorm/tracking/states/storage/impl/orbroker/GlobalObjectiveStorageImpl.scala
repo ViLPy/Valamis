@@ -1,10 +1,8 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
-import com.arcusys.scorm.lms.sequencing.GlobalObjectiveState
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
 import org.orbroker.Row
-import scala._
-import collection.mutable
+import com.arcusys.learn.scorm.tracking.model.GlobalObjectiveState
 
 class GlobalObjectiveStorageImpl extends GenericEntityStorageImpl[(String, GlobalObjectiveState)]("GlobalObjective") {
   def create(treeID: Int, key: String, state: GlobalObjectiveState) {

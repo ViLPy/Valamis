@@ -1,5 +1,6 @@
 <html>
 <head>
+    <!--{{^isPortlet}}-->
     <script type="text/javascript" language="javascript"
             src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
@@ -13,12 +14,8 @@
     <script type="text/javascript" src="{{contextPath}}/js/libs/list.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/grid.locale-en.js"></script>
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery.i18n.properties-min.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.form.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/fileuploader.js"></script>
 
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/admin/PackageModel.js"></script>
@@ -28,48 +25,47 @@
     <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
-
+    <!--{{/isPortlet}}-->
     <script type="text/javascript" language="javascript">
-        var jQuery1816 = jQuery.noConflict();
-        var scormPackages = new PackageModelCollection();
-        var scormLanguageData = {};
+        var jQuery1816Admin = jQuery.noConflict();
+        var scormAdminPackages = new PackageModelCollection();
+        var scormAdminLanguageData = {};
 
-        jQuery1816(function () {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
+        jQuery1816Admin(function () {
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_{{language}}.properties', onAdminLanguageLoad, loadAdminDefaultLanguage);
         });
 
-        function loadDefaultLanguage() {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_en.properties', onLanguageLoad, onLanguageError);
+        function loadAdminDefaultLanguage() {
+            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_en.properties', onAdminLanguageLoad, onAdminLanguageError);
         }
 
-        function onLanguageLoad(properties) {
-            scormLanguageData = properties;
-            initView();
+        function onAdminLanguageLoad(properties) {
+            scormAdminLanguageData = properties;
+            initAdminView();
         }
 
-        function onLanguageError() {
+        function onAdminLanguageError() {
             alert('Translation resource loading failed!');
         }
 
-        function initView() {
-            var loader = new TemplateLoader();
-            loader.on('complete', function () {
-                var scormPackagesView = new PackageListView({el:jQuery1816("#packageList"), collection:scormPackages, language:scormLanguageData});
-                jQuery1816("#packageSearch").keyup(function () {
-                    scormPackagesView.filterPackages(jQuery1816("#packageSearch").val());
+        function initAdminView() {
+            var loader = new TemplateLoader(jQuery1816Admin.proxy(function () {
+                var scormAdminPackagesView = new PackageListView({el:jQuery1816Admin("#packageList"), collection:scormAdminPackages, language:scormAdminLanguageData});
+                jQuery1816Admin("#packageSearch").keyup(function () {
+                    scormAdminPackagesView.filterPackages(jQuery1816Admin("#packageSearch").val());
                 });
-                scormPackages.fetch();
-            }, this);
+                scormAdminPackages.fetch();
+            }, this));
             loader.fetch("templates/admin_templates.html");
 
-            jQuery1816("#SCORMPackageUploadButton").button().click(showUploadDialog);
+            jQuery1816Admin("#SCORMPackageUploadButton").button().click(showUploadDialog);
 
-            jQuery1816("#SCORMPackageAdminButton").button().click(function () {
-                jQuery1816('#SCORMAdminDialog').dialog('open');
+            jQuery1816Admin("#SCORMPackageAdminButton").button().click(function () {
+                jQuery1816Admin('#SCORMAdminDialog').dialog('open');
             });
 
-            jQuery1816('#SCORMUploadDialog').dialog({autoOpen:false, width:350});
-            jQuery1816('#SCORMAdminDialog').dialog({autoOpen:false, width:400});
+            jQuery1816Admin('#SCORMUploadDialog').dialog({autoOpen:false, width:350});
+            jQuery1816Admin('#SCORMAdminDialog').dialog({autoOpen:false, width:400});
 
             /*{{#isAdmin}}*/
             resetDBInfo();
@@ -77,74 +73,74 @@
         }
 
         function uploadPackage() {
-            jQuery1816('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
-            var fileName = jQuery1816("#newPackages")[0].value;
+            jQuery1816Admin('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
+            var fileName = jQuery1816Admin("#newPackages")[0].value;
             var parts = fileName.split(".");
             var fileType = parts[parts.length - 1].toLowerCase();
             var allowedTypes = ['zip'];
             var passed = false;
             for (i in allowedTypes)
                 if (allowedTypes[i] == fileType) passed = true;
-            if (passed) jQuery1816('#uploadForm').ajaxSubmit({
+            if (passed) jQuery1816Admin('#uploadForm').ajaxSubmit({
                 type:"POST",
                 url:Utils.getContextPath() + '/services/upload/package',
                 dataType:'json',
                 success:function (data) {
-                    scormPackages.add({id:data.id,
-                        title:jQuery1816("#SCORMPackageTitle").val(),
-                        summary:jQuery1816("#SCORMPackageSummary").val(),
+                    scormAdminPackages.add({id:data,
+                        title:jQuery1816Admin("#SCORMPackageTitle").val(),
+                        summary:jQuery1816Admin("#scormAdminPackagesummary").val(),
                         visibility:true});
-                    jQuery1816('#SCORMUploadDialog').dialog('close');
-                    jQuery1816('#projectLearnGeneric').unblock();
-                    jQuery1816.growlUI('{{overlayProcessPackageMessageLabel}}', '{{overlayCompleteMessageLabel}}');
+                    jQuery1816Admin('#SCORMUploadDialog').dialog('close');
+                    jQuery1816Admin('#projectLearnGeneric').unblock();
+                    jQuery1816Admin.growlUI('{{overlayProcessPackageMessageLabel}}', '{{overlayCompleteMessageLabel}}');
                 },
                 error:function () {
-                    jQuery1816('#projectLearnGeneric').unblock();
-                    jQuery1816.growlWarning('{{overlayProcessPackageMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                    jQuery1816Admin('#projectLearnGeneric').unblock();
+                    jQuery1816Admin.growlWarning('{{overlayProcessPackageMessageLabel}}', '{{overlayFailedMessageLabel}}');
                 }
             });
             else {
-                jQuery1816('#projectLearnGeneric').unblock();
-                jQuery1816.growlWarning('{{overlayProcessPackageMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                jQuery1816Admin('#projectLearnGeneric').unblock();
+                jQuery1816Admin.growlWarning('{{overlayProcessPackageMessageLabel}}', '{{overlayFailedMessageLabel}}');
             }
             return false;
         }
 
         function showUploadDialog() {
-            jQuery1816('#qq-upload-list').text("");
-            jQuery1816('#SCORMPackageTitle').val("");
-            jQuery1816('#SCORMPackageSummary').val("");
-            jQuery1816('#SCORMUploadDialog').dialog('open');
+            jQuery1816Admin('#qq-upload-list').text("");
+            jQuery1816Admin('#SCORMPackageTitle').val("");
+            jQuery1816Admin('#scormAdminPackagesummary').val("");
+            jQuery1816Admin('#SCORMUploadDialog').dialog('open');
         }
 
         /*{{#isAdmin}}*/
         function saveDatabase() {
-            jQuery1816('#settingsForm').ajaxSubmit({
+            jQuery1816Admin('#settingsForm').ajaxSubmit({
                 type:"POST",
                 url:Utils.getContextPath() + '/services/administering/UpdateSettings',
                 dataType:'html',
                 success:function (data) {
-                    scormPackages.fetch();
-                    jQuery1816('#SCORMAdminDialog').dialog('close');
+                    scormAdminPackages.fetch();
+                    jQuery1816Admin('#SCORMAdminDialog').dialog('close');
                 }
             })
         }
 
         function renewDatabase() {
             if (confirm("{{renewDatabaseWarningLabel}}")) {
-                jQuery1816.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
+                jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
                     alert("{{renewDatabaseCompleteLabel}}");
-                    scormPackages.fetch();
+                    scormAdminPackages.fetch();
                 });
             }
         }
 
         function resetDBInfo() {
-            jQuery1816.get(Utils.getContextPath() + '/services/administering/GetSettings', function (data) {
-                jQuery1816('#SCORMServerName').val(data.server);
-                jQuery1816('#SCORMDatabaseName').val(data.database);
-                jQuery1816('#SCORMDatabaseUserLogin').val(data.login);
-                jQuery1816('#SCORMDatabaseUserPassword').val(data.password);
+            jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings', function (data) {
+                jQuery1816Admin('#SCORMServerName').val(data.server);
+                jQuery1816Admin('#SCORMDatabaseName').val(data.database);
+                jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
+                jQuery1816Admin('#SCORMDatabaseUserPassword').val(data.password);
             });
         }
         /*{{/isAdmin}}*/
@@ -181,8 +177,8 @@
             <b id="SCORMPackageTitleLabel" class="SCORMPackageLabel">{{packageUploaderDialogNameLabel}}</b><br>
             <input type="text" name="title" id="SCORMPackageTitle" class="SCORMGreyLabel">
 
-            <b id="SCORMPackageSummaryLabel" class="SCORMPackageLabel">{{packageUploaderDialogSummaryLabel}}</b><br>
-            <textarea name="summary" id="SCORMPackageSummary" class="SCORMGreyLabel" rows=4 cols=30></textarea>
+            <b id="scormAdminPackagesummaryLabel" class="SCORMPackageLabel">{{packageUploaderDialogSummaryLabel}}</b><br>
+            <textarea name="summary" id="scormAdminPackagesummary" class="SCORMGreyLabel" rows=4 cols=30></textarea>
             <br>
             <input type="file" name="file" id="newPackages" class="SCORMGreyLabel"/>
             <input id="SCORMUpload" type="button" onclick="uploadPackage()" class="textbutton SCORMUpload"

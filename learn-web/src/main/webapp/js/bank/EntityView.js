@@ -73,7 +73,8 @@ CategoryView = Backbone.View.extend({
         }
         this.temporaryModel.set({
             title:this.$("#SCORMCategoryNameEdit").val(),
-            description:encodeURIComponent(this.$("#SCORMCategoryDescription").html())
+            description:encodeURIComponent(this.$("#SCORMCategoryDescription").html()),
+            newModel:false
         });
         return true;
     },
@@ -165,7 +166,8 @@ QuestionView = Backbone.View.extend({
             questionType:parseInt(this.$("#SCORMQuestionType").val().replace("type", "")),
             forceCorrectCount:this.$("#SCORMQuestionBounded").is(':checked'),
             isCaseSensitive:this.$("#SCORMQuestionCaseSensitive").is(':checked'),
-            answers:JSON.stringify(this.answerCollectionView.getAnswers())
+            answers:JSON.stringify(this.answerCollectionView.getAnswers()),
+            newModel:false
         });
         return true;
     },

@@ -5,14 +5,9 @@ import com.arcusys.learn.storage.impl.orbroker.BrokerFactory
 import com.arcusys.learn.scorm.tracking.storage.impl.orbroker.{UserStorageImpl, AttemptStorageImpl}
 import org.junit.{Test, Before}
 import com.arcusys.learn.scorm.manifest.storage.impl.orbroker.{PackagesStorageImpl, ActivitiesStorageImpl}
-import com.arcusys.scorm.lms.sequencing._
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.tracking.model._
 import org.junit.Assert._
-import scala.Some
-import com.arcusys.learn.scorm.tracking.model.User
-import com.arcusys.learn.scorm.tracking.model.Attempt
-import scala.Some
 import com.arcusys.learn.scorm.tracking.model.User
 import com.arcusys.learn.scorm.tracking.model.Attempt
 import scala.collection.mutable
@@ -23,6 +18,7 @@ class ActivityStateTreeStorageTest {
   val activityStorage = new ActivitiesStorageImpl
   val packagesStorage = new PackagesStorageImpl
   val treeStateStorage = new ActivityStateTreeStorageImpl
+  val stateStorage = new ActivityStateStorageImpl
   val userStorage = new UserStorageImpl
 
   @Before
@@ -105,7 +101,7 @@ class ActivityStateTreeStorageTest {
     val tree = new ActivityStateTree(
       organizationState,
       children = Seq(new ActivityStateNode(containerState, Seq(leaf1Node, leaf2Node))),
-      currentActivityID = None,
+      currentActivityID = Some("leaf1"),
       suspendedActivityID = None,
       globalObjectiveData = mutable.Map())
 
@@ -123,9 +119,13 @@ class ActivityStateTreeStorageTest {
     assertEquals(true, fetchedTreeOption.isDefined)
 
     val fetchedTree = fetchedTreeOption.get
-    assertEquals(None, fetchedTree.currentActivity)
+    assertTrue(fetchedTree.currentActivity.isDefined)
     assertEquals(None, fetchedTree.suspendedActivity)
     assertEquals(organization.id, fetchedTree.item.activity.id) // check organization
+
+    val currentActivityState = stateStorage.getCurrentActivityStateForAttempt(attempt.id)
+    assertTrue(currentActivityState.isDefined)
+    assertEquals("leaf1", currentActivityState.get.activity.id)
 
     val organizationChildren = fetchedTree.children
     assertEquals(1, organizationChildren.size)

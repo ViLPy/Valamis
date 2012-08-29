@@ -50,7 +50,7 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     val activityID = parameter("activityID").required
     val status = parameter("status").required
     val score = parameter("score").required
-    attemptStorage.getLast(userID, packageID).map {
+    attemptStorage.getLast(userID, packageID, complete = true).map {
       activeAttempt =>
         val dataModel = new DataModelService(activeAttempt, activityID)
         dataModel.setValue("cmi.success_status", status)
