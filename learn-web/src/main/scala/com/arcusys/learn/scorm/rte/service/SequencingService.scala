@@ -1,12 +1,13 @@
 package com.arcusys.learn.scorm.rte.service
 
-import com.arcusys.scorm.lms.sequencing.{ActivityStateTree, SequencingProcessor}
+import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.net.URLDecoder
 import com.arcusys.learn.scorm.manifest.model.{ResourceUrl, LeafActivity}
 import com.arcusys.scorm.util.FileSystemUtil
+import com.arcusys.learn.scorm.tracking.model.sequencing._
 
 class SequencingService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -40,14 +41,26 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
       val stateTree = ActivityStateTree(activityStorage.getOrganizationTree(currentAttempt.packageID, currentAttempt.organizationID), None, true, None)
       activityStateTreeStorage.create(currentAttempt.id, stateTree)
     }
+    val treeOption = activityStateTreeStorage.get(currentAttempt.id)
+    require(treeOption.isDefined, "Tree should exist!")
     //val currentAttempt = attemptStorage.getActive(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
-    val processor = new SequencingProcessor(currentAttempt)
+    val processor = new SequencingProcessor(currentAttempt, treeOption.get)
 
     val sequencingRequest = URLDecoder.decode(parameter("sequencingRequest").required, "UTF-8")
 
-    val data = processor.process(sequencingRequest)
-    val currentActivityID = if (data("currentActivity").isInstanceOf[Some[String]]) data("currentActivity").asInstanceOf[Some[String]].get else ""
-    val jsonData = json(data ++ getActivityData(packageID, currentActivityID))
+    val jsonData = json(processor.process(sequencingRequest) match {
+      case ProcessorResponseDelivery(tree) => {
+        activityStateTreeStorage.modify(currentAttempt.id, tree)
+        val currentActivityID = tree.currentActivity.map(_.item.activity.id).getOrElse("")
+        Map("currentActivity" -> currentActivityID, "endSession" -> false) ++ getActivityData(packageID, currentActivityID)
+      }
+      case ProcessorResponseEndSession(tree) => {
+        activityStateTreeStorage.modify(currentAttempt.id, tree)
+        attemptStorage.markAsComplete(currentAttempt.id)
+        val currentActivityID = tree.currentActivity.map(_.item.activity.id).getOrElse("")
+        Map("currentActivity" -> currentActivityID, "endSession" -> true) ++ getActivityData(packageID, currentActivityID)
+      }
+    })
 
     contentType = "text/html"
     val headScriptData = scala.xml.Unparsed(

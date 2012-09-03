@@ -8,7 +8,7 @@ CategorizationAnswerView = AnswerView.extend({
     initialize:function () {
         this.optionsList = [];
 
-        this.$el = $('<div>');
+        this.$el = jQuery('<div>');
         this.$el.attr('id', this.cid);
 
         this.render();
@@ -17,7 +17,7 @@ CategorizationAnswerView = AnswerView.extend({
     render:function () {
         var language = this.options.language;
         var templateName = (this.renderType == 'edit') ? '#categorizationAnswerEditView' : '#categorizationAnswerView'
-        var template = Mustache.to_html($(templateName).html(), _.extend(this.model.toJSON(), _.extend({
+        var template = Mustache.to_html(jQuery(templateName).html(), _.extend(this.model.toJSON(), _.extend({
             cid:this.cid,
             position:this.options.position,
             answerText:decodeURIComponent(this.model.get('answerText'))
@@ -99,7 +99,7 @@ CategorizationOptionView = Backbone.View.extend({
     },
 
     initialize:function () {
-        this.$el = $('<div>');
+        this.$el = jQuery('<div>');
         this.optionText = this.options.optionText;
     },
 
@@ -111,7 +111,7 @@ CategorizationOptionView = Backbone.View.extend({
     render:function (renderType) {
         var language = this.options.language;
         var templateName = (renderType == 'edit') ? '#categorizationOptionEdit' : '#categorizationOption';
-        var template = Mustache.to_html($(templateName).html(), _.extend({
+        var template = Mustache.to_html(jQuery(templateName).html(), _.extend({
             text:decodeURIComponent(this.optionText)
         }, language));
         this.$el.empty().append(template);

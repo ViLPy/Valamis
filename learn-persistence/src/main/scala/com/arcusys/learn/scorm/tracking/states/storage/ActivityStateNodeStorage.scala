@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.states.storage
 
-import com.arcusys.scorm.lms.sequencing.ActivityStateNode
+import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
 
 trait ActivityStateNodeStorage {
   def createAndGetID(treeID: Int, parentID: Option[Int], node: ActivityStateNode):Int

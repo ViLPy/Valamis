@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.states.storage
 
-import com.arcusys.scorm.lms.sequencing.ObjectiveState
+import com.arcusys.learn.scorm.tracking.model.ObjectiveState
 
 trait ObjectiveStateStorage {
   def create(stateID: Int, key: Option[String], state: ObjectiveState)

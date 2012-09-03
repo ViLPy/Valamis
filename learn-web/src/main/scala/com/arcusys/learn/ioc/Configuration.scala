@@ -3,7 +3,7 @@ package com.arcusys.learn.ioc
 import org.scala_tools.subcut.inject.NewBindingModule
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.storage.impl.orbroker.StorageFactory
-import com.arcusys.scorm.lms.sequencing._
+import com.arcusys.learn.scorm.tracking.model.sequencing._
 
 object Configuration extends NewBindingModule({
   implicit module =>

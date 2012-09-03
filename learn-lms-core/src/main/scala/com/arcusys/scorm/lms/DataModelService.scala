@@ -9,12 +9,8 @@ import org.joda.time.format.DateTimeFormat
 class DataModelService(attempt: Attempt, activityID:String)(implicit val bindingModule: BindingModule) extends Injectable {
   private val storageFactory = inject[StorageFactoryContract]
   private val dataModelStorage = storageFactory.dataModelStorage
-  private val treeStateStorage = storageFactory.activityStateTreeStorage
 
-  private val tree = treeStateStorage.get(attempt.id)
-  require(tree.isDefined, "Activity State Tree storage should exist")
-  //private val currentActivityID = //tree.get.currentActivity.getOrElse(throw new Exception("Trying to use null activity")).item.activity.id
-  private val lmsBehavior = new DataModelLMSBehavior(attempt, tree.get, activityID)
+  private val lmsBehavior = new DataModelLMSBehavior(attempt, storageFactory.activityStateStorage.getCurrentActivityStateForAttempt(attempt.id))
 
   def getValues = {
     dataModelStorage.getKeyedValues(attempt.id, activityID) ++ getLMSValues

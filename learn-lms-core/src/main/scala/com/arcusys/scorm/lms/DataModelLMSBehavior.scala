@@ -4,19 +4,14 @@ import com.arcusys.learn.scorm.tracking.model._
 import org.slf4j.LoggerFactory
 import com.arcusys.learn.scorm.manifest.model.{Objective, LeafActivity}
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
-import com.arcusys.learn.storage.StorageFactoryContract
-import sequencing.ActivityStateTree
 
-class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID: String)(implicit val bindingModule: BindingModule) extends Injectable {
+class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivityState])(implicit val bindingModule: BindingModule) extends Injectable {
   private val LOG = LoggerFactory.getLogger(classOf[DataModelLMSBehavior])
-  private val storageFactory = inject[StorageFactoryContract]
-
-  private lazy val currentActivity = tree(activityID)//if (tree.currentActivity.isDefined) Some(tree.currentActivity.get.item.activity) else None
 
   def getCompletionThreshold: Option[String] = {
     currentActivity match {
       case Some(activity) =>
-        if (activity.item.activity.completionThreshold.completedByMeasure) Some(activity.item.activity.completionThreshold.minProgressMeasure.toString())
+        if (activity.activity.completionThreshold.completedByMeasure) Some(activity.activity.completionThreshold.minProgressMeasure.toString())
         else None
       case None => None
     }
@@ -38,15 +33,15 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   }
 
   def getEntry: Option[String] = {
-    require(tree.currentActivity.isDefined, "Current activity should exist")
+    require(currentActivity.isDefined, "Current activity should exist")
 
-    if (tree.currentActivity.get.item.getCompletionStatus().isEmpty) Some("ab-initio")
-    else if (tree.currentActivity.get.item.suspended) Some("resume")
+    if (currentActivity.get.getCompletionStatus().isEmpty) Some("ab-initio")
+    else if (currentActivity.get.suspended) Some("resume")
     else None
   }
 
   def getLaunchData: Option[String] =
-    currentActivity.get.item.activity match {
+    currentActivity.get.activity match {
       case leaf: LeafActivity => leaf.dataFromLMS
       case _ => None
     }
@@ -54,7 +49,7 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   def getMaxTimeAllowed: Option[String] =
     currentActivity match {
       case Some(activity) => {
-        if (activity.item.activity.sequencing.durationLimitInMilliseconds.isDefined) Some(activity.item.activity.sequencing.durationLimitInMilliseconds.get.toString)
+        if (activity.activity.sequencing.durationLimitInMilliseconds.isDefined) Some(activity.activity.sequencing.durationLimitInMilliseconds.get.toString)
         else None
       }
       case _ => None
@@ -74,7 +69,7 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   }
 
   def getTimeLimitAction: Option[String] =
-    currentActivity.get.item.activity match {
+    currentActivity.get.activity match {
       case activity: LeafActivity =>
         if (activity.timeLimitAction.isDefined) Some(activity.timeLimitAction.get.toString)
         else None
@@ -84,8 +79,8 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   def getScaledPassingScore: Option[String] = {
     currentActivity match {
       case Some(activity) =>
-        if (activity.item.activity.sequencing.primaryObjective.isDefined && activity.item.activity.sequencing.primaryObjective.get.satisfiedByMeasure)
-          Some(activity.item.activity.sequencing.primaryObjective.get.minNormalizedMeasure.toString)
+        if (activity.activity.sequencing.primaryObjective.isDefined && activity.activity.sequencing.primaryObjective.get.satisfiedByMeasure)
+          Some(activity.activity.sequencing.primaryObjective.get.minNormalizedMeasure.toString)
         else None
       case None => None
     }
@@ -99,7 +94,7 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   def getAdlData = {
     def nameGen(key: String, id: Int) = """(?<=.)n(?=.)""".r replaceFirstIn(key, id.toString)
 
-    currentActivity.get.item.activity match {
+    currentActivity.get.activity match {
       case activity: LeafActivity => {
         activity.data.zipWithIndex.map(e => nameGen("adl.data.n.id", e._2) -> Some(e._1.targetId)).toMap ++
           Map("adl.data._count" -> Some(activity.data.size.toString))
@@ -111,9 +106,9 @@ class DataModelLMSBehavior(attempt: Attempt, tree: ActivityStateTree, activityID
   def getObjectives = {
     currentActivity match {
       case Some(activity) => {
-        val objectives = activity.item.activity.sequencing.primaryObjective match {
-          case Some(obj) if obj.id.isDefined => Seq(obj) ++ activity.item.activity.sequencing.nonPrimaryObjectives
-          case _ => activity.item.activity.sequencing.nonPrimaryObjectives
+        val objectives = activity.activity.sequencing.primaryObjective match {
+          case Some(obj) if obj.id.isDefined => Seq(obj) ++ activity.activity.sequencing.nonPrimaryObjectives
+          case _ => activity.activity.sequencing.nonPrimaryObjectives
         }
         objectives.zipWithIndex.foldLeft(Map[String, Option[String]]())((result, item) => result ++ objectiveSerializer(item._1, item._2)) ++
           Map("cmi.objectives._count" -> Some(objectives.size.toString))

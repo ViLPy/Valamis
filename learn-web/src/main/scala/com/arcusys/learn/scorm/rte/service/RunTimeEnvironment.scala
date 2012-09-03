@@ -6,9 +6,7 @@ import com.arcusys.scorm.lms.DataModelService
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import scala.Some
-import com.arcusys.scorm.lms.sequencing._
-import com.arcusys.learn.scorm.manifest.model.Objective
+import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState}
 
 class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(configuration) with CookieSupport {
   def this() = this(Configuration)

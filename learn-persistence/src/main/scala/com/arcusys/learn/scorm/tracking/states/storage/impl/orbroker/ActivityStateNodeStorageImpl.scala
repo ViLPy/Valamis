@@ -1,9 +1,9 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
 import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageImpl
-import com.arcusys.scorm.lms.sequencing.ActivityStateNode
 import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateNodeStorage
 import org.orbroker.Row
+import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
 
 class ActivityStateNodeStorageImpl extends KeyedEntityStorageImpl[ActivityStateNode]("ActivityStateNode", "id") with ActivityStateNodeStorage {
   private val activityStateStorage = new ActivityStateStorageImpl

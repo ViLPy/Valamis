@@ -6,7 +6,7 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.util.TreeNode
-import com.arcusys.scorm.lms.sequencing.{ActivityStateNode, ActivityStateTree}
+import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
 
 class ActivitiesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)

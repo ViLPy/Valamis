@@ -20,10 +20,10 @@ class QuizPackageGenerator(quiz: Quiz) {
   private val scoData = mutable.Map[String, String]()
   private val resourceFiles = mutable.HashSet[String]()
   private val scormDependencyID = "scormDependency"
-  private val commonResourceURLs = Seq("common.js", "jquery-1.7.2.min.js", "jquery-ui-1.8.20.custom.min.js",
+  private val commonResourceURLs = Seq("img/attach.png", "common.js", "jquery-1.7.2.min.js", "jquery-ui-1.8.20.custom.min.js",
     "jquery-ui-1.8.20.custom.css", "player_content.css", "scorm_main.css")
 
-  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
+  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath
 
   private val organizationId = "orgId1"
 
@@ -32,7 +32,7 @@ class QuizPackageGenerator(quiz: Quiz) {
     val zip = new ZipFile(FileSystemUtil.getZipPackageDir + zipName)
     zip.addEntry("imsmanifest.xml", generateManifest.toString)
     scoData.foreach(file => zip.addEntry("data/" + file._1 + ".html", file._2))
-    commonResourceURLs.foreach(filename => zip.addEntry("data/" + filename, scala.io.Source.fromInputStream(getResourceStream("common/" + filename)).mkString))
+    commonResourceURLs.foreach(filename => zip.addFile(getResourceStream("common/" + filename), "data/" + filename))
     resourceFiles.foreach(filename => {
       zip.addFile(FileSystemUtil.getRealPath("/" + filename), "data/" + filename)
     })
@@ -68,7 +68,7 @@ class QuizPackageGenerator(quiz: Quiz) {
   }
 
   private def generateStaticPage(id: String, title: String, content: String) = {
-    val imageResources = ResourceHelpers.fetchImageResources(decode(content))
+    val imageResources = ResourceHelpers.fetchResources(decode(content))
     resourceBuffer += new AssetResource(id, Some(id + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
     scoData(id) = QuestionViewGenerator.getHTMLForStaticPage(content)
 
@@ -104,7 +104,7 @@ class QuizPackageGenerator(quiz: Quiz) {
       val parentID = if (categoryID == None) None else Some(categoryID.get.toString)
       val resID = "resource" + question.id
       // TODO: add images from answer
-      val imageResources = ResourceHelpers.fetchImageResources(decode(realQuestion.text))
+      val imageResources = ResourceHelpers.fetchResources(decode(realQuestion.text))
       resourceBuffer += new AssetResource(resID, Some(resID + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
       scoData(resID) = QuestionViewGenerator.getHTMLByQuestionId(realQuestion)
 

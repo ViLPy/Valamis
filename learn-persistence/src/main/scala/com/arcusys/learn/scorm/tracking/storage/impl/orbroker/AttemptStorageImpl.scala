@@ -13,7 +13,7 @@ class AttemptStorageImpl extends KeyedEntityStorageImpl[Attempt]("Attempt", "id"
   def getAll(userID: Int, packageID: Int) = getAll(userID: Int, packageID: Int)
 
   def getActive(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "isComplete" -> false)
-  def getLast(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true)
+  def getLast(userID: Int, packageID: Int, complete: Boolean = false) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true, "isComplete" -> complete)
 
   def createAndGetID(userID: Int, packageID: Int, organizationID: String) = createAndGetID(Attempt(0, User(userID), packageID, organizationID, isComplete = false))
 

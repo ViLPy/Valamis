@@ -1,8 +1,6 @@
 package com.arcusys.scorm.generator.file
 
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import java.io.{InputStream, File, FileInputStream, FileOutputStream}
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 import java.nio.channels.FileChannel.MapMode._
@@ -20,7 +18,7 @@ class ZipFile(filename: String) {
     zipFile.closeEntry()
   }
 
-  def addFile(sourceFilename: String, destinationFilename: String) = {
+  def addFile(sourceFilename: String, destinationFilename: String) {
     zipFile.putNextEntry(new ZipEntry(destinationFilename))
 
     // Transfer bytes from the file to the ZIP file
@@ -37,7 +35,7 @@ class ZipFile(filename: String) {
     zipFile.closeEntry()
   }
 
-  def close = {
+  def close() {
     zipFile.close()
   }
 }

@@ -2,14 +2,14 @@
     var data = {{{answers}}};
     var mappedData = [];
 
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
         var shuffled = shuffle(data);
         for (var i = 0; i<shuffled.length; i++) {
-            var newLI = $("<li>");
+            var newLI = jQuery("<li>");
             newLI.addClass("ui-state-default");
             newLI.attr("id", shuffled[i].id);
             newLI.html(shuffled[i].text);
-            $("#sortable").append(newLI);
+            jQuery("#sortable").append(newLI);
 
             mappedData[shuffled[i].id] = shuffled[i].text;
         }
@@ -20,7 +20,7 @@
     function gatherData() {
         var mappedRightAnswers = [];
         var userAnswers = [];
-        var answerIDs = $("#sortable").sortable('toArray');
+        var answerIDs = jQuery("#sortable").sortable('toArray');
 
         var isPassed = true;
         for (var i = 0; i<data.length; i++) {

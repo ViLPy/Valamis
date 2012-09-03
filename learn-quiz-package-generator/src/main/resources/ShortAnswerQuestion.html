@@ -2,13 +2,13 @@
     var dataToCompare = {{{answers}}};
     var isCaseSensitive = {{{isCaseSensitive}}};
 
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
 
     function gatherData() {
         // this will check is user answer right
-        var userAnswer = $("#scormAnswer").val();
+        var userAnswer = jQuery("#scormAnswer").val();
         getAPI().SetValue("cmi.interactions.0.type", "fill_in");
         getAPI().SetValue("cmi.interactions.0.learner_response", userAnswer);
 

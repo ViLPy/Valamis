@@ -23,7 +23,7 @@ Backbone.sync = function(method, model, options) {
             break;
     }
 
-    $.when(resp)
+    jQuery.when(resp)
     .then(function(ajaxResult) {
         options.success(ajaxResult);
     })

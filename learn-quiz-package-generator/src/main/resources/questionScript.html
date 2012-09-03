@@ -3,22 +3,22 @@
 <script src="common.js"></script>
 <script>
     function PrepareCategorizationQuestionView() {
-        $("li.acceptable").draggable({
+        jQuery("li.acceptable").draggable({
             connectToSortable:'.answerContainer',
             cursor:'pointer',
             revert:true,
             opacity:0.4
         });
-        $('.answerContainer').droppable({
+        jQuery('.answerContainer').droppable({
             accept:'li.acceptable',
             drop:function (event, ui) {
-                $(this).append(ui.draggable);
+                jQuery(this).append(ui.draggable);
             }
         });
     }
 
     function PreparePositioningQuestionView() {
-        $("#sortable").sortable({
+        jQuery("#sortable").sortable({
             revert:true
         });
     }

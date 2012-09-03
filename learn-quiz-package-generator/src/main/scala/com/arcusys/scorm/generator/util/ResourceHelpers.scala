@@ -1,13 +1,13 @@
 package com.arcusys.scorm.generator.util
 
 object ResourceHelpers {
-  def fetchImageResources(sourceText: String) = {
+  def fetchResources(sourceText: String) = {
     // extract all images from question text
-    ("""(?i)SCORMData/(.+?)(png|jpg|gif|bmp)""".r findAllIn sourceText).toArray
+    ("""(?i)SCORMData/(.+?)(?=")""".r findAllIn sourceText).toArray
   }
   
   def skipContextPathURL(source: String) = {
     // skip context-path
-    """(?i)/(.[^/]+?)/SCORMData/""".r replaceAllIn(source, "SCORMData/")
+    """(?i)(?<=")(.[^"]+?)/SCORMData/""".r replaceAllIn(source, "SCORMData/")
   }
 }

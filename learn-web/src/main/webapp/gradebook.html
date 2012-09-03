@@ -1,28 +1,31 @@
 <html>
 <head>
     <title></title>
+    <!--{{^isPortlet}}-->
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+            src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" language="javascript"
-            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+            src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
+
+    <script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
+    <script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
     <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
 
     <script type="text/javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/libs/jstreegrid.js"></script>
 
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/gradebook.css"/>
-
+    <!--{{/isPortlet}}-->
     <script type="text/javascript">
+        var jQuery1816Gradebook = jQuery.noConflict();
         var previewData = [];
         var currentActivityID;
 
-        $(function () {
-            $("#dialog-form").dialog({
+        jQuery1816Gradebook(function () {
+            jQuery1816Gradebook("#noGradebookContent").hide();
+            jQuery1816Gradebook("#dialog-form").dialog({
                 autoOpen:false,
                 width:350,
                 modal:true
@@ -31,9 +34,9 @@
 
         function drawTree(jsonData) {
             if (jsonData.length <= 0) {
-                $("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
+                jQuery1816Gradebook("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
             } else {
-                $("#jsTreeGradebook").empty().jstree({
+                jQuery1816Gradebook("#jsTreeGradebook").empty().jstree({
                     plugins:["themes", "json_data", "grid", "types"],
                     json_data:{data:jsonData},
                     "themes":{
@@ -60,25 +63,25 @@
                     },
                     grid:{
                         columns:[
-                            {width:350, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
-                            {cellClass:"col1", value:"correctShare", width:200, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
-                            {cellClass:"col2", value:"userResponse", width:200, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
+                            {width:250, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
+                            {cellClass:"col1", value:"correctShare", width:150, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
+                            {cellClass:"col2", value:"userResponse", width:150, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
                         ],
                         resizable:true
                     }
                 }).bind("open_node.jstree",function (event, data) {
-                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         }).bind("close_node.jstree", function (event, data) {
-                            $("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                            $("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
+                            jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
                         });
 
-                var jsTreeRef = jQuery.jstree._reference("#jsTreeGradebook");
+                var jsTreeRef = jQuery1816Gradebook.jstree._reference("#jsTreeGradebook");
                 jsTreeRef.open_all();
 
-                $("#jsTreeGradebook").delegate("a", "click", function (e) {
-                    $("#jsTreeGradebook").jstree("toggle_node", this);
+                jQuery1816Gradebook("#jsTreeGradebook").delegate("a", "click", function (e) {
+                    jQuery1816Gradebook("#jsTreeGradebook").jstree("toggle_node", this);
                 });
             }
         }
@@ -88,7 +91,7 @@
             if (entity.share === null || entity.share === undefined) {
                 correctShare = "{{unknownCorrectShareLabel}}";
             } else {
-                correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%"
+                correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%";
             }
             // branch
             if (entity.children && entity.children.length > 0) {
@@ -120,26 +123,31 @@
 
         function review(id) {
             currentActivityID = id;
-            $("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
-            $("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
-            $("#dialog-form").dialog('open');
+            jQuery1816Gradebook("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
+            jQuery1816Gradebook("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
+            jQuery1816Gradebook("#dialog-form").dialog('open');
         }
 
         function printReport() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
 
             window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + packageID + "/user/" + userID,
-                    $.proxy(function (data) {
+                    jQuery1816Gradebook.proxy(function (data) {
+                        jQuery1816Gradebook("#noGradebookContent").hide();
+                        jQuery1816Gradebook("#gradebookWrapper").show();
                         drawTree(formatEntityToJSTree(data));
                     }, this)
-            );
+            ).fail(function () {
+                        jQuery1816Gradebook("#gradebookWrapper").hide();
+                        jQuery1816Gradebook("#noGradebookContent").show();
+                    });
         }
 
         /*{{#isAdmin}}*/
         function markAsPassed() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -153,8 +161,8 @@
         }
 
         function markAsFailed() {
-            var packageID = $("#gradebookPackageChoice").val();
-            var userID = $("#gradebookUserChoice").val();
+            var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
+            var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
             window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateSuccessStatus", "post", {
                 packageID:packageID,
                 userID:userID,
@@ -167,7 +175,7 @@
         }
         /*{{/isAdmin}}*/
         function closeReviewDialog() {
-            $("#dialog-form").dialog('close');
+            jQuery1816Gradebook("#dialog-form").dialog('close');
         }
     </script>
 </head>
@@ -198,9 +206,15 @@
             <!--{{/isAdmin}}-->
         </div>
     </div>
-    <div id="gradebookTable" class="gradebookTable">
-        <div id="jsTreeGradebook"></div>
+    <div id="gradebookWrapper">
+        <div id="gradebookTable" class="gradebookTable">
+            <div id="jsTreeGradebook"></div>
+        </div>
     </div>
+    <div id="noGradebookContent">
+        <b>{{noContentLabel}}</b>
+    </div>
+
     <div id="dialog-form" title="{{reviewDialogTitleLabel}}">
         <div id="reviewContentQuestionText"></div>
         <hr>
@@ -212,7 +226,7 @@
                    value="{{reviewDialogCloseButtonLabel}}"/>
 
             <!--{{#isAdmin}}-->
-            <div class="float-right">
+            <div class="float-right" style="float: right;">
                 <input type="button" class="textbutton" onclick="markAsPassed()"
                        value="{{reviewDialogPassedButtonLabel}}"/>
                 <input type="button" class="textbutton" onclick="markAsFailed()"

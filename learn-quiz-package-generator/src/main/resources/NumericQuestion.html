@@ -1,12 +1,12 @@
 <script type="text/javascript">
     var dataToCompare = {{{answers}}};
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
         getAPI().Initialize("");
     });
 
     function gatherData() {
         // this will check is user answer right
-        var userAnswer = parseFloat($("#scormAnswer").val());
+        var userAnswer = parseFloat(jQuery("#scormAnswer").val());
         getAPI().SetValue("cmi.interactions.0.type", "numeric");
         getAPI().SetValue("cmi.interactions.0.learner_response", userAnswer);
 

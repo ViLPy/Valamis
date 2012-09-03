@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.states.storage
 
-import com.arcusys.scorm.lms.sequencing.ActivityStateTree
+import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
 
 trait ActivityStateTreeStorage {
   def create(attemptID:Int, tree:ActivityStateTree)

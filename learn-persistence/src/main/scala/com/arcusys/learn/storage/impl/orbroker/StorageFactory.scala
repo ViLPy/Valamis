@@ -10,8 +10,8 @@ import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.questionbank.storage.impl.orbroker._
 import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker.ActivityStateTreeStorageImpl
-import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateTreeStorage
+import com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker.{ActivityStateStorageImpl, ActivityStateTreeStorageImpl}
+import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
 
 
 object StorageFactory extends StorageFactoryContract
@@ -33,6 +33,7 @@ object StorageFactory extends StorageFactoryContract
   lazy val dataModelStorage: DataModelStorage = new DataModelStorageImpl
   lazy val userStorage: UserStorage = new UserStorageImpl
   lazy val activityStateTreeStorage: ActivityStateTreeStorage = new ActivityStateTreeStorageImpl
+  lazy val activityStateStorage: ActivityStateStorage = new ActivityStateStorageImpl
 
   def renewWholeStorage() {
     packageStorage.asInstanceOf[PackagesStorageImpl].renew()

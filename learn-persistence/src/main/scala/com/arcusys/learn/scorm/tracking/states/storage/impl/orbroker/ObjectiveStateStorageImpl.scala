@@ -1,11 +1,11 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
-import com.arcusys.scorm.lms.sequencing.ObjectiveState
 import com.arcusys.learn.scorm.tracking.states.storage.ObjectiveStateStorage
 import org.orbroker.Row
 import com.arcusys.learn.scorm.manifest.model.ObjectiveMap
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker.ObjectiveMapStorageImpl
+import com.arcusys.learn.scorm.tracking.model.ObjectiveState
 
 class ObjectiveStateStorageImpl extends GenericEntityStorageImpl[(Option[String],ObjectiveState)]("ObjectiveState") with ObjectiveStateStorage {
   private val objectiveMapStorage = new ObjectiveMapStorageImpl()

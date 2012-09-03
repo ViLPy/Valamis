@@ -85,8 +85,8 @@ QuestionBankCollectionTreeView = Backbone.View.extend({
                     "folder":1,
                     "entity":2
                 };
-                var aType = $(a).attr('rel').toLowerCase();
-                var bType = $(b).attr('rel').toLowerCase();
+                var aType = jQuery(a).attr('rel').toLowerCase();
+                var bType = jQuery(b).attr('rel').toLowerCase();
                 return priorities[aType] - priorities[bType];
             },
             "plugins":[ "themes", "ui", "json_data", "types", "dnd", "crrm", "group"]

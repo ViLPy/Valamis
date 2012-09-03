@@ -2,23 +2,22 @@
 <head>
 <title>Questionbank editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+<!--{{^isPortlet}}-->
+<script type="text/javascript" language="javascript"
+        src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" language="javascript"
+        src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.1/underscore-min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.0/backbone-min.js"></script>
+<script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
+<script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
 
-<!--<link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>-->
+<link type="text/css" href="css/smoothness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>
 <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-<script type="text/javascript" src="{{contextPath}}/js/libs/jquery.i18n.properties-min.js"></script>
 
-<!-- jsTree helpers -->
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/jstree.helper.js"></script>
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/jquery.jstree.ext.js"></script>
 
-<!-- Models -->
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
 
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/AnswerModel.js"></script>
@@ -32,8 +31,8 @@
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/bank/CategorizationAnswer.js"></script>
 
 <!-- RichEdit -->
-<script type="text/javascript" src="{{contextPath}}/js/libs/redactor/redactor.js"></script>
-<link type="text/css" rel="stylesheet" href="{{contextPath}}/js/libs/redactor/css/redactor.css"/>
+<script type="text/javascript" src="{{contextPath}}/js/libs/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="{{contextPath}}/js/libs/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" language="javascript" src="{{contextPath}}/js/widgets/richedit.js"></script>
 
 <script type="text/javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
@@ -45,29 +44,30 @@
 
 <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
 <link rel="stylesheet" type="text/css" href="{{contextPath}}/css/questionbank.css"/>
-
+<!--{{/isPortlet}}-->
 <script type="text/javascript">
-var scormLanguageData = {};
+var jQuery1816Bank = jQuery.noConflict();
+var scormQuestionBankLanguageData = {};
 
-$(function () {
-    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties', onLanguageLoad, loadDefaultLanguage);
+jQuery1816Bank(function () {
+    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties', onBankLanguageLoad, loadBankDefaultLanguage);
 });
 
-function loadDefaultLanguage() {
-    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_en.properties', onLanguageLoad, onLanguageError);
+function loadBankDefaultLanguage() {
+    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_en.properties', onBankLanguageLoad, onBankLanguageError);
 }
 
-function onLanguageLoad(properties) {
-    scormLanguageData = properties;
-    initView();
+function onBankLanguageLoad(properties) {
+    scormQuestionBankLanguageData = properties;
+    initBankView();
 }
 
-function onLanguageError() {
+function onBankLanguageError() {
     alert('Translation resource loading failed!');
 }
 
-function initView() {
-    var MainApp = Backbone.View.extend({
+function initBankView() {
+    var QuestionBankApp = Backbone.View.extend({
         events:{
             "click #questionbankAddCategory":"addCategory",
             "click #questionbankAddCategoryBottom":"addCategory",
@@ -84,22 +84,21 @@ function initView() {
         initialize:function () {
             this.selectNodeOnCreation = false;
 
-            var loader = new TemplateLoader();
-            loader.on('complete', this.initViews, this);
+            var loader = new TemplateLoader(jQuery1816Bank.proxy(this.initViews, this));
             loader.fetch("templates/scorm_questionbank_templates.html");
         },
 
         initViews:function () {
             this.questionbankCollection = new QuestionBankCollectionProxy();
             this.questionbankCollectionView = new QuestionBankCollectionTreeView({
-                el:$("#SCORMQuestionBankTree"),
+                el:jQuery1816Bank("#SCORMQuestionBankTree"),
                 collection:this.questionbankCollection,
-                language: scormLanguageData
+                language:scormQuestionBankLanguageData
             });
 
             this.entityView = new EntityView({
-                el:$("#ItemView"),
-                language: scormLanguageData
+                el:jQuery1816Bank("#ItemView"),
+                language:scormQuestionBankLanguageData
             });
             this.entityView.on('change-view', this.updateControls, this);
 
@@ -121,83 +120,84 @@ function initView() {
         renderSelectedNode:function (model) {
             this.entityView.render(model);
             if (model.get('newModel')) {
+                model.set('newModel', false);
                 this.edit();
             }
         },
 
         edit:function () {
             this.entityView.edit();
-            $("#SCORMAddAnswersButtonBlock").show();
-            $("#questionbankEdit").hide();
-            $("#questionbankUpdate").show();
-            $("#questionbankEditBottom").hide();
-            $("#questionbankUpdateBottom").show();
+            jQuery1816Bank("#SCORMAddAnswersButtonBlock").show();
+            jQuery1816Bank("#questionbankEdit").hide();
+            jQuery1816Bank("#questionbankUpdate").show();
+            jQuery1816Bank("#questionbankEditBottom").hide();
+            jQuery1816Bank("#questionbankUpdateBottom").show();
 
-            $("#questionbankAddCategory").hide();
-            $("#questionbankAddQuestions").hide();
-            $("#questionbankRemoveElement").hide();
-            $("#questionbankAddCategoryBottom").hide();
-            $("#questionbankAddQuestionsBottom").hide();
-            $("#questionbankRemoveElementBottom").hide();
+            jQuery1816Bank("#questionbankAddCategory").hide();
+            jQuery1816Bank("#questionbankAddQuestions").hide();
+            jQuery1816Bank("#questionbankRemoveElement").hide();
+            jQuery1816Bank("#questionbankAddCategoryBottom").hide();
+            jQuery1816Bank("#questionbankAddQuestionsBottom").hide();
+            jQuery1816Bank("#questionbankRemoveElementBottom").hide();
         },
 
         updateModel:function () {
             if (!this.entityView.saveModel()) return;
-            $("#SCORMAddAnswersButtonBlock").hide();
-            $("#questionbankUpdate").hide();
-            $("#questionbankEdit").show();
-            $("#questionbankUpdateBottom").hide();
-            $("#questionbankEditBottom").show();
+            jQuery1816Bank("#SCORMAddAnswersButtonBlock").hide();
+            jQuery1816Bank("#questionbankUpdate").hide();
+            jQuery1816Bank("#questionbankEdit").show();
+            jQuery1816Bank("#questionbankUpdateBottom").hide();
+            jQuery1816Bank("#questionbankEditBottom").show();
 
             if (this.entityView.currentView instanceof CategoryView) {
-                $("#questionbankAddCategory").show();
-                $("#questionbankAddCategoryBottom").show();
+                jQuery1816Bank("#questionbankAddCategory").show();
+                jQuery1816Bank("#questionbankAddCategoryBottom").show();
             }
-            $("#questionbankAddQuestions").show();
-            $("#questionbankRemoveElement").show();
-            $("#questionbankAddQuestionsBottom").show();
-            $("#questionbankRemoveElementBottom").show();
+            jQuery1816Bank("#questionbankAddQuestions").show();
+            jQuery1816Bank("#questionbankRemoveElement").show();
+            jQuery1816Bank("#questionbankAddQuestionsBottom").show();
+            jQuery1816Bank("#questionbankRemoveElementBottom").show();
         },
 
         updateControls:function (viewType) {
             switch (viewType) {
                 case 'question':
-                    $("#SCORMAddAnswersButtonBlock").hide();
+                    jQuery1816Bank("#SCORMAddAnswersButtonBlock").hide();
 
-                    $("#quizContentBottomMenu").show();
-                    $("#questionbankAddCategoryBottom").hide();
-                    $("#questionbankAddQuestionsBottom").show();
-                    $("#questionbankRemoveElementBottom").show();
-                    $("#questionbankEditBottom").show();
-                    $("#questionbankUpdateBottom").hide();
+                    jQuery1816Bank("#quizContentBottomMenu").show();
+                    jQuery1816Bank("#questionbankAddCategoryBottom").hide();
+                    jQuery1816Bank("#questionbankAddQuestionsBottom").show();
+                    jQuery1816Bank("#questionbankRemoveElementBottom").show();
+                    jQuery1816Bank("#questionbankEditBottom").show();
+                    jQuery1816Bank("#questionbankUpdateBottom").hide();
 
-                    $("#questionbankAddCategory").hide();
-                    $("#questionbankAddQuestions").show();
-                    $("#questionbankRemoveElement").show();
-                    $("#questionbankEdit").show();
-                    $("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankAddCategory").hide();
+                    jQuery1816Bank("#questionbankAddQuestions").show();
+                    jQuery1816Bank("#questionbankRemoveElement").show();
+                    jQuery1816Bank("#questionbankEdit").show();
+                    jQuery1816Bank("#questionbankUpdate").hide();
                     break;
                 case 'category':
-                    $("#quizContentBottomMenu").show();
-                    $("#questionbankUpdateBottom").hide();
-                    $("#questionbankEditBottom").show();
-                    $("#questionbankAddCategoryBottom").show();
-                    $("#questionbankAddQuestionsBottom").show();
-                    $("#questionbankRemoveElementBottom").show();
+                    jQuery1816Bank("#quizContentBottomMenu").show();
+                    jQuery1816Bank("#questionbankUpdateBottom").hide();
+                    jQuery1816Bank("#questionbankEditBottom").show();
+                    jQuery1816Bank("#questionbankAddCategoryBottom").show();
+                    jQuery1816Bank("#questionbankAddQuestionsBottom").show();
+                    jQuery1816Bank("#questionbankRemoveElementBottom").show();
 
-                    $("#questionbankUpdate").hide();
-                    $("#questionbankEdit").show();
-                    $("#questionbankAddCategory").show();
-                    $("#questionbankAddQuestions").show();
-                    $("#questionbankRemoveElement").show();
+                    jQuery1816Bank("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankEdit").show();
+                    jQuery1816Bank("#questionbankAddCategory").show();
+                    jQuery1816Bank("#questionbankAddQuestions").show();
+                    jQuery1816Bank("#questionbankRemoveElement").show();
                     break;
                 default:
-                    $("#quizContentBottomMenu").hide();
-                    $("#questionbankUpdate").hide();
-                    $("#questionbankEdit").hide();
-                    $("#questionbankAddCategory").show();
-                    $("#questionbankAddQuestions").show();
-                    $("#questionbankRemoveElement").hide();
+                    jQuery1816Bank("#quizContentBottomMenu").hide();
+                    jQuery1816Bank("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankEdit").hide();
+                    jQuery1816Bank("#questionbankAddCategory").show();
+                    jQuery1816Bank("#questionbankAddQuestions").show();
+                    jQuery1816Bank("#questionbankRemoveElement").hide();
                     break;
             }
         },
@@ -216,39 +216,39 @@ function initView() {
         },
 
         addCategory:function () {
-            $('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
+            jQuery1816Bank('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
             this.selectNodeOnCreation = true;
             var newCategory = new CategoryModel({
                 parentID:this.resolveCurrentParentID()
             });
             newCategory.save({}, {
-                success:jQuery.proxy(function (category) {
+                success:jQuery1816Bank.proxy(function (category) {
                     this.questionbankCollection.addCategory(_.extend(category.toJSON(), {newModel:true}));
-                    $('#projectLearnGeneric').unblock();
-                    $.growlUI('{{overlayAddCategoryMessageLabel}}', '{{overlayCompleteMessageLabel}}');
+                    jQuery1816Bank('#projectLearnGeneric').unblock();
+                    jQuery1816Bank.growlUI('{{overlayAddCategoryMessageLabel}}', '{{overlayCompleteMessageLabel}}');
                 }, this),
                 error:function () {
-                    $('#projectLearnGeneric').unblock();
-                    $.growlWarning('{{overlayAddCategoryMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                    jQuery1816Bank('#projectLearnGeneric').unblock();
+                    jQuery1816Bank.growlWarning('{{overlayAddCategoryMessageLabel}}', '{{overlayFailedMessageLabel}}');
                 }
             });
         },
 
         addQuestion:function () {
-            $('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
+            jQuery1816Bank('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
             this.selectNodeOnCreation = true;
             var newQuestion = new QuestionModel({
                 categoryID:this.resolveCurrentParentID()
             });
             newQuestion.save({}, {
-                success:jQuery.proxy(function (question) {
+                success:jQuery1816Bank.proxy(function (question) {
                     this.questionbankCollection.addQuestion(_.extend(question.toJSON(), {newModel:true}));
-                    $('#projectLearnGeneric').unblock();
-                    $.growlUI('{{overlayAddQuestionMessageLabel}}', '{{overlayCompleteMessageLabel}}');
+                    jQuery1816Bank('#projectLearnGeneric').unblock();
+                    jQuery1816Bank.growlUI('{{overlayAddQuestionMessageLabel}}', '{{overlayCompleteMessageLabel}}');
                 }, this),
                 error:function () {
-                    $('#projectLearnGeneric').unblock();
-                    $.growlWarning('{{overlayAddQuestionMessageLabel}}', '{{overlayFailedMessageLabel}}');
+                    jQuery1816Bank('#projectLearnGeneric').unblock();
+                    jQuery1816Bank.growlWarning('{{overlayAddQuestionMessageLabel}}', '{{overlayFailedMessageLabel}}');
                 }
             });
         },
@@ -261,13 +261,13 @@ function initView() {
         }
     });
 
-    window.App = new MainApp({
-        el:$('body')
+    var bankView = new QuestionBankApp({
+        el:jQuery1816Bank('body')
     });
 
-    if (!window.RichEdit || !(window.RichEdit instanceof RichEdit)) {
-        window.RichEdit = new RichEdit({
-            el:$("#RichTextEdit")
+    if (!window.RichEdit) {
+        window.RichEdit = new SCORMTinyMCERichEdit({
+            el:jQuery1816Bank("#RichTextEdit")
         });
     }
 }
