@@ -57,7 +57,6 @@ class RollupService extends RollupServiceContract {
           })
         } else {
           // Apply the Objective Rollup Using Rules Process [RB.1.2 b] to the activity
-          // TODO: apply default rollup rules
           node.item.objectiveStates.get(None).foreach(primaryObjectiveState => {
             val notSatisfiedCheck = rollupRuleCheck(node, RollupAction.NotSatisfied)
             if (notSatisfiedCheck) {

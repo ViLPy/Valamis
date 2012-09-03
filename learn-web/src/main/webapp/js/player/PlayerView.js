@@ -142,7 +142,7 @@ PlayerView = Backbone.View.extend({
             this.trigger('endSession');
         }
 
-        if (data.currentActivity) {
+        if (data.currentActivity && !data.endSession) {
             this.selectNode(data.currentActivity);
             jQuery('#SCORMDataOutput').attr("src", data.activityURL);
             resizeIFrame();

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
@@ -26,9 +26,9 @@
         </snapshotRepository>
     </distributionManagement>
     <scm>
-        <connection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/trunk</connection>
-        <developerConnection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/trunk</developerConnection>
-        <url>https://dev-1.arcusys.fi/fisheye/project/CR-LEARN</url>
+        <connection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.0.1</connection>
+        <developerConnection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.0.1</developerConnection>
+        <url>https://dev-1.arcusys.fi/fisheye/project/CR-LEARN/tags/1.0.1</url>
     </scm>
 
     <modules>
