@@ -22,12 +22,12 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     properties.setProperty("database", dbName)
     properties.setProperty("login", login)
     properties.setProperty("password", passwd)
-    PropertyUtil.store("service", properties)
-    BrokerFactory.init(PropertyUtil.load("service"))
+    PropertyUtil.store("db", properties)
+    BrokerFactory.init(PropertyUtil.load("db"))
   }
 
   get("/GetSettings") {
-    val properties = PropertyUtil.load("service")
+    val properties = PropertyUtil.load("db")
     json(Map("server" -> properties.getProperty("server", ""),
       "database" -> properties.getProperty("database", ""),
       "login" -> properties.getProperty("login", ""),

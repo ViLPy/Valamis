@@ -14,6 +14,8 @@ CREATE TABLE Activity
   visible boolean,
   objectivesGlobalToSystem boolean,
   sharedDataGlobalToSystem boolean,
+  masteryScore text,
+  maxTimeAllowed text,
   CONSTRAINT Activity_pk PRIMARY KEY (id, packageID)
 ) WITH (
   OIDS=FALSE

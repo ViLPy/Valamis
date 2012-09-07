@@ -147,6 +147,7 @@ PlayerView = Backbone.View.extend({
             jQuery('#SCORMDataOutput').attr("src", data.activityURL);
             resizeIFrame();
             API_1484_11.setActivity(this.packageID, this.organizationID, data.currentActivity);
+            API.setActivity(this.packageID, this.organizationID, data.currentActivity);
 
             showNavigationControls();
             if (data.hiddenUI) {

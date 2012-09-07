@@ -15,6 +15,7 @@ object ActivitiesGenerator {
         {getADLNavPresentation(leaf)}
         <imsss:sequencing>
           <imsss:deliveryControls tracked = {leaf.sequencing.tracking.isDefined.toString}/>
+          <imsss:controlMode flow="true"/>
         </imsss:sequencing>
       </item>
     case container: ContainerActivity =>

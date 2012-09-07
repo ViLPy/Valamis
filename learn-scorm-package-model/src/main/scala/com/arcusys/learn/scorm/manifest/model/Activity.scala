@@ -118,6 +118,8 @@ class LeafActivity
   completionThreshold: CompletionThreshold = CompletionThreshold.Default,
   hiddenNavigationControls: Set[NavigationControlType.Value] = Set(),
   visible: Boolean = true,
-  metadata: Option[Metadata] = None
+  metadata: Option[Metadata] = None,
+  val masteryScore: Option[String] = None,
+  val maxTimeAllowed: Option[String] = None
   )
   extends Activity(id, title, Some(parentID), organizationID, sequencing, completionThreshold, hiddenNavigationControls, visible, metadata)

@@ -20,7 +20,7 @@ class QuizPackageGenerator(quiz: Quiz) {
   private val scoData = mutable.Map[String, String]()
   private val resourceFiles = mutable.HashSet[String]()
   private val scormDependencyID = "scormDependency"
-  private val commonResourceURLs = Seq("img/attach.png", "common.js", "jquery-1.7.2.min.js", "jquery-ui-1.8.20.custom.min.js",
+  private val commonResourceURLs = Seq("common.js", "jquery-1.7.2.min.js", "jquery-ui-1.8.20.custom.min.js",
     "jquery-ui-1.8.20.custom.css", "player_content.css", "scorm_main.css")
 
   private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath

@@ -15,7 +15,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     Map("id" -> manifest.id,
       "title" -> manifest.title,
       "summary" -> manifest.summary,
-      "visibility" -> manifest.visibility)
+      "visibility" -> manifest.visibility,
+      "version" -> manifest.version)
   )
 
   get("/") {
@@ -31,6 +32,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
         "title" -> manifest.title,
         "summary" -> manifest.summary,
         "visibility" -> manifest.visibility,
+        "version" -> manifest.version,
         "suspendedID" -> (if (attempt.isDefined) activityStateTreeStorage.get(attempt.get.id).map(_.suspendedActivity.map(_.item.activity.id)) else None),
         "attempted" -> attempt.isDefined)
     })

@@ -50,11 +50,15 @@ class Child(elem: Elem, namespace: Option[String], name: String) {
 
   def withDefault(default: BigDecimal) = optional(XMLImplicits.bigDecimal).getOrElse(default)
 
+  def withDefault(default: String) = optional(XMLImplicits.string).getOrElse(default)
+
   def optionalEnum[T <: Enumeration](enumeration: T): Option[T#Value] = optional(XMLImplicits.string) map (enumeration.withName(_).asInstanceOf[T#Value])
 
   def optional(ignore: StringValue): Option[String] = optional(XMLImplicits.element) map(_.text.trim)
 
   def optional(ignore: BigDecimalValue): Option[BigDecimal] = optional (XMLImplicits.string) map(BigDecimal(_))
+
+  def optional(ignore: IntValue): Option[Int] = optional (XMLImplicits.int) map(_.toInt)
 
   def optional[T](transform: Elem=>T): Option[T] = optional (XMLImplicits.element) map transform
 

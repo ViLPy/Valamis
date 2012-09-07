@@ -1,7 +1,8 @@
 PlayerPackageModel = Backbone.Model.extend({
     defaults:{
         title:"",
-        summary:""
+        summary:"",
+        version:"2004 4th Edition"
     }
 });
 

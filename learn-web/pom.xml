@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.0.1</version>
+        <version>1.1</version>
     </parent>
     <artifactId>learn-web</artifactId>
     <name>learn-web</name>
