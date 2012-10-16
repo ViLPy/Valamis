@@ -24,6 +24,11 @@ The solution will be further developed to support the full set of requirements f
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.1. Update: 07.09.2012
+ - Support for SCORM 1.2
+ - Small fixes for UI
+
+
 ## Version 1.0.1. Update: 29.08.2012
  - 'Redactor' replaced with TinyMCE
  - bugfixing
