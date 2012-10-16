@@ -6,6 +6,7 @@
         <portlet-name>SCORMApplication</portlet-name>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/scorm_admin.css</header-portlet-css>
         <header-portlet-css>/css/player.css</header-portlet-css>
@@ -33,6 +34,9 @@
         <header-portlet-javascript>/js/lms/dataModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/lms/rteBase.js</header-portlet-javascript>
         <header-portlet-javascript>/js/lms/rteData.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/dataModel12.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteBase12.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteData12.js</header-portlet-javascript>
         <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
     </portlet>
 
@@ -40,6 +44,7 @@
         <portlet-name>SCORMQuestionBank</portlet-name>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/questionbank.css</header-portlet-css>
         <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
@@ -76,6 +81,7 @@
         <portlet-name>SCORMQuizes</portlet-name>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
         <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
@@ -113,6 +119,7 @@
         <portlet-name>Gradebook</portlet-name>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/gradebook.css</header-portlet-css>
         <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>

@@ -28,6 +28,9 @@
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/dataModel.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteBase.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteData.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/dataModel12.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteBase12.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteData12.js"></script>
 
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
     <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
@@ -44,6 +47,7 @@
             window.LearnAjax.setHeader("scormUserID", "{{userID}}");
             window.LearnAjax.setHeader("scormUserName", "{{userName}}");
             window.API_1484_11 = new SCORM2004_4API();
+            window.API = new SCORM12API();
 
             // upload translations
             Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_{{language}}.properties', onPlayerLanguageLoad, loadDefaultLanguageForPlayer);
@@ -92,13 +96,13 @@
         }
 
         function startPackage(data) {
-            scormPlayer.setName(data.packageName);
+            scormPlayer.setName(data.get('title'));
             scormPlayer.load(data.id);
             togglePlayer();
         }
 
         function resumePackage(data) {
-            scormPlayer.setName(data.packageName);
+            scormPlayer.setName(data.get('title'));
             scormPlayer.loadAndResume(data.id);
             togglePlayer();
         }

@@ -24,7 +24,7 @@ The solution will be further developed to support the full set of requirements f
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
-## Version 1.0.1 - RC1. Update: 29.08.2012
+## Version 1.0.1. Update: 29.08.2012
  - 'Redactor' replaced with TinyMCE
  - bugfixing
 
@@ -43,6 +43,27 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
 ### Building
 
 This is Maven2 project, so you can use IDE that you like.
+
+### Data base updating
+To update DB structure from 1.0 to the latest 1.1 run next SQL script
+
+    CREATE TABLE ActivityData
+     (
+     id serial,
+     packageID integer,
+     activityID text,
+     targetId text,
+     readSharedData boolean,
+     writeSharedData boolean,
+     CONSTRAINT ActivityData_pk PRIMARY KEY (id)
+     ) WITH (
+     OIDS=FALSE
+     );
+    
+    ALTER TABLE ActivityData ADD CONSTRAINT ActivityData_fk1 FOREIGN KEY (activityID, packageID) REFERENCES Activity(id, packageID) ON DELETE CASCADE;
+    
+    ALTER TABLE Activity ADD masteryScore text;
+    ALTER TABLE Activity ADD maxTimeAllowed text;
 
 #### Tests
 For running tests on local machine for scorm-player you should change db.properties file inside resources directory and setup you current PostgreSQL instance.

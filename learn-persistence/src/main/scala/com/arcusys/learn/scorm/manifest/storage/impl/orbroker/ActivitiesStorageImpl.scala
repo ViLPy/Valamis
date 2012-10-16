@@ -22,7 +22,7 @@ class ActivitiesStorageImpl extends GenericEntityStorageImpl[Activity]("Activity
   def getAllOrganizations(packageID: Int): Seq[Organization] = getAll("_organization", "packageID" -> packageID).map(_.asInstanceOf[Organization])
 
   def getOrganizationTree(packageID: Int, organizationID: String): TreeNode[Activity] =
-    TreeNode.parseNodes(getAll("packageID" -> packageID, "organizationID" -> organizationID), (a:Activity)=>a.id, (a:Activity)=>a.parentID, None).head
+    TreeNode.parseNodes(getAll("packageID" -> packageID, "organizationID" -> organizationID), (a: Activity) => a.id, (a: Activity) => a.parentID, None).head
 
   def getAllFlat(packageID: Int) = getAll("packageID" -> packageID)
 
@@ -76,6 +76,14 @@ class ActivitiesStorageImpl extends GenericEntityStorageImpl[Activity]("Activity
         case o: Organization => o.sharedDataGlobalToSystem
         case _ => false
       }),
+      "maxTimeAllowed" -> (entity match {
+        case l: LeafActivity => l.maxTimeAllowed
+        case _ => None
+      }),
+      "masteryScore" -> (entity match {
+        case l: LeafActivity => l.masteryScore
+        case _ => None
+      }),
       //TODO: is map really needed?
       "hideLMSUI" -> entity.hiddenNavigationControls.map(_.toString).mkString("|")
     )
@@ -119,7 +127,10 @@ class ActivitiesStorageImpl extends GenericEntityStorageImpl[Activity]("Activity
         sequencing,
         CompletionThreshold.Default,
         row.string("hideLMSUI").get.split('|').toSet.filter(!_.isEmpty).map(NavigationControlType.withName(_)),
-        row.bit("visible").get
+        row.bit("visible").get,
+        None,
+        row.string("masteryScore"),
+        row.string("maxTimeAllowed")
       )
   }
 

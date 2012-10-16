@@ -98,7 +98,7 @@ class LMSTestPackage_CM01Test {
     assertEquals(0, sequencing.preConditionRules.size)
     assertEquals(0, sequencing.postConditionRules.size)
     assertEquals(0, sequencing.exitConditionRules.size)
-    assertEquals(0, sequencing.rollupRules.size)
+    assertEquals(2, sequencing.rollupRules.size)
     assertTrue(sequencing.primaryObjective.isDefined)
     assertEquals(0, sequencing.nonPrimaryObjectives.size)
     assertEquals(None, sequencing.childrenSelection.reorder)
@@ -164,7 +164,7 @@ class LMSTestPackage_CM01Test {
     assertEquals(0, sequencing.preConditionRules.size)
     assertEquals(0, sequencing.postConditionRules.size)
     assertEquals(0, sequencing.exitConditionRules.size)
-    assertEquals(0, sequencing.rollupRules.size)
+    assertEquals(2, sequencing.rollupRules.size)
 
     val primaryObjective = sequencing.primaryObjective.get
     assertEquals(None, primaryObjective.id)
@@ -240,7 +240,7 @@ class LMSTestPackage_CM01Test {
     assertEquals(0, sequencing.preConditionRules.size)
     assertEquals(0, sequencing.postConditionRules.size)
     assertEquals(0, sequencing.exitConditionRules.size)
-    assertEquals(0, sequencing.rollupRules.size)
+    assertEquals(2, sequencing.rollupRules.size)
 
     val primaryObjective = sequencing.primaryObjective.get
     assertEquals(None, primaryObjective.id)
@@ -293,7 +293,7 @@ class LMSTestPackage_CM01Test {
     assertEquals(0, sequencing.preConditionRules.size)
     assertEquals(0, sequencing.postConditionRules.size)
     assertEquals(0, sequencing.exitConditionRules.size)
-    assertEquals(0, sequencing.rollupRules.size)
+    assertEquals(2, sequencing.rollupRules.size)
 
     assertTrue(sequencing.primaryObjective.isDefined)
     assertEquals(0, sequencing.nonPrimaryObjectives.size)

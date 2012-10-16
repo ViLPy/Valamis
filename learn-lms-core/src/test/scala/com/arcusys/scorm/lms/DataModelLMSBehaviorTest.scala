@@ -8,15 +8,10 @@ import com.arcusys.learn.scorm.tracking.model._
 import org.scalamock.scalatest.MockFactory
 import org.scalamock.ProxyMockFactory
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.util.TreeNode
-import com.arcusys.learn.scorm.manifest.storage.ActivitiesStorage
-import sequencing.SequencingProcessor
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class DataModelLMSBehaviorTest extends FlatSpec with ShouldMatchers with MockFactory with ProxyMockFactory {
   private val storageFactory = mock[StorageFactoryContract]
-  private val activityStorage = mock[ActivitiesStorage]
   val someAttempt = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)
   val attemptWithoutCurrentActivity = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)
   val configuration = new NewBindingModule({

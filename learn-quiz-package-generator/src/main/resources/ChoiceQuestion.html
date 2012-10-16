@@ -9,14 +9,14 @@
         // this will check is user answer right
         var userAnswers = [];
         //{{#multipleChoice}}
-        jQuery(".playerMainArea > :checkbox").each(function (index, elem) {
+        jQuery(".playerMainArea > div > :checkbox").each(function (index, elem) {
             if (jQuery(elem).attr("checked")) {
                 userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
             }
         });
         //{{/multipleChoice}}
         //{{^multipleChoice}}
-        jQuery(".playerMainArea > :radio").each(function (index, elem) {
+        jQuery(".playerMainArea > div > :radio").each(function (index, elem) {
             if (jQuery(elem).prop("checked")) {
                 userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
             }
@@ -65,10 +65,20 @@
         <br>
         {{#answers}}
         {{#multipleChoice}}
-        <input type="checkbox" id="scormAnswer{{id}}" class="checkbox"/><label>{{{text}}}</label><br>
+        <div style="display: block; float: left;">
+        <input type="checkbox" id="scormAnswer{{id}}" class="checkbox"/>
+        </div>
+        <div style="display: block; float: left;"><label> {{{text}}}</label></div>
+        <br style="clear: both;">
+        <br style="clear: both;">
         {{/multipleChoice}}
         {{^multipleChoice}}
-        <input type="radio" id="scormAnswer{{id}}" name="scormGroup1" class="radio"/><label>{{{text}}}</label><br>
+        <div style="display: block; float: left;">
+        <input type="radio" id="scormAnswer{{id}}" name="scormGroup1" class="radio"/>
+        </div>
+        <div style="display: block; float: left;"><label> {{{text}}}</label></div>
+        <br style="clear: both;">
+        <br style="clear: both;">
         {{/multipleChoice}}
         {{/answers}}
     </div>

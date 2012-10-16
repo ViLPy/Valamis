@@ -17,7 +17,7 @@ import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, Ac
 object StorageFactory extends StorageFactoryContract
 {
   val initBroker = {
-    if (!BrokerFactory.isInitialized) BrokerFactory.init(PropertyUtil.load("service"))
+    if (!BrokerFactory.isInitialized) BrokerFactory.init(PropertyUtil.load("db"))
   }
   
   lazy val packageStorage: PackagesStorage = new PackagesStorageImpl

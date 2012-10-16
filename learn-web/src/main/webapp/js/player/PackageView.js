@@ -11,11 +11,11 @@ PlayerPackageView = Backbone.View.extend({
     },
 
     startPackage:function () {
-        this.trigger('start', {id:this.model.id, packageName:this.model.get('title')});
+        this.trigger('start', this.model);
     },
 
     resumePackage:function () {
-        this.trigger('resume', {id:this.model.id, packageName:this.model.get('title')});
+        this.trigger('resume', this.model);
     },
 
     setActive:function () {

@@ -17,6 +17,24 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
     }
   }
 
+  // SCORM 1.2
+  def getMasteryScore: Option[String] = {
+    currentActivity match {
+          case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
+            activity.activity.asInstanceOf[LeafActivity].masteryScore
+          case None => None
+        }
+  }
+
+  // SCORM 1.2
+  def getMaxTimeAllowed12: Option[String] = {
+    currentActivity match {
+          case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
+            activity.activity.asInstanceOf[LeafActivity].maxTimeAllowed
+          case None => None
+        }
+  }
+
   /**
    * Refers to "Completion Status Evaluation" from SCORM RTE book
    */

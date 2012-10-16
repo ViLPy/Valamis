@@ -18,7 +18,7 @@
         getAPI().SetValue("cmi.interactions.0.learner_response", userAnswersMerged);
         getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", dataToCompare);
 
-        if (userAnswersMerged == dataToCompare) {
+        if (userAnswersMerged.toLowerCase() == dataToCompare.toLowerCase()) {
             getAPI().SetValue("cmi.completion_status", "completed");
             getAPI().SetValue("cmi.success_status", "passed");
             getAPI().SetValue("cmi.score.scaled", "1.0");
@@ -39,7 +39,7 @@
             {{#answers}}
             <tr>
                 <td>
-                    <b class='matchingQuestionVariant'>{{{answerText}}}</b>:
+                    <b class='matchingQuestionVariant'>{{{answerText}}}</b>
                 </td>
                 <td>
                     <select>

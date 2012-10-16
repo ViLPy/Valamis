@@ -18,10 +18,11 @@ class ManifestParser(root: Elem, title: String, summary: String) {
     //val identifier = root attr "identifier" required()
     val manifestVersion = root attr "version" optional string
     val base = root attr(xmlNs, "base") optional string
-    val metadataElem = root childElem "metadata" required element
-    val metadata = parseMetadata(metadataElem)
-    val schema = metadataElem childElem "schema" required string
-    val scormVersion = metadataElem childElem "schemaversion" required string
+    val metadataElem = root childElem "metadata" optional element
+    val metadataOption = if (metadataElem.isDefined) Some(parseMetadata(metadataElem.get)) else None
+    // TODO: do we really need schema?
+    //val schema = metadataElem childElem "schema" required string
+    val scormVersion = if (metadataElem.isDefined) metadataElem.get childElem "schemaversion" withDefault("1.2") else "1.2"
     val organizationsElement = root childElem "organizations" required element
     val resourcesElem = root childElem "resources" required element
     val sequencingCollectionElement = root childElem ("imsss", "sequencingCollection") optional element
@@ -37,14 +38,14 @@ class ManifestParser(root: Elem, title: String, summary: String) {
     def parseThisResource(elem: Elem) = parseResource(elem, scormVersion, adlcpNs)
     val resources = resourceElements map parseThisResource
     val resourceMap = resources.map(r=>r.id->r).toMap
-    def parseThisOrganization(elem: Elem) = parseOrganization(elem, resourceMap, adlcpNs, adlseqNs, sequencingElements)
+    def parseThisOrganization(elem: Elem) = parseOrganization(elem, resourceMap, adlcpNs, adlseqNs, scormVersion, sequencingElements)
     val organizations = organizationElements map parseThisOrganization
-    if (organizations.find(o => Some(o.item.id) == defaultOrganizationIdentifier).isEmpty)
+    if (defaultOrganizationIdentifier.isDefined && organizations.find(o => Some(o.item.id) == defaultOrganizationIdentifier).isEmpty)
       throw new SCORMParserException("Organization referenced by the default attribute of the <organizations> element not found among the <organization> elements while searching by identifier: " + defaultOrganizationIdentifier)
 
     new ManifestDocument(
       new Manifest(0, manifestVersion, base, scormVersion, defaultOrganizationIdentifier, resourcesBase, title, Some(summary), visibility=true,
-        metadata = if (!metadata.externalMetadataLocations.isEmpty || !metadata.inlineMetadata.isEmpty) Some(metadata) else None),
+        metadata = if (metadataOption.isDefined && (!metadataOption.get.externalMetadataLocations.isEmpty || !metadataOption.get.inlineMetadata.isEmpty)) metadataOption else None),
       organizations, resources, sequencingElements
     )
   }

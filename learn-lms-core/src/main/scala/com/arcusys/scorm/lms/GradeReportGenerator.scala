@@ -11,7 +11,7 @@ class GradeReportGenerator {
   val dataModelStorage = StorageFactory.dataModelStorage
 
   private def get(attempt: Attempt, organizationID: String) = {
-    val grades = dataModelStorage.getValuesByKey(attempt.id, "cmi.success_status")
+    val grades = dataModelStorage.getValuesByKey(attempt.id, "cmi.success_status") ++ dataModelStorage.getValuesByKey(attempt.id, "cmi.core.lesson_status")
     val responseTypes = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.type")
     val responses = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.learner_response")
     val texts = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.description")

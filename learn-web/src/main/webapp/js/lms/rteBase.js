@@ -21,6 +21,8 @@ var SCORM2004_4API = function () {
     this.isActivitySuspended = false;
     this.activityObjectives = [];
     this.primaryObjective = null;
+
+    this.navTimeout = null;
 };
 
 SCORM2004_4API.prototype.doSyncRequest = function (url, methodType) {
@@ -44,6 +46,8 @@ SCORM2004_4API.prototype.getOriginalKeyName = function (key) {
 };
 
 SCORM2004_4API.prototype.Initialize = function (param) {
+    clearTimeout(this.navTimeout);
+
     if (this.resetNeeded) {
         this.resetState();
     }
@@ -234,16 +238,16 @@ SCORM2004_4API.prototype.Terminate = function (param) {
                 if (this.adlNavRequest != '_none_') {
                     switch (this.adlNavRequest.replace(/{.+}/g, "")) {
                         case 'continue':
-                            setTimeout('scormGetNext();', 200);
+                            this.navTimeout = setTimeout('scormGetNext();', 200);
                             break;
                         case 'previous':
-                            setTimeout('scormGetPrev();', 200);
+                            this.navTimeout = setTimeout('scormGetPrev();', 200);
                             break;
                         case 'choice':
                             break;
                         case 'jump':
                             var target = this.adlNavRequest.match(/{.+}/).toString().replace('{',"").replace('}',"").replace("target=","");
-                            setTimeout('scormJump("'+target+'");', 200);
+                            this.navTimeout = setTimeout('scormJump("'+target+'");', 200);
                             break;
                         case 'exit':
                             break;
@@ -257,10 +261,6 @@ SCORM2004_4API.prototype.Terminate = function (param) {
                             break;
                     }
                 }
-                /*else {
-                 // TODO: decide is auto-continue needed
-                 }*/
-                // TOC update if needed will be here
             } else {
                 this.diagnosticMessage = "Failure calling the Terminate remote callback: the server replied with HTTP Status " + result;
             }

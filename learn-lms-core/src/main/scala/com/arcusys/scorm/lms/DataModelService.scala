@@ -6,7 +6,7 @@ import org.scala_tools.subcut.inject.{Injectable, BindingModule}
 import org.joda.time._
 import org.joda.time.format.DateTimeFormat
 
-class DataModelService(attempt: Attempt, activityID:String)(implicit val bindingModule: BindingModule) extends Injectable {
+class DataModelService(attempt: Attempt, activityID: String)(implicit val bindingModule: BindingModule) extends Injectable {
   private val storageFactory = inject[StorageFactoryContract]
   private val dataModelStorage = storageFactory.dataModelStorage
 
@@ -20,7 +20,7 @@ class DataModelService(attempt: Attempt, activityID:String)(implicit val binding
     Map("cmi.completion_threshold" -> lmsBehavior.getCompletionThreshold,
       "cmi.launch_data" -> lmsBehavior.getLaunchData,
       "cmi.max_time_allowed" -> lmsBehavior.getMaxTimeAllowed,
-      "time_limit_action" -> lmsBehavior.getTimeLimitAction,
+      "cmi.time_limit_action" -> lmsBehavior.getTimeLimitAction,
       "cmi.scaled_passing_score" -> lmsBehavior.getScaledPassingScore,
       "cmi.completion_status" -> {
         val progressMeasure = getSingle("cmi.progress_measure")
@@ -33,18 +33,21 @@ class DataModelService(attempt: Attempt, activityID:String)(implicit val binding
         val currentSuccessStatus = dataModelStorage.getValue(attempt.id, activityID, "cmi.success_status")
         lmsBehavior.getSuccessStatus(scaledPassingScore, scaledScore, currentSuccessStatus)
       }
-    )
+    ) ++ Seq("cmi.learner_id", "cmi.learner_name", "cmi.learner_preference.audio_level", "cmi.learner_preference.language",
+      "cmi.learner_preference.delivery_speed", "cmi.learner_preference.audio_captioning", "cmi.core.student_id",
+      "cmi.core.student_name", "cmi.core.credit", "cmi.core.entry", "cmi.core.lesson_mode", "cmi.student_data.mastery_score",
+      "cmi.student_data.max_time_allowed", "cmi.student_data.time_limit_action").map(key=> key->getSingle(key))
   }
 
   def getValue(key: String) = {
     val preParsedKey = """\.\d+\.""".r replaceAllIn(key, ".n.")
     val parsedKey = if (preParsedKey.indexOf(".n.") > 0) preParsedKey.substring(0, preParsedKey.indexOf(".n.")) else preParsedKey
 
-    if (key.startsWith("cmi.interactions")
-      || key.startsWith("cmi.objectives")
-      || key.startsWith("cmi.comments_from_learner")
-      || key.startsWith("cmi.comments_from_lms")
-      || key.startsWith("adl.data")) {
+    if (key.startsWith("cmi.interactions.")
+      || key.startsWith("cmi.objectives.")
+      || key.startsWith("cmi.comments_from_learner.")
+      || key.startsWith("cmi.comments_from_lms.")
+      || key.startsWith("adl.data.")) {
       getCollection(parsedKey)
     } else {
       getSingle(parsedKey)
@@ -84,7 +87,21 @@ class DataModelService(attempt: Attempt, activityID:String)(implicit val binding
            "cmi.max_time_allowed" |
            "cmi.mode" |
            "cmi.scaled_passing_score" |
-           "cmi.time_limit_action" | "cmi.total_time" => {
+           "cmi.time_limit_action" |
+           "cmi.core._children" |
+           "cmi.core.student_id" |
+           "cmi.core.student_name" |
+           "cmi.core.credit" |
+           "cmi.core.entry" |
+           "cmi.core.score._children" |
+           "cmi.core.total_time" |
+           "cmi.core.lesson_mode" |
+           "cmi.comments_from_lms" |
+           "cmi.student_data._children" |
+           "cmi.student_data.mastery_score" |
+           "cmi.student_data.max_time_allowed" |
+           "cmi.student_data.time_limit_action" |
+           "cmi.student_preferences._children" => {
         /*read-only*/
       }
       case "cmi.exit" => {
@@ -145,7 +162,7 @@ class DataModelService(attempt: Attempt, activityID:String)(implicit val binding
         val currentSuccessStatus = dataModelStorage.getValue(attempt.id, activityID, "cmi.success_status")
         lmsBehavior.getSuccessStatus(scaledPassingScore, scaledScore, currentSuccessStatus)
       }
-      case "time_limit_action" => lmsBehavior.getTimeLimitAction
+      case "cmi.time_limit_action" => lmsBehavior.getTimeLimitAction
       // learner data can be taken from attempt
       case "cmi.learner_id" => Some(attempt.user.id.toString)
       case "cmi.learner_name" => Some(attempt.user.name)
@@ -153,6 +170,15 @@ class DataModelService(attempt: Attempt, activityID:String)(implicit val binding
       case "cmi.learner_preference.language" => Some(attempt.user.preferredLanguage.toString)
       case "cmi.learner_preference.delivery_speed" => Some(attempt.user.preferredDeliverySpeed.toString)
       case "cmi.learner_preference.audio_captioning" => Some(attempt.user.preferredAudioCaptioning.toString)
+      // SCORM 1.2
+      case "cmi.core.student_id" => Some(attempt.user.id.toString)
+      case "cmi.core.student_name" => Some(attempt.user.name)
+      case "cmi.core.credit" => Some("credit")
+      case "cmi.core.entry" => lmsBehavior.getEntry
+      case "cmi.core.lesson_mode" => Some("normal")
+      case "cmi.student_data.mastery_score" => lmsBehavior.getMasteryScore
+      case "cmi.student_data.max_time_allowed" => lmsBehavior.getMaxTimeAllowed12
+      case "cmi.student_data.time_limit_action" => lmsBehavior.getTimeLimitAction
       // for other variables just fetch from DB
       case _ => {
         dataModelStorage.getValue(attempt.id, activityID, key)

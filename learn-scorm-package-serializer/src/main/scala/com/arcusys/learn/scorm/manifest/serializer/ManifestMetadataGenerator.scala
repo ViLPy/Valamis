@@ -6,7 +6,7 @@ object ManifestMetadataGenerator {
   def toXML(manifest: Manifest) =
     <metadata>
       <schema>
-        "ADL SCORM"
+        ADL SCORM
       </schema>
       <schemaversion>
         {manifest.scormVersion}
