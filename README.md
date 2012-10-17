@@ -1,7 +1,7 @@
 # SCORM
 
 The project is an implementation of the SCORM set of standards for e-learning for the Liferay portal. Supported Liferay version is currently 6.0.5+ CE. Also checked with 6.1.
-The targeted version of SCORM is 2004 4th edition.
+The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
 The current implementation is only able do display static SCORM content with respect towards the different content organizations and the activity structure in each organization.
@@ -12,13 +12,17 @@ The user interface is available in two forms - a standalone web application, whi
 
 The solution uses its own PostgreSQL database. You only need it created and accessible, there's an admin feature that lets you initialize the database structure before use.
 
-If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Quiz editor is available at '/QuestionBank'. **But** you should have portlet-api jar inside of your app.server.
+If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Question editor is available at '/QuestionBank'. Quiz editor at '/quiz'. Gradebook at '/Gradebook' **But** you should have portlet-api jar inside of your app.server.
 
-If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for quiz editor.
+If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
 The solution will be further developed to support the full set of requirements from the SCORM set of standards.
 
 **After deploying** please login as portal administrator, go to SCORM View portlet preferences and re-initalize database from admin. dialog.
+
+###Post-deployment process
+After deployment you just need to configure DB. This can be done from SCORMPlayer portlet preferences or if working as servlets by opening '/ScormAdmin'.
+In Learn 1.2 there will be additional default H2 database so application will work out of the box without DB configuring.
 
 ###Known issues
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
