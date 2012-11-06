@@ -20,7 +20,7 @@
                     resulted.push(node);
                 } else {
                     var position = -1;
-                    for (var j = resulted.length - 1; j > 0; j--) {
+                    for (var j = resulted.length - 1; j >= 0; j--) {
                         if (func(resulted[j].values[key], node.values[key]) <= 0) {
                             position = j;
                             break;

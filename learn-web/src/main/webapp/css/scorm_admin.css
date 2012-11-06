@@ -49,7 +49,7 @@
 }
 
 .scormSortIcon {
-    display: inline-block;
+    display: inline-block !important;
 }
 
 .SCORMHighlitedPackage {

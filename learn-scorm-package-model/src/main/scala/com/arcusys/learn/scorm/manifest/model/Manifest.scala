@@ -61,7 +61,8 @@ class Manifest
   val title: String,
   val summary: Option[String] = None,
   val visibility: Boolean = true,
-  val metadata: Option[Metadata] = None
+  val metadata: Option[Metadata] = None,
+  val assetRefID: Option[Long] = None
   )
 {
   base foreach {

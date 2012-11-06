@@ -93,26 +93,4 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
     val id = parameter("id").required
     jsonModel(activityStorage.get(packageID, id))
   }
-
-  get("/package/:packageID/activity/:id/GetResource") {
-    contentType = "text/plain"
-
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-    val packageID = parameter("packageID").intRequired
-    //val organizationID = parameter("organizationID").required
-    val id = parameter("id").required
-
-    val activity = activityStorage.get(packageID, id).get
-    if (activity.isInstanceOf[LeafActivity]) {
-      val leafActivity = activity.asInstanceOf[LeafActivity]
-      val resource = resourceStorage.getByID(packageID, leafActivity.resourceIdentifier).get
-      val manifest = packageStorage.getByID(packageID).get
-      val manifestRelativeResourceUrl = ResourceUrl(manifest.base, manifest.resourcesBase, resource.base, resource.href.get, leafActivity.resourceParameters)
-      servletContext.getContextPath + "/" + FileSystemUtil.contextRelativeResourceURL(packageID, manifestRelativeResourceUrl)
-    }
-  }
 }

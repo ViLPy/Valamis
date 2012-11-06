@@ -1,10 +1,13 @@
 <script>
-    jQuery(document).ready(function(){
+    /*{{^isPreview}}*/
+    jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
-    
+    /*{{/isPreview}}*/
+
     function gatherData() {
-	// this will check is user answer right
+        /*{{^isPreview}}*/
+        // this will check is user answer right
         var userAnswer = jQuery("#scormAnswer").val();
         getAPI().SetValue("cmi.interactions.0.type", "long_fill_in");
         getAPI().SetValue("cmi.interactions.0.learner_response", encodeURIComponent(userAnswer));
@@ -14,12 +17,14 @@
 
         getAPI().SetValue("cmi.completion_status", "completed");
         getAPI().SetValue("cmi.success_status", "unknown");
+        /*{{/isPreview}}*/
     }
 </script>
 
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
         <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+
         <h2 class="SCORMPlayerQuestionSubtitle">Write a few sentences about topic:</h2>
     </div>
     <div class="playerMainArea">
@@ -27,7 +32,13 @@
     </div>
     <!-- Navigation -->
     <div class="playerPageNavigation">
-        <div class="playerNext"><button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button></div>
+        <div class="playerNext">
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
+        </div>
         <div class="clear"></div>
     </div>
 </div>

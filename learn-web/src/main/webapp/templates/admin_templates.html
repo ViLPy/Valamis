@@ -1,5 +1,5 @@
 <!--Package row view-->
-<script type="text/mustache" id="packageRow">
+<script type="text/mustache" id="packageAdminRow">
     <td>{{id}}</td>
     <td>{{{title}}}</td>
     <td>{{{summary}}}</td>
@@ -7,7 +7,7 @@
 </script>
 
 <!--Package row edit view-->
-<script type="text/mustache" id="packageRowEdit">
+<script type="text/mustache" id="packageAdminRowEdit">
     <td>{{id}}</td>
     <td><input type="text" value="{{{title}}}" id="title"/></td>
     <td><textarea id="summary">{{{summary}}}</textarea></td>
@@ -15,7 +15,7 @@
 </script>
 
 <!--Package list view-->
-<script type="text/mustache" id="packageListTemplate">
+<script type="text/mustache" id="packageAdminListTemplate">
     <div class="SCORMPackageListHeader">
         <div class="SCORMPackageListHeaderText">{{packageListSubTitleLabel}}</div>
         <div class="SCORMPackageListHeaderButtons">
@@ -35,7 +35,7 @@
             <th scope="col" class="scormPackageVisibilityColumn listTitle">{{packageListVisibilityHeaderLabel}}</th>
         </tr>
         </thead>
-        <tbody id="SCORMPackagesGrid">
+        <tbody id="SCORMAdminPackagesGrid">
 
         </tbody>
     </table>

@@ -1,10 +1,13 @@
 <script type="text/javascript">
     var dataToCompare = {{{answers}}};
-    jQuery(document).ready(function(){
+    /*{{^isPreview}}*/
+    jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
+    /*{{/isPreview}}*/
 
     function gatherData() {
+        /*{{^isPreview}}*/
         // this will check is user answer right
         var userAnswer = parseFloat(jQuery("#scormAnswer").val());
         getAPI().SetValue("cmi.interactions.0.type", "numeric");
@@ -15,7 +18,7 @@
             if ((userAnswer >= dataToCompare[j].from) && (userAnswer <= dataToCompare[j].to)) {
                 isPassed = true;
             }
-            getAPI().SetValue("cmi.interactions.0.correct_responses."+j+".pattern", dataToCompare[j].from + "[:]" + dataToCompare[j].to);
+            getAPI().SetValue("cmi.interactions.0.correct_responses." + j + ".pattern", dataToCompare[j].from + "[:]" + dataToCompare[j].to);
         }
 
         if (isPassed) {
@@ -27,6 +30,7 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
@@ -41,8 +45,11 @@
     <!-- Navigation -->
     <div class="playerPageNavigation">
         <div class="playerNext">
-            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
-            </button>
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>
     </div>

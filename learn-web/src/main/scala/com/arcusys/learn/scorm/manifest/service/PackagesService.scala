@@ -5,6 +5,7 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.util.Extensions._
+import com.arcusys.learn.liferay.service.asset.AssetHelper
 
 class PackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -86,7 +87,11 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
 
   post("/delete") {
     val id = parameter("id").intRequired
-    packageStorage.delete(id)
+    val pkg = packageStorage.getByID(id)
+    if (pkg.isDefined) {
+      if (pkg.get.assetRefID.isDefined) AssetHelper.deletePackage(pkg.get.assetRefID.get)
+      packageStorage.delete(id)
+    }
   }
 
   private def buildJSONResponse(sidx: String, sord: String, sequence: Seq[Manifest]) = {

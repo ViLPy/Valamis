@@ -27,13 +27,13 @@ PackageView = Backbone.View.extend({
 
     showEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageRowEdit").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageAdminRowEdit").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
     },
 
     showDefault:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageRow").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageAdminRow").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
     },
 
@@ -72,10 +72,10 @@ PackageListView = Backbone.View.extend({
 
     render:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageListTemplate").html(), language);
+        var template = Mustache.to_html(jQuery("#packageAdminListTemplate").html(), language);
         this.$el.html(template);
         this.$("#SCORMPackageDone").hide();
-        this.scormPackageList = jQuery("#SCORMPackagesGrid").List();
+        this.scormPackageList = this.$("#SCORMAdminPackagesGrid").List();
         this.$(".sortable").each(jQuery.proxy(function (index, element) {
             var dom = jQuery(element);
             this.sortableAscOrder[dom.attr('ref')] = true;
@@ -106,12 +106,14 @@ PackageListView = Backbone.View.extend({
             this.activePackageView.showDefault();
             this.$("#SCORMPackageDone").hide();
             this.$("#SCORMPackageEdit").show();
+            this.activeEditing = false;
         }
     },
 
     removePackage:function () {
         if (this.activePackageView) {
             this.activeEditing = false;
+            this.scormPackageList.remove(this.activePackageView.model.id);
             this.activePackageView.onDestroy();
         }
     },
@@ -140,7 +142,7 @@ PackageListView = Backbone.View.extend({
         view.on('change-active', this.changeActive, this);
         var renderedView = view.render();
         this.scormPackageList.add(pkg.id, renderedView, pkg.toJSON());
-        this.$("#SCORMPackagesGrid").append(renderedView);
+        this.$("#SCORMAdminPackagesGrid").append(renderedView);
     },
 
     changeActive:function (view) {
@@ -151,7 +153,7 @@ PackageListView = Backbone.View.extend({
     },
 
     addPackagesFromCollection:function () {
-        this.$("#SCORMPackagesGrid").empty();
+        this.$("#SCORMAdminPackagesGrid").empty();
         this.collection.each(this.addPackage, this);
     },
 

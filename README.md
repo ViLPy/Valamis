@@ -12,7 +12,7 @@ The user interface is available in two forms - a standalone web application, whi
 
 The solution uses its own PostgreSQL database. You only need it created and accessible, there's an admin feature that lets you initialize the database structure before use.
 
-If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Question editor is available at '/QuestionBank'. Quiz editor at '/quiz'. Gradebook at '/Gradebook' **But** you should have portlet-api jar inside of your app.server.
+If deployed against a servlet container, the end-user features are available at the relative url '/', and the admin features are available at the relative url '/ScormAdmin'. Question editor is available at '/QuestionBank'. Quiz editor at '/Quiz'. Gradebook at '/Gradebook' **But** you should have portlet-api jar inside of your app.server.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
@@ -28,10 +28,18 @@ In Learn 1.2 there will be additional default H2 database so application will wo
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.2. Update: 06.11.2012
+ - Out of the box H2 database
+ - Support of external resources (now you can add page by full URL, like http://www.example.com)
+ - Support of Liferay's articles with article pickup dialog
+ - Question preview from Quiz management
+ - Packages now can be found and accessed from AssetPublisher and Search portlets from Liferay
+ - L18N support based on Liferay's locale
+ - Small fixes for UI
+
 ## Version 1.1. Update: 07.09.2012
  - Support for SCORM 1.2
  - Small fixes for UI
-
 
 ## Version 1.0.1. Update: 29.08.2012
  - 'Redactor' replaced with TinyMCE

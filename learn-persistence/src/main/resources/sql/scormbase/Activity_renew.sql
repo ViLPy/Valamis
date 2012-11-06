@@ -2,11 +2,15 @@ DROP TABLE IF EXISTS Activity CASCADE;
 
 CREATE TABLE Activity
 (
-  indexNumber serial,
-  id text,
+  <#if dbType=="postgres">
+  indexNumber  serial,
+  <#else>
+  indexNumber  int auto_increment,
+  </#if>
+  id VARCHAR(512),
   packageID integer,
-  organizationID text NOT NULL,
-  parentID text,
+  organizationID VARCHAR(512) NOT NULL,
+  parentID VARCHAR(512),
   title text,
   identifierRef text,
   resourceParameters text,
@@ -17,8 +21,10 @@ CREATE TABLE Activity
   masteryScore text,
   maxTimeAllowed text,
   CONSTRAINT Activity_pk PRIMARY KEY (id, packageID)
+<#if dbType=="postgres">
 ) WITH (
   OIDS=FALSE
+</#if>
 );
 
 ALTER TABLE Activity ADD CONSTRAINT Activity_fk1 FOREIGN KEY (organizationID, packageID) REFERENCES Activity(id, packageID) ON DELETE CASCADE;

@@ -75,6 +75,7 @@
                     type:"POST",
                     url:serviceURL + uploadURL,
                     dataType:'json',
+                    cache: false,
                     data: {'currentDirectory':mainView.getCurrentDirectory()},
                     success:function (data) {
                         elementCollection.add(data);

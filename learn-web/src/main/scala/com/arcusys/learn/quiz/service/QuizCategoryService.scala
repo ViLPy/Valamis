@@ -44,9 +44,6 @@ class QuizCategoryService(configuration: BindingModule) extends ServletBase(conf
     val id = parameter("id").intRequired
     val title = parameter("title").required
     val description = parameter("description").required
-    val quizID = parameter("quizID").intRequired
-    val parentID = parameter("parentID").intOption(-1)
-    //TODO: guess parentID should not ever be changed here
     quizQuestionCategoryStorage.modify(id, title, description)
     jsonModel(quizQuestionCategoryStorage.getByID(id))
   }

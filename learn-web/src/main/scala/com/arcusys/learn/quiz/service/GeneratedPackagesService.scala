@@ -8,6 +8,7 @@ import com.arcusys.scorm.deployer.PackageProcessor
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.liferay.service.asset.AssetHelper
 
 class GeneratedPackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -21,18 +22,24 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
     val generator = new QuizPackageGenerator(quiz)
     val filename = generator.generateZip
     
-    log.debug(FileSystemUtil.getZipPackageDir + filename)
-    val is = new FileInputStream(FileSystemUtil.getZipPackageDir + filename)
+    val is = new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
     org.scalatra.util.io.copy(is, response.getOutputStream)
     is.close()
   }
   
   post("/ZipInstall/:quizID") {
     val quizID = parameter("quizID").intRequired
+    val userIDHeader = request.getHeader("scormUserID")
+    val userID = if (userIDHeader.isEmpty) 0 else userIDHeader.toLong
+    val groupIDHeader = request.getHeader("liferayGroupID")
+    val groupID = if (groupIDHeader.isEmpty) -1 else groupIDHeader.toLong
     val quiz = quizStorage.getByID(quizID).get
     val generator = new QuizPackageGenerator(quiz)
     val filename = generator.generateZip
-    
-    PackageProcessor.processPackageAndGetID(quiz.title, "", quiz.id.toString)
+
+    val packageID = PackageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0,filename.length - 4))
+    if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+
+    packageID
   }
 }

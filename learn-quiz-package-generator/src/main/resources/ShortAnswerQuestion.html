@@ -2,11 +2,14 @@
     var dataToCompare = {{{answers}}};
     var isCaseSensitive = {{{isCaseSensitive}}};
 
+    /*{{^isPreview}}*/
     jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
+    /*{{/isPreview}}*/
 
     function gatherData() {
+        /*{{^isPreview}}*/
         // this will check is user answer right
         var userAnswer = jQuery("#scormAnswer").val();
         getAPI().SetValue("cmi.interactions.0.type", "fill_in");
@@ -35,6 +38,7 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
@@ -47,7 +51,13 @@
     </div>
     <!-- Navigation -->
     <div class="playerPageNavigation">
-        <div class="playerNext"><button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button></div>
+        <div class="playerNext">
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
+        </div>
         <div class="clear"></div>
     </div>
 </div>

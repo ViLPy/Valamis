@@ -1,0 +1,50 @@
+<script src="{{contextPath}}/resource/jquery-1.7.2.min.js"></script>
+<script src="{{contextPath}}/resource/jquery-ui-1.8.20.custom.min.js"></script>
+<script src="{{contextPath}}/resource/common.js"></script>
+<script>
+    function PrepareCategorizationQuestionView() {
+        jQuery("li.acceptable").draggable({
+            connectToSortable:'.answerContainer',
+            cursor:'pointer',
+            revert:true,
+            opacity:0.4
+        });
+        jQuery('.answerContainer').droppable({
+            accept:'li.acceptable',
+            drop:function (event, ui) {
+                jQuery(this).append(ui.draggable);
+            }
+        });
+    }
+
+    function PreparePositioningQuestionView() {
+        jQuery("#sortable").sortable({
+            revert:true
+        });
+    }
+
+    function scormQuizGotoNext() {
+        if (gatherData) {
+            // this will check is user answer right
+            // should be in every quiz activity
+            gatherData();
+        }
+        getAPI().Commit("");
+        getAPI().SetValue("adl.nav.request", "continue");
+        getAPI().Terminate("");
+    }
+
+    function shuffle(myArray) {
+        var copiedArray = myArray.slice();
+        var i = copiedArray.length;
+        if (i == 0) return [];
+        while (--i) {
+            var j = Math.floor(Math.random() * ( i + 1 ));
+            var n = copiedArray[i];
+            var m = copiedArray[j];
+            copiedArray[i] = m;
+            copiedArray[j] = n;
+        }
+        return copiedArray;
+    }
+</script>

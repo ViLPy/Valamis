@@ -68,7 +68,7 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
       )
     }
 
-    json(Map("categories" -> jsonModel.map(categoriesSet.toSeq), "questions" -> QuestionSerializer.buildOutputJSON(questionSet.toSeq)))
+    json(Map("categories" -> jsonModel.map(categoriesSet.groupBy(_.id).map(_._2.head).toSeq), "questions" -> QuestionSerializer.buildOutputJSON(questionSet.groupBy(_.id).map(_._2.head).toSeq)))
   }
 
   post("/") {

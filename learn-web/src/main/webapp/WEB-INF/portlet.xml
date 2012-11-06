@@ -11,13 +11,28 @@
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
-            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
             <title>SCORM Application</title>
         </portlet-info>
     </portlet>
+
+    <portlet>
+            <portlet-name>SCORMApplicationAdmin</portlet-name>
+            <portlet-class>com.arcusys.learn.view.AdminView</portlet-class>
+
+            <expiration-cache>0</expiration-cache>
+
+            <supports>
+                <mime-type>text/html</mime-type>
+                <portlet-mode>view</portlet-mode>
+            </supports>
+
+            <portlet-info>
+                <title>SCORM Admin Application</title>
+            </portlet-info>
+        </portlet>
 
     <portlet>
         <portlet-name>SCORMQuestionBank</portlet-name>

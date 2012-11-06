@@ -20,17 +20,21 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
         "title" -> node.activity.title,
         "share" -> node.correctShare,
         "questionText" -> (node match {
-          case leaf: GradeReportLeaf => leaf.questionText
+          case leaf: GradeReportLeaf => leaf.text
           case _ => None
         }),
         "userResponse" -> (node match {
-          case leaf: GradeReportLeaf => leaf.response
+          case leaf: GradeReportLeaf => leaf.userResponse
           case _ => None
         }),
         "children" -> (node match {
           case branch: GradeReportBranch => branch.children.map(mapNode)
           case root: GradeReportRoot => root.children.map(mapNode)
           case _ => Nil
+        }),
+        "viewedState" -> (node match {
+          case leaf: GradeReportLeaf => leaf.attemptCompleted
+          case _ => None
         })
       )
     mapNode(node)

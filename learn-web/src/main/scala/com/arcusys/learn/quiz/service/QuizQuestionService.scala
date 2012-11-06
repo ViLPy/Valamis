@@ -15,7 +15,9 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     Map(
       "id" -> question.id,
       "categoryID" -> question.categoryID.getOrElse("-1"),
-      "question" -> QuestionSerializer.buildItemMap(question.question)
+      "question" -> question.question.map(question => QuestionSerializer.buildItemMap(question)),
+      "title" -> question.question.map(_.title).getOrElse(question.title),
+      "url" -> question.url
     )
   )
   get("/:id") {
@@ -29,6 +31,14 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     jsonModel(quizQuestionStorage.getByCategory(quizID, categoryID))
   }
 
+  post("/update/:id") {
+    val id = parameter("id").intRequired
+    val title = parameter("title").required
+    val url = parameter("url").required
+    quizQuestionStorage.modifyExternal(id, title, url)
+    jsonModel(quizQuestionStorage.getByID(id))
+  }
+
   post("/listIntoCategory/:quizID/:categoryID") {
     val parentID = parameter("categoryID").intOption(-1)
     val questionsIDSet = parameter("questionIDs").required.trim
@@ -37,6 +47,14 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
       questionID <- questionsIDSet.split(';').toSeq
       quizQuestionId = quizQuestionStorage.createAndGetID(quizID, parentID, questionID.toInt)
     } yield quizQuestionStorage.getByID(quizQuestionId).get)
+  }
+
+  post("/external/:quizID/:categoryID") {
+    val parentID = parameter("categoryID").intOption(-1)
+    val title = parameter("title").withDefault("External quiz resource")
+    val url = parameter("url").required
+    val quizID = parameter("quizID").intRequired
+    jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createAndGetID(quizID, parentID, title, url)).get)
   }
 
   post("/move/:id") {

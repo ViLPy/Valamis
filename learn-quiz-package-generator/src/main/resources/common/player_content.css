@@ -158,3 +158,10 @@
     width: 180px;
     border: 2px solid #666666;
 }
+
+.externalResourceIframe {
+    width: 100%;
+    border: #6B6B6B solid 1px;
+    margin: 0;
+    padding: 0;
+}

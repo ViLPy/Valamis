@@ -43,19 +43,7 @@ jsTreeView = Backbone.View.extend({
 
     addNewItem:function (itemData) {
         var parent = this.nodeCache[itemData.get('parentID')] || this.treeRoot;
-        var childNodes = this.jsTreeRef._get_children(parent);
         var position = "last";
-
-        if (childNodes && childNodes.length > 0 && _.isFunction(this.options.sort)) {
-            for (var i = 0; i < childNodes.length; i++) {
-                var node = jQuery(childNodes[i]);
-                // call sorting function and pass jsTreeModel entities to it
-                if (this.options.sort.call(this, itemData, this.collection.get(this.getNodeID(node))) < 0) {
-                    position = i;
-                    break;
-                }
-            }
-        }
 
         var compiledAttr = {
             "rel":itemData.get('type'),
@@ -91,7 +79,7 @@ jsTreeView = Backbone.View.extend({
     getCurrentNode:function () {
         if (!this.jsTreeRef) return null;
         var currentNode = this.jsTreeRef.get_selected();
-        if (currentNode.length == 0) { // current node not found, return -1
+        if (currentNode.length === 0) { // current node not found, return null
             return null;
         } else {
             return currentNode;

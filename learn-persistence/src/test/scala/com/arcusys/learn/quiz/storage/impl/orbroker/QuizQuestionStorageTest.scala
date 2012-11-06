@@ -4,12 +4,13 @@ import org.junit._
 import Assert._
 import com.arcusys.learn.questionbank.model.TextQuestion
 import com.arcusys.learn.quiz.model._
-import com.arcusys.learn.storage.impl.orbroker.BrokerFactory
+import com.arcusys.learn.storage.impl.orbroker.ParameterizedUnitTests
 import com.arcusys.learn.questionbank.storage.impl.orbroker._
-import com.arcusys.scorm.util.PropertyUtil
+import runner.RunWith
+import runners.Parameterized
 
-class QuizQuestionStorageTest {
-  BrokerFactory.init(PropertyUtil.load("db"))
+@RunWith(value = classOf[Parameterized])
+class QuizQuestionStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
   val quizStorage = new QuizStorageImpl
   val quizCategoryStorage = new QuizQuestionCategoryStorageImpl
   val quizQuestionStorage = new QuizQuestionStorageImpl
@@ -51,7 +52,7 @@ class QuizQuestionStorageTest {
     val quizQuestionId = quizQuestionStorage.createAndGetID(quizId, Some(categoryId), questionId)
 
     val fetchedQuizQuestion = quizQuestionStorage.getByID(quizQuestionId).get
-    val fetchedQuestion = fetchedQuizQuestion.question.asInstanceOf[TextQuestion]
+    val fetchedQuestion = fetchedQuizQuestion.question.get.asInstanceOf[TextQuestion]
     assertEquals(Some(categoryId), fetchedQuizQuestion.categoryID)
     assertEquals(question.questionTypeCode, fetchedQuestion.questionTypeCode)
     assertEquals(question.id, fetchedQuestion.id)

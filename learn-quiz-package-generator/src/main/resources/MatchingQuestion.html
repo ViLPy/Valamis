@@ -1,12 +1,15 @@
 <script type="text/javascript">
     var dataToCompare = "{{{answerData}}}";
-    jQuery(document).ready(function(){
+    /*{{^isPreview}}*/
+    jQuery(document).ready(function () {
         getAPI().Initialize("");
     });
+    /*{{/isPreview}}*/
 
     function gatherData() {
+        /*{{^isPreview}}*/
         var userAnswers = [];
-        jQuery("#scormQuestionData tr").each(function(index, element) {
+        jQuery("#scormQuestionData tr").each(function (index, element) {
             var question = jQuery(".matchingQuestionVariant", jQuery(element)).html();
             var answer = jQuery("select", jQuery(element)).val();
             userAnswers.push([question, answer].join("[.]"));
@@ -27,13 +30,15 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
-   		<h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
-   		<h2 class="SCORMPlayerQuestionSubtitle">Match pairs:</h2>
-   	</div>
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+
+        <h2 class="SCORMPlayerQuestionSubtitle">Match pairs:</h2>
+    </div>
     <div class="playerMainArea">
         <table class="matchingAnswers" id="scormQuestionData">
             {{#answers}}
@@ -55,8 +60,11 @@
     <!-- Navigation -->
     <div class="playerPageNavigation">
         <div class="playerNext">
-            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
-            </button>
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>
     </div>

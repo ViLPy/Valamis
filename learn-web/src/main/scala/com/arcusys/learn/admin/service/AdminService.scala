@@ -16,12 +16,14 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     val dbName = parameter("DBName").required
     val login = parameter("Login") withDefault ""
     val passwd = parameter("Password") withDefault ""
+    val dbManagementSystem = parameter("dbManagementSystem") withDefault "h2"
 
     val properties = new Properties
     properties.setProperty("server", serverName)
     properties.setProperty("database", dbName)
     properties.setProperty("login", login)
     properties.setProperty("password", passwd)
+    properties.setProperty("dbManagementSystem", dbManagementSystem)
     PropertyUtil.store("db", properties)
     BrokerFactory.init(PropertyUtil.load("db"))
   }
@@ -31,13 +33,14 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     json(Map("server" -> properties.getProperty("server", ""),
       "database" -> properties.getProperty("database", ""),
       "login" -> properties.getProperty("login", ""),
-      "password" -> properties.getProperty("password", "")))
+      "password" -> properties.getProperty("password", ""),
+      "dbManagementSystem"->properties.getProperty("dbManagementSystem", "h2")))
   }
 
   post("/RenewDatabase") {
     contentType = "text/plain"
     storageFactory.renewWholeStorage()
-    if (emptyDir(new File(FileSystemUtil.getRealPath("/SCORMData/data"))))
+    if (emptyDir(new File(FileSystemUtil.getRealPath("/SCORMData/tmp"))))
       "yep"
     else
       throw new Exception("Can't remove all files!")

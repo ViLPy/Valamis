@@ -3,11 +3,12 @@ package com.arcusys.learn.quiz.storage.impl.orbroker
 import org.junit._
 import Assert._
 import com.arcusys.learn.quiz.model._
-import com.arcusys.learn.storage.impl.orbroker.BrokerFactory
-import com.arcusys.scorm.util.PropertyUtil
+import runner.RunWith
+import runners.Parameterized
+import com.arcusys.learn.storage.impl.orbroker.ParameterizedUnitTests
 
-class QuizCategoryStorageTest {
-  BrokerFactory.init(PropertyUtil.load("db"))
+@RunWith(value = classOf[Parameterized])
+class QuizCategoryStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
   val quizStorage = new QuizStorageImpl
   val quizCategoryStorage = new QuizQuestionCategoryStorageImpl
 
