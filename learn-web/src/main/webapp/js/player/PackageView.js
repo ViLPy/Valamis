@@ -54,7 +54,7 @@ PlayerPackageListView = Backbone.View.extend({
         var template = Mustache.to_html(jQuery("#packageListTemplate").html(), language);
         this.$el.html(template);
         this.$("#SCORMPackageDone").hide();
-        this.scormPackageList = jQuery("#SCORMPackagesGrid").List();
+        this.scormPackageList = this.$("#SCORMPackagesGrid").List();
         this.$(".sortable").each(jQuery.proxy(function (index, element) {
             var dom = jQuery(element);
             this.sortableAscOrder[dom.attr('ref')] = true;

@@ -14,15 +14,13 @@ abstract class GradeReportNode(val activity: Activity) {
   override def toString = "Activity: "+activity.id + "/" +activity.title +",\n Correct share: "+correctShare+",\nWeight"+weight+",\nCorrect count: "+weightedCorrectShare
 }
 
-class GradeReportLeaf(override val activity: LeafActivity, val correct: Option[Boolean], val text: Option[String], val userResponse:Option[String])
+class GradeReportLeaf(override val activity: LeafActivity, val correct: Option[Boolean], val text: Option[String], val userResponse:Option[String], val attemptCompleted:Boolean)
   extends GradeReportNode(activity) {
   val correctShare = correct.map( _ match {
     case true => 1.0
     case _ => 0.0
   })
   val weight = 1.0
-  val response = userResponse
-  val questionText = text
 }
 
 class GradeReportBranch(override val activity: ContainerActivity, val children: Seq[GradeReportNode])

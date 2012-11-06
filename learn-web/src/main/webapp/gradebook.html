@@ -64,6 +64,7 @@
                     grid:{
                         columns:[
                             {width:250, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
+                            {cellClass:"col0", value:"viewedState", width:60, header:"{{gridViewedHeaderLabel}}", title:"viewedState"},
                             {cellClass:"col1", value:"correctShare", width:150, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
                             {cellClass:"col2", value:"userResponse", width:150, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
                         ],
@@ -101,13 +102,13 @@
                 }
                 return {
                     data:entity.title,
-                    attr:{rel:"folder", correctShare:correctShare},
+                    attr:{rel:"folder", viewedState:"&nbsp;", correctShare:correctShare},
                     children:formattedChildren
                 };
             } else { // leaf
                 return {
                     data:entity.title,
-                    attr:{rel:"entity", correctShare:correctShare, userResponse:generatePreviewButton(entity)}
+                    attr:{rel:"entity", viewedState:(entity.viewedState)?"+":"-", correctShare:correctShare, userResponse:generatePreviewButton(entity)}
                 };
             }
         }

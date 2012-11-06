@@ -49,12 +49,10 @@ var jQuery1816Bank = jQuery.noConflict();
 var scormQuestionBankLanguageData = {};
 
 jQuery1816Bank(function () {
-    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties', onBankLanguageLoad, loadBankDefaultLanguage);
+    var defaultURL = Utils.getContextPath() + '/i18n/questionbank_en.properties';
+    var localizedURL = Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties';
+    Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);
 });
-
-function loadBankDefaultLanguage() {
-    Utils.i18nLoader(Utils.getContextPath() + '/i18n/questionbank_en.properties', onBankLanguageLoad, onBankLanguageError);
-}
 
 function onBankLanguageLoad(properties) {
     scormQuestionBankLanguageData = properties;
@@ -75,7 +73,9 @@ function initBankView() {
             "click #questionbankEdit":"edit",
             "click #questionbankEditBottom":"edit",
             "click #questionbankUpdate":"updateModel",
+            "click #questionbankCancelUpdate":"cancelUpdateModel",
             "click #questionbankUpdateBottom":"updateModel",
+            "click #questionbankCancelUpdateBottom":"cancelUpdateModel",
             "click #questionbankRemoveElement":"removeElement",
             "click #questionbankRemoveElementBottom":"removeElement"
         },
@@ -129,8 +129,10 @@ function initBankView() {
             jQuery1816Bank("#SCORMAddAnswersButtonBlock").show();
             jQuery1816Bank("#questionbankEdit").hide();
             jQuery1816Bank("#questionbankUpdate").show();
+            jQuery1816Bank("#questionbankCancelUpdate").show();
             jQuery1816Bank("#questionbankEditBottom").hide();
             jQuery1816Bank("#questionbankUpdateBottom").show();
+            jQuery1816Bank("#questionbankCancelUpdateBottom").show();
 
             jQuery1816Bank("#questionbankAddCategory").hide();
             jQuery1816Bank("#questionbankAddQuestions").hide();
@@ -144,8 +146,30 @@ function initBankView() {
             if (!this.entityView.saveModel()) return;
             jQuery1816Bank("#SCORMAddAnswersButtonBlock").hide();
             jQuery1816Bank("#questionbankUpdate").hide();
+            jQuery1816Bank("#questionbankCancelUpdate").hide();
             jQuery1816Bank("#questionbankEdit").show();
             jQuery1816Bank("#questionbankUpdateBottom").hide();
+            jQuery1816Bank("#questionbankCancelUpdateBottom").hide();
+            jQuery1816Bank("#questionbankEditBottom").show();
+
+            if (this.entityView.currentView instanceof CategoryView) {
+                jQuery1816Bank("#questionbankAddCategory").show();
+                jQuery1816Bank("#questionbankAddCategoryBottom").show();
+            }
+            jQuery1816Bank("#questionbankAddQuestions").show();
+            jQuery1816Bank("#questionbankRemoveElement").show();
+            jQuery1816Bank("#questionbankAddQuestionsBottom").show();
+            jQuery1816Bank("#questionbankRemoveElementBottom").show();
+        },
+
+        cancelUpdateModel:function () {
+            this.entityView.currentView.renderView();
+            jQuery1816Bank("#SCORMAddAnswersButtonBlock").hide();
+            jQuery1816Bank("#questionbankUpdate").hide();
+            jQuery1816Bank("#questionbankCancelUpdate").hide();
+            jQuery1816Bank("#questionbankEdit").show();
+            jQuery1816Bank("#questionbankUpdateBottom").hide();
+            jQuery1816Bank("#questionbankCancelUpdateBottom").hide();
             jQuery1816Bank("#questionbankEditBottom").show();
 
             if (this.entityView.currentView instanceof CategoryView) {
@@ -169,22 +193,26 @@ function initBankView() {
                     jQuery1816Bank("#questionbankRemoveElementBottom").show();
                     jQuery1816Bank("#questionbankEditBottom").show();
                     jQuery1816Bank("#questionbankUpdateBottom").hide();
+                    jQuery1816Bank("#questionbankCancelUpdateBottom").hide();
 
                     jQuery1816Bank("#questionbankAddCategory").hide();
                     jQuery1816Bank("#questionbankAddQuestions").show();
                     jQuery1816Bank("#questionbankRemoveElement").show();
                     jQuery1816Bank("#questionbankEdit").show();
                     jQuery1816Bank("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankCancelUpdate").hide();
                     break;
                 case 'category':
                     jQuery1816Bank("#quizContentBottomMenu").show();
                     jQuery1816Bank("#questionbankUpdateBottom").hide();
+                    jQuery1816Bank("#questionbankCancelUpdateBottom").hide();
                     jQuery1816Bank("#questionbankEditBottom").show();
                     jQuery1816Bank("#questionbankAddCategoryBottom").show();
                     jQuery1816Bank("#questionbankAddQuestionsBottom").show();
                     jQuery1816Bank("#questionbankRemoveElementBottom").show();
 
                     jQuery1816Bank("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankCancelUpdate").hide();
                     jQuery1816Bank("#questionbankEdit").show();
                     jQuery1816Bank("#questionbankAddCategory").show();
                     jQuery1816Bank("#questionbankAddQuestions").show();
@@ -193,6 +221,7 @@ function initBankView() {
                 default:
                     jQuery1816Bank("#quizContentBottomMenu").hide();
                     jQuery1816Bank("#questionbankUpdate").hide();
+                    jQuery1816Bank("#questionbankCancelUpdate").hide();
                     jQuery1816Bank("#questionbankEdit").hide();
                     jQuery1816Bank("#questionbankAddCategory").show();
                     jQuery1816Bank("#questionbankAddQuestions").show();
@@ -301,7 +330,16 @@ function initBankView() {
                         <button id="questionbankEdit" class="button28 questionarieTreeEditButton buttonEdit"></button>
                     </abbr>
                     <abbr title="{{buttonSaveTooltipLabel}}">
-                        <button id="questionbankUpdate" class="button28 questionarieTreeEditButton buttonDone"></button>
+                        <button id="questionbankUpdate" class="textButton"
+                                style="margin: 1px 0 0 2px !important; float:right">
+                            {{buttonSaveTooltipLabel}}
+                        </button>
+                    </abbr>
+                    <abbr title="{{buttonCancelSaveTooltipLabel}}">
+                        <button id="questionbankCancelUpdate" class="textButton"
+                                style="margin: 1px 0 0 2px !important; float:right">
+                            {{buttonCancelSaveTooltipLabel}}
+                        </button>
                     </abbr>
 
                     <div style="clear:both"></div>
@@ -327,8 +365,16 @@ function initBankView() {
                                 class="button28 questionarieTreeEditButton buttonEdit"></button>
                     </abbr>
                     <abbr title="{{buttonSaveTooltipLabel}}">
-                        <button id="questionbankUpdateBottom"
-                                class="button28 questionarieTreeEditButton buttonDone"></button>
+                        <button id="questionbankUpdateBottom" class="textButton"
+                                style="margin: 1px 0 0 2px !important; float:right">
+                            {{buttonSaveTooltipLabel}}
+                        </button>
+                    </abbr>
+                    <abbr title="{{buttonCancelSaveTooltipLabel}}">
+                        <button id="questionbankCancelUpdateBottom" class="textButton"
+                                style="margin: 1px 0 0 2px !important; float:right">
+                            {{buttonCancelSaveTooltipLabel}}
+                        </button>
                     </abbr>
 
                     <div style="clear:both"></div>

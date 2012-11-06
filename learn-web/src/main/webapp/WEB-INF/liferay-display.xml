@@ -3,6 +3,7 @@
 <display>
     <category name="e-Learning">
         <portlet id="SCORMApplication">SCORMApplication</portlet>
+        <portlet id="SCORMApplicationAdmin">SCORMApplicationAdmin</portlet>
         <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
         <portlet id="Gradebook">Gradebook</portlet>

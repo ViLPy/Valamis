@@ -9,8 +9,10 @@ CREATE TABLE LMSUser
   preferredDeliverySpeed integer,
   preferredAudioCaptioning real,
   CONSTRAINT LMSUser_pk PRIMARY KEY (id)
+<#if dbType=="postgres">
 ) WITH (
   OIDS=FALSE
+</#if>
 );
 -- default user
 INSERT INTO LMSUser(id, username, preferredAudioLevel, preferredLanguage, preferredDeliverySpeed, preferredAudioCaptioning)

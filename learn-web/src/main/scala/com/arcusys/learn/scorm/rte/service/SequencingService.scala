@@ -104,8 +104,14 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
         val leafActivity = activity.asInstanceOf[LeafActivity]
         val resource = resourceStorage.getByID(packageID, leafActivity.resourceIdentifier).get
         val manifest = packageStorage.getByID(packageID).get
-        val manifestRelativeResourceUrl = ResourceUrl(manifest.base, manifest.resourcesBase, resource.base, resource.href.get, leafActivity.resourceParameters)
-        Map("activityURL" -> (servletContext.getContextPath + "/" + FileSystemUtil.contextRelativeResourceURL(packageID, manifestRelativeResourceUrl)),
+
+        val resultedURL = if (resource.href.get.startsWith("http://") || resource.href.get.startsWith("https://")) {
+          resource.href.get
+        } else {
+          val manifestRelativeResourceUrl = ResourceUrl(manifest.base, manifest.resourcesBase, resource.base, resource.href.get, leafActivity.resourceParameters)
+          servletContext.getContextPath + "/" + FileSystemUtil.contextRelativeResourceURL(packageID, manifestRelativeResourceUrl)
+        }
+        Map("activityURL" -> resultedURL,
           "hiddenUI" -> leafActivity.hiddenNavigationControls.map(_.toString))
       } else Map()
     } else Map()

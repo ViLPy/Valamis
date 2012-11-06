@@ -7,7 +7,7 @@ import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 
 class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
-  override def destroy {}
+  override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
     val language = LiferayHelpers.getLanguage(request)

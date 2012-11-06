@@ -28,7 +28,7 @@ class GenericServiceTest {
     new OrganizationsService
     new PackagesService
     new ResourcesService
-    
+
     new RunTimeEnvironment
     new SequencingService
   }

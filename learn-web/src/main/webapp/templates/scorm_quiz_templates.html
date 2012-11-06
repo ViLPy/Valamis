@@ -63,7 +63,9 @@
 
                 <div>
                     <div class="quizSection">
-                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}} {{questionsSelectedAmountLabel}}</div>
+                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}}
+                            {{questionsSelectedAmountLabel}}
+                        </div>
                         <abbr title="Add questions">
                             <button id="buttonOpen" class="button24x18 buttonList editQuestionsButton"></button>
                         </abbr>
@@ -94,12 +96,21 @@
 <script type="text/mustache" id="availableQuizListItemEdit">
     <div class="availableQuizItem">
         <div class="itemHeader">
-            <input type='text' class="quizItemTitle" id='quizTitle' title='{{requiredFieldTooltipLabel}}' value='{{title}}'/>
+            <input type='text' class="quizItemTitle" id='quizTitle' title='{{requiredFieldTooltipLabel}}'
+                   value='{{title}}'/>
             <abbr title="{{quizRemoveButtonTooltipLabel}}">
                 <button id="quizDelete" class="button28 removeQuizButton buttonRemove"></button>
             </abbr>
             <abbr title="{{quizSaveButtonTooltipLabel}}">
-                <button id="quizUpdate" class="button28 removeQuizButton buttonDone"></button>
+                <button id="quizUpdate" class="textButton" style="margin: 1px 0 0 2px !important; float:right">
+                    {{quizSaveButtonTooltipLabel}}
+                </button>
+            </abbr>
+
+            <abbr title="{{quizCancelUpdateButtonTooltipLabel}}">
+                <button id="quizCancelUpdate" class="textButton" style="margin: 1px 0 0 2px !important; float:right">
+                    {{quizCancelUpdateButtonTooltipLabel}}
+                </button>
             </abbr>
 
             <div style="clear:both"></div>
@@ -109,7 +120,9 @@
 
                 <div>
                     <div class="quizSection">
-                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}} {{questionsSelectedAmountLabel}}</div>
+                        <div class="quizSectionTitle quizQuestionAmount">{{questionCount}}
+                            {{questionsSelectedAmountLabel}}
+                        </div>
                         <abbr title="{{addQuestionsButtonTooltipLabel}}">
                             <button id="buttonOpen" class="button24x18 buttonList editQuestionsButton"></button>
                         </abbr>
@@ -154,7 +167,25 @@
                     <button id="elementEdit" class="button28 editQuizButton buttonEdit"></button>
                 </abbr>
                 <abbr title="{{saveTreeElementButtonLabel}}">
-                    <button id="elementUpdate" class="button28 editQuizButton buttonDone"></button>
+                    <button id="elementUpdate" class="textButton" style="margin: 1px 0 0 2px !important; float:right">
+                        {{saveTreeElementButtonLabel}}
+                    </button>
+                </abbr>
+                <abbr title="{{cancelSaveTreeElementButtonLabel}}">
+                    <button id="elementCancelUpdate" class="textButton" style="margin: 1px 0 0 2px !important; float:right">
+                        {{cancelSaveTreeElementButtonLabel}}
+                    </button>
+                </abbr>
+                <abbr title="{{previewTreeElementButtonLabel}}">
+                    <button id="elementPreview" class="button28 editQuizButton buttonPreviewResource"></button>
+                </abbr>
+                <abbr title="{{addExternalTreeElementButtonLabel}}">
+                    <button id="quizAddExternalResource"
+                            class="button28 editQuizButton buttonAddExternalResource"></button>
+                </abbr>
+                <abbr title="{{addLiferayArticleElementButtonLabel}}">
+                    <button id="quizAddLiferayResource"
+                            class="button28 editQuizButton buttonAddLiferayResource"></button>
                 </abbr>
 
                 <div style="clear:both"></div>
@@ -192,7 +223,8 @@
                 <div class="quizSectionTitle">{{categoryTitleLabel}}</div>
                 <div style="clear:both"></div>
             </div>
-            <input type="text" id="SCORMCategoryNameEdit" title='{{requiredFieldTooltipLabel}}' class="SCORMResult" value="{{title}}"/>
+            <input type="text" id="SCORMCategoryNameEdit" title='{{requiredFieldTooltipLabel}}' class="SCORMResult"
+                   value="{{title}}"/>
 
             <div class="quizSection">
                 <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
@@ -246,5 +278,72 @@
             <input type="checkbox" id="SCORMQuestionCaseSensitive"/> {{questionCaseSensitiveLabel}}
         </div>
         <div style="clear:both"></div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizExternalQuestionView">
+    <div id="SCORMExternalContentDiv">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{title}}</div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">URL</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{url}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="quizExternalQuestionEditView">
+    <div id="SCORMExternalContentEditDiv">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <input type='text' id="externalContentTitle" title='{{requiredFieldTooltipLabel}}' value="{{title}}"/>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">URL</div>
+                <div style="clear:both"></div>
+            </div>
+            <input type='text' id="externalContentURL" title='{{requiredFieldTooltipLabel}}' value="{{url}}"/>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="liferayArticleDialogView">
+    <div id="liferayArticleDialog">
+        <div id="articleList">
+
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="liferayArticleElementView">
+    <div id="liferayArticleElement" class="portlet-learn-scorm">
+        <button id="selectArticleButton" class="button28 buttonInstall quizManagementButton"></button>
+        Title: {{title}}
+        <br>
+        Use language:
+        <br>
+
+        <div id="languageSwitch"></div>
+        <hr>
+    </div>
+</script>
+
+<script type="text/mustache" id="liferayArticleLanguageElementView">
+    <div id="liferayArticleLanguageElement">
+        {{language}} {{country}}
     </div>
 </script>

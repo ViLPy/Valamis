@@ -3,11 +3,12 @@ package com.arcusys.learn.scorm.manifest.storage.impl.orbroker
 import org.junit._
 import Assert._
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.storage.impl.orbroker.BrokerFactory
-import com.arcusys.scorm.util.PropertyUtil
+import com.arcusys.learn.storage.impl.orbroker.ParameterizedUnitTests
+import runner.RunWith
+import runners.Parameterized
 
-class ResourcesStorageTest {
-  BrokerFactory.init(PropertyUtil.load("db"))
+@RunWith(value = classOf[Parameterized])
+class ResourcesStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
   val packagesStorage = new PackagesStorageImpl
   val resourcesStorage = new ResourcesStorageImpl
 

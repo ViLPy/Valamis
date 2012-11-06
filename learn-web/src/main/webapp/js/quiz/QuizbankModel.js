@@ -56,6 +56,7 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
 
         this.questions.add(question);
         this.add(model);
+        return question.cid;
     },
 
     addQuestions:function (questions) {
@@ -87,6 +88,13 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
     getChildQuestionsByList:function (quizID, ids, parent) {
         return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/listIntoCategory/" + quizID + "/" + parent, {
             'questionIDs':ids
+        });
+    },
+
+    createExternalResource:function (quizID, url, parent, title) {
+        return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/external/" + quizID + "/" + parent, {
+            'url':url,
+            'title':title || "External quiz resource"
         });
     },
 

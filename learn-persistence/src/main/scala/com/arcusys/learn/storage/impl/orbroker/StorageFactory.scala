@@ -12,6 +12,9 @@ import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker.{ActivityStateStorageImpl, ActivityStateTreeStorageImpl}
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
+import org.postgresql.ds.PGPoolingDataSource
+import com.arcusys.learn.filestorage.storage.FileStorage
+import com.arcusys.learn.filestorage.storage.impl.orbroker.FileStorageImpl
 
 
 object StorageFactory extends StorageFactoryContract
@@ -34,6 +37,7 @@ object StorageFactory extends StorageFactoryContract
   lazy val userStorage: UserStorage = new UserStorageImpl
   lazy val activityStateTreeStorage: ActivityStateTreeStorage = new ActivityStateTreeStorageImpl
   lazy val activityStateStorage: ActivityStateStorage = new ActivityStateStorageImpl
+  lazy val fileStorage: FileStorage = new FileStorageImpl
 
   def renewWholeStorage() {
     packageStorage.asInstanceOf[PackagesStorageImpl].renew()
@@ -49,5 +53,11 @@ object StorageFactory extends StorageFactoryContract
     attemptStorage.asInstanceOf[AttemptStorageImpl].renew()
     dataModelStorage.asInstanceOf[DataModelStorageImpl].renew()
     activityStateTreeStorage.asInstanceOf[ActivityStateTreeStorageImpl].renew()
+    fileStorage.asInstanceOf[FileStorageImpl].renew()
+  }
+
+  def dbType:String = BrokerFactory.broker.dataSource match {
+    case postgres: PGPoolingDataSource => "psql"
+    case _ => "h2"
   }
 }

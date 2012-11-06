@@ -35,6 +35,12 @@ class ZipFile(filename: String) {
     zipFile.closeEntry()
   }
 
+  def addFile(destinationFilename: String, data: Array[Byte]) {
+    zipFile.putNextEntry(new ZipEntry(destinationFilename))
+    zipFile.write(data)
+    zipFile.closeEntry()
+  }
+
   def close() {
     zipFile.close()
   }

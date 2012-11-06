@@ -23,11 +23,16 @@
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/jquery.jstree.ext.js"></script>
     <script type="text/javascript" language="javascript"
             src="{{contextPath}}/js/widgets/QuestionbankSelectDialog.js"></script>
+    <script type="text/javascript" language="javascript"
+            src="{{contextPath}}/js/widgets/LiferayArticleDialog.js"></script>
 
     <!-- RichEdit -->
     <script type="text/javascript" src="{{contextPath}}/js/libs/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript" src="{{contextPath}}/js/libs/tiny_mce/jquery.tinymce.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/widgets/richedit.js"></script>
+    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/widgets/preview.js"></script>
+    <script type="text/javascript" language="javascript"
+            src="{{contextPath}}/js/widgets/ExternalResourceDialog.js"></script>
 
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/quiz/quiz.js"></script>
     <script type="text/javascript" language="javascript" src="{{contextPath}}/js/quiz/QuizbankModel.js"></script>
@@ -50,12 +55,12 @@
         var scormLanguageDataQuiz = {};
 
         jQuery1816Quiz(function () {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/quiz_{{language}}.properties', onQuizLanguageLoad, loadQuizDefaultLanguage);
+            window.LearnAjax.setHeader("scormUserID", "{{userID}}");
+            window.LearnAjax.setHeader("liferayGroupID", "{{groupID}}");
+            var defaultURL = Utils.getContextPath() + '/i18n/quiz_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/quiz_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onQuizLanguageLoad, onQuizLanguageError);
         });
-
-        function loadQuizDefaultLanguage() {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/quiz_en.properties', onQuizLanguageLoad, onQuizLanguageError);
-        }
 
         function onQuizLanguageLoad(properties) {
             scormLanguageDataQuiz = properties;
@@ -74,6 +79,10 @@
                 },
 
                 initViews:function () {
+                    if (!window.JournalArticleDialog) {
+                        window.JournalArticleDialog = new LiferayArticleDialog({el:jQuery1816Quiz("#QuizLiferayArticleDialog"), languageID:"{{language}}"});
+                    }
+
                     this.questionChooseDialog = new QuestionbankSelectDialog({el:jQuery1816Quiz("#questionChooseDialog"), language:scormLanguageDataQuiz});
 
                     this.availableQuizList = new QuizCollection();
@@ -106,8 +115,13 @@
             if (!window.RichEdit) {
                 window.RichEdit = new SCORMTinyMCERichEdit({el:jQuery1816Quiz("#SCORMQuizEditRichEdit")});
             }
+            if (!window.QuizPreview) {
+                window.QuizPreview = new QuizQuestionPreviewDialog({el:jQuery1816Quiz("#QuizPreviewDialog")});
+            }
+            if (!window.ExternalQuizDialog) {
+                window.ExternalQuizDialog = new ExternalResourceSelectDialog({el:jQuery1816Quiz("#QuizAddExternalResourceDialog")});
+            }
         }
-
     </script>
 </head>
 <body>
@@ -127,6 +141,18 @@
         <div id="questionBankView"></div>
     </div>
     <div id="SCORMQuizEditRichEdit"></div>
+    <div id="QuizPreviewDialog" title="{{quizPreviewDialogTitle}}">
+        <iframe class="dialogIFrame"></iframe>
+    </div>
+    <div id="QuizAddExternalResourceDialog" title="{{quizAddExternalResourceDialogTitle}}">
+        <label>
+            URL: <input type="text" id="externalResourceUrl"/>
+        </label>
+        <input type="button" id="previewExternalResource" value="Preview"/>
+        <br>
+        <iframe class="selectDialogIFrame"></iframe>
+    </div>
+    <div id="QuizLiferayArticleDialog" title="{{quizLiferayArticleDialogTitle}}"></div>
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
 </div>
 </body>

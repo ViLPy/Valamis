@@ -54,7 +54,7 @@
 
 /* ------------ Buttons  ----------------*/
 
-.portlet-learn-scorm .textbutton {
+.portlet-learn-scorm .textButton {
     background: none repeat scroll 0 0 #333333 !important;
     border: 1px solid rgba(0, 0, 0, 0.2) !important;
     border-radius: 5px 5px 5px 5px !important;
@@ -64,9 +64,10 @@
     font-size: 14px !important;
     margin: 7px 0 0 0 !important;
     cursor: pointer !important;
+    text-shadow: 0 0 !important;
 }
 
-.portlet-learn-scorm .textbutton:hover {
+.portlet-learn-scorm .textButton:hover {
     background: #D34040 !important;
 }
 

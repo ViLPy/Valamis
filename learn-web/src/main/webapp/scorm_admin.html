@@ -32,12 +32,10 @@
         var scormAdminLanguageData = {};
 
         jQuery1816Admin(function () {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_{{language}}.properties', onAdminLanguageLoad, loadAdminDefaultLanguage);
+            var defaultURL = Utils.getContextPath() + '/i18n/admin_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/admin_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onAdminLanguageLoad, onAdminLanguageError);
         });
-
-        function loadAdminDefaultLanguage() {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/admin_en.properties', onAdminLanguageLoad, onAdminLanguageError);
-        }
 
         function onAdminLanguageLoad(properties) {
             scormAdminLanguageData = properties;
@@ -50,9 +48,9 @@
 
         function initAdminView() {
             var loader = new TemplateLoader(jQuery1816Admin.proxy(function () {
-                var scormAdminPackagesView = new PackageListView({el:jQuery1816Admin("#packageList"), collection:scormAdminPackages, language:scormAdminLanguageData});
-                jQuery1816Admin("#packageSearch").keyup(function () {
-                    scormAdminPackagesView.filterPackages(jQuery1816Admin("#packageSearch").val());
+                var scormAdminPackagesView = new PackageListView({el:jQuery1816Admin("#packageAdminList"), collection:scormAdminPackages, language:scormAdminLanguageData});
+                jQuery1816Admin("#packageAdminSearch").keyup(function () {
+                    scormAdminPackagesView.filterPackages(jQuery1816Admin("#packageAdminSearch").val());
                 });
                 scormAdminPackages.fetch();
             }, this));
@@ -73,6 +71,7 @@
         }
 
         function uploadPackage() {
+            jQuery1816Admin('#SCORMUploadDialog').dialog('close');
             jQuery1816Admin('#projectLearnGeneric').block({ message:"{{overlayProcessMessageLabel}}" });
             var fileName = jQuery1816Admin("#newPackages")[0].value;
             var parts = fileName.split(".");
@@ -90,7 +89,6 @@
                         title:jQuery1816Admin("#SCORMPackageTitle").val(),
                         summary:jQuery1816Admin("#scormAdminPackagesummary").val(),
                         visibility:true});
-                    jQuery1816Admin('#SCORMUploadDialog').dialog('close');
                     jQuery1816Admin('#projectLearnGeneric').unblock();
                     jQuery1816Admin.growlUI('{{overlayProcessPackageMessageLabel}}', '{{overlayCompleteMessageLabel}}');
                 },
@@ -141,6 +139,7 @@
                 jQuery1816Admin('#SCORMDatabaseName').val(data.database);
                 jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
                 jQuery1816Admin('#SCORMDatabaseUserPassword').val(data.password);
+                jQuery1816Admin('#SCORMQuestionType').val(data.dbManagementSystem);
             });
         }
         /*{{/isAdmin}}*/
@@ -153,7 +152,7 @@
 
     <div class="SCORMWell">
         <div style="float: left">
-            <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageSearch" class="SCORMSearch"/>
+            <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageAdminSearch" class="SCORMSearch"/>
         </div>
         <!--{{#isAdmin}}-->
         <div style="float: right">
@@ -169,11 +168,11 @@
         </div>
         <br style="clear: both"/>
 
-        <div id="packageList" class="SCORMPackageList"></div>
+        <div id="packageAdminList" class="SCORMPackageList"></div>
     </div>
 
     <div id="SCORMUploadDialog" title="{{packageUploaderDialogTitleLabel}}">
-        <form id="uploadForm" action="" enctype="multipart/form-data">
+        <form id="uploadForm" action="" method="post" enctype="multipart/form-data">
             <b id="SCORMPackageTitleLabel" class="SCORMPackageLabel">{{packageUploaderDialogNameLabel}}</b><br>
             <input type="text" name="title" id="SCORMPackageTitle" class="SCORMGreyLabel">
 
@@ -181,6 +180,8 @@
             <textarea name="summary" id="scormAdminPackagesummary" class="SCORMGreyLabel" rows=4 cols=30></textarea>
             <br>
             <input type="file" name="file" id="newPackages" class="SCORMGreyLabel"/>
+            <input type="hidden" name="scormUserID" value="{{userID}}"/>
+            <input type="hidden" name="liferayGroupID" value="{{groupID}}"/>
             <input id="SCORMUpload" type="button" onclick="uploadPackage()" class="textbutton SCORMUpload"
                    value="{{packageUploaderDialogUploadButtonLabel}}"/>
         </form>
@@ -216,6 +217,15 @@
                         <td>
                             <input name="Password" type="password" id="SCORMDatabaseUserPassword" class="SCORMGreyLabel"
                                    value=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="TableLeftColumn">{{adminDialogDatabaseType}}</td>
+                        <td>
+                            <select id="SCORMQuestionType" name="dbManagementSystem">
+                                <option value="h2">H2 (embedded)</option>
+                                <option value="postgres">PostgreSQL</option>
+                            </select>
                         </td>
                     </tr>
                     </tbody>

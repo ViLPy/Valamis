@@ -205,30 +205,6 @@
     background-position: -24px 0px !important;
 }
 
-.portlet-learn-scorm .buttonAddCategory {
-    background-position: 0px 0px !important;
-}
-
-.portlet-learn-scorm .buttonAddCategory:hover {
-    background-position: -28px 0px !important;
-}
-
-.portlet-learn-scorm .buttonAddQuestion {
-    background-position: 0px -28px !important;
-}
-
-.portlet-learn-scorm .buttonAddQuestion:hover {
-    background-position: -28px -28px !important;
-}
-
-.portlet-learn-scorm .buttonRemove {
-    background-position: 0px -56px !important;
-}
-
-.portlet-learn-scorm .buttonRemove:hover {
-    background-position: -28px -56px !important;
-}
-
 .portlet-learn-scorm .buttonEdit {
     background-position: 0px -112px !important;
 }
@@ -477,6 +453,32 @@
     background-position: -28px -28px !important;
 }
 
+.portlet-learn-scorm .buttonAddExternalResource {
+    background-position: 0px -308px !important;
+    float: left;
+}
+
+.portlet-learn-scorm .buttonAddExternalResource:hover {
+    background-position: -28px -308px !important;
+}
+
+.portlet-learn-scorm .buttonPreviewResource {
+    background-position: 0px -336px !important;
+}
+
+.portlet-learn-scorm .buttonPreviewResource:hover {
+    background-position: -28px -336px !important;
+}
+
+.portlet-learn-scorm .buttonAddLiferayResource {
+    background-position: 0px -364px !important;
+    float: left;
+}
+
+.portlet-learn-scorm .buttonAddLiferayResource:hover {
+    background-position: -28px -364px !important;
+}
+
 .portlet-learn-scorm .buttonRemove {
     background-position: 0px -56px !important;
 }
@@ -497,18 +499,6 @@
     float: right;
 }
 
-.portlet-learn-scorm .SCORMAddNewButton {
-    color: #000 !important;
-    background: #FFF !important;
-    display: block !important;
-    -moz-border-radius: 5px !important;
-    -webkit-border-radius: 5px !important;
-    border-radius: 5px !important;
-    padding: 7px !important;
-    margin-top: 10px !important;
-    box-shadow: 0px 0px 4px -2px #A5A9AA !important;
-}
-
 .portlet-learn-scorm #SCORMButtonAddQuiz {
     color: #000 !important;
     background: url("../img/add-new.png") no-repeat transparent !important;
@@ -522,30 +512,6 @@
 }
 
 .portlet-learn-scorm #SCORMButtonAddQuiz:hover {
-    background: url("../img/add-new-hover.png") no-repeat transparent !important;
-    height: 22px !important;
-    padding-left: 26px !important;
-    border: none !important;
-    cursor: pointer !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    font-family: sans-serif !important;
-    color: #D34040 !important;
-}
-
-.portlet-learn-scorm #SCORMButtonAddAnswer {
-    color: #000 !important;
-    background: url("../img/add-new.png") no-repeat transparent !important;
-    height: 22px !important;
-    padding-left: 26px !important;
-    border: none !important;
-    cursor: pointer !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    font-family: sans-serif !important;
-}
-
-.portlet-learn-scorm #SCORMButtonAddAnswer:hover {
     background: url("../img/add-new-hover.png") no-repeat transparent !important;
     height: 22px !important;
     padding-left: 26px !important;
@@ -628,4 +594,36 @@
     float: left;
     margin: 0.4em 0.2em 0 0;
     cursor: pointer;
+}
+
+.dialogIFrame {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.selectDialogIFrame {
+    width: 99%;
+    height: 93%;
+    border: #6B6B6B solid 1px;
+    margin-top: 3px;
+    padding: 0;
+}
+
+.selectArticleButton {
+    float:right
+}
+
+.journalArticle {
+    display: inline-block;
+    padding: 5px;
+    margin: 3px;
+    border: #6B6B6B solid 1px;
+    cursor: pointer;
+}
+
+.languageSelected {
+    background: #fcf0ba
 }

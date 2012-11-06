@@ -1,10 +1,11 @@
 package com.arcusys.learn.storage.impl.orbroker
 
 import org.junit._
-import com.arcusys.scorm.util.PropertyUtil
+import runner.RunWith
+import runners.Parameterized
 
-class StorageFactoryTest {
-  BrokerFactory.init(PropertyUtil.load("db"))
+@RunWith(value = classOf[Parameterized])
+class StorageFactoryTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
 
   @Test
   def canRenewStorageWithoutAnyException() {

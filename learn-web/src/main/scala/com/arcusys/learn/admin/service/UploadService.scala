@@ -12,7 +12,10 @@ import com.arcusys.learn.ioc.Configuration
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import javax.imageio.ImageIO
+import com.arcusys.learn.liferay.service.asset.AssetHelper
+import com.arcusys.scala.json.Json
+;
 
 class UploadService(configuration: BindingModule) extends ServletBase(configuration) with JsonSupport with FileUploadSupport {
   def this() = this(Configuration)
@@ -21,31 +24,32 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val title = parameter("title") withDefault "New package"
     val summary = parameter("summary") withDefault ""
     val stream = fileParams.get("file").head.getInputStream // take only the first
-    val packageTmpUUID = getTempUUID()
-    val newFilename = FileSystemUtil.getRealPath("/SCORMData/zipPackages/" + packageTmpUUID + ".zip")
+    val userID = parameter("scormUserID").withDefault("0").toLong
+    val groupID = parameter("liferayGroupID").withDefault("-1").toLong
+    val packageTmpUUID = FileProcessing.getTempFileName()
+    val newFilename = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
 
     val outFile = new File(newFilename)
     val outStream = new FileOutputStream(outFile)
     FileProcessing.copyInputStream(stream, outStream)
 
     contentType = "text/plain"
-    PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID)
-    //val data = json("id" -> )
+    val packageID = PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID)
+    if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+    packageID
   }
 
   get("/get-files") {
-    //TODO: guess it's not needed due to JsonSupport
-    val subdir = parameter("currentDir") withDefault ""
-    val subdirPath = if (!subdir.equals("")) subdir + "/" else ""
-    val imagePath = servletContext.getContextPath + "/SCORMData/files/" + subdirPath
-    val imageThumbPath = servletContext.getContextPath + "/SCORMData/thumb/" + subdirPath
-    val path = FileSystemUtil.getRealPath("/SCORMData/files/" + subdirPath)
-    val listFiles = new File(path).listFiles.toSeq
-    val sortedFiles = listFiles.sortBy(_.isFile)
+    val subdirectory = parameter("currentDir") withDefault ""
+    val subdirectoryPath = if (!subdirectory.equals("")) subdirectory + "/" else "/"
+    val listFiles = storageFactory.fileStorage.getFiles("files" + subdirectoryPath).filter(!_.filename.replaceFirst("files" + subdirectoryPath, "").contains("/"))
+    val sortedFiles = listFiles.sortBy(_.content.isEmpty)
+    val imagePath = servletContext.getContextPath + "/SCORMData/files" + subdirectoryPath
+    val thumbPath = servletContext.getContextPath + "/SCORMData/thumb" + subdirectoryPath
 
     json(sortedFiles.map(file => {
-      val fileName = file.getName
-      if (!file.isDirectory) Map("thumb" -> (imageThumbPath + fileName + ".jpg"), "url" -> (imagePath + fileName), "name" -> fileName, "isDirectory" -> false)
+      val fileName = file.getFileName
+      if (!file.content.isEmpty) Map("thumb" -> (thumbPath + fileName + ".jpg"), "url" -> (imagePath + fileName), "name" -> fileName, "isDirectory" -> false)
       else Map("name" -> fileName, "isDirectory" -> true)
     }))
   }
@@ -54,33 +58,36 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val directory = parameter("currentDirectory") withDefault ""
     val currentDirectory = if (!directory.equals("")) directory + "/" else ""
     val stream = fileParams.get("file").head.getInputStream // take only the first
-    val fullName = fileParams.get("file").head.getName // IE returns absolute path, e.g. C:/users/anonymouse/Docs/pict.jpg Need to trim it
+    val fullName = fileParams.get("file").head.getName // IE returns absolute path, e.g. C:/users/anonymous/Docs/pict.jpg Need to trim it
     val name = new File(fullName).getName
-    val path = FileSystemUtil.getRealPath("/SCORMData/files/" + currentDirectory + name)
-    val outFile = new File(path)
-    val outStream = new FileOutputStream(outFile)
-    FileProcessing.copyInputStream(stream, outStream)
+    val path = "files/" + currentDirectory + name
+    val contentSource = scala.io.Source.fromInputStream(stream)(scala.io.Codec.ISO8859)
+    val content = contentSource.map(_.toByte).toArray
+    contentSource.close()
+    storageFactory.fileStorage.store(path, content)
 
-    val pathThumb = FileSystemUtil.getRealPath("/SCORMData/thumb/" + currentDirectory + name + ".jpg")
-    val inThumbFile = new File(path)
-    val inThumbStream = new FileInputStream(inThumbFile)
-    val outThumbFile = new File(pathThumb)
+    val outThumbFile = File.createTempFile("thumb", ".jpg")
     val outThumbStream = new FileOutputStream(outThumbFile)
+    val thumbPath = "thumb/" + currentDirectory + name + ".jpg"
     try {
-      imageProcessor(inThumbStream, outThumbStream)
-      inThumbStream.close()
+      imageProcessor(new ByteArrayInputStream(content), outThumbStream)
+      val thumbContentSource = scala.io.Source.fromFile(outThumbFile.getAbsolutePath)(scala.io.Codec.ISO8859)
+      val thumbContent = thumbContentSource.map(_.toByte).toArray
+      thumbContentSource.close()
+      storageFactory.fileStorage.store(thumbPath, thumbContent)
       outThumbStream.close()
+      outThumbFile.delete()
     } catch {
-      case e:Exception => {
-        inThumbStream.close()
+      case e: NullPointerException => {
         outThumbStream.close()
         outThumbFile.delete()
       }
     }
 
-    val imageName = servletContext.getContextPath + "/SCORMData/files/" + currentDirectory + name
-    val thumbName = servletContext.getContextPath + "/SCORMData/thumb/" + currentDirectory + name + ".jpg"
-    json(Map("thumb" -> thumbName, "url" -> imageName, "name" -> name, "isDirectory" -> false))
+    val imageName = servletContext.getContextPath + "/SCORMData/" + path
+    val thumbName = servletContext.getContextPath + "/SCORMData/" + thumbPath
+    contentType = "text/plain"
+    Json.toJson(Map("thumb" -> thumbName, "url" -> imageName, "name" -> name, "isDirectory" -> false))
   }
 
   post("/create-folder") {
@@ -88,29 +95,15 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val folderName = parameter("dirName") withDefault ""
     val folder = parameter("currentDirectory") withDefault ""
     val folderPath = if (!folder.equals("")) folder + "/" else folder
-    val path = FileSystemUtil.getRealPath("/SCORMData/files/" + folderPath + folderName)
-    val result = new File(path).mkdir
-
-    // create also for thumb directory
-    val pathThumb = FileSystemUtil.getRealPath("/SCORMData/thumb/" + folderPath + folderName)
-    new File(pathThumb).mkdir
-
-    result
+    storageFactory.fileStorage.store("files/" + folderPath + folderName)
+    true
   }
 
-  private def getTempUUID(fileInitialName: String = "SCORMZip", extension: String = ".tmp") = {
-    val tmpFile = File.createTempFile(fileInitialName + "_", extension)
-    val packageTmpUUID = tmpFile.getName
-    tmpFile.delete
-
-    packageTmpUUID
-  }
-
-  private def imageProcessor(input: FileInputStream, output: FileOutputStream) {
+  private def imageProcessor(input: InputStream, output: FileOutputStream) {
     val sourceImage = ImageIO.read(input)
     val height = sourceImage.getHeight
     val width = sourceImage.getWidth
-    val thumbnail = if (height>width) {
+    val thumbnail = if (height > width) {
       sourceImage.getScaledInstance(-1, 128, Image.SCALE_SMOOTH)
     } else {
       sourceImage.getScaledInstance(128, -1, Image.SCALE_SMOOTH)

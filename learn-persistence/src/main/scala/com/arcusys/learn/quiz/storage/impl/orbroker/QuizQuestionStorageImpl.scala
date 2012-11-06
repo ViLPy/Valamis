@@ -9,12 +9,19 @@ import com.arcusys.learn.questionbank.storage.impl.orbroker.QuestionStorageImpl
 class QuizQuestionStorageImpl extends KeyedEntityStorageImpl[QuizQuestion]("QuizQuestion", "id") with QuizQuestionStorage {
   val questionStorage = new QuestionStorageImpl
 
-  def getCount(quizID:Int): Int = getAll("quizID" -> quizID).size
+  def getCount(quizID: Int): Int = getAll("quizID" -> quizID).size
 
   def getByCategory(quizID: Int, categoryID: Option[Int]) = getAll("quizID" -> quizID, "categoryID" -> categoryID.getOrElse(-1))
 
+  def modifyExternal(id: Int, title:String, url: String) {
+    modify("id" -> id, "title" -> title, "url" -> url)
+  }
+
   override def createAndGetID(quizID: Int, categoryID: Option[Int], questionID: Int): Int =
     createAndGetID("quizID" -> quizID, "categoryID" -> categoryID, "questionID" -> questionID)
+
+  override def createAndGetID(quizID: Int, categoryID: Option[Int], title:String, url: String): Int =
+    createAndGetID("quizID" -> quizID, "categoryID" -> categoryID, "title"->title, "url" -> url)
 
   def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean) = {
     execute("_move", "id" -> id, "moveAfter" -> moveAfterSibling, "siblingID" -> siblingID, "parentID" -> parentID)
@@ -25,7 +32,9 @@ class QuizQuestionStorageImpl extends KeyedEntityStorageImpl[QuizQuestion]("Quiz
     row.integer("id").get,
     row.integer("quizID").get,
     row.integer("categoryID"),
-    questionStorage.getByID(row.integer("questionID").get).get
+    if (row.integer("questionID").isDefined) questionStorage.getByID(row.integer("questionID").get) else None,
+    row.string("title"),
+    row.string("url")
   )
 
 }

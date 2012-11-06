@@ -3,6 +3,7 @@ package com.arcusys.learn.storage.impl.orbroker
 import org.orbroker.Token
 import BrokerFactory._
 import org.orbroker.{RowExtractor, Row}
+import org.postgresql.ds.PGPoolingDataSource
 
 object IntExtractor extends RowExtractor[Int] {
   def extract(row: Row) = row.integer("id").get
@@ -70,9 +71,13 @@ abstract class GenericEntityStorageImpl[E](val tablePath: String) {
   }
 
   def renew() {
+    val dbType = broker.dataSource match {
+      case postgres: PGPoolingDataSource => "postgres"
+      case _ => "h2"
+    }
     broker.transactional() {
       session =>
-        session.execute(Token(Symbol(tablePath + "_renew")))
+        session.execute(Token(Symbol(tablePath + "_renew")), "dbType" -> dbType)
         session.commit()
     }
   }
@@ -114,7 +119,10 @@ abstract class KeyedEntityStorageImpl[E](tablePath: String, val idParam: String)
   protected def createAndGetID(entity: E, parameters: (String, Any)*): Int =
     broker.transactional() {
       session =>
-        val id = session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+        val id = broker.dataSource match {
+          case postgres: PGPoolingDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+          case _ => session.executeForKey(Token[Int](Symbol(tablePath + "_insert")), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+        }
         session.commit()
         id.get
     }
@@ -122,7 +130,10 @@ abstract class KeyedEntityStorageImpl[E](tablePath: String, val idParam: String)
   protected def createAndGetID(parameters: (String, Any)*): Int =
     broker.transactional() {
       session =>
-        val id = session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters)): _*)
+        val id = broker.dataSource match {
+          case postgres: PGPoolingDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters)): _*)
+          case _ => session.executeForKey(Token[Int](Symbol(tablePath + "_insert")), (prepareParameters(parameters)): _*)
+        }
         session.commit()
         id.get
     }

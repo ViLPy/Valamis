@@ -5,6 +5,7 @@ import com.arcusys.learn.scorm.tracking.storage._
 import com.arcusys.learn.quiz.storage._
 import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
+import com.arcusys.learn.filestorage.storage.FileStorage
 
 trait StorageFactoryContract
 {
@@ -22,5 +23,8 @@ trait StorageFactoryContract
   def userStorage: UserStorage
   def activityStateTreeStorage: ActivityStateTreeStorage
   def activityStateStorage: ActivityStateStorage
+  def fileStorage: FileStorage
   def renewWholeStorage()
+
+  def dbType:String
 }

@@ -1,7 +1,6 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
-import com.arcusys.scorm.util.PropertyUtil
-import com.arcusys.learn.storage.impl.orbroker.BrokerFactory
+import com.arcusys.learn.storage.impl.orbroker.ParameterizedUnitTests
 import com.arcusys.learn.scorm.tracking.storage.impl.orbroker.{UserStorageImpl, AttemptStorageImpl}
 import org.junit.{Test, Before}
 import com.arcusys.learn.scorm.manifest.storage.impl.orbroker.{PackagesStorageImpl, ActivitiesStorageImpl}
@@ -11,9 +10,11 @@ import org.junit.Assert._
 import com.arcusys.learn.scorm.tracking.model.User
 import com.arcusys.learn.scorm.tracking.model.Attempt
 import scala.collection.mutable
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
-class ActivityStateTreeStorageTest {
-  BrokerFactory.init(PropertyUtil.load("db"))
+@RunWith(value = classOf[Parameterized])
+class ActivityStateTreeStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
   val attemptStorage = new AttemptStorageImpl
   val activityStorage = new ActivitiesStorageImpl
   val packagesStorage = new PackagesStorageImpl

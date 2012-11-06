@@ -50,12 +50,10 @@
             window.API = new SCORM12API();
 
             // upload translations
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_{{language}}.properties', onPlayerLanguageLoad, loadDefaultLanguageForPlayer);
+            var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onPlayerLanguageLoad, onPlayerLanguageError);
         });
-
-        function loadDefaultLanguageForPlayer() {
-            Utils.i18nLoader(Utils.getContextPath() + '/i18n/player_en.properties', onPlayerLanguageLoad, onPlayerLanguageError);
-        }
 
         function onPlayerLanguageLoad(properties) {
             scormPlayerLanguageData = properties;
@@ -75,13 +73,18 @@
                 scormPlayer.on('endSession', togglePlayer);
                 window.scormPlayerView = scormPlayer;
 
-                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packageList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
+                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packagePlayerList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
                 jQuery1816Player("#packageSearch").keyup(function () {
                     scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
                 });
                 scormPlayerPackagesView.on('start', startPackage);
                 scormPlayerPackagesView.on('resume', resumePackage);
-                scormPlayerPackages.fetch();
+                scormPlayerPackages.fetch({success:jQuery1816Player.proxy(function () {
+                    var packageToOpen = parseInt("{{entryID}}");
+                    if (packageToOpen) {
+                        startPackage(scormPlayerPackages.get(packageToOpen));
+                    }
+                }, this)});
             }, this));
             loader.fetch("templates/player_templates.html");
         }
@@ -135,7 +138,7 @@
             </div>
             <br style="clear: both"/>
 
-            <div id="packageList" class="SCORMPackageList"></div>
+            <div id="packagePlayerList" class="SCORMPackageList"></div>
         </div>
     </div>
     <div id="SCORMPlayerView"></div>

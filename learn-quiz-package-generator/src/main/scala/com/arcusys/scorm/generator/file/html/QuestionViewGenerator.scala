@@ -6,21 +6,25 @@ import com.arcusys.scala.mustache._
 import com.arcusys.scala.json._
 import java.net.URLDecoder
 
-object QuestionViewGenerator {
-  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
-
+class QuestionViewGenerator(isPreview: Boolean) {
   private lazy val genericJS = scala.io.Source.fromInputStream(getResourceStream("questionScript.html")).mkString
   private lazy val genericCSS = scala.io.Source.fromInputStream(getResourceStream("questionStyle.html")).mkString
 
+  private lazy val previewJS = scala.io.Source.fromInputStream(getResourceStream("questionScriptPreview.html")).mkString
+  private lazy val previewCSS = scala.io.Source.fromInputStream(getResourceStream("questionStylePreview.html")).mkString
+
   private def decode(source: String) = URLDecoder.decode(source, "UTF-8")
-  private def prepareString(source: String) = ResourceHelpers.skipContextPathURL(decode(source))
+
+  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
+
+  private def prepareString(source: String) = if (isPreview) decode(source) else ResourceHelpers.skipContextPathURL(decode(source))
 
   def getHTMLForStaticPage(pageData: String) = {
     val string = prepareString(pageData)
-    generateHTMLByQuestionType("static", Map("data"->string))
+    generateHTMLByQuestionType("static", Map("data" -> string))
   }
 
-  def getHTMLByQuestionId(question: Question[Answer]) = {
+  def getHTMLByQuestionId(question: Question[Answer], contextPath: String = "") = {
     question match {
       case choiceQuestion: ChoiceQuestion =>
         val answers = choiceQuestion.answers.map(answer => Map("text" -> prepareString(answer.text), "id" -> answer.id))
@@ -30,7 +34,8 @@ object QuestionViewGenerator {
           "text" -> prepareString(choiceQuestion.text),
           "answer" -> correctAnswers,
           "answers" -> answers,
-          "multipleChoice" -> multipleChoice)
+          "multipleChoice" -> multipleChoice,
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("ChoiceQuestion", viewModel)
 
       case textQuestion: TextQuestion =>
@@ -39,23 +44,34 @@ object QuestionViewGenerator {
         val viewModel = Map("title" -> decode(textQuestion.title),
           "answers" -> possibleAnswers,
           "isCaseSensitive" -> Json.toJson(isCaseSensitive),
-          "text" -> prepareString(textQuestion.text))
+          "text" -> prepareString(textQuestion.text),
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("ShortAnswerQuestion", viewModel)
 
       case numericQuestion: NumericQuestion =>
         val answers = Json.toJson(numericQuestion.answers.map(answer => Map("from" -> answer.notLessThan, "to" -> answer.notGreaterThan)))
-        val viewModel = Map("title" -> decode(numericQuestion.title), "text" -> prepareString(numericQuestion.text), "answers" -> answers)
+        val viewModel = Map("title" -> decode(numericQuestion.title),
+          "text" -> prepareString(numericQuestion.text),
+          "answers" -> answers,
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("NumericQuestion", viewModel)
 
       case positioningQuestion: PositioningQuestion =>
         val answers = Json.toJson(positioningQuestion.answers.map(answer => Map("id" -> answer.id, "text" -> prepareString(answer.text))))
-        val viewModel = Map("title" -> decode(positioningQuestion.title), "text" -> prepareString(positioningQuestion.text), "answers" -> answers)
+        val viewModel = Map("title" -> decode(positioningQuestion.title),
+          "text" -> prepareString(positioningQuestion.text),
+          "answers" -> answers,
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("PositioningQuestion", viewModel)
 
       case matchingQuestion: MatchingQuestion =>
         val correctAnswers = matchingQuestion.answers.map(answer => Seq(decode(answer.text), answer.keyText.getOrElse(null)).mkString("[.]")).mkString("[,]")
         val answers = matchingQuestion.answers.map(answer => Map("answerText" -> decode(answer.text), "matchingText" -> answer.keyText.getOrElse(null)))
-        val viewModel = Map("title" -> decode(matchingQuestion.title), "text" -> prepareString(matchingQuestion.text), "answers" -> answers, "answerData" -> correctAnswers)
+        val viewModel = Map("title" -> decode(matchingQuestion.title),
+          "text" -> prepareString(matchingQuestion.text),
+          "answers" -> answers,
+          "answerData" -> correctAnswers,
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("MatchingQuestion", viewModel)
 
       case categorizationQuestion: CategorizationQuestion =>
@@ -68,15 +84,20 @@ object QuestionViewGenerator {
           "text" -> prepareString(categorizationQuestion.text),
           "answerText" -> answerText,
           "matchingText" -> matchingText,
-          "answers" -> answerJSON)
+          "answers" -> answerJSON,
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("CategorizationQuestion", viewModel)
 
       case essayQuestion: EssayQuestion =>
-        val viewModel = Map("title" -> decode(essayQuestion.title), "text" -> decode(essayQuestion.text))
+        val viewModel = Map("title" -> decode(essayQuestion.title),
+          "text" -> decode(essayQuestion.text),
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("EssayQuestion", viewModel)
 
       case embeddedAnswerQuestion: EmbeddedAnswerQuestion =>
-        val viewModel = Map("title" -> decode(embeddedAnswerQuestion.title), "text" -> decode(embeddedAnswerQuestion.text))
+        val viewModel = Map("title" -> decode(embeddedAnswerQuestion.title),
+          "text" -> decode(embeddedAnswerQuestion.text),
+          "contextPath" -> contextPath)
         generateHTMLByQuestionType("EmbeddedAnswerQuestion", viewModel)
 
       case _ => throw new Exception("Service: Oops! Can't recognize question type")
@@ -84,6 +105,9 @@ object QuestionViewGenerator {
   }
 
   private def generateHTMLByQuestionType(questionTypeName: String, viewModel: Map[String, Any]) = {
-    genericJS + genericCSS + new Mustache(scala.io.Source.fromInputStream(getResourceStream(questionTypeName + ".html")).mkString).render(viewModel)
+    (if (isPreview)
+      new Mustache(previewJS).render(viewModel) + new Mustache(previewCSS).render(viewModel + ("isPreview" -> isPreview))
+    else
+      genericJS + genericCSS) + new Mustache(scala.io.Source.fromInputStream(getResourceStream(questionTypeName + ".html")).mkString).render(viewModel + ("isPreview" -> isPreview))
   }
 }

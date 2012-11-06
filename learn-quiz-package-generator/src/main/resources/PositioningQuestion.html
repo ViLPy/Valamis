@@ -2,9 +2,9 @@
     var data = {{{answers}}};
     var mappedData = [];
 
-    jQuery(document).ready(function(){
+    jQuery(document).ready(function () {
         var shuffled = shuffle(data);
-        for (var i = 0; i<shuffled.length; i++) {
+        for (var i = 0; i < shuffled.length; i++) {
             var newLI = jQuery("<li>");
             newLI.addClass("ui-state-default");
             newLI.attr("id", shuffled[i].id);
@@ -14,16 +14,19 @@
             mappedData[shuffled[i].id] = shuffled[i].text;
         }
         PreparePositioningQuestionView();
+        /*{{^isPreview}}*/
         getAPI().Initialize("");
-    })
+        /*{{/isPreview}}*/
+    });
 
     function gatherData() {
+        /*{{^isPreview}}*/
         var mappedRightAnswers = [];
         var userAnswers = [];
         var answerIDs = jQuery("#sortable").sortable('toArray');
 
         var isPassed = true;
-        for (var i = 0; i<data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             if (data[i].id != answerIDs[i]) {
                 isPassed = false;
             }
@@ -45,6 +48,7 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
@@ -61,8 +65,11 @@
     <!-- Navigation -->
     <div class="playerPageNavigation">
         <div class="playerNext">
-            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
-            </button>
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>
     </div>

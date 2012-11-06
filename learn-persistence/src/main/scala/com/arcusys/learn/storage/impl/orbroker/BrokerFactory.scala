@@ -11,21 +11,48 @@ import org.orbroker.config.dynamic._
 import org.orbroker.config._
 import collection.JavaConversions._
 import scala.collection.mutable
+import org.h2.jdbcx.JdbcDataSource
+import javax.sql.DataSource
+import com.arcusys.scorm.util.FileSystemUtil
 
 object BrokerFactory {
-  var ds: Option[PGPoolingDataSource] = None
+  var dsPostgres: Option[PGPoolingDataSource] = None
+  var dsH2: Option[JdbcDataSource] = None
 
   private def getBroker(properties: Properties) = {
-    Class.forName("org.postgresql.Driver")
-    if (ds != None) ds.get.close()
-    ds = Some(new PGPoolingDataSource)
-    ds.get.setDataSourceName("Data Source")
-    ds.get.setServerName(properties.getProperty("server", ""))
-    ds.get.setDatabaseName(properties.getProperty("database", ""))
-    ds.get.setUser(properties.getProperty("login", ""))
-    ds.get.setPassword(properties.getProperty("password", ""))
-    ds.get.setMaxConnections(100000)
-    val builder = new BrokerConfig(ds.get) with FreeMarkerSupport
+    if (dsPostgres.isDefined) {
+      dsPostgres.get.close()
+      dsPostgres = None
+    }
+
+    val ds: DataSource = properties.getProperty("dbManagementSystem") match {
+      case "postgres" => {
+        Class.forName("org.postgresql.Driver")
+        dsPostgres = Some(new PGPoolingDataSource)
+        dsPostgres.get.setDataSourceName("Data Source")
+        dsPostgres.get.setServerName(properties.getProperty("server", ""))
+        dsPostgres.get.setDatabaseName(properties.getProperty("database", ""))
+        dsPostgres.get.setUser(properties.getProperty("login", ""))
+        dsPostgres.get.setPassword(properties.getProperty("password", ""))
+        dsPostgres.get.setMaxConnections(100000)
+        dsPostgres.get
+      }
+      case _ => {
+        Class.forName("org.h2.Driver")
+        dsH2 = Some(new JdbcDataSource)
+        dsH2.get.setDescription("Data Source")
+        if (!properties.getProperty("testPackage","false").toBoolean){
+          val filename = FileSystemUtil.getRealPath("/SCORMData/" + properties.getProperty("database", ""))
+          dsH2.get.setURL("jdbc:h2:file:" + filename + ";IFEXISTS=TRUE;AUTOCOMMIT=ON;IGNORECASE=TRUE;PAGE_SIZE=2048;CACHE_SIZE=128000;DB_CLOSE_DELAY=100")
+        } else {
+          dsH2.get.setURL("jdbc:h2:mem:scorm;IGNORECASE=TRUE;AUTOCOMMIT=ON;DB_CLOSE_DELAY=-1")
+        }
+        dsH2.get.setUser(properties.getProperty("login", ""))
+        dsH2.get.setPassword(properties.getProperty("password", ""))
+        dsH2.get
+      }
+    }
+    val builder = new BrokerConfig(ds) with FreeMarkerSupport
 
     val resPath = "sql"
 

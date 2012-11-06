@@ -1,11 +1,14 @@
 <script type="text/javascript">
     var dataToCompare = {{{answers}}};
     jQuery(document).ready(function () {
+        /*{{^isPreview}}*/
         getAPI().Initialize("");
+        /*{{/isPreview}}*/
         PrepareCategorizationQuestionView();
     });
 
     function gatherData() {
+        /*{{^isPreview}}*/
         // this will check is user answer right
         var userAnswers = [];
         var patterAnswers = [];
@@ -19,12 +22,12 @@
         });
 
         var isPassed = true;
-        for (var i = 0; i<dataToCompare.length; i++) {
+        for (var i = 0; i < dataToCompare.length; i++) {
             var cmpString = decodeURIComponent(dataToCompare[i].text) + "[.]" + decodeURIComponent(dataToCompare[i].matchingText);
             patterAnswers.push(cmpString);
             var found = false;
-            for (var j = 0; j<userAnswers.length; j++) {
-                if (cmpString == userAnswers[j]) {
+            for (var j = 0; j < userAnswers.length; j++) {
+                if (cmpString.toLowerCase() == userAnswers[j].toLowerCase()) {
                     found = true;
                     break;
                 }
@@ -49,13 +52,15 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
-   		<h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
-   		<h2 class="SCORMPlayerQuestionSubtitle">Distribute items to categories by using "drag and drop":</h2>
-   	</div>
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+
+        <h2 class="SCORMPlayerQuestionSubtitle">Distribute items to categories by using "drag and drop":</h2>
+    </div>
     <div class="playerMainArea">
         <div class="playerCategorizeAnswers">
             <ul id="sortable" class="categorizationAnswerElements">
@@ -84,8 +89,11 @@
     <!-- Navigation -->
     <div class="playerPageNavigation">
         <div class="playerNext">
-            <button id="" class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next
-            </button>
+            <!--{{#isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>
     </div>
