@@ -28,7 +28,7 @@ In Learn 1.2 there will be additional default H2 database so application will wo
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
-## Version 1.2. Update: 06.11.2012
+## Version 1.2. Update: 07.11.2012
  - Out of the box H2 database
  - Support of external resources (now you can add page by full URL, like http://www.example.com)
  - Support of Liferay's articles with article pickup dialog
@@ -36,6 +36,7 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
  - Packages now can be found and accessed from AssetPublisher and Search portlets from Liferay
  - L18N support based on Liferay's locale
  - Small fixes for UI
+ - Fix for Liferay bundle with JBoss
 
 ## Version 1.1. Update: 07.09.2012
  - Support for SCORM 1.2
