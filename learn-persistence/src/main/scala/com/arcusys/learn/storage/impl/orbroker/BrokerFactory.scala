@@ -96,7 +96,8 @@ object BrokerFactory {
 
     val resource = Thread.currentThread.getContextClassLoader.getResource(relPath)
     if (resource == null) throw new Exception("Can't find directory '" + relPath + "'")
-    val path = resource.getFile
+    // create path to JAR
+    val path = resource.getFile.substring(0,resource.getFile.lastIndexOf("/" + relPath))
     val directory = try {
       new File(resource.toURI)
     } catch {
