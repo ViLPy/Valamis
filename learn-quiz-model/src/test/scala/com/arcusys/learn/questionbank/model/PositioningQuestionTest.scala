@@ -26,7 +26,8 @@ class PositioningQuestionTest extends FlatSpec with ShouldMatchers {
     text = "How do yoy turn things on and back off?",
     explanationText = "Turning around is some other kind of turning",
     answers = answers,
-    forceCorrectCount = true
+    forceCorrectCount = true,
+    courseID = Some(1)
   )
 
   private def checkFields(question: PositioningQuestion, categoryId: Option[Int], answers: Seq[PositioningAnswer]) {

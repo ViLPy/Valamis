@@ -12,7 +12,7 @@ _.extend(PackageModel.prototype, {
         },
 
         update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "services/packages/update/" + model.id, model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "services/packages/update/" + model.id + "?courseID=" + jQuery("#courseID").val() + "&scopeType=" + jQuery("#adminScopeSelect").val() , model.toJSON());
         },
 
         find:function (model) {
@@ -27,10 +27,11 @@ _.extend(PackageModel.prototype, {
 
 PackageModelCollection = Backbone.Collection.extend({
     model:PackageModel,
-
     storage:{
         findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/all");
+            if (jQuery("#adminScopeSelect").val() == "site")
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/allInSite" + "?courseID=" + jQuery("#courseID").val());
+            else return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/all");
         }
     }
 });

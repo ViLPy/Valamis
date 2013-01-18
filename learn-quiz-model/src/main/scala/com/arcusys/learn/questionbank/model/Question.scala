@@ -10,6 +10,7 @@ package com.arcusys.learn.questionbank.model
  * @param text              Question text. Formulates the problem to the user.
  * @param explanationText   Explanation text. Describes what answer is correct and why. Not to be displayed when asking answer from user
  * @param answers           Ordered sequence of answer options or correct answers (depending on question type)
+ * @param courseID          Course ID
  */
 abstract class Question[+AnswerType <: Answer]
 (
@@ -19,5 +20,6 @@ abstract class Question[+AnswerType <: Answer]
   val title: String,
   val text: String,
   val explanationText: String,
-  val answers: Seq[AnswerType]
+  val answers: Seq[AnswerType],
+  val courseID: Option[Int]
   )

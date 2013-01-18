@@ -20,6 +20,7 @@ class PositioningQuestion
   text: String,
   explanationText: String,
   answers: Seq[PositioningAnswer],
-  val forceCorrectCount: Boolean
+  val forceCorrectCount: Boolean,
+  courseID: Option[Int]
   )
-  extends Question[PositioningAnswer](3, id, categoryID, title, text, explanationText, answers)
+  extends Question[PositioningAnswer](3, id, categoryID, title, text, explanationText, answers, courseID)

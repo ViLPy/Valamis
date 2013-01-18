@@ -14,7 +14,7 @@ QuizCategoryModel = Backbone.Model.extend({
 _.extend(QuizCategoryModel.prototype, {
     storage:{
         create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizcategory/", model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizcategory/?courseID=" + jQuery("#courseID").val, model.toJSON());
         },
 
         update:function (model) {
@@ -26,7 +26,7 @@ _.extend(QuizCategoryModel.prototype, {
         },
 
         find:function (model) {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/quizcategory/" + model.id);
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/quizcategory/" + model.id+"?courseID=" + jQuery("#courseID").val);
         },
 
         destroy:function (model) {

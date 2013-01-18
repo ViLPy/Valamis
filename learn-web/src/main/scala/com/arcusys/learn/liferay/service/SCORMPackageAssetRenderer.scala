@@ -11,6 +11,8 @@ import javax.portlet.{RenderRequest, RenderResponse, PortletRequest}
 import com.liferay.portal.theme.ThemeDisplay
 import com.liferay.portal.security.permission.PermissionChecker
 import utils.PortletKeys
+import com.arcusys.learn.liferay.SCORMPackageAssetRendererFactory
+
 
 class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
   def getAssetRendererFactoryClassName: String = SCORMPackageAssetRendererFactory.CLASS_NAME

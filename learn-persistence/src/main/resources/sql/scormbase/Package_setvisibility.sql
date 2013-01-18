@@ -1,2 +1,3 @@
-UPDATE Package SET visibility = :visibility
+UPDATE PackageVisibility
+SET visibility = :visibility
 WHERE id = :id

@@ -11,6 +11,7 @@ CREATE TABLE QuestionCategory
   description text,
   parentID integer,
   "position" integer,
+   courseID integer,
   CONSTRAINT QuestionCategory_pk PRIMARY KEY (id)
 <#if dbType=="postgres">
 ) WITH (

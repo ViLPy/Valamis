@@ -6,7 +6,8 @@ import com.arcusys.learn.questionbank.model._
 trait QuestionCategoryStorage
 {
   /** Get all question categories in user-defined order */
-  def getAll: Seq[QuestionCategory]
+  //def getAll: Seq[QuestionCategory]
+  def getAllByCourseID(courseID: Option[Int]): Seq[QuestionCategory]
 
   /** Get question category by ID, or None if not found */
   def getByID(id: Int): Option[QuestionCategory]
@@ -15,7 +16,7 @@ trait QuestionCategoryStorage
    * Get list of subcategories for given parent category in user-defined order.
    * @param parentID ID of parent category to get subcategories for, or None to get list of root categories
    */
-  def getChildren(parentID: Option[Int]): Seq[QuestionCategory]
+  def getChildren(parentID: Option[Int], courseID:Option[Int]): Seq[QuestionCategory]
 
   /**
    * Create a new category in storage

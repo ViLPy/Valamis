@@ -47,7 +47,6 @@ class ManifestDocument
  * @param resourcesBase         Common base for resource files, relative to common base
  * @param title                 Package title in the LMS
  * @param summary               Package description in the LMS
- * @param visibility            True if package should be available for selection in the LMS
  * @param metadata              Manifest metadata, if any
  */
 class Manifest
@@ -60,9 +59,11 @@ class Manifest
   val resourcesBase: Option[String],
   val title: String,
   val summary: Option[String] = None,
-  val visibility: Boolean = true,
   val metadata: Option[Metadata] = None,
-  val assetRefID: Option[Long] = None
+  val assetRefID: Option[Long] = None,
+  val courseID: Option[Int],
+
+  val visibility: Option[Boolean] = None
   )
 {
   base foreach {

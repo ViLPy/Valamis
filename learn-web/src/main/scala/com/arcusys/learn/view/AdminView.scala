@@ -7,6 +7,10 @@ import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
+import com.arcusys.scorm.lms.UserManagement
+import com.liferay.portal.service.GroupLocalServiceUtil
+import com.liferay.portal.util.PortalUtil
+import com.liferay.portal.kernel.dao.orm.QueryUtil
 
 class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
   override def destroy() {}
@@ -15,43 +19,44 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
 
   override def doView(request: RenderRequest, response: RenderResponse) {
     val userUID = request.getRemoteUser
-    val groupID = LiferayHelpers.getThemeDisplay(request).getScopeGroupId
-
+    val theme = LiferayHelpers.getThemeDisplay(request)
+    val courseID = theme.getLayout.getGroupId
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
-    val translations = try {
-      getTranslation("/i18n/admin_" + language)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/admin_en")
-      case _ => Map[String, String]()
-    }
-    val data = Map("contextPath" -> request.getContextPath,
-      "userID" -> userUID,
-      "groupID" -> groupID,
-      "isAdmin" -> request.isUserInRole("administrator"),
-      "language" -> language,
-      "isPortlet" -> true) ++ translations
-    out.println(generateResponse(data, "scorm_admin.html"))
-  }
+    if (UserManagement.isAdmin(userUID.toInt, courseID))
+    {
+      val groupID = theme.getScopeGroupId
+      //val pagePlid = theme.getLayout.getPlid
+     // ThemeDisplay themeDisplay = (ThemeDisplay)req.getAttribute(WebKeys.THEME_DISPLAY);
+     // PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+     // String portletId = portletDisplay.getId();
+     // val groups = GroupLocalServiceUtil.search(PortalUtil.getCompanyId(request), null, null,
+     //   null, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
-  get("/ScormAdmin") {
-    val lang = "en"
-    val translations = try {
-      getTranslation("/i18n/admin_" + lang)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/admin_en")
-      case _ => Map[String, String]()
+      //val pageID = theme.getLayout.getPrimaryKey
+      //val portletID = theme.getPortletDisplay.getId
+      val translations = getTranslation("admin", language)
+      val data = Map("contextPath" -> request.getContextPath, "userID" -> userUID, "groupID" -> groupID, "isAdmin" -> true,
+        "language" -> language, "courseID" ->courseID, "isPortlet" -> true) ++ translations
+      out.println(generateResponse(data, "scorm_admin.html"))
     }
-    val data = Map("contextPath" -> servletContext.getContextPath,
-      "isAdmin" -> true,
-      "userID" -> -1,
-      "groupID" -> -1,
-      "language" -> lang,
-      "isPortlet" -> false) ++ translations
-    "<div class='portlet-learn-scorm'>" + generateResponse(data, "scorm_admin.html") + "</div>"
+    else{
+      val translations = getTranslation("error", language)
+      val data = Map("contextPath" -> request.getContextPath, "language" -> language) ++ translations
+      out.println(generateResponse(data, "scorm_nopermissions.html"))
+    }
   }
 
   def generateResponse(data: Map[String, Any], templateName: String) = {
     mustache(data, templateName)
+  }
+
+  private def getTranslation(view: String, language: String): Map[String, String] = {
+    try {
+      getTranslation("/i18n/"+ view +"_" + language)
+    } catch {
+      case e: FileNotFoundException => getTranslation("/i18n/"+view+"_en")
+      case _ => Map[String, String]()
+    }
   }
 }

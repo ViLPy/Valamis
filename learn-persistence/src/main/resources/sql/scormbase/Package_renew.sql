@@ -12,8 +12,8 @@ CREATE TABLE Package
   base text,
   resourcesBase text,
   summary text,
-  visibility boolean,
   assetRefID bigint,
+  courseID integer,
   CONSTRAINT Package_pk PRIMARY KEY (id)
 <#if dbType=="postgres">
 ) WITH (

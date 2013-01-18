@@ -8,7 +8,7 @@ import org.orbroker.Row
 class QuestionStorageImpl extends KeyedEntityStorageImpl[Question[Answer]]("Question", "id") with QuestionStorage {
   val answerStorage = new AnswerStorageImpl
 
-  def getByCategory(categoryID: Option[Int]) = getAll("categoryID" -> categoryID.getOrElse(-1))
+  def getByCategory(categoryID: Option[Int], courseID: Option[Int]) = getAll("categoryID" -> categoryID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
 
   override def createAndGetID(entity: Question[Answer]): Int = {
     val questionId =
@@ -67,49 +67,57 @@ class QuestionStorageImpl extends KeyedEntityStorageImpl[Question[Answer]]("Ques
         row.string("description").get,
         row.string("explanationText").get,
         answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[ChoiceAnswer]),
-        row.bit("forceCorrectCount").get)
+        row.bit("forceCorrectCount").get,
+        row.integer("courseID"))
       case 1 => new TextQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
         row.string("explanationText").get,
         answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[TextAnswer]),
-        row.bit("isCaseSensitive").get)
+        row.bit("isCaseSensitive").get,
+        row.integer("courseID"))
       case 2 => new NumericQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
         row.string("explanationText").get,
-        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[NumericAnswer]))
+        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[NumericAnswer]),
+        row.integer("courseID"))
       case 3 => new PositioningQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
         row.string("explanationText").get,
         answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[PositioningAnswer]),
-        row.bit("forceCorrectCount").get)
+        row.bit("forceCorrectCount").get,
+        row.integer("courseID"))
       case 4 => new MatchingQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
         row.string("explanationText").get,
-        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[MatchingAnswer]))
+        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[MatchingAnswer]),
+        row.integer("courseID"))
       case 5 => new EssayQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
-        row.string("explanationText").get)
+        row.string("explanationText").get,
+        row.integer("courseID"))
       case 6 => new EmbeddedAnswerQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
-        row.string("explanationText").get)
+        row.string("explanationText").get,
+        row.integer("courseID"))
       case 7 => new CategorizationQuestion(questionID,
         row.integer("categoryID"),
         row.string("title").get,
         row.string("description").get,
         row.string("explanationText").get,
-        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[CategorizationAnswer]))
+        answerStorage.getByQuestion(questionID).map(e => e.asInstanceOf[CategorizationAnswer]),
+        row.integer("courseID"))
       case _ => throw new Exception("Oops! Can't create question " + row.integer("id").getOrElse(-1))
     }
   }

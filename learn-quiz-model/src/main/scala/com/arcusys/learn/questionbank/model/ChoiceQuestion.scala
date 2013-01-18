@@ -22,6 +22,7 @@ class ChoiceQuestion
   text: String,
   explanationText: String,
   answers: Seq[ChoiceAnswer],
-  val forceCorrectCount: Boolean
+  val forceCorrectCount: Boolean,
+  courseID: Option[Int]
   )
-  extends Question[ChoiceAnswer](0, id, categoryID, title, text, explanationText, answers)
+  extends Question[ChoiceAnswer](0, id, categoryID, title, text, explanationText, answers, courseID)

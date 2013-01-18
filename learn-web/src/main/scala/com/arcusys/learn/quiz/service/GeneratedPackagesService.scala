@@ -18,9 +18,10 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
     contentType = "application/zip"
     
     val quizID = parameter("quizID").intRequired
+    val courseID = parameter("courseID").intOption(-1)
     val quiz = quizStorage.getByID(quizID).get
     val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip
+    val filename = generator.generateZip(courseID)
     
     val is = new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
     org.scalatra.util.io.copy(is, response.getOutputStream)
@@ -35,9 +36,10 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
     val groupID = if (groupIDHeader.isEmpty) -1 else groupIDHeader.toLong
     val quiz = quizStorage.getByID(quizID).get
     val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip
+    val courseID = parameter("courseID").intOption(-1)
+    val filename = generator.generateZip(courseID)
 
-    val packageID = PackageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0,filename.length - 4))
+    val packageID = PackageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0,filename.length - 4),courseID)
     if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
 
     packageID

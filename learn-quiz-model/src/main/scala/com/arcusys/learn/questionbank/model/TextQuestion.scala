@@ -21,6 +21,7 @@ class TextQuestion
   text: String,
   explanationText: String,
   answers: Seq[TextAnswer],
-  val isCaseSensitive: Boolean
+  val isCaseSensitive: Boolean,
+  courseID: Option[Int]
   )
-  extends Question[TextAnswer](1, id, categoryID, title, text, explanationText, answers)
+  extends Question[TextAnswer](1, id, categoryID, title, text, explanationText, answers, courseID)

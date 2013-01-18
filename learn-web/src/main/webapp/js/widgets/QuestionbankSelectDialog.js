@@ -22,7 +22,7 @@ QuestionbankSelectDialog = Backbone.View.extend({
                             questions.push(model.id);
                         }
                     }
-                    jQuery.when(window.LearnAjax.get(Utils.getContextPath() + "/services/category/children/withQuestions/", {
+                    jQuery.when(window.LearnAjax.get(Utils.getContextPath() + "/services/category/children/withQuestions/?courseID="+ jQuery("#courseID").val(), {
                         categories:categories.join(';'),
                         questions:questions.join(';')
                     })).done(function (response) {

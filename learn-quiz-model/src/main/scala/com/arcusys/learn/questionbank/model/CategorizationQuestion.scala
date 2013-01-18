@@ -22,6 +22,7 @@ class CategorizationQuestion
   title: String,
   text: String,
   explanationText: String,
-  answers: Seq[CategorizationAnswer]
-  ) extends Question[CategorizationAnswer](7, id, categoryID, title, text, explanationText, answers)
+  answers: Seq[CategorizationAnswer],
+  courseID: Option[Int]
+  ) extends Question[CategorizationAnswer](7, id, categoryID, title, text, explanationText, answers, courseID)
 

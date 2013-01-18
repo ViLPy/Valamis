@@ -1,6 +1,5 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import org.slf4j.LoggerFactory
 
 // Navigation request response model for handling navigation request result
 // taken from Navigation Request Process [NB.2.1] (SN SCORM book)
@@ -13,10 +12,8 @@ case object NavigationResponseWithoutTermination extends NavigationResponse
 case object NavigationResponseWithTermination extends NavigationResponse
 
 object NavigationResponse {
-  private val LOG = LoggerFactory.getLogger(classOf[NavigationResponse])
 
   def invalid(message: String) = {
-    LOG.warn(message)
     NavigationResponseInvalid
   }
 

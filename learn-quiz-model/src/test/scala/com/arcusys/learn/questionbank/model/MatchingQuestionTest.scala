@@ -30,7 +30,8 @@ class MatchingQuestionTest extends FlatSpec with ShouldMatchers {
     title = "Language owners",
     text = "Which languages do these companies owe?",
     explanationText = "Yep, Scala is not owned by these companies",
-    answers = answers
+    answers = answers,
+    courseID =Some(1)
   )
 
   private def checkFields(question: MatchingQuestion, categoryId: Option[Int], answers: Seq[MatchingAnswer]) {

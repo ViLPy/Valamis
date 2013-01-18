@@ -11,6 +11,7 @@ class EmbeddedAnswerQuestion
   categoryID: Option[Int],
   title: String,
   text: String,
-  explanationText: String
-  ) extends Question[Nothing](6, id, categoryID, title, text, explanationText, Nil)
+  explanationText: String,
+  courseID: Option[Int]
+  ) extends Question[Nothing](6, id, categoryID, title, text, explanationText, Nil, courseID)
 

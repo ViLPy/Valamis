@@ -14,7 +14,7 @@ class QuizQuestionTest extends FlatSpec with ShouldMatchers {
     text = "Please answer this text question",
     explanationText = "The correct answer is 'no, really'",
     answers = Seq(new TextAnswer(201, "no, really"), new TextAnswer(202, "you don't say")),
-    isCaseSensitive = false)
+    isCaseSensitive = false, courseID = Some(1))
 
   "Quiz question" can "be constructed" in {
     val question = someQuestion

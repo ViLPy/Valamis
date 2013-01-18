@@ -44,8 +44,8 @@ class ManifestParser(root: Elem, title: String, summary: String) {
       throw new SCORMParserException("Organization referenced by the default attribute of the <organizations> element not found among the <organization> elements while searching by identifier: " + defaultOrganizationIdentifier)
 
     new ManifestDocument(
-      new Manifest(0, manifestVersion, base, scormVersion, defaultOrganizationIdentifier, resourcesBase, title, Some(summary), visibility=true,
-        metadata = if (metadataOption.isDefined && (!metadataOption.get.externalMetadataLocations.isEmpty || !metadataOption.get.inlineMetadata.isEmpty)) metadataOption else None),
+      new Manifest(0, manifestVersion, base, scormVersion, defaultOrganizationIdentifier, resourcesBase, title, Some(summary),
+        metadata = if (metadataOption.isDefined && (!metadataOption.get.externalMetadataLocations.isEmpty || !metadataOption.get.inlineMetadata.isEmpty)) metadataOption else None, courseID = Some(0)),
       organizations, resources, sequencingElements
     )
   }

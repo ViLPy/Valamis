@@ -16,11 +16,14 @@ class QuizService(configuration: BindingModule) extends ServletBase(configuratio
       "title" -> quiz.title,
       "welcomePageContent" -> quiz.welcomePageContent,
       "finalPageContent" -> quiz.finalPageContent,
-      "questionCount" -> quizQuestionStorage.getCount(quiz.id))
+      "questionCount" -> quizQuestionStorage.getCount(quiz.id),
+      "courseID" -> quiz.courseID)
   )
 
   get("/") {
-    jsonModel(quizStorage.getAll)
+    //jsonModel(quizStorage.getAll)
+    val courseID = parameter("courseID").intOption(-1)
+    jsonModel(quizStorage.getByCourseID(courseID))
   }
 
   get("/:id") {
@@ -33,7 +36,8 @@ class QuizService(configuration: BindingModule) extends ServletBase(configuratio
     val description = parameter("description").required
     val welcomePageContent = parameter("welcomePageContent").required
     val finalPageContent = parameter("finalPageContent").required
-    val quizId = quizStorage.createAndGetID(new Quiz(0, title, description, welcomePageContent, finalPageContent))
+    val courseID = parameter("courseID").intOption(-1)
+    val quizId = quizStorage.createAndGetID(new Quiz(0, title, description, welcomePageContent, finalPageContent, courseID))
     jsonModel(quizStorage.getByID(quizId).get)
   }
 
@@ -43,7 +47,7 @@ class QuizService(configuration: BindingModule) extends ServletBase(configuratio
     val description = parameter("description").required
     val welcomePageContent = parameter("welcomePageContent").required
     val finalPageContent = parameter("finalPageContent").required
-    val quiz = new Quiz(id, title, description, welcomePageContent, finalPageContent)
+    val quiz = new Quiz(id, title, description, welcomePageContent, finalPageContent, None)
     quizStorage.modify(quiz)
     jsonModel(quiz)
   }

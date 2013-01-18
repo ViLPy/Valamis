@@ -9,6 +9,7 @@ import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
 import com.arcusys.learn.util.TreeNode
 import java.util.zip.{ZipEntry, ZipFile}
+import com.arcusys.scorm.lms
 
 object PackageProcessor {
   val packageStorage = StorageFactory.packageStorage
@@ -16,16 +17,19 @@ object PackageProcessor {
   val activityStorage = StorageFactory.activityStorage
   val fileStorage = StorageFactory.fileStorage
 
-  def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String) = {
+  def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String, courseID: Option[Int]) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     val packageTempDirectory = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + "/" + packageTmpUUID + "/")
     FileProcessing.unzipFile("imsmanifest.xml", packageTempDirectory, packageZipName)
 
     val root = XML.loadFile(new File(packageTempDirectory + "imsmanifest.xml"))
     val doc = new ManifestParser(root, packageTitle, packageSummary).parse
-    val packageID = packageStorage.createAndGetID(doc.manifest)
+    val packageID = packageStorage.createAndGetID(doc.manifest, courseID)
+    StorageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true);
+    StorageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site,  courseID.map(_.toString), true);
 
-    for (organizationNode <- doc.organizations) {
+
+      for (organizationNode <- doc.organizations) {
       activityStorage.create(packageID, organizationNode.item)
       createActivities(organizationNode.children)
     }

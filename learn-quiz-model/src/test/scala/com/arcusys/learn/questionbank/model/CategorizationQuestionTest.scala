@@ -26,7 +26,8 @@ class CategorizationQuestionTest extends FlatSpec with ShouldMatchers {
     title = "Programming language platforms",
     text = "Which programming language runs on which platform",
     explanationText = "Yes, I know Scala can go both",
-    answers = answers
+    answers = answers,
+    courseID = Some(1)
   )
 
   private def checkFields(question: CategorizationQuestion, categoryId: Option[Int], answers: Seq[CategorizationAnswer]) {

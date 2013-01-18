@@ -13,7 +13,7 @@ CategoryModel = Backbone.Model.extend({
 _.extend(CategoryModel.prototype, {
     storage:{
         create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/", model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/?courseID="+ jQuery("#courseID").val(), model.toJSON());
         },
 
         update:function (model) {

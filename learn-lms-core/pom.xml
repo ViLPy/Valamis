@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
     <artifactId>learn-lms-core</artifactId>
     <name>learn-lms-core</name>
@@ -56,6 +56,24 @@
             <groupId>org.joda</groupId>
             <artifactId>joda-convert</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>portal-service</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>portal-impl</artifactId>
+            <version>6.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
