@@ -19,6 +19,7 @@ class NumericQuestion
   title: String,
   text: String,
   explanationText: String,
-  answers: Seq[NumericAnswer]
+  answers: Seq[NumericAnswer],
+  courseID: Option[Int]
   )
-  extends Question[NumericAnswer](2, id, categoryID, title, text, explanationText, answers)
+  extends Question[NumericAnswer](2, id, categoryID, title, text, explanationText, answers, courseID)

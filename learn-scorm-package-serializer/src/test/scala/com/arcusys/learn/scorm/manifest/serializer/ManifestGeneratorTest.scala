@@ -10,7 +10,7 @@ class ManifestGeneratorTest {
   @Test
   def testManifestGeneratorAndParser() {
     val doc = new ManifestDocument(
-      new Manifest(12, Some("1.1"), Some("data/"), "1.0", Some("orgId1"), Some("base/"), "title", Some("summary")),
+      new Manifest(12, Some("1.1"), Some("data/"), "1.0", Some("orgId1"), Some("base/"), "title", Some("summary"), courseID = Some(0)),
       organizations = Seq(new TreeNode[Activity](new Organization("orgId1", "Test organization"), Nil)),
       resources = Nil, sequencingCollection = Nil
     )

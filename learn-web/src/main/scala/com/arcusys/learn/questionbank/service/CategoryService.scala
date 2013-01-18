@@ -22,13 +22,14 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   import storageFactory._
 
   get("/") {
-    jsonModel(questionCategoryStorage.getAll)
+    val courseID = parameter("courseID").intOption(-1)
+    jsonModel(questionCategoryStorage.getAllByCourseID(courseID))
   }
 
   get("/children/:id") {
     val parentID = parameter("id").intOption(-1)
-    log.debug("Get all child for parent id = " + parentID)
-    jsonModel(questionCategoryStorage.getChildren(parentID))
+    val courseID = parameter("courseID").intOption(-1)
+    jsonModel(questionCategoryStorage.getChildren(parentID, courseID))
   }
 
   get("/children/withQuestions/") {
@@ -36,16 +37,17 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     val questionsIDSet = parameter("questions").required.trim
     val categoriesSet = mutable.LinkedHashSet[QuestionCategory]()
     val questionSet = mutable.LinkedHashSet[Question[Answer]]()
+    val courseID = parameter("courseID").intOption(-1)
     val parentID = 0
 
-    log.debug("Get all child with questions based on categories = [" + categoryIDSet + "] and questions = [" + questionsIDSet + "]")
+    //log.debug("Get all child with questions based on categories = [" + categoryIDSet + "] and questions = [" + questionsIDSet + "]")
 
-    def getQuestions(id: Option[Int]) {
-      questionStorage.getByCategory(id).foreach(question => questionSet.add(question))
+    def getQuestions(id: Option[Int] ) {
+      questionStorage.getByCategory(id, courseID).foreach(question => questionSet.add(question))
     }
 
     def traversal(id: Option[Int]) {
-      questionCategoryStorage.getChildren(id).foreach(cat => {
+      questionCategoryStorage.getChildren(id, courseID).foreach(cat => {
         categoriesSet.add(cat)
         traversal(Some(cat.id))
       }
@@ -54,12 +56,12 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     }
 
     if (!questionsIDSet.isEmpty) {
-      log.debug("> Fetching questions")
+      //log.debug("> Fetching questions")
       questionsIDSet.split(';').foreach(questionID => questionSet.add(questionStorage.getByID(questionID.toInt).get))
     }
 
     if (!categoryIDSet.isEmpty) {
-      log.debug("> Fetching categories")
+      //log.debug("> Fetching categories")
       categoryIDSet.split(';').foreach(catID => {
         val id = if (catID.toInt == -1) None else Some(catID.toInt)
         if (id != None) categoriesSet.add(questionCategoryStorage.getByID(catID.toInt).get)
@@ -75,8 +77,9 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     val title = parameter("title").required
     val description = parameter("description").required
     val parentID = parameter("parentID").intOption(-1)
-    log.debug("Creating category(" + title + ", " + description + ", " + parentID + ")")
-    val id = questionCategoryStorage.createAndGetID(new QuestionCategory(0, title, description, parentID))
+    val courseID =  parameter("courseID").intOption(-1)
+    //log.debug("Creating category(" + title + ", " + description + ", " + parentID + ")")
+    val id = questionCategoryStorage.createAndGetID(new QuestionCategory(0, title, description, parentID, courseID))
     jsonModel(questionCategoryStorage.getByID(id))
   }
 
@@ -85,7 +88,7 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     val title = parameter("title").required
     val description = parameter("description").required
 
-    log.debug("Updating category(" + id + ", " + title + ", " + description + ")")
+    //log.debug("Updating category(" + id + ", " + title + ", " + description + ")")
     questionCategoryStorage.modify(id, title, description)
     jsonModel(questionCategoryStorage.getByID(id))
   }
@@ -104,7 +107,7 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     val parentID = if (siblingID != None) questionCategoryStorage.getByID(targetID.get).getOrElse(halt(404, "Can't find category")).parentID
     else if (itemType != "entity") targetID
     else questionStorage.getByID(targetID.get).getOrElse(halt(404, "Can't find question")).categoryID
-    log.debug("Moving category " + id + " with parentID=" + parentID + " siblingID=" + siblingID + " moving after sibling=" + moveAfterTarget)
+    //log.debug("Moving category " + id + " with parentID=" + parentID + " siblingID=" + siblingID + " moving after sibling=" + moveAfterTarget)
     questionCategoryStorage.move(id, parentID, siblingID, moveAfterTarget)
     jsonModel(questionCategoryStorage.getByID(id))
 

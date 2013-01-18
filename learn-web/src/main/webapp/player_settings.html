@@ -1,0 +1,90 @@
+<html>
+<head>
+<title>Settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript">
+        var jQuerySettings = jQuery.noConflict();
+        var scormPackageScopeRules = new ScopeRuleModelCollection();
+        var scormPlayerSettingsLanguageData = {};
+
+        jQuerySettings(function () {
+            var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onPlayerSettingsLanguageLoad, onPlayerSettingsLanguageError);
+        });
+
+        function onPlayerSettingsLanguageLoad(properties) {
+            scormPlayerSettingsLanguageData = properties;
+            initPlayerSettings();
+        }
+
+        function onPlayerSettingsLanguageError() {
+            alert('Translation resource loading failed!');
+        }
+
+
+        function initPlayerSettings(){
+            var selected = jQuerySettings("#selectedScope").val();
+            jQuerySettings("#scopeOptions").val(selected);
+            var loader = new TemplateLoader(jQuerySettings.proxy(function () {
+                var packageScopeRuleView = new PlayerSettingsListView({el:jQuerySettings("#packageScopeRuleList"), collection:scormPackageScopeRules, language:scormPlayerSettingsLanguageData});
+                jQuerySettings("#playerSettingsSearch").keyup(function () {
+                    packageScopeRuleView.filterPackages(jQuerySettings("#playerSettingsSearch").val());
+                });
+                scormPackageScopeRules.fetch();
+            }, this));
+            loader.fetch("templates/player_settings_templates.html");
+
+        }
+
+
+        function savePlayerScope(){
+            jQuery.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: Utils.getContextPath() + "/services/packages/updatePlayerScope",
+                data: {playerID: jQuerySettings("#playerID").val(),
+                    scope: jQuerySettings("#scopeOptions").val()},
+                success: function(){
+                    // scormPackageScopeRules.storage.findAll();
+                    scormPackageScopeRules.fetch();
+                }
+                //fail: function(){ alert("{{courseDataFail}}"); }
+            });
+        }
+    </script>
+</head>
+<body id="SCORMBankLayout">
+<div class="projectLearnGeneric" id="projectLearnGeneric">
+    <div class="SCORMTitle">{{settingsSubTitleLabel}}</div>
+    <br clear="all"/>
+
+    <div class="SCORMWell">
+        <div style="float: left">
+            <input placeholder="{{searchPlaceholderLabel}}" type="text" id="playerSettingsSearch" class="SCORMSearch"/>
+        </div>
+        <div style="float: left; margin-left: 10px">
+            <select id="scopeOptions" onchange="savePlayerScope()" class="ScopeSelect">
+                <option value="instanceScope">{{instanceScope}}</option>
+                <option value="siteScope">{{siteScope}}</option>
+                <option value="pageScope">{{pageScope}}</option>
+                <option value="playerScope">{{playerScope}}</option>
+            </select>
+        </div>
+        <br style="clear: both"/>
+
+        <div id="packageScopeRuleList" class="SCORMPackageList"></div>
+    </div>
+
+</div>
+
+
+
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="pageID" value="{{pageID}}"/>
+<input type="hidden" id="selectedScope" value="{{selectedScope}}"/>
+<input type="hidden" id="playerID" value="{{playerID}}"/>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+</html>

@@ -1,12 +1,10 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model._
-import org.slf4j.LoggerFactory
 import com.arcusys.learn.scorm.manifest.model.{Objective, LeafActivity}
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
 
 class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivityState])(implicit val bindingModule: BindingModule) extends Injectable {
-  private val LOG = LoggerFactory.getLogger(classOf[DataModelLMSBehavior])
 
   def getCompletionThreshold: Option[String] = {
     currentActivity match {

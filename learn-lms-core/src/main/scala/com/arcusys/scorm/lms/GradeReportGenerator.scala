@@ -16,16 +16,21 @@ class GradeReportGenerator {
     val responseTypes = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.type")
     val responses = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.learner_response")
     val texts = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.description")
+    val score = dataModelStorage.getValuesByKey(attempt.id, "cmi.score.scaled")
+    val essayComment = dataModelStorage.getValuesByKey(attempt.id, "cmi.essay_comment")
     val tree = activityTreeStorage.get(attempt.id)
 
     def parseActivity(activity: TreeNode[Activity]): GradeReportNode = activity.item match {
-      case organization: Organization => new GradeReportRoot(organization, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity)
-      case container: ContainerActivity => new GradeReportBranch(container, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity)
+      case organization: Organization => new GradeReportRoot(organization, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity,
+        if(essayComment.get(organization.id)!=None) essayComment.get(organization.id).get.get else "", attempt.packageID)
+      case container: ContainerActivity => new GradeReportBranch(container, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity,
+        if(essayComment.get(container.id)!=None) essayComment.get(container.id).get.get else "", attempt.packageID)
       case leaf: LeafActivity => new GradeReportLeaf(leaf,
-        grades.get(leaf.id).getOrElse(None) match {
-          case Some("passed") => Some(true)
-          case Some("failed") => Some(false)
-          case _ => None
+        if (grades.isEmpty || grades.get(leaf.id) == None || grades.get(leaf.id).get.get.equals("unknown")){
+          None
+        }
+        else {
+          Some(score.get(leaf.id).get.get.toDouble)
         },
         texts.get(leaf.id).getOrElse(None),
         responseTypes.get(leaf.id).getOrElse(None) match {
@@ -39,7 +44,9 @@ class GradeReportGenerator {
             }
             case _ => false
           }
-        })
+        },
+        if(essayComment.get(leaf.id)!=None) essayComment.get(leaf.id).get.get else "",
+        attempt.packageID)
     }
     parseActivity(activityStorage.getOrganizationTree(attempt.packageID, organizationID))
   }

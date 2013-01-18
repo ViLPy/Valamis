@@ -6,7 +6,9 @@ import com.arcusys.learn.storage.impl.orbroker._
 import org.orbroker.Row
 
 class QuestionCategoryStorageImpl extends KeyedEntityStorageImpl[QuestionCategory]("QuestionCategory", "id") with QuestionCategoryStorage {
-  def getChildren(parentID: Option[Int]) = getAll("parentID" -> parentID.getOrElse(-1))
+  def getChildren(parentID: Option[Int], courseID:Option[Int]) = getAll("parentID" -> parentID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
+
+  def getAllByCourseID(courseID: Option[Int]) = getAll("courseID" -> courseID.getOrElse(-1))
 
   override def createAndGetID(entity: QuestionCategory): Int = createAndGetID(entity, "parentID" -> entity.parentID)
 
@@ -22,6 +24,7 @@ class QuestionCategoryStorageImpl extends KeyedEntityStorageImpl[QuestionCategor
     row.integer("id").get,
     row.string("title").get,
     row.string("description").get,
-    row.integer("parentID")
+    row.integer("parentID"),
+    row.integer("courseID")
   )
 }

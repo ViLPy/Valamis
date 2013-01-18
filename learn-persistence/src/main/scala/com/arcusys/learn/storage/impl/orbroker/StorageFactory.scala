@@ -15,6 +15,8 @@ import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, Ac
 import org.postgresql.ds.PGPoolingDataSource
 import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.filestorage.storage.impl.orbroker.FileStorageImpl
+import com.arcusys.learn.scorm.course.impl.orbroker.{PlayerScopeRuleStorageImpl, CourseStorageImpl}
+import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
 
 
 object StorageFactory extends StorageFactoryContract
@@ -38,6 +40,10 @@ object StorageFactory extends StorageFactoryContract
   lazy val activityStateTreeStorage: ActivityStateTreeStorage = new ActivityStateTreeStorageImpl
   lazy val activityStateStorage: ActivityStateStorage = new ActivityStateStorageImpl
   lazy val fileStorage: FileStorage = new FileStorageImpl
+  lazy val courseStorage: CourseStorage = new CourseStorageImpl
+  lazy val packageScopeRuleStorage: PackageScopeRuleStorage = new PackageScopeRuleStorageImpl
+  lazy val playerScopeRuleStorage: PlayerScopeRuleStorage = new PlayerScopeRuleStorageImpl
+
 
   def renewWholeStorage() {
     packageStorage.asInstanceOf[PackagesStorageImpl].renew()
@@ -54,6 +60,9 @@ object StorageFactory extends StorageFactoryContract
     dataModelStorage.asInstanceOf[DataModelStorageImpl].renew()
     activityStateTreeStorage.asInstanceOf[ActivityStateTreeStorageImpl].renew()
     fileStorage.asInstanceOf[FileStorageImpl].renew()
+    courseStorage.asInstanceOf[CourseStorageImpl].renew()
+    packageScopeRuleStorage.asInstanceOf[PackageScopeRuleStorageImpl].renew()
+    playerScopeRuleStorage.asInstanceOf[PlayerScopeRuleStorageImpl].renew()
   }
 
   def dbType:String = BrokerFactory.broker.dataSource match {

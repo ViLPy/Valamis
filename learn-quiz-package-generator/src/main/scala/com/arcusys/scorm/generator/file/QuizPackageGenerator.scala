@@ -30,10 +30,10 @@ class QuizPackageGenerator(quiz: Quiz) {
 
   private val organizationId = "orgId1"
 
-  def generateZip = {
+  def generateZip(courseID:Option[Int]) = {
     val zipName = FileProcessing.getTempFileName("Quiz" + quiz.id.toString, ".zip")
     val zip = new ZipFile(FileSystemUtil.getRealTmpDir + zipName)
-    zip.addEntry("imsmanifest.xml", generateManifest.toString())
+    zip.addEntry("imsmanifest.xml", generateManifest(courseID).toString())
     scoData.foreach(file => zip.addEntry("data/" + file._1 + ".html", file._2))
     commonResourceURLs.foreach(filename => zip.addFile(getResourceStream("common/" + filename), "data/" + filename))
     resourceFiles.foreach(filename => {
@@ -45,7 +45,7 @@ class QuizPackageGenerator(quiz: Quiz) {
     zipName
   }
 
-  private def generateManifest = {
+  private def generateManifest(courseID:Option[Int]) = {
     val organization = new Organization(organizationId, quiz.title)
 
     val welcomePage = if (quiz.welcomePageContent.nonEmpty) Seq(generateStaticPage("welcome", "Welcome page", quiz.welcomePageContent)) else Seq()
@@ -55,7 +55,7 @@ class QuizPackageGenerator(quiz: Quiz) {
     // add common files to package and manifest
     resourceBuffer += new AssetResource(scormDependencyID, None, Some("base/"), commonResourceURLs.map(new ResourceFile(_)), Nil)
     val doc = new ManifestDocument(
-      new Manifest(quiz.id, Some("1.1"), Some("data/"), "2004 4th Edition", Some(organizationId), None, quiz.title),
+      new Manifest(quiz.id, Some("1.1"), Some("data/"), "2004 4th Edition", Some(organizationId), None, quiz.title, courseID=courseID),
       organizations = Seq(new TreeNode[Activity](organization, data)),
       resources = resourceBuffer.toSeq, sequencingCollection = Nil
     )

@@ -7,6 +7,7 @@ import com.arcusys.learn.storage.impl.orbroker.ParameterizedUnitTests
 import runner.RunWith
 import runners.Parameterized
 import scala.Some
+import scala.Some
 
 @RunWith(value = classOf[Parameterized])
 class ActivitiesStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
@@ -26,7 +27,7 @@ class ActivitiesStorageTest(dbFileName: String) extends ParameterizedUnitTests(d
 
   @Test
   def canCreate() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title"))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0)  ))
     activitiesStorage.create(testPackageId, new Organization("Organization1", "Test organization 1"))
     activitiesStorage.create(testPackageId, new ContainerActivity("container1", "Test container", "Organization1", "Organization1"))
     activitiesStorage.create(testPackageId, new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param")))
@@ -35,7 +36,7 @@ class ActivitiesStorageTest(dbFileName: String) extends ParameterizedUnitTests(d
 
   @Test
   def canGetByID() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title"))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
     activitiesStorage.create(testPackageId, new Organization("Organization1", "Test organization 1"))
 
     val newContainer = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
@@ -57,7 +58,7 @@ class ActivitiesStorageTest(dbFileName: String) extends ParameterizedUnitTests(d
   @Test
   def canGetAllByParam() {
     //TODO: bad metadata
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title"))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
     activitiesStorage.create(testPackageId, new Organization("Organization1", "Test organization 1"))
     activitiesStorage.create(testPackageId, new Organization("Organization2", "Test organization 2"))
     activitiesStorage.create(testPackageId, new ContainerActivity("container1", "Test container", "Organization1", "Organization1"))
@@ -115,7 +116,7 @@ class ActivitiesStorageTest(dbFileName: String) extends ParameterizedUnitTests(d
       preConditionRules = preRules, postConditionRules = postRules, exitConditionRules = exitRules, rollupRules = Seq(rollupRule)
     )
 
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title"))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
     activitiesStorage.create(testPackageId, new Organization("Organization1", "Test organization 1"))
     activitiesStorage.create(testPackageId, new ContainerActivity("container1", "Test container", "Organization1", "Organization1"))
     activitiesStorage.create(testPackageId, new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"), sequencing = sequencing))

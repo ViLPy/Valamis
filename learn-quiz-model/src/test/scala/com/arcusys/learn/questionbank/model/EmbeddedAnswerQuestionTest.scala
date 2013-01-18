@@ -12,7 +12,8 @@ class EmbeddedAnswerQuestionTest extends FlatSpec with ShouldMatchers {
       categoryID = Some(2),
       title = "Embed",
       text = "Embed something",
-      explanationText = "Nobody knows what this is"
+      explanationText = "Nobody knows what this is",
+      courseID = Some(1)
     )
     question.questionTypeCode should equal(6)
     question.id should equal(1)
@@ -28,7 +29,8 @@ class EmbeddedAnswerQuestionTest extends FlatSpec with ShouldMatchers {
       categoryID = None,
       title = "Embed",
       text = "Embed something",
-      explanationText = "Nobody knows what this is"
+      explanationText = "Nobody knows what this is",
+      courseID = Some(1)
     )
     question.questionTypeCode should equal(6)
     question.id should equal(1)

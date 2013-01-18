@@ -15,4 +15,5 @@ class QuizQuestion(val id: Int,
                    val categoryID: Option[Int],
                    val question: Option[Question[Answer]],
                    val title: Option[String],
-                   val url: Option[String])
+                   val url: Option[String]
+                   )

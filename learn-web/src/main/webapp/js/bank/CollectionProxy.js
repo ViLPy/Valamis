@@ -76,11 +76,12 @@ QuestionBankCollectionProxy = Backbone.Collection.extend({
 
     //+fetching
     getChildCategories:function (id) {
-        return window.LearnAjax.get(Utils.getContextPath() + "services/category/children/" + id);
+        return window.LearnAjax.get(Utils.getContextPath() + "services/category/children/" + id + "?courseID="+jQuery("#courseID").val());
     },
 
     getChildQuestions:function (id) {
-        return window.LearnAjax.get(Utils.getContextPath() + "services/question/children/" + id);
+        return window.LearnAjax.get(Utils.getContextPath() + "services/question/children/" + id + "?courseID="+jQuery("#courseID").val());
+        return window.LearnAjax.get(Utils.getContextPath() + "services/question/children/" + id+"?courseID="+jQuery("#courseID").val());
     },
 
     fetchForParent:function (id) {

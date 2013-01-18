@@ -12,5 +12,6 @@ class QuestionCategory
   val id: Int,
   val title: String,
   val description: String,
-  val parentID: Option[Int]
+  val parentID: Option[Int],
+  val courseID: Option[Int]
   )

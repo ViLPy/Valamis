@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
     <artifactId>learn-scorm-tracking-model</artifactId>
     <name>learn-scorm-tracking-model</name>
@@ -41,11 +41,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-model</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
         </dependency>
     </dependencies>
     <build>

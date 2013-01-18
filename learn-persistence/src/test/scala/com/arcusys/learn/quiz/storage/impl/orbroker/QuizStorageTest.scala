@@ -23,14 +23,14 @@ class QuizStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileN
 
   @Test
   def canCreate() {
-    quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final"))
-    quizStorage.createAndGetID(new Quiz(1, "title2", "description2", "welcome", "final"))
+    quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None))
+    quizStorage.createAndGetID(new Quiz(1, "title2", "description2", "welcome", "final", None))
     assertEquals(2, quizStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val testQuizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final"))
+    val testQuizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None))
     val fetchedQuiz = quizStorage.getByID(testQuizId).get
     assertEquals("title1", fetchedQuiz.title)
     assertEquals("description1", fetchedQuiz.description)
@@ -38,17 +38,17 @@ class QuizStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileN
 
   @Test
   def canUpdate() {
-    val testQuizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final"))
-    quizStorage.modify(new Quiz(testQuizId, "titleTest", "description1", "welcome", "final"))
+    val testQuizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None))
+    quizStorage.modify(new Quiz(testQuizId, "titleTest", "description1", "welcome", "final", None))
     val fetchedQuiz = quizStorage.getByID(testQuizId).get
     assertEquals("titleTest", fetchedQuiz.title)
   }
 
   @Test
   def canDelete() {
-    quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final"))
-    quizStorage.createAndGetID(new Quiz(1, "title2", "description2", "welcome", "final"))
-    val testQuizId = quizStorage.createAndGetID(new Quiz(2, "title2", "description", "welcome", "final"))
+    quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None))
+    quizStorage.createAndGetID(new Quiz(1, "title2", "description2", "welcome", "final", None))
+    val testQuizId = quizStorage.createAndGetID(new Quiz(2, "title2", "description", "welcome", "final", None))
 
     assertEquals(3, quizStorage.getAll.size)
 

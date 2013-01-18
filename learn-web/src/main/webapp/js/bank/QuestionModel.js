@@ -101,7 +101,7 @@ QuestionModel = Backbone.Model.extend({
 _.extend(QuestionModel.prototype, {
     storage:{
         create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/", model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/?courseID="+jQuery("#courseID").val(), model.toJSON());
         },
 
         update:function (model) {

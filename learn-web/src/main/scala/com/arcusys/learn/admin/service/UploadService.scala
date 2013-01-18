@@ -28,13 +28,13 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val groupID = parameter("liferayGroupID").withDefault("-1").toLong
     val packageTmpUUID = FileProcessing.getTempFileName()
     val newFilename = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
-
+    val courseID = parameter("courseID").intOption(-1)
     val outFile = new File(newFilename)
     val outStream = new FileOutputStream(outFile)
     FileProcessing.copyInputStream(stream, outStream)
 
     contentType = "text/plain"
-    val packageID = PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID)
+    val packageID = PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
     if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
     packageID
   }

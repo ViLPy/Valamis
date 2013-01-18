@@ -21,7 +21,8 @@ class MatchingQuestion
   title: String,
   text: String,
   explanationText: String,
-  answers: Seq[MatchingAnswer]
+  answers: Seq[MatchingAnswer],
+  courseID: Option[Int]
   )
-  extends Question[MatchingAnswer](4, id, categoryID, title, text, explanationText, answers)
+  extends Question[MatchingAnswer](4, id, categoryID, title, text, explanationText, answers, courseID)
 

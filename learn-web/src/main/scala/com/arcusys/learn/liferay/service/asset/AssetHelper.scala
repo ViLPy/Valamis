@@ -13,7 +13,9 @@ object AssetHelper {
 
   def deletePackage(entryID: Long) {
     val indexer = IndexerRegistryUtil.getIndexer(classOf[Manifest])
-    indexer.delete(StorageFactory.packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
+    val a = StorageFactory.packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!"))
+    //indexer.delete(StorageFactory.packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
+    indexer.delete(a)
     AssetEntryLocalServiceUtil.deleteAssetEntry(entryID)
   }
 

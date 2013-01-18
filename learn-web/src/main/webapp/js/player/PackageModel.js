@@ -2,7 +2,8 @@ PlayerPackageModel = Backbone.Model.extend({
     defaults:{
         title:"",
         summary:"",
-        version:"2004 4th Edition"
+        version:"2004 4th Edition",
+        visibility: true
     }
 });
 
@@ -27,7 +28,7 @@ PlayerPackageModelCollection = Backbone.Collection.extend({
 
     storage:{
         findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/");
+            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages" + "?courseID=" + jQuery("#courseID").val()+ "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val());
         }
     }
 });

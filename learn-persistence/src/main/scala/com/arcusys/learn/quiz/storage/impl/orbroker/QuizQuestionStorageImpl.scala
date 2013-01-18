@@ -11,7 +11,8 @@ class QuizQuestionStorageImpl extends KeyedEntityStorageImpl[QuizQuestion]("Quiz
 
   def getCount(quizID: Int): Int = getAll("quizID" -> quizID).size
 
-  def getByCategory(quizID: Int, categoryID: Option[Int]) = getAll("quizID" -> quizID, "categoryID" -> categoryID.getOrElse(-1))
+  def getByCategory(quizID: Int, categoryID: Option[Int]) =
+    getAll("quizID" -> quizID, "categoryID" -> categoryID.getOrElse(-1))
 
   def modifyExternal(id: Int, title:String, url: String) {
     modify("id" -> id, "title" -> title, "url" -> url)

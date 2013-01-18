@@ -26,7 +26,8 @@ class ChoiceQuestionTest extends FlatSpec with ShouldMatchers {
     text = "Which programming language is good",
     explanationText = "You know why",
     answers = answers,
-    forceCorrectCount = false
+    forceCorrectCount = false,
+    courseID = Some(1)
   )
 
   private def checkFields(question: ChoiceQuestion, categoryId: Option[Int], answers: Seq[ChoiceAnswer]) {

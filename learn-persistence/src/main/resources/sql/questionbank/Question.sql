@@ -10,4 +10,11 @@ AND id = :id
     AND categoryID = :categoryID
     </#if>
 </#if>
+<#if courseID??>
+  <#if courseID == -1>
+    AND courseID is null
+    <#else>
+    AND (courseID = :courseID OR   courseID is null)
+    </#if>
+</#if>
 ORDER BY "position",id

@@ -15,6 +15,7 @@ CREATE TABLE Question
   isCaseSensitive boolean,
   questionType integer,
   "position" integer,
+  courseID integer,
   CONSTRAINT Question_pk PRIMARY KEY (id)
 <#if dbType=="postgres">
 ) WITH (

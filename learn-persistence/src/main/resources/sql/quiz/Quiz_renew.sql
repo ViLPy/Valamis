@@ -11,6 +11,7 @@ CREATE TABLE Quiz
   description text,
   welcomePageContent text,
   finalPageContent text,
+  courseID integer,
   CONSTRAINT Quiz_pk PRIMARY KEY (id)
 <#if dbType=="postgres">
 ) WITH (

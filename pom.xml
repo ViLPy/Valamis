@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2.1</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
@@ -26,9 +26,9 @@
         </snapshotRepository>
     </distributionManagement>
     <scm>
-        <connection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/trunk</connection>
-        <developerConnection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/trunk</developerConnection>
-        <url>https://dev-1.arcusys.fi/fisheye/project/CR-LEARN</url>
+        <connection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.2.1</connection>
+        <developerConnection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.2.1</developerConnection>
+        <url>https://dev-1.arcusys.fi/fisheye/project/CR-LEARN/tags/1.2.1</url>
     </scm>
 
     <modules>
@@ -83,14 +83,7 @@
         <repository>
             <id>scala-tools.org</id>
             <name>Scala-Tools Maven2 Repository</name>
-            <url>http://scala-tools.org/repo-releases</url>
-        </repository>
-        <repository>
-            <id>nexus.scala-tools.org</id>
-            <url>http://nexus.scala-tools.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>arcusys-public-repositories</id>

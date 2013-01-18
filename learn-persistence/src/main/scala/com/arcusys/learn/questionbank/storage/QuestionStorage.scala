@@ -11,8 +11,9 @@ trait QuestionStorage
   /**
    * Get list of questions for given category in user-defined order
    * @param categoryID ID of category to get questions for, or None to get list of questions in root of bank
+   * @param courseID ID of liferay site to get questions for, or None to get list of questions in root of bank
    */
-  def getByCategory(categoryID: Option[Int]): Seq[Question[Answer]]
+  def getByCategory(categoryID: Option[Int], courseID: Option[Int]): Seq[Question[Answer]]
 
   /**
    * Create a new question in storage

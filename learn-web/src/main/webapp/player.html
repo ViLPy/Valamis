@@ -66,16 +66,16 @@
 
         function initPlayerView() {
             var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
-                scormPlayer = new PlayerView({el:jQuery1816Player("#SCORMPlayerView"), language:scormPlayerLanguageData});
-                jQuery1816Player("#SCORMPlayerView").hide();
+                scormPlayer = new PlayerView({el:jQuery1816Player(getId("SCORMPlayerView")), language:scormPlayerLanguageData});
+                jQuery1816Player(getId("SCORMPlayerView")).hide();
                 scormPlayer.on('exit', exit);
                 scormPlayer.on('suspend', suspend);
                 scormPlayer.on('endSession', togglePlayer);
                 window.scormPlayerView = scormPlayer;
 
-                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packagePlayerList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
-                jQuery1816Player("#packageSearch").keyup(function () {
-                    scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
+                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player(getId("packagePlayerList")), collection:scormPlayerPackages, language:scormPlayerLanguageData});
+                jQuery1816Player(getId("packageSearch")).keyup(function () {
+                    scormPlayerPackagesView.filterPackages(jQuery1816Player(getId("packageSearch")).val());
                 });
                 scormPlayerPackagesView.on('start', startPackage);
                 scormPlayerPackagesView.on('resume', resumePackage);
@@ -85,28 +85,67 @@
                         startPackage(scormPlayerPackages.get(packageToOpen));
                     }
                 }, this)});
+
+                packageStart(jQuery(getId("packageId")).val(),jQuery(getId("packageTitle")).val())
             }, this));
             loader.fetch("templates/player_templates.html");
+
         }
 
         function suspend() {
+            clearSessionParameters();
             scormPlayerPackagesView.reloadPackageList();
             togglePlayer();
         }
 
         function exit() {
+            clearSessionParameters();
             scormPlayerPackagesView.reloadPackageList();
         }
 
         function startPackage(data) {
-            scormPlayer.setName(data.get('title'));
-            scormPlayer.load(data.id);
-            togglePlayer();
+            var packageTitle = data.get('title');
+            var packageId = data.id;
+            saveSessionParameters(packageId, packageTitle);
+            packageStart(packageId,  packageTitle)
+        }
+        function packageStart(packageId, packageTitle) {
+            if(packageId){
+                scormPlayer.setName(packageTitle);
+                scormPlayer.load(packageId);
+                togglePlayer();
+            }
         }
 
-        function resumePackage(data) {
-            scormPlayer.setName(data.get('title'));
-            scormPlayer.loadAndResume(data.id);
+
+        function saveSessionParameters(id, title) {
+            jQuery.ajax({
+                type: 'POST',
+                url: jQuery(getId("SCORMContextPath")).val()+"/setSession",
+                data: {id:id, title:title},
+                dataType: "json"
+            });
+        }
+        function clearSessionParameters() {
+            jQuery.ajax({
+                type: 'GET',
+                url: jQuery(getId("SCORMContextPath")).val()+"/clearSession"
+            });
+        }
+
+
+
+      function resumePackage(data) {
+            var packageTitle = data.get('title');
+            var packageId = data.id;
+            saveSessionParameters(packageId, packageTitle);
+            scormPlayer.setName(packageTitle);
+            scormPlayer.loadAndResume(packageId);
+            var packageTitle = data.get('title');
+            var packageId = data.id;
+            saveSessionParameters(packageId, packageTitle);
+            scormPlayer.setName(packageTitle);
+            scormPlayer.loadAndResume(packageId);
             togglePlayer();
         }
 
@@ -121,8 +160,12 @@
         }
 
         function togglePlayer() {
-            jQuery1816Player("#SCORMPlayerContainer").toggle();
-            jQuery1816Player("#SCORMPlayerView").toggle();
+            jQuery1816Player(getId("SCORMPlayerContainer")).toggle();
+            jQuery1816Player(getId("SCORMPlayerView")).toggle();
+        }
+
+        function getId(id){
+            return "#"+id;
         }
     </script>
 </head>
@@ -144,5 +187,10 @@
     <div id="SCORMPlayerView"></div>
 </div>
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<input type="hidden" id="packageId" value="{{packageId}}"/>
+<input type="hidden" id="packageTitle" value="{{packageTitle}}"/>
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="pageID" value="{{pageID}}"/>
+<input type="hidden" id="playerID" value="{{playerID}}"/>
 </body>
 </html>

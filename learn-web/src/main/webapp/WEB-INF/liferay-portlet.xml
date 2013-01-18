@@ -8,6 +8,7 @@
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
         <show-portlet-access-denied>false</show-portlet-access-denied>
+        <instanceable>false</instanceable>
         <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/scorm_admin.css</header-portlet-css>
@@ -30,6 +31,8 @@
         <header-portlet-javascript>/js/player/PackageModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/player/PackageView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/player/PlayerView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/player/ScopeRuleModel.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/player/SettingsView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/lms/validator.js</header-portlet-javascript>
@@ -50,7 +53,7 @@
         <friendly-url-mapping>test-web</friendly-url-mapping>
         <control-panel-entry-category>content</control-panel-entry-category>
         <control-panel-entry-weight>17.5</control-panel-entry-weight>
-        <asset-renderer-factory>com.arcusys.learn.liferay.service.SCORMPackageAssetRendererFactory
+        <asset-renderer-factory>com.arcusys.learn.liferay.SCORMPackageAssetRendererFactory
         </asset-renderer-factory>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>

@@ -23,10 +23,17 @@ The solution will be further developed to support the full set of requirements f
 ###Post-deployment process
 After deployment you just need to configure DB. This can be done from SCORMPlayer portlet preferences or if working as servlets by opening '/ScormAdmin'.
 In Learn 1.2 there will be additional default H2 database so application will work out of the box without DB configuring.
+In Learn 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
 
 ###Known issues
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 1.2.1 Update: 18.01.2013
+ - Implemented Scope to all portlets
+ - Added possibility to add comment and grade for essay and whole course
+ - Player continue playing course at the same location when user reload page
+ 
 
 ## Version 1.2. Update: 07.11.2012
  - Out of the box H2 database

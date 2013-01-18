@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
     <artifactId>learn-persistence</artifactId>
     <name>learn-persistence</name>
@@ -57,11 +57,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-util</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

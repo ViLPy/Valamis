@@ -3,7 +3,7 @@ package com.arcusys.learn.web
 import org.scalatra.ScalatraServlet
 import com.arcusys.scala.scalatra.json.JsonSupport
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
-import org.slf4j.LoggerFactory
+//import org.slf4j.LoggerFactory
 import com.arcusys.learn.storage.StorageFactoryContract
 
 abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet with JsonSupport with Injectable {
@@ -24,7 +24,7 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
   }
 
   implicit val bindingModule = configuration
-  val log = LoggerFactory.getLogger(this.getClass)
+  //val log = LoggerFactory.getLogger(this.getClass)
   val storageFactory = inject[StorageFactoryContract]
 
   class ParameterBase(name: String) {

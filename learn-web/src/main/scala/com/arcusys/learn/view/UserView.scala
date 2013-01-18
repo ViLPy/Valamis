@@ -9,6 +9,11 @@ import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
 import com.arcusys.learn.liferay.service.PackageIndexer
 import com.liferay.portlet.PortletURLUtil
+import com.liferay.portal.util.PortalUtil
+import com.liferay.portal.kernel.util.WebKeys
+import com.liferay.portal.theme.ThemeDisplay
+import com.arcusys.learn.scorm.manifest.model.ScopeType
+import com.liferay.portal.service.LayoutLocalServiceUtil
 
 class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
   override def destroy() {}
@@ -22,41 +27,56 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     }
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
-    val translations = try {
-      getTranslation("/i18n/player_" + language)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/player_en")
-      case _ => Map[String, String]()
-    }
+    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val data = Map("contextPath" -> request.getContextPath,
       "entryID" -> request.getParameter("entryID"),
       "userID" -> userUID,
       "userName" -> LiferayHelpers.getUserName(request),
       "isAdmin" -> request.isUserInRole("administrator"),
       "language" -> language,
-      "isPortlet" -> true) ++ translations
-    out.println(generateResponse(data, "player.html"))
+      "packageId"->  httpServletRequest.getSession.getAttribute("packageId"),
+      "packageTitle"->  httpServletRequest.getSession.getAttribute("packageTitle"),
+      "isPortlet" -> true,
+      "courseID" -> themeDisplay.getLayout.getGroupId,
+      "pageID" -> themeDisplay.getLayout.getPrimaryKey,
+      "playerID"-> request.getWindowID) ++ getPlayerTranslations(language)
+    out.println(mustache(data, "player.html"))
   }
 
-  get("/") {
-    val lang = "en"
-    val userUID = "12345"
-    userStorage.getByID(userUID.toInt).getOrElse(userStorage.createAndGetID(User(userUID.toInt, "John Doe")))
-    val translations = try {
-      getTranslation("/i18n/player_" + lang)
+  def getPlayerTranslations(language: String) ={
+    try {
+      getTranslation("/i18n/player_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/player_en")
       case _ => Map[String, String]()
     }
-    val data = Map("contextPath" -> servletContext.getContextPath,
-      "userID" -> userUID,
-      "isAdmin" -> false,
-      "language" -> lang,
-      "isPortlet" -> false) ++ translations
-    "<div class='portlet-learn-scorm'>" + generateResponse(data, "player.html") + "</div>"
   }
 
-  def generateResponse(data: Map[String, Any], templateName: String) = {
-    mustache(data, templateName)
+  override def doEdit(request: RenderRequest, response: RenderResponse){
+    val out = response.getWriter
+    val language = LiferayHelpers.getLanguage(request)
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val rule = StorageFactory.playerScopeRuleStorage.get(request.getWindowID)
+    val scope = if (rule == None) ScopeType.Site else rule.get.scope
+
+    val data = Map("contextPath" -> request.getContextPath,
+      "courseID" -> themeDisplay.getLayout.getGroupId,
+      "pageID"-> themeDisplay.getLayout.getPrimaryKey,
+      "language" -> language,
+      "selectedScope"-> scope,
+      "playerID"-> request.getWindowID) ++ getPlayerTranslations(language)
+    out.println(mustache(data, "player_settings.html"))
+  }
+
+  post("/setSession"){
+    val id = params("id")
+    val title = params("title")
+    request.getSession.setAttribute("packageId",id)
+    request.getSession.setAttribute("packageTitle",title)
+  }
+  get("/clearSession"){
+    request.getSession.removeAttribute("packageId")
+    request.getSession.removeAttribute("packageTitle")
   }
 }
