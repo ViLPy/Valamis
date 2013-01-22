@@ -4,7 +4,7 @@ The project is an implementation of the SCORM set of standards for e-learning fo
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
-The current implementation is able do display SCORM content with respect towards the different content organizations and the activity structure in each organization.
+The current implementation is able to display SCORM content with respect towards the different content organizations and the activity structure in each organization.
 Application includes a question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.)
 
 Administrative features let you manage SCORM packages, uploading the them in standard zipped format.
