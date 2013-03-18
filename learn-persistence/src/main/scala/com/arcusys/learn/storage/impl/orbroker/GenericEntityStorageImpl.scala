@@ -4,19 +4,30 @@ import org.orbroker.Token
 import BrokerFactory._
 import org.orbroker.{RowExtractor, Row}
 import org.postgresql.ds.PGPoolingDataSource
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 
 object IntExtractor extends RowExtractor[Int] {
   def extract(row: Row) = row.integer("id").get
 }
 
+object MySQLExtractor extends RowExtractor[Int] {
+  def extract(row: Row) = row.integer("generated_key").get
+}
+
 abstract class GenericEntityStorageImpl[E](val tablePath: String) {
-  def prepareParameters(parameters: Seq[(String, Any)]) = for {
+  private def getDBType = broker.dataSource match {
+    case postgres: PGPoolingDataSource => "postgres"
+    case postgres: MysqlDataSource => "mysql"
+    case _ => "h2"
+  }
+
+  def prepareParameters(parameters: Seq[(String, Any)]) = (for {
     (key, value) <- parameters
     if (value != None)
   } yield key -> (value match {
       case Some(v) => v
       case _ => value
-    })
+    })):+ ("dbType"->getDBType)
 
   def extract(row: Row): E
 
@@ -40,6 +51,9 @@ abstract class GenericEntityStorageImpl[E](val tablePath: String) {
 
   protected def getOne(parameters: (String, Any)*): Option[E] = broker.readOnly() {
     session => session.selectOne(Token(Symbol(tablePath), extractor), prepareParameters(parameters): _*)
+  }
+  protected def getOne(action: String, parameters: (String, Any)*): Option[E] = broker.readOnly() {
+    session => session.selectOne(Token(Symbol(tablePath + action), extractor), prepareParameters(parameters): _*)
   }
 
   def create(entity: E) {
@@ -73,6 +87,7 @@ abstract class GenericEntityStorageImpl[E](val tablePath: String) {
   def renew() {
     val dbType = broker.dataSource match {
       case postgres: PGPoolingDataSource => "postgres"
+      case postgres: MysqlDataSource => "mysql"
       case _ => "h2"
     }
     broker.transactional() {
@@ -93,11 +108,26 @@ abstract class GenericEntityStorageImpl[E](val tablePath: String) {
         session.commit()
     }
   }
+  protected def modify(action: String, entity: E, parameters: (String, Any)*) {
+    broker.transactional() {
+      session =>
+        session.execute(Token(Symbol(tablePath + action)), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+        session.commit()
+    }
+  }
 
   protected def modify(parameters: (String, Any)*) {
     broker.transactional() {
       session =>
         session.execute(Token(Symbol(tablePath + "_update")), prepareParameters(parameters): _*)
+        session.commit()
+    }
+  }
+
+  def modify(action: String, parameters: (String, Any)*){
+    broker.transactional() {
+      session =>
+        session.execute(Token(Symbol(tablePath + action)), prepareParameters(parameters): _*)
         session.commit()
     }
   }
@@ -120,7 +150,8 @@ abstract class KeyedEntityStorageImpl[E](tablePath: String, val idParam: String)
     broker.transactional() {
       session =>
         val id = broker.dataSource match {
-          case postgres: PGPoolingDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+          case postgres: PGPoolingDataSource=> session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
+          case mysql: MysqlDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), MySQLExtractor), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
           case _ => session.executeForKey(Token[Int](Symbol(tablePath + "_insert")), (prepareParameters(parameters) :+ ("e" -> entity)): _*)
         }
         session.commit()
@@ -131,7 +162,8 @@ abstract class KeyedEntityStorageImpl[E](tablePath: String, val idParam: String)
     broker.transactional() {
       session =>
         val id = broker.dataSource match {
-          case postgres: PGPoolingDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters)): _*)
+          case postgres: PGPoolingDataSource=> session.executeForKey(Token(Symbol(tablePath + "_insert"), IntExtractor), (prepareParameters(parameters)): _*)
+          case mysql: MysqlDataSource => session.executeForKey(Token(Symbol(tablePath + "_insert"), MySQLExtractor), (prepareParameters(parameters)): _*)
           case _ => session.executeForKey(Token[Int](Symbol(tablePath + "_insert")), (prepareParameters(parameters)): _*)
         }
         session.commit()

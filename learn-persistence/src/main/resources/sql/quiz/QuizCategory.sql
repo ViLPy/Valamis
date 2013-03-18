@@ -13,4 +13,4 @@ AND quizID = :quizID
     AND parentID = :parentID
     </#if>
 </#if>
-ORDER BY "position",id
+ORDER BY arrangementIndex,id

@@ -1,9 +1,17 @@
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 0;
+</#if>
 DROP TABLE IF EXISTS ObjectiveMapInfo CASCADE;
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 1;
+</#if>
 
 CREATE TABLE ObjectiveMapInfo
 (
   <#if dbType=="postgres">
   id serial,
+  <#elseif dbType=="mysql" >
+  id integer not null auto_increment unique,
   <#else>
   id int auto_increment,
   </#if>
@@ -27,6 +35,8 @@ CREATE TABLE ObjectiveMapInfo
 ) WITH (
   OIDS=FALSE
 </#if>
-);
+)<#if dbType=="mysql" >
+   ENGINE=InnoDB
+</#if>;
 
 ALTER TABLE ObjectiveMapInfo ADD CONSTRAINT ObjectiveMapInfo_fk1 FOREIGN KEY (objectiveID) REFERENCES Objective(id) ON DELETE CASCADE;

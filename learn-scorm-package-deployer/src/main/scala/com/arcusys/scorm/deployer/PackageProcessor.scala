@@ -1,7 +1,6 @@
 package com.arcusys.scorm.deployer
 
 import java.io._
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.manifest.parser.ManifestParser
 import com.arcusys.learn.scorm.manifest.model._
 import scala.xml.XML
@@ -9,13 +8,15 @@ import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
 import com.arcusys.learn.util.TreeNode
 import java.util.zip.{ZipEntry, ZipFile}
-import com.arcusys.scorm.lms
+import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.storage.StorageFactoryContract
 
-object PackageProcessor {
-  val packageStorage = StorageFactory.packageStorage
-  val resourceStorage = StorageFactory.resourceStorage
-  val activityStorage = StorageFactory.activityStorage
-  val fileStorage = StorageFactory.fileStorage
+class PackageProcessor(implicit val bindingModule: BindingModule) extends Injectable {
+  val storageFactory = inject[StorageFactoryContract]
+  val packageStorage = storageFactory.packageStorage
+  val resourceStorage = storageFactory.resourceStorage
+  val activityStorage = storageFactory.activityStorage
+  val fileStorage = storageFactory.fileStorage
 
   def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String, courseID: Option[Int]) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
@@ -25,11 +26,11 @@ object PackageProcessor {
     val root = XML.loadFile(new File(packageTempDirectory + "imsmanifest.xml"))
     val doc = new ManifestParser(root, packageTitle, packageSummary).parse
     val packageID = packageStorage.createAndGetID(doc.manifest, courseID)
-    StorageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true);
-    StorageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site,  courseID.map(_.toString), true);
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true);
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), true);
 
 
-      for (organizationNode <- doc.organizations) {
+    for (organizationNode <- doc.organizations) {
       activityStorage.create(packageID, organizationNode.item)
       createActivities(organizationNode.children)
     }
@@ -69,7 +70,7 @@ object PackageProcessor {
       }
       zipFile.close()
     } catch {
-      case _ => //throw new Exception("Can't unzip")
+      case e => throw e
     }
   }
 

@@ -141,7 +141,7 @@ PlayerView = Backbone.View.extend({
         if (data.endSession) {
             this.trigger('endSession');
             jQuery.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: jQuery("#SCORMContextPath").val()+"/clearSession"
             });
         }

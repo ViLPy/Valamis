@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2.1</version>
+        <version>1.4-SNAPSHOT</version>
     </parent>
     <artifactId>learn-scorm-package-model</artifactId>
     <name>learn-scorm-package-model</name>

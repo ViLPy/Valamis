@@ -14,6 +14,11 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
 
   import storageFactory._
 
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   // get possible navigation types, check which navigation controls should be hidden
   get("/NavigationRules/:packageID/:currentScormActivityID") {
     val packageID = parameter("packageID").intRequired

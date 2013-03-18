@@ -16,6 +16,14 @@ class FileStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbFileN
   }
 
   @Test
+  def canStoreFolderWithoutData() {
+    fileStorage.store("test")
+    val fetched = fileStorage.getFile("test")
+    assertEquals(true, fetched.nonEmpty)
+    assertEquals(true, fetched.get.content.isEmpty)
+  }
+
+  @Test
   def canStoreAndGetArrays() {
     val data = Array[Byte]('\12', '\54', '\12', '\51', '\0')
     fileStorage.store("test.dat", data)

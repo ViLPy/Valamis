@@ -6,10 +6,12 @@ package com.arcusys.learn.scorm.manifest.model
  * @param scope      Type of scope
  * @param scopeID    Scope Layout ID (it might be SiteID, pageID or portletID)
  * @param visibility Identifies if package is visible in scope
+ * @param isDefault  Identifies if package is default in current scope
  */
 class PackageScopeRule(
   val packageID: Int,
   val scope: ScopeType.Value,
   val scopeID: Option[String],
-  val visibility: Boolean
+  val visibility: Boolean,
+  val isDefault: Option[Boolean]
 )

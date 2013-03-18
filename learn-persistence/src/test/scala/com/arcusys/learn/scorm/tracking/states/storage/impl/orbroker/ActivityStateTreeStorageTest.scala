@@ -33,7 +33,7 @@ class ActivityStateTreeStorageTest(dbFileName: String) extends ParameterizedUnit
 
   @Test
   def canStoreAndModify() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))
@@ -157,7 +157,7 @@ class ActivityStateTreeStorageTest(dbFileName: String) extends ParameterizedUnit
 
   @Test
   def canAutoDeleteWithAttempt() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))
@@ -217,7 +217,7 @@ class ActivityStateTreeStorageTest(dbFileName: String) extends ParameterizedUnit
 
   @Test
   def canStoreAndModifyGlobalObjectives() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))

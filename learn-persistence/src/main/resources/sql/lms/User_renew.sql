@@ -1,4 +1,10 @@
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 0;
+</#if>
 DROP TABLE IF EXISTS LMSUser CASCADE;
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 1;
+</#if>
 
 CREATE TABLE LMSUser
 (
@@ -13,7 +19,9 @@ CREATE TABLE LMSUser
 ) WITH (
   OIDS=FALSE
 </#if>
-);
--- default user
+)<#if dbType=="mysql" >
+   ENGINE=InnoDB
+</#if>;
+-- default user-
 INSERT INTO LMSUser(id, username, preferredAudioLevel, preferredLanguage, preferredDeliverySpeed, preferredAudioCaptioning)
 VALUES (-1, 'Guest', 0, 'en', '0', '0');

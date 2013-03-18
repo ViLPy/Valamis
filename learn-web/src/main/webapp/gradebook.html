@@ -162,6 +162,7 @@
             ).fail(function () {
                         jQuery1816Gradebook("#gradebookWrapper").hide();
                         jQuery1816Gradebook("#noGradebookContent").show();
+                        jQuery1816Gradebook("#courseGradeWrapper").hide();
                     });
 
 
@@ -177,9 +178,20 @@
                 window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetCourseInfo/" + courseID + "/user/" + userID,
                     jQuery1816Gradebook.proxy(function (data) {
                         jQuery1816Gradebook("#courseComment").val(data.comment);
-                       if (data.grade != null){ jQuery1816Gradebook('input:radio[name="courseGrade"]').filter('[value="'+data.grade+'"]').attr('checked', 'checked');}
+                        if (data.grade != null){ jQuery1816Gradebook('input:radio[name="courseGrade"]').filter('[value="'+data.grade+'"]').attr('checked', 'checked');}
+
+                        /*{{^isAdmin}}*/
+                        if (data.comment == '')
+                            jQuery1816Gradebook("#courseCommentPlaceholder").hide();
+                        if (data.grade == null)
+                            jQuery1816Gradebook("#courseGradePlaceholder").hide();
+                        /*{{/isAdmin}}*/
+
                     }, this)
                 ).fail(function () {
+                     /*{{^isAdmin}}*/
+                     jQuery1816Gradebook("#courseGradeWrapper").hide();
+                     /*{{/isAdmin}}*/
                 });
             }
 
@@ -258,11 +270,12 @@
     </div>
 
     <div id="courseGradeWrapper">
+        <div id="courseCommentPlaceholder">
         <label for="courseComment">{{courseCommentLabel}}</label>
 
-        <textarea rows="10" style="width: 100%" id="courseComment"  {{^isAdmin}}readonly="readonly"{{/isAdmin}}></textarea>
-
-        <div>
+        <textarea rows="10" style="width: 100%" id="courseComment" {{^isAdmin}}readonly="readonly"{{/isAdmin}}></textarea>
+        </div>
+        <div id="courseGradePlaceholder">
             <label>{{gradeLabel}}</label>
             <table class="gradeTable">
                 <tr>

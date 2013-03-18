@@ -6,12 +6,9 @@ import org.scalatra.ScalatraFilter
 import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import java.io.FileNotFoundException
-import com.liferay.portal.kernel.util.WebKeys
-import com.arcusys.scorm.lms.{PackageService, UserManagement}
-import com.liferay.portal.theme.ThemeDisplay
 
 
-class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
+class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   val attemptStorage = StorageFactory.attemptStorage
 
   override def destroy() {}
@@ -22,14 +19,19 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     val lang = LiferayHelpers.getLanguage(request)
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
+    val contextPath = request.getContextPath
 
-    response.getWriter.println(generateResponse(userUID, userName, lang, request.getContextPath, isPortlet = true,
-      //isAdmin = request.isUserInRole("administrator"),
-      isAdmin = UserManagement.hasTeacherPermissions(userUID, courseID),
-      courseID))
+    if (userManagement.isLearnUser(userUID, courseID)) {
+      response.getWriter.println(generateResponse(userUID, userName, lang, request.getContextPath, isPortlet = true,
+        //isAdmin = request.isUserInRole("administrator"),
+        isAdmin = userManagement.hasTeacherPermissions(userUID, courseID), courseID))
+    }
+    else {
+      response.getWriter.println(generateErrorResponse(contextPath, "scorm_nopermissions.html", lang))
+    }
   }
 
-  def generateResponse(userID: Int, userName: String, language: String, contextPath: String, isPortlet: Boolean, isAdmin: Boolean, courseID:Long) = {
+  def generateResponse(userID: Int, userName: String, language: String, contextPath: String, isPortlet: Boolean, isAdmin: Boolean, courseID: Long) = {
     val translations = try {
       getTranslation("/i18n/gradebook_" + language)
     } catch {
@@ -37,8 +39,8 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
       case _ => Map[String, String]()
     }
 
-    val users = UserManagement.getStudentsWithAttemptsByCourseID(courseID)
-    val packages = PackageService.getPackagesWithAttemptsByCourseID(courseID, if (isAdmin) 0 else userID)
+    val users = userManagement.getStudentsWithAttemptsByCourseID(courseID)
+    val packages = packageService.getPackagesWithAttemptsByCourseID(courseID, if (isAdmin) 0 else userID)
 
     val data = Map(
       "userID" -> userID,
@@ -52,5 +54,16 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
       "courseID" -> courseID
     ) ++ translations
     mustache(data, "gradebook.html")
+  }
+
+  def generateErrorResponse(contextPath: String, templateName: String, language: String) = {
+    val translations = try {
+      getTranslation("/i18n/error_" + language)
+    } catch {
+      case e: FileNotFoundException => getTranslation("/i18n/error_en")
+      case _ => Map[String, String]()
+    }
+    val data = Map("contextPath" -> contextPath, "language" -> language) ++ translations
+    mustache(data, templateName)
   }
 }

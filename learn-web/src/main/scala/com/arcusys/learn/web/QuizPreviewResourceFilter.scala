@@ -24,6 +24,11 @@ class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBas
     input.close()
   }
 
+  before("/preview") {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/preview") {
     val id = params("id").toInt
     val context = params("context")

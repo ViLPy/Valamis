@@ -16,10 +16,11 @@ object FileProcessing {
       val zipFile = new ZipFile(zipFilename)
       val entries = zipFile.entries
 
+
       while (entries.hasMoreElements) {
         val entry = entries.nextElement.asInstanceOf[ZipEntry]
-        if (entry.getName == filename) {
-          copyInputStream(zipFile.getInputStream(entry), new BufferedOutputStream(new FileOutputStream(directory + entry.getName)))
+        if (entry.getName.endsWith(filename)) {
+          copyInputStream(zipFile.getInputStream(entry), new BufferedOutputStream(new FileOutputStream(directory + filename)))
         }
       }
       zipFile.close()
@@ -27,6 +28,7 @@ object FileProcessing {
       case _ => //throw new Exception("Can't unzip")
     }
   }
+
 
   def unzip(directory: String, filename: String) {
     try {

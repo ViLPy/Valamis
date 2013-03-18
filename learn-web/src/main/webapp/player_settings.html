@@ -47,10 +47,8 @@
                 data: {playerID: jQuerySettings("#playerID").val(),
                     scope: jQuerySettings("#scopeOptions").val()},
                 success: function(){
-                    // scormPackageScopeRules.storage.findAll();
                     scormPackageScopeRules.fetch();
                 }
-                //fail: function(){ alert("{{courseDataFail}}"); }
             });
         }
     </script>
@@ -69,7 +67,7 @@
                 <option value="instanceScope">{{instanceScope}}</option>
                 <option value="siteScope">{{siteScope}}</option>
                 <option value="pageScope">{{pageScope}}</option>
-                <option value="playerScope">{{playerScope}}</option>
+                <!--<option value="playerScope">{{playerScope}}</option>-->
             </select>
         </div>
         <br style="clear: both"/>

@@ -70,7 +70,7 @@ class QuestionViewGenerator(isPreview: Boolean) {
         val viewModel = Map("title" -> decode(matchingQuestion.title),
           "text" -> prepareString(matchingQuestion.text),
           "answers" -> answers,
-          "answerData" -> correctAnswers,
+          "answerData" -> correctAnswers.replaceAll("\"","'"),
           "contextPath" -> contextPath)
         generateHTMLByQuestionType("MatchingQuestion", viewModel)
 

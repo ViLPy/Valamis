@@ -1,5 +1,6 @@
 PackageModel = Backbone.Model.extend({
     defaults:{
+        isDefault: false,
         title:"",
         summary:"",
         visibility:true
@@ -29,7 +30,7 @@ PackageModelCollection = Backbone.Collection.extend({
     model:PackageModel,
     storage:{
         findAll:function () {
-            if (jQuery("#adminScopeSelect").val() == "site")
+            if (jQuery("#adminScopeSelect").val() == "siteScope")
             return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/allInSite" + "?courseID=" + jQuery("#courseID").val());
             else return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/all");
         }

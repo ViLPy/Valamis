@@ -37,8 +37,8 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
           case leaf: GradeReportLeaf => leaf.attemptCompleted
           case _ => None
         }),
-        "essayComment"-> node.essayComment,
-        "currentPackageID"-> node.packageID
+        "essayComment" -> node.essayComment,
+        "currentPackageID" -> node.packageID
       )
     mapNode(node)
   })
@@ -54,19 +54,24 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     mapNode(course)
   })
 
+  private val packageService = new PackageService()
+
+  before() {
+      response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+      response.setHeader("Expires", "-1")
+    }
 
   get("/GetResultsForPackage/user/:userID/:packageID/:courseID") {
     val courseID = parameter("courseID").intRequired
     val packageID = parameter("packageID").intRequired
     val userID = parameter("userID").intRequired
-    val report = if (packageID == 0)
-    {
+    val report = if (packageID == 0) {
       //val reports = attemptStorage.getPackagesWithUserAttempts(userID).map(
-      val reports = PackageService.getPackagesWithAttemptsByCourseIDNoMap(courseID, userID).map(
+      val reports = packageService.getPackagesWithAttemptsByCourseIDNoMap(courseID, userID).map(
         pack =>
           (new GradeReportGenerator).getForCurrentAttempt(userID, pack.id)
-      ).filter(report=> report!=None).map(report=>report.get)
-     jsonModel(reports)
+      ).filter(report => report != None).map(report => report.get)
+      jsonModel(reports)
     }
     else {
       jsonModel(((new GradeReportGenerator).getForCurrentAttempt(userID, packageID)).toSeq)
@@ -74,10 +79,12 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     report
   }
 
-  get("/GetCourseInfo/:courseID/user/:userID"){
+  private val courseService = new CourseService()
+
+  get("/GetCourseInfo/:courseID/user/:userID") {
     val courseID = parameter("courseID").intRequired
     val userID = parameter("userID").intRequired
-    courseInfoJsonModel(CourseService.getCourseGradeAndComment(courseID, userID))
+    courseInfoJsonModel(courseService.getCourseGradeAndComment(courseID, userID))
   }
 
   post("/UpdateScoreAndStatus") {
@@ -86,7 +93,7 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     val activityID = parameter("activityID").required
     val score = parameter("score").withDefault("")
     val essayComment = parameter("essayComment").withDefault("")
-    val status = if(score.toDouble>0) "passed" else "failed"
+    val status = if (score.toDouble > 0) "passed" else "failed"
 
     attemptStorage.getLast(userID, packageID, complete = true).map {
       activeAttempt =>
@@ -98,12 +105,12 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     ""
   }
 
-  post("/SaveCourseGradeAndComment"){
+  post("/SaveCourseGradeAndComment") {
     val courseID = parameter("courseID").intRequired
     val userID = parameter("userID").intRequired
     val grade = parameter("grade").withDefault("")
     val comment = parameter("comment").withDefault("")
-    CourseService.saveCourseGradeAndComment( courseID, userID, grade, comment)
+    courseService.saveCourseGradeAndComment(courseID, userID, grade, comment)
     ""
   }
 

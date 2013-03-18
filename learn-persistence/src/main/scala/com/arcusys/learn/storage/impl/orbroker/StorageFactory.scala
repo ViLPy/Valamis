@@ -9,7 +9,7 @@ import com.arcusys.learn.quiz.storage.impl.orbroker._
 import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.questionbank.storage.impl.orbroker._
 import com.arcusys.scorm.util.PropertyUtil
-import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.storage.{DBType, StorageFactoryContract}
 import com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker.{ActivityStateStorageImpl, ActivityStateTreeStorageImpl}
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
 import org.postgresql.ds.PGPoolingDataSource
@@ -17,14 +17,14 @@ import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.filestorage.storage.impl.orbroker.FileStorageImpl
 import com.arcusys.learn.scorm.course.impl.orbroker.{PlayerScopeRuleStorageImpl, CourseStorageImpl}
 import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
+import com.arcusys.learn.updater.StorageUpdater
+import com.arcusys.learn.updater.impl.orbroker.StorageUpdaterImpl
 
-
-object StorageFactory extends StorageFactoryContract
-{
+object StorageFactory extends StorageFactoryContract {
   val initBroker = {
     if (!BrokerFactory.isInitialized) BrokerFactory.init(PropertyUtil.load("db"))
   }
-  
+
   lazy val packageStorage: PackagesStorage = new PackagesStorageImpl
   lazy val activityStorage: ActivitiesStorage = new ActivitiesStorageImpl
   //lazy val organizationStorage: OrganizationsStorage = new OrganizationsStorageImpl
@@ -43,6 +43,7 @@ object StorageFactory extends StorageFactoryContract
   lazy val courseStorage: CourseStorage = new CourseStorageImpl
   lazy val packageScopeRuleStorage: PackageScopeRuleStorage = new PackageScopeRuleStorageImpl
   lazy val playerScopeRuleStorage: PlayerScopeRuleStorage = new PlayerScopeRuleStorageImpl
+  lazy val storageUpdater: StorageUpdater = new StorageUpdaterImpl
 
 
   def renewWholeStorage() {
@@ -65,8 +66,8 @@ object StorageFactory extends StorageFactoryContract
     playerScopeRuleStorage.asInstanceOf[PlayerScopeRuleStorageImpl].renew()
   }
 
-  def dbType:String = BrokerFactory.broker.dataSource match {
-    case postgres: PGPoolingDataSource => "psql"
-    case _ => "h2"
+  def dbType: DBType.Value = BrokerFactory.broker.dataSource match {
+    case postgres: PGPoolingDataSource => DBType.Postgres
+    case _ => DBType.H2
   }
 }

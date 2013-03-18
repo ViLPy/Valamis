@@ -11,6 +11,10 @@ class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "i
 
   def getByRefID(refID:Long): Option[Manifest] = getOne("refID" -> refID)
 
+  def getByID(id: Int, courseID: Int, scope: ScopeType.Value, scopeID: String)={
+    if (scope == ScopeType.Instance) getOne("_getbyinstance", "packageId" -> id)
+    else getOne("_getbyscope", "packageId" -> id, "scope" -> scope.toString, "scopeID" -> scopeID, "courseID" -> courseID)
+  }
   def getByCourseID(courseID: Option[Int]) =
     getAll("_getbyscope", "scope" -> ScopeType.Site.toString, "scopeID" -> courseID.map(_.toString), "courseID" -> courseID)
 
@@ -28,7 +32,7 @@ class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "i
 
   def createAndGetID(entity: Manifest, courseID:Option[Int]): Int ={
     val newEntity = new Manifest(0, entity.version, entity.base, entity.scormVersion, entity.defaultOrganizationID,
-      entity.resourcesBase, entity.title,entity.summary, entity.metadata,entity.assetRefID, courseID)
+      entity.resourcesBase, entity.title,entity.summary, entity.metadata,entity.assetRefID, courseID, isDefault = false)
     createAndGetID(newEntity)
   }
 
@@ -40,7 +44,8 @@ class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "i
     execute("_setrefid", "id" -> id, "assetRefID" -> refID)
   }
 
-  def extract(row: Row) = new Manifest(
+  def extract(row: Row) ={
+    new Manifest(
     row.integer("id").get,
     None, // version
     row.string("base"),
@@ -52,7 +57,9 @@ class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "i
     None,
     row.bigInt("assetRefID"),
     row.integer("courseID"),
-    if (row.columns.contains("visibility")) row.bit("visibility") else None
+    if ((row.columns.find(_.equalsIgnoreCase("visibility")).nonEmpty) && !row.bit("visibility").isEmpty) row.bit("visibility") else Option(false),
+    if (row.columns.find(_.equalsIgnoreCase("isdefault")).nonEmpty) row.bit("isDefault").getOrElse(false) else false
   )
+  }
   //TODO: store SCORM version in DB
 }

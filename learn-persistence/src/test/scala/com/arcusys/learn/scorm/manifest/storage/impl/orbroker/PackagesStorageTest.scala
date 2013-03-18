@@ -24,13 +24,13 @@ class PackagesStorageTest(dbFileName: String) extends ParameterizedUnitTests(dbF
 
   @Test
   def canCreate() {
-    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     assertEquals(1, packagesStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val manifest = new Manifest(12, None, Some("NoneBase/"), "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) )
+    val manifest = new Manifest(12, None, Some("NoneBase/"), "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false )
     val testPackageId = packagesStorage.createAndGetID(manifest)
     val createdPackage = packagesStorage.getByID(testPackageId).get
     assertEquals(createdPackage.base, manifest.base)

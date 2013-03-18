@@ -25,15 +25,15 @@ class ResourcesStorageTest(dbFileName: String) extends ParameterizedUnitTests(db
 
   @Test
   def canCreate() {
-    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     val rId = resourcesStorage.createForPackageAndGetID(pId, new ScoResource("HJF23-13", "http://google.com", None, Nil, Nil))
     assertEquals(1, resourcesStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
-    packagesStorage.createAndGetID(new Manifest(123, None, None, "", Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase/"), "DummyTitle",courseID= Some(0) ))
+    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
+    packagesStorage.createAndGetID(new Manifest(123, None, None, "", Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase/"), "DummyTitle",courseID= Some(0), isDefault = false ))
     val r = new ScoResource("1", "http://google.com", Some("None/"), Nil, Nil)
     val createdResourceId = resourcesStorage.createForPackageAndGetID(pId, r)
     val newResource = resourcesStorage.getByID(createdResourceId).get
@@ -49,8 +49,8 @@ class ResourcesStorageTest(dbFileName: String) extends ParameterizedUnitTests(db
 
   @Test
   def canGetByPackageID() {
-    val package1Id = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
-    val package2Id = packagesStorage.createAndGetID(new Manifest(123, None, None, "", Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase/"), "DummyTitle",courseID= Some(0) ))
+    val package1Id = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
+    val package2Id = packagesStorage.createAndGetID(new Manifest(123, None, None, "", Some("defaultOrganizationIdentifierDummy"), Some("resourcesBase/"), "DummyTitle",courseID= Some(0), isDefault = false ))
     resourcesStorage.createForPackageAndGetID(package1Id, new ScoResource("HJF23-13", "http://google.com", Some("None/"), Nil, Nil))
     resourcesStorage.createForPackageAndGetID(package1Id, new ScoResource("HJF23-14", "http://google.com", Some("None/"), Nil, Nil))
     resourcesStorage.createForPackageAndGetID(package1Id, new ScoResource("HJF23-15", "http://google.com", Some("None/"), Nil, Nil))

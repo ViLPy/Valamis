@@ -1,4 +1,10 @@
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 0;
+</#if>
 DROP TABLE IF EXISTS Course CASCADE;
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 1;
+</#if>
 
 CREATE TABLE Course
 (
@@ -10,6 +16,7 @@ CREATE TABLE Course
 ) WITH (
   OIDS=FALSE
 </#if>
-);
-
-ALTER TABLE Course ADD CONSTRAINT Course_fk1 FOREIGN KEY (userID) REFERENCES LMSUser(id) ON DELETE CASCADE;
+)<#if dbType=="mysql" >
+   ENGINE=InnoDB
+</#if>;
+ALTER TABLE Course ADD CONSTRAINT Course_fk1 FOREIGN KEY (userID) REFERENCES LMSUser(id) ON DELETE CASCADE ON UPDATE CASCADE;

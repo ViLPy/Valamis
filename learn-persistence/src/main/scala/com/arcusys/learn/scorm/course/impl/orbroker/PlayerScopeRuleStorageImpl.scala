@@ -1,6 +1,5 @@
 package com.arcusys.learn.scorm.course.impl.orbroker
 
-import com.arcusys.learn.scorm.manifest.storage._
 import org.orbroker.Row
 import com.arcusys.learn.storage.impl.orbroker._
 import com.arcusys.learn.scorm.manifest.model._
@@ -15,8 +14,9 @@ class PlayerScopeRuleStorageImpl extends GenericEntityStorageImpl[PlayerScopeRul
     create(new PlayerScopeRule(playerID, scope), "scope" -> scope.toString)
   }
   def update(playerID: String, scope: ScopeType.Value){
-    modify(new PlayerScopeRule(playerID, scope), "scope" -> scope.toString)
+    modify("playerID" -> playerID, "scope" -> scope.toString)
   }
+
   def delete(playerID: String){
     delete("playerID" -> playerID)
   }

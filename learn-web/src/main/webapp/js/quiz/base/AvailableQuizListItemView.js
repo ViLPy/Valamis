@@ -23,7 +23,7 @@ AvailableQuizListItemView = Backbone.View.extend({
     },
 
     downloadQuiz:function () {
-        window.location.href = Utils.getContextPath() + "/services/generator/Zip/" + this.model.id + "?courseID="+jQuery("#courseID").val();
+        window.location.href = Utils.getContextPath() + "/services/generator/Zip/" + this.model.id + ".zip?courseID="+jQuery("#courseID").val();
     },
 
     installQuiz:function () {

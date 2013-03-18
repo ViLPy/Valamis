@@ -1,7 +1,8 @@
 SettingsView = Backbone.View.extend({
     events:{
         //"click":"setActive",
-        "click #visibility":"updateScopePackageVisibility"
+        "click #visibility":"updateScopePackageVisibility",
+        "click #isDefault": "updateIsDefaultValue"
     },
 
     initialize:function () {
@@ -10,25 +11,28 @@ SettingsView = Backbone.View.extend({
     },
 
     setActive:function () {
-        //this.$el.addClass("SCORMHighlitedPackage");
-        //this.trigger('change-active', this);
+        this.$el.addClass("SCORMHighlitedPackage");
+        this.trigger('change-active', this);
     },
 
     updateScopePackageVisibility:function () {
+       // this.setActive();
         this.model.save({
             visibility:this.$("#visibility").is(":checked")
         });
     },
 
+    updateIsDefaultValue:function () {
+        this.model.save({
+            isDefault:this.$("#isDefault").is(":checked")
+        });
+        this.setActive();
+        this.trigger('change-isDefault', this);
+    },
+
     render:function () {
         this.showDefault();
         return this.$el;
-    },
-
-    showEdit:function () {
-        var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageScopeRuleRowEdit").html(), _.extend(this.model.toJSON(), language));
-        this.$el.html(template);
     },
 
     showDefault:function () {
@@ -41,7 +45,8 @@ SettingsView = Backbone.View.extend({
         this.model.save({
             title:this.$("#title").val(),
             summary:this.$("#summary").val(),
-            visibility:this.$("#visibility").is(":checked")
+            visibility:this.$("#visibility").is(":checked"),
+            isDefault:this.$("#isDefault").is(":checked")
         });
         this.showDefault();
     },
@@ -102,11 +107,30 @@ PlayerSettingsListView = Backbone.View.extend({
             language:this.options.language
         });
         view.on('change-active', this.changeActive, this);
+        view.on('change-isDefault', this.changeIsDefault, this);
 
         var renderedView = view.render();
         this.scormPlayerSettingsPackageList.add(pkg.id, renderedView, pkg.toJSON());
         this.$("#SCORMPackageScopeRuleGrid").append(renderedView);
     },
+
+    changeActive:function (view) {
+        if (!this.activeEditing) {
+            this.activePackageView = view;
+        }
+        this.$("tr[id!='" + this.activePackageView.model.id + "']").removeClass('SCORMHighlitedPackage');
+    },
+
+    changeIsDefault: function(){
+        this.collection.each(this.uncheckDefaults, this)
+    },
+
+    uncheckDefaults: function(item){
+        if (item.id != this.activePackageView.model.id){
+            this.$("tr[id='" + item.id + "']>td>#isDefault").attr('checked', false);
+        }
+    },
+
     addPackagesFromCollection:function () {
         this.$("#SCORMPackageScopeRuleGrid").empty();
         this.collection.each(this.addPackage, this);

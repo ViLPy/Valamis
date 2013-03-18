@@ -10,7 +10,7 @@ class ManifestDocumentTest extends FlatSpec with ShouldMatchers {
   val someMetadata = new Metadata(Seq("meta.xml"), Seq("<info>data</info>"))
   val manifest = new Manifest(12, version = Some("13"), base = Some("data/"), scormVersion = "2004",
     defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", summary = Some("desc"),
-    metadata = Some(someMetadata), courseID = Some(0) )
+    metadata = Some(someMetadata), courseID = Some(0), isDefault = false )
   val resource = new ScoResource("RES1", "file1.html", Some("RES1/files/"), Seq(new ResourceFile("file1.html"), new ResourceFile("file2.js")), Nil)
   val organization = new Organization("O1", "org")
   "Manifest document" can "be constructed" in {

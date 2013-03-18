@@ -11,17 +11,24 @@ import com.liferay.portal.theme.ThemeDisplay
 
 class QuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+
   import storageFactory._
+
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/id/:id") {
     val id = parameter("id").intRequired
     json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get))
   }
 
   get("/children/:id") {
-  val categoryID = parameter("id").intOption(-1)
-  val courseID = parameter("courseID").intOption(-1)
-  json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID)))
-}
+    val categoryID = parameter("id").intOption(-1)
+    val courseID = parameter("courseID").intOption(-1)
+    json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID)))
+  }
 
   post("/") {
     val questionType = parameter("questionType").intRequired
@@ -33,14 +40,14 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
     val courseID = parameter("courseID").intOption(-1)
     val entity = questionType match {
-      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount,courseID)
-      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, Nil, isCaseSensitive,courseID)
-      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, Nil,courseID)
-      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount,courseID)
-      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, Nil,courseID)
-      case 5 => new EssayQuestion(0, categoryID, title, text, explanationText,courseID)
-      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText,courseID)
-      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil,courseID)
+      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
+      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, Nil, isCaseSensitive, courseID)
+      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
+      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 5 => new EssayQuestion(0, categoryID, title, text, explanationText, courseID)
+      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText, courseID)
+      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
       case _ => halt(405, "Service: Oops! Can't create question")
     }
     json(QuestionSerializer.buildItemMap(questionStorage.getByID(questionStorage.createAndGetID(entity)).get))

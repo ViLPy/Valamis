@@ -13,4 +13,4 @@ AND quizID = :quizID
     AND categoryID = :categoryID
     </#if>
 </#if>
-ORDER BY "position",id
+ORDER BY arrangementIndex,id

@@ -7,7 +7,7 @@ object ParameterizedUnitTests {
   @Parameters
   def parameters = {
     val list = new java.util.ArrayList[Array[String]]()
-    Seq("db", "dbH2").foreach(n => list.add(Array(n)))
+    Seq("db", "dbH2", "dbMySQL").foreach(n => list.add(Array(n)))
     list
   }
 }

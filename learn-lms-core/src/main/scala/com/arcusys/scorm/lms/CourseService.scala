@@ -1,17 +1,21 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model.Course
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
+import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.storage.StorageFactoryContract
 
-object CourseService {
-  def saveCourseGradeAndComment(courseID:Int, userID:Int, grade:String, comment: String){
+class CourseService(implicit val bindingModule: BindingModule) extends Injectable {
+  val storageFactory = inject[StorageFactoryContract]
+
+  def saveCourseGradeAndComment(courseID: Int, userID: Int, grade: String, comment: String) {
     val course = new Course(courseID, userID, grade, comment)
-    if(StorageFactory.courseStorage.get(courseID, userID)==None)
-      StorageFactory.courseStorage.create(course)
+    if (storageFactory.courseStorage.get(courseID, userID) == None)
+      storageFactory.courseStorage.create(course)
     else
-      StorageFactory.courseStorage.modify(course)
+      storageFactory.courseStorage.modify(course)
   }
-  def getCourseGradeAndComment(courseID:Int, userID:Int)={
-    StorageFactory.courseStorage.get(courseID, userID)
+
+  def getCourseGradeAndComment(courseID: Int, userID: Int) = {
+    storageFactory.courseStorage.get(courseID, userID)
   }
 }

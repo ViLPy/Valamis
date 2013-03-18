@@ -10,14 +10,16 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.Image
+import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import com.arcusys.learn.liferay.service.asset.AssetHelper
 import com.arcusys.scala.json.Json
 ;
 
 class UploadService(configuration: BindingModule) extends ServletBase(configuration) with JsonSupport with FileUploadSupport {
+  private val packageProcessor = new PackageProcessor()
+
   def this() = this(Configuration)
 
   post("/package") {
@@ -34,7 +36,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     FileProcessing.copyInputStream(stream, outStream)
 
     contentType = "text/plain"
-    val packageID = PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
+    val packageID = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
     if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
     packageID
   }

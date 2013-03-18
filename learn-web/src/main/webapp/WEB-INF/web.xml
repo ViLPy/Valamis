@@ -51,6 +51,7 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
     <servlet>
         <servlet-name>SCORMApplicationAdmin Servlet</servlet-name>
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
@@ -88,10 +89,21 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>LearnDataMigration1_2</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
+        <init-param>
+            <param-name>portlet-class</param-name>
+            <param-value>com.arcusys.learn.view.updater.UpdaterView1_2</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>SCORMApplication Servlet</servlet-name>
         <url-pattern>/SCORMApplication/*</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>SCORMApplicationAdmin Servlet</servlet-name>
         <url-pattern>/SCORMApplicationAdmin/*</url-pattern>
@@ -107,6 +119,11 @@
     <servlet-mapping>
         <servlet-name>Gradebook Servlet</servlet-name>
         <url-pattern>/Gradebook/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>LearnDataMigration1_2</servlet-name>
+        <url-pattern>/LearnDataMigration1_2/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

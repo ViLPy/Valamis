@@ -11,6 +11,11 @@ import com.arcusys.learn.ioc.Configuration
 
 class AdminService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   post("/UpdateSettings") {
     val serverName = parameter("ServerName").required
     val dbName = parameter("DBName").required

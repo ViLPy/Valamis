@@ -1,41 +1,5 @@
 <html>
 <head>
-    <!--{{^isPortlet}}-->
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
-
-    <script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
-    <script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.jstree.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/libs/mustache.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/libs/list.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/grid.locale-en.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.form.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PackageModel.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PackageView.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/player/PlayerView.js"></script>
-
-    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/validator.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/dataModel.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteBase.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteData.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/dataModel12.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteBase12.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/lms/rteData12.js"></script>
-
-    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
-    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
-    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/player.css"/>
-    <!--{{/isPortlet}}-->
     <script type="text/javascript" language="javascript">
         var jQuery1816Player = jQuery.noConflict();
         var scormPlayerPackages = new PlayerPackageModelCollection();
@@ -44,6 +8,9 @@
         var scormPlayerLanguageData = {};
 
         jQuery1816Player(function () {
+            jQuery1816Player("#packageId").val("{{packageId}}");
+            jQuery("#projectLearnCourseIsCompleted").hide();
+            jQuery("#projectLearnGenericPlaceholder").hide();
             window.LearnAjax.setHeader("scormUserID", "{{userID}}");
             window.LearnAjax.setHeader("scormUserName", "{{userName}}");
             window.API_1484_11 = new SCORM2004_4API();
@@ -65,17 +32,18 @@
         }
 
         function initPlayerView() {
-            var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
-                scormPlayer = new PlayerView({el:jQuery1816Player(getId("SCORMPlayerView")), language:scormPlayerLanguageData});
-                jQuery1816Player(getId("SCORMPlayerView")).hide();
+            if (!checkIfNeedToHidePlayer()){
+                var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
+                scormPlayer = new PlayerView({el:jQuery1816Player("#SCORMPlayerView"), language:scormPlayerLanguageData});
+                jQuery1816Player("#SCORMPlayerView").hide();
                 scormPlayer.on('exit', exit);
                 scormPlayer.on('suspend', suspend);
-                scormPlayer.on('endSession', togglePlayer);
+                scormPlayer.on('endSession', endSession);
                 window.scormPlayerView = scormPlayer;
 
-                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player(getId("packagePlayerList")), collection:scormPlayerPackages, language:scormPlayerLanguageData});
-                jQuery1816Player(getId("packageSearch")).keyup(function () {
-                    scormPlayerPackagesView.filterPackages(jQuery1816Player(getId("packageSearch")).val());
+                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packagePlayerList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
+                jQuery1816Player("#packageSearch").keyup(function () {
+                    scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
                 });
                 scormPlayerPackagesView.on('start', startPackage);
                 scormPlayerPackagesView.on('resume', resumePackage);
@@ -86,10 +54,10 @@
                     }
                 }, this)});
 
-                packageStart(jQuery(getId("packageId")).val(),jQuery(getId("packageTitle")).val())
+                packageStart(jQuery("#packageId").val(),jQuery("#packageTitle").val());
             }, this));
             loader.fetch("templates/player_templates.html");
-
+            }
         }
 
         function suspend() {
@@ -100,12 +68,18 @@
 
         function exit() {
             clearSessionParameters();
-            scormPlayerPackagesView.reloadPackageList();
+           if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()){
+               jQuery("#projectLearnCourseIsCompleted").show();
+               jQuery("#projectLearnGenericPlaceholder").hide();
+           } else scormPlayerPackagesView.reloadPackageList();
         }
 
         function startPackage(data) {
             var packageTitle = data.get('title');
             var packageId = data.id;
+
+            jQuery("#packageId").val(packageId);
+
             saveSessionParameters(packageId, packageTitle);
             packageStart(packageId,  packageTitle)
         }
@@ -116,24 +90,34 @@
                 togglePlayer();
             }
         }
-
+        function checkIfNeedToHidePlayer(){
+            if (jQuery("#isCompleteByUser").val() == 'true'){
+                jQuery("#projectLearnCourseIsCompleted").show();
+                jQuery("#projectLearnGenericPlaceholder").hide();
+                return true;
+            }
+            else
+            {
+                jQuery("#projectLearnCourseIsCompleted").hide();
+                jQuery("#projectLearnGenericPlaceholder").show();
+                return false;
+            }
+        }
 
         function saveSessionParameters(id, title) {
             jQuery.ajax({
                 type: 'POST',
-                url: jQuery(getId("SCORMContextPath")).val()+"/setSession",
-                data: {id:id, title:title},
+                url: jQuery("#SCORMContextPath").val()+"/setSession",
+                data: {id:id, title:title, playerID:jQuery("#playerID").val()},
                 dataType: "json"
             });
         }
         function clearSessionParameters() {
             jQuery.ajax({
-                type: 'GET',
-                url: jQuery(getId("SCORMContextPath")).val()+"/clearSession"
+                type: 'POST',
+                url: jQuery("#SCORMContextPath").val()+"/clearSession"
             });
         }
-
-
 
       function resumePackage(data) {
             var packageTitle = data.get('title');
@@ -141,11 +125,11 @@
             saveSessionParameters(packageId, packageTitle);
             scormPlayer.setName(packageTitle);
             scormPlayer.loadAndResume(packageId);
-            var packageTitle = data.get('title');
-            var packageId = data.id;
-            saveSessionParameters(packageId, packageTitle);
-            scormPlayer.setName(packageTitle);
-            scormPlayer.loadAndResume(packageId);
+           // var packageTitle = data.get('title');
+            //var packageId = data.id;
+            //saveSessionParameters(packageId, packageTitle);
+            //scormPlayer.setName(packageTitle);
+            //scormPlayer.loadAndResume(packageId);
             togglePlayer();
         }
 
@@ -159,18 +143,25 @@
             scormPlayer.doJump(target);
         }
 
-        function togglePlayer() {
-            jQuery1816Player(getId("SCORMPlayerContainer")).toggle();
-            jQuery1816Player(getId("SCORMPlayerView")).toggle();
+        function endSession(){
+            togglePlayer();
+            clearSessionParameters();
+            if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()){
+                jQuery("#projectLearnCourseIsCompleted").show();
+                jQuery("#projectLearnGenericPlaceholder").hide();
+            }
         }
 
-        function getId(id){
-            return "#"+id;
+        function togglePlayer() {
+            jQuery1816Player("#SCORMPlayerContainer").toggle();
+            jQuery1816Player("#SCORMPlayerView").toggle();
         }
+
     </script>
 </head>
 <body>
-<div class="projectLearnGeneric">
+<div id="projectLearnCourseIsCompleted">{{courseIsCompleted}}</div>
+<div class="projectLearnGeneric" id="projectLearnGenericPlaceholder">
     <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
     <div id="SCORMPlayerContainer">
         <br clear="all"/>
@@ -192,5 +183,7 @@
 <input type="hidden" id="courseID" value="{{courseID}}"/>
 <input type="hidden" id="pageID" value="{{pageID}}"/>
 <input type="hidden" id="playerID" value="{{playerID}}"/>
+<input type="hidden" id="isCompleteByUser" value="{{isCompleteByUser}}">
+<input type="hidden" id="defaultPackageID" value="{{defaultPackageID}}">
 </body>
 </html>
