@@ -101,15 +101,24 @@
 
         function renewDatabase() {
             if (confirm("{{renewDatabaseWarningLabel}}")) {
-                jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
-                    alert("{{renewDatabaseCompleteLabel}}");
-                    scormAdminPackages.fetch();
-                });
+
+                jQuery1816Admin('#settingsForm').ajaxSubmit({
+                    type:"POST",
+                    url:Utils.getContextPath() + '/services/administering/UpdateSettings',
+                    dataType:'html',
+                    success:function (data) {
+                        jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
+                            alert("{{renewDatabaseCompleteLabel}}");
+                            scormAdminPackages.fetch();
+                        });
+                    }
+                })
             }
         }
 
         function resetDBInfo() {
-            jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings', function (data) {
+            jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings?t=' + new Date().getTime(),
+                function (data) {
                 jQuery1816Admin('#SCORMServerName').val(data.server);
                 jQuery1816Admin('#SCORMDatabaseName').val(data.database);
                 jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
@@ -120,7 +129,6 @@
         /*{{/isAdmin}}*/
 
         function updatePackages(){
-            //scormAdminPackages.storage.findAll();
             scormAdminPackages.fetch();
         }
     </script>
@@ -136,8 +144,8 @@
         </div>
         <div style="float: left; margin-left: 10px">
             <select id="adminScopeSelect" onchange="updatePackages()" class="ScopeSelect">
-                <option value="site">{{siteScope}}</option>
-                <option value="instance">{{instanceScope}}</option>
+                <option value="siteScope">{{siteScope}}</option>
+                <option value="instanceScope">{{instanceScope}}</option>
             </select>
         </div>
         <!--{{#isAdmin}}-->
@@ -211,6 +219,7 @@
                             <select id="SCORMQuestionType" name="dbManagementSystem">
                                 <option value="h2">H2 (embedded)</option>
                                 <option value="postgres">PostgreSQL</option>
+                                <option value="mysql">MySQL</option>
                             </select>
                         </td>
                     </tr>

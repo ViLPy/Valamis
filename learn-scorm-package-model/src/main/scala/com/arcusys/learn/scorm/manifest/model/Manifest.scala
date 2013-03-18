@@ -63,7 +63,8 @@ class Manifest
   val assetRefID: Option[Long] = None,
   val courseID: Option[Int],
 
-  val visibility: Option[Boolean] = None
+  val visibility: Option[Boolean] = None,
+  val isDefault: Boolean
   )
 {
   base foreach {

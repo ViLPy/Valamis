@@ -1,9 +1,17 @@
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 0;
+</#if>
 DROP TABLE IF EXISTS RollupContribution CASCADE;
+<#if dbType=="mysql">
+SET FOREIGN_KEY_CHECKS = 1;
+</#if>
 
 CREATE TABLE RollupContribution
 (
   <#if dbType=="postgres">
   id serial,
+  <#elseif dbType=="mysql" >
+  id integer not null auto_increment unique,
   <#else>
   id int auto_increment,
   </#if>
@@ -12,7 +20,7 @@ CREATE TABLE RollupContribution
   contributeToNotSatisfied text,
   contributeToCompleted text,
   contributeToIncomplete text,
-  objectiveMeasureWeight numeric,
+  objectiveMeasureWeight numeric(20,2),
   measureSatisfactionIfActive boolean,
 
   CONSTRAINT RollupContribution_pk PRIMARY KEY (id)
@@ -20,6 +28,8 @@ CREATE TABLE RollupContribution
 ) WITH (
   OIDS=FALSE
 </#if>
-);
+)<#if dbType=="mysql" >
+   ENGINE=InnoDB
+</#if>;
 
 ALTER TABLE RollupContribution ADD CONSTRAINT RollupContribution_fk1 FOREIGN KEY (sequencingID) REFERENCES Sequencing(id) ON DELETE CASCADE;

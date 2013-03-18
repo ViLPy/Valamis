@@ -5,16 +5,17 @@ import com.arcusys.scorm.generator.util.ResourceHelpers
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.quiz.model.Quiz
 import com.arcusys.scorm.util.{FileProcessing, FileSystemUtil}
-import com.arcusys.learn.storage.impl.orbroker._
 import scala.collection.mutable
 import com.arcusys.learn.scorm.manifest.serializer.ManifestGenerator
 import com.arcusys.learn.util.TreeNode
 import java.net.URLDecoder
+import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.storage.StorageFactoryContract
 
-class QuizPackageGenerator(quiz: Quiz) {
-  if (!BrokerFactory.isInitialized) throw new RuntimeException("Broker factory is not initialized!")
-  private val quizCategoryStorage = StorageFactory.quizQuestionCategoryStorage
-  private val quizQuestionStorage = StorageFactory.quizQuestionStorage
+class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule) extends Injectable {
+  private val storageFactory: StorageFactoryContract = inject[StorageFactoryContract]
+  private val quizCategoryStorage = storageFactory.quizQuestionCategoryStorage
+  private val quizQuestionStorage = storageFactory.quizQuestionStorage
 
   private val resourceBuffer = mutable.Buffer[Resource]()
   private val scoData = mutable.Map[String, String]()
@@ -30,7 +31,7 @@ class QuizPackageGenerator(quiz: Quiz) {
 
   private val organizationId = "orgId1"
 
-  def generateZip(courseID:Option[Int]) = {
+  def generateZip(courseID: Option[Int]) = {
     val zipName = FileProcessing.getTempFileName("Quiz" + quiz.id.toString, ".zip")
     val zip = new ZipFile(FileSystemUtil.getRealTmpDir + zipName)
     zip.addEntry("imsmanifest.xml", generateManifest(courseID).toString())
@@ -38,14 +39,14 @@ class QuizPackageGenerator(quiz: Quiz) {
     commonResourceURLs.foreach(filename => zip.addFile(getResourceStream("common/" + filename), "data/" + filename))
     resourceFiles.foreach(filename => {
       zip.addFile("data/" + filename,
-        StorageFactory.fileStorage.getFile(filename).getOrElse(throw new Exception("Can't find file '"+filename+"' in DB")).content.getOrElse(throw new Exception("File '"+filename+"' has no content")))
+        storageFactory.fileStorage.getFile(filename).getOrElse(throw new Exception("Can't find file '" + filename + "' in DB")).content.getOrElse(throw new Exception("File '" + filename + "' has no content")))
     })
     zip.close()
 
     zipName
   }
 
-  private def generateManifest(courseID:Option[Int]) = {
+  private def generateManifest(courseID: Option[Int]) = {
     val organization = new Organization(organizationId, quiz.title)
 
     val welcomePage = if (quiz.welcomePageContent.nonEmpty) Seq(generateStaticPage("welcome", "Welcome page", quiz.welcomePageContent)) else Seq()
@@ -55,7 +56,7 @@ class QuizPackageGenerator(quiz: Quiz) {
     // add common files to package and manifest
     resourceBuffer += new AssetResource(scormDependencyID, None, Some("base/"), commonResourceURLs.map(new ResourceFile(_)), Nil)
     val doc = new ManifestDocument(
-      new Manifest(quiz.id, Some("1.1"), Some("data/"), "2004 4th Edition", Some(organizationId), None, quiz.title, courseID=courseID),
+      new Manifest(quiz.id, Some("1.1"), Some("data/"), "2004 4th Edition", Some(organizationId), None, quiz.title, courseID = courseID, isDefault = false),
       organizations = Seq(new TreeNode[Activity](organization, data)),
       resources = resourceBuffer.toSeq, sequencingCollection = Nil
     )

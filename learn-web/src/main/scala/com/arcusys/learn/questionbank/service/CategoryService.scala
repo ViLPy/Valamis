@@ -21,6 +21,11 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
 
   import storageFactory._
 
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/") {
     val courseID = parameter("courseID").intOption(-1)
     jsonModel(questionCategoryStorage.getAllByCourseID(courseID))
@@ -42,7 +47,7 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
 
     //log.debug("Get all child with questions based on categories = [" + categoryIDSet + "] and questions = [" + questionsIDSet + "]")
 
-    def getQuestions(id: Option[Int] ) {
+    def getQuestions(id: Option[Int]) {
       questionStorage.getByCategory(id, courseID).foreach(question => questionSet.add(question))
     }
 
@@ -77,7 +82,7 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
     val title = parameter("title").required
     val description = parameter("description").required
     val parentID = parameter("parentID").intOption(-1)
-    val courseID =  parameter("courseID").intOption(-1)
+    val courseID = parameter("courseID").intOption(-1)
     //log.debug("Creating category(" + title + ", " + description + ", " + parentID + ")")
     val id = questionCategoryStorage.createAndGetID(new QuestionCategory(0, title, description, parentID, courseID))
     jsonModel(questionCategoryStorage.getByID(id))

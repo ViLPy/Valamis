@@ -6,4 +6,8 @@ AND id = :id
 <#if packageID??>
 AND packageID = :packageID
 </#if>
+<#if dbType=="mysql">
+ORDER BY indexNumber ASC, id ASC
+<#else>
 ORDER BY indexNumber, id
+</#if>;

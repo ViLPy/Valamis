@@ -2,7 +2,8 @@ ScopeRuleModel = Backbone.Model.extend({
     defaults:{
         title:"",
         summary:"",
-        visibility: true
+        visibility: true,
+        isDefault: false
     }
 });
 

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.2.1</version>
+    <version>1.4-SNAPSHOT</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
@@ -26,9 +26,8 @@
         </snapshotRepository>
     </distributionManagement>
     <scm>
-        <connection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.2.1</connection>
-        <developerConnection>scm:svn:https://dev-1.arcusys.fi/svn/arcusys/lfscorm/tags/1.2.1</developerConnection>
-        <url>https://dev-1.arcusys.fi/fisheye/project/CR-LEARN/tags/1.2.1</url>
+        <connection>scm:git:https://dev-1.arcusys.fi/fisheye/git/learngit.git</connection>
+        <developerConnection>scm:git:https://dev-1.arcusys.fi/fisheye/git/learngit.git</developerConnection>
     </scm>
 
     <modules>
@@ -43,6 +42,9 @@
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
         <module>learn-web</module>
+        <module>learn-persistence-api</module>
+        <module>learn-puppet</module>
+        <module>learn-demo-hook</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -91,8 +93,8 @@
         </repository>
     </repositories>
     <build>
-        <sourceDirectory>${project.basedir}/src/main/scala</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/scala</testSourceDirectory>
+        <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
+        <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -145,6 +147,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>perform</goal>
+                        </goals>
+                        <configuration>
+                            <pomFileName>https://dev-1.arcusys.fi/fisheye/git/learngit.git/pom.xml</pomFileName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

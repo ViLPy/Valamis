@@ -1,44 +1,81 @@
-<#if siblingID??>
+<#if dbType=="mysql" >
+    <#if siblingID??>
+        UPDATE QuizCategory SET
+            parentID = :parentID,
+            arrangementIndex=(select p.arrangementIndex from (SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID)as p)
+        <#if moveAfter == true>
+            +1
+            -- Woohoo! Template magic! Increase arrangementIndex by 1. Refers to "arrangementIndex"=...
+        </#if>
+        WHERE id = :id;
 
-UPDATE QuizCategory SET
-    parentID = :parentID,
-    "position"=(SELECT "position" FROM QuizCategory WHERE id = :siblingID)
-<#if moveAfter == true> 
-+1
--- Woohoo! Template magic! Increase position by 1. Refers to "position"=...
-</#if>
-WHERE id = :id;
-
-UPDATE QuizCategory SET 
-    "position" = "position" + 1
-WHERE
-<#if hasParentID??>
-    parentID = :parentID
+        UPDATE QuizCategory SET
+            arrangementIndex = arrangementIndex + 1
+        WHERE
+            <#if hasParentID??>
+                parentID = :parentID
+            <#else>
+                (parentID is null)
+            </#if>
+            <#if moveAfter>
+                AND (arrangementIndex > (select p.arrangementIndex from (SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID)as p))
+            <#else>
+                AND (arrangementIndex >= (select p.arrangementIndex from (SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID)as p))
+            </#if>
+         AND (id != :id);
+    <#else>
+        UPDATE QuizCategory SET
+            parentID = :parentID,
+            -- if this is empty group, then set arrangementIndex as 1
+            arrangementIndex = COALESCE((select p.arrangementIndex from (SELECT arrangementIndex FROM QuizCategory
+                                    WHERE
+                                      <#if parentID??>
+                                          parentID = :parentID
+                                      <#else>
+                                          (parentID is null)
+                                      </#if>
+                                    AND id != :id ORDER BY arrangementIndex DESC LIMIT 1)as p),0) + 1
+            WHERE id = :id;
+    </#if>
 <#else>
-    (parentID is null)
-</#if>
-<#if moveAfter>
-    AND ("position" > (SELECT "position" FROM QuizCategory WHERE id = :siblingID))
-<#else>
-    AND ("position" >= (SELECT "position" FROM QuizCategory WHERE id = :siblingID))
-</#if>
- AND (id != :id);
+    <#if siblingID??>
+        UPDATE QuizCategory SET
+            parentID = :parentID,
+            arrangementIndex=(SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID)
+        <#if moveAfter == true>
+        +1
+        -- Woohoo! Template magic! Increase arrangementIndex by 1. Refers to "arrangementIndex"=...
+        </#if>
+        WHERE id = :id;
 
-<#else>
-
-UPDATE QuizCategory SET
-    parentID = :parentID,
-    -- if this is empty group, then set position as 1
-    "position" = COALESCE((SELECT "position" 
-                            FROM QuizCategory 
-                            WHERE 
-                            <#if parentID??>
-                                parentID = :parentID
-                            <#else>
-                                (parentID is null)
-                            </#if>
-                            AND id != :id ORDER BY "position" DESC LIMIT 1),
-                           0) + 1
-WHERE id = :id;
-
-</#if>
+        UPDATE QuizCategory SET
+            arrangementIndex = arrangementIndex + 1
+        WHERE
+        <#if hasParentID??>
+            parentID = :parentID
+        <#else>
+            (parentID is null)
+        </#if>
+        <#if moveAfter>
+            AND (arrangementIndex > (SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID))
+        <#else>
+            AND (arrangementIndex >= (SELECT arrangementIndex FROM QuizCategory WHERE id = :siblingID))
+        </#if>
+         AND (id != :id);
+    <#else>
+        UPDATE QuizCategory SET
+            parentID = :parentID,
+            -- if this is empty group, then set arrangementIndex as 1
+            arrangementIndex = COALESCE((SELECT arrangementIndex
+                                    FROM QuizCategory
+                                    WHERE
+                                    <#if parentID??>
+                                        parentID = :parentID
+                                    <#else>
+                                        (parentID is null)
+                                    </#if>
+                                    AND id != :id ORDER BY arrangementIndex DESC LIMIT 1),
+                                   0) + 1
+        WHERE id = :id;
+    </#if>
+</#if>;

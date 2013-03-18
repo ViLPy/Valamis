@@ -13,7 +13,10 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
 
   import storageFactory._
 
-  //private val API = new APIImpl()
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
 
   post("/Initialize") {
     val userID = try {

@@ -32,6 +32,13 @@ In Learn 1.2.1 it's required to manually add 2 roles in Liferay: Student and Tea
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.3 Update: 18.03.2013
+ - MySQL support
+ - Demo hook
+ - IsDefault property
+ - Updater portlet
+ - Bugs fixes
+
 ## Version 1.2.1 Update: 22.01.2013
  - Implemented Scope to all portlets
  - Added possibility to add manual comment and grade for essay and for whole course

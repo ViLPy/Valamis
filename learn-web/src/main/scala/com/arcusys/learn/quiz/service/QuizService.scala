@@ -20,6 +20,11 @@ class QuizService(configuration: BindingModule) extends ServletBase(configuratio
       "courseID" -> quiz.courseID)
   )
 
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/") {
     //jsonModel(quizStorage.getAll)
     val courseID = parameter("courseID").intOption(-1)

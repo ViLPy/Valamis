@@ -20,6 +20,12 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
       "url" -> question.url
     )
   )
+
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/:id") {
     val id = parameter("id").intRequired
     jsonModel(quizQuestionStorage getByID id)

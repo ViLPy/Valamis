@@ -5,11 +5,8 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
-import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portal.kernel.util.WebKeys
-import com.arcusys.scorm.lms.UserManagement
 
-class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
+class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
@@ -19,7 +16,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
     val userID = themeDisplay.getUser.getUserId
-    val isAdmin = UserManagement.hasTeacherPermissions(userID, courseID)
+    val isAdmin = userManagement.hasTeacherPermissions(userID, courseID)
     if (isAdmin)
       out.println(generateResponse(contextPath, "scorm_questionbank.html", language, true, courseID))
     else
@@ -48,7 +45,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
       case e: FileNotFoundException => getTranslation("/i18n/questionbank_en")
       case _ => Map[String, String]()
     }
-    val data = Map("contextPath" -> contextPath, "isPortlet" -> isPortlet, "language" -> language, "courseID"->courseID) ++ translations
+    val data = Map("contextPath" -> contextPath, "isPortlet" -> isPortlet, "language" -> language, "courseID" -> courseID) ++ translations
     mustache(data, templateName)
   }
 }

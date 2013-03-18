@@ -1,7 +1,8 @@
 PackageView = Backbone.View.extend({
     events:{
         "click":"setActive",
-        "click #visibility":"updateVisibility"
+        "click #visibility":"updateVisibility",
+        "click #isDefault":"updateDefaultPackage"
     },
 
     initialize:function () {
@@ -18,6 +19,13 @@ PackageView = Backbone.View.extend({
         this.model.save({
             visibility:this.$("#visibility").is(":checked")
         });
+    },
+    updateDefaultPackage:function () {
+        this.model.save({
+            isDefault:this.$("#isDefault").is(":checked")
+        });
+        this.setActive()
+        this.trigger('change-isDefault', this);
     },
 
     render:function () {
@@ -41,7 +49,8 @@ PackageView = Backbone.View.extend({
         this.model.save({
             title:this.$("#title").val(),
             summary:this.$("#summary").val(),
-            visibility:this.$("#visibility").is(":checked")
+            visibility:this.$("#visibility").is(":checked"),
+            isDefault:this.$("#isDefault").is(":checked")
         });
         this.showDefault();
     },
@@ -140,6 +149,7 @@ PackageListView = Backbone.View.extend({
             model:pkg
         });
         view.on('change-active', this.changeActive, this);
+        view.on('change-isDefault', this.changeIsDefault, this);
         var renderedView = view.render();
         this.scormPackageList.add(pkg.id, renderedView, pkg.toJSON());
         this.$("#SCORMAdminPackagesGrid").append(renderedView);
@@ -150,6 +160,16 @@ PackageListView = Backbone.View.extend({
             this.activePackageView = view;
         }
         this.$("tr[id!='" + this.activePackageView.model.id + "']").removeClass('SCORMHighlitedPackage');
+    },
+
+    changeIsDefault: function(){
+        this.collection.each(this.uncheckDefaults, this)
+    },
+
+    uncheckDefaults: function(item){
+        if (item.id != this.activePackageView.model.id){
+            this.$("tr[id='" + item.id + "']>td>#isDefault").attr('checked', false);
+        }
     },
 
     addPackagesFromCollection:function () {

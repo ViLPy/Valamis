@@ -19,10 +19,10 @@ class ActivityStateStorageImpl extends KeyedEntityStorageImpl[ActivityState]("Ac
     getOne("attemptID"->attemptID)
   }
 
-  def createOrganization(treeID: Int, state: ActivityState) {
+  /*def createOrganization(treeID: Int, state: ActivityState) {
     val id = createAndGetID(state, "activityStateTreeID" -> treeID)
     createObjectives(id, state.objectiveStates)
-  }
+  }*/
 
   def createNodeItem(nodeID: Int, state: ActivityState) {
     val id = createAndGetID(state, "activityStateNodeID" -> nodeID)
@@ -35,9 +35,9 @@ class ActivityStateStorageImpl extends KeyedEntityStorageImpl[ActivityState]("Ac
     }
   }
 
-  def getOrganization(treeID: Int): Option[ActivityState] = {
+  /*def getOrganization(treeID: Int): Option[ActivityState] = {
     getOne("activityStateTreeID" -> treeID)
-  }
+  }*/
 
   def getNodeItem(nodeID: Int): Option[ActivityState] = {
     getOne("activityStateNodeID" -> nodeID)

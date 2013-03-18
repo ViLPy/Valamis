@@ -7,5 +7,6 @@
         <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
         <portlet id="Gradebook">Gradebook</portlet>
+        <portlet id="LearnDataMigration1_2">Project Learn data migration tool v1.2</portlet>
     </category>
 </display>

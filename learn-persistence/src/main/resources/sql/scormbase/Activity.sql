@@ -12,4 +12,8 @@ AND organizationID = :organizationID
 <#if parentID??>
 AND parentID = :parentID
 </#if>
+<#if dbType=="mysql">
+ORDER BY indexNumber ASC, id ASC
+<#else>
 ORDER BY indexNumber, id
+</#if>;

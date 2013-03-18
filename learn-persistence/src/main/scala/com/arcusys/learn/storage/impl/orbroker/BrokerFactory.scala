@@ -7,6 +7,7 @@ import java.net.URISyntaxException
 import java.util.Properties
 import java.util.jar.JarFile
 import org.orbroker._
+import adapt.MySQLAdapter
 import org.orbroker.config.dynamic._
 import org.orbroker.config._
 import collection.JavaConversions._
@@ -14,15 +15,21 @@ import scala.collection.mutable
 import org.h2.jdbcx.JdbcDataSource
 import javax.sql.DataSource
 import com.arcusys.scorm.util.FileSystemUtil
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 
 object BrokerFactory {
   var dsPostgres: Option[PGPoolingDataSource] = None
   var dsH2: Option[JdbcDataSource] = None
+  var dsMySql: Option[MysqlDataSource] = None
+
 
   private def getBroker(properties: Properties) = {
     if (dsPostgres.isDefined) {
       dsPostgres.get.close()
       dsPostgres = None
+    }
+    if (dsMySql.isDefined) {
+      dsMySql = None
     }
 
     val ds: DataSource = properties.getProperty("dbManagementSystem") match {
@@ -36,6 +43,17 @@ object BrokerFactory {
         dsPostgres.get.setPassword(properties.getProperty("password", ""))
         dsPostgres.get.setMaxConnections(100000)
         dsPostgres.get
+      }
+      case "mysql" => {
+        Class.forName("com.mysql.jdbc.Driver")
+        dsMySql = Some(new MysqlDataSource)
+        dsMySql.get.setResourceId("Data Source")
+        dsMySql.get.setAllowMultiQueries(true)
+        dsMySql.get.setServerName(properties.getProperty("server", ""))
+        dsMySql.get.setDatabaseName(properties.getProperty("database", ""))
+        dsMySql.get.setUser(properties.getProperty("login", ""))
+        dsMySql.get.setPassword(properties.getProperty("password", ""))
+        dsMySql.get
       }
       case _ => {
         Class.forName("org.h2.Driver")

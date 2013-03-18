@@ -58,6 +58,11 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
     mapNode(node)
   })
 
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/package/:packageID/organization/:organizationID") {
     val userID = try {
       request.getHeader("scormUserID").toInt

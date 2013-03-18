@@ -1,0 +1,18 @@
+# ehcache settings
+#
+net.sf.ehcache.configurationResourceName.peerProviderProperties=file=/myehcache/tcp.xml
+ehcache.multi.vm.config.location.peerProviderProperties=file=/myehcache/tcp.xml
+
+net.sf.ehcache.configurationResourceName.peerProviderProperties=file=/myehcache/jgroups-tcp.xml
+ehcache.multi.vm.config.location.peerProviderProperties=file=/myehcache/jgroups-tcp.xml
+
+
+net.sf.ehcache.configurationResourceName=/myehcache/hibernate-clustered.xml
+ehcache.multi.vm.config.location=/myehcache/liferay-multi-vm-clustered.xml
+ehcache.bootstrap.cache.loader.factory=com.liferay.portal.cache.ehcache.JGroupsBootstrapCacheLoaderFactory
+ehcache.cache.event.listener.factory=net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory
+ehcache.cache.manager.peer.provider.factory=net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory
+
+org.quartz.jobStore.isClustered=true
+lucene.replicate.write=true
+cluster.link.enabled=true

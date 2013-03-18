@@ -17,4 +17,4 @@ AND id = :id
     AND parentID = :parentID
     </#if>
 </#if>
-ORDER BY "position",id
+ORDER BY arrangementIndex,id

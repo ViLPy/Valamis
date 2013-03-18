@@ -14,7 +14,8 @@
             var answer = jQuery("select", jQuery(element)).val();
             userAnswers.push([question, answer].join("[.]"));
         });
-        var userAnswersMerged = userAnswers.join("[,]");
+        var dblQuote=new RegExp("\"", "g");
+        var userAnswersMerged = userAnswers.join("[,]").replace(dblQuote, "'");
 
         // this will check is user answer right
         getAPI().SetValue("cmi.interactions.0.type", "matching");

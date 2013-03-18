@@ -10,8 +10,6 @@ class AttemptStorageImpl extends KeyedEntityStorageImpl[Attempt]("Attempt", "id"
   val userStorage = new UserStorageImpl
   val packageStorage = new PackagesStorageImpl
 
-  def getAll(userID: Int, packageID: Int) = getAll(userID: Int, packageID: Int)
-
   def getActive(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "isComplete" -> false)
   def getLast(userID: Int, packageID: Int, complete: Boolean = false) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true, "isComplete" -> complete)
 
@@ -33,6 +31,10 @@ class AttemptStorageImpl extends KeyedEntityStorageImpl[Attempt]("Attempt", "id"
   //TODO: review the query for effectiveness (DISTINCT detected)
   def getUsersWithAttemptsInPackage(packageID: Int) = getAll("_users", userStorage.extractor, "packageID" -> packageID)
 
+  def checkIfComplete(userID: Int, packageID: Int)={
+    val attempt = getAll("userID" -> userID, "packageID" -> packageID, "isComplete" -> true)
+    !attempt.isEmpty
+  }
   def extract(row: Row) = Attempt(
     row.integer("id").get,
     userStorage.getByID(row.integer("userID").get).getOrElse(throw new Exception("User not found!")),

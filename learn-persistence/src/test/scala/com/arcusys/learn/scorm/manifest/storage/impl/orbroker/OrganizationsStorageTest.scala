@@ -26,14 +26,14 @@ class OrganizationsStorageTest(dbFileName: String) extends ParameterizedUnitTest
   @Test
   def canCreate() {
     //TODO: bad metadata
-    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     organizationsStorage.create(pId, new Organization("Organization1", "Test organization 1"))
     assertEquals(1, organizationsStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ))
     val organization = new Organization("1", "Test organization 1")
     organizationsStorage.create(testPackageId, organization)
     val testOrganization = organizationsStorage.get(testPackageId, "1").get
@@ -49,8 +49,8 @@ class OrganizationsStorageTest(dbFileName: String) extends ParameterizedUnitTest
 
   @Test
   def canGetByPackage() {
-    val testPackage1Id = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) ))
-    val testPackage2Id = packagesStorage.createAndGetID(new Manifest(122, None, None, "", Some("defaultOrganizationIdentifier2"), Some("resourcesBase2/"), "title2",courseID= Some(0) ))
+    val testPackage1Id = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0) , isDefault = false))
+    val testPackage2Id = packagesStorage.createAndGetID(new Manifest(122, None, None, "", Some("defaultOrganizationIdentifier2"), Some("resourcesBase2/"), "title2",courseID= Some(0), isDefault = false ))
     organizationsStorage.create(testPackage1Id, new Organization("Organization1", "Test organization 1"))
     organizationsStorage.create(testPackage1Id, new Organization("Organization2", "Test organization 2"))
     organizationsStorage.create(testPackage1Id, new Organization("Organization3", "Test organization 3"))

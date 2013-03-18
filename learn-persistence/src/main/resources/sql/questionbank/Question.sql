@@ -17,4 +17,4 @@ AND id = :id
     AND (courseID = :courseID OR   courseID is null)
     </#if>
 </#if>
-ORDER BY "position",id
+ORDER BY arrangementIndex,id
