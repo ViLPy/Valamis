@@ -10,8 +10,9 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
   val storageFactory = inject[StorageFactoryContract]
 
   private def getAllUserRoles(userID: Long, courseID: Long) = {
-    val roles = RoleLocalServiceUtil.getUserGroupRoles(userID, courseID)
-    (for (i <- 0 to roles.size - 1) yield roles.get(i))
+    val groupRoles = RoleLocalServiceUtil.getUserGroupRoles(userID, courseID)
+    val roles = RoleLocalServiceUtil.getUserRoles(userID)
+    (for (i <- 0 to roles.size - 1) yield roles.get(i)) ++ (for (i <- 0 to groupRoles.size - 1) yield groupRoles.get(i))
   }
 
   def getStudentsWithAttemptsByCourseID(courseID: Long) = {
