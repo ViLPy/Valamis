@@ -21,7 +21,7 @@ The solution will be further developed to support the full set of requirements f
 **After deploying** please login as portal administrator, go to SCORM View portlet preferences and re-initalize database from admin. dialog.
 
 ### Download 
-Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.2.1/learn-web-1.2.1.war**
+Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.3/**
 
 ###Post-deployment process
 After deployment you just need to configure DB. This can be done from SCORMPlayer portlet preferences or if working as servlets by opening '/ScormAdmin'.
