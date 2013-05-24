@@ -3,18 +3,15 @@ package com.arcusys.learn.view
 import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import java.io.FileNotFoundException
 
 
 class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
-  val attemptStorage = StorageFactory.attemptStorage
-
   override def destroy() {}
 
-  override def doView(request: RenderRequest, response: RenderResponse) = {
-    val userUID = request.getRemoteUser.toInt
+  override def doView(request: RenderRequest, response: RenderResponse) {
+    val userUID = if (request.getRemoteUser != null) request.getRemoteUser.toInt else null.asInstanceOf[Int]
     val userName = LiferayHelpers.getUserName(request)
     val lang = LiferayHelpers.getLanguage(request)
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
@@ -24,7 +21,7 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     if (userManagement.isLearnUser(userUID, courseID)) {
       response.getWriter.println(generateResponse(userUID, userName, lang, request.getContextPath, isPortlet = true,
         //isAdmin = request.isUserInRole("administrator"),
-        isAdmin = userManagement.hasTeacherPermissions(userUID, courseID), courseID))
+        isAdmin = (userManagement.hasTeacherPermissions(userUID, courseID)), courseID = courseID))
     }
     else {
       response.getWriter.println(generateErrorResponse(contextPath, "scorm_nopermissions.html", lang))

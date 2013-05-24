@@ -10,4 +10,5 @@ trait FileStorage {
   def store(filename: String, content: Array[Byte])
 
   def delete(filename: String, asDirectory: Boolean = false)
+  def renew()
 }

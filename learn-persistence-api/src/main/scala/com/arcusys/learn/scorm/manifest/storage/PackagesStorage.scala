@@ -22,4 +22,8 @@ trait PackagesStorage
   def delete(id: Int)
   def setAssetRefID(id: Int, refID:Long)
   def setDescriptions(id: Int, title: String, summary: String)
+
+  def getPackagesWithAttempts: Seq[Manifest]
+  def getPackagesWithUserAttempts(userID: Int): Seq[Manifest]
+  def renew()
 }

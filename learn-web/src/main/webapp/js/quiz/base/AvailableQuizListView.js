@@ -61,6 +61,7 @@ AvailableQuizListView = Backbone.View.extend({
     removeQuiz:function (id) {
         var model = this.collection.get(id);
         this.collection.remove(model);
+        this.quizList.remove(id)
     },
 
     addOne:function (element) {

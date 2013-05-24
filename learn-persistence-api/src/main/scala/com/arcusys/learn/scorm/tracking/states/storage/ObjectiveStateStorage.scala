@@ -8,4 +8,7 @@ trait ObjectiveStateStorage {
   def getAll(stateID: Int): Map[Option[String], ObjectiveState]
 
   def modify(attemptID: Int, activityID: String, key: Option[String], state: ObjectiveState)
+
+  // TODO: add delete
+  def renew()
 }

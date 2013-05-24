@@ -10,15 +10,16 @@ import com.liferay.portal.kernel.util._
 import com.liferay.portal.kernel.dao.orm.DynamicQuery
 import com.liferay.portal.security.permission.PermissionChecker
 import java.util
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
+import com.arcusys.learn.ioc.InjectableFactory
 
 object PackageIndexer {
   val PORTLET_ID: String = utils.PortletKeys.SCORM_PACKAGE
   private final val CLASS_NAMES: Array[String] = Array[String](classOf[Manifest].getName)
 }
 
-class PackageIndexer extends BaseIndexer {
-  lazy val packageStorage = StorageFactory.packageStorage
+class PackageIndexer extends BaseIndexer with InjectableFactory {
+  lazy val packageStorage = storageFactory.packageStorage
+  lazy val assetHelper = new AssetHelper()
 
   def getClassNames: Array[String] = PackageIndexer.CLASS_NAMES
 
@@ -45,7 +46,7 @@ class PackageIndexer extends BaseIndexer {
       case a: AssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
       case _ => obj.asInstanceOf[Manifest]
     }
-    deleteDocument(AssetHelper.getAssetFromManifest(pkg).getCompanyId, pkg.assetRefID.get)
+    deleteDocument(assetHelper.getAssetFromManifest(pkg).getCompanyId, pkg.assetRefID.get)
   }
 
   protected def doGetDocument(obj: Object) = {
@@ -56,7 +57,7 @@ class PackageIndexer extends BaseIndexer {
     }
 
     val document = new DocumentImpl
-    val asset = AssetHelper.getAssetFromManifest(pkg)
+    val asset = assetHelper.getAssetFromManifest(pkg)
     document.addUID(PackageIndexer.PORTLET_ID, pkg.assetRefID.get)
     document.addKeyword(Field.COMPANY_ID, asset.getCompanyId)
     document.addKeyword(Field.ENTRY_CLASS_NAME, classOf[Manifest].getName)
@@ -89,7 +90,7 @@ class PackageIndexer extends BaseIndexer {
       case a: AssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
       case _ => obj.asInstanceOf[Manifest]
     }
-    SearchEngineUtil.updateDocument(getSearchEngineId, AssetHelper.getAssetFromManifest(pkg).getCompanyId, getDocument(pkg))
+    SearchEngineUtil.updateDocument(getSearchEngineId, assetHelper.getAssetFromManifest(pkg).getCompanyId, getDocument(pkg))
   }
 
   protected def doReindex(className: String, classPK: Long) {
@@ -107,7 +108,7 @@ class PackageIndexer extends BaseIndexer {
   protected def reindexPackages(pkg: Manifest) {
     val documents = new util.ArrayList[Document]
     documents.add(getDocument(pkg))
-    SearchEngineUtil.updateDocuments(getSearchEngineId, AssetHelper.getAssetFromManifest(pkg).getCompanyId, documents)
+    SearchEngineUtil.updateDocuments(getSearchEngineId, assetHelper.getAssetFromManifest(pkg).getCompanyId, documents)
   }
 
   protected def reindexPackages(companyId: Long) {
@@ -115,7 +116,7 @@ class PackageIndexer extends BaseIndexer {
   }
 
   protected def reindexKBArticles(companyId: Long, startKBArticleId: Long, endKBArticleId: Long) {
-    val packages = packageStorage.getAll.filter(pkg => pkg.assetRefID.isDefined && AssetHelper.getAssetFromManifest(pkg).getCompanyId == companyId)
+    val packages = packageStorage.getAll.filter(pkg => pkg.assetRefID.isDefined && assetHelper.getAssetFromManifest(pkg).getCompanyId == companyId)
     val documents = new java.util.ArrayList[Document]
     for (pkg <- packages) {
       val document = doGetDocument(pkg)

@@ -8,4 +8,7 @@ trait UserStorage {
   def createAndGetID(user: User): Int
   def modify(user: User)
   def delete(userID: Int)
+  def getUsersWithAttempts: Seq[User]
+  def getUsersWithAttemptsInPackage(packageID: Int): Seq[User]
+  def renew()
 }

@@ -1,33 +1,25 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker
 
-import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageImpl
+import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageBaseImpl
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import org.orbroker.Row
+import impl.{ObjectiveFieldsMapper, ObjectiveEntityCreator, ObjectiveEntityStorage}
+import org.orbroker.{RowExtractor, Row}
 
-class ObjectiveStorageImpl extends KeyedEntityStorageImpl[Objective]("Objective", "id") with ObjectiveStorage {
-  private val mapStorage = new ObjectiveMapStorageImpl
+class ObjectiveStorageImpl extends KeyedEntityStorageBaseImpl[Objective]("Objective", "id") with ObjectiveEntityStorage with ObjectiveExtractor with ObjectiveEntityCreator{
+  val mapStorage: ObjectiveMapStorage = new ObjectiveMapStorageImpl
+}
 
-  def create(sequencingID: Int, objective: Objective, isPrimary: Boolean) {
-    val objectiveID = createAndGetID(objective, "sequencingID" -> sequencingID, "isPrimary" -> isPrimary)
-    mapStorage.create(objectiveID, objective.globalObjectiveMap)
-  }
 
-  def getPrimary(sequencingID: Int) = {
-    getOne("sequencingID" -> sequencingID, "isPrimary" -> true)
-  }
-
-  def getNonPrimary(sequencingID: Int): Seq[Objective] =
-    getAll("sequencingID" -> sequencingID, "isPrimary" -> false)
-
+trait ObjectiveExtractor extends RowExtractor[Objective] {
+  def mapStorage: ObjectiveMapStorage
   def extract(row: Row) = {
-    val globalObjectiveMap = mapStorage.get(row.integer("id").get)
-    require(globalObjectiveMap.isDefined, "Objective should have globalObjectiveMap")
-    new Objective(
-      row.string("identifier"),
-      row.bit("satisfiedByMeasure").get,
-      row.decimal("minNormalizedMeasure").get,
-      globalObjectiveMap.get
-    )
+    val mapper = new ObjectiveFieldsMapper {
+      def identifier =  row.string("identifier")
+      def minNormalizedMeasure = row.decimal("minNormalizedMeasure").get
+      def satisfiedByMeasure = row.bit("satisfiedByMeasure").get
+    }
+    createObjective(row.integer("id").get, mapper)
   }
+  def createObjective(id: Int, mapper: ObjectiveFieldsMapper): Objective
 }

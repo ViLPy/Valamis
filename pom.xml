@@ -3,13 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <scala.version>2.9.1</scala.version>
+        <liferay.version>6.1.1</liferay.version>
     </properties>
     <distributionManagement>
         <site>
@@ -38,20 +40,23 @@
         <module>learn-scorm-tracking-model</module>
         <module>learn-quiz-package-generator</module>
         <module>learn-util</module>
+        <module>learn-persistence-api</module>
+        <module>learn-persistence-api-test</module>
         <module>learn-persistence</module>
+        <module>learn-persistence-liferay</module>
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
         <module>learn-web</module>
-        <module>learn-persistence-api</module>
         <module>learn-puppet</module>
         <module>learn-demo-hook</module>
+        <module>learn-servicebuilder</module>
     </modules>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>
-                <version>2.9.1</version>
+                <version>${scala.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -60,18 +65,23 @@
             </dependency>
             <dependency>
                 <groupId>org.scala-tools.subcut</groupId>
-                <artifactId>subcut_2.9.1</artifactId>
+                <artifactId>subcut_${scala.version}</artifactId>
                 <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.scalatest</groupId>
-                <artifactId>scalatest_2.9.1</artifactId>
+                <artifactId>scalatest_${scala.version}</artifactId>
                 <version>1.7.2</version>
             </dependency>
             <dependency>
                 <groupId>org.scalamock</groupId>
-                <artifactId>scalamock-scalatest-support_2.9.1</artifactId>
+                <artifactId>scalamock-scalatest-support_${scala.version}</artifactId>
                 <version>2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.specs2</groupId>
+                <artifactId>specs2_${scala.version}</artifactId>
+                <version>1.12.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -103,18 +113,36 @@
                     <version>2.15.2</version>
                     <executions>
                         <execution>
+                            <id>compile</id>
                             <goals>
                                 <goal>compile</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                        <execution>
+                            <id>test-compile</id>
+                            <goals>
                                 <goal>testCompile</goal>
+                            </goals>
+                            <phase>test-compile</phase>
+                        </execution>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>compile</goal>
                             </goals>
                         </execution>
                     </executions>
                     <configuration>
                         <encoding>UTF-8</encoding>
-                        <scalaVersion>2.9.1</scalaVersion>
+                        <scalaVersion>${scala.version}</scalaVersion>
                         <args>
                             <arg>-target:jvm-1.5</arg>
                         </args>
+                        <jvmArgs>
+                            <jvmArg>-Xmx1024m</jvmArg>
+                            <jvmArg>-Xmx1024m</jvmArg>
+                        </jvmArgs>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -141,9 +169,27 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.3</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*Spec.java</include>
+                            <include>**/*Test.java</include>
+                        </includes>
+                        <argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=512m</argLine>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>

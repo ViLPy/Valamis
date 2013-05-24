@@ -104,13 +104,14 @@
 
                 jQuery1816Admin('#settingsForm').ajaxSubmit({
                     type:"POST",
-                    url:Utils.getContextPath() + '/services/administering/UpdateSettings',
+                    //url:Utils.getContextPath() + '/services/administering/UpdateSettings',
+                    url:Utils.getContextPath() + '/services/administering/RenewDatabase',
                     dataType:'html',
                     success:function (data) {
-                        jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
+                        //jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
                             alert("{{renewDatabaseCompleteLabel}}");
                             scormAdminPackages.fetch();
-                        });
+                       // });
                     }
                 })
             }
@@ -184,7 +185,8 @@
     <div id="SCORMAdminDialog" title="{{adminDialogTitleLabel}}">
 
         <form id="settingsForm" method="post">
-            <div class="SCORMAdminDialogFields">
+            <b style="color:gray; font-size: small">DB settings removed because for compatibility with "Liferay marketplace" we started to use Liferay's database.</b>
+            <!--<div class="SCORMAdminDialogFields">
                 <table>
                     <tbody>
                     <tr>
@@ -226,16 +228,17 @@
                     </tbody>
                 </table>
             </div>
+            -->
             <div class="SCORMAdminDialogButtons">
                 <input type="button" id="SCORMRenewDatabaseSettings" class="textbutton" onclick="renewDatabase()"
                        value="{{adminDialogReInitButtonLabel}}"/>
 
-                <div class="float-right" style="float: right;">
+                <!--<div class="float-right" style="float: right;">
                     <input type="button" id="SCORMResetDatabaseSettings" class="textbutton" onclick="resetDBInfo()"
                            value="{{adminDialogResetButtonLabel}}"/>
                     <input type="button" id="SCORMSaveDatabaseSettings" class="textbutton" onclick="saveDatabase()"
                            value="{{adminDialogSaveButtonLabel}}"/>
-                </div>
+                </div>-->
                 <div class="clear"></div>
             </div>
         </form>

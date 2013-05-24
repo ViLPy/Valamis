@@ -13,6 +13,8 @@ import com.arcusys.learn.liferay.service.asset.AssetHelper
 class GeneratedPackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
+  private val assetHelper = new AssetHelper()
+
   import storageFactory._
 
   before() {
@@ -48,7 +50,7 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
     val filename = generator.generateZip(courseID)
 
     val packageID = packageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0, filename.length - 4), courseID)
-    if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
 
     packageID
   }

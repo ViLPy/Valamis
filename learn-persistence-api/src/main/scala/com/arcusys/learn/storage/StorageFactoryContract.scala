@@ -44,7 +44,23 @@ trait StorageFactoryContract {
 
   def playerScopeRuleStorage: PlayerScopeRuleStorage
 
-  def renewWholeStorage()
-
-  def dbType: DBType.Value
+  def renewWholeStorage() {
+    packageStorage.renew()
+    //organizationStorage.asInstanceOf[OrganizationsStorageImpl].renew()
+    activityStorage.renew()
+    resourceStorage.renew()
+    questionCategoryStorage.renew()
+    questionStorage.renew()
+    quizStorage.renew()
+    quizQuestionCategoryStorage.renew()
+    quizQuestionStorage.renew()
+    userStorage.renew()
+    attemptStorage.renew()
+    dataModelStorage.renew()
+    activityStateTreeStorage.renew()
+    fileStorage.renew()
+    courseStorage.renew()
+    packageScopeRuleStorage.renew()
+    playerScopeRuleStorage.renew()
+  }
 }

@@ -5,6 +5,8 @@ import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
+import com.arcusys.learn.quiz.model.{PlainTextQuizQuestion, ExternalQuizQuestion, QuestionBankQuizQuestion}
+import com.arcusys.learn.questionbank.model.PlainText
 
 class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -34,9 +36,11 @@ class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBas
     val context = params("context")
     val gen = new QuestionViewGenerator(isPreview = true)
     val quizQuestion = quizQuestionStorage.getByID(id).get
-    quizQuestion.question match {
-      case Some(question) => gen.getHTMLByQuestionId(question, context)
-      case None => redirect(quizQuestion.url.getOrElse(""))
+    quizQuestion match {
+      case question: QuestionBankQuizQuestion => gen.getHTMLByQuestionId(question.question, context)
+        // interpret as usual plain text
+      case plain: PlainTextQuizQuestion => gen.getHTMLByQuestionId(new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), plain.text, plain.categoryID), context)
+      case external: ExternalQuizQuestion => redirect(external.url)
     }
   }
 }

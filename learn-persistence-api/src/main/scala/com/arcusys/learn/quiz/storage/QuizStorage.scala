@@ -9,4 +9,5 @@ trait QuizStorage {
   def createAndGetID(entity: Quiz): Int
   def delete(id: Int)
   def modify(entity: Quiz)
+  def renew()
 }

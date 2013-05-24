@@ -17,8 +17,10 @@ CREATE TABLE QuizQuestion
   </#if>
   categoryID integer,
   questionID integer,
+  questionType text,
   url text,
   title text,
+  plainText text,
   quizID integer,
   arrangementIndex integer,
   CONSTRAINT QuizQuestion_pk PRIMARY KEY (id)

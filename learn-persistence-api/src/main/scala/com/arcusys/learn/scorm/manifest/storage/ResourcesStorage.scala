@@ -8,4 +8,6 @@ trait ResourcesStorage
   def getByPackageID(packageID: Int):Seq[Resource]
   def getByID(packageID: Int, resourceID: String): Option[Resource]
   def createForPackageAndGetID(packageID: Int, entity: Resource): Int
+  def delete(packageID: Int)
+  def renew()
 }

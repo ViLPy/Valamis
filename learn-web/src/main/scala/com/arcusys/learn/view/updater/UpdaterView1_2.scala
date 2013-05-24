@@ -33,7 +33,7 @@ class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSup
       val packages = StorageFactory.packageStorage.getAll
       val packageScopeStorage = StorageFactory.packageScopeRuleStorage
       packages.foreach(pkg => {
-        if (packageScopeStorage.get(pkg.id).isEmpty) packageScopeStorage.create(pkg.id, ScopeType.Site, Some(request.getParameter("scopeID")), visibility = false)
+        if (packageScopeStorage.get(pkg.id).isEmpty) packageScopeStorage.create(pkg.id, ScopeType.Site, Some(request.getParameter("scopeID")), visibility = false, isDefault = false)
       })
 
       val dataDir = new File(getPortletContext.getRealPath("SCORMData"))

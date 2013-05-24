@@ -26,7 +26,7 @@ SCORMTinyMCERichEdit = Backbone.View.extend({
         jQuery('#SCORMRedactor' + this.cid).tinymce({
             theme:"advanced",
             plugins:"table,file",
-            theme_advanced_buttons2_add:'file',
+            //theme_advanced_buttons2_add:'file',
             theme_advanced_buttons3_add:"tablecontrols",
             fileServiceURL: Utils.getContextPath() + 'services/upload'
         });

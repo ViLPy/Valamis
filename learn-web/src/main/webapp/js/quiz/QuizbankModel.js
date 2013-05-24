@@ -98,6 +98,23 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
         });
     },
 
+    getLiferayArticleContent:function (groupID, articleID, language) {
+        return window.LearnAjax.post(window.scormQuizActionURL, {
+            'groupID':groupID,
+            'articleID':articleID,
+            'language':language
+        });
+    },
+
+    createPlainTextResource:function (quizID, parent, groupID, articleID, language, text) {
+        return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/fromLiferay/" + quizID + "/" + parent, {
+            'text':text,
+            'groupID':groupID,
+            'articleID':articleID,
+            'language':language
+        });
+    },
+
     fetchForParent:function (quizID, id) {
         var parentID = -1;
         if (id && id != -1) {
@@ -135,11 +152,9 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
             this.questions.remove(realModel);
         }
         realModel.destroy();
-        delete realModel;
 
         // and remove from collection
         var treeModel = this.get(id);
         this.remove(treeModel);
-        delete treeModel;
     }
 });

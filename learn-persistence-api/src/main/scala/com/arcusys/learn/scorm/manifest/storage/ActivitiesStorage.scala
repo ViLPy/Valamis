@@ -6,6 +6,8 @@ import com.arcusys.learn.util.TreeNode
 trait ActivitiesStorage {
   def getAllFlat(packageID: Int): Seq[Activity]
 
+  def getAll: Seq[Activity]
+
   def getAllOrganizations(packageID: Int): Seq[Organization]
 
   def getOrganizationTree(packageID: Int, organizationID: String): TreeNode[Activity]
@@ -25,4 +27,5 @@ trait ActivitiesStorage {
   def get(packageID: Int, id: String): Option[Activity]
 
   def create(packageID: Int, entity: Activity)
+  def renew()
 }

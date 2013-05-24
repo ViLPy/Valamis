@@ -1,51 +1,19 @@
 package com.arcusys.learn.scorm.manifest.storage.impl.orbroker
 
-import com.arcusys.learn.scorm.manifest.storage._
-import org.orbroker.{Token, Row}
+import org.orbroker.{RowExtractor, Row}
 import com.arcusys.learn.storage.impl.orbroker._
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.storage.impl.orbroker.BrokerFactory._
-import org.postgresql.ds.PGPoolingDataSource
+import com.arcusys.learn.scorm.manifest.storage.impl.PackagesEntityStorage
+import com.arcusys.learn.scorm.manifest.storage.PackageScopeRuleStorage
 
-class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "id") with PackagesStorage {
+class PackagesStorageImpl extends KeyedEntityStorageBaseImpl[Manifest]("Package", "id") with PackagesEntityStorage with PackageExtractor {
+  val packageScopeRuleStorage: PackageScopeRuleStorage  = new PackageScopeRuleStorageImpl
+}
 
-  def getByRefID(refID:Long): Option[Manifest] = getOne("refID" -> refID)
 
-  def getByID(id: Int, courseID: Int, scope: ScopeType.Value, scopeID: String)={
-    if (scope == ScopeType.Instance) getOne("_getbyinstance", "packageId" -> id)
-    else getOne("_getbyscope", "packageId" -> id, "scope" -> scope.toString, "scopeID" -> scopeID, "courseID" -> courseID)
-  }
-  def getByCourseID(courseID: Option[Int]) =
-    getAll("_getbyscope", "scope" -> ScopeType.Site.toString, "scopeID" -> courseID.map(_.toString), "courseID" -> courseID)
-
-  def getAllForInstance(courseIDs: List[Int]) =
-    getAll("_getbyinstance", "ids" -> courseIDs)
-
-  def getByScope(courseID: Int, scope: ScopeType.Value, scopeID: String)=
-    getAll("_getbyscope", "scope" -> scope.toString, "scopeID" -> scopeID, "courseID" -> courseID)
-
-  def getOnlyVisbile(scope: ScopeType.Value, scopeID: String) =
-    getAll("_getonlyvisible", "scope" -> scope.toString, "scopeID" -> scopeID)
-
-  def getInstanceScopeOnlyVisbile(courseIDs: List[Int]) =
-    getAll("_getbyinstance", "ids" -> courseIDs, "onlyVisible" -> true)
-
-  def createAndGetID(entity: Manifest, courseID:Option[Int]): Int ={
-    val newEntity = new Manifest(0, entity.version, entity.base, entity.scormVersion, entity.defaultOrganizationID,
-      entity.resourcesBase, entity.title,entity.summary, entity.metadata,entity.assetRefID, courseID, isDefault = false)
-    createAndGetID(newEntity)
-  }
-
-  def setDescriptions(id: Int, title: String, summary: String) {
-    execute("_setdescriptions", "id" -> id, "title" -> title, "summary" -> summary)
-  }
-
-  def setAssetRefID(id: Int, refID:Long) {
-    execute("_setrefid", "id" -> id, "assetRefID" -> refID)
-  }
-
-  def extract(row: Row) ={
-    new Manifest(
+//TODO: visibility and isdefault
+trait PackageExtractor extends RowExtractor[Manifest] {
+  def extract(row: Row) = Manifest(
     row.integer("id").get,
     None, // version
     row.string("base"),
@@ -60,6 +28,7 @@ class PackagesStorageImpl extends KeyedEntityStorageImpl[Manifest]("Package", "i
     if ((row.columns.find(_.equalsIgnoreCase("visibility")).nonEmpty) && !row.bit("visibility").isEmpty) row.bit("visibility") else Option(false),
     if (row.columns.find(_.equalsIgnoreCase("isdefault")).nonEmpty) row.bit("isDefault").getOrElse(false) else false
   )
-  }
+
+
   //TODO: store SCORM version in DB
 }

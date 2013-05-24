@@ -6,7 +6,8 @@ var QuestionType = {
     "MatchingQuestion":4,
     "EssayQuestion":5,
     "EmbeddedAnswerQuestion":6,
-    "CategorizationQuestion":7
+    "CategorizationQuestion":7,
+    "PlainText":8
 };
 
 var QuestionAnswerType = {
@@ -63,6 +64,9 @@ QuestionModel = Backbone.Model.extend({
             case QuestionType.CategorizationQuestion:
                 return "Categorization question";
                 break;
+            case QuestionType.PlainText:
+                return "Plain text";
+                break;
             default:
                 return "";
         }
@@ -101,11 +105,11 @@ QuestionModel = Backbone.Model.extend({
 _.extend(QuestionModel.prototype, {
     storage:{
         create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/?courseID="+jQuery("#courseID").val(), model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/?courseID=" + jQuery("#courseID").val(), model.toJSON());
         },
 
         update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/update/" + model.id, model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/update/" + model.id + "?courseID=" + jQuery("#courseID").val(), model.toJSON());
         },
 
         move:function (model, options) {

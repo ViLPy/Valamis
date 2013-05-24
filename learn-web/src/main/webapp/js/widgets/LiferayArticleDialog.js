@@ -115,7 +115,7 @@ LiferayArticleDialog = Backbone.View.extend({
     events:{
         "click #refetchResource":"updateResources"
     },
-    callback:function (title, url) {
+    callback:function (groupID, articleID, lang) {
     },
     initialize:function () {
         this.collection = new LiferayArticleCollection();
@@ -145,7 +145,7 @@ LiferayArticleDialog = Backbone.View.extend({
         this.$el.dialog('open');
     },
     pickUp:function(model, language){
-        this.callback(model.get('titles')[language], this.createURL(model, language));
+        this.callback(model.get('groupID'), model.get('articleID'), language);
         this.$el.dialog('close');
     },
     updateResources:function () {

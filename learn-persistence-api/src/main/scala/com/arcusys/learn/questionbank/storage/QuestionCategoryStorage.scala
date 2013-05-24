@@ -44,4 +44,5 @@ trait QuestionCategoryStorage
   
   /** Delete a category by ID */
   def delete(id: Int)
+  def renew()
 }

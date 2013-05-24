@@ -22,6 +22,7 @@ object QuestionSerializer {
           for (answer <- e.answers) yield Map("answerText" -> answer.text, "matchingText" -> answer.answerCategoryText.getOrElse(""))
         case e: EssayQuestion => Seq[Map[String, Any]]()
         case e: EmbeddedAnswerQuestion => Seq[Map[String, Any]]()
+        case e: PlainText => Seq[Map[String, Any]]()
         case _ => throw new Exception("Service: Oops! Can't recognize question type")
       }).replaceAll("\"", "'")
     }

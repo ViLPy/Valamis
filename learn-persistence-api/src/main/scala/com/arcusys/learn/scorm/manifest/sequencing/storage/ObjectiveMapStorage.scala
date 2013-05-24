@@ -4,6 +4,7 @@ import com.arcusys.learn.scorm.manifest.model.ObjectiveMap
 
 trait ObjectiveMapStorage {
   def create(objectiveID: Int, info: ObjectiveMap)
-
+  def delete(objectiveID: Int)
   def get(objectiveID: Int): Option[ObjectiveMap]
+  def renew()
 }

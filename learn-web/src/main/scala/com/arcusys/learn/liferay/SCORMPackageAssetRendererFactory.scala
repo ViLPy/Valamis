@@ -9,17 +9,17 @@ import com.liferay.portlet.PortletURLFactoryUtil
 import javax.portlet.PortletRequest
 import com.arcusys.learn.liferay.service.utils.PortletKeys
 import com.liferay.portal.security.permission.PermissionChecker
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import service.SCORMPackageAssetRenderer
+import com.arcusys.learn.ioc.InjectableFactory
 
 object SCORMPackageAssetRendererFactory {
   final val CLASS_NAME: String = classOf[Manifest].getName
   final val TYPE: String = "package"
 }
 
-class SCORMPackageAssetRendererFactory extends BaseAssetRendererFactory {
+class SCORMPackageAssetRendererFactory extends BaseAssetRendererFactory with InjectableFactory {
   def getAssetRenderer(classPK: Long, assetType: Int) = {
-    val pkg = StorageFactory.packageStorage.getByRefID(classPK).getOrElse(throw new Exception("Can't find package with refID " + classPK))
+    val pkg = storageFactory.packageStorage.getByRefID(classPK).getOrElse(throw new Exception("Can't find package with refID " + classPK))
     new SCORMPackageAssetRenderer(pkg)
   }
 
