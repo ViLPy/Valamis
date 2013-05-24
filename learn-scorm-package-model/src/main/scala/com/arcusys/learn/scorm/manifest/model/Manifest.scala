@@ -49,22 +49,22 @@ class ManifestDocument
  * @param summary               Package description in the LMS
  * @param metadata              Manifest metadata, if any
  */
-class Manifest
+case class Manifest
 (
-  val id: Int,
-  val version: Option[String],
-  val base: Option[String],
-  val scormVersion: String,
-  val defaultOrganizationID: Option[String],
-  val resourcesBase: Option[String],
-  val title: String,
-  val summary: Option[String] = None,
-  val metadata: Option[Metadata] = None,
-  val assetRefID: Option[Long] = None,
-  val courseID: Option[Int],
+  id: Int,
+  version: Option[String],
+  base: Option[String],
+  scormVersion: String,
+  defaultOrganizationID: Option[String],
+  resourcesBase: Option[String],
+  title: String,
+  summary: Option[String] = None,
+  metadata: Option[Metadata] = None,
+  assetRefID: Option[Long] = None,
+  courseID: Option[Int],
 
-  val visibility: Option[Boolean] = None,
-  val isDefault: Boolean
+  visibility: Option[Boolean] = None,
+  isDefault: Boolean
   )
 {
   base foreach {

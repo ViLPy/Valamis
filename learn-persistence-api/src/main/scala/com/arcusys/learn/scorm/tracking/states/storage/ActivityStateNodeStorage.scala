@@ -6,4 +6,5 @@ trait ActivityStateNodeStorage {
   def createAndGetID(treeID: Int, parentID: Option[Int], node: ActivityStateNode):Int
 
   def getAllNodes(treeID: Int): Seq[ActivityStateNode]
+  def renew()
 }

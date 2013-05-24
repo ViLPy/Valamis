@@ -1,10 +1,12 @@
 package com.arcusys.learn.quiz.service
 
-import com.arcusys.learn.quiz.model.QuizQuestion
+import com.arcusys.learn.quiz.model._
 import com.arcusys.scorm.util.QuestionSerializer
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
+import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
+import java.net.URLEncoder
 
 class QuizQuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -14,11 +16,28 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   val jsonModel = new JsonModelBuilder[QuizQuestion](question =>
     Map(
       "id" -> question.id,
-      "categoryID" -> question.categoryID.getOrElse("-1"),
-      "question" -> question.question.map(question => QuestionSerializer.buildItemMap(question)),
-      "title" -> question.question.map(_.title).getOrElse(question.title),
-      "url" -> question.url
-    )
+      "categoryID" -> question.categoryID.getOrElse("-1")
+    ) ++ (question match {
+      case questionBankQuestion: QuestionBankQuizQuestion =>
+        Map(
+          "question" -> QuestionSerializer.buildItemMap(questionBankQuestion.question),
+          "title" -> questionBankQuestion.question.title,
+          "questionType" -> QuizQuestionType.QuestionBank.toString
+        )
+      case external: ExternalQuizQuestion =>
+        Map(
+          "url" -> external.url,
+          "title" -> question.title,
+          "questionType" -> QuizQuestionType.External.toString
+        )
+      case plain: PlainTextQuizQuestion =>
+        Map(
+          "text" -> plain.text,
+          "title" -> question.title,
+          "questionType" -> QuizQuestionType.PlainText.toString
+        )
+      case _ => Map()
+    })
   )
 
   before() {
@@ -51,7 +70,7 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     val quizID = parameter("quizID").intRequired
     jsonModel(for {
       questionID <- questionsIDSet.split(';').toSeq
-      quizQuestionId = quizQuestionStorage.createAndGetID(quizID, parentID, questionID.toInt)
+      quizQuestionId = quizQuestionStorage.createFromQuestionBankAndGetID(quizID, parentID, questionID.toInt)
     } yield quizQuestionStorage.getByID(quizQuestionId).get)
   }
 
@@ -60,7 +79,21 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     val title = parameter("title").withDefault("External quiz resource")
     val url = parameter("url").required
     val quizID = parameter("quizID").intRequired
-    jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createAndGetID(quizID, parentID, title, url)).get)
+    jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createExternalAndGetID(quizID, parentID, title, url)).get)
+  }
+
+  post("/fromLiferay/:quizID/:categoryID") {
+    val quizID = parameter("quizID").intRequired
+    val parentID = parameter("categoryID").intOption(-1)
+    val groupID = parameter("groupID").longRequired
+    val articleID = parameter("articleID").required
+    val articleLanguage = parameter("language").required
+    val article = JournalArticleLocalServiceUtil.getArticle(groupID, articleID)
+    val title = article.getTitle(articleLanguage)
+
+    val text = parameter("text").required
+    val preparedText = URLEncoder.encode(text.replaceAll("\\+", "%2B"), "UTF-8").replaceAll("\\+", "%20")//.replaceAll("\n","").replaceAll("\t","")).replaceAll("\\\\\"","\\\\\\\"")
+    jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createPlainAndGetID(quizID, parentID, title, preparedText)).get)
   }
 
   post("/move/:id") {

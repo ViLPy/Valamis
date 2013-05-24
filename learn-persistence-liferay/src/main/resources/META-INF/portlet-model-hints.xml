@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<hint-collection name="CLOB">
+		<hint name="max-length">2000000</hint>
+	</hint-collection>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFActivity">
+		<field name="indexNumber" type="long" />
+		<field name="id" type="String">
+			<hint name="max-length">512</hint>
+		</field>
+		<field name="packageID" type="Integer" />
+		<field name="organizationID" type="String">
+			<hint name="max-length">512</hint>
+		</field>
+		<field name="parentID" type="String">
+			<hint name="max-length">512</hint>
+		</field>
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="identifierRef" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="resourceParameters" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="hideLMSUI" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="visible" type="boolean" />
+		<field name="objectivesGlobalToSystem" type="boolean" />
+		<field name="sharedDataGlobalToSystem" type="boolean" />
+		<field name="masteryScore" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="maxTimeAllowed" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFActivityDataMap">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="activityID" type="String">
+			<hint name="max-length">512</hint>
+		</field>
+		<field name="targetId" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readSharedData" type="boolean" />
+		<field name="writeSharedData" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFActivityState">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="activityID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="active" type="Boolean" />
+		<field name="suspended" type="Boolean" />
+		<field name="attemptCompleted" type="Boolean" />
+		<field name="attemptCompletionAmount" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="attemptAbsoluteDuration" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="attemptExperiencedDuration" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="activityAbsoluteDuration" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="activityExperiencedDuration" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="attemptCount" type="Integer" />
+		<field name="activityStateNodeID" type="Integer" />
+		<field name="activityStateTreeID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFActivityStateNode">
+		<field name="id" type="long" />
+		<field name="parentID" type="Integer" />
+		<field name="treeID" type="Integer" />
+		<field name="availableChildrenIDs" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFActivityStateTree">
+		<field name="id" type="long" />
+		<field name="currentActivityID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="suspendedActivityID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="attemptID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAnswer">
+		<field name="id" type="long" />
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="correct" type="boolean" />
+		<field name="questionId" type="Integer" />
+		<field name="rangeFrom" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="rangeTo" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="matchingText" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="answerPosition" type="Integer" />
+		<field name="answerType" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAttempt">
+		<field name="id" type="long" />
+		<field name="userID" type="Integer" />
+		<field name="packageID" type="Integer" />
+		<field name="organizationID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="isComplete" type="Boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAttemptData">
+		<field name="id" type="long" />
+		<field name="dataKey" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="dataValue" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="attemptID" type="Integer" />
+		<field name="activityID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFBigDecimal">
+		<field name="id" type="long" />
+		<field name="decimal" type="BigDecimal" />
+		<field name="text" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFChildrenSelection">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="takeCount" type="Integer" />
+		<field name="takeTimingOnEachAttempt" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="reorderOnEachAttempt" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFConditionRule">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="combination" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="ruleType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="action" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCourse">
+		<field name="id" type="long" />
+		<field name="courseID" type="Integer" />
+		<field name="userID" type="Integer" />
+		<field name="grade" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="comment" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFFileStorage">
+		<field name="id" type="long" />
+		<field name="filename" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="content" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState">
+		<field name="id" type="long" />
+		<field name="satisfied" type="Boolean" />
+		<field name="normalizedMeasure" type="BigDecimal" />
+		<field name="attemptCompleted" type="Boolean" />
+		<field name="mapKey" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="treeID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFObjective">
+		<field name="lfId" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="satisfiedByMeasure" type="boolean" />
+		<field name="identifier" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="minNormalizedMeasure" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="isPrimary" type="Boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFObjectiveMap">
+		<field name="id" type="long" />
+		<field name="objectiveID" type="Integer" />
+		<field name="readSatisfiedStatusFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readNormalizedMeasureFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeSatisfiedStatusTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeNormalizedMeasureTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readRawScoreFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readMinScoreFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readMaxScoreFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readCompletionStatusFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="readProgressMeasureFrom" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeRawScoreTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeMinScoreTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeMaxScoreTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeCompletionStatusTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="writeProgressMeasureTo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFObjectiveState">
+		<field name="id" type="long" />
+		<field name="satisfied" type="Boolean" />
+		<field name="normalizedMeasure" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="mapKey" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="activityStateID" type="Integer" />
+		<field name="objectiveID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPackage">
+		<field name="id" type="long" />
+		<field name="defaultOrganizationID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="base" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="resourcesBase" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="summary" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="assetRefID" type="Long" />
+		<field name="courseID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="scope" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="scopeID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="visibility" type="Boolean" />
+		<field name="isDefault" type="Boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule">
+		<field name="id" type="long" />
+		<field name="playerID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="scope" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuestion">
+		<field name="id" type="long" />
+		<field name="categoryId" type="Integer" />
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="explanationText" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="forceCorrectCount" type="boolean" />
+		<field name="caseSensitive" type="boolean" />
+		<field name="questionType" type="Integer" />
+		<field name="courseId" type="Integer" />
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuestionCategory">
+		<field name="id" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="parentId" type="Integer" />
+		<field name="courseId" type="Integer" />
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuiz">
+		<field name="id" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="welcomePageContent" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="finalPageContent" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="courseID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuizQuestion">
+		<field name="id" type="long" />
+		<field name="quizId" type="Integer" />
+		<field name="categoryId" type="Integer" />
+		<field name="questionId" type="Integer" />
+		<field name="questionType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="url" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="plainText" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory">
+		<field name="id" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="quizId" type="Integer" />
+		<field name="parentId" type="Integer" />
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFResource">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="scormType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="resourceID" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="href" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="base" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFRollupContribution">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="contributeToSatisfied" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="contributeToNotSatisfied" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="contributeToCompleted" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="contributeToIncomplete" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="objectiveMeasureWeight" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="measureSatisfactionIfActive" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFRollupRule">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="combination" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="childActivitySet" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="minimumCount" type="Integer" />
+		<field name="minimumPercent" type="BigDecimal">
+			<hint name="precision-scale">(20,2)</hint>
+		</field>
+		<field name="action" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFRuleCondition">
+		<field name="id" type="long" />
+		<field name="conditionType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="objectiveId" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="measureThreshold" type="BigDecimal" />
+		<field name="inverse" type="boolean" />
+		<field name="rollupRuleID" type="Integer" />
+		<field name="conditionRuleID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSequencing">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="activityID" type="String">
+			<hint name="max-length">512</hint>
+		</field>
+		<field name="sharedId" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="sharedSequencingIdReference" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="onlyCurrentAttemptObjectiveProgressForChildren" type="boolean" />
+		<field name="onlyCurrentAttemptAttemptProgressForChildren" type="boolean" />
+		<field name="attemptLimit" type="Integer" />
+		<field name="durationLimitInMilliseconds" type="Long" />
+		<field name="rollupContributionID" type="Integer" />
+		<field name="preventChildrenActivation" type="boolean" />
+		<field name="constrainChoice" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="choiceForChildren" type="boolean" />
+		<field name="choiceForNonDescendants" type="boolean" />
+		<field name="flowForChildren" type="boolean" />
+		<field name="forwardOnlyForChildren" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSequencingTracking">
+		<field name="id" type="long" />
+		<field name="sequencingID" type="Integer" />
+		<field name="completionSetByContent" type="boolean" />
+		<field name="objectiveSetByContent" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFUser">
+		<field name="lfid" type="long" />
+		<field name="id" type="Integer" />
+		<field name="name" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="preferredAudioLevel" type="Double" />
+		<field name="preferredLanguage" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="preferredDeliverySpeed" type="Double" />
+		<field name="preferredAudioCaptioning" type="Integer" />
+	</model>
+</model-hints>

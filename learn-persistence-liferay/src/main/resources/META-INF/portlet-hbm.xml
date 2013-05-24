@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.arcusys.learn.persistence.liferay.model.LFActivity" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityDataMap" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityState" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityStateNode" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityStateTree" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAnswer" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAttempt" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAttemptData" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFBigDecimal" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFChildrenSelection" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFConditionRule" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFCourse" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFFileStorage" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFObjective" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveMap" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveState" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFPackage" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestion" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestionCategory" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuiz" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestion" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFResource" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFRollupContribution" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFRollupRule" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFRuleCondition" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencing" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingTracking" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFUser" />
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl" table="Learn_LFActivity">
+		<cache usage="read-write" />
+		<id name="indexNumber" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="id" type="com.liferay.portal.dao.orm.hibernate.StringType" column="id_" />
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="organizationID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="parentID" type="org.hibernate.type.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="identifierRef" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="resourceParameters" type="org.hibernate.type.StringType" />
+		<property name="hideLMSUI" type="org.hibernate.type.StringType" />
+		<property name="visible" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="objectivesGlobalToSystem" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sharedDataGlobalToSystem" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="masteryScore" type="org.hibernate.type.StringType" />
+		<property name="maxTimeAllowed" type="org.hibernate.type.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityDataMapImpl" table="Learn_LFActivityDataMap">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="activityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="targetId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readSharedData" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="writeSharedData" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateImpl" table="Learn_LFActivityState">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="activityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="active" type="com.liferay.portal.dao.orm.hibernate.BooleanType" column="active_" />
+		<property name="suspended" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="attemptCompleted" type="org.hibernate.type.BooleanType" />
+		<property name="attemptCompletionAmount" type="org.hibernate.type.BigDecimalType" />
+		<property name="attemptAbsoluteDuration" type="org.hibernate.type.BigDecimalType" />
+		<property name="attemptExperiencedDuration" type="org.hibernate.type.BigDecimalType" />
+		<property name="activityAbsoluteDuration" type="org.hibernate.type.BigDecimalType" />
+		<property name="activityExperiencedDuration" type="org.hibernate.type.BigDecimalType" />
+		<property name="attemptCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="activityStateNodeID" type="org.hibernate.type.IntegerType" />
+		<property name="activityStateTreeID" type="org.hibernate.type.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeImpl" table="Learn_LFActivityStateNode">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="parentID" type="org.hibernate.type.IntegerType" />
+		<property name="treeID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="availableChildrenIDs" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeImpl" table="Learn_LFActivityStateTree">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="currentActivityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="suspendedActivityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="attemptID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAnswerImpl" table="Learn_LFAnswer">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="correct" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="questionId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="rangeFrom" type="org.hibernate.type.BigDecimalType" />
+		<property name="rangeTo" type="org.hibernate.type.BigDecimalType" />
+		<property name="matchingText" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="answerPosition" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="answerType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptImpl" table="Learn_LFAttempt">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="organizationID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="isComplete" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataImpl" table="Learn_LFAttemptData">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="dataKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="dataValue" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="attemptID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="activityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalImpl" table="Learn_LFBigDecimal">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="decimal" type="org.hibernate.type.BigDecimalType" column="decimal_" />
+		<property name="text" type="com.liferay.portal.dao.orm.hibernate.StringType" column="text_" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl" table="Learn_LFChildrenSelection">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="takeCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="takeTimingOnEachAttempt" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="reorderOnEachAttempt" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFConditionRuleImpl" table="Learn_LFConditionRule">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="combination" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="ruleType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="action" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCourseImpl" table="Learn_LFCourse">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="courseID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="userID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="grade" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" column="comment_" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageImpl" table="Learn_LFFileStorage">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="filename" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFGlobalObjectiveStateImpl" table="Learn_LFGlobalObjectiveState">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="satisfied" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="normalizedMeasure" type="org.hibernate.type.BigDecimalType" />
+		<property name="attemptCompleted" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="mapKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="treeID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl" table="Learn_LFObjective">
+		<cache usage="read-write" />
+		<id name="lfId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="satisfiedByMeasure" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="identifier" type="org.hibernate.type.StringType" />
+		<property name="minNormalizedMeasure" type="org.hibernate.type.BigDecimalType" />
+		<property name="isPrimary" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapImpl" table="Learn_LFObjectiveMap">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="objectiveID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="readSatisfiedStatusFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readNormalizedMeasureFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeSatisfiedStatusTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeNormalizedMeasureTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readRawScoreFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readMinScoreFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readMaxScoreFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readCompletionStatusFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="readProgressMeasureFrom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeRawScoreTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeMinScoreTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeMaxScoreTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeCompletionStatusTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="writeProgressMeasureTo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateImpl" table="Learn_LFObjectiveState">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="satisfied" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="normalizedMeasure" type="org.hibernate.type.BigDecimalType" />
+		<property name="mapKey" type="org.hibernate.type.StringType" />
+		<property name="activityStateID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="objectiveID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageImpl" table="Learn_LFPackage">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="defaultOrganizationID" type="org.hibernate.type.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="base" type="org.hibernate.type.StringType" />
+		<property name="resourcesBase" type="org.hibernate.type.StringType" />
+		<property name="summary" type="org.hibernate.type.StringType" />
+		<property name="assetRefID" type="org.hibernate.type.LongType" />
+		<property name="courseID" type="org.hibernate.type.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" table="Learn_LFPackageScopeRule">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="scope" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="scopeID" type="org.hibernate.type.StringType" />
+		<property name="visibility" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="isDefault" type="org.hibernate.type.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleImpl" table="Learn_LFPlayerScopeRule">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="playerID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="scope" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionImpl" table="Learn_LFQuestion">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="categoryId" type="org.hibernate.type.IntegerType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="explanationText" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="forceCorrectCount" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="caseSensitive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="questionType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="courseId" type="org.hibernate.type.IntegerType" />
+		<property name="arrangementIndex" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryImpl" table="Learn_LFQuestionCategory">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="parentId" type="org.hibernate.type.IntegerType" />
+		<property name="courseId" type="org.hibernate.type.IntegerType" />
+		<property name="arrangementIndex" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizImpl" table="Learn_LFQuiz">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="welcomePageContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="finalPageContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="courseID" type="org.hibernate.type.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl" table="Learn_LFQuizQuestion">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="quizId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="categoryId" type="org.hibernate.type.IntegerType" />
+		<property name="questionId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="questionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="plainText" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="arrangementIndex" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" table="Learn_LFQuizQuestionCategory">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="quizId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="parentId" type="org.hibernate.type.IntegerType" />
+		<property name="arrangementIndex" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFResourceImpl" table="Learn_LFResource">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="scormType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="resourceID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="href" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="base" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionImpl" table="Learn_LFRollupContribution">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="contributeToSatisfied" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contributeToNotSatisfied" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contributeToCompleted" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="contributeToIncomplete" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="objectiveMeasureWeight" type="org.hibernate.type.BigDecimalType" />
+		<property name="measureSatisfactionIfActive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleImpl" table="Learn_LFRollupRule">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="combination" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="childActivitySet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="minimumCount" type="org.hibernate.type.IntegerType" />
+		<property name="minimumPercent" type="org.hibernate.type.BigDecimalType" />
+		<property name="action" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionImpl" table="Learn_LFRuleCondition">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="conditionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="objectiveId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="measureThreshold" type="org.hibernate.type.BigDecimalType" />
+		<property name="inverse" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="rollupRuleID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="conditionRuleID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingImpl" table="Learn_LFSequencing">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="activityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="sharedId" type="org.hibernate.type.StringType" />
+		<property name="sharedSequencingIdReference" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="onlyCurrentAttemptObjectiveProgressForChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="onlyCurrentAttemptAttemptProgressForChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="attemptLimit" type="org.hibernate.type.IntegerType" />
+		<property name="durationLimitInMilliseconds" type="org.hibernate.type.LongType" />
+		<property name="rollupContributionID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="preventChildrenActivation" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="constrainChoice" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsImpl" table="Learn_LFSequencingPermissions">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="choiceForChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="choiceForNonDescendants" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="flowForChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="forwardOnlyForChildren" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" table="Learn_LFSequencingTracking">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="completionSetByContent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="objectiveSetByContent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" table="Learn_LFUser">
+		<cache usage="read-write" />
+		<id name="lfid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="id" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="id_" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="preferredAudioLevel" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="preferredLanguage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="preferredDeliverySpeed" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="preferredAudioCaptioning" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+</hibernate-mapping>

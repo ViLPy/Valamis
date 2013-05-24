@@ -26,8 +26,8 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
     val root = XML.loadFile(new File(packageTempDirectory + "imsmanifest.xml"))
     val doc = new ManifestParser(root, packageTitle, packageSummary).parse
     val packageID = packageStorage.createAndGetID(doc.manifest, courseID)
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true);
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), true);
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true, false)
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), true, false)
 
 
     for (organizationNode <- doc.organizations) {

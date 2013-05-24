@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
     <artifactId>learn-web</artifactId>
     <name>learn-web</name>
@@ -77,6 +77,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>learn-persistence-liferay</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>learn-util</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -122,6 +127,11 @@
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.2</version>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
@@ -185,6 +195,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <attachClasses>true</attachClasses>
+                    <archiveClasses>true</archiveClasses>
                     <warName>${project.artifactId}</warName>
                     <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
                 </configuration>

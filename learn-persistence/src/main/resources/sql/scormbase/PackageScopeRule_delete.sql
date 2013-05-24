@@ -4,5 +4,9 @@ WHERE packageID = :packageID
 AND scope = :scope
 </#if>
 <#if scopeID??>
-AND scopeID = :scopeID
+   <#if scopeID == '-1'>
+    AND scopeID is null
+  <#else>
+    AND scopeID = :scopeID
+  </#if>
 </#if>

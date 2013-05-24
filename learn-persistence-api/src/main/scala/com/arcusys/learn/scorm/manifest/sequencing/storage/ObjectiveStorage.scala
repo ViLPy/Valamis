@@ -8,4 +8,5 @@ trait ObjectiveStorage {
   def getPrimary(sequencingID: Int): Option[Objective]
 
   def getNonPrimary(sequencingID: Int): Seq[Objective]
+  def renew()
 }

@@ -100,7 +100,7 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
         val dataModel = new DataModelService(activeAttempt, activityID)
         dataModel.setValue("cmi.success_status", status)
         dataModel.setValue("cmi.score.scaled", score)
-        dataModel.setValue("cmi.essay_comment", essayComment)
+        dataModel.setValue("cmi.essay_comment", essayComment.replace("\n", "%20"))
     }
     ""
   }
@@ -110,7 +110,7 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
     val userID = parameter("userID").intRequired
     val grade = parameter("grade").withDefault("")
     val comment = parameter("comment").withDefault("")
-    courseService.saveCourseGradeAndComment(courseID, userID, grade, comment)
+    courseService.saveCourseGradeAndComment(courseID, userID, grade, comment.replace("\n", "%20"))
     ""
   }
 

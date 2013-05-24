@@ -83,20 +83,4 @@
         </portlet-info>
     </portlet>
 
-    <portlet>
-        <portlet-name>LearnDataMigration1_2</portlet-name>
-        <portlet-class>com.arcusys.learn.view.updater.UpdaterView1_2</portlet-class>
-
-        <expiration-cache>0</expiration-cache>
-
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-        </supports>
-
-        <portlet-info>
-            <title>Project Learn data migration tool v1.2</title>
-        </portlet-info>
-    </portlet>
-
 </portlet-app>

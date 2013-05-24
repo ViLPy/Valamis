@@ -248,6 +248,7 @@ QuestionView = Backbone.View.extend({
             case QuestionType.ShortAnswerQuestion:
                 this.$("#SCORMQuestionIsCaseSensitive").show();
                 break;
+            case QuestionType.PlainText:
             case QuestionType.EssayQuestion:
             case QuestionType.EmbeddedAnswerQuestion:
                 this.$("#SCORMQuestionAnswers").hide();

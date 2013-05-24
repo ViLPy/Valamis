@@ -45,29 +45,5 @@ object StorageFactory extends StorageFactoryContract {
   lazy val playerScopeRuleStorage: PlayerScopeRuleStorage = new PlayerScopeRuleStorageImpl
   lazy val storageUpdater: StorageUpdater = new StorageUpdaterImpl
 
-
-  def renewWholeStorage() {
-    packageStorage.asInstanceOf[PackagesStorageImpl].renew()
-    //organizationStorage.asInstanceOf[OrganizationsStorageImpl].renew()
-    activityStorage.asInstanceOf[ActivitiesStorageImpl].renew()
-    resourceStorage.asInstanceOf[ResourcesStorageImpl].renew()
-    questionCategoryStorage.asInstanceOf[QuestionCategoryStorageImpl].renew()
-    questionStorage.asInstanceOf[QuestionStorageImpl].renew()
-    quizStorage.asInstanceOf[QuizStorageImpl].renew()
-    quizQuestionCategoryStorage.asInstanceOf[QuizQuestionCategoryStorageImpl].renew()
-    quizQuestionStorage.asInstanceOf[QuizQuestionStorageImpl].renew()
-    userStorage.asInstanceOf[UserStorageImpl].renew()
-    attemptStorage.asInstanceOf[AttemptStorageImpl].renew()
-    dataModelStorage.asInstanceOf[DataModelStorageImpl].renew()
-    activityStateTreeStorage.asInstanceOf[ActivityStateTreeStorageImpl].renew()
-    fileStorage.asInstanceOf[FileStorageImpl].renew()
-    courseStorage.asInstanceOf[CourseStorageImpl].renew()
-    packageScopeRuleStorage.asInstanceOf[PackageScopeRuleStorageImpl].renew()
-    playerScopeRuleStorage.asInstanceOf[PlayerScopeRuleStorageImpl].renew()
-  }
-
-  def dbType: DBType.Value = BrokerFactory.broker.dataSource match {
-    case postgres: PGPoolingDataSource => DBType.Postgres
-    case _ => DBType.H2
-  }
+  def dbType = BrokerFactory.dbType
 }

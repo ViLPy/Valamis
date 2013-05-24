@@ -4,7 +4,6 @@ import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
 import com.liferay.portal.util.PortalUtil
@@ -14,9 +13,9 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
-    val userUID = request.getRemoteUser
-    if (userUID != null && userStorage.getByID(userUID.toInt).isEmpty) {
-      userStorage.createAndGetID(User(userUID.toInt, LiferayHelpers.getUserName(request)))
+    val userUID = if (request.getRemoteUser != null) request.getRemoteUser.toInt else null.asInstanceOf[Int]
+    if (userUID != null && userStorage.getByID(userUID).isEmpty) {
+      userStorage.createAndGetID(User(userUID, LiferayHelpers.getUserName(request)))
     }
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
@@ -29,7 +28,7 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val packageToStart = if (sessionPackageId != null) sessionPackageId
     else {
       val packID = packageService.getDefaultPackageID(themeDisplay.getLayout.getGroupId.toString, themeDisplay.getLayout.getPrimaryKey.toString, request.getWindowID)
-      isComplete = packageService.checkIfCompleteByUser(packID, userUID.toInt)
+      isComplete = packageService.checkIfCompleteByUser(packID, userUID)
       if (!isComplete) packID else None
     }
     val defaultPackageID = if (sessionPackageId != null) None else packageToStart
@@ -71,7 +70,7 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
-    val rule = StorageFactory.playerScopeRuleStorage.get(request.getWindowID)
+    val rule = storageFactory.playerScopeRuleStorage.get(request.getWindowID)
     val scope = if (rule == None) ScopeType.Site else rule.get.scope
 
     val data = Map("contextPath" -> request.getContextPath,

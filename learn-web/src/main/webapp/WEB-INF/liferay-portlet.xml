@@ -189,12 +189,6 @@
         <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
     </portlet>
 
-    <portlet>
-        <portlet-name>LearnDataMigration1_2</portlet-name>
-        <ajaxable>false</ajaxable>
-        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
-    </portlet>
-
     <role-mapper>
         <role-name>administrator</role-name>
         <role-link>Administrator</role-link>

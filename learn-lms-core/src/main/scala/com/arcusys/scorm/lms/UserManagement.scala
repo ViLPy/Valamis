@@ -1,6 +1,6 @@
 package com.arcusys.scorm.lms
 
-import com.liferay.portal.service.{RoleServiceUtil, RoleLocalServiceUtil, UserLocalServiceUtil}
+import com.liferay.portal.service.{RoleLocalServiceUtil, UserLocalServiceUtil}
 import com.liferay.portal.model.{Role, User}
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
@@ -22,11 +22,11 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
     }
 
     def getUsersByRole(roleName: String): IndexedSeq[com.arcusys.learn.scorm.tracking.model.User] = {
-      val scormUsers = storageFactory.attemptStorage.getUsersWithAttempts
+      val scormUsers = storageFactory.userStorage.getUsersWithAttempts.filter(_ != null)
       for {
         user: User <- getAllRawUsers
         role: Role <- getAllUserRoles(user.getUserId, courseID)
-        if (role.getName.equals(roleName) && scormUsers.filter(scUser => scUser.id == user.getUserId).size > 0)
+        if (role.getName.equalsIgnoreCase(roleName) && scormUsers.filter(scUser => scUser.id == user.getUserId).size > 0)
       } yield scormUsers.filter(scUser => scUser.id == user.getUserId).head
     }
 

@@ -6,4 +6,5 @@ trait ActivityStateTreeStorage {
   def create(attemptID:Int, tree:ActivityStateTree)
   def get(attemptID:Int):Option[ActivityStateTree]
   def modify(attemptID:Int, tree:ActivityStateTree)
+  def renew()
 }

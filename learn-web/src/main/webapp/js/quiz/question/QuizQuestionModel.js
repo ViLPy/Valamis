@@ -6,13 +6,18 @@ QuizQuestionModel = Backbone.Model.extend({
         categoryID:-1,
         question:null,
         url:"",
-        isNew: false
+        questionType:"",
+        text:"",
+        isNew:false
     },
 
     initialize:function () {
-        try {
+        if (this.get("questionType") == "QuestionBank") {
             this.set('questionID', this.get('question').id);
-        } catch (e) {
+        } else if (this.get("questionType") == "PlainText") {
+            try {
+                this.set('text', decodeURIComponent(this.get('text')));
+            } catch(err) {}
         }
     },
 

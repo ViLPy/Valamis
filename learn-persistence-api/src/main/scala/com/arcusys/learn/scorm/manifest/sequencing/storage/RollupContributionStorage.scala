@@ -4,6 +4,7 @@ import com.arcusys.learn.scorm.manifest.model._
 
 trait RollupContributionStorage {
   def create(sequencingID: Int, entity: RollupContribution)
-
   def get(sequencingID: Int): Option[RollupContribution]
+  def delete(sequencingID: Int)
+  def renew()
 }

@@ -5,6 +5,9 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
+import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
+import com.liferay.portal.kernel.util.WebKeys
+import com.liferay.portal.theme.ThemeDisplay
 
 class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -23,7 +26,7 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     if (hasPermissions) {
       val groupID = theme.getScopeGroupId
       val translations = getTranslation("quiz", language)
-      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language, "courseID" -> courseID) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
+      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language, "courseID" -> courseID, "actionURL" -> response.createResourceURL()) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
       val data = mustache(map, "scorm_quiz.html")
       out.println(data)
     }
@@ -41,5 +44,14 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
       case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
       case _ => Map[String, String]()
     }
+  }
+
+  override def serveResource(request: ResourceRequest, response: ResourceResponse) {
+    val groupID = request.getParameter("groupID").toLong
+    val articleID = request.getParameter("articleID")
+    val articleLanguage = request.getParameter("language")
+    val td = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
+    val text = JournalArticleLocalServiceUtil.getArticleContent(groupID, articleID, "view", articleLanguage, td)
+    response.getWriter.println(text)
   }
 }

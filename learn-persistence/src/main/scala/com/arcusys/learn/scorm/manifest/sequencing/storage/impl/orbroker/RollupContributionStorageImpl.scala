@@ -3,15 +3,12 @@ package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import org.orbroker.Row
+import impl.RollupContributionEntityStorage
+import org.orbroker.{RowExtractor, Row}
 
-class RollupContributionStorageImpl extends GenericEntityStorageImpl[RollupContribution]("RollupContribution") with RollupContributionStorage {
-  def create(sequencingID: Int, entity: RollupContribution) {
-    create(entity, "sequencingID" -> sequencingID, "satisfaction"->entity.satisfaction, "completion"->entity.completion)
-  }
+class RollupContributionStorageImpl extends GenericEntityStorageImpl[RollupContribution]("RollupContribution") with RollupContributionEntityStorage with RollupContributionExtractor
 
-  def get(sequencingID: Int): Option[RollupContribution] = getOne("sequencingID" -> sequencingID)
-
+trait RollupContributionExtractor extends RowExtractor[RollupContribution] {
   def extract(row: Row) = {
     val contributeToSatisfied = row.string("contributeToSatisfied")
     val contributeToNotSatisfied = row.string("contributeToNotSatisfied")

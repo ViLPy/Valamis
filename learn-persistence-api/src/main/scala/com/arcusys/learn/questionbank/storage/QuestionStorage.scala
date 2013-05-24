@@ -34,4 +34,5 @@ trait QuestionStorage
    * @param moveAfterTarget  True -> place question after the given sibling (after all siblings if siblingID = None), false -> place question before the given sibling (before all siblings if siblingID = None)
    */
   def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean)
+  def renew()
 }

@@ -10,7 +10,7 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
   private def getPackages(courseID: Option[Int], userID: Int) = {
     val byCourseID = storageFactory.packageStorage.getByCourseID(courseID)
     for {
-      pack <- if (userID != 0) storageFactory.attemptStorage.getPackagesWithUserAttempts(userID) else storageFactory.attemptStorage.getPackagesWithAttempts
+      pack <- if (userID != 0) storageFactory.packageStorage.getPackagesWithUserAttempts(userID) else storageFactory.packageStorage.getPackagesWithAttempts
       if (byCourseID.filter(scUser => scUser.id == pack.id).size > 0)
     } yield byCourseID.filter(scUser => scUser.id == pack.id).head
   }
@@ -23,33 +23,33 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     getPackages(Option(courseID.toInt), userID)
   }
 
-  def setInstanceScopeVisibility(packageID: Int, visibility: Boolean) {
-    setVisibility(packageID, ScopeType.Instance, None, visibility)
+  def setInstanceScopeSettings(packageID: Int, visibility: Boolean, isDefault: Boolean) {
+    setVisibilityAndIsDefault(packageID, ScopeType.Instance, None, visibility, isDefault)
   }
 
-  def setSiteScopeVisibility(packageID: Int, siteID: Int, visibility: Boolean) {
-    setVisibility(packageID, ScopeType.Site, Option(siteID.toString), visibility)
+  def setSiteScopeSettings(packageID: Int, siteID: Int, visibility: Boolean, isDefault: Boolean) {
+    setVisibilityAndIsDefault(packageID, ScopeType.Site, Option(siteID.toString), visibility, isDefault)
   }
 
-  def setPageScopeVisibility(packageID: Int, pageID: String, visibility: Boolean) {
-    setVisibility(packageID, ScopeType.Page, Option(pageID), visibility)
+  def setPageScopeSettings(packageID: Int, pageID: String, visibility: Boolean, isDefault: Boolean) {
+    setVisibilityAndIsDefault(packageID, ScopeType.Page, Option(pageID), visibility, isDefault)
   }
 
-  def setPlayerScopeVisibility(packageID: Int, portletID: String, visibility: Boolean) {
-    setVisibility(packageID, ScopeType.Player, Option(portletID), visibility)
+  def setPlayerScopeSettings(packageID: Int, portletID: String, visibility: Boolean, isDefault: Boolean) {
+    setVisibilityAndIsDefault(packageID, ScopeType.Player, Option(portletID), visibility, isDefault)
   }
 
-  private def setVisibility(packageID: Int, scope: ScopeType.Value, scopeID: Option[String], visibility: Boolean) {
+  private def setVisibilityAndIsDefault(packageID: Int, scope: ScopeType.Value, scopeID: Option[String], visibility: Boolean, isDefault: Boolean) {
     val instanceScope = storageFactory.packageScopeRuleStorage.get(packageID, scope, scopeID)
     if (instanceScope != None) {
-      storageFactory.packageScopeRuleStorage.update(packageID, scope, scopeID, visibility)
+      storageFactory.packageScopeRuleStorage.update(packageID, scope, scopeID, visibility, isDefault)
     }
-    else storageFactory.packageScopeRuleStorage.create(packageID, scope, scopeID, visibility)
+    else storageFactory.packageScopeRuleStorage.create(packageID, scope, scopeID, visibility, isDefault)
   }
 
   def getVisiblePackages(playerID: String, courseIDs: List[Int], courseID: Int, pageID: String) = {
     val rule = storageFactory.playerScopeRuleStorage.get(playerID)
-    val scope = if (rule isEmpty) ScopeType.Site else rule.get.scope
+    val scope = if (rule.isEmpty) ScopeType.Site else rule.get.scope
     scope match {
       case ScopeType.Instance => storageFactory.packageStorage.getInstanceScopeOnlyVisbile(courseIDs)
       case ScopeType.Site => storageFactory.packageStorage.getOnlyVisbile(scope, courseID.toString)

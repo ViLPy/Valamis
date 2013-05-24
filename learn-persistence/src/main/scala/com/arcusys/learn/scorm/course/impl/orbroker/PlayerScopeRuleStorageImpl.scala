@@ -1,28 +1,14 @@
 package com.arcusys.learn.scorm.course.impl.orbroker
 
-import org.orbroker.Row
+import org.orbroker.{RowExtractor, Row}
 import com.arcusys.learn.storage.impl.orbroker._
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.course.PlayerScopeRuleStorage
+import com.arcusys.learn.scorm.course.impl.PlayerScopeRuleEntityStorage
 
-class PlayerScopeRuleStorageImpl extends GenericEntityStorageImpl[PlayerScopeRule]("PlayerScopeRule") with PlayerScopeRuleStorage {
-  def get(playerID: String) = {
-    getOne("playerID"-> playerID)
-  }
+class PlayerScopeRuleStorageImpl extends GenericEntityStorageImpl[PlayerScopeRule]("PlayerScopeRule") with PlayerScopeRuleEntityStorage with PlayerScopeRuleExtractor
 
-  def create(playerID: String, scope: ScopeType.Value) {
-    create(new PlayerScopeRule(playerID, scope), "scope" -> scope.toString)
-  }
-  def update(playerID: String, scope: ScopeType.Value){
-    modify("playerID" -> playerID, "scope" -> scope.toString)
-  }
-
-  def delete(playerID: String){
-    delete("playerID" -> playerID)
-  }
-
+trait PlayerScopeRuleExtractor extends RowExtractor[PlayerScopeRule] {
   def extract(row: Row) = new PlayerScopeRule(
     row.string("playerID").get,
-    ScopeType.withName(row.string("scope").get)
-  )
+    ScopeType.withName(row.string("scope").get))
 }

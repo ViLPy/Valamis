@@ -25,7 +25,7 @@ object FileProcessing {
       }
       zipFile.close()
     } catch {
-      case _ => //throw new Exception("Can't unzip")
+      case e:Exception => throw new Exception(e.toString)
     }
   }
 

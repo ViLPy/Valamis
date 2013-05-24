@@ -1,5 +1,7 @@
 UPDATE Question SET
-    categoryID = :e.categoryID,
+<#if categoryID??>
+    categoryID = :categoryID,
+</#if>
     title = :e.title,
     description = :e.text,
     explanationText = :e.explanationText,

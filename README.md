@@ -32,6 +32,12 @@ In Learn 1.2.1 it's required to manually add 2 roles in Liferay: Student and Tea
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.4 Update: 24.05.2013
+ - Persistence reimplemented using Liferay Service Builder, so there is no database settings in Admin portlet.
+ - Demo Hook updated and now it add additional demo content into separate site
+ - Refactoring, Bugs fixing
+ 
+
 ## Version 1.3 Update: 18.03.2013
  - MySQL support
  - Demo hook
@@ -101,5 +107,4 @@ To update DB structure from 1.0 to the latest 1.1 run next SQL script
     ALTER TABLE Activity ADD masteryScore text;
     ALTER TABLE Activity ADD maxTimeAllowed text;
 
-#### Tests
-For running tests on local machine for scorm-player you should change db.properties file inside resources directory and setup you current PostgreSQL instance.
+#### TestsFor running tests on local machine for scorm-player you should change db.properties file inside resources directory and setup you current PostgreSQL instance.

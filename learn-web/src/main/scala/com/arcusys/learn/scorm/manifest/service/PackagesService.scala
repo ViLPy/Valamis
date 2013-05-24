@@ -13,6 +13,7 @@ import com.arcusys.scorm.lms.PackageService
 
 class PackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+  private val assetHelper = new AssetHelper()
 
   import storageFactory._
 
@@ -107,7 +108,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     val scope = parameter("scopeType").required
     val scopeType = ScopeType.withName(scope)
     val courseID = parameter("courseID").intRequired
-    updatePackageSettings(id, parameter("visibility").booleanRequired, parameter("isDefault").booleanRequired, scope, courseID)
+    val visibility = parameter("visibility").booleanOption("null")
+    updatePackageSettings(id, visibility.getOrElse(false), parameter("isDefault").booleanRequired, scope, courseID)
 
     scopeType match {
       case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
@@ -119,16 +121,16 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
   private def updatePackageSettings(id: Int, visibility: Boolean, isDefault: Boolean, scope: String, courseID: Int) {
     scope match {
       case "instanceScope" => {
-        packageService.setInstanceScopeVisibility(id, visibility)
-        packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
+        packageService.setInstanceScopeSettings(id, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
       }
       case "siteScope" => {
-        packageService.setSiteScopeVisibility(id, courseID, visibility)
-        packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
+        packageService.setSiteScopeSettings(id, courseID, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
       }
       case "pageScope" => {
-        packageService.setPageScopeVisibility(id, parameter("pageID").required, visibility)
-        packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
+        packageService.setPageScopeSettings(id, parameter("pageID").required, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
       }
       // For future "Player" scope
       //  case "player" =>{
@@ -141,7 +143,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     val id = parameter("id").intRequired
     val pkg = packageStorage.getByID(id)
     if (pkg.isDefined) {
-      if (pkg.get.assetRefID.isDefined) AssetHelper.deletePackage(pkg.get.assetRefID.get)
+      if (pkg.get.assetRefID.isDefined) assetHelper.deletePackage(pkg.get.assetRefID.get)
       packageStorage.delete(id)
       packageScopeRuleStorage.delete(id)
     }

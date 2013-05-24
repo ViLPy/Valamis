@@ -8,4 +8,5 @@ trait PlayerScopeRuleStorage
   def create(playerID: String, scope: ScopeType.Value)
   def update(playerID: String, scope: ScopeType.Value)
   def delete(playerID: String)
+  def renew()
 }

@@ -4,6 +4,7 @@ import com.arcusys.learn.scorm.manifest.model.SequencingTracking
 
 trait SequencingTrackingStorage {
   def create(sequencingID: Int, entity: SequencingTracking)
-
   def get(sequencingID: Int): Option[SequencingTracking]
+  def delete(sequencingID: Int)
+  def renew()
 }

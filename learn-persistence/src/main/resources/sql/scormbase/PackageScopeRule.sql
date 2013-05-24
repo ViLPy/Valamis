@@ -6,8 +6,13 @@ AND packageID = :packageID
 <#if scope??>
 AND scope = :scope
 </#if>
+<#if visibility??>
+AND visibility = :visibility
+</#if>
 <#if scopeID??>
-AND (scopeID = :scopeID)
-<#else>
-AND scopeID is null
+  <#if scopeID == '-1'>
+    AND scopeID is null
+    <#else>
+    AND (scopeID = :scopeID)
+  </#if>
 </#if>

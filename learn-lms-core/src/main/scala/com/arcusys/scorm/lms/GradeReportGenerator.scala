@@ -47,8 +47,8 @@ class GradeReportGenerator(implicit val bindingModule: BindingModule) extends In
             case _ => false
           }
         },
-        if (essayComment.get(leaf.id) != None) essayComment.get(leaf.id).get.get else "",
-        attempt.packageID)
+        essayCommentText = if (essayComment.get(leaf.id).isDefined && essayComment.get(leaf.id).get.isDefined) essayComment.get(leaf.id).get.get else "",
+        packID = attempt.packageID)
     }
     parseActivity(activityStorage.getOrganizationTree(attempt.packageID, organizationID))
   }

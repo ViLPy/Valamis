@@ -10,7 +10,11 @@ AND packageID = :packageID
 AND organizationID = :organizationID
 </#if>
 <#if parentID??>
-AND parentID = :parentID
+    <#if parentID == "-1">
+    AND parentID is null
+    <#else>
+    AND parentID = :parentID
+    </#if>
 </#if>
 <#if dbType=="mysql">
 ORDER BY indexNumber ASC, id ASC

@@ -14,4 +14,5 @@ trait ActivityStateStorage {
   def getNodeItem(nodeID: Int): Option[ActivityState]
 
   def modify(attemptID: Int, state: ActivityState)
+  def renew()
 }

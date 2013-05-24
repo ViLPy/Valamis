@@ -7,4 +7,5 @@ trait DataModelStorage
   def getValue(attemptID: Int, activityID: String, key: String): Option[String]
   def getCollectionValues(attemptID: Int, activityID: String, key: String): Map[String, Option[String]]
   def setValue(attemptID: Int, activityID: String, key: String, value: String)
+  def renew()
 }

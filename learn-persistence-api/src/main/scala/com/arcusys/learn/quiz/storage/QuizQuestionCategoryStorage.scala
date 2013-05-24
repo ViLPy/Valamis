@@ -18,6 +18,8 @@ trait QuizQuestionCategoryStorage {
    */
   def getChildren(quizID:Int, parentID: Option[Int]): Seq[QuizQuestionCategory]
 
+  def getAll: Seq[QuizQuestionCategory]
+
   /**
    *Create a new category in storage
    *@param entity Category to create (ID field value ignored)
@@ -48,4 +50,5 @@ trait QuizQuestionCategoryStorage {
    *@param id ID of category to delete
    */
   def delete(id: Int)
+  def renew()
 }
