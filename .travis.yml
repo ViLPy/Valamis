@@ -4,4 +4,8 @@ scala:
 jdk:
   - oraclejdk7
 
-script: "mvn test -Ddb.config.names=dbH2"
+before_script:
+  - mysql -e 'create database valamis_test;'
+  - psql -c 'create database valamis_test;' -U postgres
+
+script: "mvn test -Ddb.config.names=db,dbH2,dbMySQL"
