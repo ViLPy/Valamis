@@ -1,5 +1,7 @@
 # Valamis (formerly known as Project Learn)
 
+[![build status](https://api.travis-ci.org/ViLPy/JSCORM.png)](http://travis-ci.org/ViLPy/JSCORM)
+
 The project is an implementation of the SCORM set of standards for e-learning for the Liferay portal. Supported Liferay version is currently 6.1.1+
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
