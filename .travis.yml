@@ -4,4 +4,4 @@ scala:
 jdk:
   - oraclejdk7
 
-mvn test -Ddb.config.names=dbH2
+script: "mvn test -Ddb.config.names=dbH2"
