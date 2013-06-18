@@ -14,7 +14,7 @@ Quiz = Backbone.Model.extend({
 _.extend(Quiz.prototype, {
     storage:{
         create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/", model.toJSON());
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/" + "?courseID="+jQuery("#courseID").val(), model.toJSON());
         },
 
         update:function (model) {
@@ -34,7 +34,7 @@ _.extend(Quiz.prototype, {
         },
 
         install:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/generator/ZipInstall/" + model.id);
+            return window.LearnAjax.post(Utils.getContextPath() + "/services/generator/ZipInstall/" + model.id + "?courseID="+jQuery("#courseID").val());
         }
     }
 });

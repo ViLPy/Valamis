@@ -1,7 +1,5 @@
 package com.arcusys.learn.web
 
-import com.arcusys.scorm.generator.util.ResourceHelpers
-import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
@@ -14,7 +12,7 @@ class FileStorageFilter(configuration: BindingModule) extends ServletBase(config
 
   get("/*.*") {
     val filename = multiParams("splat").mkString(".")
-    val extension = multiParams("splat").last
+    val extension = multiParams("splat").last.split('.').last
     contentType = extension match {
       case "css" => "text/css"
       case "htm" => "text/html"

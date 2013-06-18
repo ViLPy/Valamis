@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root available-locales="en_US," default-locale="en_US">
+    <static-content language-id="en_US">
+        <![CDATA[
+            <p>
+            	This is demonstration enviroment for Project Learn course page. You can change the modify the content freely.</p>
+        ]]>
+    </static-content>
+</root>

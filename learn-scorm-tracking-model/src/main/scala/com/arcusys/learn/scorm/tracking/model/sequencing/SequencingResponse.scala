@@ -1,7 +1,6 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
-import org.slf4j.LoggerFactory
 
 /**
  * Sequencing request response model for handling sequencing request result
@@ -19,10 +18,8 @@ case object SequencingResponseEmpty extends SequencingResponse
 case object SequencingResponseInvalid extends SequencingResponse
 
 object SequencingResponse {
-  private val LOG = LoggerFactory.getLogger(getClass)
 
   def invalid(message: String) = {
-    LOG.warn(message)
     SequencingResponseInvalid
   }
 

@@ -3,15 +3,13 @@ package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import org.orbroker.Row
+import impl.ChildrenSelectionEntityStorage
+import org.orbroker.{RowExtractor, Row}
 
-class ChildrenSelectionStorageImpl extends GenericEntityStorageImpl[ChildrenSelection]("ChildrenSelection") with ChildrenSelectionStorage {
-  def create(sequencingID: Int, entity: ChildrenSelection) {
-    create(entity, "sequencingID"->sequencingID)
-  }
+class ChildrenSelectionStorageImpl extends GenericEntityStorageImpl[ChildrenSelection]("ChildrenSelection") with ChildrenSelectionEntityStorage with ChildrenSelectionExtractor
 
-  def get(sequencingID: Int): Option[ChildrenSelection] = getOne("sequencingID"->sequencingID)
 
+trait ChildrenSelectionExtractor extends RowExtractor[ChildrenSelection] {
   def extract(row: Row) = {
     val takeCount = row.integer("takeCount")
     val takeTiming = row.string("takeTimingOnEachAttempt")

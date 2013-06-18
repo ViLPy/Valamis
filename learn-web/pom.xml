@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
     <artifactId>learn-web</artifactId>
     <name>learn-web</name>
@@ -78,13 +77,13 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>learn-util</artifactId>
+            <artifactId>learn-persistence-liferay</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-util</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -99,13 +98,13 @@
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>portal-impl</artifactId>
-            <version>6.1.0</version>
+            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>portal-service</artifactId>
-            <version>6.1.0</version>
+            <version>6.1.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -128,6 +127,11 @@
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.2</version>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
@@ -184,13 +188,15 @@
     </repositories>
 
     <build>
-        <!--<finalName>${artifactId}</finalName>-->
+        <!--<finalName>${project.artifactId}</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <attachClasses>true</attachClasses>
+                    <archiveClasses>true</archiveClasses>
                     <warName>${project.artifactId}</warName>
                     <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
                 </configuration>
@@ -228,50 +234,50 @@
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
                             <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${artifactId}/js/quiz/quiz.js</output>
+                            <output>${project.build.directory}/${project.artifactId}/js/quiz/quiz.js</output>
                             <includes>
-                                <include>${project.build.directory}/${artifactId}-${version}/js/quiz/base/QuizModel.js
+                                <include>${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizModel.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/base/QuizCollection.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizCollection.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/base/OpenedQuizView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/OpenedQuizView.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/base/QuizEditView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizEditView.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/base/AvailableQuizListItemView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/AvailableQuizListItemView.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/base/AvailableQuizListView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/AvailableQuizListView.js
                                 </include>
                             </includes>
                         </aggregation>
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
                             <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${artifactId}/js/quiz/QuizCategoryModel.js</output>
+                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizCategoryModel.js</output>
                             <includes>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/category/QuizCategoryModel.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/category/QuizCategoryModel.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/category/QuizCategoryView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/category/QuizCategoryView.js
                                 </include>
                             </includes>
                         </aggregation>
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
                             <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${artifactId}/js/quiz/QuizQuestionModel.js</output>
+                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizQuestionModel.js</output>
                             <includes>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/question/QuizQuestionModel.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/question/QuizQuestionModel.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${artifactId}-${version}/js/quiz/question/QuizQuestionView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/question/QuizQuestionView.js
                                 </include>
                             </includes>
                         </aggregation>

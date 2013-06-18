@@ -13,10 +13,11 @@ import com.liferay.portlet.{PortletPreferencesFactoryUtil, PortletURLFactoryUtil
 import com.arcusys.learn.scorm.manifest.model._
 import utils.PortletKeys
 import com.liferay.portal.security.auth.AuthTokenUtil
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
+import com.arcusys.learn.ioc.InjectableFactory
 
-class OpenPackageAction extends BaseStrutsAction {
-  lazy val packageStorage = StorageFactory.packageStorage
+class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
+  lazy val packageStorage = storageFactory.packageStorage
+  lazy val assetHelper = new AssetHelper()
 
   override def execute(originalStrutsAction: StrutsAction, request: HttpServletRequest, response: HttpServletResponse): String = {
     val themeDisplay = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
@@ -71,9 +72,9 @@ class OpenPackageAction extends BaseStrutsAction {
   }
 
   protected def getPackageURL(plid: Long, privateLayout: Boolean, pkg: Manifest, request: HttpServletRequest): PortletURL = {
-    var layouts = LayoutLocalServiceUtil.getLayouts(AssetHelper.getAssetFromManifest(pkg).getGroupId, privateLayout, LayoutConstants.TYPE_PORTLET)
+    var layouts = LayoutLocalServiceUtil.getLayouts(assetHelper.getAssetFromManifest(pkg).getGroupId, privateLayout, LayoutConstants.TYPE_PORTLET)
     val selLayout = LayoutLocalServiceUtil.getLayout(plid)
-    if ((selLayout.getGroupId == AssetHelper.getAssetFromManifest(pkg).getGroupId) && selLayout.isTypePortlet) {
+    if ((selLayout.getGroupId == assetHelper.getAssetFromManifest(pkg).getGroupId) && selLayout.isTypePortlet) {
       layouts = ListUtil.copy(layouts)
       layouts.remove(selLayout)
       layouts.add(0, selLayout)
@@ -101,8 +102,8 @@ class OpenPackageAction extends BaseStrutsAction {
         val preferences = PortletPreferencesFactoryUtil.getPortletSetup(layout, portlet.get.getPortletId, StringPool.BLANK)
         val resourcePrimKey: Long = GetterUtil.getLong(preferences.getValue("resourcePrimKey", null))
         val selPkg = packageStorage.getByRefID(resourcePrimKey).get
-        val rootResourcePrimKey: Long = AssetHelper.getAssetFromManifest(pkg).getPrimaryKey
-        val selRootResourcePrimKey: Long = AssetHelper.getAssetFromManifest(selPkg).getPrimaryKey
+        val rootResourcePrimKey: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
+        val selRootResourcePrimKey: Long = assetHelper.getAssetFromManifest(selPkg).getPrimaryKey
         if (rootResourcePrimKey == selRootResourcePrimKey) {
           return getPackageURL(layout.getPlid, portlet.get.getPortletId, request)
         }

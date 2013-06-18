@@ -9,7 +9,14 @@ import com.arcusys.learn.ioc.Configuration
 
 class QuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+
   import storageFactory._
+
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
   get("/id/:id") {
     val id = parameter("id").intRequired
     json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get))
@@ -17,7 +24,8 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
 
   get("/children/:id") {
     val categoryID = parameter("id").intOption(-1)
-    json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID)))
+    val courseID = parameter("courseID").intOption(-1)
+    json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID)))
   }
 
   post("/") {
@@ -28,15 +36,17 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     val explanationText = parameter("explanationText").withDefault("")
     val forceCorrectCount = parameter("forceCorrectCount").booleanRequired
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
+    val courseID = parameter("courseID").intOption(-1)
     val entity = questionType match {
-      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount)
-      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, Nil, isCaseSensitive)
-      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, Nil)
-      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount)
-      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, Nil)
-      case 5 => new EssayQuestion(0, categoryID, title, text, explanationText)
-      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText)
-      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil)
+      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
+      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, Nil, isCaseSensitive, courseID)
+      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
+      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 5 => new EssayQuestion(0, categoryID, title, text, explanationText, courseID)
+      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText, courseID)
+      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 8 => new PlainText(0, categoryID, title, text, courseID)
       case _ => halt(405, "Service: Oops! Can't create question")
     }
     json(QuestionSerializer.buildItemMap(questionStorage.getByID(questionStorage.createAndGetID(entity)).get))
@@ -51,16 +61,18 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     val explanationText = parameter("explanationText").required
     val forceCorrectCount = parameter("forceCorrectCount").booleanRequired
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
+    val courseID = parameter("courseID").intOption(-1)
     val answersMap = toObject(parameter("answers").withDefault("[]")).asInstanceOf[List[Map[String, Any]]]
     val entity = questionType match {
-      case 0 => new ChoiceQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseChoiceAnswer(_)), forceCorrectCount)
-      case 1 => new TextQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseTextAnswer(_)), isCaseSensitive)
-      case 2 => new NumericQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseNumericAnswer(_)))
-      case 3 => new PositioningQuestion(id, categoryId, title, text, explanationText, answersMap.map(parsePositioningAnswer(_)), forceCorrectCount)
-      case 4 => new MatchingQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseMatchingAnswer(_)))
-      case 5 => new EssayQuestion(id, categoryId, title, text, explanationText)
-      case 6 => new EmbeddedAnswerQuestion(id, categoryId, title, text, explanationText)
-      case 7 => new CategorizationQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseCategorizationAnswer(_)))
+      case 0 => new ChoiceQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseChoiceAnswer(_)), forceCorrectCount, courseID)
+      case 1 => new TextQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseTextAnswer(_)), isCaseSensitive, courseID)
+      case 2 => new NumericQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseNumericAnswer(_)), courseID)
+      case 3 => new PositioningQuestion(id, categoryId, title, text, explanationText, answersMap.map(parsePositioningAnswer(_)), forceCorrectCount,courseID)
+      case 4 => new MatchingQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseMatchingAnswer(_)),courseID)
+      case 5 => new EssayQuestion(id, categoryId, title, text, explanationText, courseID)
+      case 6 => new EmbeddedAnswerQuestion(id, categoryId, title, text, explanationText, courseID)
+      case 7 => new CategorizationQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseCategorizationAnswer(_)), courseID)
+      case 8 => new PlainText(id, categoryId, title, text, courseID)
       case _ => halt(405, "Service: Oops! Can't update question")
     }
     questionStorage.modify(entity)

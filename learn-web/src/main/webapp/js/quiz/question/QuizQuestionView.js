@@ -52,18 +52,30 @@ QuizQuestionView = Backbone.View.extend({
     },
 
     renderView:function () {
-        if (this.model.get('question')) {
-            this.renderRegularQuestion();
-        } else {
-            this.renderExternalQuestion();
+        switch (this.model.get("questionType")) {
+            case "QuestionBank":
+                this.renderRegularQuestion();
+                break;
+            case "External":
+                this.renderExternalQuestion();
+                break;
+            case "PlainText":
+                this.renderPlainTextQuestion();
+                break;
         }
     },
 
     renderEdit:function () {
-        if (this.model.get('question')) {
-            this.renderRegularQuestion(); // don't have edit
-        } else {
-            this.renderExternalQuestionEdit();
+        switch (this.model.get("questionType")) {
+            case "QuestionBank":
+                this.renderRegularQuestion(); // don't have edit
+                break;
+            case "External":
+                this.renderExternalQuestionEdit();
+                break;
+            case "PlainText":
+                this.renderPlainTextQuestion(); // don't have edit
+                break;
         }
     },
 
@@ -71,6 +83,12 @@ QuizQuestionView = Backbone.View.extend({
         var language = this.options.language;
         var template = Mustache.to_html(jQuery("#quizExternalQuestionView").html(), _.extend(this.model.toJSON(), language));
         this.$el.empty().append(template);
+    },
+
+    renderPlainTextQuestion:function () {
+        var language = this.options.language;
+        var template = Mustache.to_html(jQuery("#quizPlainTextQuestionView").html(), _.extend(this.model.toJSON(), language));
+        this.$el.empty().append(template.trim().split("\r").join("").split("%2B").join("+"));
     },
 
     renderExternalQuestionEdit:function () {
@@ -113,6 +131,7 @@ QuizQuestionView = Backbone.View.extend({
             case QuestionType.ShortAnswerQuestion:
                 this.$("#SCORMQuestionIsCaseSensitive").show();
                 break;
+            case QuestionType.PlainText:
             case QuestionType.EssayQuestion:
             case QuestionType.EmbeddedAnswerQuestion:
                 this.$("#SCORMQuestionAnswers").hide();

@@ -3,18 +3,13 @@ package com.arcusys.learn.scorm.manifest.storage.impl.orbroker
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.manifest.storage._
 import com.arcusys.learn.storage.impl.orbroker._
-import org.orbroker.Row
+import impl.ResourceEntityStorage
+import org.orbroker.{RowExtractor, Row}
+import com.arcusys.learn.questionbank.storage.impl.QuestionCategoryEntityStorage
 
-class ResourcesStorageImpl extends KeyedEntityStorageImpl[Resource]("Resource", "id") with ResourcesStorage {
-  def getByPackageID(packageID: Int) = getAll("packageID" -> packageID)
+class ResourcesStorageImpl extends KeyedEntityStorageBaseImpl[Resource]("Resource", "id") with ResourceEntityStorage with ResourcesStorageExtractor
 
-  def getByID(packageID: Int, resourceID: String) = getOne("packageID" -> packageID, "identifierRef" -> resourceID)
-
-  def createForPackageAndGetID(packageID: Int, entity: Resource) = createAndGetID(entity, "packageID" -> packageID, "scormType" -> (entity match {
-    case _:ScoResource => "sco"
-    case _:AssetResource => "asset"
-  }))
-
+trait ResourcesStorageExtractor extends RowExtractor[Resource] {
   def extract(row: Row) = {
     val id = row.string("identifierRef").get
     val href = row.string("href")

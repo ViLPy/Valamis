@@ -100,6 +100,7 @@
                 <option value="type5">{{essayQuestionTypeLabel}}</option>
                 <!--<option value="type6">Embedded answer question</option>-->
                 <option value="type7">{{categorizationQuestionTypeLabel}}</option>
+                <option value="type8">{{plainTextTypeLabel}}</option>
             </select>
         </div>
         <div>
@@ -134,10 +135,10 @@
             <div class="SCORMResult" id="SCORMExplanationTextView">{{{explanationText}}}</div>
         </div>
         <div id="SCORMQuestionIsBounded" class="SCORMCheckbox">
-            <input type="checkbox" id="SCORMQuestionBounded"/> {{questionNotifyUserCorrectAmountLabel}}
+            <input type="checkbox" id="SCORMQuestionBounded" style="cursor:default"/> {{questionNotifyUserCorrectAmountLabel}}
         </div>
         <div id="SCORMQuestionIsCaseSensitive" class="SCORMCheckbox">
-            <input type="checkbox" id="SCORMQuestionCaseSensitive"/> {{questionCaseSensitiveLabel}}
+            <input type="checkbox" id="SCORMQuestionCaseSensitive" style="cursor:default"/> {{questionCaseSensitiveLabel}}
         </div>
         <div id="SCORMQuestionAnswers">
             <div id="SCORMQuestionAnswersEditors"></div>
@@ -148,7 +149,7 @@
 
 <script type="text/mustache" id="answerCollectionView">
     <div id="SCORMQuestionAnswersEditors"></div>
-    <div class="SCORMAddNewButton" id='SCORMAddAnswersButtonBlock'>
+    <div class="SCORMAddNewAnswerButton" id='SCORMAddAnswersButtonBlock'>
         <abbr title="{{addNewAnswersButtonLabel}}">
             <button id="SCORMButtonAddAnswer">{{addNewAnswersButtonLabel}}</button>
         </abbr>
@@ -189,7 +190,7 @@
 
             <div style="clear:both"></div>
         </div>
-        <input type="checkbox" id="SCORMAnswerIsCorrect"/> {{answerCorrectnessLabel}}
+        <input type="checkbox" id="SCORMAnswerIsCorrect" style="cursor:default"/> {{answerCorrectnessLabel}}
     </div>
 </script>
 
@@ -400,7 +401,7 @@
         </div>
         <div id="SCORMAnswerOptions"></div>
 
-        <div id="SCORMAddElement" class="SCORMAddNewButton">
+        <div id="SCORMAddElement" class="SCORMAddNewAnswerButton">
             <abbr title="{{categorizationAddNewMatchingElementLabel}}">
                 <button id="SCORMButtonAddOption">{{categorizationAddNewMatchingElementLabel}}</button>
             </abbr>

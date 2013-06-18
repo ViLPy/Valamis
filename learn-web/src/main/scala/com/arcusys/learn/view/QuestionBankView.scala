@@ -6,33 +6,46 @@ import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 
-class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
+class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
     val language = LiferayHelpers.getLanguage(request)
     val out = response.getWriter
     val contextPath = request.getContextPath
-    out.println(generateResponse(contextPath, "scorm_questionbank.html", language, isPortlet = true))
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val courseID = themeDisplay.getLayout.getGroupId
+    val userID = themeDisplay.getUser.getUserId
+    val isAdmin = userManagement.hasTeacherPermissions(userID, courseID)
+    if (isAdmin)
+      out.println(generateResponse(contextPath, "scorm_questionbank.html", language, true, courseID))
+    else
+      out.println(generateResponse(contextPath, "scorm_nopermissions.html", language))
   }
 
   before() {
     contentType = "text/html"
   }
 
-  get("/QuestionBank") {
-    val contextPath = servletContext.getContextPath
-    "<div class='portlet-learn-scorm'>" + generateResponse(contextPath, "scorm_questionbank.html", "en", isPortlet = false) + "</div>"
+  def generateResponse(contextPath: String, templateName: String, language: String) = {
+    val translations = try {
+      getTranslation("/i18n/error_" + language)
+    } catch {
+      case e: FileNotFoundException => getTranslation("/i18n/error_en")
+      case _ => Map[String, String]()
+    }
+    val data = Map("contextPath" -> contextPath, "language" -> language) ++ translations
+    mustache(data, templateName)
   }
 
-  def generateResponse(contextPath: String, templateName: String, language: String, isPortlet: Boolean) = {
+  def generateResponse(contextPath: String, templateName: String, language: String, isPortlet: Boolean, courseID: Long) = {
     val translations = try {
       getTranslation("/i18n/questionbank_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/questionbank_en")
       case _ => Map[String, String]()
     }
-    val data = Map("contextPath" -> contextPath, "isPortlet" -> isPortlet, "language" -> language) ++ translations
+    val data = Map("contextPath" -> contextPath, "isPortlet" -> isPortlet, "language" -> language, "courseID" -> courseID) ++ translations
     mustache(data, templateName)
   }
 }

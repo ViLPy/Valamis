@@ -53,6 +53,7 @@
     <script type="text/javascript" language="javascript">
         var jQuery1816Quiz = jQuery.noConflict();
         var scormLanguageDataQuiz = {};
+        window.scormQuizActionURL = "{{{actionURL}}}";
 
         jQuery1816Quiz(function () {
             window.LearnAjax.setHeader("scormUserID", "{{userID}}");
@@ -154,6 +155,8 @@
     </div>
     <div id="QuizLiferayArticleDialog" title="{{quizLiferayArticleDialogTitle}}"></div>
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="courseID" value="{{courseID}}"/>
+
 </div>
 </body>
 </html>

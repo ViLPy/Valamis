@@ -12,7 +12,8 @@ class EssayQuestionTest extends FlatSpec with ShouldMatchers {
       categoryID = Some(2),
       title = "Test",
       text = "Write an essay",
-      explanationText = "A good essay should just look nice!"
+      explanationText = "A good essay should just look nice!",
+      courseID = Some(1)
     )
     question.questionTypeCode should equal(5)
     question.id should equal(1)
@@ -28,7 +29,8 @@ class EssayQuestionTest extends FlatSpec with ShouldMatchers {
       categoryID = None,
       title = "Test",
       text = "Write an essay",
-      explanationText = "A good essay should just look nice!"
+      explanationText = "A good essay should just look nice!",
+      courseID = Some(1)
     )
     question.questionTypeCode should equal(5)
     question.id should equal(1)

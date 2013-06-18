@@ -301,6 +301,26 @@
     </div>
 </script>
 
+<script type="text/mustache" id="quizPlainTextQuestionView">
+    <div id="SCORMPlainTextContentDiv">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{title}}</div>
+        </div>
+
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{questionTextLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="SCORMResult"> {{{text}}}</div>
+        </div>
+    </div>
+</script>
+
 <script type="text/mustache" id="quizExternalQuestionEditView">
     <div id="SCORMExternalContentEditDiv">
         <div>

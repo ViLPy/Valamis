@@ -1,71 +1,52 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker
 
-import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageImpl
-import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateStorage
-import com.arcusys.learn.scorm.tracking.model.{ObjectiveState, ActivityState}
-import org.orbroker.Row
+import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageBaseImpl
+import com.arcusys.learn.scorm.tracking.states.storage.ObjectiveStateStorage
+import com.arcusys.learn.scorm.tracking.model.ActivityState
+import org.orbroker.{RowExtractor, Row}
 import com.arcusys.learn.scorm.manifest.storage.impl.orbroker.ActivitiesStorageImpl
+import com.arcusys.learn.scorm.tracking.states.storage.impl.{ActivityStateCreator, ActivityStateFieldsMapper, ActivityStateEntityStorage}
+import com.arcusys.learn.scorm.manifest.storage.ActivitiesStorage
 
-class ActivityStateStorageImpl extends KeyedEntityStorageImpl[ActivityState]("ActivityState", "id") with ActivityStateStorage {
-  private val activitiesStorage = new ActivitiesStorageImpl
-  private val objectiveStateStorage = new ObjectiveStateStorageImpl
+class ActivityStateStorageImpl extends KeyedEntityStorageBaseImpl[ActivityState]("ActivityState", "id") with ActivityStateEntityStorage with ActivityStateExtractor with ActivityStateCreator {
+  val activitiesStorage = new ActivitiesStorageImpl
+  val objectiveStateStorage = new ObjectiveStateStorageImpl
+}
 
-  override def renew() {
-    super.renew()
-    objectiveStateStorage.renew()
-  }
+trait ActivityStateExtractor extends RowExtractor[ActivityState] {
+  def activitiesStorage: ActivitiesStorage
 
-  def getCurrentActivityStateForAttempt(attemptID: Int ) = {
-    getOne("attemptID"->attemptID)
-  }
-
-  def createOrganization(treeID: Int, state: ActivityState) {
-    val id = createAndGetID(state, "activityStateTreeID" -> treeID)
-    createObjectives(id, state.objectiveStates)
-  }
-
-  def createNodeItem(nodeID: Int, state: ActivityState) {
-    val id = createAndGetID(state, "activityStateNodeID" -> nodeID)
-    createObjectives(id, state.objectiveStates)
-  }
-
-  private def createObjectives(stateID: Int, objectives: Map[Option[String], ObjectiveState]) {
-    for ((id, entity) <- objectives) {
-      objectiveStateStorage.create(stateID, id, entity)
-    }
-  }
-
-  def getOrganization(treeID: Int): Option[ActivityState] = {
-    getOne("activityStateTreeID" -> treeID)
-  }
-
-  def getNodeItem(nodeID: Int): Option[ActivityState] = {
-    getOne("activityStateNodeID" -> nodeID)
-  }
-
-  def modify(attemptID: Int, state: ActivityState) {
-    modify(state, "attemptID" -> attemptID)
-    for ((id, entity) <- state.objectiveStates) {
-      objectiveStateStorage.modify(attemptID, state.activity.id, id, entity)
-    }
-  }
+  def objectiveStateStorage: ObjectiveStateStorage
 
   def extract(row: Row) = {
-    val activity = activitiesStorage.get(row.integer("packageID").get, row.string("activityID").get)
-    require(activity.isDefined, "Activity should exist!")
+    val mapper = new ActivityStateFieldsMapper {
+      def packageID: Int = row.integer("packageID").get
 
-    new ActivityState(
-      activity.get,
-      row.bit("active").get,
-      row.bit("suspended").get,
-      row.bit("attemptCompleted"),
-      row.decimal("attemptCompletionAmount").map(BigDecimal(_)),
-      BigDecimal(row.decimal("attemptAbsoluteDuration").get),
-      BigDecimal(row.decimal("attemptExperiencedDuration").get),
-      BigDecimal(row.decimal("activityAbsoluteDuration").get),
-      BigDecimal(row.decimal("activityExperiencedDuration").get),
-      row.integer("attemptCount").get,
-      objectiveStateStorage.getAll(row.integer("id").get)
-    )
+      def activityID: String = row.string("activityID").get
+
+      def id: Int = row.integer("id").get
+
+      def active: Boolean = row.bit("active").get
+
+      def suspended: Boolean = row.bit("suspended").get
+
+      def attemptCompleted: Option[Boolean] = row.bit("attemptCompleted")
+
+      def attemptCompletionAmount: Option[BigDecimal] = row.decimal("attemptCompletionAmount").map(BigDecimal(_))
+
+      def attemptAbsoluteDuration: BigDecimal = BigDecimal(row.decimal("attemptAbsoluteDuration").get)
+
+      def attemptExperiencedDuration: BigDecimal = BigDecimal(row.decimal("attemptExperiencedDuration").get)
+
+      def activityAbsoluteDuration: BigDecimal = BigDecimal(row.decimal("activityAbsoluteDuration").get)
+
+      def activityExperiencedDuration: BigDecimal = BigDecimal(row.decimal("activityExperiencedDuration").get)
+
+      def attemptCount: Int = row.integer("attemptCount").get
+    }
+    createActivityState(mapper)
+
   }
+
+  def createActivityState(mapper: ActivityStateFieldsMapper): ActivityState
 }

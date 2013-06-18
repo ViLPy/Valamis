@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<model-hints>
+    <hint-collection name="TEXTAREA">
+        <hint name="max-length">500</hint>
+    </hint-collection>
+    <model name="com.arcusys.learn.persistence.liferay.model.LFBigDecimal">
+        <field name="id" type="long" />
+        <field name="decimal" type="BigDecimal" />
+        <field name="text" type="String">
+            <hint-collection name="TEXTAREA" />
+        </field>
+    </model>
+</model-hints>
+

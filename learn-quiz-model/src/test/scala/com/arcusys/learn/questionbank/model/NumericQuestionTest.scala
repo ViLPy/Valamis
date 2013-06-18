@@ -24,7 +24,8 @@ class NumericQuestionTest extends FlatSpec with ShouldMatchers {
     title = "Nice numbers",
     text = "What numbers are nice?",
     explanationText = "Yeees that's a nice one",
-    answers = answers
+    answers = answers,
+    courseID = Some(1)
   )
 
   private def checkFields(question: NumericQuestion, categoryId: Option[Int], answers: Seq[NumericAnswer]) {

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
     <artifactId>learn-persistence</artifactId>
     <name>learn-persistence</name>
@@ -24,14 +24,19 @@
             <version>3.2.1-1</version>
         </dependency>
         <dependency>
-        	<groupId>com.h2database</groupId>
-        	<artifactId>h2</artifactId>
-        	<version>1.3.168</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.168</version>
         </dependency>
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.0-801.jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.0.7</version>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -40,33 +45,24 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>learn-scorm-package-model</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>learn-quiz-model</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-	<dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>learn-scorm-tracking-model</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>learn-util</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-parser</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-persistence-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-persistence-api-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

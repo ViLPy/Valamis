@@ -2,50 +2,59 @@
  * Quiz edit UI
  */
 QuizEditView = Backbone.View.extend({
-    currentContent:null, // current opened content view
-    events:{
-        "click #quizAddCategory":"createNewCategory",
-        "click #quizAddQuestions":"showContentDialog",
-        "click #quizAddLiferayResource":"showLiferayArticleDialog",
-        "click #quizAddExternalResource":"showExternalContentDialog",
-        "click #quizRemoveElement":"removeSelected",
-        "click #elementEdit":"editElement",
-        "click #elementUpdate":"updateElement",
-        "click #elementCancelUpdate":"cancelUpdateElement",
-        "click #elementPreview":"previewElement",
-        "click #SCORMEditButtonWelcome":"editWelcomePage",
-        "click #SCORMEditButtonFinal":"editFinalPage"
+    currentContent: null, // current opened content view
+    events: {
+        "click #quizAddCategory": "createNewCategory",
+        "click #quizAddQuestions": "showContentDialog",
+        "click #quizAddLiferayResource": "showLiferayArticleDialog",
+        "click #quizAddExternalResource": "showExternalContentDialog",
+        "click #quizRemoveElement": "removeSelected",
+        "click #elementEdit": "editElement",
+        "click #elementUpdate": "updateElement",
+        "click #elementCancelUpdate": "cancelUpdateElement",
+        "click #elementPreview": "previewElement",
+        "click #SCORMEditButtonWelcome": "editWelcomePage",
+        "click #SCORMEditButtonFinal": "editFinalPage"
     },
 
-    showLiferayArticleDialog:function () {
-        window.JournalArticleDialog.choose(jQuery.proxy(function (title, url) {
-            this.treeData.createExternalResource(this.model.id, url, this.resolveCurrentParentID(), title).done(jQuery.proxy(function (param) {
-                var id = this.treeData.addQuestion(_.extend(param, {"isNew":true, "title":title}));
-                this.treeView.selectNode(this.treeView.getNodeByID(id));
-                jQuery('#projectLearnGeneric').unblock();
-                jQuery.growlUI(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayCompleteMessageLabel']);
-            }, this)).error(jQuery.proxy(function () {
-                jQuery('#projectLearnGeneric').unblock();
-                jQuery.growlWarning(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayFailedMessageLabel']);
-            }, this));
+    showLiferayArticleDialog: function () {
+        window.JournalArticleDialog.choose(jQuery.proxy(function (groupID, articleID, language) {
+            this.treeData.getLiferayArticleContent(groupID, articleID, language).done(jQuery.proxy(function (text) {
+                    this.addLiferayArticle(groupID, articleID, language, text);
+                }, this)).error(jQuery.proxy(function (err) {
+                    jQuery('#projectLearnGeneric').unblock();
+                    jQuery.growlWarning(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayFailedMessageLabel']);
+                }, this));
         }, this));
     },
 
-    showExternalContentDialog:function () {
+    addLiferayArticle: function (groupID, articleID, language, text) {
+        this.treeData.createPlainTextResource(this.model.id, this.resolveCurrentParentID(), groupID, articleID, language, text).done(jQuery.proxy(function (param) {
+                var id = this.treeData.addQuestion(_.extend(param, {"isNew": false}));
+                this.treeView.selectNode(this.treeView.getNodeByID(id));
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlUI(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayCompleteMessageLabel']);
+            }, this)).error(jQuery.proxy(function (err) {
+                jQuery('#projectLearnGeneric').unblock();
+                jQuery.growlWarning(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayFailedMessageLabel']);
+            }, this));
+    },
+
+    showExternalContentDialog: function () {
         window.ExternalQuizDialog.choose(jQuery.proxy(function (url) {
             this.treeData.createExternalResource(this.model.id, url, this.resolveCurrentParentID()).done(jQuery.proxy(function (param) {
-                var id = this.treeData.addQuestion(_.extend(param, {"isNew":true}));
-                this.treeView.selectNode(this.treeView.getNodeByID(id));
-                jQuery('#projectLearnGeneric').unblock();
-                jQuery.growlUI(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayCompleteMessageLabel']);
-            }, this)).error(jQuery.proxy(function () {
-                jQuery('#projectLearnGeneric').unblock();
-                jQuery.growlWarning(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayFailedMessageLabel']);
-            }, this));
+                    var id = this.treeData.addQuestion(_.extend(param, {"isNew": true}));
+                    this.treeView.selectNode(this.treeView.getNodeByID(id));
+                    jQuery('#projectLearnGeneric').unblock();
+                    jQuery.growlUI(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayCompleteMessageLabel']);
+                }, this)).error(jQuery.proxy(function () {
+                    jQuery('#projectLearnGeneric').unblock();
+                    jQuery.growlWarning(this.options.language['overlayAddExternalMessageLabel'], this.options.language['overlayFailedMessageLabel']);
+                }, this));
         }, this));
     },
 
-    previewElement:function () {
+    previewElement: function () {
         var currentID = this.treeView.getNodeID(this.treeView.getCurrentNode());
         var model = this.treeData.getEntity(currentID);
 
@@ -56,34 +65,34 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    editWelcomePage:function () {
+    editWelcomePage: function () {
         window.RichEdit.show(this.options.language["welcomeContentDialogTitleLabel"], this.$("#SCORMQuizWelcomePage"), this.updateModel, this);
     },
 
-    editFinalPage:function () {
+    editFinalPage: function () {
         window.RichEdit.show(this.options.language["finalContentDialogTitleLabel"], this.$("#SCORMQuizFinalPage"), this.updateModel, this);
     },
 
-    updateModel:function () {
+    updateModel: function () {
         var that = this;
-        jQuery('#projectLearnGeneric').block({ message:this.options.language["overlayProcessMessageLabel"] });
+        jQuery('#projectLearnGeneric').block({ message: this.options.language["overlayProcessMessageLabel"] });
         this.model.set({
-            welcomePageContent:encodeURIComponent(this.$("#SCORMQuizWelcomePage").html()),
-            finalPageContent:encodeURIComponent(this.$("#SCORMQuizFinalPage").html())
+            welcomePageContent: encodeURIComponent(this.$("#SCORMQuizWelcomePage").html()),
+            finalPageContent: encodeURIComponent(this.$("#SCORMQuizFinalPage").html())
         });
         this.model.save({}, {
-            success:function () {
+            success: function () {
                 jQuery('#projectLearnGeneric').unblock();
                 jQuery.growlUI(that.options.language['overlaySaveQuizMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
             },
-            error:function () {
+            error: function () {
                 jQuery('#projectLearnGeneric').unblock();
                 jQuery.growlWarning(that.options.language['overlaySaveQuizMessageLabel'], that.options.language['overlayFailedMessageLabel']);
             }
         });
     },
 
-    editElement:function () {
+    editElement: function () {
         if (this.currentContent) {
             this.$('#quizAddCategory').hide();
             this.$('#quizAddQuestions').hide();
@@ -97,7 +106,7 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    updateElement:function () {
+    updateElement: function () {
         if (this.currentContent) {
             var model = this.currentContent.model;
             if (model instanceof QuizQuestionModel) {
@@ -117,7 +126,7 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    cancelUpdateElement:function () {
+    cancelUpdateElement: function () {
         if (this.currentContent) {
             var model = this.currentContent.model;
             if (model instanceof QuizQuestionModel) {
@@ -137,29 +146,29 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    createNewCategory:function () {
+    createNewCategory: function () {
         var that = this;
-        jQuery('#projectLearnGeneric').block({ message:this.options.language["overlayProcessMessageLabel"] });
+        jQuery('#projectLearnGeneric').block({ message: this.options.language["overlayProcessMessageLabel"] });
         var quizCategory = new QuizCategoryModel({
-            quizID:this.model.id,
-            parentID:this.resolveCurrentParentID(),
-            isNew:true
+            quizID: this.model.id,
+            parentID: this.resolveCurrentParentID(),
+            isNew: true
         });
         quizCategory.save({}, {
-            success:jQuery.proxy(function (param) {
-                var id = this.treeData.addCategory(_.extend(param.toJSON(), {"isNew":true}));
+            success: jQuery.proxy(function (param) {
+                var id = this.treeData.addCategory(_.extend(param.toJSON(), {"isNew": true}));
                 this.treeView.selectNode(this.treeView.getNodeByID(id));
                 jQuery('#projectLearnGeneric').unblock();
                 jQuery.growlUI(that.options.language['overlayCreateQuizCategoryMessageLabel'], that.options.language['overlayCompleteMessageLabel']);
             }, this),
-            error:function () {
+            error: function () {
                 jQuery('#projectLearnGeneric').unblock();
                 jQuery.growlWarning(that.options.language['overlayCreateQuizCategoryMessageLabel'], that.options.language['overlayFailedMessageLabel']);
             }
         });
     },
 
-    resolveCurrentParentID:function () {
+    resolveCurrentParentID: function () {
         var currentID = this.treeView.getNodeID(this.treeView.getCurrentNode());
         var model = this.treeData.getEntity(currentID);
 
@@ -172,18 +181,18 @@ QuizEditView = Backbone.View.extend({
         return parentID;
     },
 
-    showContentDialog:function () {
+    showContentDialog: function () {
         window.QuizApp.questionChooseDialog.open(this.addContent, this);
     },
 
-    removeSelected:function () {
+    removeSelected: function () {
         if (this.currentContent && confirm(this.options.language['warningDeleteNodeMessageLabel'])) {
             var id = this.treeView.getNodeID(this.treeView.getCurrentNode());
             this.treeData.drop(id);
         }
     },
 
-    addContent:function (data) {
+    addContent: function (data) {
         var questionIDs = [];
         for (var key in data.questions) {
             var question = data.questions[key];
@@ -192,22 +201,22 @@ QuizEditView = Backbone.View.extend({
         this.treeData.fetchQuestionIDList(this.model.id, questionIDs, this.resolveCurrentParentID())
     },
 
-    initialize:function () {
+    initialize: function () {
         this.currentContent = null;
         this.render();
     },
 
-    clearContent:function () {
+    clearContent: function () {
         this.$("#quizContent_" + this.cid).empty();
         if (this.currentContent) this.currentContent.remove();
         this.currentContent = null;
         this.updateControls('default');
     },
 
-    render:function () {
+    render: function () {
         var language = this.options.language;
         var template = Mustache.to_html(jQuery("#quizPage").html(), _.extend(
-            _.extend({cid:this.cid}, language),
+            _.extend({cid: this.cid}, language),
             this.model.toJSON()));
         this.$el.html(template);
         // init tree
@@ -217,17 +226,17 @@ QuizEditView = Backbone.View.extend({
         return this;
     },
 
-    renderStaticContentData:function () {
+    renderStaticContentData: function () {
         var language = this.options.language;
         this.clearContent();
         var template = Mustache.to_html(jQuery("#quizCustomPagesView").html(), _.extend({
-            welcomePage:decodeURIComponent(this.model.get('welcomePageContent')),
-            finalPage:decodeURIComponent(this.model.get('finalPageContent'))
+            welcomePage: decodeURIComponent(this.model.get('welcomePageContent')),
+            finalPage: decodeURIComponent(this.model.get('finalPageContent'))
         }, language));
         this.$("#quizContent_" + this.cid).append(template);
     },
 
-    renderViewContent:function (view) {
+    renderViewContent: function (view) {
         this.$("#quizContent_" + this.cid).append(view.render().$el);
         this.currentContent = view;
         if (view.model.get("isNew")) {
@@ -236,53 +245,53 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    initQuizCategoriesTree:function (node) {
+    initQuizCategoriesTree: function (node) {
         var treeData = this.treeData = new QuizbankCollectionProxy();
 
         var treeInitParams = {
-            "themes":{
-                "url":Utils.getContextPath() + "/css/jstree/style.css",
-                "dots":true,
-                "icons":true
+            "themes": {
+                "url": Utils.getContextPath() + "/css/jstree/style.css",
+                "dots": true,
+                "icons": true
             },
-            "types":{
-                "valid_children":[ "root" ],
-                "types":{
-                    "entity":{
-                        "icon":{
-                            "image":Utils.getContextPath() + "/img/icons/book.png"
+            "types": {
+                "valid_children": [ "root" ],
+                "types": {
+                    "entity": {
+                        "icon": {
+                            "image": Utils.getContextPath() + "/img/icons/book.png"
                         },
-                        "valid_children":"none"
+                        "valid_children": "none"
                     },
-                    "root":{
-                        "icon":{
-                            "image":Utils.getContextPath() + "/img/icons/database.png"
+                    "root": {
+                        "icon": {
+                            "image": Utils.getContextPath() + "/img/icons/database.png"
                         },
-                        "valid_children":[ "folder", "entity"]
+                        "valid_children": [ "folder", "entity"]
                     },
-                    "folder":{
-                        "icon":{
-                            "image":Utils.getContextPath() + "/img/icons/folder.png"
+                    "folder": {
+                        "icon": {
+                            "image": Utils.getContextPath() + "/img/icons/folder.png"
                         },
-                        "valid_children":[ "folder", "entity"]
+                        "valid_children": [ "folder", "entity"]
                     }
                 }
             },
-            "json_data":{
-                "data":[
+            "json_data": {
+                "data": [
                     { // root
-                        "data":this.options.language['treeRootLabel'],
-                        "state":"open",
-                        "attr":{
-                            "id":"-1",
-                            "rel":"root"
+                        "data": this.options.language['treeRootLabel'],
+                        "state": "open",
+                        "attr": {
+                            "id": "-1",
+                            "rel": "root"
                         }
                     }
                 ]
             },
-            "crrm":{
-                "move":{
-                    "check_move":function (m) {
+            "crrm": {
+                "move": {
+                    "check_move": function (m) {
                         // ohoho, try to refactor
                         var dndMode = m.p;
                         var fromRel = m.o.attr("rel");
@@ -309,32 +318,32 @@ QuizEditView = Backbone.View.extend({
                     }
                 }
             },
-            "dnd":{
-                "drop_target":false,
-                "drag_target":false
+            "dnd": {
+                "drop_target": false,
+                "drag_target": false
             },
-            "group":function (a, b) {
+            "group": function (a, b) {
                 var priorities = {
-                    "default":0,
-                    "folder":1,
-                    "entity":2
+                    "default": 0,
+                    "folder": 1,
+                    "entity": 2
                 };
                 var aType = jQuery(a).attr('rel').toLowerCase();
                 var bType = jQuery(b).attr('rel').toLowerCase();
                 return priorities[aType] - priorities[bType];
             },
-            "plugins":[ "themes", "ui", "json_data", "types", "dnd", "crrm", "group" ]
+            "plugins": [ "themes", "ui", "json_data", "types", "dnd", "crrm", "group" ]
         };
 
         this.treeView = new jsTreeView({
-            el:jQuery(node),
-            collection:this.treeData,
-            initParams:treeInitParams,
-            sort:function (a, b) {
+            el: jQuery(node),
+            collection: this.treeData,
+            initParams: treeInitParams,
+            sort: function (a, b) {
                 var priorities = {
-                    "default":0,
-                    "folder":1,
-                    "entity":2
+                    "default": 0,
+                    "folder": 1,
+                    "entity": 2
                 };
                 var aType = a.get('type').toLowerCase();
                 var bType = b.get('type').toLowerCase();
@@ -365,18 +374,18 @@ QuizEditView = Backbone.View.extend({
             var id = treeView.getNodeID(treeView.getCurrentNode());
             if (id == -1) return;
             treeData.getEntity(id).move({
-                targetId:treeData.getEntity(data.rslt.r.attr("id")).id,
-                dndMode:data.rslt.p,
-                itemType:data.rslt.r.attr("rel")
+                targetId: treeData.getEntity(data.rslt.r.attr("id")).id,
+                dndMode: data.rslt.p,
+                itemType: data.rslt.r.attr("rel")
             });
         });
 
         treeView.addBind("create_node.jstree", jQuery.proxy(function () {
-            this.updateQuizFromServer();
+            _.delay(jQuery.proxy(this.updateQuizFromServer, this), 1000);
         }, this));
 
         treeView.addBind("delete_node.jstree", jQuery.proxy(function () {
-            this.updateQuizFromServer();
+            _.delay(jQuery.proxy(this.updateQuizFromServer, this), 1000);
         }, this));
 
         treeData.fetchForParent(this.model.id);
@@ -384,11 +393,11 @@ QuizEditView = Backbone.View.extend({
         return treeView;
     },
 
-    updateQuizFromServer:function () {
+    updateQuizFromServer: function () {
         this.model.fetch();
     },
 
-    updateControls:function (state) {
+    updateControls: function (state) {
         switch (state) {
             case 'question':
                 this.$('#quizAddCategory').hide();
@@ -429,7 +438,7 @@ QuizEditView = Backbone.View.extend({
         }
     },
 
-    onSelectItem:function () {
+    onSelectItem: function () {
         var id = this.treeView.getNodeID(this.treeView.getCurrentNode());
         if (id == -1) {
             this.clearContent();
@@ -443,18 +452,24 @@ QuizEditView = Backbone.View.extend({
         if (model instanceof QuizCategoryModel) {
             this.updateControls('category');
             this.renderViewContent(new QuizCategoryView({
-                model:model,
-                language:language
+                model: model,
+                language: language
             }));
         } else if (model instanceof QuizQuestionModel) {
-            if (model.get("question")) {
-                this.updateControls('question');
-            } else {
-                this.updateControls('questionExternal');
+            switch (model.get("questionType")) {
+                case "QuestionBank":
+                    this.updateControls('question');
+                    break;
+                case "External":
+                    this.updateControls('questionExternal');
+                    break;
+                case "PlainText":
+                    this.updateControls('question');
+                    break;
             }
             this.renderViewContent(new QuizQuestionView({
-                model:model,
-                language:language}));
+                model: model,
+                language: language}));
         }
     }
 });

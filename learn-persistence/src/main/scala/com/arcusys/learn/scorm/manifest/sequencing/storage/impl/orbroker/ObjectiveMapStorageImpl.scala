@@ -3,15 +3,12 @@ package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import org.orbroker.Row
+import impl.{ObjectiveMapEntityStorage, SequencingPermissionsEntityStorage}
+import org.orbroker.{RowExtractor, Row}
 
-class ObjectiveMapStorageImpl extends GenericEntityStorageImpl[ObjectiveMap]("ObjectiveMap") with ObjectiveMapStorage {
-  def get(objectiveID: Int): Option[ObjectiveMap] = getOne("objectiveID" -> objectiveID)
+class ObjectiveMapStorageImpl extends GenericEntityStorageImpl[ObjectiveMap]("ObjectiveMap") with ObjectiveMapEntityStorage with ObjectiveMapExtractor
 
-  def create(objectiveID: Int, entity: ObjectiveMap) {
-    create(entity, "objectiveID" -> objectiveID)
-  }
-
+trait ObjectiveMapExtractor extends RowExtractor[ObjectiveMap] {
   def extract(row: Row) = {
     new ObjectiveMap(
       row.string("readSatisfiedStatusFrom"),

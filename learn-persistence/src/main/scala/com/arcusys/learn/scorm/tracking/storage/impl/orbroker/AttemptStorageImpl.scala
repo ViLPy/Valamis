@@ -1,43 +1,32 @@
 package com.arcusys.learn.scorm.tracking.storage.impl.orbroker
 
-import com.arcusys.learn.scorm.tracking.storage._
-import com.arcusys.learn.storage.impl.orbroker._
+import com.arcusys.learn.storage.impl.orbroker.KeyedEntityStorageBaseImpl
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.manifest.storage.impl.orbroker.PackagesStorageImpl
-import org.orbroker.Row
+import org.orbroker.{RowExtractor, Row}
+import com.arcusys.learn.scorm.tracking.storage.impl.{AttemptCreator, AttemptFieldsMapper, AttemptEntityStorage}
 
-class AttemptStorageImpl extends KeyedEntityStorageImpl[Attempt]("Attempt", "id") with AttemptStorage {
+class AttemptStorageImpl extends KeyedEntityStorageBaseImpl[Attempt]("Attempt", "id") with AttemptEntityStorage with AttemptExtractor with AttemptCreator {
   val userStorage = new UserStorageImpl
   val packageStorage = new PackagesStorageImpl
 
-  def getAll(userID: Int, packageID: Int) = getAll(userID: Int, packageID: Int)
+}
 
-  def getActive(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "isComplete" -> false)
-  def getLast(userID: Int, packageID: Int, complete: Boolean = false) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true, "isComplete" -> complete)
+trait AttemptExtractor extends RowExtractor[Attempt] {
+  def extract(row: Row) = {
+    val mapper = new AttemptFieldsMapper() {
+      def id: Int = row.integer("id").get
 
-  def createAndGetID(userID: Int, packageID: Int, organizationID: String) = createAndGetID(Attempt(0, User(userID), packageID, organizationID, isComplete = false))
+      def userID: Int = row.integer("userID").get
 
-  def markAsComplete(id: Int) {
-    execute("_setcomplete", "id" -> id, "isComplete" -> true)
+      def packageID: Int = row.integer("packageID").get
+
+      def organizationID: String = row.string("organizationID").get
+
+      def isComplete: Boolean = row.bit("isComplete").get
+    }
+    createAttempt(mapper)
   }
 
-  //TODO: review the query for effectiveness (DISTINCT detected)
-  def getPackagesWithAttempts = getAll("_packages", packageStorage.extractor)
-
-  //TODO: review the query for effectiveness (DISTINCT detected)
-  def getPackagesWithUserAttempts(userID: Int) = getAll("_packages", packageStorage.extractor, "userID" -> userID)
-
-  //TODO: review the query for effectiveness (DISTINCT detected)
-  def getUsersWithAttempts = getAll("_users", userStorage.extractor)
-
-  //TODO: review the query for effectiveness (DISTINCT detected)
-  def getUsersWithAttemptsInPackage(packageID: Int) = getAll("_users", userStorage.extractor, "packageID" -> packageID)
-
-  def extract(row: Row) = Attempt(
-    row.integer("id").get,
-    userStorage.getByID(row.integer("userID").get).getOrElse(throw new Exception("User not found!")),
-    row.integer("packageID").get,
-    row.string("organizationID").get,
-    row.bit("isComplete").get)
-
+  def createAttempt(mapper: AttemptFieldsMapper): Attempt
 }

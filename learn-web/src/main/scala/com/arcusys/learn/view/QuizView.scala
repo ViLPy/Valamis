@@ -5,34 +5,53 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
+import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
+import com.liferay.portal.kernel.util.WebKeys
+import com.liferay.portal.theme.ThemeDisplay
 
-class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
+class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val language = LiferayHelpers.getLanguage(request)
     val userUID = request.getRemoteUser
-    val groupID = LiferayHelpers.getThemeDisplay(request).getScopeGroupId
+    val userID = themeDisplay.getUser.getUserId
     val out = response.getWriter
     val path = request.getContextPath
-    out.println(generateResponse(path, "scorm_quiz.html", language, true, request.isUserInRole("administrator"),
-      Map("userID" -> userUID, "groupID" -> groupID.toString)))
+    val theme = LiferayHelpers.getThemeDisplay(request)
+    val courseID = theme.getLayout.getGroupId
+
+    val hasPermissions = userManagement.hasTeacherPermissions(userID, courseID)
+    if (hasPermissions) {
+      val groupID = theme.getScopeGroupId
+      val translations = getTranslation("quiz", language)
+      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language, "courseID" -> courseID, "actionURL" -> response.createResourceURL()) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
+      val data = mustache(map, "scorm_quiz.html")
+      out.println(data)
+    }
+    else {
+      val translations = getTranslation("error", language)
+      val data = mustache(Map("contextPath" -> path, "language" -> language) ++ translations, "scorm_nopermissions.html")
+      out.println(data)
+    }
   }
 
-  get("/Quiz") {
-    val path = servletContext.getContextPath
-    "<div class='portlet-learn-scorm'>" + generateResponse(path, "scorm_quiz.html", "en", false, true,
-      Map("userID" -> "-1", "groupID" -> "-1")) + "</div>"
-  }
-
-  def generateResponse(contextPath: String, templateName: String, language: String, isPortlet: Boolean, isAdmin: Boolean, subData: Map[String, String] = Map()) = {
-    val translations = try {
-      getTranslation("/i18n/quiz_" + language)
+  private def getTranslation(view: String, language: String): Map[String, String] = {
+    try {
+      getTranslation("/i18n/" + view + "_" + language)
     } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/quiz_en")
+      case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
       case _ => Map[String, String]()
     }
-    val data = Map("contextPath" -> contextPath, "isAdmin" -> isAdmin, "isPortlet" -> isPortlet, "language" -> language) ++ subData ++ translations
-    mustache(data, templateName)
+  }
+
+  override def serveResource(request: ResourceRequest, response: ResourceResponse) {
+    val groupID = request.getParameter("groupID").toLong
+    val articleID = request.getParameter("articleID")
+    val articleLanguage = request.getParameter("language")
+    val td = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
+    val text = JournalArticleLocalServiceUtil.getArticleContent(groupID, articleID, "view", articleLanguage, td)
+    response.getWriter.println(text)
   }
 }

@@ -24,7 +24,8 @@ class TextQuestionTest extends FlatSpec with ShouldMatchers {
     text = "Every somebody?",
     explanationText = "Lalala",
     answers = answers,
-    isCaseSensitive = false
+    isCaseSensitive = false,
+    courseID = Some(1)
   )
 
   private def checkFields(question: TextQuestion, categoryId: Option[Int], answers: Seq[TextAnswer]) {

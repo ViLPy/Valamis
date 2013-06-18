@@ -1,31 +1,6 @@
 <html>
 <head>
-    <!--{{^isPortlet}}-->
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" language="javascript"
-            src="{{contextPath}}/js/libs/jquery-ui-1.8.16.min.js"></script>
 
-    <script src="{{contextPath}}/js/libs/underscore-min-1.3.1.js"></script>
-    <script src="{{contextPath}}/js/libs/backbone-min-0.9.0.js"></script>
-
-    <link type="text/css" href="{{contextPath}}/css/ui.jqgrid.css" rel="stylesheet"/>
-    <script type="text/javascript" src="{{contextPath}}/js/libs/mustache.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/libs/list.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/helpers/TemplateLoader.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/grid.locale-en.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/libs/jquery.form.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/utils.js"></script>
-
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/helpers/BackboneSync.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/admin/PackageModel.js"></script>
-    <script type="text/javascript" language="javascript" src="{{contextPath}}/js/admin/PackageView.js"></script>
-    <script type="text/javascript" src="{{contextPath}}/js/libs/blockUI.js"></script>
-
-    <link type="text/css" href="{{contextPath}}/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet"/>
-    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_main.css"/>
-    <link type="text/css" rel="stylesheet" href="{{contextPath}}/css/scorm_admin.css"/>
-    <!--{{/isPortlet}}-->
     <script type="text/javascript" language="javascript">
         var jQuery1816Admin = jQuery.noConflict();
         var scormAdminPackages = new PackageModelCollection();
@@ -82,7 +57,7 @@
                 if (allowedTypes[i] == fileType) passed = true;
             if (passed) jQuery1816Admin('#uploadForm').ajaxSubmit({
                 type:"POST",
-                url:Utils.getContextPath() + '/services/upload/package',
+                url:Utils.getContextPath() + '/services/upload/package' +"?courseID="+ jQuery("#courseID").val(),
                 dataType:'json',
                 success:function (data) {
                     scormAdminPackages.add({id:data,
@@ -126,15 +101,25 @@
 
         function renewDatabase() {
             if (confirm("{{renewDatabaseWarningLabel}}")) {
-                jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
-                    alert("{{renewDatabaseCompleteLabel}}");
-                    scormAdminPackages.fetch();
-                });
+
+                jQuery1816Admin('#settingsForm').ajaxSubmit({
+                    type:"POST",
+                    //url:Utils.getContextPath() + '/services/administering/UpdateSettings',
+                    url:Utils.getContextPath() + '/services/administering/RenewDatabase',
+                    dataType:'html',
+                    success:function (data) {
+                        //jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
+                            alert("{{renewDatabaseCompleteLabel}}");
+                            scormAdminPackages.fetch();
+                       // });
+                    }
+                })
             }
         }
 
         function resetDBInfo() {
-            jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings', function (data) {
+            jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings?t=' + new Date().getTime(),
+                function (data) {
                 jQuery1816Admin('#SCORMServerName').val(data.server);
                 jQuery1816Admin('#SCORMDatabaseName').val(data.database);
                 jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
@@ -143,6 +128,10 @@
             });
         }
         /*{{/isAdmin}}*/
+
+        function updatePackages(){
+            scormAdminPackages.fetch();
+        }
     </script>
 </head>
 <body>
@@ -153,6 +142,12 @@
     <div class="SCORMWell">
         <div style="float: left">
             <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageAdminSearch" class="SCORMSearch"/>
+        </div>
+        <div style="float: left; margin-left: 10px">
+            <select id="adminScopeSelect" onchange="updatePackages()" class="ScopeSelect">
+                <option value="siteScope">{{siteScope}}</option>
+                <option value="instanceScope">{{instanceScope}}</option>
+            </select>
         </div>
         <!--{{#isAdmin}}-->
         <div style="float: right">
@@ -190,7 +185,8 @@
     <div id="SCORMAdminDialog" title="{{adminDialogTitleLabel}}">
 
         <form id="settingsForm" method="post">
-            <div class="SCORMAdminDialogFields">
+            <b style="color:gray; font-size: small">DB settings removed because for compatibility with "Liferay marketplace" we started to use Liferay's database.</b>
+            <!--<div class="SCORMAdminDialogFields">
                 <table>
                     <tbody>
                     <tr>
@@ -225,28 +221,31 @@
                             <select id="SCORMQuestionType" name="dbManagementSystem">
                                 <option value="h2">H2 (embedded)</option>
                                 <option value="postgres">PostgreSQL</option>
+                                <option value="mysql">MySQL</option>
                             </select>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+            -->
             <div class="SCORMAdminDialogButtons">
                 <input type="button" id="SCORMRenewDatabaseSettings" class="textbutton" onclick="renewDatabase()"
                        value="{{adminDialogReInitButtonLabel}}"/>
 
-                <div class="float-right" style="float: right;">
+                <!--<div class="float-right" style="float: right;">
                     <input type="button" id="SCORMResetDatabaseSettings" class="textbutton" onclick="resetDBInfo()"
                            value="{{adminDialogResetButtonLabel}}"/>
                     <input type="button" id="SCORMSaveDatabaseSettings" class="textbutton" onclick="saveDatabase()"
                            value="{{adminDialogSaveButtonLabel}}"/>
-                </div>
+                </div>-->
                 <div class="clear"></div>
             </div>
         </form>
     </div>
     <!--{{/isAdmin}}-->
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="courseID" value="{{courseID}}"/>
 </div>
 </body>
 </html>

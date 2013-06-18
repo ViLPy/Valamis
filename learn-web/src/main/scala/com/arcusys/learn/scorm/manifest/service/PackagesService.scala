@@ -4,11 +4,16 @@ import com.arcusys.learn.scorm.manifest.model._
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.util.Extensions._
 import com.arcusys.learn.liferay.service.asset.AssetHelper
+import com.liferay.portal.service.GroupLocalServiceUtil
+import com.liferay.portal.util._
+import com.liferay.portal.kernel.dao.orm.QueryUtil
+import scala.collection.JavaConversions._
+import com.arcusys.scorm.lms.PackageService
 
 class PackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+  private val assetHelper = new AssetHelper()
 
   import storageFactory._
 
@@ -16,10 +21,19 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     Map("id" -> manifest.id,
       "title" -> manifest.title,
       "summary" -> manifest.summary,
+      "version" -> manifest.version,
       "visibility" -> manifest.visibility,
-      "version" -> manifest.version)
+      "isDefault" -> manifest.isDefault)
   )
 
+  private val packageService = new PackageService()
+
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
+  // get only visible packages for Player (now only Site scope)
   get("/") {
     val userID = try {
       request.getHeader("scormUserID").toInt
@@ -32,85 +46,113 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
       Map("id" -> manifest.id,
         "title" -> manifest.title,
         "summary" -> manifest.summary,
-        "visibility" -> manifest.visibility,
         "version" -> manifest.version,
         "suspendedID" -> (if (attempt.isDefined) activityStateTreeStorage.get(attempt.get.id).map(_.suspendedActivity.map(_.item.activity.id)) else None),
         "attempted" -> attempt.isDefined)
     })
 
-    jsonPackedModel(packageStorage.getOnlyVisible)
+    val courseID = parameter("courseID").intRequired
+    val pageID = parameter("pageID").required
+    jsonPackedModel(packageService.getVisiblePackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID))
   }
 
+  // get all packages for Admin Instance scope
   get("/all") {
-    jsonModel(packageStorage.getAll)
+    getInInstance
   }
 
-  get("/Sorted") {
-    val sidx = parameter("sidx") withDefault ""
-    val sord = parameter("sord") withDefault "asc"
-    json(buildJSONResponse(sidx, sord, packageStorage.getAll))
+  private def getInInstance = {
+    jsonModel(packageStorage.getAllForInstance(getAllCourseIDs))
   }
 
-  post("/UpdateVisibility") {
-    val id = parameter("id").intRequired
-    val visibility = parameter("visibility").booleanRequired
-    val updateAll = params.getOrElse("all", false).toString.toBoolean
-    if (updateAll) for (manifest <- packageStorage.getAll) packageStorage.setVisibility(manifest.id, visibility)
-    else packageStorage.setVisibility(id, visibility)
+  private def getAllCourseIDs = {
+    val groups = GroupLocalServiceUtil.search(PortalUtil.getCompanyId(request), null, null, null, QueryUtil.ALL_POS, QueryUtil.ALL_POS)
+    groups.map(i => i.getGroupId.toInt).toList
   }
 
-  post("/UpdateTitle") {
-    val id = parameter("id").intRequired
-    val title = parameter("title").required
-    val summary = parameter("summary").required
-    val visibility = parameter("visibility").booleanRequired
-    val operation = parameter("oper").required
+  // get packages for Admin Site scope
+  get("/allInSite") {
+    val courseID = parameter("courseID").intOption(-1)
+    jsonModel(packageStorage.getByCourseID(courseID))
+  }
 
-    if (operation == "del") packageStorage.delete(id)
-    else {
-      packageStorage.setDescriptions(id, title, summary)
-      packageStorage.setVisibility(id, visibility)
-      json(Map("message" -> "", "id" -> id))
+  // get packages, only by current CourseID (liferay siteID), visibility for current Player + Scope
+  get("/getByScope") {
+    val courseID = parameter("courseID").intRequired
+    val scope = parameter("scope").required
+    val scopeType = ScopeType.withName(scope)
+    scopeType match {
+      case ScopeType.Page => jsonModel(packageStorage.getByScope(courseID, scopeType, parameter("pageID").required))
+      case ScopeType.Player => jsonModel(packageStorage.getByScope(courseID, scopeType, parameter("playerID").required))
+      case ScopeType.Site => jsonModel(packageStorage.getByCourseID(Option(courseID)))
+      case ScopeType.Instance => getInInstance
     }
   }
 
   post("/update/:id") {
     val id = parameter("id").intRequired
-    val title = parameter("title").required
-    val summary = parameter("summary").required
-    val visibility = parameter("visibility").booleanRequired
+    val courseID = parameter("courseID").intRequired
+    val scope = parameter("scopeType").required
+    val scopeType = ScopeType.withName(scope)
+    updatePackageSettings(id, parameter("visibility").booleanRequired, parameter("isDefault").booleanRequired, scope, courseID)
+    packageStorage.setDescriptions(id, parameter("title").required, parameter("summary").required)
 
-    packageStorage.setDescriptions(id, title, summary)
-    packageStorage.setVisibility(id, visibility)
-    jsonModel(packageStorage.getByID(id))
+    scopeType match {
+      case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
+      case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
+    }
+  }
+
+  post("/updatePackageScopeVisibility/:id") {
+    val id = parameter("id").intRequired
+    val scope = parameter("scopeType").required
+    val scopeType = ScopeType.withName(scope)
+    val courseID = parameter("courseID").intRequired
+    val visibility = parameter("visibility").booleanOption("null")
+    updatePackageSettings(id, visibility.getOrElse(false), parameter("isDefault").booleanRequired, scope, courseID)
+
+    scopeType match {
+      case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
+      case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
+      case ScopeType.Page => jsonModel(packageStorage.getByID(id, courseID, scopeType, parameter("pageID").required))
+    }
+  }
+
+  private def updatePackageSettings(id: Int, visibility: Boolean, isDefault: Boolean, scope: String, courseID: Int) {
+    scope match {
+      case "instanceScope" => {
+        packageService.setInstanceScopeSettings(id, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
+      }
+      case "siteScope" => {
+        packageService.setSiteScopeSettings(id, courseID, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
+      }
+      case "pageScope" => {
+        packageService.setPageScopeSettings(id, parameter("pageID").required, visibility, isDefault)
+        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
+      }
+      // For future "Player" scope
+      //  case "player" =>{
+      //  PackageService.setPlayerScopeVisibility(id, parameter("playerID").required, visibility)
+      //  packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Player, Option(parameter("playerID").required), isDefault) }
+    }
   }
 
   post("/delete") {
     val id = parameter("id").intRequired
     val pkg = packageStorage.getByID(id)
     if (pkg.isDefined) {
-      if (pkg.get.assetRefID.isDefined) AssetHelper.deletePackage(pkg.get.assetRefID.get)
+      if (pkg.get.assetRefID.isDefined) assetHelper.deletePackage(pkg.get.assetRefID.get)
       packageStorage.delete(id)
+      packageScopeRuleStorage.delete(id)
     }
   }
 
-  private def buildJSONResponse(sidx: String, sord: String, sequence: Seq[Manifest]) = {
-    // sorting
-    val newSeq = sidx match {
-      case "title" => sequence.sortWith((e1, e2) =>
-        (if (sord.equals("asc")) e1.title.toLowerCase < e2.title.toLowerCase
-        else e1.title.toLowerCase > e2.title.toLowerCase))
-      // or by id
-      case _ => sequence.sortWith((e1, e2) =>
-        (if (sord.equals("asc")) e1.id < e2.id
-        else e1.id > e2.id))
-    }
-    // create data structure for jqGrid
-    Map("total" -> 1,
-      "page" -> 0,
-      "records" -> newSeq.size,
-      "rows" -> newSeq.map(pack => Map("id" -> pack.id,
-        "cell" -> List(pack.id, pack.title, pack.summary.getOrElse(""), pack.visibility))))
+  post("/updatePlayerScope") {
+    val scope = parameter("scope").required
+    val playerID = parameter("playerID").required
+    packageService.setPlayerScope(playerID, scope)
   }
 
 }

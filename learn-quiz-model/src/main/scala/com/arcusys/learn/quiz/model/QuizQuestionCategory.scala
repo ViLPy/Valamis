@@ -8,4 +8,4 @@ package com.arcusys.learn.quiz.model
  * @param quizID        ID of the quiz which is parent to this category
  * @param parentID      ID of the parent category, if this is a subcategory. None if category is in root of quiz
  */
-class QuizQuestionCategory(val id: Int, val title: String, val description: String, val quizID: Int, val parentID: Option[Int])
+case class QuizQuestionCategory(id: Int, title: String, description: String, quizID: Int, parentID: Option[Int], arrangementIndex: Int = 1)

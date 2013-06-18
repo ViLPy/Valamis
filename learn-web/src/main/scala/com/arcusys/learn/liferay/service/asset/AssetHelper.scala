@@ -6,30 +6,44 @@ import com.liferay.portal.service.ClassNameLocalServiceUtil
 import com.liferay.counter.service.CounterLocalServiceUtil
 import com.liferay.portal.kernel.search.IndexerRegistryUtil
 import com.liferay.portal.kernel.util.ContentTypes
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
+import com.liferay.portlet.asset.NoSuchEntryException
+import com.arcusys.learn.ioc.Configuration
+import org.scala_tools.subcut.inject.BindingModule
+import com.arcusys.learn.web.ServletBase
 
-object AssetHelper {
+
+class AssetHelper (configuration: BindingModule) extends ServletBase(configuration) {
+  def this() = this(Configuration)
+
+  import storageFactory._
+
   def getAssetFromManifest(man: Manifest) = AssetEntryLocalServiceUtil.getAssetEntry(man.assetRefID.get)
 
   def deletePackage(entryID: Long) {
-    val indexer = IndexerRegistryUtil.getIndexer(classOf[Manifest])
-    indexer.delete(StorageFactory.packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
-    AssetEntryLocalServiceUtil.deleteAssetEntry(entryID)
+    try {
+      if (AssetEntryLocalServiceUtil.getAssetEntry(entryID) != null) {
+        val indexer = IndexerRegistryUtil.getIndexer(classOf[Manifest])
+        indexer.delete(packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
+        AssetEntryLocalServiceUtil.deleteAssetEntry(entryID)
+      }
+    } catch {
+      case e:NoSuchEntryException => System.out.println("Asset not found")
+    }
   }
 
   def addPackage(userID: Long, groupID: Long, manifest: Manifest, content: String = "") {
     val classNameId = ClassNameLocalServiceUtil.getClassNameId(classOf[Manifest].getName)
     val classPK = CounterLocalServiceUtil.increment
     val entry = AssetEntryLocalServiceUtil.updateEntry(userID, groupID, classOf[Manifest].getName,
-      classPK , "", classNameId, null, null, true, null,
+      classPK, "", classNameId, null, null, true, null,
       null, null, null, ContentTypes.TEXT_HTML, manifest.title,
       content, manifest.summary.getOrElse(""), null, null, 0, 0, null, false)
     entry.setClassPK(entry.getPrimaryKey)
     AssetEntryLocalServiceUtil.updateAssetEntry(entry)
 
-    StorageFactory.packageStorage.setAssetRefID(manifest.id, entry.getPrimaryKey)
+    packageStorage.setAssetRefID(manifest.id, entry.getPrimaryKey)
 
     val indexer = IndexerRegistryUtil.getIndexer(classOf[Manifest])
-    indexer.reindex(StorageFactory.packageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
+    indexer.reindex(packageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
   }
 }

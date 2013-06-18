@@ -2,21 +2,12 @@ package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.orbroker
 
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.storage.impl.orbroker.GenericEntityStorageImpl
-import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import org.orbroker.Row
+import org.orbroker.{RowExtractor, Row}
+import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.RuleConditionEntityStorage
 
-class RuleConditionStorageImpl extends GenericEntityStorageImpl[RuleCondition]("RollupRuleCondition") with RuleConditionStorage {
-  def createRollup(ruleID: Int, entity: RuleCondition) {
-    create(entity, "rollupRuleID" -> ruleID)
-  }
+class RuleConditionStorageImpl extends GenericEntityStorageImpl[RuleCondition]("RollupRuleCondition") with RuleConditionEntityStorage with RuleConditionExtractor
 
-  def createCondition(ruleID: Int, entity: RuleCondition) {
-    create(entity, "conditionRuleID" -> ruleID)
-  }
-
-  def getRollup(ruleID: Int): Seq[RuleCondition] = getAll("rollupRuleID" -> ruleID)
-  def getCondition(ruleID: Int): Seq[RuleCondition] = getAll("conditionRuleID" -> ruleID)
-
+ trait RuleConditionExtractor extends RowExtractor[RuleCondition] {
   def extract(row: Row) = {
     new RuleCondition(
       ConditionType.withName(row.string("conditionType").get),

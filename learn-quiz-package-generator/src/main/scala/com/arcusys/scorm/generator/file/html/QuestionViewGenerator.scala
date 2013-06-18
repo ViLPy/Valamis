@@ -13,11 +13,11 @@ class QuestionViewGenerator(isPreview: Boolean) {
   private lazy val previewJS = scala.io.Source.fromInputStream(getResourceStream("questionScriptPreview.html")).mkString
   private lazy val previewCSS = scala.io.Source.fromInputStream(getResourceStream("questionStylePreview.html")).mkString
 
-  private def decode(source: String) = URLDecoder.decode(source, "UTF-8")
+  private def decode(source: String) = URLDecoder.decode(source, "UTF-8").replaceAll("\n","").replaceAll("\r","")
 
   private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
 
-  private def prepareString(source: String) = if (isPreview) decode(source) else ResourceHelpers.skipContextPathURL(decode(source))
+  private def prepareString(source: String) = (if (isPreview) decode(source) else ResourceHelpers.skipContextPathURL(decode(source))).replaceAll("\n","").replaceAll("\r","")
 
   def getHTMLForStaticPage(pageData: String) = {
     val string = prepareString(pageData)
@@ -70,12 +70,12 @@ class QuestionViewGenerator(isPreview: Boolean) {
         val viewModel = Map("title" -> decode(matchingQuestion.title),
           "text" -> prepareString(matchingQuestion.text),
           "answers" -> answers,
-          "answerData" -> correctAnswers,
+          "answerData" -> correctAnswers.replaceAll("\"","'"),
           "contextPath" -> contextPath)
         generateHTMLByQuestionType("MatchingQuestion", viewModel)
 
       case categorizationQuestion: CategorizationQuestion =>
-        val answerJSON = Json.toJson(categorizationQuestion.answers.map(answer => Map("text" -> answer.text, "matchingText" -> answer.answerCategoryText)))
+        val answerJSON = Json.toJson(categorizationQuestion.answers.map(answer => Map("text" -> prepareString(answer.text), "matchingText" -> answer.answerCategoryText.map(prepareString))))
         val answerText = categorizationQuestion.answers.map(answer => prepareString(answer.text)).distinct
         val matchingText = categorizationQuestion.answers.filter(a => a.answerCategoryText != None || !a.answerCategoryText.get.isEmpty).
           sortBy(_.answerCategoryText).
@@ -99,6 +99,12 @@ class QuestionViewGenerator(isPreview: Boolean) {
           "text" -> decode(embeddedAnswerQuestion.text),
           "contextPath" -> contextPath)
         generateHTMLByQuestionType("EmbeddedAnswerQuestion", viewModel)
+
+      case plainText: PlainText =>
+        val viewModel = Map("title" -> decode(plainText.title),
+          "text" -> prepareString(plainText.text),
+          "contextPath" -> contextPath)
+        generateHTMLByQuestionType("PlainText", viewModel)
 
       case _ => throw new Exception("Service: Oops! Can't recognize question type")
     }

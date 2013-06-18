@@ -11,19 +11,23 @@ import javax.portlet.{RenderRequest, RenderResponse, PortletRequest}
 import com.liferay.portal.theme.ThemeDisplay
 import com.liferay.portal.security.permission.PermissionChecker
 import utils.PortletKeys
+import com.arcusys.learn.liferay.SCORMPackageAssetRendererFactory
+
 
 class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
+  lazy val assetHelper = new AssetHelper()
+
   def getAssetRendererFactoryClassName: String = SCORMPackageAssetRendererFactory.CLASS_NAME
 
-  def getClassPK: Long = AssetHelper.getAssetFromManifest(pkg).getPrimaryKey
+  def getClassPK: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
 
-  def getGroupId: Long = AssetHelper.getAssetFromManifest(pkg).getGroupId
+  def getGroupId: Long = assetHelper.getAssetFromManifest(pkg).getGroupId
 
   def getSummary(locale: Locale): String = {
-    HtmlUtil.stripHtml(AssetHelper.getAssetFromManifest(pkg).getSummary)
+    HtmlUtil.stripHtml(assetHelper.getAssetFromManifest(pkg).getSummary)
   }
 
-  def getTitle(locale: Locale): String = AssetHelper.getAssetFromManifest(pkg).getTitle
+  def getTitle(locale: Locale): String = assetHelper.getAssetFromManifest(pkg).getTitle
 
   override def getURLEdit(liferayPortletRequest: LiferayPortletRequest, liferayPortletResponse: LiferayPortletResponse) = {
     val portletURL = liferayPortletResponse.createLiferayPortletURL(getControlPanelPlid(liferayPortletRequest), PortletKeys.SCORM_PACKAGE, PortletRequest.RENDER_PHASE)
@@ -33,12 +37,12 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
 
   override def getURLViewInContext(liferayPortletRequest: LiferayPortletRequest, liferayPortletResponse: LiferayPortletResponse, noSuchEntryRedirect: String): String = {
     val themeDisplay = liferayPortletRequest.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
-    getPackageURL(themeDisplay.getPlid, AssetHelper.getAssetFromManifest(pkg).getPrimaryKey, themeDisplay.getPortalURL, maximized = false)
+    getPackageURL(themeDisplay.getPlid, assetHelper.getAssetFromManifest(pkg).getPrimaryKey, themeDisplay.getPortalURL, maximized = false)
   }
 
-  def getUserId: Long = AssetHelper.getAssetFromManifest(pkg).getUserId
+  def getUserId: Long = assetHelper.getAssetFromManifest(pkg).getUserId
 
-  def getUserName: String = AssetHelper.getAssetFromManifest(pkg).getUserName
+  def getUserName: String = assetHelper.getAssetFromManifest(pkg).getUserName
 
   def getUuid: String = ""
 

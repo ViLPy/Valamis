@@ -2,7 +2,6 @@ package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
-import org.slf4j.LoggerFactory
 import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
 
 /**
@@ -10,7 +9,6 @@ import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateN
  */
 class DeliveryRequestService(implicit val bindingModule: BindingModule) extends DeliveryRequestServiceContract with Injectable {
   private val endAttemptService = inject[EndAttemptServiceContract]
-  private val LOG = LoggerFactory.getLogger(classOf[DeliveryRequestService])
 
   /**
    * Content Delivery Environment Process [DB.2]
@@ -38,7 +36,6 @@ class DeliveryRequestService(implicit val bindingModule: BindingModule) extends 
 
     // If the attempt on the current activity has not been terminated, we cannot deliver new content
     if (tree.currentActivity.isDefined && tree.currentActivity.get.item.active) {
-      LOG.warn("Identified activity is already active")
       return
     }
     // Content is about to be delivered, clear any existing suspend all state

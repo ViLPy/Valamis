@@ -1,0 +1,672 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityModelImpl">
+		<attributes>
+			<id name="indexNumber" />
+			<basic name="id">
+				<column name="ID_" />
+			</basic>
+			<basic name="packageID" />
+			<basic name="organizationID" />
+			<basic name="parentID" />
+			<basic name="title" />
+			<basic name="identifierRef" />
+			<basic name="resourceParameters" />
+			<basic name="hideLMSUI" />
+			<basic name="visible" />
+			<basic name="objectivesGlobalToSystem" />
+			<basic name="sharedDataGlobalToSystem" />
+			<basic name="masteryScore" />
+			<basic name="maxTimeAllowed" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityDataMapModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="activityID" />
+			<basic name="targetId" />
+			<basic name="readSharedData" />
+			<basic name="writeSharedData" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="activityID" />
+			<basic name="active">
+				<column name="ACTIVE_" />
+			</basic>
+			<basic name="suspended" />
+			<basic name="attemptCompleted" />
+			<basic name="attemptCompletionAmount" />
+			<basic name="attemptAbsoluteDuration" />
+			<basic name="attemptExperiencedDuration" />
+			<basic name="activityAbsoluteDuration" />
+			<basic name="activityExperiencedDuration" />
+			<basic name="attemptCount" />
+			<basic name="activityStateNodeID" />
+			<basic name="activityStateTreeID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="parentID" />
+			<basic name="treeID" />
+			<basic name="availableChildrenIDs" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="currentActivityID" />
+			<basic name="suspendedActivityID" />
+			<basic name="attemptID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAnswerModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="description" />
+			<basic name="correct" />
+			<basic name="questionId" />
+			<basic name="rangeFrom" />
+			<basic name="rangeTo" />
+			<basic name="matchingText" />
+			<basic name="answerPosition" />
+			<basic name="answerType" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="userID" />
+			<basic name="packageID" />
+			<basic name="organizationID" />
+			<basic name="isComplete" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="dataKey" />
+			<basic name="dataValue" />
+			<basic name="attemptID" />
+			<basic name="activityID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="decimal">
+				<column name="DECIMAL_" />
+			</basic>
+			<basic name="text">
+				<column name="TEXT_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="takeCount" />
+			<basic name="takeTimingOnEachAttempt" />
+			<basic name="reorderOnEachAttempt" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFConditionRuleModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="combination" />
+			<basic name="ruleType" />
+			<basic name="action" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCourseModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="courseID" />
+			<basic name="userID" />
+			<basic name="grade" />
+			<basic name="comment">
+				<column name="COMMENT_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="filename" />
+			<basic name="content" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFGlobalObjectiveStateModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="satisfied" />
+			<basic name="normalizedMeasure" />
+			<basic name="attemptCompleted" />
+			<basic name="mapKey" />
+			<basic name="treeID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl">
+		<attributes>
+			<id name="lfId" />
+			<basic name="sequencingID" />
+			<basic name="satisfiedByMeasure" />
+			<basic name="identifier" />
+			<basic name="minNormalizedMeasure" />
+			<basic name="isPrimary" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="objectiveID" />
+			<basic name="readSatisfiedStatusFrom" />
+			<basic name="readNormalizedMeasureFrom" />
+			<basic name="writeSatisfiedStatusTo" />
+			<basic name="writeNormalizedMeasureTo" />
+			<basic name="readRawScoreFrom" />
+			<basic name="readMinScoreFrom" />
+			<basic name="readMaxScoreFrom" />
+			<basic name="readCompletionStatusFrom" />
+			<basic name="readProgressMeasureFrom" />
+			<basic name="writeRawScoreTo" />
+			<basic name="writeMinScoreTo" />
+			<basic name="writeMaxScoreTo" />
+			<basic name="writeCompletionStatusTo" />
+			<basic name="writeProgressMeasureTo" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="satisfied" />
+			<basic name="normalizedMeasure" />
+			<basic name="mapKey" />
+			<basic name="activityStateID" />
+			<basic name="objectiveID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="defaultOrganizationID" />
+			<basic name="title" />
+			<basic name="base" />
+			<basic name="resourcesBase" />
+			<basic name="summary" />
+			<basic name="assetRefID" />
+			<basic name="courseID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="scope" />
+			<basic name="scopeID" />
+			<basic name="visibility" />
+			<basic name="isDefault" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="playerID" />
+			<basic name="scope" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="categoryId" />
+			<basic name="title" />
+			<basic name="description" />
+			<basic name="explanationText" />
+			<basic name="forceCorrectCount" />
+			<basic name="caseSensitive" />
+			<basic name="questionType" />
+			<basic name="courseId" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="description" />
+			<basic name="parentId" />
+			<basic name="courseId" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="description" />
+			<basic name="welcomePageContent" />
+			<basic name="finalPageContent" />
+			<basic name="courseID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="quizId" />
+			<basic name="categoryId" />
+			<basic name="questionId" />
+			<basic name="questionType" />
+			<basic name="title" />
+			<basic name="url" />
+			<basic name="plainText" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="description" />
+			<basic name="quizId" />
+			<basic name="parentId" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="scormType" />
+			<basic name="resourceID" />
+			<basic name="href" />
+			<basic name="base" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="contributeToSatisfied" />
+			<basic name="contributeToNotSatisfied" />
+			<basic name="contributeToCompleted" />
+			<basic name="contributeToIncomplete" />
+			<basic name="objectiveMeasureWeight" />
+			<basic name="measureSatisfactionIfActive" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="combination" />
+			<basic name="childActivitySet" />
+			<basic name="minimumCount" />
+			<basic name="minimumPercent" />
+			<basic name="action" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="conditionType" />
+			<basic name="objectiveId" />
+			<basic name="measureThreshold" />
+			<basic name="inverse" />
+			<basic name="rollupRuleID" />
+			<basic name="conditionRuleID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="activityID" />
+			<basic name="sharedId" />
+			<basic name="sharedSequencingIdReference" />
+			<basic name="onlyCurrentAttemptObjectiveProgressForChildren" />
+			<basic name="onlyCurrentAttemptAttemptProgressForChildren" />
+			<basic name="attemptLimit" />
+			<basic name="durationLimitInMilliseconds" />
+			<basic name="rollupContributionID" />
+			<basic name="preventChildrenActivation" />
+			<basic name="constrainChoice" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="choiceForChildren" />
+			<basic name="choiceForNonDescendants" />
+			<basic name="flowForChildren" />
+			<basic name="forwardOnlyForChildren" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="sequencingID" />
+			<basic name="completionSetByContent" />
+			<basic name="objectiveSetByContent" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl">
+		<attributes>
+			<id name="lfid" />
+			<basic name="id">
+				<column name="ID_" />
+			</basic>
+			<basic name="name" />
+			<basic name="preferredAudioLevel" />
+			<basic name="preferredLanguage" />
+			<basic name="preferredDeliverySpeed" />
+			<basic name="preferredAudioCaptioning" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl" name="LFActivity">
+		<table name="Learn_LFActivity" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityDataMapImpl" name="LFActivityDataMap">
+		<table name="Learn_LFActivityDataMap" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateImpl" name="LFActivityState">
+		<table name="Learn_LFActivityState" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeImpl" name="LFActivityStateNode">
+		<table name="Learn_LFActivityStateNode" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeImpl" name="LFActivityStateTree">
+		<table name="Learn_LFActivityStateTree" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAnswerImpl" name="LFAnswer">
+		<table name="Learn_LFAnswer" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptImpl" name="LFAttempt">
+		<table name="Learn_LFAttempt" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataImpl" name="LFAttemptData">
+		<table name="Learn_LFAttemptData" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalImpl" name="LFBigDecimal">
+		<table name="Learn_LFBigDecimal" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl" name="LFChildrenSelection">
+		<table name="Learn_LFChildrenSelection" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFConditionRuleImpl" name="LFConditionRule">
+		<table name="Learn_LFConditionRule" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCourseImpl" name="LFCourse">
+		<table name="Learn_LFCourse" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageImpl" name="LFFileStorage">
+		<table name="Learn_LFFileStorage" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFGlobalObjectiveStateImpl" name="LFGlobalObjectiveState">
+		<table name="Learn_LFGlobalObjectiveState" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl" name="LFObjective">
+		<table name="Learn_LFObjective" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapImpl" name="LFObjectiveMap">
+		<table name="Learn_LFObjectiveMap" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateImpl" name="LFObjectiveState">
+		<table name="Learn_LFObjectiveState" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageImpl" name="LFPackage">
+		<table name="Learn_LFPackage" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" name="LFPackageScopeRule">
+		<table name="Learn_LFPackageScopeRule" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleImpl" name="LFPlayerScopeRule">
+		<table name="Learn_LFPlayerScopeRule" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionImpl" name="LFQuestion">
+		<table name="Learn_LFQuestion" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryImpl" name="LFQuestionCategory">
+		<table name="Learn_LFQuestionCategory" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizImpl" name="LFQuiz">
+		<table name="Learn_LFQuiz" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl" name="LFQuizQuestion">
+		<table name="Learn_LFQuizQuestion" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" name="LFQuizQuestionCategory">
+		<table name="Learn_LFQuizQuestionCategory" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFResourceImpl" name="LFResource">
+		<table name="Learn_LFResource" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionImpl" name="LFRollupContribution">
+		<table name="Learn_LFRollupContribution" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleImpl" name="LFRollupRule">
+		<table name="Learn_LFRollupRule" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionImpl" name="LFRuleCondition">
+		<table name="Learn_LFRuleCondition" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingImpl" name="LFSequencing">
+		<table name="Learn_LFSequencing" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsImpl" name="LFSequencingPermissions">
+		<table name="Learn_LFSequencingPermissions" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" name="LFSequencingTracking">
+		<table name="Learn_LFSequencingTracking" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" name="LFUser">
+		<table name="Learn_LFUser" />
+		<attributes />
+	</entity>
+</entity-mappings>

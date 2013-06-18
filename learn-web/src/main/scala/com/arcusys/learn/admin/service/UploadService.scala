@@ -10,14 +10,17 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.Image
+import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import com.arcusys.learn.liferay.service.asset.AssetHelper
 import com.arcusys.scala.json.Json
 ;
 
 class UploadService(configuration: BindingModule) extends ServletBase(configuration) with JsonSupport with FileUploadSupport {
+  private val packageProcessor = new PackageProcessor()
+  private val assetHelper = new AssetHelper()
+
   def this() = this(Configuration)
 
   post("/package") {
@@ -26,16 +29,19 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val stream = fileParams.get("file").head.getInputStream // take only the first
     val userID = parameter("scormUserID").withDefault("0").toLong
     val groupID = parameter("liferayGroupID").withDefault("-1").toLong
+    val courseID = parameter("courseID").intOption(-1)
+    contentType = "text/plain"
+    storePackage(title, summary, courseID, stream, userID, groupID)
+  }
+
+  def storePackage(title:String, summary:String, courseID:Option[Int], stream:InputStream, userID:Long, groupID:Long)={
     val packageTmpUUID = FileProcessing.getTempFileName()
     val newFilename = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
-
     val outFile = new File(newFilename)
     val outStream = new FileOutputStream(outFile)
     FileProcessing.copyInputStream(stream, outStream)
-
-    contentType = "text/plain"
-    val packageID = PackageProcessor.processPackageAndGetID(title, summary, packageTmpUUID)
-    if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+    val packageID = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
+    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
     packageID
   }
 
@@ -98,6 +104,8 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     storageFactory.fileStorage.store("files/" + folderPath + folderName)
     true
   }
+
+
 
   private def imageProcessor(input: InputStream, output: FileOutputStream) {
     val sourceImage = ImageIO.read(input)

@@ -12,21 +12,32 @@ import com.arcusys.learn.liferay.service.asset.AssetHelper
 
 class GeneratedPackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+
+  private val assetHelper = new AssetHelper()
+
   import storageFactory._
 
-  get("/Zip/:quizID") {
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
+  get("/Zip/:quizID.zip") {
     contentType = "application/zip"
-    
+
     val quizID = parameter("quizID").intRequired
+    val courseID = parameter("courseID").intOption(-1)
     val quiz = quizStorage.getByID(quizID).get
     val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip
-    
+    val filename = generator.generateZip(courseID)
+
     val is = new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
     org.scalatra.util.io.copy(is, response.getOutputStream)
     is.close()
   }
-  
+
+  private val packageProcessor = new PackageProcessor()
+
   post("/ZipInstall/:quizID") {
     val quizID = parameter("quizID").intRequired
     val userIDHeader = request.getHeader("scormUserID")
@@ -35,10 +46,11 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
     val groupID = if (groupIDHeader.isEmpty) -1 else groupIDHeader.toLong
     val quiz = quizStorage.getByID(quizID).get
     val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip
+    val courseID = parameter("courseID").intOption(-1)
+    val filename = generator.generateZip(courseID)
 
-    val packageID = PackageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0,filename.length - 4))
-    if (groupID != -1) AssetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+    val packageID = packageProcessor.processPackageAndGetID(quiz.title, "", filename.substring(0, filename.length - 4), courseID)
+    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
 
     packageID
   }

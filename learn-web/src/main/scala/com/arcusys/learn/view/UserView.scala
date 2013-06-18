@@ -4,59 +4,92 @@ import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
-import com.arcusys.learn.liferay.service.PackageIndexer
-import com.liferay.portlet.PortletURLUtil
+import com.liferay.portal.util.PortalUtil
+import com.arcusys.learn.scorm.manifest.model.ScopeType
 
-class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport {
+class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
 
-  val userStorage = StorageFactory.userStorage
-
   override def doView(request: RenderRequest, response: RenderResponse) {
-    val userUID = request.getRemoteUser
-    if (userUID != null && userStorage.getByID(userUID.toInt).isEmpty) {
-      userStorage.createAndGetID(User(userUID.toInt, LiferayHelpers.getUserName(request)))
+    val userUID = if (request.getRemoteUser != null) request.getRemoteUser.toInt else null.asInstanceOf[Int]
+    if (userUID != null && userStorage.getByID(userUID).isEmpty) {
+      userStorage.createAndGetID(User(userUID, LiferayHelpers.getUserName(request)))
     }
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
-    val translations = try {
-      getTranslation("/i18n/player_" + language)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/player_en")
-      case _ => Map[String, String]()
+    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+
+    val sessionPackageId = if (httpServletRequest.getSession.getAttribute("playerID") == request.getWindowID) httpServletRequest.getSession.getAttribute("packageId") else null
+    var isComplete = false
+
+    val packageToStart = if (sessionPackageId != null) sessionPackageId
+    else {
+      val packID = packageService.getDefaultPackageID(themeDisplay.getLayout.getGroupId.toString, themeDisplay.getLayout.getPrimaryKey.toString, request.getWindowID)
+      isComplete = packageService.checkIfCompleteByUser(packID, userUID)
+      if (!isComplete) packID else None
     }
+    val defaultPackageID = if (sessionPackageId != null) None else packageToStart
+
+    val sessionPackageTitle = httpServletRequest.getSession.getAttribute("packageTitle")
+    val packageTitle = if (sessionPackageId != null) sessionPackageTitle
+    else packageService.getPackageTitle(packageToStart match {
+      case e: Option[Int] => e.getOrElse(0)
+      case _ => 0
+    })
+
     val data = Map("contextPath" -> request.getContextPath,
       "entryID" -> request.getParameter("entryID"),
       "userID" -> userUID,
       "userName" -> LiferayHelpers.getUserName(request),
       "isAdmin" -> request.isUserInRole("administrator"),
       "language" -> language,
-      "isPortlet" -> true) ++ translations
-    out.println(generateResponse(data, "player.html"))
+      "packageId" -> packageToStart,
+      "packageTitle" -> packageTitle,
+      "isCompleteByUser" -> isComplete,
+      "defaultPackageID" -> defaultPackageID,
+      "isPortlet" -> true,
+      "courseID" -> themeDisplay.getLayout.getGroupId,
+      "pageID" -> themeDisplay.getLayout.getPrimaryKey,
+      "playerID" -> request.getWindowID) ++ getPlayerTranslations(language)
+    out.println(mustache(data, "player.html"))
   }
 
-  get("/") {
-    val lang = "en"
-    val userUID = "12345"
-    userStorage.getByID(userUID.toInt).getOrElse(userStorage.createAndGetID(User(userUID.toInt, "John Doe")))
-    val translations = try {
-      getTranslation("/i18n/player_" + lang)
+  def getPlayerTranslations(language: String) = {
+    try {
+      getTranslation("/i18n/player_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/player_en")
       case _ => Map[String, String]()
     }
-    val data = Map("contextPath" -> servletContext.getContextPath,
-      "userID" -> userUID,
-      "isAdmin" -> false,
-      "language" -> lang,
-      "isPortlet" -> false) ++ translations
-    "<div class='portlet-learn-scorm'>" + generateResponse(data, "player.html") + "</div>"
   }
 
-  def generateResponse(data: Map[String, Any], templateName: String) = {
-    mustache(data, templateName)
+  override def doEdit(request: RenderRequest, response: RenderResponse) {
+    val out = response.getWriter
+    val language = LiferayHelpers.getLanguage(request)
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val rule = storageFactory.playerScopeRuleStorage.get(request.getWindowID)
+    val scope = if (rule == None) ScopeType.Site else rule.get.scope
+
+    val data = Map("contextPath" -> request.getContextPath,
+      "courseID" -> themeDisplay.getLayout.getGroupId,
+      "pageID" -> themeDisplay.getLayout.getPrimaryKey,
+      "language" -> language,
+      "selectedScope" -> scope,
+      "playerID" -> request.getWindowID) ++ getPlayerTranslations(language)
+    out.println(mustache(data, "player_settings.html"))
+  }
+
+  post("/setSession") {
+    request.getSession.setAttribute("packageId", params("id"))
+    request.getSession.setAttribute("packageTitle", params("title"))
+    request.getSession.setAttribute("playerID", params("playerID"))
+  }
+  post("/clearSession") {
+    request.getSession.removeAttribute("packageId")
+    request.getSession.removeAttribute("packageTitle")
+    request.getSession.removeAttribute("playerID")
   }
 }

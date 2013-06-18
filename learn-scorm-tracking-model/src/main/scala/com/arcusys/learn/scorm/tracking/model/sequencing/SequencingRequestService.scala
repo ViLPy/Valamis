@@ -2,14 +2,12 @@ package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
-import org.slf4j.LoggerFactory
 import com.arcusys.learn.util.Extensions._
 import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
 
 class SequencingRequestService(implicit val bindingModule: BindingModule)
   extends SequencingRequestServiceContract with Injectable {
   private val endAttemptService = inject[EndAttemptServiceContract]
-  private val LOG = LoggerFactory.getLogger(classOf[SequencingRequestService])
 
   /**
    * Sequencing Request Process [SB.2.12]
@@ -251,7 +249,6 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
    */
   private def canTraverseActivityWithChoice(activity: ActivityStateNode, traverseForward: Boolean): Boolean = {
     def invalid(message: String) = {
-      LOG.warn(message)
       false
     }
     if (traverseForward && activity.item.preConditionRuleApplies(PreConditionAction.StopForwardTraversal)) invalid("Forward Traversal Blocked")

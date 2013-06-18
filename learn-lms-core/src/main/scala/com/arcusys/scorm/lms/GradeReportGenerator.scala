@@ -1,31 +1,38 @@
 package com.arcusys.scorm.lms
 
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.util.TreeNode
+import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.storage.StorageFactoryContract
 
-class GradeReportGenerator {
-  val activityStorage = StorageFactory.activityStorage
-  val activityTreeStorage = StorageFactory.activityStateTreeStorage
-  val attemptStorage = StorageFactory.attemptStorage
-  val dataModelStorage = StorageFactory.dataModelStorage
+class GradeReportGenerator(implicit val bindingModule: BindingModule) extends Injectable {
+  val storageFactory = inject[StorageFactoryContract]
+  val activityStorage = storageFactory.activityStorage
+  val activityTreeStorage = storageFactory.activityStateTreeStorage
+  val attemptStorage = storageFactory.attemptStorage
+  val dataModelStorage = storageFactory.dataModelStorage
 
   private def get(attempt: Attempt, organizationID: String) = {
     val grades = dataModelStorage.getValuesByKey(attempt.id, "cmi.success_status") ++ dataModelStorage.getValuesByKey(attempt.id, "cmi.core.lesson_status")
     val responseTypes = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.type")
     val responses = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.learner_response")
     val texts = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.description")
+    val score = dataModelStorage.getValuesByKey(attempt.id, "cmi.score.scaled")
+    val essayComment = dataModelStorage.getValuesByKey(attempt.id, "cmi.essay_comment")
     val tree = activityTreeStorage.get(attempt.id)
 
     def parseActivity(activity: TreeNode[Activity]): GradeReportNode = activity.item match {
-      case organization: Organization => new GradeReportRoot(organization, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity)
-      case container: ContainerActivity => new GradeReportBranch(container, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity)
+      case organization: Organization => new GradeReportRoot(organization, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity,
+        if (essayComment.get(organization.id) != None) essayComment.get(organization.id).get.get else "", attempt.packageID)
+      case container: ContainerActivity => new GradeReportBranch(container, activity.children.filter(_.item.sequencing.tracking.isDefined) map parseActivity,
+        if (essayComment.get(container.id) != None) essayComment.get(container.id).get.get else "", attempt.packageID)
       case leaf: LeafActivity => new GradeReportLeaf(leaf,
-        grades.get(leaf.id).getOrElse(None) match {
-          case Some("passed") => Some(true)
-          case Some("failed") => Some(false)
-          case _ => None
+        if (grades.isEmpty || grades.get(leaf.id) == None || grades.get(leaf.id).get.get.equals("unknown")) {
+          None
+        }
+        else {
+          Some(score.get(leaf.id).get.get.toDouble)
         },
         texts.get(leaf.id).getOrElse(None),
         responseTypes.get(leaf.id).getOrElse(None) match {
@@ -39,7 +46,9 @@ class GradeReportGenerator {
             }
             case _ => false
           }
-        })
+        },
+        essayCommentText = if (essayComment.get(leaf.id).isDefined && essayComment.get(leaf.id).get.isDefined) essayComment.get(leaf.id).get.get else "",
+        packID = attempt.packageID)
     }
     parseActivity(activityStorage.getOrganizationTree(attempt.packageID, organizationID))
   }

@@ -7,6 +7,7 @@ import java.net.URISyntaxException
 import java.util.Properties
 import java.util.jar.JarFile
 import org.orbroker._
+import adapt.MySQLAdapter
 import org.orbroker.config.dynamic._
 import org.orbroker.config._
 import collection.JavaConversions._
@@ -14,15 +15,21 @@ import scala.collection.mutable
 import org.h2.jdbcx.JdbcDataSource
 import javax.sql.DataSource
 import com.arcusys.scorm.util.FileSystemUtil
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource
 
 object BrokerFactory {
   var dsPostgres: Option[PGPoolingDataSource] = None
   var dsH2: Option[JdbcDataSource] = None
+  var dsMySql: Option[MysqlDataSource] = None
+
 
   private def getBroker(properties: Properties) = {
     if (dsPostgres.isDefined) {
       dsPostgres.get.close()
       dsPostgres = None
+    }
+    if (dsMySql.isDefined) {
+      dsMySql = None
     }
 
     val ds: DataSource = properties.getProperty("dbManagementSystem") match {
@@ -37,11 +44,22 @@ object BrokerFactory {
         dsPostgres.get.setMaxConnections(100000)
         dsPostgres.get
       }
+      case "mysql" => {
+        Class.forName("com.mysql.jdbc.Driver")
+        dsMySql = Some(new MysqlDataSource)
+        dsMySql.get.setResourceId("Data Source")
+        dsMySql.get.setAllowMultiQueries(true)
+        dsMySql.get.setServerName(properties.getProperty("server", ""))
+        dsMySql.get.setDatabaseName(properties.getProperty("database", ""))
+        dsMySql.get.setUser(properties.getProperty("login", ""))
+        dsMySql.get.setPassword(properties.getProperty("password", ""))
+        dsMySql.get
+      }
       case _ => {
         Class.forName("org.h2.Driver")
         dsH2 = Some(new JdbcDataSource)
         dsH2.get.setDescription("Data Source")
-        if (!properties.getProperty("testPackage","false").toBoolean){
+        if (!properties.getProperty("testPackage", "false").toBoolean) {
           val filename = FileSystemUtil.getRealPath("/SCORMData/" + properties.getProperty("database", ""))
           dsH2.get.setURL("jdbc:h2:file:" + filename + ";IFEXISTS=TRUE;AUTOCOMMIT=ON;IGNORECASE=TRUE;PAGE_SIZE=2048;CACHE_SIZE=128000;DB_CLOSE_DELAY=100")
         } else {
@@ -76,6 +94,14 @@ object BrokerFactory {
     _broker.getOrElse(throw new Exception("Broker doesn't initialized!"))
   }
 
+  def dbType = {
+    broker.dataSource match {
+      case postgres: PGPoolingDataSource => "postgres"
+      case mysql: MysqlDataSource => "mysql"
+      case _ => "h2"
+    }
+  }
+
   private def getFileName(name: String) = {
     val file = new File(name)
     val re = """(?i)(.[^/]+?)(?=\.)""".r
@@ -97,7 +123,7 @@ object BrokerFactory {
     val resource = Thread.currentThread.getContextClassLoader.getResource(relPath)
     if (resource == null) throw new Exception("Can't find directory '" + relPath + "'")
     // create path to JAR
-    val path = resource.getFile.substring(0,resource.getFile.lastIndexOf("/" + relPath))
+    val path = resource.getFile.substring(0, resource.getFile.lastIndexOf("/" + relPath))
     val directory = try {
       new File(resource.toURI)
     } catch {
