@@ -1,0 +1,11 @@
+language: scala
+scala:
+  - 2.9.2
+jdk:
+  - oraclejdk7
+
+before_script:
+  - mysql -e 'create database valamis_test;'
+  - psql -c 'create database valamis_test;' -U postgres
+
+script: "mvn test -Ddb.config.names=db,dbH2,dbMySQL"
