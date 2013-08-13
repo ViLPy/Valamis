@@ -1,0 +1,9 @@
+<root available-locales="en_US" default-locale="en_US">
+    <dynamic-element instance-id="CeXMlUz5" name="Header1" type="text" index-type="">
+        <dynamic-content>We can hear you. Take a part in discussion and share your experiences, ideas and thoughts.
+        </dynamic-content>
+    </dynamic-element>
+    <dynamic-element instance-id="eD0HnPoX" name="Header2" type="text" index-type="">
+        <dynamic-content>Discuss</dynamic-content>
+    </dynamic-element>
+</root>

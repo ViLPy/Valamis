@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root available-locales="en_US" default-locale="en_US">
+    <dynamic-element instance-id="zZ4E86mE" name="Header1" type="text" index-type="">
+        <dynamic-content><![CDATA[Welcome to learn about]]></dynamic-content>
+    </dynamic-element>
+    <dynamic-element instance-id="FR0Ic92f" name="Header2" type="text" index-type="">
+        <dynamic-content><![CDATA[e-learning]]></dynamic-content>
+    </dynamic-element>
+</root>

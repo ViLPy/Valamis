@@ -1,0 +1,21 @@
+#set($url="")
+
+        #if($LinkTitle && $LinkTitle.data!="")
+        #if($LinkTitle.Page && $LinkTitle.Page.data!="")
+        #set($url=$LinkTitle.Page.getFriendlyUrl())
+        #end
+
+        #if($LinkTitle.Link && $LinkTitle.Link.data!="")
+        #set($url=$LinkTitle.Link.data)
+        #end
+        #end
+
+<div class="link_box">
+    #if($Text && $Text.data!="")
+    <div class="text">$!Text.data</div>
+    #end
+
+    #if($url!="")
+    <a href="$!url">$!LinkTitle.data</a>
+    #end
+</div>
