@@ -7,6 +7,8 @@
         var scormAdminLanguageData = {};
 
         jQuery1816Admin(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
             var defaultURL = Utils.getContextPath() + '/i18n/admin_en.properties';
             var localizedURL = Utils.getContextPath() + '/i18n/admin_{{language}}.properties';
             Utils.i18nLoader(localizedURL, defaultURL, onAdminLanguageLoad, onAdminLanguageError);
@@ -27,7 +29,7 @@
                 jQuery1816Admin("#packageAdminSearch").keyup(function () {
                     scormAdminPackagesView.filterPackages(jQuery1816Admin("#packageAdminSearch").val());
                 });
-                scormAdminPackages.fetch();
+                scormAdminPackages.fetch({reset: true});
             }, this));
             loader.fetch("templates/admin_templates.html");
 
@@ -93,7 +95,7 @@
                 url:Utils.getContextPath() + '/services/administering/UpdateSettings',
                 dataType:'html',
                 success:function (data) {
-                    scormAdminPackages.fetch();
+                    scormAdminPackages.fetch({reset: true});
                     jQuery1816Admin('#SCORMAdminDialog').dialog('close');
                 }
             })
@@ -110,7 +112,7 @@
                     success:function (data) {
                         //jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
                             alert("{{renewDatabaseCompleteLabel}}");
-                            scormAdminPackages.fetch();
+                            scormAdminPackages.fetch({reset: true});
                        // });
                     }
                 })
@@ -130,7 +132,7 @@
         /*{{/isAdmin}}*/
 
         function updatePackages(){
-            scormAdminPackages.fetch();
+            scormAdminPackages.fetch({reset: true});
         }
     </script>
 </head>

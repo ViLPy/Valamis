@@ -21,15 +21,15 @@ LiferayLanguageModel = Backbone.Model.extend({
     }
 });
 
-LiferayArticleCollection = Backbone.Collection.extend({
-    model:LiferayArticleModel,
-    storage:{
-        findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "services/liferay/article/");
-            //return window.LearnAjax.get(Utils.getContextPath() + "js/test.json");
-        }
+LiferayArticleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'read': "/services/liferay/article/"
     }
 });
+
+LiferayArticleCollection = Backbone.Collection.extend({
+    model:LiferayArticleModel
+}).extend(LiferayArticleCollectionService);
 
 LiferayLanguageCollection = Backbone.Collection.extend({
     model:LiferayLanguageModel
@@ -70,9 +70,10 @@ LiferayArticleListElement = Backbone.View.extend({
     initialize:function () {
         this.$el = jQuery('<div>');
         var defaultLanguage = this.options.languageID || "en";
-        var locale = _.chain(this.model.get('availableLocales')).keys().find(function (locale) {
+        var keysArray = _(this.model.get('availableLocales')).keys()
+        var locale = _(keysArray).find(function (locale) {
             return locale.indexOf(defaultLanguage) === 0;
-        }).value();
+        });
         if (locale) {
             this.currentLocale = locale;
         } else {
@@ -128,7 +129,7 @@ LiferayArticleDialog = Backbone.View.extend({
             width:640,
             height:480
         });
-        this.collection.fetch();
+        this.collection.fetch({reset: true});
     },
     addArticle:function (article) {
         var view = new LiferayArticleListElement({model:article});
@@ -149,7 +150,7 @@ LiferayArticleDialog = Backbone.View.extend({
         this.$el.dialog('close');
     },
     updateResources:function () {
-        this.collection.fetch();
+        this.collection.fetch({reset: true});
     },
     createURL:function (model, language) {
         return location.protocol + "//" + location.host + "/c/journal/view_article_content?groupId=" + model.get('groupID') + "&articleId=" + model.get('articleID') + "&version=" + model.get('version') + "&languageId=" + language;

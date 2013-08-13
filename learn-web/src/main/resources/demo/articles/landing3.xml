@@ -1,0 +1,17 @@
+<root available-locales="en_US" default-locale="en_US">
+    <dynamic-element instance-id="Yi895bLU" name="Text" type="text_box" index-type="">
+        <dynamic-content>In this course you will learn how to use e-learning effectively. Why to choose e-learning and
+            how to use it. You can discuss with other people and learn from them and you can share your own knowledge to
+            the others.
+        </dynamic-content>
+    </dynamic-element>
+    <dynamic-element instance-id="0xpEjZRd" name="LinkTitle" type="text" index-type="">
+        <dynamic-element instance-id="kgB2j5Ai" name="Page" type="link_to_layout" index-type="">
+            <dynamic-content></dynamic-content>
+        </dynamic-element>
+        <dynamic-element instance-id="kpxRi5c3" name="Link" type="text" index-type="">
+            <dynamic-content></dynamic-content>
+        </dynamic-element>
+        <dynamic-content></dynamic-content>
+    </dynamic-element>
+</root>

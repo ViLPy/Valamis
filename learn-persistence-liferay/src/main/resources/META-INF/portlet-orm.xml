@@ -158,6 +158,43 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="description" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="certificateID" />
+			<basic name="siteID" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="certificateID" />
+			<basic name="userID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionModelImpl">
 		<attributes>
 			<id name="id">
@@ -299,6 +336,24 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="socialPackageID" />
+			<basic name="authorID" />
+			<basic name="comment">
+				<column name="COMMENT_" />
+			</basic>
+			<basic name="publishDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl">
 		<attributes>
 			<id name="id">
@@ -309,6 +364,19 @@
 			<basic name="scopeID" />
 			<basic name="visibility" />
 			<basic name="isDefault" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="userID" />
+			<basic name="socialPackageID" />
+			<basic name="value" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -521,6 +589,34 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="packageID" />
+			<basic name="aboutPackage" />
+			<basic name="publishDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="authorID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="socialPackageID" />
+			<basic name="name" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl">
 		<attributes>
 			<id name="lfid" />
@@ -573,6 +669,18 @@
 		<table name="Learn_LFBigDecimal" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateImpl" name="LFCertificate">
+		<table name="Learn_LFCertificate" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteImpl" name="LFCertificateSite">
+		<table name="Learn_LFCertificateSite" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl" name="LFCertificateUser">
+		<table name="Learn_LFCertificateUser" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl" name="LFChildrenSelection">
 		<table name="Learn_LFChildrenSelection" />
 		<attributes />
@@ -609,8 +717,16 @@
 		<table name="Learn_LFPackage" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentImpl" name="LFPackageComment">
+		<table name="Learn_LFPackageComment" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" name="LFPackageScopeRule">
 		<table name="Learn_LFPackageScopeRule" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteImpl" name="LFPackageVote">
+		<table name="Learn_LFPackageVote" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleImpl" name="LFPlayerScopeRule">
@@ -663,6 +779,14 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" name="LFSequencingTracking">
 		<table name="Learn_LFSequencingTracking" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" name="LFSocialPackage">
+		<table name="Learn_LFSocialPackage" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl" name="LFSocialPackageTag">
+		<table name="Learn_LFSocialPackageTag" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" name="LFUser">

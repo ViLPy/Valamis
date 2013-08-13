@@ -130,7 +130,7 @@ PackageListView = Backbone.View.extend({
     reloadPackageList:function () {
         this.activePackageView = null;
         this.activeEditing = false;
-        this.collection.fetch();
+        this.collection.fetch({reset: true});
     },
 
     filterPackages:function (text) {

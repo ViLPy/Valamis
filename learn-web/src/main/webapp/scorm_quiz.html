@@ -56,6 +56,8 @@
         window.scormQuizActionURL = "{{{actionURL}}}";
 
         jQuery1816Quiz(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
             window.LearnAjax.setHeader("scormUserID", "{{userID}}");
             window.LearnAjax.setHeader("liferayGroupID", "{{groupID}}");
             var defaultURL = Utils.getContextPath() + '/i18n/quiz_en.properties';
@@ -95,7 +97,7 @@
                     this.availableQuizes.bind('quiz-open', this.openQuiz, this);
                     this.availableQuizes.bind('quiz-remove', this.closeQuiz, this);
 
-                    this.availableQuizList.fetch();
+                    this.availableQuizList.fetch({reset: true});
                 },
 
                 openQuiz:function (quiz) {

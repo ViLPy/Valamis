@@ -10,6 +10,9 @@ import com.arcusys.learn.persistence.liferay.service.LFAnswerLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFAttemptDataLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFAttemptLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalService;
@@ -18,8 +21,10 @@ import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocal
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveMapLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveStateLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFQuestionCategoryLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFQuestionLocalService;
@@ -33,6 +38,8 @@ import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalService;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
@@ -43,6 +50,9 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersist
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
@@ -51,8 +61,10 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjecti
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
@@ -66,6 +78,8 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleCondition
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
 import com.liferay.counter.service.CounterLocalService;
@@ -147,6 +161,18 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFBigDecimalLocalService lfBigDecimalLocalService;
     @BeanReference(type = LFBigDecimalPersistence.class)
     protected LFBigDecimalPersistence lfBigDecimalPersistence;
+    @BeanReference(type = LFCertificateLocalService.class)
+    protected LFCertificateLocalService lfCertificateLocalService;
+    @BeanReference(type = LFCertificatePersistence.class)
+    protected LFCertificatePersistence lfCertificatePersistence;
+    @BeanReference(type = LFCertificateSiteLocalService.class)
+    protected LFCertificateSiteLocalService lfCertificateSiteLocalService;
+    @BeanReference(type = LFCertificateSitePersistence.class)
+    protected LFCertificateSitePersistence lfCertificateSitePersistence;
+    @BeanReference(type = LFCertificateUserLocalService.class)
+    protected LFCertificateUserLocalService lfCertificateUserLocalService;
+    @BeanReference(type = LFCertificateUserPersistence.class)
+    protected LFCertificateUserPersistence lfCertificateUserPersistence;
     @BeanReference(type = LFChildrenSelectionLocalService.class)
     protected LFChildrenSelectionLocalService lfChildrenSelectionLocalService;
     @BeanReference(type = LFChildrenSelectionPersistence.class)
@@ -183,10 +209,18 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFPackageLocalService lfPackageLocalService;
     @BeanReference(type = LFPackagePersistence.class)
     protected LFPackagePersistence lfPackagePersistence;
+    @BeanReference(type = LFPackageCommentLocalService.class)
+    protected LFPackageCommentLocalService lfPackageCommentLocalService;
+    @BeanReference(type = LFPackageCommentPersistence.class)
+    protected LFPackageCommentPersistence lfPackageCommentPersistence;
     @BeanReference(type = LFPackageScopeRuleLocalService.class)
     protected LFPackageScopeRuleLocalService lfPackageScopeRuleLocalService;
     @BeanReference(type = LFPackageScopeRulePersistence.class)
     protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
+    @BeanReference(type = LFPackageVoteLocalService.class)
+    protected LFPackageVoteLocalService lfPackageVoteLocalService;
+    @BeanReference(type = LFPackageVotePersistence.class)
+    protected LFPackageVotePersistence lfPackageVotePersistence;
     @BeanReference(type = LFPlayerScopeRuleLocalService.class)
     protected LFPlayerScopeRuleLocalService lfPlayerScopeRuleLocalService;
     @BeanReference(type = LFPlayerScopeRulePersistence.class)
@@ -239,6 +273,14 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFSequencingTrackingLocalService lfSequencingTrackingLocalService;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
+    @BeanReference(type = LFSocialPackageLocalService.class)
+    protected LFSocialPackageLocalService lfSocialPackageLocalService;
+    @BeanReference(type = LFSocialPackagePersistence.class)
+    protected LFSocialPackagePersistence lfSocialPackagePersistence;
+    @BeanReference(type = LFSocialPackageTagLocalService.class)
+    protected LFSocialPackageTagLocalService lfSocialPackageTagLocalService;
+    @BeanReference(type = LFSocialPackageTagPersistence.class)
+    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
     @BeanReference(type = LFUserLocalService.class)
     protected LFUserLocalService lfUserLocalService;
     @BeanReference(type = LFUserPersistence.class)
@@ -811,6 +853,120 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the l f certificate local service.
+     *
+     * @return the l f certificate local service
+     */
+    public LFCertificateLocalService getLFCertificateLocalService() {
+        return lfCertificateLocalService;
+    }
+
+    /**
+     * Sets the l f certificate local service.
+     *
+     * @param lfCertificateLocalService the l f certificate local service
+     */
+    public void setLFCertificateLocalService(
+        LFCertificateLocalService lfCertificateLocalService) {
+        this.lfCertificateLocalService = lfCertificateLocalService;
+    }
+
+    /**
+     * Returns the l f certificate persistence.
+     *
+     * @return the l f certificate persistence
+     */
+    public LFCertificatePersistence getLFCertificatePersistence() {
+        return lfCertificatePersistence;
+    }
+
+    /**
+     * Sets the l f certificate persistence.
+     *
+     * @param lfCertificatePersistence the l f certificate persistence
+     */
+    public void setLFCertificatePersistence(
+        LFCertificatePersistence lfCertificatePersistence) {
+        this.lfCertificatePersistence = lfCertificatePersistence;
+    }
+
+    /**
+     * Returns the l f certificate site local service.
+     *
+     * @return the l f certificate site local service
+     */
+    public LFCertificateSiteLocalService getLFCertificateSiteLocalService() {
+        return lfCertificateSiteLocalService;
+    }
+
+    /**
+     * Sets the l f certificate site local service.
+     *
+     * @param lfCertificateSiteLocalService the l f certificate site local service
+     */
+    public void setLFCertificateSiteLocalService(
+        LFCertificateSiteLocalService lfCertificateSiteLocalService) {
+        this.lfCertificateSiteLocalService = lfCertificateSiteLocalService;
+    }
+
+    /**
+     * Returns the l f certificate site persistence.
+     *
+     * @return the l f certificate site persistence
+     */
+    public LFCertificateSitePersistence getLFCertificateSitePersistence() {
+        return lfCertificateSitePersistence;
+    }
+
+    /**
+     * Sets the l f certificate site persistence.
+     *
+     * @param lfCertificateSitePersistence the l f certificate site persistence
+     */
+    public void setLFCertificateSitePersistence(
+        LFCertificateSitePersistence lfCertificateSitePersistence) {
+        this.lfCertificateSitePersistence = lfCertificateSitePersistence;
+    }
+
+    /**
+     * Returns the l f certificate user local service.
+     *
+     * @return the l f certificate user local service
+     */
+    public LFCertificateUserLocalService getLFCertificateUserLocalService() {
+        return lfCertificateUserLocalService;
+    }
+
+    /**
+     * Sets the l f certificate user local service.
+     *
+     * @param lfCertificateUserLocalService the l f certificate user local service
+     */
+    public void setLFCertificateUserLocalService(
+        LFCertificateUserLocalService lfCertificateUserLocalService) {
+        this.lfCertificateUserLocalService = lfCertificateUserLocalService;
+    }
+
+    /**
+     * Returns the l f certificate user persistence.
+     *
+     * @return the l f certificate user persistence
+     */
+    public LFCertificateUserPersistence getLFCertificateUserPersistence() {
+        return lfCertificateUserPersistence;
+    }
+
+    /**
+     * Sets the l f certificate user persistence.
+     *
+     * @param lfCertificateUserPersistence the l f certificate user persistence
+     */
+    public void setLFCertificateUserPersistence(
+        LFCertificateUserPersistence lfCertificateUserPersistence) {
+        this.lfCertificateUserPersistence = lfCertificateUserPersistence;
+    }
+
+    /**
      * Returns the l f children selection local service.
      *
      * @return the l f children selection local service
@@ -1152,6 +1308,44 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the l f package comment local service.
+     *
+     * @return the l f package comment local service
+     */
+    public LFPackageCommentLocalService getLFPackageCommentLocalService() {
+        return lfPackageCommentLocalService;
+    }
+
+    /**
+     * Sets the l f package comment local service.
+     *
+     * @param lfPackageCommentLocalService the l f package comment local service
+     */
+    public void setLFPackageCommentLocalService(
+        LFPackageCommentLocalService lfPackageCommentLocalService) {
+        this.lfPackageCommentLocalService = lfPackageCommentLocalService;
+    }
+
+    /**
+     * Returns the l f package comment persistence.
+     *
+     * @return the l f package comment persistence
+     */
+    public LFPackageCommentPersistence getLFPackageCommentPersistence() {
+        return lfPackageCommentPersistence;
+    }
+
+    /**
+     * Sets the l f package comment persistence.
+     *
+     * @param lfPackageCommentPersistence the l f package comment persistence
+     */
+    public void setLFPackageCommentPersistence(
+        LFPackageCommentPersistence lfPackageCommentPersistence) {
+        this.lfPackageCommentPersistence = lfPackageCommentPersistence;
+    }
+
+    /**
      * Returns the l f package scope rule local service.
      *
      * @return the l f package scope rule local service
@@ -1187,6 +1381,44 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setLFPackageScopeRulePersistence(
         LFPackageScopeRulePersistence lfPackageScopeRulePersistence) {
         this.lfPackageScopeRulePersistence = lfPackageScopeRulePersistence;
+    }
+
+    /**
+     * Returns the l f package vote local service.
+     *
+     * @return the l f package vote local service
+     */
+    public LFPackageVoteLocalService getLFPackageVoteLocalService() {
+        return lfPackageVoteLocalService;
+    }
+
+    /**
+     * Sets the l f package vote local service.
+     *
+     * @param lfPackageVoteLocalService the l f package vote local service
+     */
+    public void setLFPackageVoteLocalService(
+        LFPackageVoteLocalService lfPackageVoteLocalService) {
+        this.lfPackageVoteLocalService = lfPackageVoteLocalService;
+    }
+
+    /**
+     * Returns the l f package vote persistence.
+     *
+     * @return the l f package vote persistence
+     */
+    public LFPackageVotePersistence getLFPackageVotePersistence() {
+        return lfPackageVotePersistence;
+    }
+
+    /**
+     * Sets the l f package vote persistence.
+     *
+     * @param lfPackageVotePersistence the l f package vote persistence
+     */
+    public void setLFPackageVotePersistence(
+        LFPackageVotePersistence lfPackageVotePersistence) {
+        this.lfPackageVotePersistence = lfPackageVotePersistence;
     }
 
     /**
@@ -1679,6 +1911,82 @@ public abstract class LFAttemptLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setLFSequencingTrackingPersistence(
         LFSequencingTrackingPersistence lfSequencingTrackingPersistence) {
         this.lfSequencingTrackingPersistence = lfSequencingTrackingPersistence;
+    }
+
+    /**
+     * Returns the l f social package local service.
+     *
+     * @return the l f social package local service
+     */
+    public LFSocialPackageLocalService getLFSocialPackageLocalService() {
+        return lfSocialPackageLocalService;
+    }
+
+    /**
+     * Sets the l f social package local service.
+     *
+     * @param lfSocialPackageLocalService the l f social package local service
+     */
+    public void setLFSocialPackageLocalService(
+        LFSocialPackageLocalService lfSocialPackageLocalService) {
+        this.lfSocialPackageLocalService = lfSocialPackageLocalService;
+    }
+
+    /**
+     * Returns the l f social package persistence.
+     *
+     * @return the l f social package persistence
+     */
+    public LFSocialPackagePersistence getLFSocialPackagePersistence() {
+        return lfSocialPackagePersistence;
+    }
+
+    /**
+     * Sets the l f social package persistence.
+     *
+     * @param lfSocialPackagePersistence the l f social package persistence
+     */
+    public void setLFSocialPackagePersistence(
+        LFSocialPackagePersistence lfSocialPackagePersistence) {
+        this.lfSocialPackagePersistence = lfSocialPackagePersistence;
+    }
+
+    /**
+     * Returns the l f social package tag local service.
+     *
+     * @return the l f social package tag local service
+     */
+    public LFSocialPackageTagLocalService getLFSocialPackageTagLocalService() {
+        return lfSocialPackageTagLocalService;
+    }
+
+    /**
+     * Sets the l f social package tag local service.
+     *
+     * @param lfSocialPackageTagLocalService the l f social package tag local service
+     */
+    public void setLFSocialPackageTagLocalService(
+        LFSocialPackageTagLocalService lfSocialPackageTagLocalService) {
+        this.lfSocialPackageTagLocalService = lfSocialPackageTagLocalService;
+    }
+
+    /**
+     * Returns the l f social package tag persistence.
+     *
+     * @return the l f social package tag persistence
+     */
+    public LFSocialPackageTagPersistence getLFSocialPackageTagPersistence() {
+        return lfSocialPackageTagPersistence;
+    }
+
+    /**
+     * Sets the l f social package tag persistence.
+     *
+     * @param lfSocialPackageTagPersistence the l f social package tag persistence
+     */
+    public void setLFSocialPackageTagPersistence(
+        LFSocialPackageTagPersistence lfSocialPackageTagPersistence) {
+        this.lfSocialPackageTagPersistence = lfSocialPackageTagPersistence;
     }
 
     /**

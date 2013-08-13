@@ -1,12 +1,12 @@
 QuizbankCollectionProxy = Backbone.Collection.extend({
-    model:jsTreeModel,
-    initialize:function () {
+    model: jsTreeModel,
+    initialize: function () {
         var Categories = Backbone.Collection.extend({
-            model:QuizCategoryModel
+            model: QuizCategoryModel
         });
 
         var Questions = Backbone.Collection.extend({
-            model:QuizQuestionModel
+            model: QuizQuestionModel
         });
 
         this.categories = new Categories();
@@ -14,7 +14,7 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
     },
 
     //Create
-    addCategory:function (entity) {
+    addCategory: function (entity) {
         if (this.categories.get(entity.id)) return; // already fetched
 
         var category = new QuizCategoryModel(entity);
@@ -22,11 +22,11 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
         var parentID = (parentEntity) ? parentEntity.cid : -1; // can be only category or root
 
         var model = {
-            title:entity.title,
-            content:category,
-            parentID:parentID,
-            type:"folder",
-            id:category.cid
+            title: entity.title,
+            content: category,
+            parentID: parentID,
+            type: "folder",
+            id: category.cid
         };
 
         this.categories.add(category);
@@ -34,11 +34,11 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
         return category.cid;
     },
 
-    addCategories:function (questions) {
+    addCategories: function (questions) {
         _.each(questions, this.addCategory, this);
     },
 
-    addQuestion:function (entity) {
+    addQuestion: function (entity) {
         if (this.questions.get(entity.id)) return; // already fetched
 
         var question = new QuizQuestionModel(entity);
@@ -46,12 +46,12 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
         var parentID = (parentEntity) ? parentEntity.cid : -1; // can be only category or root
 
         var model = {
-            title:question.get('title'),
-            content:question,
-            parentID:parentID,
-            type:"entity",
-            state:null,
-            id:question.cid
+            title: question.get('title'),
+            content: question,
+            parentID: parentID,
+            type: "entity",
+            state: null,
+            id: question.cid
         };
 
         this.questions.add(question);
@@ -59,63 +59,63 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
         return question.cid;
     },
 
-    addQuestions:function (questions) {
+    addQuestions: function (questions) {
         _.each(questions, this.addQuestion, this);
     },
 
     // Read
-    getEntity:function (id) {
+    getEntity: function (id) {
         var treeModel = this.get(id);
         if (!treeModel) return null;
 
         if (treeModel.get('content') instanceof QuizCategoryModel) {
-            return this.categories.getByCid(id);
+            return this.categories.get(id);
         } else if (treeModel.get('content') instanceof QuizQuestionModel) {
-            return this.questions.getByCid(id);
+            return this.questions.get(id);
         }
         return null;
     },
 
     //+fetching
-    getChildCategories:function (quizID, id) {
+    getChildCategories: function (quizID, id) {
         return window.LearnAjax.get(Utils.getContextPath() + "services/quizcategory/children/" + quizID + "/" + id);
     },
 
-    getChildQuestions:function (quizID, id) {
+    getChildQuestions: function (quizID, id) {
         return window.LearnAjax.get(Utils.getContextPath() + "services/quizquestion/children/" + quizID + "/" + id);
     },
 
-    getChildQuestionsByList:function (quizID, ids, parent) {
+    getChildQuestionsByList: function (quizID, ids, parent) {
         return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/listIntoCategory/" + quizID + "/" + parent, {
-            'questionIDs':ids
+            'questionIDs': ids
         });
     },
 
-    createExternalResource:function (quizID, url, parent, title) {
+    createExternalResource: function (quizID, url, parent, title) {
         return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/external/" + quizID + "/" + parent, {
-            'url':url,
-            'title':title || "External quiz resource"
+            'url': url,
+            'title': title || "External quiz resource"
         });
     },
 
-    getLiferayArticleContent:function (groupID, articleID, language) {
+    getLiferayArticleContent: function (groupID, articleID, language) {
         return window.LearnAjax.post(window.scormQuizActionURL, {
-            'groupID':groupID,
-            'articleID':articleID,
-            'language':language
+            'groupID': groupID,
+            'articleID': articleID,
+            'language': language
         });
     },
 
-    createPlainTextResource:function (quizID, parent, groupID, articleID, language, text) {
+    createPlainTextResource: function (quizID, parent, groupID, articleID, language, text) {
         return window.LearnAjax.post(Utils.getContextPath() + "services/quizquestion/fromLiferay/" + quizID + "/" + parent, {
-            'text':text,
-            'groupID':groupID,
-            'articleID':articleID,
-            'language':language
+            'text': text,
+            'groupID': groupID,
+            'articleID': articleID,
+            'language': language
         });
     },
 
-    fetchForParent:function (quizID, id) {
+    fetchForParent: function (quizID, id) {
         var parentID = -1;
         if (id && id != -1) {
             parentID = this.get(id).get('content').id;
@@ -123,27 +123,27 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
 
         jQuery.when(this.getChildCategories(quizID, parentID), this.getChildQuestions(quizID, parentID))
             .then(jQuery.proxy(function (categoriesArgs, questionsArgs) {
-            // got AJAX args, data in args[0]
-            var categories = categoriesArgs[0];
-            var questions = questionsArgs[0];
+                // got AJAX args, data in args[0]
+                var categories = categoriesArgs[0];
+                var questions = questionsArgs[0];
 
-            this.addCategories(categories);
-            this.addQuestions(questions);
-            this.trigger('loaded', id);
-        }, this));
+                this.addCategories(categories);
+                this.addQuestions(questions);
+                this.trigger('loaded', id);
+            }, this));
     },
 
-    fetchQuestionIDList:function (quizID, list, parent) {
+    fetchQuestionIDList: function (quizID, list, parent) {
         var ids = list.join(';');
         jQuery.when(this.getChildQuestionsByList(quizID, ids, parent))
             .done(jQuery.proxy(function (questions) {
-            this.addQuestions(questions);
-            this.trigger('loaded', parent);
-        }, this));
+                this.addQuestions(questions);
+                this.trigger('loaded', parent);
+            }, this));
     },
 
     // Delete
-    drop:function (id) {
+    drop: function (id) {
         // remove real model from inner collection and destroy it
         var realModel = this.getEntity(id);
         if (realModel instanceof QuizCategoryModel) {

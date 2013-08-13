@@ -67,9 +67,9 @@ QuestionBankCollectionProxy = Backbone.Collection.extend({
         if (!treeModel) return null;
 
         if (treeModel.get('content') instanceof CategoryModel) {
-            return this.categories.getByCid(id);
+            return this.categories.get(id);
         } else if (treeModel.get('content') instanceof QuestionModel) {
-            return this.questions.getByCid(id);
+            return this.questions.get(id);
         }
         return null;
     },

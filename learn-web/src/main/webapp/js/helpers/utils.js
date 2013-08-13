@@ -1,10 +1,19 @@
 var Utils = {
     getContextPath:function () {
-        var contextPath = "/scorm-player/";
-        if (jQuery("#SCORMContextPath") && jQuery("#SCORMContextPath").length > 0) {
-            contextPath = jQuery("#SCORMContextPath").val() + "/";
+        var contextPath = "";
+        var element = jQuery("#SCORMContextPath");
+        if (element && element.length > 0) {
+            contextPath = element.val() + "/";
         }
         return contextPath;
+    },
+    getCourseID: function() {
+        var courseID = "";
+        var element = jQuery("#courseID");
+        if (element && element.length > 0) {
+            courseID = element.val();
+        }
+        return courseID;
     },
     i18nLoader:function (url, defaultLangURL, successCallback, errorCallback) {
         function propertyFileParser(data) {
@@ -64,14 +73,14 @@ var Utils = {
             }
         }
 
-        window.LearnAjax.get(defaultLangURL).done(function (defaultData) {
-            window.LearnAjax.get(url).done(function (localizationData) {
+        window.LearnAjax.get(defaultLangURL, undefined, undefined, 'text').done(function (defaultData) {
+            window.LearnAjax.get(url, undefined, undefined, 'text').done(function (localizationData) {
                 parseData(defaultData, localizationData);
             }).fail(function () {
                     parseData(defaultData, null);
                 })
         }).fail(function () {
-                window.LearnAjax.get(url).done(function (localizationData) {
+                window.LearnAjax.get(url, undefined, undefined, 'text').done(function (localizationData) {
                     parseData(null, localizationData);
                 }).fail(function () {
                         parseData(null, null);
@@ -108,6 +117,19 @@ var LearnAjaxHelper = (function () {
                 });
             };
         });
+
+        LearnAjaxHelper.prototype.ajax = function(url, options) {
+            if (_.isObject(url)) {
+                options = url;
+            } else {
+                options.url = url;
+            }
+
+            if (options.headers) options.headers = _.extend(options.headers, headers);
+            else options.headers = headers;
+
+            return jQuery.ajax(options);
+        }
     }
 
     LearnAjaxHelper.prototype.syncRequest = function (url, method, data) {

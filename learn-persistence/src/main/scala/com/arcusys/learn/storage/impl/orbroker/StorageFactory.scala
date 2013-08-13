@@ -9,16 +9,17 @@ import com.arcusys.learn.quiz.storage.impl.orbroker._
 import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.questionbank.storage.impl.orbroker._
 import com.arcusys.scorm.util.PropertyUtil
-import com.arcusys.learn.storage.{DBType, StorageFactoryContract}
+import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.tracking.states.storage.impl.orbroker.{ActivityStateStorageImpl, ActivityStateTreeStorageImpl}
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
-import org.postgresql.ds.PGPoolingDataSource
 import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.filestorage.storage.impl.orbroker.FileStorageImpl
 import com.arcusys.learn.scorm.course.impl.orbroker.{PlayerScopeRuleStorageImpl, CourseStorageImpl}
 import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
 import com.arcusys.learn.updater.StorageUpdater
 import com.arcusys.learn.updater.impl.orbroker.StorageUpdaterImpl
+import com.arcusys.learn.social.storage.{PackageVoteStorage, PackageCommentStorage, SocialPackageStorage}
+import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
 
 object StorageFactory extends StorageFactoryContract {
   val initBroker = {
@@ -44,6 +45,12 @@ object StorageFactory extends StorageFactoryContract {
   lazy val packageScopeRuleStorage: PackageScopeRuleStorage = new PackageScopeRuleStorageImpl
   lazy val playerScopeRuleStorage: PlayerScopeRuleStorage = new PlayerScopeRuleStorageImpl
   lazy val storageUpdater: StorageUpdater = new StorageUpdaterImpl
+  lazy val certificateStorage: CertificateStorage = throw new UnsupportedOperationException
+  lazy val certificateSiteStorage: CertificateSiteStorage = throw new UnsupportedOperationException
+  lazy val certificateUserStorage: CertificateUserStorage = throw new UnsupportedOperationException
+  lazy val socialPackageStorage: SocialPackageStorage = throw new UnsupportedOperationException
+  lazy val packageCommentStorage: PackageCommentStorage = throw new UnsupportedOperationException
+  lazy val packageVoteStorage: PackageVoteStorage = throw new UnsupportedOperationException
 
   def dbType = BrokerFactory.dbType
 }

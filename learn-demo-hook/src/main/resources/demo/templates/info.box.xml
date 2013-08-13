@@ -1,0 +1,8 @@
+<div class="infobox">
+    #if($Header1 && $Header1.data!="")
+    <div class="text">$!Header1.data</div>
+    #end
+    #if($Header2 && $Header2.data!="")
+    <h3>$!Header2.data</h3>
+    #end
+</div>

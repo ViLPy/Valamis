@@ -2,28 +2,25 @@ define liferay-tomcat-bundle (
   $liferay_target = "/opt",
   $liferay_user = "liferay",
   $liferay_root = "liferay-portal-6.1.1-ce-ga2",
-  $liferay_url = "http://freefr.dl.sourceforge.net/project/lportal/Liferay%20Portal/6.1.1%20GA2/liferay-portal-tomcat-6.1.1-ce-ga
-2-20120731132656558.zip",
+  $liferay_url = "http://kpoint.intra.arcusys.fi/downloads/liferay-portal-tomcat-6.1.1-ce-ga2-20120731132656558.zip",
   $liferay_md5 = "36d9b6f3f2e13031e2d75a4b987d541a",
   $tomcat_version = "7.0.27",
-  $jvmroute = undef,
-  $ehcache = undef,
-  $ehcache_node = undef,
-  $ehcache_ini_host = undef,
+
 ) {
   $liferay_home = "${liferay_target}/${liferay_root}"
 
   Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/", "/opt/csw/bin/" ] }
 
   group { "${liferay_user}":
+    system => true,
     ensure => present,
-#    gid => 111
   }
   user { "${liferay_user}":
     ensure => present,
     gid => "${liferay_user}",
     membership => minimum,
     shell => "/bin/bash",  
+    system => true,
     require => Group["${liferay_user}"]
   }
 
@@ -35,6 +32,7 @@ define liferay-tomcat-bundle (
     checksum => true,
     timeout => 600,
     digest_string => $liferay_md5,
+    src_target => '/tmp',
     extension => "zip",
   }
 
@@ -54,29 +52,27 @@ define liferay-tomcat-bundle (
 
   $setenv = []
 
-  liferay-tomcat{ $liferay_service_name :
-    require => [ File[$liferay_home] ],
+  liferay-tomcat { $liferay_service_name :
+    require => [ File[$liferay_home], Package['openjdk-6-jre-headless'] ],
     tomcat_version => $tomcat_version,
     liferay_home => $liferay_home,
     liferay_service_name => $liferay_service_name,
     liferay_user => $liferay_user,
     liferay_group => $liferay_user,
     setenv => $setenv,
-    ehcache_conf => $ehcache,
   }
 
   case $::operatingsystem {
   # issue with openjdk-7 and Liferay's image preview in Ubuntu package
     Ubuntu: {
-      package { 'openjdk-6-jre-headless':
+        package { 'openjdk-6-jre-headless':
             ensure => 'installed',
             require => Package['openjdk-7-jre-headless'],
-            before => Liferay-tomcat[$liferay_service_name],
-      }
+        }
 
-      package { 'openjdk-7-jre-headless':
+        package { 'openjdk-7-jre-headless':
             ensure => 'purged',
-      }
+        }
     }
   }
 
@@ -84,36 +80,6 @@ define liferay-tomcat-bundle (
   $tomcat_root = "${liferay_home}/tomcat-${tomcat_version}"
   $tomcat_work = "${tomcat_root}/work"
   $tomcat_temp = "${tomcat_root}/temp"
-
-  if $ehcache != undef {
-	exec { "extract ehcache":
-		command => "unzip -o ${webapps}/ROOT/WEB-INF/lib/portal-impl.jar -d ${webapps}/ROOT/WEB-INF/classes ehcache/* ; mv ${webapps}/ROOT/WEB-INF/classes/ehcache ${webapps}/ROOT/WEB-INF/classes/myehcache",
-		creates => "${webapps}/ROOT/WEB-INF/classes/myehcache/ehcache.xsd",
-		require => Archive["liferay-portal-tomcat"],
-		
-	}
-	exec { "chown -R ${liferay_user}:${liferay_user} ${webapps}/ROOT/WEB-INF/classes/myehcache" :
-	    unless => "sudo -u ${liferay_user} test -O ${webapps}/ROOT/WEB-INF/classes/myehcache",
-	    require => [ Archive["liferay-portal-tomcat"], User["${liferay_user}"], Exec["extract ehcache"] ],
-	}
-	file { "${webapps}/ROOT/WEB-INF/classes/myehcache/jgroups-tcp.xml":
-	    ensure  => present,
-	    mode => 644,
-	    owner  => $liferay_user,
-	    group  => $liferay_user,
-	    content => template("liferay-tomcat/jgroups-tcp.xml.erb"),
-	    require => Exec["extract ehcache"],
-	}
-	file { "${webapps}/ROOT/WEB-INF/classes/myehcache/tcp.xml":
-	    ensure  => present,
-	    mode => 644,
-	    owner  => $liferay_user,
-	    group  => $liferay_user,
-	    content => template("liferay-tomcat/tcp.xml.erb"),
-	    require => Exec["extract ehcache"],
-	}
-  }
-
 
   # clean-up before deployment
   file { "${webapps}/ROOT":

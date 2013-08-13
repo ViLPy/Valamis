@@ -7,6 +7,9 @@ import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
 import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
+import com.arcusys.learn.scorm.certificating.{CertificateSiteStorage, CertificateStorage}
+import com.arcusys.learn.social.storage.{PackageCommentStorage, PackageVoteStorage, SocialPackageStorage}
+import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
 
 trait StorageFactoryContract {
   def packageStorage: PackagesStorage
@@ -44,6 +47,16 @@ trait StorageFactoryContract {
 
   def playerScopeRuleStorage: PlayerScopeRuleStorage
 
+  def certificateStorage: CertificateStorage
+
+  def certificateSiteStorage: CertificateSiteStorage
+
+  def certificateUserStorage: CertificateUserStorage
+
+  def socialPackageStorage: SocialPackageStorage
+  def packageCommentStorage: PackageCommentStorage
+  def packageVoteStorage: PackageVoteStorage
+
   def renewWholeStorage() {
     packageStorage.renew()
     //organizationStorage.asInstanceOf[OrganizationsStorageImpl].renew()
@@ -62,5 +75,11 @@ trait StorageFactoryContract {
     courseStorage.renew()
     packageScopeRuleStorage.renew()
     playerScopeRuleStorage.renew()
+    certificateStorage.renew()
+    certificateSiteStorage.renew()
+    socialPackageStorage.renew()
+    packageCommentStorage.renew()
+    packageVoteStorage.renew()
+    certificateUserStorage.renew()
   }
 }

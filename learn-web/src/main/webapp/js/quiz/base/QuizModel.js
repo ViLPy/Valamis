@@ -1,40 +1,45 @@
-Quiz = Backbone.Model.extend({
-    defaults:{
-        title:"New quiz",
-        description:"Quiz info",
-        questionCount:0,
-        welcomePageContent:"",
-        finalPageContent:""
+QuizService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'install': {
+            'path': function (model) {
+                return "/services/generator/ZipInstall/" + model.id + "?courseID=" + Utils.getCourseID()
+            },
+            'method': "post"
+        }
     },
-    install:function (callback) {
-        jQuery.when(this.storage.install(this)).done(callback)
-    }
-});
-
-_.extend(Quiz.prototype, {
-    storage:{
-        create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/" + "?courseID="+jQuery("#courseID").val(), model.toJSON());
+    sync: {
+        'create': {
+            'path': function () {
+                return "/services/quiz/?courseID=" + Utils.getCourseID();
+            },
+            'method': "post"
         },
-
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/update/" + model.id, model.toJSON());
+        'update': {
+            'path': function (model) {
+                return "/services/quiz/update/" + model.id
+            },
+            'method': "post"
         },
-
-        find:function (model) {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/" + model.id);
+        'read': {
+            'path': function (model) {
+                return "/services/quiz/" + model.id
+            }
         },
-
-        findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/");
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quiz/delete/" + model.id);
-        },
-
-        install:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/generator/ZipInstall/" + model.id + "?courseID="+jQuery("#courseID").val());
+        'delete': {
+            'path': function (model) {
+                return "/services/quiz/delete/" + model.id
+            },
+            'method': "post"
         }
     }
 });
+
+Quiz = Backbone.Model.extend({
+    defaults: {
+        title: "New quiz",
+        description: "Quiz info",
+        questionCount: 0,
+        welcomePageContent: "",
+        finalPageContent: ""
+    }
+}).extend(QuizService);

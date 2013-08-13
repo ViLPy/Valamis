@@ -38,3 +38,21 @@ ldap.security.credentials.0=<%= scope.function_hiera(["liferay_ldap_pwd"]) %>
 session.store.password=true
 company.security.auth.type=screenName
 
+# SECURITY properties
+# These must be done BEFORE running Liferay the first time
+
+# Main instance web id, default is liferay.com (but you are not making liferay.com)
+company.default.web.id=learn.default
+
+# Default encryption algrorithm is 56bit DES which is insecure
+company.encryption.algorithm=AES
+company.encryption.key.size=128
+
+# Default is to hash passwords, but we want encryption also
+password.encryption.algorithm=SSHA
+
+# We don’t want to use the default salt, or same salt on multiple places,
+# generate your own for every Liferay install, 16 characters should be enough
+<% if scope.function_hiera(["auth_token_shared_secret"]) != '' -%>
+auth.token.shared.secret=<%= scope.function_hiera(["auth_token_shared_secret"]) %>
+<% end -%>

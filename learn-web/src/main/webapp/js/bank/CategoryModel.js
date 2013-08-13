@@ -1,37 +1,42 @@
+CategoryService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'move': {
+            'path': function (model) {
+                return "/services/category/move/" + model.id;
+            },
+            'method': "post",
+            'data': function(model, options){
+                return _.extend(model.toJSON(), options);
+            }
+        }
+    },
+    sync: {
+        'create': {
+            'path': function () {
+                return "/services/category/?courseID=" + Utils.getCourseID();
+            },
+            'method': "post"
+        },
+        'update': {
+            'path': function (model) {
+                return "/services/category/update/" + model.id;
+            },
+            'method': "post"
+        },
+        'delete': {
+            'path': function (model) {
+                return "/services/category/delete/" + model.id;
+            },
+            'method': "post"
+        }
+    }
+});
+
 CategoryModel = Backbone.Model.extend({
     defaults:{
         title:"New category",
         description:"",
         parentID:null,
         newModel:false
-    },
-    move:function (options, callback) {
-        jQuery.when(this.storage.move(this, options)).done(callback)
     }
-});
-
-_.extend(CategoryModel.prototype, {
-    storage:{
-        create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/?courseID="+ jQuery("#courseID").val(), model.toJSON());
-        },
-
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/update/" + model.id, model.toJSON());
-        },
-
-        move:function (model, options) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/move/" + model.id, _.extend(model.toJSON(), options));
-        },
-
-        find:function (model) {
-        },
-
-        findAll:function () {
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/category/delete/" + model.id);
-        }
-    }
-});
+}).extend(CategoryService);

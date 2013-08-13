@@ -22,6 +22,7 @@
             <id>releases</id>
             <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-oss-releases</url>
         </repository>
+
         <snapshotRepository>
             <id>snapshots</id>
             <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-oss-snapshots</url>
@@ -46,11 +47,15 @@
         <module>learn-persistence-liferay</module>
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
-        <module>learn-web</module>
         <module>learn-puppet</module>
         <module>learn-demo-hook</module>
+        <module>learn-web</module>
         <module>learn-servicebuilder</module>
+        <module>learn-ui-test</module>
+        <module>learn-assembly</module>
+        <module>learn-social-model</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -100,6 +105,62 @@
         <repository>
             <id>arcusys-public-repositories</id>
             <url>https://dev-1.arcusys.fi/mvn/content/groups/public</url>
+        </repository>
+        <!--Following repositories are required for building pipeline in Jenkins: -->
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <id>arcusys-releases</id>
+            <name>public</name>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-releases</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <id>arcusys-snapshots</id>
+            <name>arcusys-snapshots</name>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-snapshots/</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <id>arcusys-testing</id>
+            <name>arcusys-testing</name>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-testing/</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <id>arcusys-staging</id>
+            <name>arcusys-staging</name>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/arcusys-staging/</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>liferay-ee-releases</id>
+            <name>Liferay EE Releases</name>
+            <url>https://dev-1.arcusys.fi/mvn/content/repositories/liferay-ee-releases</url>
         </repository>
     </repositories>
     <build>
@@ -176,8 +237,15 @@
                             <include>**/*Spec.java</include>
                             <include>**/*Test.java</include>
                         </includes>
+                        <excludes>
+                            <exclude>**/UISuitTest.java</exclude>
+                        </excludes>
                         <argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=512m</argLine>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>

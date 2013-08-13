@@ -38,20 +38,20 @@ public class LFObjectiveStateLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName164;
-    private String[] _methodParameterTypes164;
-    private String _methodName165;
-    private String[] _methodParameterTypes165;
-    private String _methodName170;
-    private String[] _methodParameterTypes170;
-    private String _methodName171;
-    private String[] _methodParameterTypes171;
-    private String _methodName172;
-    private String[] _methodParameterTypes172;
-    private String _methodName173;
-    private String[] _methodParameterTypes173;
-    private String _methodName174;
-    private String[] _methodParameterTypes174;
+    private String _methodName192;
+    private String[] _methodParameterTypes192;
+    private String _methodName193;
+    private String[] _methodParameterTypes193;
+    private String _methodName198;
+    private String[] _methodParameterTypes198;
+    private String _methodName199;
+    private String[] _methodParameterTypes199;
+    private String _methodName200;
+    private String[] _methodParameterTypes200;
+    private String _methodName201;
+    private String[] _methodParameterTypes201;
+    private String _methodName202;
+    private String[] _methodParameterTypes202;
 
     public LFObjectiveStateLocalServiceClpInvoker() {
         _methodName0 = "addLFObjectiveState";
@@ -136,37 +136,37 @@ public class LFObjectiveStateLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName164 = "getBeanIdentifier";
+        _methodName192 = "getBeanIdentifier";
 
-        _methodParameterTypes164 = new String[] {  };
+        _methodParameterTypes192 = new String[] {  };
 
-        _methodName165 = "setBeanIdentifier";
+        _methodName193 = "setBeanIdentifier";
 
-        _methodParameterTypes165 = new String[] { "java.lang.String" };
+        _methodParameterTypes193 = new String[] { "java.lang.String" };
 
-        _methodName170 = "createLFObjectiveState";
+        _methodName198 = "createLFObjectiveState";
 
-        _methodParameterTypes170 = new String[] {  };
+        _methodParameterTypes198 = new String[] {  };
 
-        _methodName171 = "findByMapKeyAndActivityStateID";
+        _methodName199 = "findByMapKeyAndActivityStateID";
 
-        _methodParameterTypes171 = new String[] {
+        _methodParameterTypes199 = new String[] {
                 "java.lang.String", "java.lang.Integer"
             };
 
-        _methodName172 = "findByActivityStateID";
+        _methodName200 = "findByActivityStateID";
 
-        _methodParameterTypes172 = new String[] {
+        _methodParameterTypes200 = new String[] {
                 "java.lang.Integer", "int", "int"
             };
 
-        _methodName173 = "removeAll";
+        _methodName201 = "removeAll";
 
-        _methodParameterTypes173 = new String[] {  };
+        _methodParameterTypes201 = new String[] {  };
 
-        _methodName174 = "getLFObjectiveState";
+        _methodName202 = "getLFObjectiveState";
 
-        _methodParameterTypes174 = new String[] { "long" };
+        _methodParameterTypes202 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -258,45 +258,45 @@ public class LFObjectiveStateLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName164.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes164, parameterTypes)) {
+        if (_methodName192.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName165.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes165, parameterTypes)) {
+        if (_methodName193.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
             LFObjectiveStateLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName170.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes170, parameterTypes)) {
+        if (_methodName198.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.createLFObjectiveState();
         }
 
-        if (_methodName171.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes171, parameterTypes)) {
+        if (_methodName199.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.findByMapKeyAndActivityStateID((java.lang.String) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName172.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+        if (_methodName200.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.findByActivityStateID((java.lang.Integer) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue());
         }
 
-        if (_methodName173.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+        if (_methodName201.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
             LFObjectiveStateLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName174.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
+        if (_methodName202.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes202, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.getLFObjectiveState(((Long) arguments[0]).longValue());
         }
 

@@ -8,6 +8,7 @@ import runners.Parameterized
 class StorageFactoryTest(dbFileName: String) extends ParameterizedUnitTests(dbFileName){
 
   @Test
+  @Ignore
   def canRenewStorageWithoutAnyException() {
     StorageFactory.renewWholeStorage()
   }

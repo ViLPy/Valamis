@@ -94,7 +94,8 @@ QuestionbankSelectDialog = Backbone.View.extend({
                 ]
             },
             "plugins":[ "themes", "ui", "json_data", "types", "checkbox" ]
-        }
+        };
+
         var treeView = new jsTreeView({
             el:jQuery(node),
             collection:treeData,

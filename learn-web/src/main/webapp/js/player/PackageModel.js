@@ -7,28 +7,14 @@ PlayerPackageModel = Backbone.Model.extend({
     }
 });
 
-_.extend(PlayerPackageModel.prototype, {
-    storage:{
-        create:function (model) {
-        },
-
-        update:function (model) {
-        },
-
-        find:function (model) {
-        },
-
-        destroy:function (model) {
+PlayerPackageCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'read': function () {
+            return "/services/packages?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val();
         }
     }
 });
 
 PlayerPackageModelCollection = Backbone.Collection.extend({
-    model:PlayerPackageModel,
-
-    storage:{
-        findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages" + "?courseID=" + jQuery("#courseID").val()+ "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val());
-        }
-    }
-});
+    model:PlayerPackageModel
+}).extend(PlayerPackageCollectionService);

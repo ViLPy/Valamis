@@ -9,6 +9,8 @@
         var scormPlayerSettingsLanguageData = {};
 
         jQuerySettings(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
             var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
             var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
             Utils.i18nLoader(localizedURL, defaultURL, onPlayerSettingsLanguageLoad, onPlayerSettingsLanguageError);
@@ -32,7 +34,7 @@
                 jQuerySettings("#playerSettingsSearch").keyup(function () {
                     packageScopeRuleView.filterPackages(jQuerySettings("#playerSettingsSearch").val());
                 });
-                scormPackageScopeRules.fetch();
+                scormPackageScopeRules.fetch({reset: true});
             }, this));
             loader.fetch("templates/player_settings_templates.html");
 
@@ -47,7 +49,7 @@
                 data: {playerID: jQuerySettings("#playerID").val(),
                     scope: jQuerySettings("#scopeOptions").val()},
                 success: function(){
-                    scormPackageScopeRules.fetch();
+                    scormPackageScopeRules.fetch({reset: true});
                 }
             });
         }

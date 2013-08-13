@@ -29,6 +29,7 @@ class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBas
   before("/preview") {
     response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
     response.setHeader("Expires", "-1")
+    contentType = "text/html"
   }
 
   get("/preview") {

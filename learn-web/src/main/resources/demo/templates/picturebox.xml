@@ -1,0 +1,5 @@
+<div class="picture_box">
+    #if($Picture && $Picture.data!="")
+    <img src="$!Picture.data" />
+    #end
+</div>

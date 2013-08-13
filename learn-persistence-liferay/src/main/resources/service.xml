@@ -613,4 +613,90 @@
 
     </entity>
 
+
+    <entity name="LFCertificate" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="title" type="String"/>
+        <column name="description" type="String"/>
+    </entity>
+    <entity name="LFCertificateSite" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="certificateID" type="Integer"/>
+        <column name="siteID" type="Integer"/>
+        <column name="arrangementIndex" type="Integer"/>
+
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="CertificateIDAndSiteID" return-type="Collection">
+            <finder-column name="certificateID"/>
+            <finder-column name="siteID"/>
+        </finder>
+    </entity>
+    <entity name="LFCertificateUser" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="certificateID" type="Integer"/>
+        <column name="userID" type="Integer"/>
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="UserID" return-type="Collection">
+            <finder-column name="userID"/>
+        </finder>
+        <finder name="UserIDAndCertificateID" return-type="Collection">
+            <finder-column name="userID"/>
+            <finder-column name="certificateID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFSocialPackage" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="packageID" type="Integer"/>
+        <column name="aboutPackage" type="String"/>
+        <column name="publishDate" type="Date"/>
+        <column name="authorID" type="Integer"/>
+
+        <finder name="AuthorID" return-type="Collection">
+            <finder-column name="authorID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFSocialPackageTag" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="socialPackageID" type="Integer"/>
+        <column name="name" type="String"/>
+
+        <finder name="Name" return-type="Collection">
+            <finder-column name="name"/>
+        </finder>
+
+        <finder name="SocialPackageID" return-type="Collection">
+            <finder-column name="socialPackageID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFPackageVote" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="userID" type="Integer"/>
+        <column name="socialPackageID" type="Integer"/>
+        <column name="value" type="Integer"/>
+
+        <finder name="SocialPackageID" return-type="Collection">
+            <finder-column name="socialPackageID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFPackageComment" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="socialPackageID" type="Integer"/>
+        <column name="authorID" type="Integer"/>
+        <column name="comment" type="String"/>
+        <column name="publishDate" type="Date"/>
+
+        <finder name="SocialPackageID" return-type="Collection">
+            <finder-column name="socialPackageID"/>
+        </finder>
+    </entity>
+
+
 </service-builder>

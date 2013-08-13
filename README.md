@@ -19,7 +19,7 @@ If deployed against a portlet container, the end-user features are available via
 The solution will be further developed to support the full set of requirements from the SCORM set of standards.
 
 ### Download 
-Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4/**
+Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4.5/**
 
 ###Post-deployment process
 Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
@@ -27,6 +27,10 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 ###Known issues
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 1.4.5 Update: 13.08.2013
+ - new Curriculum portlet for managing certifications, awards and learning paths
+ - demo hook updated and now create private site and site pages
 
 ## Version 1.4 Update: 24.05.2013
  - Persistence reimplemented using Liferay Service Builder, so there is no database settings in Admin portlet.

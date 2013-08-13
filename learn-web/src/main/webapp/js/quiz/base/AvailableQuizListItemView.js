@@ -28,7 +28,7 @@ AvailableQuizListItemView = Backbone.View.extend({
 
     installQuiz:function () {
         var that = this;
-        this.model.install(function () {
+        this.model.install().then(function () {
             alert(that.options.language['infoPackagesHasBeenInstalled']);
         });
     },

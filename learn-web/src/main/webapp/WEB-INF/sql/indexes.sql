@@ -32,6 +32,14 @@ create index IX_1634FB95 on Learn_LFAttemptData (attemptID, dataKey);
 create index IX_637C536E on Learn_LFBigDecimal (decimal_);
 create index IX_6456716F on Learn_LFBigDecimal (sum);
 
+create index IX_FE9A5473 on Learn_LFCertificateSite (certificateID);
+create index IX_35A1E709 on Learn_LFCertificateSite (certificateID, siteID);
+create index IX_FE9ACC93 on Learn_LFCertificateSite (certificateId);
+
+create index IX_128B606F on Learn_LFCertificateUser (certificateID);
+create index IX_2471F16D on Learn_LFCertificateUser (userID);
+create index IX_994D6C15 on Learn_LFCertificateUser (userID, certificateID);
+
 create index IX_BEA402B on Learn_LFChildrenSelection (sequencingID);
 
 create index IX_F3405A15 on Learn_LFConditionRule (sequencingID);
@@ -59,11 +67,15 @@ create index IX_FD0817C1 on Learn_LFPackage (courseID);
 create index IX_75B49D9D on Learn_LFPackage (id_);
 create index IX_6DFDA147 on Learn_LFPackage (id_, courseID);
 
+create index IX_1C6A5550 on Learn_LFPackageComment (socialPackageID);
+
 create index IX_5E072CCC on Learn_LFPackageScopeRule (packageID);
 create index IX_B73E9B27 on Learn_LFPackageScopeRule (packageID, scope, scopeID);
 create index IX_BED05C0 on Learn_LFPackageScopeRule (scope, scopeID);
 create index IX_53EB15E7 on Learn_LFPackageScopeRule (scope, scopeID, isDefault);
 create index IX_DF43FEC6 on Learn_LFPackageScopeRule (scope, scopeID, visibility);
+
+create index IX_48AB90A3 on Learn_LFPackageVote (socialPackageID);
 
 create index IX_7941DC50 on Learn_LFPlayerScopeRule (playerID);
 
@@ -96,5 +108,10 @@ create index IX_22BC4F76 on Learn_LFSequencing (packageID, activityID);
 create index IX_E922EFC4 on Learn_LFSequencingPermissions (sequencingID);
 
 create index IX_546EB23D on Learn_LFSequencingTracking (sequencingID);
+
+create index IX_90D71444 on Learn_LFSocialPackage (authorID);
+
+create index IX_CF234D5B on Learn_LFSocialPackageTag (name);
+create index IX_C54C6408 on Learn_LFSocialPackageTag (socialPackageID);
 
 create index IX_CBB67CEE on Learn_LFUser (id_);

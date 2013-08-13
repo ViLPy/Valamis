@@ -24,6 +24,8 @@
         var currentActivityID;
 
         jQuery1816Gradebook(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
             jQuery1816Gradebook("#noGradebookContent").hide();
             jQuery1816Gradebook("#dialog-form").dialog({
                 autoOpen:false,

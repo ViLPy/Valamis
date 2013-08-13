@@ -155,8 +155,7 @@
             <artifactId>scalamock-scalatest-support_2.9.1</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- /Test dependencies -->
+        <!-- /Test dependencictqes -->
     </dependencies>
 
     <repositories>
@@ -236,7 +235,8 @@
                             <removeIncluded>true</removeIncluded>
                             <output>${project.build.directory}/${project.artifactId}/js/quiz/quiz.js</output>
                             <includes>
-                                <include>${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizModel.js
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizModel.js
                                 </include>
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/base/QuizCollection.js
@@ -258,7 +258,8 @@
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
                             <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizCategoryModel.js</output>
+                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizCategoryModel.js
+                            </output>
                             <includes>
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/category/QuizCategoryModel.js
@@ -271,13 +272,99 @@
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
                             <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizQuestionModel.js</output>
+                            <output>${project.build.directory}/${project.artifactId}/js/quiz/QuizQuestionModel.js
+                            </output>
                             <includes>
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/question/QuizQuestionModel.js
                                 </include>
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/quiz/question/QuizQuestionView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/curriculum.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/CertificateModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/AvailableCertificateListItemView.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/AvailableCertificateListView.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/OpenedCertificateView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/CertificateSite.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/site/CertificateSiteModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/site/CertificateSiteBankModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/site/CertificateSitesEditView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/CertificateUser.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUserModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUserBankModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUsersEditView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/Grading.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/grading/GradeView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/Student.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/student/MyCertificateCollection.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/student/MyCertificateListItemView.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/student/MyCertificateListView.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/student/AvailableCertificateCollection.js
                                 </include>
                             </includes>
                         </aggregation>
