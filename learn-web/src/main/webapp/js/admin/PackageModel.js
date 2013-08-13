@@ -1,38 +1,40 @@
-PackageModel = Backbone.Model.extend({
-    defaults:{
-        isDefault: false,
-        title:"",
-        summary:"",
-        visibility:true
+PackageService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'update': {
+            'path': function (model) {
+                return "services/packages/update/" + model.id + "?courseID=" + Utils.getCourseID() + "&scopeType=" + jQuery("#adminScopeSelect").val();
+            },
+            'method': "post"
+        },
+        'delete': {
+            'path': function () {
+                return "/services/packages/delete"
+            },
+            'method': "post"
+        }
     }
 });
 
-_.extend(PackageModel.prototype, {
-    storage:{
-        create:function (model) {
-        },
+PackageModel = Backbone.Model.extend({
+    defaults: {
+        isDefault: false,
+        title: "",
+        summary: "",
+        visibility: true
+    }
+}).extend(PackageService);
 
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "services/packages/update/" + model.id + "?courseID=" + jQuery("#courseID").val() + "&scopeType=" + jQuery("#adminScopeSelect").val() , model.toJSON());
-        },
-
-        find:function (model) {
-
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/packages/delete", model.toJSON());
+PackageCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'read': function () {
+            if (jQuery("#adminScopeSelect").val() == "siteScope")
+                return "/services/packages/allInSite?courseID=" + Utils.getCourseID();
+            else
+                return "/services/packages/all";
         }
     }
 });
 
 PackageModelCollection = Backbone.Collection.extend({
-    model:PackageModel,
-    storage:{
-        findAll:function () {
-            if (jQuery("#adminScopeSelect").val() == "siteScope")
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/allInSite" + "?courseID=" + jQuery("#courseID").val());
-            else return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/all");
-        }
-    }
-});
+    model: PackageModel
+}).extend(PackageCollectionService);

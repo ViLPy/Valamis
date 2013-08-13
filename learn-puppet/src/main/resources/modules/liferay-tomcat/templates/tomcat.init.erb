@@ -65,15 +65,6 @@ stop() {
     /bin/kill -9 $pid && sleep 5
   fi
 
-<% if @ehcache_ini_host -%>
-  echo 'Waiting until TCP_WAIT expires'
-  i=100
-  while `netstat -tn | grep -q <%= ehcache_ini_host %>:.*TIME_WAIT` && [ $i -gt 0 ] ; do        
-     sleep 1
-     i=`expr $i - 1`
-  done
-<% end -%>
-
   # check if tomcat is still around, this will be our exit status
   ! isrunning
 }

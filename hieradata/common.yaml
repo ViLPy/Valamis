@@ -1,0 +1,11 @@
+liferay_jdbc_driver: 'org.postgresql.Driver'
+liferay_ldap_url: ''
+liferay_ldap_base_dn: ''
+liferay_ldap_user: ''
+liferay_ldap_pwd: ''
+liferay_home: '/opt/liferay-portal-6.1.1-ce-ga2'
+admin_email_from_name: 'Arcusys Admin'
+admin_email_from_address: 'admin@arcusys.fi'
+ldap_server_host: ''
+ldap_server_ip: ''
+

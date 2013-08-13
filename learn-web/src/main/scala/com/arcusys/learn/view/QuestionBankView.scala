@@ -5,26 +5,28 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
+import com.liferay.portal.util.PortalUtil
 
 class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
 
-  override def doView(request: RenderRequest, response: RenderResponse) = {
+  override def doView(request: RenderRequest, response: RenderResponse) {
     val language = LiferayHelpers.getLanguage(request)
     val out = response.getWriter
     val contextPath = request.getContextPath
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
     val userID = themeDisplay.getUser.getUserId
-    val isAdmin = userManagement.hasTeacherPermissions(userID, courseID)
-    if (isAdmin)
+    val hasTeacherPermissions = userManagement.hasTeacherPermissions(userID, courseID)
+
+    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    httpServletRequest.getSession.setAttribute("userID", userID)
+    httpServletRequest.getSession.setAttribute("teacherPermissions", hasTeacherPermissions)
+
+    if (hasTeacherPermissions)
       out.println(generateResponse(contextPath, "scorm_questionbank.html", language, true, courseID))
     else
       out.println(generateResponse(contextPath, "scorm_nopermissions.html", language))
-  }
-
-  before() {
-    contentType = "text/html"
   }
 
   def generateResponse(contextPath: String, templateName: String, language: String) = {

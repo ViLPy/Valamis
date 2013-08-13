@@ -19,6 +19,40 @@ var QuestionAnswerType = {
     "CategorizationQuestion":CategorizationAnswer
 };
 
+QuestionService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'move': {
+            'path': function (model) {
+                return "/services/question/move/" + model.id;
+            },
+            'method': "post",
+            'data': function(model, options){
+                return _.extend(model.toJSON(), options);
+            }
+        }
+    },
+    sync: {
+        'create': {
+            'path': function () {
+                return "/services/question/?courseID=" + Utils.getCourseID();
+            },
+            'method': "post"
+        },
+        'update': {
+            'path': function (model) {
+                return "/services/question/update/" + model.id + "?courseID=" + Utils.getCourseID();
+            },
+            'method': "post"
+        },
+        'delete': {
+            'path': function (model) {
+                return "/services/question/delete/" + model.id;
+            },
+            'method': "post"
+        }
+    }
+});
+
 QuestionModel = Backbone.Model.extend({
     defaults:{
         title:"New question",
@@ -95,35 +129,5 @@ QuestionModel = Backbone.Model.extend({
             default:
                 this.answerModel = null;
         }
-    },
-
-    move:function (options, callback) {
-        jQuery.when(this.storage.move(this, options)).done(callback)
     }
-});
-
-_.extend(QuestionModel.prototype, {
-    storage:{
-        create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/?courseID=" + jQuery("#courseID").val(), model.toJSON());
-        },
-
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/update/" + model.id + "?courseID=" + jQuery("#courseID").val(), model.toJSON());
-        },
-
-        move:function (model, options) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/move/" + model.id, _.extend(model.toJSON(), options));
-        },
-
-        find:function (model) {
-        },
-
-        findAll:function () {
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/question/delete/" + model.id);
-        }
-    }
-});
+}).extend(QuestionService);

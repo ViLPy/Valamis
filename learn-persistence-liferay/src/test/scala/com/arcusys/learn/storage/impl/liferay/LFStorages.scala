@@ -152,4 +152,12 @@ object LFStorages extends StorageFactoryContract {
   def packageScopeRuleStorage = LFStorageFactory.packageScopeRuleStorage
 
   def playerScopeRuleStorage = LFStorageFactory.playerScopeRuleStorage
+
+  def certificateStorage = LFStorageFactory.certificateStorage
+  def certificateSiteStorage = LFStorageFactory.certificateSiteStorage
+  def certificateUserStorage = LFStorageFactory.certificateUserStorage
+
+  def socialPackageStorage = LFStorageFactory.socialPackageStorage
+  def packageVoteStorage = LFStorageFactory.packageVoteStorage
+  def packageCommentStorage = LFStorageFactory.packageCommentStorage
 }

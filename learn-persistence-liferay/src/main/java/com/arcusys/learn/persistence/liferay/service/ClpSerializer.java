@@ -9,6 +9,9 @@ import com.arcusys.learn.persistence.liferay.model.LFAnswerClp;
 import com.arcusys.learn.persistence.liferay.model.LFAttemptClp;
 import com.arcusys.learn.persistence.liferay.model.LFAttemptDataClp;
 import com.arcusys.learn.persistence.liferay.model.LFBigDecimalClp;
+import com.arcusys.learn.persistence.liferay.model.LFCertificateClp;
+import com.arcusys.learn.persistence.liferay.model.LFCertificateSiteClp;
+import com.arcusys.learn.persistence.liferay.model.LFCertificateUserClp;
 import com.arcusys.learn.persistence.liferay.model.LFChildrenSelectionClp;
 import com.arcusys.learn.persistence.liferay.model.LFConditionRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFCourseClp;
@@ -18,7 +21,9 @@ import com.arcusys.learn.persistence.liferay.model.LFObjectiveClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMapClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveStateClp;
 import com.arcusys.learn.persistence.liferay.model.LFPackageClp;
+import com.arcusys.learn.persistence.liferay.model.LFPackageCommentClp;
 import com.arcusys.learn.persistence.liferay.model.LFPackageScopeRuleClp;
+import com.arcusys.learn.persistence.liferay.model.LFPackageVoteClp;
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionClp;
@@ -32,6 +37,8 @@ import com.arcusys.learn.persistence.liferay.model.LFRuleConditionClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTrackingClp;
+import com.arcusys.learn.persistence.liferay.model.LFSocialPackageClp;
+import com.arcusys.learn.persistence.liferay.model.LFSocialPackageTagClp;
 import com.arcusys.learn.persistence.liferay.model.LFUserClp;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -156,6 +163,18 @@ public class ClpSerializer {
             return translateInputLFBigDecimal(oldModel);
         }
 
+        if (oldModelClassName.equals(LFCertificateClp.class.getName())) {
+            return translateInputLFCertificate(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFCertificateSiteClp.class.getName())) {
+            return translateInputLFCertificateSite(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFCertificateUserClp.class.getName())) {
+            return translateInputLFCertificateUser(oldModel);
+        }
+
         if (oldModelClassName.equals(LFChildrenSelectionClp.class.getName())) {
             return translateInputLFChildrenSelection(oldModel);
         }
@@ -192,8 +211,16 @@ public class ClpSerializer {
             return translateInputLFPackage(oldModel);
         }
 
+        if (oldModelClassName.equals(LFPackageCommentClp.class.getName())) {
+            return translateInputLFPackageComment(oldModel);
+        }
+
         if (oldModelClassName.equals(LFPackageScopeRuleClp.class.getName())) {
             return translateInputLFPackageScopeRule(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFPackageVoteClp.class.getName())) {
+            return translateInputLFPackageVote(oldModel);
         }
 
         if (oldModelClassName.equals(LFPlayerScopeRuleClp.class.getName())) {
@@ -246,6 +273,14 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(LFSequencingTrackingClp.class.getName())) {
             return translateInputLFSequencingTracking(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFSocialPackageClp.class.getName())) {
+            return translateInputLFSocialPackage(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFSocialPackageTagClp.class.getName())) {
+            return translateInputLFSocialPackageTag(oldModel);
         }
 
         if (oldModelClassName.equals(LFUserClp.class.getName())) {
@@ -359,6 +394,36 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFCertificate(BaseModel<?> oldModel) {
+        LFCertificateClp oldClpModel = (LFCertificateClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFCertificateRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFCertificateSite(BaseModel<?> oldModel) {
+        LFCertificateSiteClp oldClpModel = (LFCertificateSiteClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFCertificateSiteRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFCertificateUser(BaseModel<?> oldModel) {
+        LFCertificateUserClp oldClpModel = (LFCertificateUserClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFCertificateUserRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFChildrenSelection(
         BaseModel<?> oldModel) {
         LFChildrenSelectionClp oldClpModel = (LFChildrenSelectionClp) oldModel;
@@ -451,10 +516,30 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFPackageComment(BaseModel<?> oldModel) {
+        LFPackageCommentClp oldClpModel = (LFPackageCommentClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFPackageCommentRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFPackageScopeRule(BaseModel<?> oldModel) {
         LFPackageScopeRuleClp oldClpModel = (LFPackageScopeRuleClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFPackageScopeRuleRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFPackageVote(BaseModel<?> oldModel) {
+        LFPackageVoteClp oldClpModel = (LFPackageVoteClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFPackageVoteRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -595,6 +680,26 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFSocialPackage(BaseModel<?> oldModel) {
+        LFSocialPackageClp oldClpModel = (LFSocialPackageClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFSocialPackageRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFSocialPackageTag(BaseModel<?> oldModel) {
+        LFSocialPackageTagClp oldClpModel = (LFSocialPackageTagClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFSocialPackageTagRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFUser(BaseModel<?> oldModel) {
         LFUserClp oldClpModel = (LFUserClp) oldModel;
 
@@ -666,6 +771,21 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateImpl")) {
+            return translateOutputLFCertificate(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteImpl")) {
+            return translateOutputLFCertificateSite(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl")) {
+            return translateOutputLFCertificateUser(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl")) {
             return translateOutputLFChildrenSelection(oldModel);
         }
@@ -711,8 +831,18 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentImpl")) {
+            return translateOutputLFPackageComment(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl")) {
             return translateOutputLFPackageScopeRule(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteImpl")) {
+            return translateOutputLFPackageVote(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -778,6 +908,16 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl")) {
             return translateOutputLFSequencingTracking(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl")) {
+            return translateOutputLFSocialPackage(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl")) {
+            return translateOutputLFSocialPackageTag(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -907,6 +1047,21 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateSiteException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateSiteException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException();
         }
@@ -952,8 +1107,18 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFPackageCommentException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageCommentException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException();
         }
 
         if (className.equals(
@@ -1019,6 +1184,16 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException();
         }
 
         if (className.equals(
@@ -1121,6 +1296,36 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFCertificate(BaseModel<?> oldModel) {
+        LFCertificateClp newModel = new LFCertificateClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFCertificateRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFCertificateSite(BaseModel<?> oldModel) {
+        LFCertificateSiteClp newModel = new LFCertificateSiteClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFCertificateSiteRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFCertificateUser(BaseModel<?> oldModel) {
+        LFCertificateUserClp newModel = new LFCertificateUserClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFCertificateUserRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFChildrenSelection(
         BaseModel<?> oldModel) {
         LFChildrenSelectionClp newModel = new LFChildrenSelectionClp();
@@ -1213,6 +1418,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFPackageComment(BaseModel<?> oldModel) {
+        LFPackageCommentClp newModel = new LFPackageCommentClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFPackageCommentRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFPackageScopeRule(
         BaseModel<?> oldModel) {
         LFPackageScopeRuleClp newModel = new LFPackageScopeRuleClp();
@@ -1220,6 +1435,16 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFPackageScopeRuleRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFPackageVote(BaseModel<?> oldModel) {
+        LFPackageVoteClp newModel = new LFPackageVoteClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFPackageVoteRemoteModel(oldModel);
 
         return newModel;
     }
@@ -1355,6 +1580,27 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFSequencingTrackingRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFSocialPackage(BaseModel<?> oldModel) {
+        LFSocialPackageClp newModel = new LFSocialPackageClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSocialPackageRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFSocialPackageTag(
+        BaseModel<?> oldModel) {
+        LFSocialPackageTagClp newModel = new LFSocialPackageTagClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSocialPackageTagRemoteModel(oldModel);
 
         return newModel;
     }

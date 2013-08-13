@@ -41,7 +41,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val outStream = new FileOutputStream(outFile)
     FileProcessing.copyInputStream(stream, outStream)
     val packageID = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
-    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created pakage")))
+    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created package")))
     packageID
   }
 

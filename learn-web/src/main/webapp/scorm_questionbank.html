@@ -49,6 +49,8 @@ var jQuery1816Bank = jQuery.noConflict();
 var scormQuestionBankLanguageData = {};
 
 jQuery1816Bank(function () {
+    Backbone.emulateJSON = true;
+    Backbone.ajax = window.LearnAjax.ajax;
     var defaultURL = Utils.getContextPath() + '/i18n/questionbank_en.properties';
     var localizedURL = Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties';
     Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import com.liferay.portal.kernel.util.WebKeys
 import com.liferay.portal.theme.ThemeDisplay
+import com.liferay.portal.util.PortalUtil
 
 class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -17,6 +18,10 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val language = LiferayHelpers.getLanguage(request)
     val userUID = request.getRemoteUser
     val userID = themeDisplay.getUser.getUserId
+
+    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    httpServletRequest.getSession.setAttribute("userID", userUID)
+
     val out = response.getWriter
     val path = request.getContextPath
     val theme = LiferayHelpers.getThemeDisplay(request)

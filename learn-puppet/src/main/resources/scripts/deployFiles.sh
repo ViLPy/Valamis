@@ -48,8 +48,12 @@ fi
 
 scp $SRC_ARC $SSH_USER@$DEPLOYMENT_HOST:/tmp/ &&
 
-ssh $SSH_USER@$DEPLOYMENT_HOST "sudo rm -rf /tmp/deploy-files/; sudo mkdir /tmp/deploy-files/ &&
+ssh $SSH_USER@$DEPLOYMENT_HOST "
+    sudo rm -rf /tmp/deploy-files/; sudo mkdir /tmp/deploy-files/ &&
 
-sudo unzip -o "/tmp/`basename $SRC_ARC`" -d /tmp/deploy-files/ && sudo rm -f "/tmp/`basename $SRC_ARC`" &&
+    sudo unzip -o "/tmp/`basename $SRC_ARC`" -d /tmp/deploy-files/ *.war &&
 
-sudo find /tmp/deploy-files -type f -name '*.war' | sudo xargs -I files sudo -u liferay cp files $LIFERAY_DEPLOY_DIR && sudo ls -l $LIFERAY_DEPLOY_DIR"
+    sudo rm -f "/tmp/`basename $SRC_ARC`" &&
+
+    sudo find /tmp/deploy-files -type f -name '*.war' | sudo xargs -I files sudo -u liferay cp files $LIFERAY_DEPLOY_DIR && sudo ls -l $LIFERAY_DEPLOY_DIR
+"

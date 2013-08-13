@@ -69,7 +69,7 @@ PlayerPackageListView = Backbone.View.extend({
     },
 
     reloadPackageList:function () {
-        this.collection.fetch();
+        this.collection.fetch({reset: true});
     },
 
     filterPackages:function (text) {

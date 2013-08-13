@@ -17,9 +17,12 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     if (userUID != null && userStorage.getByID(userUID).isEmpty) {
       userStorage.createAndGetID(User(userUID, LiferayHelpers.getUserName(request)))
     }
+
+    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    httpServletRequest.getSession.setAttribute("userID", userUID)
+
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
 
     val sessionPackageId = if (httpServletRequest.getSession.getAttribute("playerID") == request.getWindowID) httpServletRequest.getSession.getAttribute("packageId") else null

@@ -12,6 +12,9 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFAttempt" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFAttemptData" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFBigDecimal" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFCertificate" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFCertificateSite" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFCertificateUser" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFChildrenSelection" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFConditionRule" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFCourse" />
@@ -21,7 +24,9 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveMap" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveState" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFPackage" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFPackageComment" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFPackageVote" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestion" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestionCategory" />
@@ -35,6 +40,8 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencing" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingTracking" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSocialPackage" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFUser" />
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl" table="Learn_LFActivity">
 		<cache usage="read-write" />
@@ -145,6 +152,31 @@
 		<property name="decimal" type="org.hibernate.type.BigDecimalType" column="decimal_" />
 		<property name="text" type="com.liferay.portal.dao.orm.hibernate.StringType" column="text_" />
 	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateImpl" table="Learn_LFCertificate">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteImpl" table="Learn_LFCertificateSite">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="certificateID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="siteID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="arrangementIndex" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl" table="Learn_LFCertificateUser">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="certificateID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="userID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl" table="Learn_LFChildrenSelection">
 		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
@@ -250,6 +282,16 @@
 		<property name="assetRefID" type="org.hibernate.type.LongType" />
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
 	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentImpl" table="Learn_LFPackageComment">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="socialPackageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="authorID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" column="comment_" />
+		<property name="publishDate" type="org.hibernate.type.TimestampType" />
+	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" table="Learn_LFPackageScopeRule">
 		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
@@ -260,6 +302,15 @@
 		<property name="scopeID" type="org.hibernate.type.StringType" />
 		<property name="visibility" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="isDefault" type="org.hibernate.type.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteImpl" table="Learn_LFPackageVote">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="socialPackageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="value" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleImpl" table="Learn_LFPlayerScopeRule">
 		<cache usage="read-write" />
@@ -415,6 +466,24 @@
 		<property name="sequencingID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="completionSetByContent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="objectiveSetByContent" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" table="Learn_LFSocialPackage">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="packageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="aboutPackage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publishDate" type="org.hibernate.type.TimestampType" />
+		<property name="authorID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl" table="Learn_LFSocialPackageTag">
+		<cache usage="read-write" />
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="socialPackageID" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" table="Learn_LFUser">
 		<cache usage="read-write" />

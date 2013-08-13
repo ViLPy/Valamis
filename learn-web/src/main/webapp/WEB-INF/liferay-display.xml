@@ -7,5 +7,6 @@
         <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
         <portlet id="Gradebook">Gradebook</portlet>
+        <portlet id="Curriculum">Curriculum</portlet>
     </category>
 </display>

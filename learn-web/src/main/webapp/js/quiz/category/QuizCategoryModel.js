@@ -1,36 +1,48 @@
-QuizCategoryModel = Backbone.Model.extend({
-    defaults:{
-        quizID:0,
-        title:"New category",
-        description:"",
-        parentID:-1,
-        isNew:false
+QuizCategoryService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'move': {
+            'path': function (model) {
+                return "/services/quizcategory/move/" + model.id;
+            },
+            'method': "post",
+            'data': function (model, options) {
+                return _.extend(model.toJSON(), options);
+            }
+        }
     },
-    move:function (options, callback) {
-        jQuery.when(this.storage.move(this, options)).done(callback)
-    }
-});
-
-_.extend(QuizCategoryModel.prototype, {
-    storage:{
-        create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizcategory/?courseID=" + jQuery("#courseID").val, model.toJSON());
+    sync: {
+        'create': {
+            'path': function () {
+                return "/services/quizcategory/?courseID=" + Utils.getCourseID()
+            },
+            'method': "post"
         },
-
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "services/quizcategory/update/" + model.id, model.toJSON());
+        'update': {
+            'path': function (model) {
+                return "services/quizcategory/update/" + model.id;
+            },
+            'method': "post"
         },
-
-        move:function (model, options) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizcategory/move/" + model.id, _.extend(model.toJSON(), options));
+        'read': {
+            'path': function (model) {
+                return "/services/quizcategory/" + model.id + "?courseID=" + Utils.getCourseID();
+            }
         },
-
-        find:function (model) {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/quizcategory/" + model.id+"?courseID=" + jQuery("#courseID").val);
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizcategory/delete", model.toJSON());
+        'delete': {
+            'path': function () {
+                return "/services/quizcategory/delete";
+            },
+            'method': "post"
         }
     }
 });
+
+QuizCategoryModel = Backbone.Model.extend({
+    defaults: {
+        quizID: 0,
+        title: "New category",
+        description: "",
+        parentID: -1,
+        isNew: false
+    }
+}).extend(QuizCategoryService);

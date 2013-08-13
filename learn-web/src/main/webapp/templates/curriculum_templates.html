@@ -1,0 +1,334 @@
+<!-- List view template -->
+<script type="text/mustache" xmlns="http://www.w3.org/1999/html" id="availableCertificateListView">
+    <div id="certificateListWidget">
+        <div id="SCORMCertificateHeader">
+            <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="certificateSearch" class="SCORMSearch"/>
+            <abbr title="Sort">
+                <button id="sortList" class="textButton sortButton">{{sortOrderAscLabel}}</button>
+            </abbr>
+        </div>
+        <!--{{#isAdmin}}-->
+        <div id="SCORMQuestionAnswers" class="SCORMAddNewButton">
+            <div id="SCORMQuestionAnswersEditors"></div>
+            <button id="SCORMButtonAddCertificate">{{addNewCertificateButtonLabel}}</button>
+        </div>
+        <!--{{/isAdmin}}-->
+        <ul class="quizList" id="certificateList"></ul>
+    </div>
+</script>
+
+<!-- student My certificates view-->
+<script type="text/mustache" id="myCertificateListView">
+    <div id="myCertificateListWidget">
+
+
+        <div id="myCertificateList">
+
+        </div>
+
+    </div>
+</script>
+
+<!-- ListItem view template -->
+<script type="text/mustache" id="availableCertificateListItemView">
+    <div class="availableQuizItem">
+        <div class="itemHeader">
+            <div class="quizItemTitle">{{title}}</div>
+            <!--{{#isAdmin}}-->
+            <abbr title="{{quizRemoveButtonTooltipLabel}}">
+                <button id="certificateDelete" class="button28 removeQuizButton buttonRemove"></button>
+            </abbr>
+            <abbr title="{{quizEditUsersButtonTooltipLabel}}">
+                <button id="certificateEditUsers" class="membership"></button>
+            </abbr>
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button id="certificateEdit" class="button28 removeQuizButton buttonEdit"></button>
+            </abbr>
+            <!--{{/isAdmin}}-->
+
+            <!--{{^isAdmin}}-->
+            <abbr title="{{joinCertificate}}">
+                <button id="joinCertificate_{{id}}" class="quizManagementButton joinCertificate">{{joinCertificate}}</button>
+            </abbr>
+            <abbr title="{{leaveCertificate}}">
+                <button id="leaveCertificate_{{id}}" class="quizManagementButton leaveCertificate">{{leaveCertificate}}</button>
+            </abbr>
+            <!--{{/isAdmin}}-->
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+
+                <div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+
+                    <div class="quizSection">
+                        <div class="quizSectionTitle quizQuestionAmount">{{sitesCount}}
+                        {{sitesSubtitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle quizQuestionAmount">{{usersCount}}
+                            {{usersSubtitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/mustache" id="myCertificateListItemView">
+    <h3><a href="#">{{title}}</a></h3>
+    <div class="certificateDetails">
+
+
+        <div class="itemBody">
+            <div class="quizBodyContent">
+                <div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="SCORMResult">{{{description}}}</div>
+                </div>
+                <div style="clear:both"></div>
+
+                <div class="SCORMPackageList">
+                    <div class="SCORMPackageListHeader">
+                        <div class="SCORMPackageListHeaderText">{{sitesList}}</div>
+                        <div style="clear:both"/>
+                    </div>
+                    <table style="width: 100%" cellpadding="0" class="myCertificateGrid" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="scormSiteTitleColumn sortable listTitle" ref="title"></th>
+                            <th scope="col" class="scormSiteGradeColumn listTitle">{{courseGradeHeaderLabel}}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="SCORMMyCertificatesGrid_{{id}}">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="myCertificateSiteLinkRow">
+    <tr>
+        <td>
+            <div> <a href="{{url}}">{{{title}}}</a></div>
+            <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        </td>
+        <td>{{{grade}}}</td>
+    </tr>
+</script>
+<script type="text/mustache" id="myCertificateSiteRow">
+    <tr>
+        <td>{{{title}}}</td>
+        <td>{{{grade}}}</td>
+    </tr>
+</script>
+<script type="text/mustache" id="userCourseRow">
+    <tr>
+        <td><a href="{{url}}">{{{title}}}</a></td>
+        <td>{{{grade}}}</td>
+        <td><button id='{{id}}'  class='userCourseReview button28 removeQuizButton buttonEdit' ></button></td>
+    </tr>
+</script>
+
+
+<script type="text/mustache" id="certificateItemEditSites">
+    <div class="availableQuizItem">
+        <div class="itemHeader">
+            <div class="quizItemTitle"  id="editSitesCertificateTitle_{{id}}">{{title}}</div>
+
+            <input type='text' class="quizItemTitle" id='editSitesCertificateTitleInput_{{id}}' title='{{requiredFieldTooltipLabel}}'
+                   value='{{title}}' />
+
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button id="certificateEditTitle_{{id}}" class="certificateEditTitle button28 removeQuizButton buttonEdit"></button>
+            </abbr>
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button id="certificateTitleUpdate_{{id}}" class="certificateTitleUpdate button28 buttonInstall quizManagementButton" ></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+                <div>
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                        <abbr title="{{editDescriptionButtonTooltipLabel}}">
+                            <button id="SCORMEditDescription"
+                                    class="button24x18 buttonPen questionarieEditTextButton"></button>
+                        </abbr>
+
+                        <div style="clear:both"></div>
+                    </div>
+                    <div id="certificateDescription" class="SCORMResult">{{{description}}}</div>
+
+                    <div class="quizSection">
+                        <div class="quizSectionTitle">{{sitesSubtitleLabel}}</div>
+                        <abbr title="{{sitesSubtitleLabel}}">
+                            <button id="addSites" class="button24x18 buttonList editQuestionsButton"></button>
+                        </abbr>
+                        <abbr title="{{sitesSubtitleLabel}}">
+                            <button id="removeSite" class="button24x18 removeQuizButton buttonRemoveSite"></button>
+                        </abbr>
+                        <div style="clear:both"></div>
+                    </div>
+                    <ul class="siteSortableList" id="certificateSitesSortable_{{id}}"></ul>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="certificateSiteItem">
+    <li class="siteSortableList" id="siteSortableListItem_{{siteID}}">
+        <div>{{title}}</div>
+        <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        <input class="hiddenSiteID" type="hidden" value="{{siteID}}"/>
+    </li>
+</script>
+
+<script type="text/mustache" id="certificateItemEditUsers">
+    <div class="fluidRowsContent">
+        <div class="fluidLeftPart ui-layout-west">
+            <div id="certificateUserTreeView_{{id}}"></div>
+        </div>
+        <div class="fluidRightPart ui-layout-center">
+            <div class="SCORMPackageListHeaderButtons">
+                <abbr title="{{removeTreeElementButtonLabel}}">
+                    <button id="certificateRemoveUser" class="button28 editQuizButton buttonRemove"></button>
+                </abbr>
+                <abbr title="{{addQuestionTreeElementButtonLabel}}">
+                    <button id="certificateAddUser" class="button28 editQuizButton buttonAddQuestion"></button>
+                </abbr>
+                <div style="clear:both"></div>
+            </div>
+            <div id="certificateUserContent">
+                 <div id="jsTreeCourseGrade_{{id}}"></div>
+
+            </div>
+        </div>
+
+        <div style="width:100%; clear: both"></div>
+    </div>
+</script>
+
+
+<script type="text/mustache" id="liferaySiteDialogView">
+    <div id="liferaySiteDialog">
+        <div id="siteList">
+        </div>
+    </div>
+</script>
+<script type="text/mustache" id="liferaySiteElementView">
+    <div id="liferaySiteElement" class="portlet-learn-scorm">
+        <button id="selectSiteButton" class="button28 buttonInstall quizManagementButton"></button>
+        <div><b>{{title}}</b></div>
+        <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        <br>
+        <hr>
+    </div>
+</script>
+
+<script type="text/mustache" id="liferayUserDialogView">
+    <div id="liferayUserDialog">
+        <div class="userSearch" >
+            <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="userSearch" class="SCORMSearch"/>
+            <abbr title="Sort">
+                <button id="sortUser" class="textButton sortButton">{{sortOrderAscLabel}}</button>
+            </abbr>
+        </div>
+
+        <ul id="userList" class="userList"></ul>
+    </div>
+</script>
+<script type="text/mustache" id="liferayUserElementView">
+    <div id="liferayUserElement" class="portlet-learn-scorm">
+        <hr>
+        <button id="selectUserButton" class="button28 buttonInstall quizManagementButton"></button>
+        <div style="width:60px; float:left;">
+            {{#userPublicPageUrl}}
+                <a href="{{userPublicPageUrl}}" target="_blank">
+            {{/userPublicPageUrl}}
+
+           <img src="{{portrait}}" alt="{{name}}" width="60px" />
+            {{#userPublicPageUrl}}
+                </a>
+            {{/userPublicPageUrl}}
+        </div>
+        <div style="margin-left: 65px; margin-top: 5px">
+            {{name}}
+            <br>
+            {{email}}
+        </div>
+        <br>
+        <br clear="all"/>
+    </div>
+</script>
+
+<script type="text/mustache" id="userCourseGradeDialog">
+<div id="userCourseGrade" title="{{reviewDialogTitleLabel}}">
+    <div class="SCORMGradebookDialogButtons">
+        <div id="userCourseCommentPlaceholder">
+            <label for="certificateCourseComment">{{courseCommentLabel}}</label>
+
+            <textarea rows="10" style="width: 100%" id="certificateCourseComment" ></textarea>
+        </div>
+        <div id="userCourseGradePlaceholder">
+            <label>{{gradeLabel}}</label>
+            <table class="gradeTable">
+                <tr>
+                    <td><input type="radio" value="0" title="0" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.1" title="1" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.2" title="2" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.3" title="3" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.4" title="4" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.5" title="5" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.6" title="6" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.7" title="7" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.8" title="8" name="grade" align="left"/></td>
+                    <td><input type="radio" value="0.9" title="9" name="grade" align="left"/></td>
+                    <td><input type="radio" value="1" title="10" name="grade" align="left"/></td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <td>10</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="float-right" style="float: right;">
+            <input type="button" id="saveCourseGradeButton" class="textbutton" value="{{saveButtonLabel}}"/>
+            <input type="button" id="cancelCourseGradeButton" class="textbutton" value="{{reviewDialogCloseButtonLabel}}"/>
+        </div>
+
+        <div class="clear"></div>
+        <input type="hidden" value="" id="certificatingCourseID"/>
+        <input type="hidden" value="" id="certificatingUserID"/>
+    </div>
+</div>
+</script>

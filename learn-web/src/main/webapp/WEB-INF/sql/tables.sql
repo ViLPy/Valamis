@@ -90,6 +90,25 @@ create table Learn_LFBigDecimal (
 );
 
 
+create table Learn_LFCertificate (
+	id_ LONG not null primary key,
+	title TEXT null,
+	description TEXT null
+);
+
+create table Learn_LFCertificateSite (
+	id_ LONG not null primary key,
+	certificateID INTEGER,
+	siteID INTEGER,
+	arrangementIndex INTEGER
+);
+
+create table Learn_LFCertificateUser (
+	id_ LONG not null primary key,
+	certificateID INTEGER,
+	userID INTEGER
+);
+
 create table Learn_LFChildrenSelection (
 	id_ LONG not null primary key,
 	sequencingID INTEGER,
@@ -177,6 +196,14 @@ create table Learn_LFPackage (
 	courseID INTEGER null
 );
 
+create table Learn_LFPackageComment (
+	id_ LONG not null primary key,
+	socialPackageID INTEGER,
+	authorID INTEGER,
+	comment_ VARCHAR(75) null,
+	publishDate DATE null
+);
+
 create table Learn_LFPackageScopeRule (
 	id_ LONG not null primary key,
 	packageID INTEGER,
@@ -184,6 +211,13 @@ create table Learn_LFPackageScopeRule (
 	scopeID TEXT null,
 	visibility BOOLEAN,
 	isDefault BOOLEAN null
+);
+
+create table Learn_LFPackageVote (
+	id_ LONG not null primary key,
+	userID INTEGER,
+	socialPackageID INTEGER,
+	value INTEGER
 );
 
 create table Learn_LFPlayerScopeRule (
@@ -313,6 +347,20 @@ create table Learn_LFSequencingTracking (
 	sequencingID INTEGER,
 	completionSetByContent BOOLEAN,
 	objectiveSetByContent BOOLEAN
+);
+
+create table Learn_LFSocialPackage (
+	id_ LONG not null primary key,
+	packageID INTEGER,
+	aboutPackage TEXT null,
+	publishDate DATE null,
+	authorID INTEGER
+);
+
+create table Learn_LFSocialPackageTag (
+	id_ LONG not null primary key,
+	socialPackageID INTEGER,
+	name VARCHAR(75) null
 );
 
 create table Learn_LFUser (

@@ -1,10 +1,10 @@
 package com.arcusys.learn.scorm.manifest.serializer
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.manifest.parser._
 import org.junit._
 import Assert._
 import com.arcusys.learn.util.TreeNode
+import com.arcusys.learn.scorm.manifest.parser.ManifestParser
 
 class ManifestGeneratorTest {
   @Test

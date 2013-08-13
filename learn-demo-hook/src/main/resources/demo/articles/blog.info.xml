@@ -1,0 +1,10 @@
+<root available-locales="en_US" default-locale="en_US">
+    <dynamic-element instance-id="DSE25Cev" name="Header1" type="text" index-type="">
+        <dynamic-content>Tell us what you think. Write your own blog entry. Your topic can be allmost anything but it's
+            recommendable if topic connects to learning somehow.
+        </dynamic-content>
+    </dynamic-element>
+    <dynamic-element instance-id="SrC2fWj4" name="Header2" type="text" index-type="">
+        <dynamic-content>Blog</dynamic-content>
+    </dynamic-element>
+</root>

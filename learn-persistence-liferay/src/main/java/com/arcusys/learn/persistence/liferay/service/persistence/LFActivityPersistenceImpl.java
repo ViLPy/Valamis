@@ -13,6 +13,9 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersist
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
@@ -21,8 +24,10 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjecti
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
@@ -36,6 +41,8 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleCondition
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
 import com.liferay.portal.NoSuchModelException;
@@ -270,6 +277,12 @@ public class LFActivityPersistenceImpl extends BasePersistenceImpl<LFActivity>
     protected LFAttemptDataPersistence lfAttemptDataPersistence;
     @BeanReference(type = LFBigDecimalPersistence.class)
     protected LFBigDecimalPersistence lfBigDecimalPersistence;
+    @BeanReference(type = LFCertificatePersistence.class)
+    protected LFCertificatePersistence lfCertificatePersistence;
+    @BeanReference(type = LFCertificateSitePersistence.class)
+    protected LFCertificateSitePersistence lfCertificateSitePersistence;
+    @BeanReference(type = LFCertificateUserPersistence.class)
+    protected LFCertificateUserPersistence lfCertificateUserPersistence;
     @BeanReference(type = LFChildrenSelectionPersistence.class)
     protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
     @BeanReference(type = LFConditionRulePersistence.class)
@@ -288,8 +301,12 @@ public class LFActivityPersistenceImpl extends BasePersistenceImpl<LFActivity>
     protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
     @BeanReference(type = LFPackagePersistence.class)
     protected LFPackagePersistence lfPackagePersistence;
+    @BeanReference(type = LFPackageCommentPersistence.class)
+    protected LFPackageCommentPersistence lfPackageCommentPersistence;
     @BeanReference(type = LFPackageScopeRulePersistence.class)
     protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
+    @BeanReference(type = LFPackageVotePersistence.class)
+    protected LFPackageVotePersistence lfPackageVotePersistence;
     @BeanReference(type = LFPlayerScopeRulePersistence.class)
     protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
     @BeanReference(type = LFQuestionPersistence.class)
@@ -316,6 +333,10 @@ public class LFActivityPersistenceImpl extends BasePersistenceImpl<LFActivity>
     protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
+    @BeanReference(type = LFSocialPackagePersistence.class)
+    protected LFSocialPackagePersistence lfSocialPackagePersistence;
+    @BeanReference(type = LFSocialPackageTagPersistence.class)
+    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
     @BeanReference(type = LFUserPersistence.class)
     protected LFUserPersistence lfUserPersistence;
     @BeanReference(type = ResourcePersistence.class)

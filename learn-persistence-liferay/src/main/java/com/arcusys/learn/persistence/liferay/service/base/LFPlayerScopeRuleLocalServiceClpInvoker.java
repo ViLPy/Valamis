@@ -38,22 +38,22 @@ public class LFPlayerScopeRuleLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName164;
-    private String[] _methodParameterTypes164;
-    private String _methodName165;
-    private String[] _methodParameterTypes165;
-    private String _methodName170;
-    private String[] _methodParameterTypes170;
-    private String _methodName171;
-    private String[] _methodParameterTypes171;
-    private String _methodName172;
-    private String[] _methodParameterTypes172;
-    private String _methodName173;
-    private String[] _methodParameterTypes173;
-    private String _methodName174;
-    private String[] _methodParameterTypes174;
-    private String _methodName175;
-    private String[] _methodParameterTypes175;
+    private String _methodName192;
+    private String[] _methodParameterTypes192;
+    private String _methodName193;
+    private String[] _methodParameterTypes193;
+    private String _methodName198;
+    private String[] _methodParameterTypes198;
+    private String _methodName199;
+    private String[] _methodParameterTypes199;
+    private String _methodName200;
+    private String[] _methodParameterTypes200;
+    private String _methodName201;
+    private String[] _methodParameterTypes201;
+    private String _methodName202;
+    private String[] _methodParameterTypes202;
+    private String _methodName203;
+    private String[] _methodParameterTypes203;
 
     public LFPlayerScopeRuleLocalServiceClpInvoker() {
         _methodName0 = "addLFPlayerScopeRule";
@@ -138,37 +138,37 @@ public class LFPlayerScopeRuleLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName164 = "getBeanIdentifier";
+        _methodName192 = "getBeanIdentifier";
 
-        _methodParameterTypes164 = new String[] {  };
+        _methodParameterTypes192 = new String[] {  };
 
-        _methodName165 = "setBeanIdentifier";
+        _methodName193 = "setBeanIdentifier";
 
-        _methodParameterTypes165 = new String[] { "java.lang.String" };
+        _methodParameterTypes193 = new String[] { "java.lang.String" };
 
-        _methodName170 = "createLFPlayerScopeRule";
+        _methodName198 = "createLFPlayerScopeRule";
 
-        _methodParameterTypes170 = new String[] {  };
+        _methodParameterTypes198 = new String[] {  };
 
-        _methodName171 = "findByPlayerID";
+        _methodName199 = "findByPlayerID";
 
-        _methodParameterTypes171 = new String[] { "java.lang.String" };
+        _methodParameterTypes199 = new String[] { "java.lang.String" };
 
-        _methodName172 = "findByPlayerID";
+        _methodName200 = "findByPlayerID";
 
-        _methodParameterTypes172 = new String[] { "java.lang.String", "int", "int" };
+        _methodParameterTypes200 = new String[] { "java.lang.String", "int", "int" };
 
-        _methodName173 = "removeByPlayerID";
+        _methodName201 = "removeByPlayerID";
 
-        _methodParameterTypes173 = new String[] { "java.lang.String" };
+        _methodParameterTypes201 = new String[] { "java.lang.String" };
 
-        _methodName174 = "removeAll";
+        _methodName202 = "removeAll";
 
-        _methodParameterTypes174 = new String[] {  };
+        _methodParameterTypes202 = new String[] {  };
 
-        _methodName175 = "getLFPlayerScopeRule";
+        _methodName203 = "getLFPlayerScopeRule";
 
-        _methodParameterTypes175 = new String[] { "long" };
+        _methodParameterTypes203 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -260,51 +260,51 @@ public class LFPlayerScopeRuleLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName164.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes164, parameterTypes)) {
+        if (_methodName192.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
             return LFPlayerScopeRuleLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName165.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes165, parameterTypes)) {
+        if (_methodName193.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
             LFPlayerScopeRuleLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName170.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes170, parameterTypes)) {
+        if (_methodName198.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
             return LFPlayerScopeRuleLocalServiceUtil.createLFPlayerScopeRule();
         }
 
-        if (_methodName171.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes171, parameterTypes)) {
+        if (_methodName199.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
             return LFPlayerScopeRuleLocalServiceUtil.findByPlayerID((java.lang.String) arguments[0]);
         }
 
-        if (_methodName172.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+        if (_methodName200.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
             return LFPlayerScopeRuleLocalServiceUtil.findByPlayerID((java.lang.String) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue());
         }
 
-        if (_methodName173.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+        if (_methodName201.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
             LFPlayerScopeRuleLocalServiceUtil.removeByPlayerID((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName174.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
+        if (_methodName202.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes202, parameterTypes)) {
             LFPlayerScopeRuleLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName175.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes175, parameterTypes)) {
+        if (_methodName203.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes203, parameterTypes)) {
             return LFPlayerScopeRuleLocalServiceUtil.getLFPlayerScopeRule(((Long) arguments[0]).longValue());
         }
 

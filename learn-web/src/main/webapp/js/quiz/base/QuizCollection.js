@@ -1,9 +1,11 @@
-// Quiz collection
-QuizCollection = Backbone.Collection.extend({
-    model:Quiz,
-    storage:{
-        findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/quiz/" + "?courseID="+jQuery("#courseID").val());
+QuizCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'read': function () {
+            return "/services/quiz/?courseID=" + Utils.getCourseID();
         }
     }
 });
+
+QuizCollection = Backbone.Collection.extend({
+    model: Quiz
+}).extend(QuizCollectionService);

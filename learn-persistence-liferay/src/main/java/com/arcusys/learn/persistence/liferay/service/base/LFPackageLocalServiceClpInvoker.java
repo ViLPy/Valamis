@@ -38,24 +38,24 @@ public class LFPackageLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName164;
-    private String[] _methodParameterTypes164;
-    private String _methodName165;
-    private String[] _methodParameterTypes165;
-    private String _methodName170;
-    private String[] _methodParameterTypes170;
-    private String _methodName171;
-    private String[] _methodParameterTypes171;
-    private String _methodName172;
-    private String[] _methodParameterTypes172;
-    private String _methodName173;
-    private String[] _methodParameterTypes173;
-    private String _methodName174;
-    private String[] _methodParameterTypes174;
-    private String _methodName175;
-    private String[] _methodParameterTypes175;
-    private String _methodName176;
-    private String[] _methodParameterTypes176;
+    private String _methodName192;
+    private String[] _methodParameterTypes192;
+    private String _methodName193;
+    private String[] _methodParameterTypes193;
+    private String _methodName198;
+    private String[] _methodParameterTypes198;
+    private String _methodName199;
+    private String[] _methodParameterTypes199;
+    private String _methodName200;
+    private String[] _methodParameterTypes200;
+    private String _methodName201;
+    private String[] _methodParameterTypes201;
+    private String _methodName202;
+    private String[] _methodParameterTypes202;
+    private String _methodName203;
+    private String[] _methodParameterTypes203;
+    private String _methodName204;
+    private String[] _methodParameterTypes204;
 
     public LFPackageLocalServiceClpInvoker() {
         _methodName0 = "addLFPackage";
@@ -140,41 +140,41 @@ public class LFPackageLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName164 = "getBeanIdentifier";
+        _methodName192 = "getBeanIdentifier";
 
-        _methodParameterTypes164 = new String[] {  };
+        _methodParameterTypes192 = new String[] {  };
 
-        _methodName165 = "setBeanIdentifier";
+        _methodName193 = "setBeanIdentifier";
 
-        _methodParameterTypes165 = new String[] { "java.lang.String" };
+        _methodParameterTypes193 = new String[] { "java.lang.String" };
 
-        _methodName170 = "createLFPackage";
+        _methodName198 = "createLFPackage";
 
-        _methodParameterTypes170 = new String[] {  };
+        _methodParameterTypes198 = new String[] {  };
 
-        _methodName171 = "findByRefID";
+        _methodName199 = "findByRefID";
 
-        _methodParameterTypes171 = new String[] { "java.lang.Long" };
+        _methodParameterTypes199 = new String[] { "java.lang.Long" };
 
-        _methodName172 = "findByPackageID";
+        _methodName200 = "findByPackageID";
 
-        _methodParameterTypes172 = new String[] { "java.lang.Long[][]" };
+        _methodParameterTypes200 = new String[] { "java.lang.Long[][]" };
 
-        _methodName173 = "findByInstance";
+        _methodName201 = "findByInstance";
 
-        _methodParameterTypes173 = new String[] { "java.lang.Integer[][]" };
+        _methodParameterTypes201 = new String[] { "java.lang.Integer[][]" };
 
-        _methodName174 = "findByCourseID";
+        _methodName202 = "findByCourseID";
 
-        _methodParameterTypes174 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes202 = new String[] { "java.lang.Integer" };
 
-        _methodName175 = "removeAll";
+        _methodName203 = "removeAll";
 
-        _methodParameterTypes175 = new String[] {  };
+        _methodParameterTypes203 = new String[] {  };
 
-        _methodName176 = "getLFPackage";
+        _methodName204 = "getLFPackage";
 
-        _methodParameterTypes176 = new String[] { "long" };
+        _methodParameterTypes204 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -266,52 +266,52 @@ public class LFPackageLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName164.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes164, parameterTypes)) {
+        if (_methodName192.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
             return LFPackageLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName165.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes165, parameterTypes)) {
+        if (_methodName193.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
             LFPackageLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName170.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes170, parameterTypes)) {
+        if (_methodName198.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
             return LFPackageLocalServiceUtil.createLFPackage();
         }
 
-        if (_methodName171.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes171, parameterTypes)) {
+        if (_methodName199.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
             return LFPackageLocalServiceUtil.findByRefID((java.lang.Long) arguments[0]);
         }
 
-        if (_methodName172.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+        if (_methodName200.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
             return LFPackageLocalServiceUtil.findByPackageID((java.lang.Long[]) arguments[0]);
         }
 
-        if (_methodName173.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+        if (_methodName201.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
             return LFPackageLocalServiceUtil.findByInstance((java.lang.Integer[]) arguments[0]);
         }
 
-        if (_methodName174.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
+        if (_methodName202.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes202, parameterTypes)) {
             return LFPackageLocalServiceUtil.findByCourseID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName175.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes175, parameterTypes)) {
+        if (_methodName203.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes203, parameterTypes)) {
             LFPackageLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName176.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes176, parameterTypes)) {
+        if (_methodName204.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes204, parameterTypes)) {
             return LFPackageLocalServiceUtil.getLFPackage(((Long) arguments[0]).longValue());
         }
 

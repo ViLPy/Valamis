@@ -1,176 +1,19 @@
 <html>
 <head>
-    <script type="text/javascript" language="javascript">
-        var jQuery1816Player = jQuery.noConflict();
-        var scormPlayerPackages = new PlayerPackageModelCollection();
-        var scormPlayer;
-        var scormPlayerPackagesView;
-        var scormPlayerLanguageData = {};
 
-        jQuery1816Player(function () {
-            jQuery1816Player("#packageId").val("{{packageId}}");
-            jQuery("#projectLearnCourseIsCompleted").hide();
-            jQuery("#projectLearnGenericPlaceholder").hide();
-            window.LearnAjax.setHeader("scormUserID", "{{userID}}");
-            window.LearnAjax.setHeader("scormUserName", "{{userName}}");
-            window.API_1484_11 = new SCORM2004_4API();
-            window.API = new SCORM12API();
-
-            // upload translations
-            var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
-            var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
-            Utils.i18nLoader(localizedURL, defaultURL, onPlayerLanguageLoad, onPlayerLanguageError);
-        });
-
-        function onPlayerLanguageLoad(properties) {
-            scormPlayerLanguageData = properties;
-            initPlayerView();
-        }
-
-        function onPlayerLanguageError() {
-            alert('Translation resource loading failed!');
-        }
-
-        function initPlayerView() {
-            if (!checkIfNeedToHidePlayer()){
-                var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
-                scormPlayer = new PlayerView({el:jQuery1816Player("#SCORMPlayerView"), language:scormPlayerLanguageData});
-                jQuery1816Player("#SCORMPlayerView").hide();
-                scormPlayer.on('exit', exit);
-                scormPlayer.on('suspend', suspend);
-                scormPlayer.on('endSession', endSession);
-                window.scormPlayerView = scormPlayer;
-
-                scormPlayerPackagesView = new PlayerPackageListView({el:jQuery1816Player("#packagePlayerList"), collection:scormPlayerPackages, language:scormPlayerLanguageData});
-                jQuery1816Player("#packageSearch").keyup(function () {
-                    scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
-                });
-                scormPlayerPackagesView.on('start', startPackage);
-                scormPlayerPackagesView.on('resume', resumePackage);
-                scormPlayerPackages.fetch({success:jQuery1816Player.proxy(function () {
-                    var packageToOpen = parseInt("{{entryID}}");
-                    if (packageToOpen) {
-                        startPackage(scormPlayerPackages.get(packageToOpen));
-                    }
-                }, this)});
-
-                packageStart(jQuery("#packageId").val(),jQuery("#packageTitle").val());
-            }, this));
-            loader.fetch("templates/player_templates.html");
-            }
-        }
-
-        function suspend() {
-            clearSessionParameters();
-            scormPlayerPackagesView.reloadPackageList();
-            togglePlayer();
-        }
-
-        function exit() {
-            clearSessionParameters();
-           if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()){
-               jQuery("#projectLearnCourseIsCompleted").show();
-               jQuery("#projectLearnGenericPlaceholder").hide();
-           } else scormPlayerPackagesView.reloadPackageList();
-        }
-
-        function startPackage(data) {
-            var packageTitle = data.get('title');
-            var packageId = data.id;
-
-            jQuery("#packageId").val(packageId);
-
-            saveSessionParameters(packageId, packageTitle);
-            packageStart(packageId,  packageTitle)
-        }
-        function packageStart(packageId, packageTitle) {
-            if(packageId){
-                scormPlayer.setName(packageTitle);
-                scormPlayer.load(packageId);
-                togglePlayer();
-            }
-        }
-        function checkIfNeedToHidePlayer(){
-            if (jQuery("#isCompleteByUser").val() == 'true'){
-                jQuery("#projectLearnCourseIsCompleted").show();
-                jQuery("#projectLearnGenericPlaceholder").hide();
-                return true;
-            }
-            else
-            {
-                jQuery("#projectLearnCourseIsCompleted").hide();
-                jQuery("#projectLearnGenericPlaceholder").show();
-                return false;
-            }
-        }
-
-        function saveSessionParameters(id, title) {
-            jQuery.ajax({
-                type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/setSession",
-                data: {id:id, title:title, playerID:jQuery("#playerID").val()},
-                dataType: "json"
-            });
-        }
-        function clearSessionParameters() {
-            jQuery.ajax({
-                type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/clearSession"
-            });
-        }
-
-      function resumePackage(data) {
-            var packageTitle = data.get('title');
-            var packageId = data.id;
-            saveSessionParameters(packageId, packageTitle);
-            scormPlayer.setName(packageTitle);
-            scormPlayer.loadAndResume(packageId);
-           // var packageTitle = data.get('title');
-            //var packageId = data.id;
-            //saveSessionParameters(packageId, packageTitle);
-            //scormPlayer.setName(packageTitle);
-            //scormPlayer.loadAndResume(packageId);
-            togglePlayer();
-        }
-
-        function scormGetNext() {
-            scormPlayer.doContinue();
-        }
-        function scormGetPrev() {
-            scormPlayer.doPrevious();
-        }
-        function scormJump(target) {
-            scormPlayer.doJump(target);
-        }
-
-        function endSession(){
-            togglePlayer();
-            clearSessionParameters();
-            if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()){
-                jQuery("#projectLearnCourseIsCompleted").show();
-                jQuery("#projectLearnGenericPlaceholder").hide();
-            }
-        }
-
-        function togglePlayer() {
-            jQuery1816Player("#SCORMPlayerContainer").toggle();
-            jQuery1816Player("#SCORMPlayerView").toggle();
-        }
-
-    </script>
 </head>
 <body>
 <div id="projectLearnCourseIsCompleted">{{courseIsCompleted}}</div>
 <div class="projectLearnGeneric" id="projectLearnGenericPlaceholder">
     <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
     <div id="SCORMPlayerContainer">
-        <br clear="all"/>
+        <div style="clear:both;"></div>
 
         <div class="SCORMWell">
             <div style="float: left">
                 <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageSearch" class="SCORMSearch"/>
             </div>
-            <br style="clear: both"/>
+            <div style="clear:both;"></div>
 
             <div id="packagePlayerList" class="SCORMPackageList"></div>
         </div>
@@ -186,4 +29,163 @@
 <input type="hidden" id="isCompleteByUser" value="{{isCompleteByUser}}">
 <input type="hidden" id="defaultPackageID" value="{{defaultPackageID}}">
 </body>
+<script type="text/javascript" language="javascript">
+    var jQuery1816Player = jQuery.noConflict();
+    var scormPlayerPackages = new PlayerPackageModelCollection();
+    var scormPlayer;
+    var scormPlayerPackagesView;
+    var scormPlayerLanguageData = {};
+
+    jQuery1816Player(function () {
+        Backbone.emulateJSON = true;
+        Backbone.ajax = window.LearnAjax.ajax;
+        jQuery1816Player("#packageId").val("{{packageId}}");
+        jQuery("#projectLearnCourseIsCompleted").hide();
+        jQuery("#projectLearnGenericPlaceholder").hide();
+        window.LearnAjax.setHeader("scormUserID", "{{userID}}");
+        window.LearnAjax.setHeader("scormUserName", "{{userName}}");
+        window.API_1484_11 = new SCORM2004_4API();
+        window.API = new SCORM12API();
+
+        // upload translations
+        var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onPlayerLanguageLoad, onPlayerLanguageError);
+    });
+
+    function onPlayerLanguageLoad(properties) {
+        scormPlayerLanguageData = properties;
+        initPlayerView();
+    }
+
+    function onPlayerLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+    function initPlayerView() {
+        if (!checkIfNeedToHidePlayer()) {
+            var loader = new TemplateLoader(jQuery1816Player.proxy(function () {
+                scormPlayer = new PlayerView({el: jQuery1816Player("#SCORMPlayerView"), language: scormPlayerLanguageData});
+                jQuery1816Player("#SCORMPlayerView").hide();
+                scormPlayer.on('exit', exit);
+                scormPlayer.on('suspend', suspend);
+                scormPlayer.on('endSession', endSession);
+                window.scormPlayerView = scormPlayer;
+
+                scormPlayerPackagesView = new PlayerPackageListView({el: jQuery1816Player("#packagePlayerList"), collection: scormPlayerPackages, language: scormPlayerLanguageData});
+                jQuery1816Player("#packageSearch").keyup(function () {
+                    scormPlayerPackagesView.filterPackages(jQuery1816Player("#packageSearch").val());
+                });
+                scormPlayerPackagesView.on('start', startPackage);
+                scormPlayerPackagesView.on('resume', resumePackage);
+                scormPlayerPackages.fetch({success: jQuery1816Player.proxy(function () {
+                    var packageToOpen = parseInt("{{entryID}}");
+                    if (packageToOpen) {
+                        startPackage(scormPlayerPackages.get(packageToOpen));
+                    }
+                }, this)});
+
+                packageStart(jQuery("#packageId").val(), jQuery("#packageTitle").val());
+            }, this));
+            loader.fetch("templates/player_templates.html");
+        }
+    }
+
+    function suspend() {
+        clearSessionParameters();
+        scormPlayerPackagesView.reloadPackageList();
+        togglePlayer();
+    }
+
+    function exit() {
+        clearSessionParameters();
+        if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()) {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+        } else scormPlayerPackagesView.reloadPackageList();
+    }
+
+    function startPackage(data) {
+        var packageTitle = data.get('title');
+        var packageId = data.id;
+
+        jQuery("#packageId").val(packageId);
+
+        saveSessionParameters(packageId, packageTitle);
+        packageStart(packageId, packageTitle)
+    }
+    function packageStart(packageId, packageTitle) {
+        if (packageId) {
+            scormPlayer.setName(packageTitle);
+            scormPlayer.load(packageId);
+            togglePlayer();
+        }
+    }
+    function checkIfNeedToHidePlayer() {
+        if (jQuery("#isCompleteByUser").val() == 'true') {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+            return true;
+        }
+        else {
+            jQuery("#projectLearnCourseIsCompleted").hide();
+            jQuery("#projectLearnGenericPlaceholder").show();
+            return false;
+        }
+    }
+
+    function saveSessionParameters(id, title) {
+        jQuery.ajax({
+            type: 'POST',
+            url: jQuery("#SCORMContextPath").val() + "/setSession",
+            data: {id: id, title: title, playerID: jQuery("#playerID").val()},
+            dataType: "json"
+        });
+    }
+    function clearSessionParameters() {
+        jQuery.ajax({
+            type: 'POST',
+            url: jQuery("#SCORMContextPath").val() + "/clearSession"
+        });
+    }
+
+    function resumePackage(data) {
+        var packageTitle = data.get('title');
+        var packageId = data.id;
+        saveSessionParameters(packageId, packageTitle);
+        scormPlayer.setName(packageTitle);
+        scormPlayer.loadAndResume(packageId);
+        // var packageTitle = data.get('title');
+        //var packageId = data.id;
+        //saveSessionParameters(packageId, packageTitle);
+        //scormPlayer.setName(packageTitle);
+        //scormPlayer.loadAndResume(packageId);
+        togglePlayer();
+    }
+
+    function scormGetNext() {
+        scormPlayer.doContinue();
+    }
+    function scormGetPrev() {
+        scormPlayer.doPrevious();
+    }
+    function scormJump(target) {
+        scormPlayer.doJump(target);
+    }
+
+    function endSession() {
+        togglePlayer();
+        clearSessionParameters();
+        if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()) {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+        }
+    }
+
+    function togglePlayer() {
+        jQuery1816Player("#SCORMPlayerContainer").toggle();
+        jQuery1816Player("#SCORMPlayerView").toggle();
+    }
+
+</script>
 </html>

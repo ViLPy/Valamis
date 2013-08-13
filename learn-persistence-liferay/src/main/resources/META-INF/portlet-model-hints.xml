@@ -142,6 +142,26 @@
 		<field name="decimal" type="BigDecimal" />
 		<field name="text" type="String" />
 	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificate">
+		<field name="id" type="long" />
+		<field name="title" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateSite">
+		<field name="id" type="long" />
+		<field name="certificateID" type="Integer" />
+		<field name="siteID" type="Integer" />
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateUser">
+		<field name="id" type="long" />
+		<field name="certificateID" type="Integer" />
+		<field name="userID" type="Integer" />
+	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFChildrenSelection">
 		<field name="id" type="long" />
 		<field name="sequencingID" type="Integer" />
@@ -286,6 +306,13 @@
 		<field name="assetRefID" type="Long" />
 		<field name="courseID" type="Integer" />
 	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageComment">
+		<field name="id" type="long" />
+		<field name="socialPackageID" type="Integer" />
+		<field name="authorID" type="Integer" />
+		<field name="comment" type="String" />
+		<field name="publishDate" type="Date" />
+	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule">
 		<field name="id" type="long" />
 		<field name="packageID" type="Integer" />
@@ -297,6 +324,12 @@
 		</field>
 		<field name="visibility" type="Boolean" />
 		<field name="isDefault" type="Boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageVote">
+		<field name="id" type="long" />
+		<field name="userID" type="Integer" />
+		<field name="socialPackageID" type="Integer" />
+		<field name="value" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule">
 		<field name="id" type="long" />
@@ -483,6 +516,20 @@
 		<field name="sequencingID" type="Integer" />
 		<field name="completionSetByContent" type="boolean" />
 		<field name="objectiveSetByContent" type="boolean" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSocialPackage">
+		<field name="id" type="long" />
+		<field name="packageID" type="Integer" />
+		<field name="aboutPackage" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="publishDate" type="Date" />
+		<field name="authorID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag">
+		<field name="id" type="long" />
+		<field name="socialPackageID" type="Integer" />
+		<field name="name" type="String" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFUser">
 		<field name="lfid" type="long" />

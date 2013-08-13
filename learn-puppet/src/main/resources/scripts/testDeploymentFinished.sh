@@ -1,65 +1,48 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $DEPLOYMENT_HOST ] ; then
-    echo "Testing deployment on $DEPLOYMENT_HOST."
+    echo "Testing WAR deployment on $DEPLOYMENT_HOST..."
 else
     echo "DEPLOYMENT_HOST is not defined."
     exit 1
 fi
 
+Checkpoints=(
+'/ilmoitukset-portlet/css/style.css'
+)
 
-testLiferayThemeDeployed() {
-	max=10;
 
-	curl -L http://$DEPLOYMENT_HOST:8080/liferay-theme/js/main.js -f -o /dev/null
-	curl_status=$?
-	while [ $curl_status -gt 0 ] ; do
-	  let max=max-1;
-	  [ $max -lt 0 ] && break;
-	  sleep 5
+testWarDeployed() {
+    max=5
 
-	  curl -L http://$DEPLOYMENT_HOST:8080/liferay-theme/js/main.js -f -o /dev/null
-	  curl_status=$?
-	done; [ $max -gt 0 ]
+    curl -s -L http://$DEPLOYMENT_HOST:8080$1 -f -o /dev/null
+    curl_status=$?
+    while [ $curl_status -gt 0 ] ; do
+      max=`expr $max - 1`
+      [ $max -lt 0 ] && break;
+      sleep 5
 
-	return $curl_status;
+      curl -s -L http://$DEPLOYMENT_HOST:8080$1 -f -o /dev/null
+      curl_status=$?
+    done
+
+    if [ $curl_status -ne 0 ]; then
+        global_status=1
+        echo "curl status: $curl_status. Failed to download http://$DEPLOYMENT_HOST:8080$1"
+    fi
 }
 
+global_status=0
 
-testLiferayServicesDeployed() {
-	max=15;
+for urlpath in ${Checkpoints[@]} ; do
+    testWarDeployed $urlpath
+done
 
-#TODO: add more reasonable testing here
-	curl -L http://$DEPLOYMENT_HOST:8080/web/guest/ > /dev/null
-	curl_status=$?
-	while [ $curl_status -gt 0 ] ; do
-	  let max=max-1;
-	  [ $max -lt 0 ] && break;
-	  sleep 5
-
-	  curl -L http://$DEPLOYMENT_HOST:8080/web/guest/ > /dev/null
-	  curl_status=$?
-	done; [ $max -gt 0 ]	
-
-	return $curl_status;
-}
-
-
-# wait for Liferay to deploy theme package
-testLiferayThemeDeployed
-if [ $? -gt 0 ]; then
-    echo "Theme deployment failed."
+if [ $global_status -ne 0 ]; then
+    echo "WAR deployment failed."
     exit 1
 fi
 
-# wait for Liferay to deploy all services
-testLiferayServicesDeployed
-if [ $? -gt 0 ]; then
-    echo "Service deployment failed."
-    exit 1
-fi
-
-echo "Deployment successful"
-
-
+echo "WAR deployment successful."
+exit 0
 

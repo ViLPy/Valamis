@@ -1,3 +1,35 @@
+QuizQuestionService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'move': {
+            'path': function (model) {
+                return "/services/quizquestion/move/" + model.id;
+            },
+            'method': "post",
+            'data': function(model, options) {
+                return _.extend(model.toJSON(), options);
+            }
+        }
+    },
+    sync: {
+        'create': {
+            'path': "/services/quizquestion/",
+            'method': "post"
+        },
+        'update': {
+            'path': function (model) {
+                return "/services/quizquestion/update/" + model.id;
+            },
+            'method': "post"
+        },
+        'delete': {
+            'path': function (model) {
+                return "/services/quizquestion/delete/" + model.id;
+            },
+            'method': "post"
+        }
+    }
+});
+
 QuizQuestionModel = Backbone.Model.extend({
     defaults:{
         quizID:0,
@@ -19,35 +51,5 @@ QuizQuestionModel = Backbone.Model.extend({
                 this.set('text', decodeURIComponent(this.get('text')));
             } catch(err) {}
         }
-    },
-
-    move:function (options, callback) {
-        jQuery.when(this.storage.move(this, options)).done(callback);
     }
-});
-
-_.extend(QuizQuestionModel.prototype, {
-    storage:{
-        create:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizquestion/", model.toJSON());
-        },
-
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizquestion/update/" + model.id, model.toJSON());
-        },
-
-        move:function (model, options) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizquestion/move/" + model.id, _.extend(model.toJSON(), options));
-        },
-
-        find:function (model) {
-        },
-
-        findAll:function () {
-        },
-
-        destroy:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "/services/quizquestion/delete/" + model.id);
-        }
-    }
-});
+}).extend(QuizQuestionService);

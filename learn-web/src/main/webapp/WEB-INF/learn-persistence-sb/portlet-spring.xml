@@ -19,6 +19,12 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFBigDecimalLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateSiteLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateUserLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFChildrenSelectionLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFConditionRuleLocalServiceImpl" />
@@ -37,8 +43,12 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageCommentLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageScopeRuleLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageVoteLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPlayerScopeRuleLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFQuestionLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFQuestionLocalServiceImpl" />
@@ -65,6 +75,10 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSequencingTrackingLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSocialPackageLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSocialPackageTagLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFUserLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFUserLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistenceImpl" parent="basePersistence" />
 </beans>

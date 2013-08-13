@@ -1,34 +1,32 @@
-ScopeRuleModel = Backbone.Model.extend({
-    defaults:{
-        title:"",
-        summary:"",
-        visibility: true,
-        isDefault: false
+ScopeRuleService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'update': {
+            'path': function (model) {
+                return "services/packages/updatePackageScopeVisibility/" + model.id + "?courseID=" + Utils.getCourseID() + "&scopeType=" + jQuery("#scopeOptions").val() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val();
+            },
+            'method': "post"
+        }
     }
 });
 
-_.extend(ScopeRuleModel.prototype, {
-    storage:{
-        create:function (model) {
-        },
+ScopeRuleModel = Backbone.Model.extend({
+    defaults: {
+        title: "",
+        summary: "",
+        visibility: true,
+        isDefault: false
+    }
+}).extend(ScopeRuleService);
 
-        update:function (model) {
-            return window.LearnAjax.post(Utils.getContextPath() + "services/packages/updatePackageScopeVisibility/" + model.id + "?courseID=" + jQuery("#courseID").val() + "&scopeType=" + jQuery("#scopeOptions").val() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val(), model.toJSON());
-        },
 
-        find:function (model) {
-        },
-
-        destroy:function (model) {
+ScopeRuleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+    sync: {
+        'read': function () {
+            return "/services/packages/getByScope?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val();
         }
     }
 });
 
 ScopeRuleModelCollection = Backbone.Collection.extend({
-    model:ScopeRuleModel,
-    storage:{
-        findAll:function () {
-            return window.LearnAjax.get(Utils.getContextPath() + "/services/packages/getByScope" + "?courseID=" + jQuery("#courseID").val()+ "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val());
-        }
-    }
-});
+    model: ScopeRuleModel
+}).extend(ScopeRuleCollectionService);

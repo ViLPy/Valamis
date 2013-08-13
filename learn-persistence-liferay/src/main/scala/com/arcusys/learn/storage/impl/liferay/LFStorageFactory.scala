@@ -25,8 +25,13 @@ import com.arcusys.learn.scorm.sequencing.storage.impl.liferay._
 import com.arcusys.learn.scorm.manifest.storage.impl._
 import com.arcusys.learn.scorm.manifest.storage.impl.liferay._
 import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{LFAttemptDataStorageImpl, LFAttemptStorageImpl}
-import impl._
+import com.arcusys.learn.scorm.tracking.states.storage.impl._
 import com.arcusys.learn.scorm.tracking.states.impl.liferay._
+import com.arcusys.learn.social.storage.{PackageVoteStorage, PackageCommentStorage, SocialPackageStorage}
+import com.arcusys.learn.social.storage.impl.{PackageVoteEntityStorage, PackageCommentEntityStorage, SocialPackageEntityStorage}
+import com.arcusys.learn.social.storage.impl.liferay.{LFPackageCommentStorageImpl, LFPackageVoteStorageImpl, LFSocialPackageStorageImpl}
+import com.arcusys.learn.scorm.certificating._
+import com.arcusys.learn.scorm.certificating.impl.{CertificateUserEntityStorage, CertificateSiteEntityStorage, CertificateEntityStorage}
 
 /**
  * User: dkudinov
@@ -134,4 +139,12 @@ object LFStorageFactory extends StorageFactoryContract {
     val ruleConditionStorage = LFStorageFactory.this.ruleConditionStorage
   }
   lazy val activityDataStorage = new ActivityDataEntityStorage with LFActivityDataMapStorageImpl
+
+  lazy val certificateStorage: CertificateStorage = new CertificateEntityStorage with LFCertificateStorageImpl
+  lazy val certificateSiteStorage: CertificateSiteStorage = new CertificateSiteEntityStorage with LFCertificateSiteStorageImpl
+  lazy val certificateUserStorage: CertificateUserStorage = new CertificateUserEntityStorage with LFCertificateUserStorageImpl
+
+  lazy val socialPackageStorage: SocialPackageStorage = new SocialPackageEntityStorage with LFSocialPackageStorageImpl
+  lazy val packageCommentStorage: PackageCommentStorage = new PackageCommentEntityStorage with LFPackageCommentStorageImpl
+  lazy val packageVoteStorage: PackageVoteStorage = new PackageVoteEntityStorage with LFPackageVoteStorageImpl
 }

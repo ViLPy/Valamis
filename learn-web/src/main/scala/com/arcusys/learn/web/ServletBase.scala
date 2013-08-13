@@ -83,6 +83,10 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
         case _ => halt(405, "Integer parameter '" + name + "' could not be parsed")
       })
     }
+
+    def multiRequired()={
+      multiParams.get(name)
+    }
   }
 
   def parameter(name: String) = new ParameterBase(name)

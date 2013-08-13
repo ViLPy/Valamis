@@ -83,4 +83,21 @@
         </portlet-info>
     </portlet>
 
+    <portlet>
+        <portlet-name>Curriculum</portlet-name>
+        <portlet-class>com.arcusys.learn.view.CurriculumView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>SCORM Curriculum</title>
+        </portlet-info>
+    </portlet>
+
+
 </portlet-app>

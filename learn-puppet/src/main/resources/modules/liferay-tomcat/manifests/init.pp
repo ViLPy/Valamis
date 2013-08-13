@@ -6,8 +6,7 @@ define liferay-tomcat (
   $liferay_user = "root",
   $liferay_group = "root",
   $liferay_service_name,
-  $java_home = "",
-  $ehcache_conf = undef,
+  $java_home = ""
 ) {
 
   $tomcat_home = "${liferay_home}/tomcat-${tomcat_version}"
@@ -19,7 +18,7 @@ define liferay-tomcat (
       RedHat: {
         $javahome = "/usr/lib/jvm/java"
       }
-      Debian,Ubuntu,Solaris,Darwin: {
+      Debian,Ubuntu,Solaris: {
         $javahome = "/usr"
       }
       default: {
@@ -71,31 +70,29 @@ define liferay-tomcat (
         notify  => Service["${liferay_service_name}"],
   }
 
+  file {"${basedir}/conf/context.xml":
+        mode => 644,
+        content => template("liferay-tomcat/context.xml.erb"),
+        notify  => Service["${liferay_service_name}"],
+  }
+
+  file {"${tomcat_home}/logs":
+        ensure => directory,
+        mode => 750,
+        require => File["${liferay_home}"],
+  }
+
+  file {"${liferay_home}/deploy":
+        ensure => directory,
+        mode => 775,
+        require => File["${liferay_home}"],
+  }
+
   # Main configuration file - portal-ext.properties
-  if $ehcache_conf == undef {
-    file { "${tomcat_home}/webapps/ROOT/WEB-INF/classes/portal-ext.properties" :
+  file { "${tomcat_home}/webapps/ROOT/WEB-INF/classes/portal-ext.properties" :
       content => template("liferay-tomcat/portal-ext.properties.erb"),
       mode => 740,
       notify  => Service["${liferay_service_name}"],
-    }
-  } else { 
-    file { "${tomcat_home}/webapps/ROOT/WEB-INF/classes/portal-ext.properties" :
-      content => template("liferay-tomcat/portal-ext.properties.ehcache.erb","liferay-tomcat/portal-ext.properties.jcr.erb","liferay-tomcat/portal-ext.properties.erb"),
-      mode => 740,
-      notify  => Service["${liferay_service_name}"],
-    }
-    file { "${liferay_home}/data/jackrabbit":
-	ensure => directory,
-	mode => 750,
-	before => File["${liferay_home}/data/jackrabbit/repository.xml"],
-    }
-    file { "${liferay_home}/data/jackrabbit/repository.xml":
-      ensure  => present,
-      mode => 660,
-      content => template("liferay-tomcat/repository.xml.erb"),
-      require => [ Archive["liferay-portal-tomcat"], User["${liferay_user}"] ],
-      notify  => Service["${liferay_service_name}"],
-    }
   }
 
   # liferay setup config - portal-setup-wizard.properties
