@@ -48,6 +48,7 @@ class SearchTest(_driver:WebDriver) extends Suite with FlatSpec with ShouldMatch
 
   it should "be able to show uploaded packages with filtering" in {
     driver.get(baseUrl + assetPublisherScormOnlyUrl)
+    wait(5)
     isElementPresent(linkText(packageTitle12)) should be(true)
     isElementPresent(linkText(packageTitle2004)) should be(true)
   }

@@ -31,14 +31,19 @@ import com.arcusys.learn.persistence.liferay.model.LFQuizClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionClp;
 import com.arcusys.learn.persistence.liferay.model.LFResourceClp;
+import com.arcusys.learn.persistence.liferay.model.LFRoleClp;
 import com.arcusys.learn.persistence.liferay.model.LFRollupContributionClp;
 import com.arcusys.learn.persistence.liferay.model.LFRollupRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFRuleConditionClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTrackingClp;
+import com.arcusys.learn.persistence.liferay.model.LFSettingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageTagClp;
+import com.arcusys.learn.persistence.liferay.model.LFTincanActivityClp;
+import com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpointClp;
+import com.arcusys.learn.persistence.liferay.model.LFTincanPackageClp;
 import com.arcusys.learn.persistence.liferay.model.LFUserClp;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -251,6 +256,10 @@ public class ClpSerializer {
             return translateInputLFResource(oldModel);
         }
 
+        if (oldModelClassName.equals(LFRoleClp.class.getName())) {
+            return translateInputLFRole(oldModel);
+        }
+
         if (oldModelClassName.equals(LFRollupContributionClp.class.getName())) {
             return translateInputLFRollupContribution(oldModel);
         }
@@ -275,12 +284,28 @@ public class ClpSerializer {
             return translateInputLFSequencingTracking(oldModel);
         }
 
+        if (oldModelClassName.equals(LFSettingClp.class.getName())) {
+            return translateInputLFSetting(oldModel);
+        }
+
         if (oldModelClassName.equals(LFSocialPackageClp.class.getName())) {
             return translateInputLFSocialPackage(oldModel);
         }
 
         if (oldModelClassName.equals(LFSocialPackageTagClp.class.getName())) {
             return translateInputLFSocialPackageTag(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFTincanActivityClp.class.getName())) {
+            return translateInputLFTincanActivity(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFTincanLrsEndpointClp.class.getName())) {
+            return translateInputLFTincanLrsEndpoint(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFTincanPackageClp.class.getName())) {
+            return translateInputLFTincanPackage(oldModel);
         }
 
         if (oldModelClassName.equals(LFUserClp.class.getName())) {
@@ -617,6 +642,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFRole(BaseModel<?> oldModel) {
+        LFRoleClp oldClpModel = (LFRoleClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFRoleRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFRollupContribution(
         BaseModel<?> oldModel) {
         LFRollupContributionClp oldClpModel = (LFRollupContributionClp) oldModel;
@@ -680,6 +715,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFSetting(BaseModel<?> oldModel) {
+        LFSettingClp oldClpModel = (LFSettingClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFSettingRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFSocialPackage(BaseModel<?> oldModel) {
         LFSocialPackageClp oldClpModel = (LFSocialPackageClp) oldModel;
 
@@ -694,6 +739,37 @@ public class ClpSerializer {
         LFSocialPackageTagClp oldClpModel = (LFSocialPackageTagClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFSocialPackageTagRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFTincanActivity(BaseModel<?> oldModel) {
+        LFTincanActivityClp oldClpModel = (LFTincanActivityClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFTincanActivityRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFTincanLrsEndpoint(
+        BaseModel<?> oldModel) {
+        LFTincanLrsEndpointClp oldClpModel = (LFTincanLrsEndpointClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFTincanLrsEndpointRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFTincanPackage(BaseModel<?> oldModel) {
+        LFTincanPackageClp oldClpModel = (LFTincanPackageClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFTincanPackageRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -881,6 +957,11 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFRoleImpl")) {
+            return translateOutputLFRole(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionImpl")) {
             return translateOutputLFRollupContribution(oldModel);
         }
@@ -911,6 +992,11 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSettingImpl")) {
+            return translateOutputLFSetting(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl")) {
             return translateOutputLFSocialPackage(oldModel);
         }
@@ -918,6 +1004,21 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl")) {
             return translateOutputLFSocialPackageTag(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanActivityImpl")) {
+            return translateOutputLFTincanActivity(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointImpl")) {
+            return translateOutputLFTincanLrsEndpoint(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl")) {
+            return translateOutputLFTincanPackage(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1157,6 +1258,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFRoleException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFRoleException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFRollupContributionException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFRollupContributionException();
         }
@@ -1187,6 +1293,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSettingException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSettingException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException();
         }
@@ -1194,6 +1305,21 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsEndpointException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsEndpointException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException();
         }
 
         if (className.equals(
@@ -1521,6 +1647,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFRole(BaseModel<?> oldModel) {
+        LFRoleClp newModel = new LFRoleClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFRoleRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFRollupContribution(
         BaseModel<?> oldModel) {
         LFRollupContributionClp newModel = new LFRollupContributionClp();
@@ -1584,6 +1720,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFSetting(BaseModel<?> oldModel) {
+        LFSettingClp newModel = new LFSettingClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSettingRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFSocialPackage(BaseModel<?> oldModel) {
         LFSocialPackageClp newModel = new LFSocialPackageClp();
 
@@ -1601,6 +1747,37 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFSocialPackageTagRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFTincanActivity(BaseModel<?> oldModel) {
+        LFTincanActivityClp newModel = new LFTincanActivityClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFTincanActivityRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFTincanLrsEndpoint(
+        BaseModel<?> oldModel) {
+        LFTincanLrsEndpointClp newModel = new LFTincanLrsEndpointClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFTincanLrsEndpointRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFTincanPackage(BaseModel<?> oldModel) {
+        LFTincanPackageClp newModel = new LFTincanPackageClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFTincanPackageRemoteModel(oldModel);
 
         return newModel;
     }

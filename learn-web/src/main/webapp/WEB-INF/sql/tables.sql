@@ -93,7 +93,11 @@ create table Learn_LFBigDecimal (
 create table Learn_LFCertificate (
 	id_ LONG not null primary key,
 	title TEXT null,
-	description TEXT null
+	description TEXT null,
+	logo VARCHAR(75) null,
+	isPermanent BOOLEAN,
+	publishBadge BOOLEAN,
+	shortDescription VARCHAR(75) null
 );
 
 create table Learn_LFCertificateSite (
@@ -130,7 +134,8 @@ create table Learn_LFCourse (
 	courseID INTEGER,
 	userID INTEGER,
 	grade TEXT null,
-	comment_ TEXT null
+	comment_ TEXT null,
+	date_ DATE null
 );
 
 create table Learn_LFFileStorage (
@@ -278,6 +283,13 @@ create table Learn_LFQuizQuestionCategory (
 	arrangementIndex INTEGER
 );
 
+create table Learn_LFRole (
+	id_ LONG not null primary key,
+	liferayRoleID INTEGER,
+	permission VARCHAR(75) null,
+	isDefault BOOLEAN
+);
+
 create table Learn_LFRollupContribution (
 	id_ LONG not null primary key,
 	sequencingID INTEGER,
@@ -349,6 +361,18 @@ create table Learn_LFSequencingTracking (
 	objectiveSetByContent BOOLEAN
 );
 
+create table Learn_LFSetting (
+	id_ LONG not null primary key,
+	key_ VARCHAR(75) null,
+	value VARCHAR(75) null
+);
+
+create table Learn_LFSettings (
+	id_ LONG not null primary key,
+	key_ VARCHAR(75) null,
+	value VARCHAR(75) null
+);
+
 create table Learn_LFSocialPackage (
 	id_ LONG not null primary key,
 	packageID INTEGER,
@@ -361,6 +385,33 @@ create table Learn_LFSocialPackageTag (
 	id_ LONG not null primary key,
 	socialPackageID INTEGER,
 	name VARCHAR(75) null
+);
+
+create table Learn_LFTincanActivity (
+	id_ LONG not null primary key,
+	tincanID VARCHAR(75) null,
+	packageID LONG,
+	activityType VARCHAR(75) null,
+	name VARCHAR(75) null,
+	description VARCHAR(75) null,
+	launch VARCHAR(75) null,
+	resource VARCHAR(75) null
+);
+
+create table Learn_LFTincanLrsEndpoint (
+	id_ LONG not null primary key,
+	endpoint VARCHAR(75) null,
+	authType VARCHAR(75) null,
+	key_ VARCHAR(75) null,
+	secret VARCHAR(75) null
+);
+
+create table Learn_LFTincanPackage (
+	id_ LONG not null primary key,
+	title VARCHAR(75) null,
+	summary VARCHAR(75) null,
+	assetRefID LONG null,
+	courseID INTEGER null
 );
 
 create table Learn_LFUser (

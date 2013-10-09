@@ -245,6 +245,10 @@ public interface LFCertificateSiteLocalService extends BaseLocalService,
         java.lang.Integer certificateID, java.lang.Integer siteID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateID, java.lang.Integer siteID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException;
 }

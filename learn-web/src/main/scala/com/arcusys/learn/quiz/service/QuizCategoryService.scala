@@ -4,6 +4,7 @@ import com.arcusys.learn.quiz.model.QuizQuestionCategory
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.web.ServletBase
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 
 class QuizCategoryService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -27,19 +28,25 @@ class QuizCategoryService(configuration: BindingModule) extends ServletBase(conf
   }
 
   get("/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     jsonModel(quizQuestionCategoryStorage.getByID(id))
   }
 
   get("/children/:quizID/:id") {
+    requireTeacherPermissions()
+
     val parentID = parameter("id").intOption(-1)
     val quizID = parameter("quizID").intRequired
     jsonModel(quizQuestionCategoryStorage.getChildren(quizID, parentID))
   }
 
   post("/") {
-    val title = parameter("title").required
-    val description = parameter("description").required
+    requireTeacherPermissions()
+
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val description = AntiSamyHelper.sanitize(parameter("description").required)
     val quizID = parameter("quizID").intRequired
     val parentID = parameter("parentID").intOption(-1)
     val newQuizCategoryId = quizQuestionCategoryStorage.createAndGetID(new QuizQuestionCategory(0, title, description, quizID, parentID))
@@ -47,14 +54,18 @@ class QuizCategoryService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/update/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
-    val title = parameter("title").required
-    val description = parameter("description").required
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val description = AntiSamyHelper.sanitize(parameter("description").required)
     quizQuestionCategoryStorage.modify(id, title, description)
     jsonModel(quizQuestionCategoryStorage.getByID(id))
   }
 
   post("/move/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val dndMode = parameter("dndMode").required
     val itemType = parameter("itemType").required
@@ -73,6 +84,8 @@ class QuizCategoryService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/delete") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     quizQuestionCategoryStorage.delete(id)
   }

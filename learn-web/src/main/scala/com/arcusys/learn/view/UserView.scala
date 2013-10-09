@@ -8,6 +8,8 @@ import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
 import com.liferay.portal.util.PortalUtil
 import com.arcusys.learn.scorm.manifest.model.ScopeType
+import com.arcusys.learn.service.util.SessionHandler
+import javax.servlet.http.Cookie
 
 class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -17,13 +19,23 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     if (userUID != null && userStorage.getByID(userUID).isEmpty) {
       userStorage.createAndGetID(User(userUID, LiferayHelpers.getUserName(request)))
     }
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val courseID = themeDisplay.getLayout.getGroupId
+
+    val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
+    val cookie = new Cookie("valamisSessionID", sessionID)
+    cookie.setMaxAge(-1)
+    cookie.setPath("/")
+    response.addProperty(cookie)
+    SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
+    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userUID, courseID))
+    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userUID, courseID))
 
     val httpServletRequest = PortalUtil.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
-    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
 
     val sessionPackageId = if (httpServletRequest.getSession.getAttribute("playerID") == request.getWindowID) httpServletRequest.getSession.getAttribute("packageId") else null
     var isComplete = false
@@ -43,20 +55,26 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
       case _ => 0
     })
 
+    val sessionPackageType = httpServletRequest.getSession.getAttribute("packageType")
+    val packageType = sessionPackageType
+
     val data = Map("contextPath" -> request.getContextPath,
       "entryID" -> request.getParameter("entryID"),
       "userID" -> userUID,
       "userName" -> LiferayHelpers.getUserName(request),
+      "userEmail" -> LiferayHelpers.getUserEmail(request),
       "isAdmin" -> request.isUserInRole("administrator"),
       "language" -> language,
       "packageId" -> packageToStart,
       "packageTitle" -> packageTitle,
+      "packageType" -> packageType,
       "isCompleteByUser" -> isComplete,
       "defaultPackageID" -> defaultPackageID,
       "isPortlet" -> true,
       "courseID" -> themeDisplay.getLayout.getGroupId,
       "pageID" -> themeDisplay.getLayout.getPrimaryKey,
-      "playerID" -> request.getWindowID) ++ getPlayerTranslations(language)
+      "playerID" -> request.getWindowID
+    ) ++ getPlayerTranslations(language)
     out.println(mustache(data, "player.html"))
   }
 
@@ -83,16 +101,5 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
       "selectedScope" -> scope,
       "playerID" -> request.getWindowID) ++ getPlayerTranslations(language)
     out.println(mustache(data, "player_settings.html"))
-  }
-
-  post("/setSession") {
-    request.getSession.setAttribute("packageId", params("id"))
-    request.getSession.setAttribute("packageTitle", params("title"))
-    request.getSession.setAttribute("playerID", params("playerID"))
-  }
-  post("/clearSession") {
-    request.getSession.removeAttribute("packageId")
-    request.getSession.removeAttribute("packageTitle")
-    request.getSession.removeAttribute("playerID")
   }
 }

@@ -10,6 +10,24 @@ import java.util.zip.ZipFile
 
 object FileProcessing {
 
+  def zipContains(filename: String, zipFilename: String) : Boolean = {
+    try {
+      val zipFile = new ZipFile(zipFilename)
+      val entries = zipFile.entries
+
+      while (entries.hasMoreElements) {
+          val entry = entries.nextElement
+          if (entry.getName.endsWith(filename)) {
+            return true
+          }
+      }
+      zipFile.close()
+      false
+    } catch {
+      case e:Exception => throw new Exception(e.toString)
+    }
+  }
+
   def unzipFile(filename: String, directory: String, zipFilename: String) {
     try {
       (new File(directory)).mkdir

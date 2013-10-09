@@ -6,7 +6,7 @@ import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.manifest.storage.{PackageScopeRuleStorage, ResourcesStorage, ActivitiesStorage, PackagesStorage}
 import com.arcusys.learn.questionbank.storage.{AnswerStorage, QuestionStorage, QuestionCategoryStorage}
 import com.arcusys.learn.quiz.storage.{QuizQuestionStorage, QuizQuestionCategoryStorage, QuizStorage}
-import com.arcusys.learn.scorm.tracking.storage.{UserStorage, DataModelStorage, AttemptStorage}
+import com.arcusys.learn.scorm.tracking.storage.{RoleStorage, UserStorage, DataModelStorage, AttemptStorage}
 import com.arcusys.learn.scorm.tracking.states.storage._
 import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
 import com.arcusys.learn.updater.StorageUpdater
@@ -17,8 +17,8 @@ import com.arcusys.learn.quiz.storage.impl.liferay.{LFQuizQuestionStorageImpl, L
 import com.arcusys.learn.filestorage.storage.impl.liferay.LFFileRecordStorageImpl
 import com.arcusys.learn.scorm.course.impl.liferay.{LFPlayerScopeRuleStorageImpl, LFCourseStorageImpl}
 import com.arcusys.learn.scorm.course.impl.{PlayerScopeRuleEntityStorage, CourseEntityStorage}
-import com.arcusys.learn.scorm.tracking.storage.impl.{DataModelEntityStorage, AttemptCreator, AttemptEntityStorage, UserEntityStorage}
-import com.arcusys.learn.scorm.tracking.impl.liferay.LFUserStorageImpl
+import com.arcusys.learn.scorm.tracking.storage.impl._
+import com.arcusys.learn.scorm.tracking.impl.liferay.{LFRoleStorageImpl, LFUserStorageImpl}
 import com.arcusys.learn.scorm.manifest.sequencing.storage.{ObjectiveMapStorage, SequencingStorage}
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl._
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay._
@@ -32,12 +32,28 @@ import com.arcusys.learn.social.storage.impl.{PackageVoteEntityStorage, PackageC
 import com.arcusys.learn.social.storage.impl.liferay.{LFPackageCommentStorageImpl, LFPackageVoteStorageImpl, LFSocialPackageStorageImpl}
 import com.arcusys.learn.scorm.certificating._
 import com.arcusys.learn.scorm.certificating.impl.{CertificateUserEntityStorage, CertificateSiteEntityStorage, CertificateEntityStorage}
+import com.arcusys.learn.scorm.tracking.model.Role
+import com.arcusys.learn.setting.storage.SettingStorage
+import com.arcusys.learn.setting.storage.impl.SettingEntityStorage
+import com.arcusys.learn.settings.model.LFSettingStorageImpl
+import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.manifest.storage.impl.{TincanActivityEntityStorage, TincanPackageEntityStorage}
+import com.arcusys.learn.tincan.manifest.storage.impl.liferay.{LFTincanActivityStorageImpl, LFTincanPackageStorageImpl}
+import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
+import com.arcusys.learn.tincan.lrsEndpoint.impl.TincanLrsEndpointEntityStorage
+import com.arcusys.learn.tincan.storage.impl.liferay.LFLrsEndpointStorageImpl
 
 /**
  * User: dkudinov
  * Date: 12.3.2013
  */
 object LFStorageFactory extends StorageFactoryContract {
+  lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = new TincanLrsEndpointEntityStorage with LFLrsEndpointStorageImpl {}
+
+  lazy val tincanPackageStorage: TincanPackageStorage = new TincanPackageEntityStorage with LFTincanPackageStorageImpl{ }
+
+  lazy val tincanActivityStorage: TincanActivityStorage = new TincanActivityEntityStorage with LFTincanActivityStorageImpl {}
+
   lazy val packageStorage: PackagesStorage = new PackagesEntityStorage with LFPackageStorageImpl{
     val packageScopeRuleStorage = LFStorageFactory.this.packageScopeRuleStorage
   }
@@ -147,4 +163,9 @@ object LFStorageFactory extends StorageFactoryContract {
   lazy val socialPackageStorage: SocialPackageStorage = new SocialPackageEntityStorage with LFSocialPackageStorageImpl
   lazy val packageCommentStorage: PackageCommentStorage = new PackageCommentEntityStorage with LFPackageCommentStorageImpl
   lazy val packageVoteStorage: PackageVoteStorage = new PackageVoteEntityStorage with LFPackageVoteStorageImpl
+
+  lazy val roleStorage: RoleStorage = new RoleEntityStorage with LFRoleStorageImpl
+
+  lazy val settingStorage: SettingStorage = new SettingEntityStorage with LFSettingStorageImpl
+
 }

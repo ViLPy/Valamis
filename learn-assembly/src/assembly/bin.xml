@@ -29,12 +29,12 @@
 
             <includes>
                 <include>com.arcusys.learn:learn-web</include>
-                <include>com.arcusys.learn:learn-demo-hook</include>
+                <!--<include>com.arcusys.learn:learn-demo-hook</include>-->
             </includes>
 
             <binaries>
                 <outputDirectory>portlets</outputDirectory>
-                <outputFileNameMapping>learn-${module.artifactId}.${module.extension}</outputFileNameMapping>
+                <outputFileNameMapping>${module.artifactId}.${module.extension}</outputFileNameMapping>
                 <includeDependencies>false</includeDependencies>
                 <unpack>false</unpack>
             </binaries>

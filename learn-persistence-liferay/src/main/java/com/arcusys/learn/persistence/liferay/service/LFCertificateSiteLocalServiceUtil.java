@@ -278,6 +278,12 @@ public class LFCertificateSiteLocalServiceUtil {
         return getService().findByCertificateIDAndSiteID(certificateID, siteID);
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateID, java.lang.Integer siteID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByCertificateIDAndSiteID(certificateID, siteID);
+    }
+
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getService().removeAll();

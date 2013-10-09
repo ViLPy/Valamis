@@ -3,59 +3,60 @@
 
     /*{{^isPreview}}*/
     jQuery(document).ready(function () {
-        getAPI().Initialize("");
+    getAPI().Initialize("");
+    jQuery('.choiceAnswer').shuffle();
     });
     /*{{/isPreview}}*/
 
     function gatherData() {
-        /*{{^isPreview}}*/
-        // this will check is user answer right
-        var userAnswers = [];
-        //{{#multipleChoice}}
-        jQuery(".playerMainArea > div > :checkbox").each(function (index, elem) {
-            if (jQuery(elem).attr("checked")) {
-                userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
-            }
-        });
-        //{{/multipleChoice}}
-        //{{^multipleChoice}}
-        jQuery(".playerMainArea > div > :radio").each(function (index, elem) {
-            if (jQuery(elem).prop("checked")) {
-                userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
-            }
-        });
-        //{{/multipleChoice}}
-        var isPassed = (userAnswers.length == dataToCompare.length);
-        if (isPassed) {
-            for (var i = 0; i < userAnswers.length; i++) {
-                var found = false;
-                for (var j = 0; j < dataToCompare.length; j++) {
-                    if (dataToCompare[j] == userAnswers[i]) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    isPassed = false;
-                    break;
-                }
-            }
-        }
+    /*{{^isPreview}}*/
+    // this will check is user answer right
+    var userAnswers = [];
+    //{{#multipleChoice}}
+    jQuery(".playerMainArea > span > div > :checkbox").each(function (index, elem) {
+    if (jQuery(elem).attr("checked")) {
+    userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
+    }
+    });
+    //{{/multipleChoice}}
+    //{{^multipleChoice}}
+    jQuery(".playerMainArea > span > div > :radio").each(function (index, elem) {
+    if (jQuery(elem).prop("checked")) {
+    userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
+    }
+    });
+    //{{/multipleChoice}}
+    var isPassed = (userAnswers.length == dataToCompare.length);
+    if (isPassed) {
+    for (var i = 0; i < userAnswers.length; i++) {
+    var found = false;
+    for (var j = 0; j < dataToCompare.length; j++) {
+    if (dataToCompare[j] == userAnswers[i]) {
+    found = true;
+    break;
+    }
+    }
+    if (!found) {
+    isPassed = false;
+    break;
+    }
+    }
+    }
 
-        getAPI().SetValue("cmi.interactions.0.type", "choice");
-        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
-        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", dataToCompare.join("[,]"));
+    getAPI().SetValue("cmi.interactions.0.type", "choice");
+    getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
+    getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", dataToCompare.join("[,]"));
 
-        if (isPassed) {
-            getAPI().SetValue("cmi.completion_status", "completed");
-            getAPI().SetValue("cmi.success_status", "passed");
-            getAPI().SetValue("cmi.score.scaled", "1.0");
-        } else {
-            getAPI().SetValue("cmi.completion_status", "completed");
-            getAPI().SetValue("cmi.success_status", "failed");
-            getAPI().SetValue("cmi.score.scaled", "0.0");
-        }
-        /*{{/isPreview}}*/
+    if (isPassed) {
+    getAPI().SetValue("cmi.completion_status", "completed");
+    getAPI().SetValue("cmi.success_status", "passed");
+    getAPI().SetValue("cmi.score.scaled", "1.0");
+    } else {
+    getAPI().SetValue("cmi.completion_status", "completed");
+    getAPI().SetValue("cmi.success_status", "failed");
+    getAPI().SetValue("cmi.score.scaled", "0.0");
+    }
+    /*{{/isPreview}}*/
     }
 </script>
 <div class="SCORMPlayerContentDisplay">
@@ -67,22 +68,27 @@
     <div class="playerMainArea">
         <b>Choose correct answers:</b>
         <br>
+        <br>
         {{#answers}}
         {{#multipleChoice}}
-        <div style="display: block; float: left;">
-            <input type="checkbox" id="scormAnswer{{id}}" class="checkbox"/>
-        </div>
-        <div style="display: block; float: left;"><label> {{{text}}}</label></div>
-        <br style="clear: both;">
-        <br style="clear: both;">
+        <span class="choiceAnswer">
+            <div style="display: block; float: left;">
+                <input type="checkbox" id="scormAnswer{{id}}" class="checkbox"/>
+            </div>
+            <div style="display: block; float: left; margin-top: 4px; "><label> {{{text}}}</label></div>
+            <br style="clear: both;">
+            <br style="clear: both;">
+        </span>
         {{/multipleChoice}}
         {{^multipleChoice}}
-        <div style="display: block; float: left;">
-            <input type="radio" id="scormAnswer{{id}}" name="scormGroup1" class="radio"/>
-        </div>
-        <div style="display: block; float: left;"><label> {{{text}}}</label></div>
-        <br style="clear: both;">
-        <br style="clear: both;">
+        <span class="choiceAnswer">
+            <div style="display: block; float: left;">
+                <input type="radio" id="scormAnswer{{id}}" name="scormGroup1" class="radio"/>
+            </div>
+            <div style="display: block; float: left;"><label> {{{text}}}</label></div>
+            <br style="clear: both;">
+            <br style="clear: both;">
+        </span>
         {{/multipleChoice}}
         {{/answers}}
     </div>

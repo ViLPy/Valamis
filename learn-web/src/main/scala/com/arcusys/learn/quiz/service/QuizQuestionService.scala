@@ -7,6 +7,7 @@ import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import java.net.URLEncoder
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 
 class QuizQuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -46,17 +47,23 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   }
 
   get("/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     jsonModel(quizQuestionStorage getByID id)
   }
 
   get("/children/:quizID/:id") {
+    requireTeacherPermissions()
+
     val categoryID = parameter("id").intOption(-1)
     val quizID = parameter("quizID").intRequired
     jsonModel(quizQuestionStorage.getByCategory(quizID, categoryID))
   }
 
   post("/update/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val title = parameter("title").required
     val url = parameter("url").required
@@ -65,6 +72,8 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/listIntoCategory/:quizID/:categoryID") {
+    requireTeacherPermissions()
+
     val parentID = parameter("categoryID").intOption(-1)
     val questionsIDSet = parameter("questionIDs").required.trim
     val quizID = parameter("quizID").intRequired
@@ -75,6 +84,8 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/external/:quizID/:categoryID") {
+    requireTeacherPermissions()
+
     val parentID = parameter("categoryID").intOption(-1)
     val title = parameter("title").withDefault("External quiz resource")
     val url = parameter("url").required
@@ -83,6 +94,8 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/fromLiferay/:quizID/:categoryID") {
+    requireTeacherPermissions()
+
     val quizID = parameter("quizID").intRequired
     val parentID = parameter("categoryID").intOption(-1)
     val groupID = parameter("groupID").longRequired
@@ -91,12 +104,14 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     val article = JournalArticleLocalServiceUtil.getArticle(groupID, articleID)
     val title = article.getTitle(articleLanguage)
 
-    val text = parameter("text").required
+    val text = AntiSamyHelper.sanitize(parameter("text").required)
     val preparedText = URLEncoder.encode(text.replaceAll("\\+", "%2B"), "UTF-8").replaceAll("\\+", "%20")//.replaceAll("\n","").replaceAll("\t","")).replaceAll("\\\\\"","\\\\\\\"")
     jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createPlainAndGetID(quizID, parentID, title, preparedText)).get)
   }
 
   post("/move/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val dndMode = parameter("dndMode").required
     val targetID = parameter("targetId").intOption(-1)
@@ -116,6 +131,8 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
   }
 
   post("/delete/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     quizQuestionStorage.delete(id)
   }

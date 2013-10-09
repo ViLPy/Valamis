@@ -105,11 +105,11 @@ class BasicViewTest(_driver: WebDriver) extends Suite with FlatSpec with ShouldM
     checkPage("How to Play", "Play of the game")
 
     driver.findElement(partialLinkText("Keeping Score")).click()
-    wait(3)
+    wait(4)
     checkPage("Keeping Score", "Scoring")
 
     driver.get(baseUrl + playerUrl)
-    wait(3)
+    wait(4)
     checkPage("Keeping Score", "Scoring")
 
     driver.findElement(id("SCORMNavigationExit")).click()
@@ -123,11 +123,11 @@ class BasicViewTest(_driver: WebDriver) extends Suite with FlatSpec with ShouldM
     checkPage("How to Play", "Play of the game")
 
     driver.findElement(partialLinkText("Keeping Score")).click()
-    wait(3)
+    wait(4)
     checkPage("Keeping Score", "Scoring")
 
     driver.findElement(partialLinkText("Taking Care of the Course")).click()
-    wait(3)
+    wait(4)
     checkPage("Taking Care of the Course", "Etiquette - Care For the Course")
 
     driver.findElement(partialLinkText("Handicapping Example")).click()
@@ -135,6 +135,7 @@ class BasicViewTest(_driver: WebDriver) extends Suite with FlatSpec with ShouldM
     checkPage("Handicapping Example", "Handicaping Example")
 
     driver.findElement(id("SCORMNavigationExit")).click()
+    wait(5)
   }
 
   private def checkPage(link: String, title: String) {

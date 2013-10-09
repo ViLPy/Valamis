@@ -483,6 +483,73 @@ public class LFCertificateSiteUtil {
     }
 
     /**
+    * Returns all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param certificateIDs the certificate i ds
+    * @param siteID the site i d
+    * @return the matching l f certificate sites
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateIDs, java.lang.Integer siteID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCertificateIDAndSiteID(certificateIDs, siteID);
+    }
+
+    /**
+    * Returns a range of all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param certificateIDs the certificate i ds
+    * @param siteID the site i d
+    * @param start the lower bound of the range of l f certificate sites
+    * @param end the upper bound of the range of l f certificate sites (not inclusive)
+    * @return the range of matching l f certificate sites
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateIDs, java.lang.Integer siteID,
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCertificateIDAndSiteID(certificateIDs, siteID, start,
+            end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param certificateIDs the certificate i ds
+    * @param siteID the site i d
+    * @param start the lower bound of the range of l f certificate sites
+    * @param end the upper bound of the range of l f certificate sites (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of matching l f certificate sites
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateIDs, java.lang.Integer siteID,
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByCertificateIDAndSiteID(certificateIDs, siteID, start,
+            end, orderByComparator);
+    }
+
+    /**
     * Returns all the l f certificate sites.
     *
     * @return the l f certificate sites
@@ -590,6 +657,21 @@ public class LFCertificateSiteUtil {
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
                    .countByCertificateIDAndSiteID(certificateID, siteID);
+    }
+
+    /**
+    * Returns the number of l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+    *
+    * @param certificateIDs the certificate i ds
+    * @param siteID the site i d
+    * @return the number of matching l f certificate sites
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateIDs, java.lang.Integer siteID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByCertificateIDAndSiteID(certificateIDs, siteID);
     }
 
     /**

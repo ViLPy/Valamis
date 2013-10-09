@@ -24,11 +24,10 @@ class PermissionTest (_driver:WebDriver) extends Suite with FlatSpec with Should
 
   private def assertNoPermission(){
     driver.get(baseUrl + adminUrl)
-    assertEquals(noPermissionText, driver.findElement(By.xpath("//*[@id=\"portlet_SCORMApplicationAdmin_WAR_learnweb\"]/div/div/div/div/div")).getText)
+    assertEquals(noPermissionText, driver.findElement(By.id("noPermission")).getText)
     driver.get(baseUrl + questionUrl)
-    assertEquals(noPermissionText, driver.findElement(By.xpath("//*[@id=\"portlet_SCORMQuestionBank_WAR_learnweb\"]/div/div/div/div/div")).getText)
+    assertEquals(noPermissionText, driver.findElement(By.id("noPermission")).getText)
     driver.get(baseUrl + quizUrl)
-    assertEquals(noPermissionText, driver.findElement(By.xpath("//*[@id=\"portlet_SCORMQuizes_WAR_learnweb\"]/div/div/div/div/div")).getText)
+    assertEquals(noPermissionText, driver.findElement(By.id("noPermission")).getText)
   }
-
 }

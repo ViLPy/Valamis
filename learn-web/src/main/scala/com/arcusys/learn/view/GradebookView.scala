@@ -6,6 +6,8 @@ import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import java.io.FileNotFoundException
 import com.liferay.portal.util.PortalUtil
+import com.arcusys.learn.service.util.SessionHandler
+import javax.servlet.http.Cookie
 
 
 class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
@@ -22,6 +24,15 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
     val contextPath = request.getContextPath
+
+    val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
+    val cookie = new Cookie("valamisSessionID", sessionID)
+    cookie.setMaxAge(-1)
+    cookie.setPath("/")
+    response.addProperty(cookie)
+    SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
+    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userUID, courseID))
+    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userUID, courseID))
 
     if (userManagement.isLearnUser(userUID, courseID)) {
       response.getWriter.println(generateResponse(userUID, userName, lang, request.getContextPath, isPortlet = true,

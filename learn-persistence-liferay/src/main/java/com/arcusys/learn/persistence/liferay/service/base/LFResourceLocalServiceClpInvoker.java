@@ -38,20 +38,20 @@ public class LFResourceLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName192;
-    private String[] _methodParameterTypes192;
-    private String _methodName193;
-    private String[] _methodParameterTypes193;
-    private String _methodName198;
-    private String[] _methodParameterTypes198;
-    private String _methodName199;
-    private String[] _methodParameterTypes199;
-    private String _methodName200;
-    private String[] _methodParameterTypes200;
-    private String _methodName201;
-    private String[] _methodParameterTypes201;
-    private String _methodName202;
-    private String[] _methodParameterTypes202;
+    private String _methodName212;
+    private String[] _methodParameterTypes212;
+    private String _methodName213;
+    private String[] _methodParameterTypes213;
+    private String _methodName218;
+    private String[] _methodParameterTypes218;
+    private String _methodName219;
+    private String[] _methodParameterTypes219;
+    private String _methodName220;
+    private String[] _methodParameterTypes220;
+    private String _methodName221;
+    private String[] _methodParameterTypes221;
+    private String _methodName222;
+    private String[] _methodParameterTypes222;
 
     public LFResourceLocalServiceClpInvoker() {
         _methodName0 = "addLFResource";
@@ -136,35 +136,35 @@ public class LFResourceLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName192 = "getBeanIdentifier";
+        _methodName212 = "getBeanIdentifier";
 
-        _methodParameterTypes192 = new String[] {  };
+        _methodParameterTypes212 = new String[] {  };
 
-        _methodName193 = "setBeanIdentifier";
+        _methodName213 = "setBeanIdentifier";
 
-        _methodParameterTypes193 = new String[] { "java.lang.String" };
+        _methodParameterTypes213 = new String[] { "java.lang.String" };
 
-        _methodName198 = "createLFResource";
+        _methodName218 = "createLFResource";
 
-        _methodParameterTypes198 = new String[] {  };
+        _methodParameterTypes218 = new String[] {  };
 
-        _methodName199 = "findByPackageID";
+        _methodName219 = "findByPackageID";
 
-        _methodParameterTypes199 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes219 = new String[] { "java.lang.Integer" };
 
-        _methodName200 = "findByPackageIDAndResourceID";
+        _methodName220 = "findByPackageIDAndResourceID";
 
-        _methodParameterTypes200 = new String[] {
+        _methodParameterTypes220 = new String[] {
                 "java.lang.Integer", "java.lang.String", "int", "int"
             };
 
-        _methodName201 = "removeAll";
+        _methodName221 = "removeAll";
 
-        _methodParameterTypes201 = new String[] {  };
+        _methodParameterTypes221 = new String[] {  };
 
-        _methodName202 = "getLFResource";
+        _methodName222 = "getLFResource";
 
-        _methodParameterTypes202 = new String[] { "long" };
+        _methodParameterTypes222 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -256,45 +256,45 @@ public class LFResourceLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName192.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
+        if (_methodName212.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes212, parameterTypes)) {
             return LFResourceLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName193.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+        if (_methodName213.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes213, parameterTypes)) {
             LFResourceLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName198.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
+        if (_methodName218.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes218, parameterTypes)) {
             return LFResourceLocalServiceUtil.createLFResource();
         }
 
-        if (_methodName199.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
+        if (_methodName219.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes219, parameterTypes)) {
             return LFResourceLocalServiceUtil.findByPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName200.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
+        if (_methodName220.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes220, parameterTypes)) {
             return LFResourceLocalServiceUtil.findByPackageIDAndResourceID((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1],
                 ((Integer) arguments[2]).intValue(),
                 ((Integer) arguments[3]).intValue());
         }
 
-        if (_methodName201.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
+        if (_methodName221.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes221, parameterTypes)) {
             LFResourceLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName202.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes202, parameterTypes)) {
+        if (_methodName222.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes222, parameterTypes)) {
             return LFResourceLocalServiceUtil.getLFResource(((Long) arguments[0]).longValue());
         }
 

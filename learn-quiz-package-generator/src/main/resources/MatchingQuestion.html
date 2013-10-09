@@ -3,7 +3,12 @@
     /*{{^isPreview}}*/
     jQuery(document).ready(function () {
         getAPI().Initialize("");
+        var selects = $("select");
+        selects.each(function(){
+            jQuery('option', this).shuffle();
+        })
     });
+
     /*{{/isPreview}}*/
 
     function gatherData() {

@@ -26,6 +26,8 @@ trait LFCertificateSiteStorageImpl extends KeyedEntityStorage[CertificateSite] {
     val lfResult = parameters match {
       case Seq(("certificateID", certificateID: Int)) =>
         LFCertificateSiteLocalServiceUtil.findByCertificateID(certificateID)
+      case Seq(("certificateIDs", certificateIDs: Seq[Int]), ("siteID", siteID: Int)) =>
+        LFCertificateSiteLocalServiceUtil.findByCertificateIDAndSiteID(certificateIDs.map(x=> x.asInstanceOf[java.lang.Integer]).toArray, siteID)
     }
     lfResult.asScala.sortBy(_.getArrangementIndex).map { extract }
   }

@@ -9,6 +9,8 @@ import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import com.liferay.portal.kernel.util.WebKeys
 import com.liferay.portal.theme.ThemeDisplay
 import com.liferay.portal.util.PortalUtil
+import com.arcusys.learn.service.util.SessionHandler
+import javax.servlet.http.Cookie
 
 class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -18,18 +20,26 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val language = LiferayHelpers.getLanguage(request)
     val userUID = request.getRemoteUser
     val userID = themeDisplay.getUser.getUserId
+    val courseID = themeDisplay.getLayout.getGroupId
+
+    val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
+    val cookie = new Cookie("valamisSessionID", sessionID)
+    cookie.setMaxAge(-1)
+    cookie.setPath("/")
+    response.addProperty(cookie)
+    SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
+    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
+    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
 
     val httpServletRequest = PortalUtil.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
     val out = response.getWriter
     val path = request.getContextPath
-    val theme = LiferayHelpers.getThemeDisplay(request)
-    val courseID = theme.getLayout.getGroupId
 
     val hasPermissions = userManagement.hasTeacherPermissions(userID, courseID)
     if (hasPermissions) {
-      val groupID = theme.getScopeGroupId
+      val groupID = themeDisplay.getScopeGroupId
       val translations = getTranslation("quiz", language)
       val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language, "courseID" -> courseID, "actionURL" -> response.createResourceURL()) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
       val data = mustache(map, "scorm_quiz.html")

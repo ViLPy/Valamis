@@ -12,7 +12,7 @@ class LiferaySiteService(configuration: BindingModule) extends ServletBase(confi
   val jsonModel = new JsonModelBuilder[com.liferay.portal.model.Group](site =>
     Map(
       "siteID" -> site.getGroupId,
-      "title" -> site.getName,
+      "title" -> site.getDescriptiveName,
       "url" -> site.getFriendlyURL,
       "description" -> site.getDescription.replace("\n", " ")
   ))

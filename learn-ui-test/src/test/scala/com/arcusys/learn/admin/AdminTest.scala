@@ -6,6 +6,7 @@ import org.scalatest.{Suite, FlatSpec}
 import org.scalatest.matchers.ShouldMatchers
 import scala.collection.JavaConverters._
 import org.openqa.selenium.By._
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 
 /**
  * 3. Basic package management
@@ -19,7 +20,8 @@ class AdminTest(_driver:WebDriver) extends Suite with FlatSpec with ShouldMatche
     driver.findElement(id("SCORMPackageAdminButton")).click()
     driver.findElement(id("SCORMRenewDatabaseSettings")).click()
     closeAlertAndGetItsText should be("This will delete ALL data from ALL packages for ALL users! Are you sure?")
-    wait(8)
+    //wait(8)
+    waitForAlert()
     closeAlertAndGetItsText should be("Database renewed!")
     driver.findElements(className("ui-dialog-titlebar-close")).asScala.filter(_.isDisplayed).foreach(_.click())
     driver.get(driver.getCurrentUrl) // reload
@@ -30,7 +32,8 @@ class AdminTest(_driver:WebDriver) extends Suite with FlatSpec with ShouldMatche
     val packageDescription = "Test package description"
 
     uploadPackage("SCORM20043rdEdition.zip", packageTitle, packageDescription)
-    wait(2)
+    //wait(2)
+    waitForElementBy(xpath("//*[@id=\"SCORMAdminPackagesGrid\"]/tr[1]/td[2]"))
     driver.findElement(xpath("//*[@id=\"SCORMAdminPackagesGrid\"]/tr[1]/td[2]")).getText should be(packageTitle)
     driver.findElement(xpath("//*[@id=\"SCORMAdminPackagesGrid\"]/tr[1]/td[3]")).getText should be(packageDescription)
   }
@@ -130,5 +133,23 @@ class AdminTest(_driver:WebDriver) extends Suite with FlatSpec with ShouldMatche
 
     driver.get(baseUrl + playerUrl)
     driver.findElement(id("SCORMPackagesGrid")).findElements(tagName("tr")).size should be(2)
+  }
+
+  it should "be able to add Student role" in {
+    driver.get(baseUrl + adminUrl)
+    driver.findElement(xpath("//*[@href=\"#rolesTabMenu\"]")).click()
+    wait(1)
+    driver.findElement(id("addStudent")).click()
+    wait(1)
+    driver.findElement(xpath("(//button[@id='selectSiteButton'])[11]")).click()
+  }
+
+  it should "be able to add Teacher role" in {
+    driver.get(baseUrl + adminUrl)
+    driver.findElement(xpath("//*[@href=\"#rolesTabMenu\"]")).click()
+    wait(1)
+    driver.findElement(id("addTeacher")).click()
+    wait(1)
+    driver.findElement(xpath("(//button[@id='selectSiteButton'])[12]")).click()
   }
 }

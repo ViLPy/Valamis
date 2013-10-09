@@ -32,14 +32,19 @@ import com.arcusys.learn.persistence.liferay.service.LFQuizLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFRoleLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFSettingLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalServiceUtil;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -120,6 +125,8 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFResourceLocalServiceUtil.clearService();
 
+            LFRoleLocalServiceUtil.clearService();
+
             LFRollupContributionLocalServiceUtil.clearService();
 
             LFRollupRuleLocalServiceUtil.clearService();
@@ -132,9 +139,17 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFSequencingTrackingLocalServiceUtil.clearService();
 
+            LFSettingLocalServiceUtil.clearService();
+
             LFSocialPackageLocalServiceUtil.clearService();
 
             LFSocialPackageTagLocalServiceUtil.clearService();
+
+            LFTincanActivityLocalServiceUtil.clearService();
+
+            LFTincanLrsEndpointLocalServiceUtil.clearService();
+
+            LFTincanPackageLocalServiceUtil.clearService();
 
             LFUserLocalServiceUtil.clearService();
         }

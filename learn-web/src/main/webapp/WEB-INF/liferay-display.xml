@@ -8,5 +8,6 @@
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
         <portlet id="Gradebook">Gradebook</portlet>
         <portlet id="Curriculum">Curriculum</portlet>
+        <portlet id="SCORMUserAccount">My Account</portlet>
     </category>
 </display>

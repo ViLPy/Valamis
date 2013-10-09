@@ -14,6 +14,9 @@ trait CertificateSiteEntityStorage extends CertificateSiteStorage with KeyedEnti
   def getByCertificate(certificateID: Int) =
     getAll("certificateID" -> certificateID)
 
+  def getByCertificateAndSite(certificates: Seq[Int], siteID: Int)=
+    getAll("certificateIDs" -> certificates, "siteID" -> siteID)
+
   def move(certificateID: Int, siteID: Int, position: Int) =
     modify(new CertificateSite(0, certificateID, siteID, position))
 }

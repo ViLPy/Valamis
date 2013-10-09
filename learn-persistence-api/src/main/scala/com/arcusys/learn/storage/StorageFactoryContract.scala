@@ -10,8 +10,15 @@ import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
 import com.arcusys.learn.scorm.certificating.{CertificateSiteStorage, CertificateStorage}
 import com.arcusys.learn.social.storage.{PackageCommentStorage, PackageVoteStorage, SocialPackageStorage}
 import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
+import com.arcusys.learn.setting.storage.SettingStorage
+import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 
 trait StorageFactoryContract {
+  def tincanLrsEndpointStorage: TincanLrsEndpointStorage
+  def tincanPackageStorage: TincanPackageStorage
+  def tincanActivityStorage: TincanActivityStorage
+
   def packageStorage: PackagesStorage
 
   def activityStorage: ActivitiesStorage
@@ -57,6 +64,9 @@ trait StorageFactoryContract {
   def packageCommentStorage: PackageCommentStorage
   def packageVoteStorage: PackageVoteStorage
 
+  def roleStorage: RoleStorage
+  def settingStorage: SettingStorage
+
   def renewWholeStorage() {
     packageStorage.renew()
     //organizationStorage.asInstanceOf[OrganizationsStorageImpl].renew()
@@ -81,5 +91,11 @@ trait StorageFactoryContract {
     packageCommentStorage.renew()
     packageVoteStorage.renew()
     certificateUserStorage.renew()
+    roleStorage.renew()
+    settingStorage.renew()
+
+    tincanActivityStorage.renew()
+    tincanPackageStorage.renew()
+    tincanLrsEndpointStorage.renew()
   }
 }

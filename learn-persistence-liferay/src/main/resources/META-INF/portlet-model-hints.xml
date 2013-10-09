@@ -150,6 +150,10 @@
 		<field name="description" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
+		<field name="logo" type="String" />
+		<field name="isPermanent" type="Boolean" />
+		<field name="publishBadge" type="Boolean" />
+		<field name="shortDescription" type="String" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateSite">
 		<field name="id" type="long" />
@@ -196,6 +200,7 @@
 		<field name="comment" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
+		<field name="date" type="Date" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFFileStorage">
 		<field name="id" type="long" />
@@ -433,6 +438,12 @@
 			<hint name="max-length">2000000</hint>
 		</field>
 	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFRole">
+		<field name="id" type="long" />
+		<field name="liferayRoleID" type="Integer" />
+		<field name="permission" type="String" />
+		<field name="isDefault" type="Boolean" />
+	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFRollupContribution">
 		<field name="id" type="long" />
 		<field name="sequencingID" type="Integer" />
@@ -517,6 +528,11 @@
 		<field name="completionSetByContent" type="boolean" />
 		<field name="objectiveSetByContent" type="boolean" />
 	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFSetting">
+		<field name="id" type="long" />
+		<field name="key" type="String" />
+		<field name="value" type="String" />
+	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFSocialPackage">
 		<field name="id" type="long" />
 		<field name="packageID" type="Integer" />
@@ -530,6 +546,30 @@
 		<field name="id" type="long" />
 		<field name="socialPackageID" type="Integer" />
 		<field name="name" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanActivity">
+		<field name="id" type="long" />
+		<field name="tincanID" type="String" />
+		<field name="packageID" type="Long" />
+		<field name="activityType" type="String" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="launch" type="String" />
+		<field name="resource" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint">
+		<field name="id" type="long" />
+		<field name="endpoint" type="String" />
+		<field name="authType" type="String" />
+		<field name="key" type="String" />
+		<field name="secret" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanPackage">
+		<field name="id" type="long" />
+		<field name="title" type="String" />
+		<field name="summary" type="String" />
+		<field name="assetRefID" type="Long" />
+		<field name="courseID" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFUser">
 		<field name="lfid" type="long" />

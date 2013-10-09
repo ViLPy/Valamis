@@ -59,7 +59,7 @@
 }
 
 
-.portlet-learn-scorm #SCORMButtonAddCertificate {
+.portlet-learn-scorm .certificateAddItem {
     color: #000 !important;
     background: url("../img/add-new.png") no-repeat transparent !important;
     height: 22px !important;
@@ -71,7 +71,7 @@
     font-family: sans-serif !important;
 }
 
-.portlet-learn-scorm #SCORMButtonAddCertificate:hover {
+.portlet-learn-scorm .certificateAddItem:hover {
     background: url("../img/add-new-hover.png") no-repeat transparent !important;
     height: 22px !important;
     padding-left: 26px !important;
@@ -150,7 +150,7 @@
 }
 
 .scormSiteGradeColumn{
-    width: 100px;
+    width: 60px;
 }
 
 .scormSiteGradeEditColumn{
@@ -208,4 +208,91 @@
 
 .buttonRemoveSite:hover {
     background-position: -24px -56px !important;
+}
+
+
+.portlet-learn-scorm .commandButton {
+    background: none repeat scroll 0 0 #333333 !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 5px 5px 5px 5px !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+    padding: 3px 3px 4px !important;
+    font-size: 14px !important;
+    margin-top: 3px  !important;
+    cursor: pointer !important;
+    text-shadow: 0 0 !important;
+}
+
+.portlet-learn-scorm .commandButton:hover {
+    background: #888888 !important;
+}
+
+
+div.upload {
+    width: 145px;
+    height: 33px;
+    background: url("../img/uploadButton.png") no-repeat transparent !important;
+    overflow: hidden;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+div.upload input {
+    display: block !important;
+    width: 145px !important;
+    height: 33px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+
+}
+
+div.upload:hover {
+    background: url("../img/uploadButtonHovered.png") no-repeat transparent !important;
+}
+
+.bodyContentWide{
+    padding: 0px !important;
+}
+
+.portlet-learn-scorm .certificateItemHeader {
+    padding: 3px;
+    font-weight: bold;
+    background-color: #EDEEEF;
+    border: 1px solid #EDEEEF;
+}
+
+.certificateItemBody {
+    padding-top: 8px;
+}
+
+.certificateDetailSection{
+    margin-top: 30px !important;
+}
+
+.captionLabel{
+    margin-left: 3px;
+}
+
+.designBadge{
+    width: 145px;
+    height: 33px;
+}
+
+.certificateIconDiv{
+    float: left;
+    width: 150px;
+}
+.certificateInfoDiv{
+    margin-left: 170px;
+}
+.certificateInfoLine{
+    height: 21px;
+}
+.logo{
+    width: 140px;
+}
+
+.paginator{
+    margin-top: 10px;
 }

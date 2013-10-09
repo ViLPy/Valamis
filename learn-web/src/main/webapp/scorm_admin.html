@@ -24,12 +24,22 @@
         }
 
         function initAdminView() {
+            jQuery1816Admin("#adminTabs").tabs();
+
             var loader = new TemplateLoader(jQuery1816Admin.proxy(function () {
                 var scormAdminPackagesView = new PackageListView({el:jQuery1816Admin("#packageAdminList"), collection:scormAdminPackages, language:scormAdminLanguageData});
                 jQuery1816Admin("#packageAdminSearch").keyup(function () {
                     scormAdminPackagesView.filterPackages(jQuery1816Admin("#packageAdminSearch").val());
                 });
-                scormAdminPackages.fetch({reset: true});
+
+                this.rolesView = new ManageRolesDialog({el:jQuery1816Admin('#rolesManagement'), language:scormAdminLanguageData});
+
+
+                if (!window.RolesDialog) {
+                    window.RolesDialog = new LiferayRoleSelectDialog({el:jQuery1816Admin("#AdminLiferayRoleDialog"), languageID:"{{language}}"});
+                }
+
+                scormAdminPackages.fetch({reset:true});
             }, this));
             loader.fetch("templates/admin_templates.html");
 
@@ -38,6 +48,8 @@
             jQuery1816Admin("#SCORMPackageAdminButton").button().click(function () {
                 jQuery1816Admin('#SCORMAdminDialog').dialog('open');
             });
+
+            tincanLrsCommonCredentialsChanged()
 
             jQuery1816Admin('#SCORMUploadDialog').dialog({autoOpen:false, width:350});
             jQuery1816Admin('#SCORMAdminDialog').dialog({autoOpen:false, width:400});
@@ -59,10 +71,12 @@
                 if (allowedTypes[i] == fileType) passed = true;
             if (passed) jQuery1816Admin('#uploadForm').ajaxSubmit({
                 type:"POST",
-                url:Utils.getContextPath() + '/services/upload/package' +"?courseID="+ jQuery("#courseID").val(),
+                url:Utils.getContextPath() + '/services/upload/package' + "?courseID=" + jQuery("#courseID").val(),
                 dataType:'json',
                 success:function (data) {
-                    scormAdminPackages.add({id:data,
+                    scormAdminPackages.add({
+                        id:data.id,
+                        type:data.type,
                         title:jQuery1816Admin("#SCORMPackageTitle").val(),
                         summary:jQuery1816Admin("#scormAdminPackagesummary").val(),
                         visibility:true});
@@ -95,8 +109,28 @@
                 url:Utils.getContextPath() + '/services/administering/UpdateSettings',
                 dataType:'html',
                 success:function (data) {
-                    scormAdminPackages.fetch({reset: true});
+                    scormAdminPackages.fetch({reset:true});
                     jQuery1816Admin('#SCORMAdminDialog').dialog('close');
+                }
+            })
+        }
+
+        function tincanLrsCommonCredentialsChanged() {
+            if (jQuery1816Admin('#tincanLrsCommonCredentialsCheckbox').is(":checked")) {
+                jQuery1816Admin('#tincanLrsCommonCredentialsPanel').show();
+            }
+            else {
+                jQuery1816Admin('#tincanLrsCommonCredentialsPanel').hide();
+            }
+        }
+
+        function saveTincanLrsSettings() {
+            jQuery1816Admin('#tincanLrsSettingsForm').ajaxSubmit({
+                type:"POST",
+                url:Utils.getContextPath() + '/services/administering/TincanLrsSettings',
+                dataType:'html',
+                success:function (data) {
+                    jQuery1816Admin.growlUI('{{adminSettingsTincanSavedSuccessTitle}}', '{{adminSettingsTincanSavedSuccessMessage}}');
                 }
             })
         }
@@ -111,9 +145,9 @@
                     dataType:'html',
                     success:function (data) {
                         //jQuery1816Admin.post(Utils.getContextPath() + '/services/administering/RenewDatabase', function (data) {
-                            alert("{{renewDatabaseCompleteLabel}}");
-                            scormAdminPackages.fetch({reset: true});
-                       // });
+                        alert("{{renewDatabaseCompleteLabel}}");
+                        scormAdminPackages.fetch({reset:true});
+                        // });
                     }
                 })
             }
@@ -121,18 +155,45 @@
 
         function resetDBInfo() {
             jQuery1816Admin.get(Utils.getContextPath() + '/services/administering/GetSettings?t=' + new Date().getTime(),
-                function (data) {
-                jQuery1816Admin('#SCORMServerName').val(data.server);
-                jQuery1816Admin('#SCORMDatabaseName').val(data.database);
-                jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
-                jQuery1816Admin('#SCORMDatabaseUserPassword').val(data.password);
-                jQuery1816Admin('#SCORMQuestionType').val(data.dbManagementSystem);
-            });
+                    function (data) {
+                        jQuery1816Admin('#SCORMServerName').val(data.server);
+                        jQuery1816Admin('#SCORMDatabaseName').val(data.database);
+                        jQuery1816Admin('#SCORMDatabaseUserLogin').val(data.login);
+                        jQuery1816Admin('#SCORMDatabaseUserPassword').val(data.password);
+                        jQuery1816Admin('#SCORMQuestionType').val(data.dbManagementSystem);
+                    });
         }
         /*{{/isAdmin}}*/
 
-        function updatePackages(){
-            scormAdminPackages.fetch({reset: true});
+        function updatePackages() {
+            scormAdminPackages.fetch({reset:true});
+        }
+
+        function saveIssuerSettings() {
+            if (validateURL(jQuery("#issuerUrl").val()))
+            {
+            window.LearnAjax.post(Utils.getContextPath() + "services/administering/UpdateIssuerSettings",
+                    { 'issuerName':jQuery("#issuerName").val(),
+                        'issuerUrl':jQuery("#issuerUrl").val(),
+                        'issuerOrganization':jQuery("#issuerOrganization").val()
+                    },
+                    jQuery.proxy(function () {
+                    }, this));
+            }
+            else{
+                alert("{{invalidUrl}}");
+            }
+        }
+
+        function validateURL(textval) {
+            var urlregex = new RegExp(
+                    "^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
+            return urlregex.test(textval);
+        }
+
+        function onUrlChanged(){
+            if (validateURL(jQuery("#issuerUrl").val())) jQuery("#issuerUrlError").hide();
+            else jQuery("#issuerUrlError").show();
         }
     </script>
 </head>
@@ -141,31 +202,108 @@
     <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
     <br clear="all"/>
 
-    <div class="SCORMWell">
-        <div style="float: left">
-            <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageAdminSearch" class="SCORMSearch"/>
-        </div>
-        <div style="float: left; margin-left: 10px">
-            <select id="adminScopeSelect" onchange="updatePackages()" class="ScopeSelect">
-                <option value="siteScope">{{siteScope}}</option>
-                <option value="instanceScope">{{instanceScope}}</option>
-            </select>
-        </div>
-        <!--{{#isAdmin}}-->
-        <div style="float: right">
-            <abbr title="{{administeringDialogButtonTooltipLabel}}">
-                <button id="SCORMPackageAdminButton" class="button32 buttonAdmin"></button>
-            </abbr>
-        </div>
-        <!--{{/isAdmin}}-->
-        <div style="float: right">
-            <abbr title="{{packageUploadDialogButtonTooltipLabel}}">
-                <button id="SCORMPackageUploadButton" class="button32 buttonAddPackage"></button>
-            </abbr>
-        </div>
-        <br style="clear: both"/>
 
-        <div id="packageAdminList" class="SCORMPackageList"></div>
+    <div id="adminTabs">
+        <ul>
+            <li><a href="#tabMenu">{{pageSubTitleLabel}}</a></li>
+            <li><a href="#rolesTabMenu">{{rolesDialogTitleLabel}}</a></li>
+            <li><a href="#settingsTabMenu">{{settingsTitleLabel}}</a></li>
+        </ul>
+
+
+        <div id="tabMenu">
+            <div class="SCORMWell">
+                <div style="float: left">
+                    <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageAdminSearch"
+                           class="SCORMSearch"/>
+                </div>
+                <div style="float: left; margin-left: 10px">
+                    <select id="adminScopeSelect" onchange="updatePackages()" class="ScopeSelect">
+                        <option value="siteScope">{{siteScope}}</option>
+                        <option value="instanceScope">{{instanceScope}}</option>
+                    </select>
+                </div>
+                <!--{{#isAdmin}}-->
+                <div style="float: right">
+                    <abbr title="{{administeringDialogButtonTooltipLabel}}">
+                        <button id="SCORMPackageAdminButton" class="button32 buttonAdmin"></button>
+                    </abbr>
+                </div>
+                <!-- <div style="float: right">
+                    <abbr title="{{administeringDialogButtonTooltipLabel}}">
+                        <button id="SCORMManageRolesButton" class="button32 buttonManageRoles"></button>
+                    </abbr>
+                </div>-->
+                <!--{{/isAdmin}}-->
+                <div style="float: right">
+                    <abbr title="{{packageUploadDialogButtonTooltipLabel}}">
+                        <button id="SCORMPackageUploadButton" class="button32 buttonAddPackage"></button>
+                    </abbr>
+                </div>
+                <br style="clear: both"/>
+
+                <div id="packageAdminList" class="SCORMPackageList"></div>
+            </div>
+        </div>
+
+        <div id="rolesTabMenu">
+            <div id="rolesManagement" class="SCORMPackageList"></div>
+        </div>
+
+        <div id="settingsTabMenu">
+            <div   class="SCORMAddNewButton">
+                <div id="issuerSettingsTitle">{{issuerSettingsHeaderLabel}}</div>
+
+                <div class="issuerSettingLine">
+                    <label class="issuerSettingLabel">{{issuerNameLabel}}</label>
+                    <input class="issuerSettingValue" type="text" id="issuerName"
+                           value="{{issuerName}}"/>
+                </div>
+                <div class="issuerSettingLine">
+                    <label class="issuerSettingLabel">{{issuerUrlLabel}}</label>
+                    <input class="issuerSettingValue" type="text" id="issuerUrl"
+                           value="{{{issuerURL}}}" onblur="onUrlChanged()"/>
+                    <label id="issuerUrlError" class="invalid">!{{invalidUrl}}</label>
+                </div>
+                <div class="issuerSettingLine">
+                    <label class="issuerSettingLabel">{{issuerOrganizationLabel}}</label>
+                    <input class="issuerSettingValue" type="text" id="issuerOrganization"
+                           value="{{issuerOrganization}}"/>
+                </div>
+
+                <div>
+                    <button onclick="saveIssuerSettings()" class="textButton sortButton">
+                        {{adminDialogSaveButtonLabel}}
+                    </button>
+                </div>
+            </div>
+            <div class="SCORMAddNewButton">
+                <div class="issuerSettingsTitle" >{{adminSettingsTincanLrsEndpointSectionLabel}}</div>
+                <form id="tincanLrsSettingsForm" method="post">
+                    <div>
+                        <label class="issuerSettingLabel" >{{adminSettingsTincanEndpointLabel}}</label>
+                        <input class="issuerSettingValue" type="text" name="endpoint" value="{{tincanLrsEndpoint}}"/><br/>
+                    </div>
+
+                    <div>
+                        <label class="issuerSettingLabel" for="tincanLrsCommonCredentialsCheckbox">{{adminSettingsTincanCommonCredentialsLabel}}</label>
+                        <input class="issuerSettingValue" id="tincanLrsCommonCredentialsCheckbox" type="checkbox" name="commonCredentials" onchange="tincanLrsCommonCredentialsChanged()" {{#commonCredentials}}checked{{/commonCredentials}} /> <br />
+                    </div>
+                    <div class="clear"></div>
+                    <div id="tincanLrsCommonCredentialsPanel">
+                        <label class="issuerSettingLabel" >{{adminSettingsTincanLoginLabel}}</label>
+                        <input class="issuerSettingValue" type="text" name="loginName" value="{{tincanLrsLoginName}}" /><br />
+                        <label class="issuerSettingLabel" >{{adminSettingsTincanPasswordLabel}}</label>
+                        <input class="issuerSettingValue" type="text" name="password" value="{{tincanLrsPassword}}"  /><br />
+                    </div>
+
+                    <div>
+                        <input type="button" id="TincanSaveLrsSettings" class="textButton sortButton" onclick="saveTincanLrsSettings()" value="{{adminSettingsTincanSaveButtonLabel}}"/>
+                        <div class="clear"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div id="SCORMUploadDialog" title="{{packageUploaderDialogTitleLabel}}">
@@ -173,7 +311,8 @@
             <b id="SCORMPackageTitleLabel" class="SCORMPackageLabel">{{packageUploaderDialogNameLabel}}</b><br>
             <input type="text" name="title" id="SCORMPackageTitle" class="SCORMGreyLabel">
 
-            <b id="scormAdminPackagesummaryLabel" class="SCORMPackageLabel">{{packageUploaderDialogSummaryLabel}}</b><br>
+            <b id="scormAdminPackagesummaryLabel"
+               class="SCORMPackageLabel">{{packageUploaderDialogSummaryLabel}}</b><br>
             <textarea name="summary" id="scormAdminPackagesummary" class="SCORMGreyLabel" rows=4 cols=30></textarea>
             <br>
             <input type="file" name="file" id="newPackages" class="SCORMGreyLabel"/>
@@ -184,70 +323,29 @@
         </form>
     </div>
     <!--{{#isAdmin}}-->
-    <div id="SCORMAdminDialog" title="{{adminDialogTitleLabel}}">
+    <div id="SCORMAdminDialog" title="{{adminDialogRenewDatabaseSectionLabel}}">
+        <fieldset>
+            {{adminDialogRenewDatabaseSectionLabel}}
+            <form id="settingsForm" method="post">
+                <b style="color:gray; font-size: small">DB settings removed because for compatibility with "Liferay marketplace" we started to use Liferay's database.</b>
 
-        <form id="settingsForm" method="post">
-            <b style="color:gray; font-size: small">DB settings removed because for compatibility with "Liferay marketplace" we started to use Liferay's database.</b>
-            <!--<div class="SCORMAdminDialogFields">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td class="TableLeftColumn">{{adminDialogServerNameLabel}}</td>
-                        <td>
-                            <input name="ServerName" type="text" id="SCORMServerName" class="SCORMGreyLabel" value=""/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="TableLeftColumn">{{adminDialogDBNameLabel}}</td>
-                        <td>
-                            <input name="DBName" type="text" id="SCORMDatabaseName" class="SCORMGreyLabel" value=""/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="TableLeftColumn">{{adminDialogLoginLabel}}</td>
-                        <td>
-                            <input name="Login" type="text" id="SCORMDatabaseUserLogin" class="SCORMGreyLabel"
-                                   value=""/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="TableLeftColumn">{{adminDialogPasswordLabel}}</td>
-                        <td>
-                            <input name="Password" type="password" id="SCORMDatabaseUserPassword" class="SCORMGreyLabel"
-                                   value=""/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="TableLeftColumn">{{adminDialogDatabaseType}}</td>
-                        <td>
-                            <select id="SCORMQuestionType" name="dbManagementSystem">
-                                <option value="h2">H2 (embedded)</option>
-                                <option value="postgres">PostgreSQL</option>
-                                <option value="mysql">MySQL</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            -->
-            <div class="SCORMAdminDialogButtons">
-                <input type="button" id="SCORMRenewDatabaseSettings" class="textbutton" onclick="renewDatabase()"
-                       value="{{adminDialogReInitButtonLabel}}"/>
+                <div class="SCORMAdminDialogButtons">
+                    <input type="button" id="SCORMRenewDatabaseSettings" class="textbutton" onclick="renewDatabase()"
+                           value="{{adminDialogReInitButtonLabel}}"/>
 
-                <!--<div class="float-right" style="float: right;">
-                    <input type="button" id="SCORMResetDatabaseSettings" class="textbutton" onclick="resetDBInfo()"
-                           value="{{adminDialogResetButtonLabel}}"/>
-                    <input type="button" id="SCORMSaveDatabaseSettings" class="textbutton" onclick="saveDatabase()"
-                           value="{{adminDialogSaveButtonLabel}}"/>
-                </div>-->
-                <div class="clear"></div>
-            </div>
-        </form>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </fieldset>
     </div>
+
+    <div id="AdminLiferayRoleDialog" title="{{liferaySiteDialogTitle}}"></div>
+
+
     <!--{{/isAdmin}}-->
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
     <input type="hidden" id="courseID" value="{{courseID}}"/>
+    <input type="hidden" id="companyID" value="{{companyID}}">
 </div>
 </body>
 </html>

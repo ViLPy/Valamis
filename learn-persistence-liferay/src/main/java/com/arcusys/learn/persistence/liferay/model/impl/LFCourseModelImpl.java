@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,9 +49,10 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
             { "courseID", Types.INTEGER },
             { "userID", Types.INTEGER },
             { "grade", Types.CLOB },
-            { "comment_", Types.CLOB }
+            { "comment_", Types.CLOB },
+            { "date_", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCourse (id_ LONG not null primary key,courseID INTEGER,userID INTEGER,grade TEXT null,comment_ TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCourse (id_ LONG not null primary key,courseID INTEGER,userID INTEGER,grade TEXT null,comment_ TEXT null,date_ DATE null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCourse";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -83,6 +85,7 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
     private String _grade;
     private String _originalGrade;
     private String _comment;
+    private Date _date;
     private long _columnBitmask;
     private LFCourse _escapedModelProxy;
 
@@ -122,6 +125,7 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
         attributes.put("userID", getUserID());
         attributes.put("grade", getGrade());
         attributes.put("comment", getComment());
+        attributes.put("date", getDate());
 
         return attributes;
     }
@@ -156,6 +160,12 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
 
         if (comment != null) {
             setComment(comment);
+        }
+
+        Date date = (Date) attributes.get("date");
+
+        if (date != null) {
+            setDate(date);
         }
     }
 
@@ -241,6 +251,14 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
         _comment = comment;
     }
 
+    public Date getDate() {
+        return _date;
+    }
+
+    public void setDate(Date date) {
+        _date = date;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -278,6 +296,7 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
         lfCourseImpl.setUserID(getUserID());
         lfCourseImpl.setGrade(getGrade());
         lfCourseImpl.setComment(getComment());
+        lfCourseImpl.setDate(getDate());
 
         lfCourseImpl.resetOriginalValues();
 
@@ -367,12 +386,20 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
             lfCourseCacheModel.comment = null;
         }
 
+        Date date = getDate();
+
+        if (date != null) {
+            lfCourseCacheModel.date = date.getTime();
+        } else {
+            lfCourseCacheModel.date = Long.MIN_VALUE;
+        }
+
         return lfCourseCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(getId());
@@ -384,13 +411,15 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
         sb.append(getGrade());
         sb.append(", comment=");
         sb.append(getComment());
+        sb.append(", date=");
+        sb.append(getDate());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCourse");
@@ -415,6 +444,10 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
         sb.append(
             "<column><column-name>comment</column-name><column-value><![CDATA[");
         sb.append(getComment());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>date</column-name><column-value><![CDATA[");
+        sb.append(getDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

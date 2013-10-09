@@ -277,6 +277,13 @@ public class LFCertificateSiteLocalServiceWrapper
             siteID);
     }
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateSite> findByCertificateIDAndSiteID(
+        java.lang.Integer[] certificateID, java.lang.Integer siteID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfCertificateSiteLocalService.findByCertificateIDAndSiteID(certificateID,
+            siteID);
+    }
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfCertificateSiteLocalService.removeAll();

@@ -36,6 +36,10 @@ public class LFCertificateWrapper implements LFCertificate,
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
+        attributes.put("isPermanent", getIsPermanent());
+        attributes.put("publishBadge", getPublishBadge());
+        attributes.put("shortDescription", getShortDescription());
 
         return attributes;
     }
@@ -57,6 +61,30 @@ public class LFCertificateWrapper implements LFCertificate,
 
         if (description != null) {
             setDescription(description);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
+        }
+
+        Boolean isPermanent = (Boolean) attributes.get("isPermanent");
+
+        if (isPermanent != null) {
+            setIsPermanent(isPermanent);
+        }
+
+        Boolean publishBadge = (Boolean) attributes.get("publishBadge");
+
+        if (publishBadge != null) {
+            setPublishBadge(publishBadge);
+        }
+
+        String shortDescription = (String) attributes.get("shortDescription");
+
+        if (shortDescription != null) {
+            setShortDescription(shortDescription);
         }
     }
 
@@ -130,6 +158,78 @@ public class LFCertificateWrapper implements LFCertificate,
      */
     public void setDescription(java.lang.String description) {
         _lfCertificate.setDescription(description);
+    }
+
+    /**
+     * Returns the logo of this l f certificate.
+     *
+     * @return the logo of this l f certificate
+     */
+    public java.lang.String getLogo() {
+        return _lfCertificate.getLogo();
+    }
+
+    /**
+     * Sets the logo of this l f certificate.
+     *
+     * @param logo the logo of this l f certificate
+     */
+    public void setLogo(java.lang.String logo) {
+        _lfCertificate.setLogo(logo);
+    }
+
+    /**
+     * Returns the is permanent of this l f certificate.
+     *
+     * @return the is permanent of this l f certificate
+     */
+    public java.lang.Boolean getIsPermanent() {
+        return _lfCertificate.getIsPermanent();
+    }
+
+    /**
+     * Sets the is permanent of this l f certificate.
+     *
+     * @param isPermanent the is permanent of this l f certificate
+     */
+    public void setIsPermanent(java.lang.Boolean isPermanent) {
+        _lfCertificate.setIsPermanent(isPermanent);
+    }
+
+    /**
+     * Returns the publish badge of this l f certificate.
+     *
+     * @return the publish badge of this l f certificate
+     */
+    public java.lang.Boolean getPublishBadge() {
+        return _lfCertificate.getPublishBadge();
+    }
+
+    /**
+     * Sets the publish badge of this l f certificate.
+     *
+     * @param publishBadge the publish badge of this l f certificate
+     */
+    public void setPublishBadge(java.lang.Boolean publishBadge) {
+        _lfCertificate.setPublishBadge(publishBadge);
+    }
+
+    /**
+     * Returns the short description of this l f certificate.
+     *
+     * @return the short description of this l f certificate
+     */
+    public java.lang.String getShortDescription() {
+        return _lfCertificate.getShortDescription();
+    }
+
+    /**
+     * Sets the short description of this l f certificate.
+     *
+     * @param shortDescription the short description of this l f certificate
+     */
+    public void setShortDescription(java.lang.String shortDescription) {
+        _lfCertificate.setShortDescription(shortDescription);
     }
 
     public boolean isNew() {

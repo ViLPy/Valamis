@@ -7,6 +7,7 @@ import scala.collection.mutable
 import com.arcusys.learn.ioc.Configuration
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 
 class CategoryService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -27,17 +28,23 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   }
 
   get("/") {
+    requireTeacherPermissions()
+
     val courseID = parameter("courseID").intOption(-1)
     jsonModel(questionCategoryStorage.getAllByCourseID(courseID))
   }
 
   get("/children/:id") {
+    requireTeacherPermissions()
+
     val parentID = parameter("id").intOption(-1)
     val courseID = parameter("courseID").intOption(-1)
     jsonModel(questionCategoryStorage.getChildren(parentID, courseID))
   }
 
   get("/children/withQuestions/") {
+    requireTeacherPermissions()
+
     val categoryIDSet = parameter("categories").required.trim
     val questionsIDSet = parameter("questions").required.trim
     val categoriesSet = mutable.LinkedHashSet[QuestionCategory]()
@@ -79,8 +86,10 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/") {
-    val title = parameter("title").required
-    val description = parameter("description").required
+    requireTeacherPermissions()
+
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val description = AntiSamyHelper.sanitize(parameter("description").required)
     val parentID = parameter("parentID").intOption(-1)
     val courseID = parameter("courseID").intOption(-1)
     //log.debug("Creating category(" + title + ", " + description + ", " + parentID + ")")
@@ -89,9 +98,11 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/update/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
-    val title = parameter("title").required
-    val description = parameter("description").required
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val description = AntiSamyHelper.sanitize(parameter("description").required)
 
     //log.debug("Updating category(" + id + ", " + title + ", " + description + ")")
     questionCategoryStorage.modify(id, title, description)
@@ -99,6 +110,8 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/move/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val dndMode = parameter("dndMode").required
     val targetID = parameter("targetId").intOption(-1)
@@ -119,6 +132,8 @@ class CategoryService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/delete/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     questionCategoryStorage.delete(id)
   }

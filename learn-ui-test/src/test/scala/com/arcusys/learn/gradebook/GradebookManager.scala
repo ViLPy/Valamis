@@ -17,6 +17,12 @@ trait GradebookManager extends UITestBase {
   protected def assertViewed(index: Int){
     assertEquals("+", driver.findElement(By.xpath("//*[@id=\"jsTreeGradebook\"]/ul/li/ul/li["+index+"]/div[1]/span")).getText)
   }
+  protected def getResponse(index: Int) = {
+    driver.findElement(By.xpath("//*[@id=\"jsTreeGradebook\"]/ul/li/ul/li["+index+"]/div[3]/span")).getText
+  }
+  protected def openResponse(index: Int) {
+    driver.findElement(By.xpath("//*[@id=\"jsTreeGradebook\"]/ul/li/ul/li["+index+"]/div[3]/span/button")).click()
+  }
   protected def assertViewedScorm12(groupIndex: Int, questionIndex: Int){ assertScorm12(groupIndex, questionIndex, "+") }
   protected def assertNotViewedScorm12(groupIndex: Int, questionIndex: Int){ assertScorm12(groupIndex, questionIndex, "-") }
   private def assertScorm12(groupIndex: Int, questionIndex: Int, value: String){

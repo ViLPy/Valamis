@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>learn-persistence-api</artifactId>
     <name>learn-persistence-api</name>
@@ -13,6 +13,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-tincan-package-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -28,6 +33,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-tracking-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-settings-model</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

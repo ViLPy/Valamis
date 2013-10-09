@@ -20,12 +20,18 @@ import com.arcusys.learn.updater.StorageUpdater
 import com.arcusys.learn.updater.impl.orbroker.StorageUpdaterImpl
 import com.arcusys.learn.social.storage.{PackageVoteStorage, PackageCommentStorage, SocialPackageStorage}
 import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
+import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
+import com.arcusys.learn.setting.storage.SettingStorage
 
 object StorageFactory extends StorageFactoryContract {
   val initBroker = {
     if (!BrokerFactory.isInitialized) BrokerFactory.init(PropertyUtil.load("db"))
   }
 
+  lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for orbroker storage")
+  lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("TincanPackageStorage not implemented for orbroker storage")
+  lazy val tincanActivityStorage: TincanActivityStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for orbroker storage")
   lazy val packageStorage: PackagesStorage = new PackagesStorageImpl
   lazy val activityStorage: ActivitiesStorage = new ActivitiesStorageImpl
   //lazy val organizationStorage: OrganizationsStorage = new OrganizationsStorageImpl
@@ -52,5 +58,7 @@ object StorageFactory extends StorageFactoryContract {
   lazy val packageCommentStorage: PackageCommentStorage = throw new UnsupportedOperationException
   lazy val packageVoteStorage: PackageVoteStorage = throw new UnsupportedOperationException
 
+  lazy val roleStorage: RoleStorage = throw new UnsupportedOperationException
+  lazy val settingStorage: SettingStorage = throw new UnsupportedOperationException
   def dbType = BrokerFactory.dbType
 }

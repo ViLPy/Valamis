@@ -6,6 +6,7 @@ import com.arcusys.scala.json.Json._
 import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 
 class QuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -18,22 +19,28 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
   }
 
   get("/id/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get))
   }
 
   get("/children/:id") {
+    requireTeacherPermissions()
+
     val categoryID = parameter("id").intOption(-1)
     val courseID = parameter("courseID").intOption(-1)
     json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID)))
   }
 
   post("/") {
+    requireTeacherPermissions()
+
     val questionType = parameter("questionType").intRequired
     val categoryID = parameter("categoryID").intOption(-1)
-    val title = parameter("title").required
-    val text = parameter("text").withDefault("")
-    val explanationText = parameter("explanationText").withDefault("")
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val text = AntiSamyHelper.sanitize(parameter("text").withDefault(""))
+    val explanationText = AntiSamyHelper.sanitize(parameter("explanationText").withDefault(""))
     val forceCorrectCount = parameter("forceCorrectCount").booleanRequired
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
     val courseID = parameter("courseID").intOption(-1)
@@ -53,12 +60,14 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/update/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val categoryId = questionStorage.getByID(id).get.categoryID
     val questionType = parameter("questionType").intRequired
-    val title = parameter("title").required
-    val text = parameter("text").required
-    val explanationText = parameter("explanationText").required
+    val title = AntiSamyHelper.sanitize(parameter("title").required)
+    val text = AntiSamyHelper.sanitize(parameter("text").required)
+    val explanationText = AntiSamyHelper.sanitize(parameter("explanationText").required)
     val forceCorrectCount = parameter("forceCorrectCount").booleanRequired
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
     val courseID = parameter("courseID").intOption(-1)
@@ -80,6 +89,8 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
   }
 
   post("/move/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     val dndMode = parameter("dndMode").required
     val targetID = parameter("targetId").intOption(-1)
@@ -100,6 +111,8 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
 
   }
   post("/delete/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     questionStorage.delete(id)
   }

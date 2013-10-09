@@ -3,6 +3,7 @@
         "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
 <service-builder package-path="com.arcusys.learn.persistence.liferay">
     <namespace>Learn</namespace>
+
     <entity name="LFFileStorage" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="filename" type="String"/>
@@ -163,13 +164,14 @@
         <column name="userID" type="Integer"/>
         <column name="grade" type="String"/>
         <column name="comment" type="String"/>
+        <column name="date" type="Date"/>
 
         <finder name="CourseIdAndUserId" return-type="Course">
             <finder-column name="courseID"/>
             <finder-column name="userID"/>
         </finder>
 
-        <finder name="Grade" return-type="Course" >
+        <finder name="Grade" return-type="Course">
             <finder-column name="grade"/>
         </finder>
     </entity>
@@ -272,7 +274,7 @@
             <finder-column name="conditionRuleID"/>
         </finder>
     </entity>
-    <entity name="LFObjective"  local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFObjective" local-service="true" remote-service="false" json-enabled="false">
         <column name="lfId" type="long" primary="true"/>
 
         <column name="sequencingID" type="Integer"/>
@@ -281,11 +283,11 @@
         <column name="minNormalizedMeasure" type="BigDecimal"/>
         <column name="isPrimary" type="Boolean"/>
 
-        <finder name="SequencingIDAndIsPrimary" return-type="Collection" >
+        <finder name="SequencingIDAndIsPrimary" return-type="Collection">
             <finder-column name="sequencingID"/>
             <finder-column name="isPrimary"/>
         </finder>
-        <finder name="SequencingIDAndIsPrimaryAndIdentifier" return-type="Collection" >
+        <finder name="SequencingIDAndIsPrimaryAndIdentifier" return-type="Collection">
             <finder-column name="sequencingID"/>
             <finder-column name="isPrimary"/>
             <finder-column name="identifier"/>
@@ -328,7 +330,7 @@
         </finder>
     </entity>
 
-    <entity name="LFChildrenSelection"  local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFChildrenSelection" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="takeCount" type="Integer"/>
@@ -405,7 +407,7 @@
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="activityID" type="String"/>
-        <column name="sharedId" type="String"  convert-null="false"/>
+        <column name="sharedId" type="String" convert-null="false"/>
         <column name="sharedSequencingIdReference" type="String"/>
         <column name="onlyCurrentAttemptObjectiveProgressForChildren" type="boolean"/>
         <column name="onlyCurrentAttemptAttemptProgressForChildren" type="boolean"/>
@@ -465,11 +467,16 @@
         <column name="active" type="Boolean"/>
         <column name="suspended" type="Boolean"/>
         <column name="attemptCompleted" type="Boolean" convert-null="false"/>
-        <column name="attemptCompletionAmount" type="BigDecimal"/> <!-- TODO: BigDecimal -->
-        <column name="attemptAbsoluteDuration" type="BigDecimal"/> <!-- TODO: BigDecimal -->
-        <column name="attemptExperiencedDuration" type="BigDecimal"/> <!-- TODO: BigDecimal -->
-        <column name="activityAbsoluteDuration" type="BigDecimal"/> <!-- TODO: BigDecimal -->
-        <column name="activityExperiencedDuration" type="BigDecimal"/> <!-- TODO: BigDecimal -->
+        <column name="attemptCompletionAmount" type="BigDecimal"/>
+        <!-- TODO: BigDecimal -->
+        <column name="attemptAbsoluteDuration" type="BigDecimal"/>
+        <!-- TODO: BigDecimal -->
+        <column name="attemptExperiencedDuration" type="BigDecimal"/>
+        <!-- TODO: BigDecimal -->
+        <column name="activityAbsoluteDuration" type="BigDecimal"/>
+        <!-- TODO: BigDecimal -->
+        <column name="activityExperiencedDuration" type="BigDecimal"/>
+        <!-- TODO: BigDecimal -->
         <column name="attemptCount" type="Integer"/>
         <column name="activityStateNodeID" type="Integer" convert-null="false"/>
         <column name="activityStateTreeID" type="Integer" convert-null="false"/>
@@ -539,6 +546,49 @@
         </finder>
     </entity>
 
+    <entity name="LFTincanLrsEndpoint" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="endpoint" type="String" />
+        <column name="authType" type="String" />
+        <column name="key" type="String" />
+        <column name="secret" type="String" />
+    </entity>
+
+    <entity name="LFTincanPackage" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="title" type="String"/>
+        <column name="summary" type="String" convert-null="false"/>
+        <column name="assetRefID" type="Long" convert-null="false"/>
+        <column name="courseID" type="Integer" convert-null="false"/>
+
+        <finder name="RefID" return-type="Manifest">
+            <finder-column name="assetRefID"/>
+        </finder>
+
+        <finder name="Instance" return-type="Collection">
+            <finder-column name="courseID" arrayable-operator="OR"/>
+        </finder>
+
+        <finder name="CourseID" return-type="Collection">
+            <finder-column name="courseID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFTincanActivity" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="tincanID" type="String"/>
+        <column name="packageID" type="Long"/>
+        <column name="activityType" type="String"/>
+        <column name="name" type="String"/>
+        <column name="description" type="String"/>
+        <column name="launch" type="String" convert-null="false"/>
+        <column name="resource" type="String" convert-null="false"/>
+
+        <finder name="PackageID" return-type="Collection">
+            <finder-column name="packageID"/>
+        </finder>
+    </entity>
+
     <entity name="LFPackage" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="defaultOrganizationID" type="String" convert-null="false"/>
@@ -553,13 +603,13 @@
             <finder-column name="assetRefID"/>
         </finder>
 
-<!--
-        <finder name="PackageIdAndCourseID" return-type="Manifest">
-            <finder-column name="id"/>
-            <finder-column name="courseID"/>
-        </finder>
+        <!--
+                <finder name="PackageIdAndCourseID" return-type="Manifest">
+                    <finder-column name="id"/>
+                    <finder-column name="courseID"/>
+                </finder>
 
--->
+        -->
         <finder name="Instance" return-type="Collection">
             <finder-column name="courseID" arrayable-operator="OR"/>
         </finder>
@@ -618,6 +668,15 @@
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String"/>
         <column name="description" type="String"/>
+        <column name="logo" type="String"/>
+        <column name="isPermanent" type="Boolean"/>
+        <column name="publishBadge" type="Boolean"/>
+        <column name="shortDescription" type="String"/>
+
+        <finder name="Title" return-type="Collection">
+            <finder-column name="title" comparator="LIKE">
+            </finder-column>
+        </finder>
     </entity>
     <entity name="LFCertificateSite" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
@@ -629,7 +688,7 @@
             <finder-column name="certificateID"/>
         </finder>
         <finder name="CertificateIDAndSiteID" return-type="Collection">
-            <finder-column name="certificateID"/>
+            <finder-column name="certificateID" arrayable-operator="OR"/>
             <finder-column name="siteID"/>
         </finder>
     </entity>
@@ -698,5 +757,33 @@
         </finder>
     </entity>
 
+    <entity name="LFRole" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="liferayRoleID" type="Integer"/>
+        <column name="permission" type="String"/>
+        <column name="isDefault" type="Boolean"/>
+
+        <finder name="Permission" return-type="Collection">
+            <finder-column name="permission"/>
+        </finder>
+        <finder name="RoleIDAndPermission" return-type="Collection">
+            <finder-column name="liferayRoleID"/>
+            <finder-column name="permission"/>
+        </finder>
+        <finder name="DefaultAndPermission" return-type="Collection">
+            <finder-column name="isDefault"/>
+            <finder-column name="permission"/>
+        </finder>
+    </entity>
+
+    <entity name="LFSetting" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="key" type="String"/>
+        <column name="value" type="String"/>
+
+        <finder name="Key" return-type="Setting">
+            <finder-column name="key"/>
+        </finder>
+    </entity>
 
 </service-builder>

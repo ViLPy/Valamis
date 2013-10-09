@@ -32,14 +32,19 @@ import com.arcusys.learn.persistence.liferay.service.LFQuizLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFRoleLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFSettingLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalService;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
@@ -72,14 +77,19 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersisten
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
 import com.liferay.counter.service.CounterLocalService;
@@ -249,6 +259,10 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFResourceLocalService lfResourceLocalService;
     @BeanReference(type = LFResourcePersistence.class)
     protected LFResourcePersistence lfResourcePersistence;
+    @BeanReference(type = LFRoleLocalService.class)
+    protected LFRoleLocalService lfRoleLocalService;
+    @BeanReference(type = LFRolePersistence.class)
+    protected LFRolePersistence lfRolePersistence;
     @BeanReference(type = LFRollupContributionLocalService.class)
     protected LFRollupContributionLocalService lfRollupContributionLocalService;
     @BeanReference(type = LFRollupContributionPersistence.class)
@@ -273,6 +287,10 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFSequencingTrackingLocalService lfSequencingTrackingLocalService;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
+    @BeanReference(type = LFSettingLocalService.class)
+    protected LFSettingLocalService lfSettingLocalService;
+    @BeanReference(type = LFSettingPersistence.class)
+    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackageLocalService.class)
     protected LFSocialPackageLocalService lfSocialPackageLocalService;
     @BeanReference(type = LFSocialPackagePersistence.class)
@@ -281,6 +299,18 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     protected LFSocialPackageTagLocalService lfSocialPackageTagLocalService;
     @BeanReference(type = LFSocialPackageTagPersistence.class)
     protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
+    @BeanReference(type = LFTincanActivityLocalService.class)
+    protected LFTincanActivityLocalService lfTincanActivityLocalService;
+    @BeanReference(type = LFTincanActivityPersistence.class)
+    protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanLrsEndpointLocalService.class)
+    protected LFTincanLrsEndpointLocalService lfTincanLrsEndpointLocalService;
+    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
+    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanPackageLocalService.class)
+    protected LFTincanPackageLocalService lfTincanPackageLocalService;
+    @BeanReference(type = LFTincanPackagePersistence.class)
+    protected LFTincanPackagePersistence lfTincanPackagePersistence;
     @BeanReference(type = LFUserLocalService.class)
     protected LFUserLocalService lfUserLocalService;
     @BeanReference(type = LFUserPersistence.class)
@@ -1681,6 +1711,42 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the l f role local service.
+     *
+     * @return the l f role local service
+     */
+    public LFRoleLocalService getLFRoleLocalService() {
+        return lfRoleLocalService;
+    }
+
+    /**
+     * Sets the l f role local service.
+     *
+     * @param lfRoleLocalService the l f role local service
+     */
+    public void setLFRoleLocalService(LFRoleLocalService lfRoleLocalService) {
+        this.lfRoleLocalService = lfRoleLocalService;
+    }
+
+    /**
+     * Returns the l f role persistence.
+     *
+     * @return the l f role persistence
+     */
+    public LFRolePersistence getLFRolePersistence() {
+        return lfRolePersistence;
+    }
+
+    /**
+     * Sets the l f role persistence.
+     *
+     * @param lfRolePersistence the l f role persistence
+     */
+    public void setLFRolePersistence(LFRolePersistence lfRolePersistence) {
+        this.lfRolePersistence = lfRolePersistence;
+    }
+
+    /**
      * Returns the l f rollup contribution local service.
      *
      * @return the l f rollup contribution local service
@@ -1909,6 +1975,44 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     }
 
     /**
+     * Returns the l f setting local service.
+     *
+     * @return the l f setting local service
+     */
+    public LFSettingLocalService getLFSettingLocalService() {
+        return lfSettingLocalService;
+    }
+
+    /**
+     * Sets the l f setting local service.
+     *
+     * @param lfSettingLocalService the l f setting local service
+     */
+    public void setLFSettingLocalService(
+        LFSettingLocalService lfSettingLocalService) {
+        this.lfSettingLocalService = lfSettingLocalService;
+    }
+
+    /**
+     * Returns the l f setting persistence.
+     *
+     * @return the l f setting persistence
+     */
+    public LFSettingPersistence getLFSettingPersistence() {
+        return lfSettingPersistence;
+    }
+
+    /**
+     * Sets the l f setting persistence.
+     *
+     * @param lfSettingPersistence the l f setting persistence
+     */
+    public void setLFSettingPersistence(
+        LFSettingPersistence lfSettingPersistence) {
+        this.lfSettingPersistence = lfSettingPersistence;
+    }
+
+    /**
      * Returns the l f social package local service.
      *
      * @return the l f social package local service
@@ -1982,6 +2086,120 @@ public abstract class LFUserLocalServiceBaseImpl extends BaseLocalServiceImpl
     public void setLFSocialPackageTagPersistence(
         LFSocialPackageTagPersistence lfSocialPackageTagPersistence) {
         this.lfSocialPackageTagPersistence = lfSocialPackageTagPersistence;
+    }
+
+    /**
+     * Returns the l f tincan activity local service.
+     *
+     * @return the l f tincan activity local service
+     */
+    public LFTincanActivityLocalService getLFTincanActivityLocalService() {
+        return lfTincanActivityLocalService;
+    }
+
+    /**
+     * Sets the l f tincan activity local service.
+     *
+     * @param lfTincanActivityLocalService the l f tincan activity local service
+     */
+    public void setLFTincanActivityLocalService(
+        LFTincanActivityLocalService lfTincanActivityLocalService) {
+        this.lfTincanActivityLocalService = lfTincanActivityLocalService;
+    }
+
+    /**
+     * Returns the l f tincan activity persistence.
+     *
+     * @return the l f tincan activity persistence
+     */
+    public LFTincanActivityPersistence getLFTincanActivityPersistence() {
+        return lfTincanActivityPersistence;
+    }
+
+    /**
+     * Sets the l f tincan activity persistence.
+     *
+     * @param lfTincanActivityPersistence the l f tincan activity persistence
+     */
+    public void setLFTincanActivityPersistence(
+        LFTincanActivityPersistence lfTincanActivityPersistence) {
+        this.lfTincanActivityPersistence = lfTincanActivityPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs endpoint local service.
+     *
+     * @return the l f tincan lrs endpoint local service
+     */
+    public LFTincanLrsEndpointLocalService getLFTincanLrsEndpointLocalService() {
+        return lfTincanLrsEndpointLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs endpoint local service.
+     *
+     * @param lfTincanLrsEndpointLocalService the l f tincan lrs endpoint local service
+     */
+    public void setLFTincanLrsEndpointLocalService(
+        LFTincanLrsEndpointLocalService lfTincanLrsEndpointLocalService) {
+        this.lfTincanLrsEndpointLocalService = lfTincanLrsEndpointLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs endpoint persistence.
+     *
+     * @return the l f tincan lrs endpoint persistence
+     */
+    public LFTincanLrsEndpointPersistence getLFTincanLrsEndpointPersistence() {
+        return lfTincanLrsEndpointPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs endpoint persistence.
+     *
+     * @param lfTincanLrsEndpointPersistence the l f tincan lrs endpoint persistence
+     */
+    public void setLFTincanLrsEndpointPersistence(
+        LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence) {
+        this.lfTincanLrsEndpointPersistence = lfTincanLrsEndpointPersistence;
+    }
+
+    /**
+     * Returns the l f tincan package local service.
+     *
+     * @return the l f tincan package local service
+     */
+    public LFTincanPackageLocalService getLFTincanPackageLocalService() {
+        return lfTincanPackageLocalService;
+    }
+
+    /**
+     * Sets the l f tincan package local service.
+     *
+     * @param lfTincanPackageLocalService the l f tincan package local service
+     */
+    public void setLFTincanPackageLocalService(
+        LFTincanPackageLocalService lfTincanPackageLocalService) {
+        this.lfTincanPackageLocalService = lfTincanPackageLocalService;
+    }
+
+    /**
+     * Returns the l f tincan package persistence.
+     *
+     * @return the l f tincan package persistence
+     */
+    public LFTincanPackagePersistence getLFTincanPackagePersistence() {
+        return lfTincanPackagePersistence;
+    }
+
+    /**
+     * Sets the l f tincan package persistence.
+     *
+     * @param lfTincanPackagePersistence the l f tincan package persistence
+     */
+    public void setLFTincanPackagePersistence(
+        LFTincanPackagePersistence lfTincanPackagePersistence) {
+        this.lfTincanPackagePersistence = lfTincanPackagePersistence;
     }
 
     /**

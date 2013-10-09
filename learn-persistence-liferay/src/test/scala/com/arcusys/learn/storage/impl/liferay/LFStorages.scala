@@ -22,7 +22,9 @@ import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{LFAttemptDataStora
 import com.arcusys.learn.scorm.course.impl.liferay.CourseEntityContainer
 import com.arcusys.learn.scorm.tracking.storage.impl.{DataModelEntityStorage, AttemptCreator, AttemptEntityStorage}
 import com.arcusys.learn.scorm.tracking.storage.UserStorage
-import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
+import com.arcusys.learn.scorm.manifest.storage.{PackagesStorage}
+import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 
 /**
  * User: dkudinov
@@ -62,6 +64,11 @@ object LFStorages extends StorageFactoryContract {
   SequencingPermissionsEntityContainer.mockLocalService
   SequencingTrackingEntityContainer.mockLocalService
   UserEntityContainer.mockLocalService
+
+  lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+
+  lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("TincanPackageStorage not implemented for LFStorages")
+  lazy val tincanActivityStorage: TincanActivityStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for LFStorages")
 
   val fileStorage: FileStorage = new FileRecordEntityStorage with LFFileRecordStorageImpl
 
@@ -160,4 +167,8 @@ object LFStorages extends StorageFactoryContract {
   def socialPackageStorage = LFStorageFactory.socialPackageStorage
   def packageVoteStorage = LFStorageFactory.packageVoteStorage
   def packageCommentStorage = LFStorageFactory.packageCommentStorage
+
+  def roleStorage = LFStorageFactory.roleStorage
+
+  def settingStorage = LFStorageFactory.settingStorage
 }

@@ -10,6 +10,10 @@ OpenedCertificateSiteView = Backbone.View.extend({
     initialize:function () {
         var that = this;
         var certificateTabs = this.$el.tabs({
+            select: function( event, ui ) {
+                var id = ui.panel.id.replace("certificateTab", "");
+                jQuery("#selectedCertificateID").val(id);
+            },
             add:jQuery.proxy(function (e, ui) {
                 var id = ui.panel.id.replace("certificateTab", "");
                 // append close thingy
@@ -30,7 +34,7 @@ OpenedCertificateSiteView = Backbone.View.extend({
                     language:this.options.language
                 });
                 else
-                    var editView = new CertificateUserEditView({
+                    var editView = new MemberListView({
                         el:jQuery(this.getUID(id)),
                         model:this.collection.get(id),
                         language:this.options.language
@@ -54,11 +58,13 @@ OpenedCertificateSiteView = Backbone.View.extend({
     },
 
     addOne:function (model) {
+        var edit = this.options.language['editLabel'];
         model.on('change', this.updateCertificate, this);
-        this.$el.tabs('add', this.getUID(model.id), model.get('title'));
+        this.$el.tabs('add', this.getUID(model.id), edit + " " + model.get('title'));
     },
 
     updateCertificate:function (model) {
-        this.$("a[href='#certificateTab" + model.id + "'] > span").html(model.get('title'));
+        var edit = this.options.language['editLabel'];
+        this.$("a[href='#certificateTab" + model.id + "'] > span").html(edit + " " + model.get('title'));
     }
 });

@@ -2,7 +2,7 @@ AvailableCertificateListView = Backbone.View.extend({
     events:{
         "click #SCORMButtonAddCertificate":"createCertificate",
         "click #sortList":"sortList",
-        "keyup #certificateSearch":"searchList"
+        "click #filterList":"searchList"
     },
 
     initialize:function () {
@@ -15,6 +15,27 @@ AvailableCertificateListView = Backbone.View.extend({
 
         this.render();
 
+        var that = this;
+        this.collection.on("collection:updated", function (details) {
+            that.updatePagination(details, that);
+        });
+
+        jQuery("#allCertificatesPaginator").pagination({
+            items:0,
+            itemsOnPage:10,
+            cssStyle:'light-theme',
+            prevText:this.options.language['previous'],
+            nextText:this.options.language['next'],
+            onPageClick:function (pageNumber, event) {
+                that.collection.fetch({reset:true});
+            }
+        });
+    },
+
+    updatePagination:function (details, context) {
+        jQuery("#allCertificatesPaginator").pagination('updateItems', details.total);
+        if (details.total <= 10) jQuery("#allCertificatesPaginator").hide();
+        else jQuery("#allCertificatesPaginator").show();
     },
 
     createCertificate:function () {
@@ -41,7 +62,7 @@ AvailableCertificateListView = Backbone.View.extend({
     openCertificateUsers:function (id) {
         this.trigger('certificateUser-open', this.collection.get(id));
     },
-    membershipChanged:function(){
+    membershipChanged:function () {
         this.trigger('membership-changed');
     },
 
@@ -69,7 +90,6 @@ AvailableCertificateListView = Backbone.View.extend({
     removeCertificate:function (id) {
         var model = this.collection.get(id);
         this.collection.remove(model);
-        this.certificateList.remove(id)
     },
 
     addOne:function (element) {
@@ -88,28 +108,25 @@ AvailableCertificateListView = Backbone.View.extend({
         view.on('certificate-remove', this.removeCertificate, this);
         view.on('membership-changed', this.membershipChanged, this);
 
-        //element.on('change', function (element) {
-        //    this.certificateList.update(element.id, {"title":element.get('title'), "description":element.get('description')});
-        //}, this);
-
-        this.certificateList.add(element.id, viewDOM, {"title":element.get('title'), "description":element.get('description')}, true);
     },
 
     addAll:function () {
+        this.$("#certificateList").html('');
         this.collection.each(this.addOne, this);
- },
+    },
 
     searchList:function () {
-        this.certificateList.filter(this.$("#certificateSearch").val() || "");
+        jQuery("#allCertificatesPaginator").pagination('selectPage', 1);
+        this.collection.fetch({reset:true});
     },
     sortList:function () {
-        if (this.certificateList) {
-            this.certificateList.sort("title", this.sortAZ ? "asc" : "desc");
+        var sortOrderString = (this.sortAZ) ? this.options.language['sortOrderDescLabel'] : this.options.language['sortOrderAscLabel'];
+        this.$("#sortList").html(sortOrderString);
+        this.sortAZ = !this.sortAZ;
+        this.$("#sortAZ").val(this.sortAZ);
 
-            var sortOrderString = (this.sortAZ) ? this.options.language['sortOrderAscLabel'] : this.options.language['sortOrderDescLabel'];
-            this.$("#sortList").html(sortOrderString);
-            this.sortAZ = !this.sortAZ;
-        }
+
+        this.searchList();
     },
 
     render:function () {
@@ -117,9 +134,9 @@ AvailableCertificateListView = Backbone.View.extend({
         var template = Mustache.to_html(jQuery("#availableCertificateListView").html(), _.extend({
             cid:this.cid, isAdmin:this.options.isAdmin
         }, language));
+
         this.$el.append(template);
 
-        this.certificateList = this.$("#certificateList").List();
         return this;
     }
 });

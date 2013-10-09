@@ -32,9 +32,12 @@ create index IX_1634FB95 on Learn_LFAttemptData (attemptID, dataKey);
 create index IX_637C536E on Learn_LFBigDecimal (decimal_);
 create index IX_6456716F on Learn_LFBigDecimal (sum);
 
+create index IX_23A101E0 on Learn_LFCertificate (title);
+
 create index IX_FE9A5473 on Learn_LFCertificateSite (certificateID);
 create index IX_35A1E709 on Learn_LFCertificateSite (certificateID, siteID);
 create index IX_FE9ACC93 on Learn_LFCertificateSite (certificateId);
+create index IX_2B848F65 on Learn_LFCertificateSite (siteID);
 
 create index IX_128B606F on Learn_LFCertificateUser (certificateID);
 create index IX_2471F16D on Learn_LFCertificateUser (userID);
@@ -96,6 +99,10 @@ create index IX_43EB0DB1 on Learn_LFQuizQuestionCategory (quizId, parentId);
 create index IX_632D4C08 on Learn_LFResource (packageID);
 create index IX_C88C6DE5 on Learn_LFResource (packageID, resourceID);
 
+create index IX_EE5B71F9 on Learn_LFRole (isDefault, permission);
+create index IX_D0D22D21 on Learn_LFRole (liferayRoleID, permission);
+create index IX_F1961B94 on Learn_LFRole (permission);
+
 create index IX_61DEB730 on Learn_LFRollupContribution (sequencingID);
 
 create index IX_E92CEF1C on Learn_LFRollupRule (sequencingID);
@@ -109,9 +116,18 @@ create index IX_E922EFC4 on Learn_LFSequencingPermissions (sequencingID);
 
 create index IX_546EB23D on Learn_LFSequencingTracking (sequencingID);
 
+create index IX_730FA935 on Learn_LFSetting (key_);
+
+create index IX_F2FA69D2 on Learn_LFSettings (key_);
+
 create index IX_90D71444 on Learn_LFSocialPackage (authorID);
 
 create index IX_CF234D5B on Learn_LFSocialPackageTag (name);
 create index IX_C54C6408 on Learn_LFSocialPackageTag (socialPackageID);
+
+create index IX_D904A10 on Learn_LFTincanActivity (packageID);
+
+create index IX_7A257452 on Learn_LFTincanPackage (assetRefID);
+create index IX_F334E16A on Learn_LFTincanPackage (courseID);
 
 create index IX_CBB67CEE on Learn_LFUser (id_);

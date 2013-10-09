@@ -63,6 +63,8 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFResourceLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFResourceLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFRoleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRoleLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRollupContributionLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRollupRuleLocalServiceImpl" />
@@ -75,10 +77,18 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSequencingTrackingLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFSettingLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSettingLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSocialPackageLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFSocialPackageTagLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFTincanActivityLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFTincanLrsEndpointLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFTincanPackageLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFUserLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFUserLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistenceImpl" parent="basePersistence" />
 </beans>

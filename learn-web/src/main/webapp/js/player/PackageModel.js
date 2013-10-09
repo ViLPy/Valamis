@@ -3,7 +3,8 @@ PlayerPackageModel = Backbone.Model.extend({
         title:"",
         summary:"",
         version:"2004 4th Edition",
-        visibility: true
+        visibility: true,
+        type:"undefined"
     }
 });
 

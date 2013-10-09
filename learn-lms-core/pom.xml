@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>learn-lms-core</artifactId>
     <name>learn-lms-core</name>
@@ -22,6 +22,7 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.9.1</artifactId>
             <scope>test</scope>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -41,11 +42,13 @@
         <dependency>
             <groupId>org.scala-tools.subcut</groupId>
             <artifactId>subcut_2.9.1</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.scalamock</groupId>
             <artifactId>scalamock-scalatest-support_2.9.1</artifactId>
             <scope>test</scope>
+            <version>2.3</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>

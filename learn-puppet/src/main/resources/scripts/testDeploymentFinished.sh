@@ -8,7 +8,8 @@ else
 fi
 
 Checkpoints=(
-'/ilmoitukset-portlet/css/style.css'
+    '/learn-web/css/scorm_main.css'
+    '/learn-demo-hook/css/test.css'
 )
 
 

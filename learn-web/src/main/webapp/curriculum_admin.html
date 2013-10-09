@@ -19,6 +19,19 @@
             var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
             Utils.i18nLoader(localizedURL, defaultURL, onCurriculumLanguageLoad, onCurriculumLanguageError);
 
+          /*  var userAgent = navigator.userAgent.toLowerCase();
+            jQuery("#test").sortable({
+                start: function (event, ui) {
+                    if( userAgent.match(/firefox/) && ui.helper !== undefined )
+                        ui.helper.css('position','absolute').css('margin-top', jQuery(window).scrollTop() );
+                },
+                beforeStop: function (event, ui) {
+                    if( userAgent.match(/firefox/) &&  ui.offset !== undefined )
+                        ui.helper.css('margin-top', 0);
+                },
+                placeholder: 'placeholder-class'
+            });*/
+
         });
 
         function onCurriculumLanguageLoad(properties) {
@@ -30,6 +43,22 @@
         }
 
         function initCurriculumView() {
+            window.onmessage = function(e){
+                if(e.origin=="https://www.openbadges.me"){
+                    var id = jQuery1816Curriculum("#selectedCertificateID").val();
+                    window.LearnAjax.post(Utils.getContextPath() + "services/upload/base64-icon/" + id,
+                            { 'inputBase64':e.data },
+                            jQuery.proxy(function () {
+                                var icon = "<img src=\"" + Utils.getContextPath() +
+                                        "services/openbadges?directory=" + id +
+                                        "&fileName=icon.png&date="+ Date.now() +"\" class=\"logo\">";
+                                jQuery("#certificateIcon_"+ id).html(icon);
+                                jQuery("#certificateList_Icon_"+ id).html(icon);
+                            }, this));
+                }
+            }
+
+
             window.CurriculumAppView = Backbone.View.extend({
                 initialize:function () {
                     var loader = new TemplateLoader(jQuery1816Curriculum.proxy(this.initViews, this));
@@ -40,14 +69,15 @@
                     if (!window.SitesDialog) {
                         window.SitesDialog = new LiferaySiteSelectDialog({el:jQuery1816Curriculum("#CurriculumLiferaySiteDialog"), languageID:"{{language}}"});
                     }
-                    if (!window.UsersDialog){
-                        this.userList =  new LiferayUserCollection();
+                    if (!window.UsersDialog) {
+                        this.userList = new LiferayUserCollection();
                         window.UsersDialog = new LiferayUserSelectDialog({collection:this.userList, el:jQuery1816Curriculum("#CurriculumLiferayUserDialog"), language:scormLanguageDataCurriculum});
-                        this.userList.fetch({reset: true});
+                        this.userList.fetch({reset:true});
                     }
-                    if (!window.CourseGradeDialog){
+                    if (!window.CourseGradeDialog) {
                         window.CourseGradeDialog = new UserCourseGradeDialog({el:jQuery1816Curriculum("#CurriculumUserCourseGradeDialog"), language:scormLanguageDataCurriculum});
                     }
+
 
                     this.availableCertificateList = new CertificateCollection();
                     this.availableCertificates = new AvailableCertificateListView({collection:this.availableCertificateList, el:jQuery1816Curriculum('#certificateList'), language:scormLanguageDataCurriculum, isAdmin:true});
@@ -60,7 +90,7 @@
                     this.availableCertificates.bind('certificateUser-open', this.openCertificateUser, this);
                     this.availableCertificates.bind('certificate-remove', this.closeCertificate, this);
 
-                    this.availableCertificateList.fetch({reset: true});
+                    this.availableCertificateList.fetch({reset:true});
                 },
 
                 openCertificateUser:function (certificate) {
@@ -91,6 +121,8 @@
                 window.RichEdit = new SCORMTinyMCERichEdit({el:jQuery1816Curriculum("#SCORMCurriculumEditRichEdit")});
             }
 
+
+
         }
 
 
@@ -115,9 +147,12 @@
     <div id="CurriculumLiferayUserDialog" title="{{liferayUserDialogTitle}}"></div>
     <div id="CurriculumUserCourseGradeDialog" title="{{courseGradeDialogTitle}}"></div>
 
+
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
     <input type="hidden" id="courseID" value="{{courseID}}"/>
     <input type="hidden" id="companyID" value="{{companyID}}">
+    <input type="hidden" id="rootUrl" value="{{root}}"/>
+    <input type="hidden" id="selectedCertificateID" />
 </div>
 </body>
 </html>

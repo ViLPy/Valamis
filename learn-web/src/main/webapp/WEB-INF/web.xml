@@ -25,13 +25,17 @@
         <filter-name>CurriculumView</filter-name>
         <filter-class>com.arcusys.learn.view.CurriculumView</filter-class>
     </filter>
+    <filter>
+        <filter-name>MyAccountView</filter-name>
+        <filter-class>com.arcusys.learn.view.MyAccountView</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>SCORMQuestionBankView</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/BankView/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>SCORMUserView</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/UserView/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>SCORMAdminView</filter-name>
@@ -39,15 +43,19 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>SCORMQuizView</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/QuizView/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>GradebookView</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/GradebookView/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CurriculumView</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/CurriculumView/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>MyAccountView</filter-name>
+        <url-pattern>/MyAccountView/*</url-pattern>
     </filter-mapping>
     <listener>
         <listener-class>com.liferay.portal.kernel.spring.context.PortletContextLoaderListener</listener-class>
@@ -100,11 +108,20 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>SCORMCurriculum Servlet</servlet-name>
+        <servlet-name>Curriculum Servlet</servlet-name>
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
             <param-value>com.arcusys.learn.view.CurriculumView</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>SCORMUserAccount Servlet</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
+        <init-param>
+            <param-name>portlet-class</param-name>
+            <param-value>com.arcusys.learn.view.MyAccountView</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -118,6 +135,16 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet>
+        <servlet-name>ValamisOpenBadgesImage Servlet</servlet-name>
+        <servlet-class>com.arcusys.learn.admin.service.BadgeImageService</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ValamisOpenBadgesImage Servlet</servlet-name>
+        <url-pattern>/services/openbadges/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>SCORMApplication Servlet</servlet-name>
@@ -141,8 +168,12 @@
         <url-pattern>/Gradebook/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SCORMCurriculum Servlet</servlet-name>
+        <servlet-name>Curriculum Servlet</servlet-name>
         <url-pattern>/Curriculum/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SCORMUserAccount Servlet</servlet-name>
+        <url-pattern>/SCORMUserAccount/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ValamisSocialDashboard Servlet</servlet-name>
@@ -171,6 +202,20 @@
         <servlet-name>PackagesService</servlet-name>
         <servlet-class>com.arcusys.learn.scorm.manifest.service.PackagesService</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>PackagesService</servlet-name>
+        <url-pattern>/services/packages/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanPackagesService</servlet-name>
+        <servlet-class>com.arcusys.learn.scorm.manifest.service.TincanPackagesService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanPackagesService</servlet-name>
+        <url-pattern>/services/tincan-packages/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>OrganizationsService</servlet-name>
         <servlet-class>com.arcusys.learn.scorm.manifest.service.OrganizationsService</servlet-class>
@@ -190,6 +235,10 @@
     <servlet>
         <servlet-name>UploadService</servlet-name>
         <servlet-class>com.arcusys.learn.admin.service.UploadService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RoleService</servlet-name>
+        <servlet-class>com.arcusys.learn.admin.service.RoleService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>QuestionService</servlet-name>
@@ -240,6 +289,10 @@
         <servlet-class>com.arcusys.learn.liferay.service.LiferayUserService</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>LiferayRoleService</servlet-name>
+        <servlet-class>com.arcusys.learn.liferay.service.LiferayRoleService</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>CertificateService</servlet-name>
         <servlet-class>com.arcusys.learn.certificating.CertificateService</servlet-class>
     </servlet>
@@ -262,10 +315,6 @@
     </servlet-mapping>-->
 
     <servlet-mapping>
-        <servlet-name>PackagesService</servlet-name>
-        <url-pattern>/services/packages/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>OrganizationsService</servlet-name>
         <url-pattern>/services/organizations/*</url-pattern>
     </servlet-mapping>
@@ -284,6 +333,10 @@
     <servlet-mapping>
         <servlet-name>UploadService</servlet-name>
         <url-pattern>/services/upload/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoleService</servlet-name>
+        <url-pattern>/services/roles/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>QuestionService</servlet-name>
@@ -332,6 +385,10 @@
     <servlet-mapping>
         <servlet-name>LiferayUserService</servlet-name>
         <url-pattern>/services/liferay/user/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LiferayRoleService</servlet-name>
+        <url-pattern>/services/liferay/role/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CertificateService</servlet-name>

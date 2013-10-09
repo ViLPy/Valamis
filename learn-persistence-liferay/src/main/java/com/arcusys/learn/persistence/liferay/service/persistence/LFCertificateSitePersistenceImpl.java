@@ -35,14 +35,19 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersisten
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
 import com.liferay.portal.NoSuchModelException;
@@ -58,6 +63,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -152,6 +158,12 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
             "countByCertificateIDAndSiteID",
             new String[] { Integer.class.getName(), Integer.class.getName() });
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_CERTIFICATEIDANDSITEID =
+        new FinderPath(LFCertificateSiteModelImpl.ENTITY_CACHE_ENABLED,
+            LFCertificateSiteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+            "countByCertificateIDAndSiteID",
+            new String[] { Integer.class.getName(), Integer.class.getName() });
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFCertificateSiteModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateSiteModelImpl.FINDER_CACHE_ENABLED,
             LFCertificateSiteImpl.class,
@@ -177,11 +189,26 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
         "lfCertificateSite.certificateID IS NULL  AND ";
     private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_2 =
         "lfCertificateSite.certificateID = ? AND ";
+    private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_5 =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_2) +
+        ")";
     private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_NULL =
         "lfCertificateSite.siteID IS NULL";
     private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_NULL_2 =
         "lfCertificateSite.siteID IS NULL ";
     private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_2 = "lfCertificateSite.siteID = ?";
+    private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5 = "(" +
+        _removeConjunction(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_2) +
+        ")";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfCertificateSite.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFCertificateSite exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFCertificateSite exists with the key {";
@@ -269,6 +296,8 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
     protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
     @BeanReference(type = LFResourcePersistence.class)
     protected LFResourcePersistence lfResourcePersistence;
+    @BeanReference(type = LFRolePersistence.class)
+    protected LFRolePersistence lfRolePersistence;
     @BeanReference(type = LFRollupContributionPersistence.class)
     protected LFRollupContributionPersistence lfRollupContributionPersistence;
     @BeanReference(type = LFRollupRulePersistence.class)
@@ -281,10 +310,18 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
     protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
+    @BeanReference(type = LFSettingPersistence.class)
+    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackagePersistence.class)
     protected LFSocialPackagePersistence lfSocialPackagePersistence;
     @BeanReference(type = LFSocialPackageTagPersistence.class)
     protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
+    @BeanReference(type = LFTincanActivityPersistence.class)
+    protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
+    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanPackagePersistence.class)
+    protected LFTincanPackagePersistence lfTincanPackagePersistence;
     @BeanReference(type = LFUserPersistence.class)
     protected LFUserPersistence lfUserPersistence;
     @BeanReference(type = ResourcePersistence.class)
@@ -1468,6 +1505,183 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
     }
 
     /**
+     * Returns all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param certificateIDs the certificate i ds
+     * @param siteID the site i d
+     * @return the matching l f certificate sites
+     * @throws SystemException if a system exception occurred
+     */
+    public List<LFCertificateSite> findByCertificateIDAndSiteID(
+        Integer[] certificateIDs, Integer siteID) throws SystemException {
+        return findByCertificateIDAndSiteID(certificateIDs, siteID,
+            QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param certificateIDs the certificate i ds
+     * @param siteID the site i d
+     * @param start the lower bound of the range of l f certificate sites
+     * @param end the upper bound of the range of l f certificate sites (not inclusive)
+     * @return the range of matching l f certificate sites
+     * @throws SystemException if a system exception occurred
+     */
+    public List<LFCertificateSite> findByCertificateIDAndSiteID(
+        Integer[] certificateIDs, Integer siteID, int start, int end)
+        throws SystemException {
+        return findByCertificateIDAndSiteID(certificateIDs, siteID, start, end,
+            null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * </p>
+     *
+     * @param certificateIDs the certificate i ds
+     * @param siteID the site i d
+     * @param start the lower bound of the range of l f certificate sites
+     * @param end the upper bound of the range of l f certificate sites (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f certificate sites
+     * @throws SystemException if a system exception occurred
+     */
+    public List<LFCertificateSite> findByCertificateIDAndSiteID(
+        Integer[] certificateIDs, Integer siteID, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CERTIFICATEIDANDSITEID;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            finderArgs = new Object[] { StringUtil.merge(certificateIDs), siteID };
+        } else {
+            finderArgs = new Object[] {
+                    StringUtil.merge(certificateIDs), siteID,
+                    
+                    start, end, orderByComparator
+                };
+        }
+
+        List<LFCertificateSite> list = (List<LFCertificateSite>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFCertificateSite lfCertificateSite : list) {
+                if (!ArrayUtil.contains(certificateIDs,
+                            lfCertificateSite.getCertificateID()) ||
+                        !Validator.equals(siteID, lfCertificateSite.getSiteID())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_SELECT_LFCERTIFICATESITE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((certificateIDs != null) && (certificateIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < certificateIDs.length; i++) {
+                    if (certificateIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_5);
+                    }
+
+                    if ((i + 1) < certificateIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (siteID == null) {
+                query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5_NULL);
+            } else {
+                query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5);
+            }
+
+            conjunctionable = true;
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (certificateIDs != null) {
+                    for (Integer certificateID : certificateIDs) {
+                        if (certificateID != null) {
+                            qPos.add(certificateID);
+                        }
+                    }
+                }
+
+                if (siteID != null) {
+                    qPos.add(siteID.intValue());
+                }
+
+                list = (List<LFCertificateSite>) QueryUtil.list(q,
+                        getDialect(), start, end);
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (list == null) {
+                    FinderCacheUtil.removeResult(finderPath, finderArgs);
+                } else {
+                    cacheResult(list);
+
+                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                }
+
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
      * Returns all the l f certificate sites.
      *
      * @return the l f certificate sites
@@ -1744,6 +1958,107 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
     }
 
     /**
+     * Returns the number of l f certificate sites where certificateID = any &#63; and siteID = &#63;.
+     *
+     * @param certificateIDs the certificate i ds
+     * @param siteID the site i d
+     * @return the number of matching l f certificate sites
+     * @throws SystemException if a system exception occurred
+     */
+    public int countByCertificateIDAndSiteID(Integer[] certificateIDs,
+        Integer siteID) throws SystemException {
+        Object[] finderArgs = new Object[] {
+                StringUtil.merge(certificateIDs), siteID
+            };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_CERTIFICATEIDANDSITEID,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFCERTIFICATESITE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((certificateIDs != null) && (certificateIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < certificateIDs.length; i++) {
+                    if (certificateIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_CERTIFICATEID_5);
+                    }
+
+                    if ((i + 1) < certificateIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (siteID == null) {
+                query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5_NULL);
+            } else {
+                query.append(_FINDER_COLUMN_CERTIFICATEIDANDSITEID_SITEID_5);
+            }
+
+            conjunctionable = true;
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (certificateIDs != null) {
+                    for (Integer certificateID : certificateIDs) {
+                        if (certificateID != null) {
+                            qPos.add(certificateID);
+                        }
+                    }
+                }
+
+                if (siteID != null) {
+                    qPos.add(siteID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (count == null) {
+                    count = Long.valueOf(0);
+                }
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_CERTIFICATEIDANDSITEID,
+                    finderArgs, count);
+
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
      * Returns the number of l f certificate sites.
      *
      * @return the number of l f certificate sites
@@ -1807,5 +2122,15 @@ public class LFCertificateSitePersistenceImpl extends BasePersistenceImpl<LFCert
         EntityCacheUtil.removeCache(LFCertificateSiteImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    private static String _removeConjunction(String sql) {
+        int pos = sql.indexOf(" AND ");
+
+        if (pos != -1) {
+            sql = sql.substring(0, pos);
+        }
+
+        return sql;
     }
 }

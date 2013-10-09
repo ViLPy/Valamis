@@ -1,9 +1,12 @@
 package com.arcusys.learn.scorm.tracking.model
 
+import org.joda.time._
+
 case class Course
 (
   courseID: Int,
   userID: Int,
   grade: String,
-  comment: String
+  comment: String,
+  date: Option[DateTime] = None
 )

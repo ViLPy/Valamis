@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Proxy;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
     private Integer _userID;
     private String _grade;
     private String _comment;
+    private Date _date;
     private BaseModel<?> _lfCourseRemoteModel;
 
     public LFCourseClp() {
@@ -60,6 +62,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         attributes.put("userID", getUserID());
         attributes.put("grade", getGrade());
         attributes.put("comment", getComment());
+        attributes.put("date", getDate());
 
         return attributes;
     }
@@ -94,6 +97,12 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
 
         if (comment != null) {
             setComment(comment);
+        }
+
+        Date date = (Date) attributes.get("date");
+
+        if (date != null) {
+            setDate(date);
         }
     }
 
@@ -137,6 +146,14 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         _comment = comment;
     }
 
+    public Date getDate() {
+        return _date;
+    }
+
+    public void setDate(Date date) {
+        _date = date;
+    }
+
     public BaseModel<?> getLFCourseRemoteModel() {
         return _lfCourseRemoteModel;
     }
@@ -168,6 +185,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         clone.setUserID(getUserID());
         clone.setGrade(getGrade());
         clone.setComment(getComment());
+        clone.setDate(getDate());
 
         return clone;
     }
@@ -214,7 +232,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(getId());
@@ -226,13 +244,15 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         sb.append(getGrade());
         sb.append(", comment=");
         sb.append(getComment());
+        sb.append(", date=");
+        sb.append(getDate());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCourse");
@@ -257,6 +277,10 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         sb.append(
             "<column><column-name>comment</column-name><column-value><![CDATA[");
         sb.append(getComment());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>date</column-name><column-value><![CDATA[");
+        sb.append(getDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

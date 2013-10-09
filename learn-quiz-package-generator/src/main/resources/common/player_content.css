@@ -39,6 +39,12 @@
     float: right;
 }
 
+/*--Matching Question--*/
+
+#scormQuestionData td{
+   padding: 3px;
+}
+
 /* ------------ Choice Question ----------------*/
 
 .playerMainArea .radio, .playerMainArea .checkbox {

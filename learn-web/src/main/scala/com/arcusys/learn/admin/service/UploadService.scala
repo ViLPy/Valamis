@@ -2,7 +2,7 @@ package com.arcusys.learn.admin.service
 
 import java.io._
 import com.arcusys.scala.scalatra.json.JsonSupport
-import com.arcusys.scorm.deployer.PackageProcessor
+
 import org.scalatra.fileupload.FileUploadSupport
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
@@ -10,22 +10,21 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
-import java.awt.Image
-import java.awt.image.BufferedImage
-import javax.imageio.ImageIO
-import com.arcusys.learn.liferay.service.asset.AssetHelper
 import com.arcusys.scala.json.Json
-;
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.liferay.portal.kernel.util.Base64
+import com.arcusys.learn.admin.service.deployer.PackageProcessor
 
 class UploadService(configuration: BindingModule) extends ServletBase(configuration) with JsonSupport with FileUploadSupport {
   private val packageProcessor = new PackageProcessor()
-  private val assetHelper = new AssetHelper()
 
   def this() = this(Configuration)
 
   post("/package") {
+    //requireAdmin()
+
     val title = parameter("title") withDefault "New package"
-    val summary = parameter("summary") withDefault ""
+    val summary = AntiSamyHelper.sanitize(parameter("summary") withDefault "")
     val stream = fileParams.get("file").head.getInputStream // take only the first
     val userID = parameter("scormUserID").withDefault("0").toLong
     val groupID = parameter("liferayGroupID").withDefault("-1").toLong
@@ -34,15 +33,17 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     storePackage(title, summary, courseID, stream, userID, groupID)
   }
 
-  def storePackage(title:String, summary:String, courseID:Option[Int], stream:InputStream, userID:Long, groupID:Long)={
+  def storePackage(title: String, summary: String, courseID: Option[Int], stream: InputStream, userID: Long, groupID: Long) = {
     val packageTmpUUID = FileProcessing.getTempFileName()
     val newFilename = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     val outFile = new File(newFilename)
     val outStream = new FileOutputStream(outFile)
     FileProcessing.copyInputStream(stream, outStream)
-    val packageID = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID)
-    if (groupID != -1) assetHelper.addPackage(userID, groupID, storageFactory.packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created package")))
-    packageID
+    val result = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID, userID, groupID)
+    Json.toJson(Map(
+      "id"-> result.packageId,
+      "type"-> result.packageType
+    ))
   }
 
   get("/get-files") {
@@ -53,7 +54,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val imagePath = servletContext.getContextPath + "/SCORMData/files" + subdirectoryPath
     val thumbPath = servletContext.getContextPath + "/SCORMData/thumb" + subdirectoryPath
 
-    json(sortedFiles.map(file => {
+    Json.toJson(sortedFiles.map(file => {
       val fileName = file.getFileName
       if (!file.content.isEmpty) Map("thumb" -> (thumbPath + fileName + ".jpg"), "url" -> (imagePath + fileName), "name" -> fileName, "isDirectory" -> false)
       else Map("name" -> fileName, "isDirectory" -> true)
@@ -61,6 +62,8 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
   }
 
   post("/upload-file") {
+    requireAdmin()
+
     val directory = parameter("currentDirectory") withDefault ""
     val currentDirectory = if (!directory.equals("")) directory + "/" else ""
     val stream = fileParams.get("file").head.getInputStream // take only the first
@@ -96,7 +99,41 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     Json.toJson(Map("thumb" -> thumbName, "url" -> imageName, "name" -> name, "isDirectory" -> false))
   }
 
+  post("/base64-icon/:folderID"){
+    requireAdmin()
+
+    val directory = parameter("folderID").intRequired
+    val base64 = parameter("inputBase64").required
+    val outputData = Base64.decode(base64.replace("data:image/png;base64,", ""))
+
+    saveLogo(directory, "icon.png", outputData)
+  }
+
+  post("/upload-icon/:folderID") {
+    requireAdmin()
+
+    val directory = parameter("folderID").intRequired
+    val stream = fileParams.get("file").head.getInputStream // take only the first
+    val fullName = fileParams.get("file").head.getName // IE returns absolute path, e.g. C:/users/anonymous/Docs/pict.jpg Need to trim it
+    val name = new File(fullName).getName.replaceAll(" ", "_")
+    val contentSource = scala.io.Source.fromInputStream(stream)(scala.io.Codec.ISO8859)
+    val content = contentSource.map(_.toByte).toArray
+    contentSource.close()
+
+    saveLogo(directory, name, content)
+
+    json(Map("name" -> name))
+  }
+
+  private def saveLogo(directory: Int, name: String, content: Array[Byte]){
+    storageFactory.fileStorage.delete("files/" + directory, true)
+    storageFactory.fileStorage.store("files/" + directory + "/" + name, content)
+    storageFactory.certificateStorage.saveLogo(directory, name)
+  }
+
   post("/create-folder") {
+    requireAdmin()
+
     contentType = "text/plain"
     val folderName = parameter("dirName") withDefault ""
     val folder = parameter("currentDirectory") withDefault ""
@@ -106,20 +143,25 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
   }
 
 
-
+  //TODO: I added JAVA_OPTS="-Djava.awt.headless=true" to setenv.bat to get it worked. Ask Vitaly about it
   private def imageProcessor(input: InputStream, output: FileOutputStream) {
-    val sourceImage = ImageIO.read(input)
-    val height = sourceImage.getHeight
-    val width = sourceImage.getWidth
-    val thumbnail = if (height > width) {
-      sourceImage.getScaledInstance(-1, 128, Image.SCALE_SMOOTH)
-    } else {
-      sourceImage.getScaledInstance(128, -1, Image.SCALE_SMOOTH)
-    }
-    val bufferedThumbnail = new BufferedImage(thumbnail.getWidth(null),
-      thumbnail.getHeight(null),
-      BufferedImage.TYPE_INT_RGB)
-    bufferedThumbnail.getGraphics.drawImage(thumbnail, 0, 0, null)
-    ImageIO.write(bufferedThumbnail, "jpeg", output)
+    // System.setProperty("java.awt.headless", "true")
+    // val tk = Toolkit.getDefaultToolkit()
+    // val ge = GraphicsEnvironment.getLocalGraphicsEnvironment()
+    //System.out.println("Headless mode: " + ge.isHeadlessInstance);
+
+    /*  val sourceImage = ImageIO.read(input)
+  val height = sourceImage.getHeight
+  val width = sourceImage.getWidth
+  val thumbnail = if (height > width) {
+    sourceImage.getScaledInstance(-1, 128, Image.SCALE_SMOOTH)
+  } else {
+    sourceImage.getScaledInstance(128, -1, Image.SCALE_SMOOTH)
+  }
+  val bufferedThumbnail = new BufferedImage(thumbnail.getWidth(null),
+    thumbnail.getHeight(null),
+    BufferedImage.TYPE_INT_RGB)
+  bufferedThumbnail.getGraphics.drawImage(thumbnail, 0, 0, null)
+  ImageIO.write(bufferedThumbnail, "jpeg", output)*/
   }
 }

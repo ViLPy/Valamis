@@ -8,6 +8,8 @@ import java.io.FileNotFoundException
 import com.liferay.portal.util.{LayoutTypePortletFactoryUtil, PortalUtil}
 import com.liferay.portal.service.LayoutLocalServiceUtil
 import com.liferay.portlet.PortletURLUtil
+import com.arcusys.learn.service.util.SessionHandler
+import javax.servlet.http.Cookie
 
 /**
  * User: Yulia.Glushonkova
@@ -22,33 +24,42 @@ class CurriculumView extends GenericPortlet with ScalatraFilter with MustacheSup
     val language = LiferayHelpers.getLanguage(request)
     val path = request.getContextPath
 
-
-    if (userID == 0){
+    if (userID == 0) {
       val translations = getTranslation("error", language)
       val data = mustache(Map("contextPath" -> path, "language" -> language) ++ translations, "scorm_nopermissions.html")
       response.getWriter.println(data)
     }
-    else{
-    val courseID = themeDisplay.getScopeGroupId
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
-    val url = getRootUrl(request, response)
+    else {
+      val courseID = themeDisplay.getScopeGroupId
+      val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+      val url = getRootUrl(request, response)
 
-    httpServletRequest.getSession.setAttribute("userID", userID)
+      // Session management
+      val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
+      val cookie = new Cookie("valamisSessionID", sessionID)
+      cookie.setMaxAge(-1)
+      cookie.setPath("/")
+      response.addProperty(cookie)
+      SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
+      SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
+      SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
 
-    val translations = getTranslation("curriculum", language)
-    val companyId = PortalUtil.getCompanyId(request)
+      httpServletRequest.getSession.setAttribute("userID", userID)
 
-    val data = Map("root"-> url, "contextPath" -> path, "userID" -> userID, "isAdmin" -> userManagement.isAdmin(userID, courseID),
-      "language" -> language, "courseID" -> courseID, "companyID" -> companyId) ++ translations
+      val translations = getTranslation("curriculum", language)
+      val companyId = PortalUtil.getCompanyId(request)
 
-    val html = if (userManagement.hasTeacherPermissions(userID, courseID)) "curriculum_admin.html"
-                else "curriculum_user.html"
+      val data = Map("root" -> url, "contextPath" -> path, "userID" -> userID, "isAdmin" -> userManagement.isAdmin(userID, courseID),
+        "language" -> language, "courseID" -> courseID, "companyID" -> companyId) ++ translations
 
-    response.getWriter.println(generateResponse(data, html))
+      val html = if (userManagement.hasTeacherPermissions(userID, courseID)) "curriculum_admin.html"
+      else "curriculum_user.html"
+
+      response.getWriter.println(generateResponse(data, html))
     }
   }
 
-  private def getRootUrl(request: RenderRequest, response: RenderResponse)={
+  private def getRootUrl(request: RenderRequest, response: RenderResponse) = {
     val url = PortletURLUtil.getCurrent(request, response)
     val parts = url.toString.split("/")
     if (parts.length > 2) parts.tail.tail.head else ""

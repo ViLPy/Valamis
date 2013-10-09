@@ -8,6 +8,8 @@ import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
 * The cache model class for representing LFCourse in entity cache.
 *
@@ -21,10 +23,11 @@ public class LFCourseCacheModel implements CacheModel<LFCourse>, Serializable {
     public Integer userID;
     public String grade;
     public String comment;
+    public long date;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(id);
@@ -36,6 +39,8 @@ public class LFCourseCacheModel implements CacheModel<LFCourse>, Serializable {
         sb.append(grade);
         sb.append(", comment=");
         sb.append(comment);
+        sb.append(", date=");
+        sb.append(date);
         sb.append("}");
 
         return sb.toString();
@@ -58,6 +63,12 @@ public class LFCourseCacheModel implements CacheModel<LFCourse>, Serializable {
             lfCourseImpl.setComment(StringPool.BLANK);
         } else {
             lfCourseImpl.setComment(comment);
+        }
+
+        if (date == Long.MIN_VALUE) {
+            lfCourseImpl.setDate(null);
+        } else {
+            lfCourseImpl.setDate(new Date(date));
         }
 
         lfCourseImpl.resetOriginalValues();

@@ -9,6 +9,7 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.service.asset.AssetHelper
+import com.arcusys.learn.service.util.SessionHandler
 
 class GeneratedPackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -23,6 +24,8 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
   }
 
   get("/Zip/:quizID.zip") {
+    requireTeacherPermissions()
+
     contentType = "application/zip"
 
     val quizID = parameter("quizID").intRequired
@@ -39,6 +42,8 @@ class GeneratedPackagesService(configuration: BindingModule) extends ServletBase
   private val packageProcessor = new PackageProcessor()
 
   post("/ZipInstall/:quizID") {
+    requireTeacherPermissions()
+
     val quizID = parameter("quizID").intRequired
     val userIDHeader = request.getHeader("scormUserID")
     val userID = if (userIDHeader.isEmpty) 0 else userIDHeader.toLong

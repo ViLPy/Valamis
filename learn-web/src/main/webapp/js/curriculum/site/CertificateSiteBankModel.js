@@ -13,7 +13,6 @@ CertificateSiteBankCollectionProxy = Backbone.Collection.extend({
         var site = new CertificateSiteModel(entity);
         var template = Mustache.to_html(jQuery("#certificateSiteItem").html(), entity);
         jQuery("#certificateSitesSortable_" + this.certificateID).append(template);
-
         this.sites.add(site);
     },
 
@@ -25,7 +24,20 @@ CertificateSiteBankCollectionProxy = Backbone.Collection.extend({
     reinitialize: function(){
         var certID = this.certificateID;
         var id = "#certificateSitesSortable_" + this.certificateID;
+
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isFirefox = userAgent.match(/firefox/) || userAgent.match(/opera/);
+
         jQuery(id).sortable({
+            start: function (event, ui) {
+                if( isFirefox && ui.helper !== undefined )
+                    ui.helper.css('position','absolute').css('margin-top', jQuery(window).scrollTop() );
+            },
+            beforeStop: function (event, ui) {
+                if( isFirefox &&  ui.offset !== undefined )
+                    ui.helper.css('margin-top', 0);
+            },
+            placeholder: 'placeholder-class',
             handle: ".handle",
             stop: function( event, ui ) {
                     var sortedAnswers = jQuery(id).sortable("toArray", {key:'value'});
@@ -34,10 +46,10 @@ CertificateSiteBankCollectionProxy = Backbone.Collection.extend({
                     });
                 }
             })
-            .selectable({
-                selected: function( event, ui ) {
-                    jQuery(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
-            }})
+            //.selectable({
+            //    selected: function( event, ui ) {
+            //        jQuery(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
+            //}})
             .find( "li" )
             .addClass( "ui-corner-all" )
             .prepend( "<div class='handle'><span class='ui-icon ui-icon-carat-2-n-s'></span></div>" );
@@ -62,15 +74,12 @@ CertificateSiteBankCollectionProxy = Backbone.Collection.extend({
     },
 
     // Delete
-    drop:function () {
-        var currentSite = this.getSelected();
-        if (currentSite == -1) return;
-
-        var realModel = this.getEntity(currentSite);
+    drop:function (certificateID, id) {
+        var realModel = this.getEntity(id);
         if (realModel == null || realModel == undefined) return;
 
         this.sites.remove(realModel);
-        jQuery(".ui-selected").remove();
+        jQuery("#certificateSitesSortable_"+ certificateID +" #siteSortableListItem_" + id) .remove();
         realModel.destroy();
     },
 

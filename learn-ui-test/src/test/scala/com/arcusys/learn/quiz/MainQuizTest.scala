@@ -17,9 +17,9 @@ class MainQuizTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMa
   "Quiz Editor" should "be able to search across the quizzes" in {
     driver.get(baseUrl + quizUrl)
     createNew("abc")
-    wait(1)
+    wait(3)
     createNew("Test ab")
-    wait(1)
+    wait(3)
 
     assertAmount(3)
     search("ab")
@@ -67,6 +67,7 @@ class MainQuizTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMa
 
   private def createNew(name: String){
     driver.findElement(By.id("SCORMButtonAddQuiz")).click()
+    wait(2)
     driver.findElement(By.id("quizEdit")).click()
     driver.findElement(By.id("quizTitle")).clear()
     driver.findElement(By.id("quizTitle")).sendKeys(name)
@@ -79,7 +80,7 @@ class MainQuizTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMa
     driver.findElement(By.id("quizSearch")).clear()
     if (filter != "") driver.findElement(By.id("quizSearch")).sendKeys(filter)
     else driver.findElement(By.id("quizSearch")).sendKeys(Keys.ENTER)
-    wait(1)
+    wait(2)
   }
 
   private def assertOrder(val1: String, val2: String, val3: String){

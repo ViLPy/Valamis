@@ -407,6 +407,8 @@ QuizEditView = Backbone.View.extend({
                 this.$("#elementUpdate").hide();
                 this.$("#elementCancelUpdate").hide();
                 this.$("#elementPreview").show();
+                this.$("#quizAddExternalResource").show();
+                this.$("#quizAddLiferayResource").show();
                 break;
             case 'questionExternal':
                 this.$('#quizAddCategory').hide();
@@ -416,6 +418,8 @@ QuizEditView = Backbone.View.extend({
                 this.$("#elementUpdate").hide();
                 this.$("#elementCancelUpdate").hide();
                 this.$("#elementPreview").show();
+                this.$("#quizAddExternalResource").show();
+                this.$("#quizAddLiferayResource").show();
                 break;
             case 'category':
                 this.$('#quizAddCategory').show();
@@ -425,6 +429,8 @@ QuizEditView = Backbone.View.extend({
                 this.$("#elementUpdate").hide();
                 this.$("#elementCancelUpdate").hide();
                 this.$("#elementPreview").hide();
+                this.$("#quizAddExternalResource").show();
+                this.$("#quizAddLiferayResource").show();
                 break;
             default:
                 this.$("#elementUpdate").hide();
@@ -434,6 +440,8 @@ QuizEditView = Backbone.View.extend({
                 this.$('#quizAddQuestions').show();
                 this.$('#quizRemoveElement').show();
                 this.$("#elementPreview").hide();
+                this.$("#quizAddExternalResource").show();
+                this.$("#quizAddLiferayResource").show();
                 break;
         }
     },

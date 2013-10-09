@@ -87,6 +87,64 @@ public interface LFCertificateModel extends BaseModel<LFCertificate> {
     */
     public void setDescription(String description);
 
+    /**
+    * Returns the logo of this l f certificate.
+    *
+    * @return the logo of this l f certificate
+    */
+    @AutoEscape
+    public String getLogo();
+
+    /**
+        * Sets the logo of this l f certificate.
+    *
+    * @param logo the logo of this l f certificate
+    */
+    public void setLogo(String logo);
+
+    /**
+    * Returns the is permanent of this l f certificate.
+    *
+    * @return the is permanent of this l f certificate
+    */
+    public Boolean getIsPermanent();
+
+    /**
+        * Sets the is permanent of this l f certificate.
+    *
+    * @param isPermanent the is permanent of this l f certificate
+    */
+    public void setIsPermanent(Boolean isPermanent);
+
+    /**
+    * Returns the publish badge of this l f certificate.
+    *
+    * @return the publish badge of this l f certificate
+    */
+    public Boolean getPublishBadge();
+
+    /**
+        * Sets the publish badge of this l f certificate.
+    *
+    * @param publishBadge the publish badge of this l f certificate
+    */
+    public void setPublishBadge(Boolean publishBadge);
+
+    /**
+    * Returns the short description of this l f certificate.
+    *
+    * @return the short description of this l f certificate
+    */
+    @AutoEscape
+    public String getShortDescription();
+
+    /**
+        * Sets the short description of this l f certificate.
+    *
+    * @param shortDescription the short description of this l f certificate
+    */
+    public void setShortDescription(String shortDescription);
+
     public boolean isNew();
 
     public void setNew(boolean n);

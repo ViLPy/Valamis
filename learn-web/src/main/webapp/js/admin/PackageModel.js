@@ -2,13 +2,21 @@ PackageService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
         'update': {
             'path': function (model) {
-                return "services/packages/update/" + model.id + "?courseID=" + Utils.getCourseID() + "&scopeType=" + jQuery("#adminScopeSelect").val();
+                if (model.get("type") == "tincan") {
+                    return "services/tincan-packages/update/" + model.id + "?courseID=" + Utils.getCourseID() + "&scopeType=" + jQuery("#adminScopeSelect").val();
+                } else {
+                    return "services/packages/update/" + model.id + "?courseID=" + Utils.getCourseID() + "&scopeType=" + jQuery("#adminScopeSelect").val();
+                }
             },
             'method': "post"
         },
         'delete': {
-            'path': function () {
-                return "/services/packages/delete"
+            'path': function (model) {
+                if (model.get("type") == "tincan") {
+                    return "/services/tincan-packages/delete"
+                } else {
+                    return "/services/packages/delete"
+                }
             },
             'method': "post"
         }
@@ -20,7 +28,8 @@ PackageModel = Backbone.Model.extend({
         isDefault: false,
         title: "",
         summary: "",
-        visibility: true
+        visibility: true,
+        type: "undefined"
     }
 }).extend(PackageService);
 

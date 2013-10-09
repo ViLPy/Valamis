@@ -61,7 +61,7 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
   def getCount(quizID: Int): Int = getAll("quizID" -> quizID).size
 
   def getByCategory(quizID: Int, categoryID: Option[Int]) =
-    getAll("quizID" -> quizID, "categoryID" -> categoryID.getOrElse(-1))
+    getAll("quizID" -> quizID, "categoryID" -> categoryID.getOrElse(-1)).sortBy(_.arrangementIndex)
 
   def modifyExternal(id: Int, title: String, url: String) {
     modify("id" -> id, "title" -> title, "url" -> url)
