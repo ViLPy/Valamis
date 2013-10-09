@@ -18,7 +18,7 @@ import com.liferay.portlet.messageboards.service.{MBThreadLocalServiceUtil, MBDi
 import java.io.InputStream
 import java.util
 import com.arcusys.learn.admin.service.UploadService
-import com.arcusys.learn.scorm.tracking.model.User
+import com.arcusys.learn.scorm.tracking.model.{PermissionType, Role, User}
 import scala.Array
 import scala.util.Random
 import com.arcusys.learn.storage.StorageFactoryContract
@@ -290,8 +290,10 @@ with MessageBoardSupport with DocumentLibrarySupport
     setPortletPreferences(layoutTheory, activities, "demo/settings/activities.xml")
 
 
-    val teacherRoleIDs = Array(RoleLocalServiceUtil.getRole(companyId, "Teacher").getRoleId)
-    val studentRoleIDs = Array(RoleLocalServiceUtil.getRole(companyId, "Student").getRoleId)
+    val teacherID = RoleLocalServiceUtil.getRole(companyId, "Teacher").getRoleId
+    val studentID = RoleLocalServiceUtil.getRole(companyId, "Student").getRoleId
+    val teacherRoleIDs = Array(teacherID)
+    val studentRoleIDs = Array(studentID)
 
     val studentMillaUser = addUser(organization.getOrganizationId, organization.getCompanyId, "milla.oppilas", "Milla", "Oppilas", false, "Student", studentRoleIDs)
     val studentOskuUser = addUser(organization.getOrganizationId, organization.getCompanyId, "osku.opiskelija", "Osku", "Opiskelija", true, "Student", studentRoleIDs)
@@ -301,6 +303,13 @@ with MessageBoardSupport with DocumentLibrarySupport
     UserGroupRoleLocalServiceUtil.addUserGroupRoles(studentOskuUser.getUserId, group.getGroupId, studentRoleIDs)
     UserGroupRoleLocalServiceUtil.addUserGroupRoles(teacherUser.getUserId, group.getGroupId, teacherRoleIDs)
 
+
+    if (storageFactory.roleStorage.getForPermission(PermissionType.Student).find(_.liferayRoleID == studentID.toInt).isEmpty) {
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceUtil.getRole(companyId, "Student").getRoleId.toInt, PermissionType.Student, false))
+    }
+    if (storageFactory.roleStorage.getForPermission(PermissionType.Teacher).find(_.liferayRoleID == teacherID.toInt).isEmpty) {
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceUtil.getRole(companyId, "Teacher").getRoleId.toInt, PermissionType.Teacher, false))
+    }
 
     PrincipalThreadLocal.setName(teacherUser.getUserId)
     val permissionChecker = PermissionCheckerFactoryUtil.create(teacherUser)

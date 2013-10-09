@@ -35,14 +35,19 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersisten
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
 import com.liferay.portal.NoSuchModelException;
@@ -260,6 +265,8 @@ public class LFQuestionPersistenceImpl extends BasePersistenceImpl<LFQuestion>
     protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
     @BeanReference(type = LFResourcePersistence.class)
     protected LFResourcePersistence lfResourcePersistence;
+    @BeanReference(type = LFRolePersistence.class)
+    protected LFRolePersistence lfRolePersistence;
     @BeanReference(type = LFRollupContributionPersistence.class)
     protected LFRollupContributionPersistence lfRollupContributionPersistence;
     @BeanReference(type = LFRollupRulePersistence.class)
@@ -272,10 +279,18 @@ public class LFQuestionPersistenceImpl extends BasePersistenceImpl<LFQuestion>
     protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
+    @BeanReference(type = LFSettingPersistence.class)
+    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackagePersistence.class)
     protected LFSocialPackagePersistence lfSocialPackagePersistence;
     @BeanReference(type = LFSocialPackageTagPersistence.class)
     protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
+    @BeanReference(type = LFTincanActivityPersistence.class)
+    protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
+    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanPackagePersistence.class)
+    protected LFTincanPackagePersistence lfTincanPackagePersistence;
     @BeanReference(type = LFUserPersistence.class)
     protected LFUserPersistence lfUserPersistence;
     @BeanReference(type = ResourcePersistence.class)

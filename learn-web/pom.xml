@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>learn-web</artifactId>
     <name>learn-web</name>
@@ -109,12 +109,18 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>learn-tincan-package</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-deployer</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.scala-tools.subcut</groupId>
             <artifactId>subcut_2.9.1</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
@@ -133,6 +139,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.owasp.antisamy</groupId>
+            <artifactId>antisamy</artifactId>
+            <version>1.5.1</version>
+        </dependency>
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -143,6 +154,7 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.9.1</artifactId>
             <scope>test</scope>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.scalatra</groupId>
@@ -154,10 +166,20 @@
             <groupId>org.scalamock</groupId>
             <artifactId>scalamock-scalatest-support_2.9.1</artifactId>
             <scope>test</scope>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-convert</artifactId>
+            <version>1.2</version>
         </dependency>
         <!-- /Test dependencictqes -->
     </dependencies>
-
     <repositories>
         <repository>
             <releases>
@@ -301,6 +323,10 @@
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/OpenedCertificateView.js
                                 </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/base/GradeView.js
+                                </include>
+
                             </includes>
                         </aggregation>
 
@@ -327,27 +353,18 @@
                             <output>${project.build.directory}/${project.artifactId}/js/curriculum/CertificateUser.js</output>
                             <includes>
                                 <include>
-                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUserModel.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/member/MemberListItemView.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUserBankModel.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/member/MemberListView.js
                                 </include>
                                 <include>
-                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/user/CertificateUsersEditView.js
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/member/MemberModel.js
                                 </include>
                             </includes>
                         </aggregation>
 
-                        <aggregation>
-                            <insertNewLine>true</insertNewLine>
-                            <removeIncluded>true</removeIncluded>
-                            <output>${project.build.directory}/${project.artifactId}/js/curriculum/Grading.js</output>
-                            <includes>
-                                <include>
-                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/grading/GradeView.js
-                                </include>
-                            </includes>
-                        </aggregation>
+
 
                         <aggregation>
                             <insertNewLine>true</insertNewLine>
@@ -366,8 +383,42 @@
                                 <include>
                                     ${project.build.directory}/${project.artifactId}-${project.version}/js/curriculum/student/AvailableCertificateCollection.js
                                 </include>
+
                             </includes>
                         </aggregation>
+
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/admin/Role.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/admin/role/RoleModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/admin/role/RoleBankModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/admin/role/ManageRolesView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
+                        <aggregation>
+                            <insertNewLine>true</insertNewLine>
+                            <removeIncluded>true</removeIncluded>
+                            <output>${project.build.directory}/${project.artifactId}/js/user/user.js</output>
+                            <includes>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/user/UserAccountModel.js
+                                </include>
+                                <include>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}/js/user/UserAccountView.js
+                                </include>
+                            </includes>
+                        </aggregation>
+
                     </aggregations>
                 </configuration>
             </plugin>

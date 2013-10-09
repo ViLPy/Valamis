@@ -272,4 +272,124 @@
 
 .SCORMAdminDialogButtons {
  	margin: 5px 0;
-} 
+}
+
+
+.portlet-learn-scorm .buttonManageRoles{
+    background-image: url("../img/membership.png") !important;
+    background-color: #D9DCDD !important;
+}
+.portlet-learn-scorm .buttonManageRoles:hover{
+    background-image: url("../img/membership_hovered.png") !important;
+}
+
+/*
+.selectable .ui-selecting { background: #FECA40; }
+.selectable .ui-selected { background: #F39814; color: white; }
+.selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+.selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+*/
+.selectable ul { width: 300px; list-style: none; margin: 0; padding: 0; }
+.selectable li { background: white; position:relative;margin: 1em 0; padding: 1em; border: 2px solid gray; list-style: none; padding-left: 42px; }
+.selectable li .handle { background: #f8f8f8; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; }
+.selectable .ui-selecting { background: #eee; }
+.selectable .ui-selecting .handle { background: #ddd; }
+.selectable .ui-selected { background: #def; }
+.selectable .ui-selected .handle { background: #cde; }
+
+
+
+
+.portlet-learn-scorm .editQuestionsButton {
+    background-color: transparent;
+    float: right;
+}
+
+.buttonRemoveSite {
+    background-position: 0px -56px !important;
+}
+
+.buttonRemoveSite:hover {
+    background-position: -24px -56px !important;
+}
+
+.portlet-learn-scorm .quizManagementButton {
+    background-color: transparent;
+    float: right;
+}
+
+
+
+.roleTable {
+    background: #fff;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.portlet-learn-scorm .roleTable th {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    padding: 10px 10px 3px 10px;
+    border-bottom: 2px solid #CCC;
+}
+
+.portlet-learn-scorm .roleTable td {
+    border-bottom: 1px solid #CCC;
+    color: #333333;
+    padding: 11px 10px 10px 10px;
+}
+
+.portlet-learn-scorm .roleTable tbody tr:hover td {
+    background: #EFECBD;
+    color: #000;
+}
+
+.thinColumn{
+    width: 15%
+}
+.wideColumn{
+    width: 70%
+}
+
+#issuerSettingsTitle {
+    color: #000 !important;
+    height: 22px !important;
+    margin-bottom: 5px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: sans-serif !important;
+}
+
+.issuerSettingLabel{
+    float: left;
+    width: 200px;
+}
+
+.issuerSettingValue{
+    margin-left: 10px;
+    width: 210px;
+
+}
+
+.issuerSettingLine{
+    margin-top: 5px;
+}
+
+.issuerSettingsTitle {
+    color: #000 !important;
+    height: 22px !important;
+    margin-bottom: 5px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: sans-serif !important;
+}
+
+.invalid{
+    margin-left: 5px;
+    color: red;
+    display: none;
+}

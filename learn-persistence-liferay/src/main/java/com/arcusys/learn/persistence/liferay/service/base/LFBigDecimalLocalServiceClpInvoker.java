@@ -38,10 +38,10 @@ public class LFBigDecimalLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName192;
-    private String[] _methodParameterTypes192;
-    private String _methodName193;
-    private String[] _methodParameterTypes193;
+    private String _methodName212;
+    private String[] _methodParameterTypes212;
+    private String _methodName213;
+    private String[] _methodParameterTypes213;
 
     public LFBigDecimalLocalServiceClpInvoker() {
         _methodName0 = "addLFBigDecimal";
@@ -126,13 +126,13 @@ public class LFBigDecimalLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName192 = "getBeanIdentifier";
+        _methodName212 = "getBeanIdentifier";
 
-        _methodParameterTypes192 = new String[] {  };
+        _methodParameterTypes212 = new String[] {  };
 
-        _methodName193 = "setBeanIdentifier";
+        _methodName213 = "setBeanIdentifier";
 
-        _methodParameterTypes193 = new String[] { "java.lang.String" };
+        _methodParameterTypes213 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -224,13 +224,13 @@ public class LFBigDecimalLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName192.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
+        if (_methodName212.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes212, parameterTypes)) {
             return LFBigDecimalLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName193.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+        if (_methodName213.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes213, parameterTypes)) {
             LFBigDecimalLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;

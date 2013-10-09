@@ -8,7 +8,7 @@ class CourseService(implicit val bindingModule: BindingModule) extends Injectabl
   val storageFactory = inject[StorageFactoryContract]
 
   def saveCourseGradeAndComment(courseID: Int, userID: Int, grade: String, comment: String) {
-    val course = new Course(courseID, userID, grade, comment)
+    val course = new Course(courseID, userID, grade, comment, None)
     if (storageFactory.courseStorage.get(courseID, userID) == None)
       storageFactory.courseStorage.create(course)
     else
@@ -18,4 +18,6 @@ class CourseService(implicit val bindingModule: BindingModule) extends Injectabl
   def getCourseGradeAndComment(courseID: Int, userID: Int) = {
     storageFactory.courseStorage.get(courseID, userID)
   }
+
+
 }

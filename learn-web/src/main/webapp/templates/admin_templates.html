@@ -3,9 +3,9 @@
     <td>{{id}}</td>
     <td>{{{title}}}</td>
     <td>{{{summary}}}</td>
-    <td><input type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
-    <td><input value="{{id}}" type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}}/></td>
-   <!-- <td><input id="isDefault"  type="radio" name="isDefaultPackage" value={{id}} {{#isDefault}}checked{{/isDefault}} {{^visibility}}disabled{{/visibility}} /></td>-->
+    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
+    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} value="{{id}}" type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}}/></td>
+    <!-- <td><input id="isDefault"  type="radio" name="isDefaultPackage" value={{id}} {{#isDefault}}checked{{/isDefault}} {{^visibility}}disabled{{/visibility}} /></td>-->
 </script>
 
 <!--Package row edit view-->
@@ -13,8 +13,8 @@
     <td>{{id}}</td>
     <td><input type="text" value="{{{title}}}" id="title"/></td>
     <td><textarea id="summary">{{{summary}}}</textarea></td>
-    <td><input type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
-    <td><input type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}} /></td>
+    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
+    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}} /></td>
 </script>
 
 <!--Package list view-->
@@ -22,10 +22,18 @@
     <div class="SCORMPackageListHeader">
         <div class="SCORMPackageListHeaderText">{{packageListSubTitleLabel}}</div>
         <div class="SCORMPackageListHeaderButtons">
-            <abbr title="{{packageListReloadButtonLabel}}"><button id="SCORMPackageListReload" class="button28 buttonReload"></button></abbr>
-            <abbr title="{{packageListEditButtonLabel}}"><button id="SCORMPackageEdit" class="button28 buttonEdit"></button></abbr>
-            <abbr title="{{packageListSaveButtonLabel}}"><button id="SCORMPackageDone" class="button28 buttonDone"></button></abbr>
-            <abbr title="{{packageListRemoveButtonLabel}}"><button id="SCORMPackageRemove" class="button28 buttonRemove"></button></abbr>
+            <abbr title="{{packageListReloadButtonLabel}}">
+                <button id="SCORMPackageListReload" class="button28 buttonReload"></button>
+            </abbr>
+            <abbr title="{{packageListEditButtonLabel}}">
+                <button id="SCORMPackageEdit" class="button28 buttonEdit"></button>
+            </abbr>
+            <abbr title="{{packageListSaveButtonLabel}}">
+                <button id="SCORMPackageDone" class="button28 buttonDone"></button>
+            </abbr>
+            <abbr title="{{packageListRemoveButtonLabel}}">
+                <button id="SCORMPackageRemove" class="button28 buttonRemove"></button>
+            </abbr>
         </div>
         <div style="clear:both"/>
     </div>
@@ -33,7 +41,9 @@
         <thead>
         <tr>
             <th scope="col" class="scormPackageIDColumn sortable listTitle" ref="id">{{packageListIDHeaderLabel}}</th>
-            <th scope="col" class="scormPackageTitleColumn sortable listTitle" ref="title">{{packageListTitleHeaderLabel}}</th>
+            <th scope="col" class="scormPackageTitleColumn sortable listTitle" ref="title">
+                {{packageListTitleHeaderLabel}}
+            </th>
             <th scope="col" class="scormPackageSummaryColumn listTitle">{{packageListSummaryHeaderLabel}}</th>
             <th scope="col" class="scormPackageVisibilityColumn listTitle">{{packageListVisibilityHeaderLabel}}</th>
             <th scope="col" class="listTitle">{{packageListIsDefaultHeaderLabel}}</th>
@@ -43,4 +53,91 @@
 
         </tbody>
     </table>
+</script>
+
+<script type="text/mustache" id="manageRolesTemplate">
+
+    <div class="SCORMPackageListHeader">
+        <div class="SCORMPackageListHeaderText">{{teacherPermissionsHeaderLabel}}</div>
+        <div class="SCORMPackageListHeaderButtons">
+            <abbr title="{{sitesSubtitleLabel}}">
+                <button id="addTeacher" class="button24x18 buttonList editQuestionsButton"></button>
+            </abbr>
+            <abbr title="{{sitesSubtitleLabel}}">
+                <button id="removeTeacher" class="button24x18 removeQuizButton buttonRemoveSite"></button>
+            </abbr>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+
+    <table style="width: 100%" cellpadding="0" cellspacing="0" class="roleTable" id="teacherRoleTable">
+        <thead>
+        <tr>
+            <th scope="col" class="thinColumn scormPackageIDColumn sortable listTitle" ref="id">{{packageListIDHeaderLabel}}
+            </th>
+            <th scope="col" class="wideColumn scormPackageTitleColumn sortable listTitle" ref="title">
+                {{packageListTitleHeaderLabel}}
+            </th>
+            <th scope="col" class="thinColumn listTitle">{{packageListIsDefaultHeaderLabel}}</th>
+        </tr>
+        </thead>
+        <tbody id="teacherRoleList">
+        </tbody>
+    </table>
+    </div>
+
+    <div class="SCORMPackageListHeader" style="margin-top:20px;">
+        <div class="SCORMPackageListHeaderText">{{studentPermissionsHeaderLabel}}</div>
+        <div class="SCORMPackageListHeaderButtons">
+            <abbr title="{{sitesSubtitleLabel}}">
+                <button id="addStudent" class="button24x18 buttonList editQuestionsButton"></button>
+            </abbr>
+            <abbr title="{{sitesSubtitleLabel}}">
+                <button id="removeStudent" class="button24x18 removeQuizButton buttonRemoveSite"></button>
+            </abbr>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+    <table style="width: 100%" cellpadding="0" cellspacing="0" class="roleTable" id="studentRoleTable">
+        <thead>
+        <tr>
+            <th scope="col" class="thinColumn sortable listTitle" ref="id">{{packageListIDHeaderLabel}}
+            </th>
+            <th scope="col" class="wideColumn sortable listTitle"  ref="title">
+                {{packageListTitleHeaderLabel}}
+            </th>
+            <th scope="col" class="thinColumn listTitle" >{{packageListIsDefaultHeaderLabel}}</th>
+        </tr>
+        </thead>
+        <tbody id="studentRoleList">
+        </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/mustache" id="roleItemTemplate">
+    <td>{{roleID}}</td>
+    <td>
+        <div>{{roleName}}</div>
+        <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+    </td>
+    <td><input type="checkbox" id="isDefaultRole" {{#isDefault}}checked{{/isDefault}} /></td>
+</script>
+
+<script type="text/mustache" id="liferayRoleDialogView">
+    <div id="liferayRoleDialog">
+        <div id="roleList">
+        </div>
+    </div>
+</script>
+<script type="text/mustache" id="liferayRoleElementView">
+    <div id="liferaySiteElement" class="portlet-learn-scorm">
+        <button id="selectSiteButton" class="button28 buttonInstall quizManagementButton"></button>
+        <div><b>{{roleName}}</b></div>
+        <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        <br>
+        <hr>
+    </div>
 </script>

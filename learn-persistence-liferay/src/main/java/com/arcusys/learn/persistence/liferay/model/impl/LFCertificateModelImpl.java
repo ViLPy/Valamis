@@ -46,9 +46,13 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     public static final Object[][] TABLE_COLUMNS = {
             { "id_", Types.BIGINT },
             { "title", Types.CLOB },
-            { "description", Types.CLOB }
+            { "description", Types.CLOB },
+            { "logo", Types.VARCHAR },
+            { "isPermanent", Types.BOOLEAN },
+            { "publishBadge", Types.BOOLEAN },
+            { "shortDescription", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title TEXT null,description TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,isPermanent BOOLEAN,publishBadge BOOLEAN,shortDescription VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificate";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -59,7 +63,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
                 "value.object.finder.cache.enabled.com.arcusys.learn.persistence.liferay.model.LFCertificate"),
             true);
-    public static final boolean COLUMN_BITMASK_ENABLED = false;
+    public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+                "value.object.column.bitmask.enabled.com.arcusys.learn.persistence.liferay.model.LFCertificate"),
+            true);
+    public static long TITLE_COLUMN_BITMASK = 1L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFCertificate"));
     private static ClassLoader _classLoader = LFCertificate.class.getClassLoader();
@@ -68,7 +75,13 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         };
     private long _id;
     private String _title;
+    private String _originalTitle;
     private String _description;
+    private String _logo;
+    private Boolean _isPermanent;
+    private Boolean _publishBadge;
+    private String _shortDescription;
+    private long _columnBitmask;
     private LFCertificate _escapedModelProxy;
 
     public LFCertificateModelImpl() {
@@ -105,6 +118,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
+        attributes.put("isPermanent", getIsPermanent());
+        attributes.put("publishBadge", getPublishBadge());
+        attributes.put("shortDescription", getShortDescription());
 
         return attributes;
     }
@@ -128,6 +145,30 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         if (description != null) {
             setDescription(description);
         }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
+        }
+
+        Boolean isPermanent = (Boolean) attributes.get("isPermanent");
+
+        if (isPermanent != null) {
+            setIsPermanent(isPermanent);
+        }
+
+        Boolean publishBadge = (Boolean) attributes.get("publishBadge");
+
+        if (publishBadge != null) {
+            setPublishBadge(publishBadge);
+        }
+
+        String shortDescription = (String) attributes.get("shortDescription");
+
+        if (shortDescription != null) {
+            setShortDescription(shortDescription);
+        }
     }
 
     public long getId() {
@@ -147,7 +188,17 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     }
 
     public void setTitle(String title) {
+        _columnBitmask |= TITLE_COLUMN_BITMASK;
+
+        if (_originalTitle == null) {
+            _originalTitle = _title;
+        }
+
         _title = title;
+    }
+
+    public String getOriginalTitle() {
+        return GetterUtil.getString(_originalTitle);
     }
 
     public String getDescription() {
@@ -160,6 +211,50 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
     public void setDescription(String description) {
         _description = description;
+    }
+
+    public String getLogo() {
+        if (_logo == null) {
+            return StringPool.BLANK;
+        } else {
+            return _logo;
+        }
+    }
+
+    public void setLogo(String logo) {
+        _logo = logo;
+    }
+
+    public Boolean getIsPermanent() {
+        return _isPermanent;
+    }
+
+    public void setIsPermanent(Boolean isPermanent) {
+        _isPermanent = isPermanent;
+    }
+
+    public Boolean getPublishBadge() {
+        return _publishBadge;
+    }
+
+    public void setPublishBadge(Boolean publishBadge) {
+        _publishBadge = publishBadge;
+    }
+
+    public String getShortDescription() {
+        if (_shortDescription == null) {
+            return StringPool.BLANK;
+        } else {
+            return _shortDescription;
+        }
+    }
+
+    public void setShortDescription(String shortDescription) {
+        _shortDescription = shortDescription;
+    }
+
+    public long getColumnBitmask() {
+        return _columnBitmask;
     }
 
     @Override
@@ -193,6 +288,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         lfCertificateImpl.setId(getId());
         lfCertificateImpl.setTitle(getTitle());
         lfCertificateImpl.setDescription(getDescription());
+        lfCertificateImpl.setLogo(getLogo());
+        lfCertificateImpl.setIsPermanent(getIsPermanent());
+        lfCertificateImpl.setPublishBadge(getPublishBadge());
+        lfCertificateImpl.setShortDescription(getShortDescription());
 
         lfCertificateImpl.resetOriginalValues();
 
@@ -241,6 +340,11 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
     @Override
     public void resetOriginalValues() {
+        LFCertificateModelImpl lfCertificateModelImpl = this;
+
+        lfCertificateModelImpl._originalTitle = lfCertificateModelImpl._title;
+
+        lfCertificateModelImpl._columnBitmask = 0;
     }
 
     @Override
@@ -265,12 +369,32 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
             lfCertificateCacheModel.description = null;
         }
 
+        lfCertificateCacheModel.logo = getLogo();
+
+        String logo = lfCertificateCacheModel.logo;
+
+        if ((logo != null) && (logo.length() == 0)) {
+            lfCertificateCacheModel.logo = null;
+        }
+
+        lfCertificateCacheModel.isPermanent = getIsPermanent();
+
+        lfCertificateCacheModel.publishBadge = getPublishBadge();
+
+        lfCertificateCacheModel.shortDescription = getShortDescription();
+
+        String shortDescription = lfCertificateCacheModel.shortDescription;
+
+        if ((shortDescription != null) && (shortDescription.length() == 0)) {
+            lfCertificateCacheModel.shortDescription = null;
+        }
+
         return lfCertificateCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(7);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{id=");
         sb.append(getId());
@@ -278,13 +402,21 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(getTitle());
         sb.append(", description=");
         sb.append(getDescription());
+        sb.append(", logo=");
+        sb.append(getLogo());
+        sb.append(", isPermanent=");
+        sb.append(getIsPermanent());
+        sb.append(", publishBadge=");
+        sb.append(getPublishBadge());
+        sb.append(", shortDescription=");
+        sb.append(getShortDescription());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCertificate");
@@ -301,6 +433,22 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(
             "<column><column-name>description</column-name><column-value><![CDATA[");
         sb.append(getDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>isPermanent</column-name><column-value><![CDATA[");
+        sb.append(getIsPermanent());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>publishBadge</column-name><column-value><![CDATA[");
+        sb.append(getPublishBadge());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>shortDescription</column-name><column-value><![CDATA[");
+        sb.append(getShortDescription());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

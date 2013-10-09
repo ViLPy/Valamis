@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>learn-scorm-package-model</artifactId>
     <name>learn-scorm-package-model</name>
@@ -27,6 +27,7 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.9.1</artifactId>
             <scope>test</scope>
+            <version>1.7.2</version>
         </dependency>
     </dependencies>
     <build>

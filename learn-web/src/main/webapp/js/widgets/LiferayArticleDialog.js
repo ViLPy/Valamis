@@ -114,12 +114,14 @@ LiferayArticleListElement = Backbone.View.extend({
 
 LiferayArticleDialog = Backbone.View.extend({
     events:{
-        "click #refetchResource":"updateResources"
+        'click #refetchResource':'updateResources',
+        'keyup #articleFilterInput':'filter'
     },
     callback:function (groupID, articleID, lang) {
     },
     initialize:function () {
         this.collection = new LiferayArticleCollection();
+        this.language = this.options.language || {};
         this.defaultLanguage = this.options.languageID || "en";
         this.collection.on('reset', this.render, this);
         this.collection.on('select', this.pickUp, this);
@@ -131,13 +133,33 @@ LiferayArticleDialog = Backbone.View.extend({
         });
         this.collection.fetch({reset: true});
     },
+    filter: function() {
+        var query = this.$('#articleFilterInput').val();
+        if (!query) {
+            this.renderList(this.collection);
+            return;
+        }
+
+        var filtered = this.collection.filter(function(item){
+            for (var language in item.get('titles')) {
+                if (item.get('titles')[language].toLowerCase().indexOf(query.toLowerCase()) > -1) return true;
+            }
+            return false;
+        });
+        this.renderList(new LiferayArticleCollection(filtered));
+    },
     addArticle:function (article) {
         var view = new LiferayArticleListElement({model:article});
         this.$('#articleList').append(view.render());
     },
     render:function () {
-        this.$el.html(jQuery('#liferayArticleDialogView').html());
-        this.collection.each(this.addArticle, this);
+        var template = Mustache.to_html(jQuery('#liferayArticleDialogView').html(), this.language);
+        this.$el.html(template);
+        this.renderList(this.collection);
+    },
+    renderList: function(collection) {
+        this.$('#articleList').empty();
+        collection.each(this.addArticle, this);
     },
     choose:function (onChoose) {
         this.callback = onChoose;

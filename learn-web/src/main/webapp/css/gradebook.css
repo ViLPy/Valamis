@@ -77,3 +77,16 @@
     margin-right: 0;
 }
 .gradeTable tr td{padding: 5px; }
+
+#GradeTable thead th {
+  padding: 5px;
+  background-color: #D9DCDD;
+}
+
+#GradeTable tr td {
+  padding: 5px;
+}
+
+.userTD {
+  background-color: #D9DCDD;
+}

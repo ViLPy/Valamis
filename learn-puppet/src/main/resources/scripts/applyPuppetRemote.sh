@@ -9,7 +9,7 @@
 # an optional variable:
 # LIFERAY_HOME
 
-PROJECT="nkeservice"
+PROJECT="learn"
 
 if [ $SRC_ARC ] ; then
     echo "SRC_ARC is $SRC_ARC."
@@ -70,8 +70,6 @@ if [ $LIFERAY_HOME ]; then
     ssh $SSH_USER@$DEPLOYMENT_HOST "
 
         sudo rm -rf /tmp/$PROJECT-deploy/; sudo mkdir /tmp/$PROJECT-deploy/ &&
-
-        sudo unzip -o /tmp/$PACKAGE_NAME.zip -d /tmp/$PROJECT-deploy/ license*.xml &&
 
         sudo rm -f /tmp/$PACKAGE_NAME.zip &&
 

@@ -48,21 +48,17 @@ LiferayUserSelectDialog = Backbone.View.extend({
         this.views = [];
         this.sortAZ = true;
 
-        //this.collection = new LiferayUserCollection();
         this.collection.on('reset', this.addAll, this);
         this.collection.on('select', this.pickUp, this);
         this.$el.dialog({
             autoOpen:false,
             modal:true,
-            width:350,
+            width:370,
             height:400
         });
 
         this.render();
 
-      //  alert("exists  " +  this.$('#userList').length > 0 + ", " + jQuery('#userList').length > 0);
-      //  this.userList = this.$("#userList").List();
-        //this.collection.fetch({reset: true});
     },
     addAll: function(){
         this.userList = this.$("#userList").List();
@@ -87,7 +83,6 @@ LiferayUserSelectDialog = Backbone.View.extend({
     pickUp:function(model){
         this.callback(model.get('userID'), model.get('name'));
         this.clear();
-       // this.$el.dialog('close');
     },
     clear: function(){
         this.$("#userSearch").val('');

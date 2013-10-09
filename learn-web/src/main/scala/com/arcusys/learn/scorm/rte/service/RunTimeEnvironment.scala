@@ -7,6 +7,7 @@ import org.scala_tools.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState}
+import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 
 class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(configuration) with CookieSupport {
   def this() = this(Configuration)
@@ -24,6 +25,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
+
     val packageID = parameter("packageID").intRequired
     val organizationID = parameter("organizationID").required
     val currentAttempt = attemptStorage.getActive(userID, packageID) match {
@@ -49,6 +53,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
+
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
@@ -63,6 +70,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
+
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
@@ -72,12 +82,15 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
   }
 
   post("/SetValue") {
-    val value = parameter("value").required
+    val value = AntiSamyHelper.sanitize(parameter("value").required)
     val userID = try {
       request.getHeader("scormUserID").toInt
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
+
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
@@ -92,6 +105,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
+
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
@@ -130,6 +146,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
+
     val packageID = parameter("packageID").intRequired
     val attempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
     val tree = activityStateTreeStorage.get(attempt.id).getOrElse(throw new Exception("Activity tree should exist!"))
@@ -172,6 +191,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     } catch {
       case n: NumberFormatException => -1
     } // default id is -1, for guests
+
+    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
+
     val packageID = parameter("packageID").intRequired
     val attempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
     val tree = activityStateTreeStorage.get(attempt.id).getOrElse(throw new Exception("Activity tree should exist!"))

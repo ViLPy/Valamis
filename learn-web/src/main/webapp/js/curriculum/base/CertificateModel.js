@@ -36,12 +36,19 @@ Certificate = Backbone.Model.extend({
 CertificateCollectionService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
         'read': function () {
-            return "/services/certificating/";
+            var sortAZ = true;
+            if (jQuery("#sortAZ").val() != undefined) sortAZ = jQuery("#sortAZ").val();
+            return "/services/certificating?page="+ jQuery("#allCertificatesPaginator").pagination('getCurrentPage') +
+                "&count="+10+"&filter="+jQuery("#certificateSearch").val()+"&sortAZ=" + sortAZ;
         }
     }
 });
 
 CertificateCollection = Backbone.Collection.extend({
-    model: Certificate
+    model: Certificate,
+    parse : function( response ){
+        this.trigger("collection:updated", { total : response.total, currentPage : response.currentPage } );
+        return response.records;
+    }
 }).extend(CertificateCollectionService);
 

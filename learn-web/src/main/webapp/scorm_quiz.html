@@ -83,7 +83,7 @@
 
                 initViews:function () {
                     if (!window.JournalArticleDialog) {
-                        window.JournalArticleDialog = new LiferayArticleDialog({el:jQuery1816Quiz("#QuizLiferayArticleDialog"), languageID:"{{language}}"});
+                        window.JournalArticleDialog = new LiferayArticleDialog({el:jQuery1816Quiz("#QuizLiferayArticleDialog"), languageID:"{{language}}", language:scormLanguageDataQuiz});
                     }
 
                     this.questionChooseDialog = new QuestionbankSelectDialog({el:jQuery1816Quiz("#questionChooseDialog"), language:scormLanguageDataQuiz});

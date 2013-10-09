@@ -266,6 +266,12 @@ public class LFCertificateLocalServiceUtil {
         return getService().createLFCertificate();
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByTitle(
+        java.lang.String title)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByTitle(title);
+    }
+
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getService().removeAll();

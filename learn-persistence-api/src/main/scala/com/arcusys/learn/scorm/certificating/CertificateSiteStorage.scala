@@ -10,6 +10,7 @@ trait CertificateSiteStorage {
   def getCount(certificateID:Int): Int
   def getByID(id: Int): Option[CertificateSite]
   def getByCertificate(certificateID: Int): Seq[CertificateSite]
+  def getByCertificateAndSite(certificates: Seq[Int], siteID: Int): Seq[CertificateSite]
   def createAndGetID(certificateSite: CertificateSite): Int
   def delete(id: Int)
   def getAll: Seq[CertificateSite]

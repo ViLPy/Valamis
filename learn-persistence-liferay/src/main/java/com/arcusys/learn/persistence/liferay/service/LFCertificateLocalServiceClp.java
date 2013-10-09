@@ -45,6 +45,8 @@ public class LFCertificateLocalServiceClp implements LFCertificateLocalService {
     private String[] _methodParameterTypes19;
     private String _methodName20;
     private String[] _methodParameterTypes20;
+    private String _methodName21;
+    private String[] _methodParameterTypes21;
 
     public LFCertificateLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -144,9 +146,13 @@ public class LFCertificateLocalServiceClp implements LFCertificateLocalService {
 
         _methodParameterTypes19 = new String[] {  };
 
-        _methodName20 = "removeAll";
+        _methodName20 = "findByTitle";
 
-        _methodParameterTypes20 = new String[] {  };
+        _methodParameterTypes20 = new String[] { "java.lang.String" };
+
+        _methodName21 = "removeAll";
+
+        _methodParameterTypes21 = new String[] {  };
     }
 
     public com.arcusys.learn.persistence.liferay.model.LFCertificate addLFCertificate(
@@ -668,11 +674,38 @@ public class LFCertificateLocalServiceClp implements LFCertificateLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFCertificate) ClpSerializer.translateOutput(returnObj);
     }
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByTitle(
+        java.lang.String title)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
+                    new Object[] { ClpSerializer.translateInput(title) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate>) ClpSerializer.translateOutput(returnObj);
+    }
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName20,
-                _methodParameterTypes20, new Object[] {  });
+            _invokableLocalService.invokeMethod(_methodName21,
+                _methodParameterTypes21, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

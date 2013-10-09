@@ -31,6 +31,11 @@ public class LFCertificateLocalServiceImpl
         return createLFCertificate(counterLocalService.increment(LFCertificate.class.getName()));
     }
 
+    public java.util.List<LFCertificate> findByTitle(String title)
+            throws com.liferay.portal.kernel.exception.SystemException{
+        return lfCertificatePersistence.findByTitle(title);
+    }
+
     public void removeAll() throws SystemException {
         lfCertificatePersistence.removeAll();
     }

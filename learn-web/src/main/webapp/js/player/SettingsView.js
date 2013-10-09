@@ -37,7 +37,7 @@ SettingsView = Backbone.View.extend({
 
     showDefault:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageScopeRuleRow").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageScopeRuleRow").html(), _.extend(this.model.toJSON(), language, {isTincan: this.model.get("type") == "tincan"}));
         this.$el.html(template);
     },
 

@@ -165,6 +165,10 @@
 			</id>
 			<basic name="title" />
 			<basic name="description" />
+			<basic name="logo" />
+			<basic name="isPermanent" />
+			<basic name="publishBadge" />
+			<basic name="shortDescription" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -233,6 +237,10 @@
 			<basic name="grade" />
 			<basic name="comment">
 				<column name="COMMENT_" />
+			</basic>
+			<basic name="date">
+				<column name="DATE_" />
+				<temporal>TIMESTAMP</temporal>
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -491,6 +499,19 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="liferayRoleID" />
+			<basic name="permission" />
+			<basic name="isDefault" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionModelImpl">
 		<attributes>
 			<id name="id">
@@ -589,6 +610,20 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSettingModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="key">
+				<column name="KEY_" />
+			</basic>
+			<basic name="value" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl">
 		<attributes>
 			<id name="id">
@@ -612,6 +647,53 @@
 			</id>
 			<basic name="socialPackageID" />
 			<basic name="name" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActivityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="tincanID" />
+			<basic name="packageID" />
+			<basic name="activityType" />
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="launch" />
+			<basic name="resource" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="endpoint" />
+			<basic name="authType" />
+			<basic name="key">
+				<column name="KEY_" />
+			</basic>
+			<basic name="secret" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="summary" />
+			<basic name="assetRefID" />
+			<basic name="courseID" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -757,6 +839,10 @@
 		<table name="Learn_LFResource" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRoleImpl" name="LFRole">
+		<table name="Learn_LFRole" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionImpl" name="LFRollupContribution">
 		<table name="Learn_LFRollupContribution" />
 		<attributes />
@@ -781,12 +867,28 @@
 		<table name="Learn_LFSequencingTracking" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSettingImpl" name="LFSetting">
+		<table name="Learn_LFSetting" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" name="LFSocialPackage">
 		<table name="Learn_LFSocialPackage" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl" name="LFSocialPackageTag">
 		<table name="Learn_LFSocialPackageTag" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActivityImpl" name="LFTincanActivity">
+		<table name="Learn_LFTincanActivity" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointImpl" name="LFTincanLrsEndpoint">
+		<table name="Learn_LFTincanLrsEndpoint" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl" name="LFTincanPackage">
+		<table name="Learn_LFTincanPackage" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" name="LFUser">

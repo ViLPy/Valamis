@@ -3,6 +3,7 @@ package com.arcusys.learn.web
 import org.scalatra.ScalatraServlet
 import com.arcusys.scala.scalatra.json.JsonSupport
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.service.util.SessionHandler
 
 //import org.slf4j.LoggerFactory
 
@@ -26,7 +27,6 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
   }
 
   implicit val bindingModule = configuration
-  //val log = LoggerFactory.getLogger(this.getClass)
   val storageFactory = inject[StorageFactoryContract]
 
   class ParameterBase(name: String) {
@@ -44,6 +44,14 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
       required.toInt
     } catch {
       case _ => halt(405, "Integer parameter '" + name + "' could not be parsed")
+    }
+
+    def stringOption(): Option[String] = {
+      params.get(name).map(value => try {
+        value.toString
+      } catch {
+        case _ => halt(405, "String parameter '" + name + "' could not be parsed")
+      })
     }
 
     def intOption(none: String): Option[Int] = {
@@ -90,6 +98,32 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
   }
 
   def parameter(name: String) = new ParameterBase(name)
+
+  def isAdmin = try {
+    SessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
+  } catch {
+    case e: Exception => false
+  }
+
+  def hasTeacherPermissions = try {
+    SessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
+  } catch {
+    case e: Exception => false
+  }
+
+  def getSessionUserID = try {
+    SessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
+  } catch {
+    case e:Exception => -1 // guest
+  }
+
+  def requireAdmin() {
+    if (!isAdmin) halt(401)
+  }
+
+  def requireTeacherPermissions() {
+    if (!hasTeacherPermissions) halt(401)
+  }
 
   //def requiredParam(name: String, errorMessage: String) = params.getOrElse(name, halt(405, errorMessage))
 }

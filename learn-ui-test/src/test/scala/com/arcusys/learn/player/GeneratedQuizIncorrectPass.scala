@@ -18,7 +18,7 @@ class GeneratedQuizIncorrectPass (_driver:WebDriver) extends Suite with FlatSpec
 
     driver.get(baseUrl + playerUrl)
     wait(1)
-    driver.findElement(xpath("//*[@id=\"SCORMPackagesGrid\"]/tr[3]/td[3]/*[@id=\"startPackage\"]")).click()
+    driver.findElement(xpath("//*[@id=\"SCORMPackagesGrid\"]/tr[1]/td[3]/*[@id=\"startPackage\"]")).click()
     wait(5)
     driver.findElement(id("currentPackageName")).getText should be("Test 1")
 
@@ -60,8 +60,6 @@ class GeneratedQuizIncorrectPass (_driver:WebDriver) extends Suite with FlatSpec
 
   private def processMatching() {
     driver.switchTo().frame(driver.findElement(id("SCORMDataOutput")))
-
-    new Select(driver.findElement(xpath("//*[@id=\"scormQuestionData\"]/tbody/tr[1]/td[2]/select"))).selectByVisibleText("tomato")
 
     driver.findElement(tagName("button")).click()
     driver.switchTo().defaultContent()
@@ -149,7 +147,7 @@ class GeneratedQuizIncorrectPass (_driver:WebDriver) extends Suite with FlatSpec
   private def processChoiceCheckbox() {
     driver.switchTo().frame(driver.findElement(id("SCORMDataOutput")))
 
-    driver.findElement(xpath("(//*[@class=\"checkbox\"])[1]")).click()
+    //driver.findElement(xpath("(//*[@class=\"checkbox\"])[1]")).click()
     driver.findElement(tagName("button")).click()
     driver.switchTo().defaultContent()
     wait(3)
@@ -158,7 +156,7 @@ class GeneratedQuizIncorrectPass (_driver:WebDriver) extends Suite with FlatSpec
   private def processChoiceRadio() {
     driver.switchTo().frame(driver.findElement(id("SCORMDataOutput")))
 
-    driver.findElement(xpath("(//*[@class=\"radio\"])[2]")).click()
+    //driver.findElement(xpath("(//*[@class=\"radio\"])[2]")).click()
     driver.findElement(tagName("button")).click()
     driver.switchTo().defaultContent()
     wait(3)

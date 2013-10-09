@@ -34,7 +34,12 @@ public class LFCertificateSiteLocalServiceImpl
             throws SystemException {
         return lfCertificateSitePersistence.findByCertificateID(certificateID);
     }
+
     public List<LFCertificateSite> findByCertificateIDAndSiteID(Integer certificateID, Integer siteID)
+            throws SystemException {
+        return lfCertificateSitePersistence.findByCertificateIDAndSiteID(certificateID, siteID);
+    }
+    public List<LFCertificateSite> findByCertificateIDAndSiteID(Integer[] certificateID, Integer siteID)
             throws SystemException {
         return lfCertificateSitePersistence.findByCertificateIDAndSiteID(certificateID, siteID);
     }

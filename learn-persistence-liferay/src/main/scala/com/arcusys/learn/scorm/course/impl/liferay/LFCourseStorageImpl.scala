@@ -5,6 +5,7 @@ import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFCourse
 import scala._
 import com.arcusys.learn.scorm.tracking.model.Course
+import org.joda.time.DateTime
 
 
 /**
@@ -36,7 +37,11 @@ trait LFCourseStorageImpl extends EntityStorage[Course] {
   }
   def extract(lfEntity: LFCourse): Option[Course] =
     if (lfEntity == null) None
-    else Option(Course(lfEntity.getCourseID, lfEntity.getUserID, lfEntity.getGrade, lfEntity.getComment))
+    else Option(Course(lfEntity.getCourseID,
+      lfEntity.getUserID,
+      lfEntity.getGrade,
+      lfEntity.getComment,
+      (if (lfEntity.getDate != null) Option(new DateTime(lfEntity.getDate)) else None)))
 
   def getAll(parameters: (String, Any)*) = { throw new UnsupportedOperationException("Not implemented") }
   def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
@@ -48,6 +53,7 @@ trait LFCourseStorageImpl extends EntityStorage[Course] {
     newEntity.setUserID(entity.userID)
     newEntity.setGrade(entity.grade)
     newEntity.setComment(entity.comment)
+    newEntity.setDate(DateTime.now().toDate)
 
     updateFunction(newEntity)
   }

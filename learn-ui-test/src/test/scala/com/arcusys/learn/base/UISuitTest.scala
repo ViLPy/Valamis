@@ -45,12 +45,12 @@ class UISuitTest extends Suites with LoginSupport with BeforeAndAfterAll {
     new TeacherTest(driver),
     new StudentViewMarkTest(driver),
 
-    new ViewedStateTest(driver),
-    new CleanUpTest(driver),
+    new ViewedStateTest(driver)
+    /*new CleanUpTest(driver),
     new PermissionTest(driver),
     new QuizScopeTest(driver),
     new AdminScopeTest(driver),
-    new PlayerScopeTest(driver)
+    new PlayerScopeTest(driver)*/
     )
 
   override def afterAll(configMap: Map[String, Any]) {

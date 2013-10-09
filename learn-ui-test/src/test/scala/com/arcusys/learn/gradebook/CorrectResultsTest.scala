@@ -17,28 +17,30 @@ class CorrectResultsTest (_driver:WebDriver) extends Suite with FlatSpec with Sh
   //10.1
   "Gradebook" should "be opened correctly" in {
     driver.get(baseUrl + gradebookUrl)
-    val packages = driver.findElement(By.id("gradebookPackageChoice"))
     val users = driver.findElement(By.id("gradebookUserChoice"))
-    assertTrue(packages.isDisplayed)
     assertTrue(users.isDisplayed)
 
-    assertEquals("Whole course", packages.findElement(By.xpath("//option[1]")).getText)
-    assertEquals("Test 1", packages.findElement(By.xpath("//option[2]")).getText)
-    assertEquals(teacherUserName, driver.findElement(By.xpath("//*[@id=\"gradebookUserChoice\"]/option")).getText)
+    new Select(driver.findElement(By.id("gradebookUserChoice"))).selectByVisibleText("Test Test")
+    wait(1)
+    assertEquals("Whole course", driver.findElement(By.xpath("//*[@id=\"gradebookPackageChoice\"]/option[1]")).getText)
+    //assertEquals("Test 1", packages.findElement(By.xpath("//option[3]")).getText)
+    assertEquals(teacherUserName, driver.findElement(By.xpath("//*[@id=\"gradebookUserChoice\"]/option[3]")).getText)
   }
 
   //10.2
   it should "show results" in {
-    new Select(driver.findElement(By.id("gradebookPackageChoice"))).selectByVisibleText("Test 1")
+    new Select(driver.findElement(By.id("gradebookUserChoice"))).selectByVisibleText("Test Test")
     wait(1)
+    new Select(driver.findElement(By.id("gradebookPackageChoice"))).selectByVisibleText("Test 1")
+    wait(5)
     for(index <- 1 to 11){
       val title = questionTitle(index)
       assertViewed(index)
-      if (title != " Who Is Using Liferay" && title != " External quiz resource" && title != " essay")
+      if (!title.equalsIgnoreCase(" Liferay Benefits") && !title.equalsIgnoreCase(" External quiz resource") && !title.equalsIgnoreCase(" Who Is Using Liferay") && !title.equalsIgnoreCase(" essay"))
         assertCorrect(index)
       else{
         assertUnknown(index)
-        if (title == " essay")
+        if (title.equalsIgnoreCase(" essay"))
           assertEquals("Review", driver.findElement(By.xpath("//*[@id=\"jsTreeGradebook\"]/ul/li/ul/li["+index+"]/div[3]/span/button")).getText)
       }
     }
@@ -56,5 +58,30 @@ class CorrectResultsTest (_driver:WebDriver) extends Suite with FlatSpec with Sh
 
     setEssayMark(essayIndex, "bad!", 0)
     assertMark(essayIndex, 0)
+  }
+
+  it should "be able to show student response" in {
+    for(index <- 1 to 11){
+      questionTitle(index) match {
+        case " numeric" => assertEquals("15", getResponse(index))
+        case " short case sensitive" => assertEquals("CASE", getResponse(index))
+        case " short" => assertEquals("a", getResponse(index))
+        case " choise" => {
+          openResponse(index)
+          val text = driver.findElement(By.xpath("//*[@id=\"reviewAnswer\"]/p")).getText
+          assertEquals("A", text)
+        }
+        case " choise radio" => {
+          openResponse(index)
+          val text = driver.findElement(By.xpath("//*[@id=\"reviewAnswer\"]/p")).getText
+          assertEquals("1", text)
+        }
+        case _ => {/*do nothning*/}
+      }
+    }
+  }
+
+  it should "be able to show overall result" in {
+    new Select(driver.findElement(By.id("gradebookUserChoice"))).selectByVisibleText("All students")
   }
 }

@@ -15,6 +15,10 @@ public class LFCertificateSoap implements Serializable {
     private long _id;
     private String _title;
     private String _description;
+    private String _logo;
+    private Boolean _isPermanent;
+    private Boolean _publishBadge;
+    private String _shortDescription;
 
     public LFCertificateSoap() {
     }
@@ -25,6 +29,10 @@ public class LFCertificateSoap implements Serializable {
         soapModel.setId(model.getId());
         soapModel.setTitle(model.getTitle());
         soapModel.setDescription(model.getDescription());
+        soapModel.setLogo(model.getLogo());
+        soapModel.setIsPermanent(model.getIsPermanent());
+        soapModel.setPublishBadge(model.getPublishBadge());
+        soapModel.setShortDescription(model.getShortDescription());
 
         return soapModel;
     }
@@ -95,5 +103,37 @@ public class LFCertificateSoap implements Serializable {
 
     public void setDescription(String description) {
         _description = description;
+    }
+
+    public String getLogo() {
+        return _logo;
+    }
+
+    public void setLogo(String logo) {
+        _logo = logo;
+    }
+
+    public Boolean getIsPermanent() {
+        return _isPermanent;
+    }
+
+    public void setIsPermanent(Boolean isPermanent) {
+        _isPermanent = isPermanent;
+    }
+
+    public Boolean getPublishBadge() {
+        return _publishBadge;
+    }
+
+    public void setPublishBadge(Boolean publishBadge) {
+        _publishBadge = publishBadge;
+    }
+
+    public String getShortDescription() {
+        return _shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        _shortDescription = shortDescription;
     }
 }

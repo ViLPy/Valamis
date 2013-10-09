@@ -10,6 +10,7 @@ PlayerView = Backbone.View.extend({
 
     initialize:function () {
         this.packageID = null;
+        this.packageType = null;
         this.render();
     },
     render:function () {
@@ -138,6 +139,9 @@ PlayerView = Backbone.View.extend({
             jQuery("#SCORMNavigationSuspend").show();
         }
 
+        jQuery("#SCORMOrganizationsMenu").show();
+        jQuery("#SCORMTree").show();
+
         if (data.endSession) {
             this.trigger('endSession');
             jQuery.ajax({
@@ -168,16 +172,72 @@ PlayerView = Backbone.View.extend({
         }
     },
 
-    load:function (packageID) {
-        this.packageID = packageID;
-        this.initView();
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("start"));
+    isTincan:function () {
+        return this.packageType == "tincan";
     },
 
-    loadAndResume:function (packageID) {
+    openTincanPackage:function(launchUrl, endpoint, auth) {
+        jQuery('#SCORMDataOutput').attr("src", Utils.getContextPath() + "/SCORMData/" + launchUrl
+            + "?endpoint=" + encodeURIComponent(endpoint)
+            + "&auth=" + encodeURIComponent(auth)
+            + "&actor=" + encodeURIComponent(JSON.stringify({mbox:["mailto:"+jQuery("#userEmail").val()],name:[jQuery("#userName").val()]})))
+    },
+
+    loadTincanPackage:function() {
+
+        jQuery("#SCORMNavigationForward").hide();
+        jQuery("#SCORMNavigationBackward").hide();
+        jQuery("#SCORMNavigationSuspend").hide();
+        jQuery("#SCORMOrganizationsMenu").hide();
+        jQuery("#SCORMTree").hide();
+
+        jQuery("#SCORMNavigationExit").show();
+
+        var windowHeight = jQuery(window).height() - 150;
+        jQuery("#SCORMDataOutput").height(windowHeight);
+
+        var player = this;
+        jQuery.ajax({
+            type: 'POST', dataType: 'json', url: Utils.getContextPath() + "/services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
+            success: function(data) {
+                if (data.noSettings == true) {
+                    alert(jQuery("#tincanLrsNotConfiguredMessage").val())
+                }
+                else if (data.authType == "Basic") {
+                    if (data.auth) {
+                        player.openTincanPackage(data.launchURL, data.endpoint, data.auth);
+                    }
+                    else {
+                        jQuery("#tincanLaunchUrlCredentialsDialog").val(data.launchURL);
+                        jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
+                        jQuery1816Player('#tincanLrsUserCredentials').dialog('open');
+                    }
+                }
+            }
+        })
+    },
+
+    load:function (packageID, packageType) {
         this.packageID = packageID;
+        this.packageType = packageType;
         this.initView();
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("resumeAll"));
+        if (this.isTincan()) {
+            this.loadTincanPackage();
+        }
+        else {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("start"));
+        }
+    },
+
+    loadAndResume:function (packageID, packageType) {
+        this.packageID = packageID;
+        this.packageType = packageType;
+        this.initView();
+        if (this.isTincan()) {
+            this.loadTincanPackage();
+        } else {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("resumeAll"));
+        }
     },
 
     getNavigationRequestURL:function (requestType) {
@@ -186,30 +246,44 @@ PlayerView = Backbone.View.extend({
     },
 
     doPrevious:function () {
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("previous"));
+        if (!this.isTincan()) {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("previous"));
+        }
     },
 
     doContinue:function () {
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("continue"));
+        if (!this.isTincan()) {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("continue"));
+        }
     },
 
     doExit:function () {
         this.trigger('exit');
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("exitAll"));
+        if (this.isTincan()){
+            this.trigger('endSession');
+            jQuery.ajax({
+                type: 'POST',
+                url: jQuery("#SCORMContextPath").val()+"/clearSession"
+            });
+            jQuery('#SCORMDataOutput').attr("src", "");
+        } else {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("exitAll"));
+        }
     },
 
     doSuspend:function () {
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("suspendAll"));
-        this.onSuspend = true;
+        if (!this.isTincan()) {
+            jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("suspendAll"));
+            this.onSuspend = true;
+        }
     },
 
     doChoice:function (id) {
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("choice{" + id + "}"));
+        if (!this.isTincan()) jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("choice{" + id + "}"));
     },
     doJump:function (id) {
-        jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("jump{" + id + "}"));
+        if (!this.isTincan()) jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("jump{" + id + "}"));
     },
-
 
     selectNode:function (id) {
         this.jsTreeRef.deselect_all(); // drop selection from current

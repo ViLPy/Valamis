@@ -2,6 +2,7 @@ package com.arcusys.learn.base
 
 import org.openqa.selenium._
 import org.openqa.selenium.By._
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 
 trait UITestBase {
   val driver: WebDriver
@@ -30,12 +31,22 @@ trait UITestBase {
   protected val packageDescription2004 = "Test package description SCORM 2004"
 
   protected val teacherUserName = "Test Test"
-  protected val studentUserName = "yulia g g"
+  protected val studentUserName = "Student"
   protected val noPermissionText = "Sorry, you do not have permissions to view that content"
 
   def wait(seconds: Int) {
     val milliSeconds: Int = seconds * 1000
     Thread.sleep(milliSeconds)
+  }
+
+  def waitForElementBy(locator: By) {
+    val webWait = new WebDriverWait(driver, 100)
+    webWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
+  }
+
+  def waitForAlert() {
+    val webWait = new WebDriverWait(driver, 100)
+    webWait.until(ExpectedConditions.alertIsPresent)
   }
 
   def closeAlertAndGetItsText = {

@@ -9,6 +9,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
 * The base model interface for the LFCourse service. Represents a row in the &quot;Learn_LFCourse&quot; database table, with each column mapped to a property of this class.
 *
@@ -114,6 +116,20 @@ public interface LFCourseModel extends BaseModel<LFCourse> {
     * @param comment the comment of this l f course
     */
     public void setComment(String comment);
+
+    /**
+    * Returns the date of this l f course.
+    *
+    * @return the date of this l f course
+    */
+    public Date getDate();
+
+    /**
+        * Sets the date of this l f course.
+    *
+    * @param date the date of this l f course
+    */
+    public void setDate(Date date);
 
     public boolean isNew();
 

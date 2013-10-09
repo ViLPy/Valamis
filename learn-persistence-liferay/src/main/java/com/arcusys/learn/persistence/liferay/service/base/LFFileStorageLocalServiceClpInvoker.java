@@ -38,26 +38,26 @@ public class LFFileStorageLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName192;
-    private String[] _methodParameterTypes192;
-    private String _methodName193;
-    private String[] _methodParameterTypes193;
-    private String _methodName198;
-    private String[] _methodParameterTypes198;
-    private String _methodName199;
-    private String[] _methodParameterTypes199;
-    private String _methodName200;
-    private String[] _methodParameterTypes200;
-    private String _methodName201;
-    private String[] _methodParameterTypes201;
-    private String _methodName202;
-    private String[] _methodParameterTypes202;
-    private String _methodName203;
-    private String[] _methodParameterTypes203;
-    private String _methodName204;
-    private String[] _methodParameterTypes204;
-    private String _methodName205;
-    private String[] _methodParameterTypes205;
+    private String _methodName212;
+    private String[] _methodParameterTypes212;
+    private String _methodName213;
+    private String[] _methodParameterTypes213;
+    private String _methodName218;
+    private String[] _methodParameterTypes218;
+    private String _methodName219;
+    private String[] _methodParameterTypes219;
+    private String _methodName220;
+    private String[] _methodParameterTypes220;
+    private String _methodName221;
+    private String[] _methodParameterTypes221;
+    private String _methodName222;
+    private String[] _methodParameterTypes222;
+    private String _methodName223;
+    private String[] _methodParameterTypes223;
+    private String _methodName224;
+    private String[] _methodParameterTypes224;
+    private String _methodName225;
+    private String[] _methodParameterTypes225;
 
     public LFFileStorageLocalServiceClpInvoker() {
         _methodName0 = "addLFFileStorage";
@@ -142,45 +142,45 @@ public class LFFileStorageLocalServiceClpInvoker {
                 "boolean"
             };
 
-        _methodName192 = "getBeanIdentifier";
+        _methodName212 = "getBeanIdentifier";
 
-        _methodParameterTypes192 = new String[] {  };
+        _methodParameterTypes212 = new String[] {  };
 
-        _methodName193 = "setBeanIdentifier";
+        _methodName213 = "setBeanIdentifier";
 
-        _methodParameterTypes193 = new String[] { "java.lang.String" };
+        _methodParameterTypes213 = new String[] { "java.lang.String" };
 
-        _methodName198 = "createLFFileStorage";
+        _methodName218 = "createLFFileStorage";
 
-        _methodParameterTypes198 = new String[] {  };
+        _methodParameterTypes218 = new String[] {  };
 
-        _methodName199 = "findByFilename";
+        _methodName219 = "findByFilename";
 
-        _methodParameterTypes199 = new String[] { "java.lang.String" };
+        _methodParameterTypes219 = new String[] { "java.lang.String" };
 
-        _methodName200 = "findByFilename";
+        _methodName220 = "findByFilename";
 
-        _methodParameterTypes200 = new String[] { "java.lang.String", "int", "int" };
+        _methodParameterTypes220 = new String[] { "java.lang.String", "int", "int" };
 
-        _methodName201 = "removeByFilename";
+        _methodName221 = "removeByFilename";
 
-        _methodParameterTypes201 = new String[] { "java.lang.String" };
+        _methodParameterTypes221 = new String[] { "java.lang.String" };
 
-        _methodName202 = "findByDirectory";
+        _methodName222 = "findByDirectory";
 
-        _methodParameterTypes202 = new String[] { "java.lang.String" };
+        _methodParameterTypes222 = new String[] { "java.lang.String" };
 
-        _methodName203 = "removeByDirectory";
+        _methodName223 = "removeByDirectory";
 
-        _methodParameterTypes203 = new String[] { "java.lang.String" };
+        _methodParameterTypes223 = new String[] { "java.lang.String" };
 
-        _methodName204 = "removeAll";
+        _methodName224 = "removeAll";
 
-        _methodParameterTypes204 = new String[] {  };
+        _methodParameterTypes224 = new String[] {  };
 
-        _methodName205 = "getLFFileStorage";
+        _methodName225 = "getLFFileStorage";
 
-        _methodParameterTypes205 = new String[] { "long" };
+        _methodParameterTypes225 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -272,63 +272,63 @@ public class LFFileStorageLocalServiceClpInvoker {
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName192.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
+        if (_methodName212.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes212, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName193.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+        if (_methodName213.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes213, parameterTypes)) {
             LFFileStorageLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName198.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
+        if (_methodName218.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes218, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.createLFFileStorage();
         }
 
-        if (_methodName199.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
+        if (_methodName219.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes219, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.findByFilename((java.lang.String) arguments[0]);
         }
 
-        if (_methodName200.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
+        if (_methodName220.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes220, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.findByFilename((java.lang.String) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue());
         }
 
-        if (_methodName201.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
+        if (_methodName221.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes221, parameterTypes)) {
             LFFileStorageLocalServiceUtil.removeByFilename((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName202.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes202, parameterTypes)) {
+        if (_methodName222.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes222, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.findByDirectory((java.lang.String) arguments[0]);
         }
 
-        if (_methodName203.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes203, parameterTypes)) {
+        if (_methodName223.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes223, parameterTypes)) {
             LFFileStorageLocalServiceUtil.removeByDirectory((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName204.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes204, parameterTypes)) {
+        if (_methodName224.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes224, parameterTypes)) {
             LFFileStorageLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName205.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes205, parameterTypes)) {
+        if (_methodName225.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes225, parameterTypes)) {
             return LFFileStorageLocalServiceUtil.getLFFileStorage(((Long) arguments[0]).longValue());
         }
 

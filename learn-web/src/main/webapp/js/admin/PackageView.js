@@ -24,7 +24,7 @@ PackageView = Backbone.View.extend({
         this.model.save({
             isDefault:this.$("#isDefault").is(":checked")
         });
-        this.setActive()
+        this.setActive();
         this.trigger('change-isDefault', this);
     },
 
@@ -35,13 +35,13 @@ PackageView = Backbone.View.extend({
 
     showEdit:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageAdminRowEdit").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageAdminRowEdit").html(), _.extend(this.model.toJSON(), language, {isTincan: this.model.get("type") == "tincan"}));
         this.$el.html(template);
     },
 
     showDefault:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#packageAdminRow").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#packageAdminRow").html(), _.extend(this.model.toJSON(), language, {isTincan: this.model.get("type") == "tincan"}));
         this.$el.html(template);
     },
 

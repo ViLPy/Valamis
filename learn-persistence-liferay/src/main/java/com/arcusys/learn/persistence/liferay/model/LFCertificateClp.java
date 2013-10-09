@@ -21,6 +21,10 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
     private long _id;
     private String _title;
     private String _description;
+    private String _logo;
+    private Boolean _isPermanent;
+    private Boolean _publishBadge;
+    private String _shortDescription;
     private BaseModel<?> _lfCertificateRemoteModel;
 
     public LFCertificateClp() {
@@ -57,6 +61,10 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
+        attributes.put("isPermanent", getIsPermanent());
+        attributes.put("publishBadge", getPublishBadge());
+        attributes.put("shortDescription", getShortDescription());
 
         return attributes;
     }
@@ -79,6 +87,30 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
         if (description != null) {
             setDescription(description);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
+        }
+
+        Boolean isPermanent = (Boolean) attributes.get("isPermanent");
+
+        if (isPermanent != null) {
+            setIsPermanent(isPermanent);
+        }
+
+        Boolean publishBadge = (Boolean) attributes.get("publishBadge");
+
+        if (publishBadge != null) {
+            setPublishBadge(publishBadge);
+        }
+
+        String shortDescription = (String) attributes.get("shortDescription");
+
+        if (shortDescription != null) {
+            setShortDescription(shortDescription);
         }
     }
 
@@ -104,6 +136,38 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
     public void setDescription(String description) {
         _description = description;
+    }
+
+    public String getLogo() {
+        return _logo;
+    }
+
+    public void setLogo(String logo) {
+        _logo = logo;
+    }
+
+    public Boolean getIsPermanent() {
+        return _isPermanent;
+    }
+
+    public void setIsPermanent(Boolean isPermanent) {
+        _isPermanent = isPermanent;
+    }
+
+    public Boolean getPublishBadge() {
+        return _publishBadge;
+    }
+
+    public void setPublishBadge(Boolean publishBadge) {
+        _publishBadge = publishBadge;
+    }
+
+    public String getShortDescription() {
+        return _shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        _shortDescription = shortDescription;
     }
 
     public BaseModel<?> getLFCertificateRemoteModel() {
@@ -136,6 +200,10 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         clone.setId(getId());
         clone.setTitle(getTitle());
         clone.setDescription(getDescription());
+        clone.setLogo(getLogo());
+        clone.setIsPermanent(getIsPermanent());
+        clone.setPublishBadge(getPublishBadge());
+        clone.setShortDescription(getShortDescription());
 
         return clone;
     }
@@ -182,7 +250,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(7);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{id=");
         sb.append(getId());
@@ -190,13 +258,21 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         sb.append(getTitle());
         sb.append(", description=");
         sb.append(getDescription());
+        sb.append(", logo=");
+        sb.append(getLogo());
+        sb.append(", isPermanent=");
+        sb.append(getIsPermanent());
+        sb.append(", publishBadge=");
+        sb.append(getPublishBadge());
+        sb.append(", shortDescription=");
+        sb.append(getShortDescription());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCertificate");
@@ -213,6 +289,22 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         sb.append(
             "<column><column-name>description</column-name><column-value><![CDATA[");
         sb.append(getDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>isPermanent</column-name><column-value><![CDATA[");
+        sb.append(getIsPermanent());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>publishBadge</column-name><column-value><![CDATA[");
+        sb.append(getPublishBadge());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>shortDescription</column-name><column-value><![CDATA[");
+        sb.append(getShortDescription());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

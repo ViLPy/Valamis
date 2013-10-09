@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
     <artifactId>learn-scorm-tracking-model</artifactId>
     <name>learn-scorm-tracking-model</name>
@@ -22,15 +22,18 @@
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.9.1</artifactId>
             <scope>test</scope>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.scala-tools.subcut</groupId>
             <artifactId>subcut_2.9.1</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.scalamock</groupId>
             <artifactId>scalamock-scalatest-support_2.9.1</artifactId>
             <scope>test</scope>
+            <version>2.3</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -41,6 +44,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-model</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-convert</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
     <build>

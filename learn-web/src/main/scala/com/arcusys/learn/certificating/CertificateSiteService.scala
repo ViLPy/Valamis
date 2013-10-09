@@ -5,6 +5,8 @@ import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.scorm.tracking.model.certificating.{CertificateSite, Certificate}
 import com.liferay.portal.service.GroupLocalServiceUtil
+import com.arcusys.learn.service.util.SessionHandler
+import com.liferay.portal.NoSuchGroupException
 
 /**
  * User: Yulia.Glushonkova
@@ -15,25 +17,23 @@ class LiferaySite(
                    val certificateID: Int,
                    val siteID: Long,
                    val url: String,
-                   val title: String
+                   val title: String,
+                   val description: String
                    )
 
-class CertificateSiteService (configuration: BindingModule) extends ServletBase(configuration) {
+class CertificateSiteService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
   import storageFactory._
 
 
-
-  val jsonModel = new JsonModelBuilder[com.arcusys.learn.certificating.LiferaySite](site =>{
-   val liferayGroup = GroupLocalServiceUtil.getGroup(site.siteID)
-
+  val jsonModel = new JsonModelBuilder[com.arcusys.learn.certificating.LiferaySite](site => {
     Map("id" -> site.id,
       "certificateID" -> site.certificateID,
       "siteID" -> site.siteID,
       "url" -> site.url,
       "title" -> site.title,
-      "description" -> (if (liferayGroup != null) liferayGroup.getDescription.replace("\n", " ") ))
+      "description" -> site.description.replace("\n", " "))
   })
 
   before() {
@@ -42,33 +42,53 @@ class CertificateSiteService (configuration: BindingModule) extends ServletBase(
   }
 
   get("/:certificateID") {
+    requireTeacherPermissions()
     val certificateID = parameter("certificateID").intRequired
+
     jsonModel(certificateSiteStorage.getByCertificate(certificateID).map(site => {
-      val group = GroupLocalServiceUtil.getGroup(site.siteID)
-      new LiferaySite(site.id, certificateID, group.getGroupId, group.getFriendlyURL, group.getName)}))
+      val item =
+        try {
+          val group = GroupLocalServiceUtil.getGroup(site.siteID)
+          new LiferaySite(site.id, certificateID, group.getGroupId, group.getFriendlyURL, group.getDescriptiveName, group.getDescription)
+        }
+        catch {
+          case e: NoSuchGroupException => {
+            System.out.println("Liferay site " + site.siteID + " not found")
+            null
+          }
+        }
+      item
+    })
+      .filter(item => item != null))
   }
 
-  post("/addSite/:certificateID"){
+  post("/addSite/:certificateID") {
+    requireTeacherPermissions()
+
     val certificateID = parameter("certificateID").intRequired
     val siteID = parameter("siteID").intRequired
     val id = certificateSiteStorage.createAndGetID(new CertificateSite(0, certificateID, siteID, 0))
     id
   }
 
-  post("/delete/:id"){
+  post("/delete/:id") {
+    requireTeacherPermissions()
+
     val id = parameter("id").intRequired
     certificateSiteStorage.delete(id)
   }
 
-  post("/move/:id"){
+  post("/move/:id") {
+    requireTeacherPermissions()
+
     val siteIDs = parameter("siteIDs").required
     val id = parameter("id").intRequired
 
-    var index = 1;
+    var index = 1
     siteIDs.split(',').foreach(siteID => {
-        certificateSiteStorage.move(id, siteID.split('_').last.toInt, index)
-        index = index + 1
-      })
+      certificateSiteStorage.move(id, siteID.split('_').last.toInt, index)
+      index = index + 1
+    })
 
   }
 }

@@ -11,6 +11,13 @@ import java.util.zip.{ZipEntry, ZipFile}
 import org.scala_tools.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 
+object PackageProcessor {
+  def  isValidPackage(packageTmpUUID: String) = {
+    val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
+    FileProcessing.zipContains("imsmanifest.xml", packageZipName)
+  }
+}
+
 class PackageProcessor(implicit val bindingModule: BindingModule) extends Injectable {
   val storageFactory = inject[StorageFactoryContract]
   val packageStorage = storageFactory.packageStorage

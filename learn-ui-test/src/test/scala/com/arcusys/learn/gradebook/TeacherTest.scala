@@ -20,8 +20,8 @@ class TeacherTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMat
     loginAsAdmin()
     wait(1)
     driver.get(baseUrl + gradebookUrl)
-    new Select(driver.findElement(By.id("gradebookPackageChoice"))).selectByVisibleText("Test 1")
     new Select(driver.findElement(By.id("gradebookUserChoice"))).selectByVisibleText(studentUserName)
+    new Select(driver.findElement(By.id("gradebookPackageChoice"))).selectByVisibleText("Test 1")
 
     wait(2)
     val essayIndex = getEssayIndex()

@@ -8,7 +8,6 @@
     <div class="SCORMTitle">{{pageSubTitleLabel}}</div>
     <div id="SCORMPlayerContainer">
         <div style="clear:both;"></div>
-
         <div class="SCORMWell">
             <div style="float: left">
                 <input placeholder="{{searchPlaceholderLabel}}" type="text" id="packageSearch" class="SCORMSearch"/>
@@ -23,11 +22,29 @@
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
 <input type="hidden" id="packageId" value="{{packageId}}"/>
 <input type="hidden" id="packageTitle" value="{{packageTitle}}"/>
+<input type="hidden" id="packageType" value="{{packageType}}"/>
 <input type="hidden" id="courseID" value="{{courseID}}"/>
 <input type="hidden" id="pageID" value="{{pageID}}"/>
 <input type="hidden" id="playerID" value="{{playerID}}"/>
 <input type="hidden" id="isCompleteByUser" value="{{isCompleteByUser}}">
 <input type="hidden" id="defaultPackageID" value="{{defaultPackageID}}">
+<input type="hidden" id="userName" value="{{userName}}">
+<input type="hidden" id="userEmail" value="{{userEmail}}">
+<input type="hidden" id="tincanLrsNotConfiguredMessage" value="{{tincanLrsNotConfigured}}">
+
+<div id="tincanLrsUserCredentials" title="{{tincanLrsCredentialsDialogLabel}}">
+    {{tincanLrsCredentialsDialogMessage}}<br />
+    <input id="tincanLaunchUrlCredentialsDialog" type="hidden" />
+    <input id="tincanEndpointCredentialsDialog" type="hidden" />
+
+    <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogLoginLabel}}</lable>
+    <input class="issuerSettingValue" id="tincanLoginCredentialsDialog" type="text" /><br/>
+
+    <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogPasswordLabel}}</lable>
+    <input class="issuerSettingValue" id="tincanPasswordCredentialsDialog" type="password" /><br/>
+
+    <input type="button" value="{{tincanLrsCredentialsDialogButtonLable}}" onclick="openTincanPackageFromCredentialsDialog()" />
+</div>
 </body>
 <script type="text/javascript" language="javascript">
     var jQuery1816Player = jQuery.noConflict();
@@ -85,10 +102,11 @@
                     }
                 }, this)});
 
-                packageStart(jQuery("#packageId").val(), jQuery("#packageTitle").val());
+                packageStart(jQuery("#packageId").val(), jQuery("#packageTitle").val(), jQuery("#packageType").val());
             }, this));
             loader.fetch("templates/player_templates.html");
         }
+        jQuery1816Player('#tincanLrsUserCredentials').dialog({autoOpen:false, width:420});
     }
 
     function suspend() {
@@ -105,19 +123,29 @@
         } else scormPlayerPackagesView.reloadPackageList();
     }
 
+    function openTincanPackageFromCredentialsDialog() {
+        var login = jQuery("#tincanLoginCredentialsDialog").val();
+        var password = jQuery("#tincanPasswordCredentialsDialog").val();
+        var endpoint = jQuery("#tincanEndpointCredentialsDialog").val();
+        var launchUrl = jQuery("#tincanLaunchUrlCredentialsDialog").val();
+
+        jQuery1816Player('#tincanLrsUserCredentials').dialog('close');
+        scormPlayer.openTincanPackage(launchUrl, endpoint, "Basic " + btoa(login + ":" + password))
+    }
+
     function startPackage(data) {
         var packageTitle = data.get('title');
         var packageId = data.id;
+        var packageType = data.get('type');
 
         jQuery("#packageId").val(packageId);
-
-        saveSessionParameters(packageId, packageTitle);
-        packageStart(packageId, packageTitle)
+        saveSessionParameters(packageId, packageTitle, packageType);
+        packageStart(packageId, packageTitle, packageType);
     }
-    function packageStart(packageId, packageTitle) {
+    function packageStart(packageId, packageTitle, packageType) {
         if (packageId) {
             scormPlayer.setName(packageTitle);
-            scormPlayer.load(packageId);
+            scormPlayer.load(packageId, packageType);
             togglePlayer();
         }
     }
@@ -134,32 +162,30 @@
         }
     }
 
-    function saveSessionParameters(id, title) {
+    function saveSessionParameters(id, title, type) {
         jQuery.ajax({
             type: 'POST',
-            url: jQuery("#SCORMContextPath").val() + "/setSession",
-            data: {id: id, title: title, playerID: jQuery("#playerID").val()},
+            url: jQuery("#SCORMContextPath").val() + "/services/sequencing/setSession",
+            data: {id: id, type: type, title: title, playerID: jQuery("#playerID").val()},
             dataType: "json"
         });
     }
     function clearSessionParameters() {
         jQuery.ajax({
             type: 'POST',
-            url: jQuery("#SCORMContextPath").val() + "/clearSession"
+            url: jQuery("#SCORMContextPath").val() + "/services/sequencing/clearSession"
         });
     }
 
     function resumePackage(data) {
         var packageTitle = data.get('title');
+        var packageType = data.get('type');
         var packageId = data.id;
-        saveSessionParameters(packageId, packageTitle);
+
+        saveSessionParameters(packageId, packageTitle, packageType);
         scormPlayer.setName(packageTitle);
-        scormPlayer.loadAndResume(packageId);
-        // var packageTitle = data.get('title');
-        //var packageId = data.id;
-        //saveSessionParameters(packageId, packageTitle);
-        //scormPlayer.setName(packageTitle);
-        //scormPlayer.loadAndResume(packageId);
+        scormPlayer.loadAndResume(packageId, packageType);
+
         togglePlayer();
     }
 

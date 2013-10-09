@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.certificating
 
-import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
+import com.arcusys.learn.scorm.tracking.model.certificating.{CertificatePage, Certificate}
 
 /**
  * User: Yulia.Glushonkova
@@ -8,9 +8,11 @@ import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
  */
 trait CertificateStorage {
   def getAll: Seq[Certificate]
+  def getPage(skip: Int, take: Int, filter: String, sortAZ: Boolean): CertificatePage
   def getByID(id: Int): Option[Certificate]
   def createAndGetID(entity: Certificate): Int
   def delete(id: Int)
   def modify(entity: Certificate)
+  def saveLogo(id: Int, logo: String)
   def renew()
 }

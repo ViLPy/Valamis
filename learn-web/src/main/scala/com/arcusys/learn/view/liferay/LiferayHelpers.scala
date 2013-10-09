@@ -16,6 +16,12 @@ object LiferayHelpers {
     else ""
   }
 
+  def getUserEmail(request: RenderRequest) = {
+    val user = getUser(request)
+    if (user != null) user.getEmailAddress
+    else ""
+  }
+
   def getCompanyID(request: RenderRequest) = {
     val theme = (request.getAttribute(WebKeys.THEME_DISPLAY)).asInstanceOf[ThemeDisplay]
     if (theme != null) theme.getLayout.getCompanyId

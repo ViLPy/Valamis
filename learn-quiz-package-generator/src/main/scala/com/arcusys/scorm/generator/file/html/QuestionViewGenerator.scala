@@ -13,7 +13,7 @@ class QuestionViewGenerator(isPreview: Boolean) {
   private lazy val previewJS = scala.io.Source.fromInputStream(getResourceStream("questionScriptPreview.html")).mkString
   private lazy val previewCSS = scala.io.Source.fromInputStream(getResourceStream("questionStylePreview.html")).mkString
 
-  private def decode(source: String) = URLDecoder.decode(source, "UTF-8").replaceAll("\n","").replaceAll("\r","")
+  private def decode(source: String) = if (source!=null) URLDecoder.decode(source, "UTF-8").replaceAll("\n","").replaceAll("\r","") else null
 
   private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
 
@@ -66,7 +66,7 @@ class QuestionViewGenerator(isPreview: Boolean) {
 
       case matchingQuestion: MatchingQuestion =>
         val correctAnswers = matchingQuestion.answers.map(answer => Seq(decode(answer.text), answer.keyText.getOrElse(null)).mkString("[.]")).mkString("[,]")
-        val answers = matchingQuestion.answers.map(answer => Map("answerText" -> decode(answer.text), "matchingText" -> answer.keyText.getOrElse(null)))
+        val answers = matchingQuestion.answers.map(answer => Map("answerText" -> decode(answer.text), "matchingText" -> decode(answer.keyText.getOrElse(null))))
         val viewModel = Map("title" -> decode(matchingQuestion.title),
           "text" -> prepareString(matchingQuestion.text),
           "answers" -> answers,
@@ -77,7 +77,7 @@ class QuestionViewGenerator(isPreview: Boolean) {
       case categorizationQuestion: CategorizationQuestion =>
         val answerJSON = Json.toJson(categorizationQuestion.answers.map(answer => Map("text" -> prepareString(answer.text), "matchingText" -> answer.answerCategoryText.map(prepareString))))
         val answerText = categorizationQuestion.answers.map(answer => prepareString(answer.text)).distinct
-        val matchingText = categorizationQuestion.answers.filter(a => a.answerCategoryText != None || !a.answerCategoryText.get.isEmpty).
+        val matchingText = categorizationQuestion.answers.filter(a => a.answerCategoryText != None && !a.answerCategoryText.get.isEmpty).
           sortBy(_.answerCategoryText).
           map(answer => prepareString(answer.answerCategoryText.getOrElse("")))
         val viewModel = Map("title" -> decode(categorizationQuestion.title),

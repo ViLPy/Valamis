@@ -6,6 +6,7 @@ import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.net._
 import com.arcusys.learn.scorm.tracking.model.Course
+import com.arcusys.learn.service.util.SessionHandler
 
 class GradebookService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -38,7 +39,8 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
           case _ => None
         }),
         "essayComment" -> node.essayComment,
-        "currentPackageID" -> node.packageID
+        "currentPackageID" -> node.packageID,
+        "questioinType" -> node.questionType
       )
     mapNode(node)
   })
@@ -57,26 +59,57 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
   private val packageService = new PackageService()
 
   before() {
-      response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
-      response.setHeader("Expires", "-1")
-    }
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
 
   get("/GetResultsForPackage/user/:userID/:packageID/:courseID") {
     val courseID = parameter("courseID").intRequired
     val packageID = parameter("packageID").intRequired
     val userID = parameter("userID").intRequired
-    val report = if (packageID == 0) {
-      //val reports = attemptStorage.getPackagesWithUserAttempts(userID).map(
-      val reports = packageService.getPackagesWithAttemptsByCourseIDNoMap(courseID, userID).map(
-        pack =>
-          (new GradeReportGenerator).getForCurrentAttempt(userID, pack.id)
-      ).filter(report => report != None).map(report => report.get)
-      jsonModel(reports)
+
+    if (!hasTeacherPermissions && userID != getSessionUserID) halt(401) // only teachers and admins can see result of other people
+
+    val answers = if (userID == 0) {
+      val users = (new UserManagement).getStudentsWithAttemptsByCourseID(courseID).map(user => {
+
+        val userID = user("id").toString.toInt
+        val courseID = parameter("courseID").intRequired
+        val grades = packageService.getPackagesWithAttemptsByCourseIDNoMap(courseID, userID).map(pack =>
+          Map(
+            "packageID" -> pack.id,
+            "packageName" -> pack.title,
+            "userGrade" -> (new GradeReportGenerator).getForCurrentAttempt(userID, pack.id).map(_.correctShare).getOrElse(Some("unknown")).getOrElse("unknown") //TODO: change to properties file.
+          )
+        ).toList
+
+        Map(
+          "userID" -> userID,
+          "userName" -> user("name"),
+          "grades" -> grades,
+          "totalGrade" -> courseService.getCourseGradeAndComment(courseID, userID).map(_.grade).getOrElse("unknown")
+        )
+      }).toList
+
+      json(
+        Map("packages" -> storageFactory.packageStorage.getPackagesWithAttempts.map(item => Map("title" -> item.title, "id" -> item.id)),
+          "users" -> users
+        )
+      )
+    } else {
+      val report = if (packageID == 0) {
+        val reports = packageService.getPackagesWithAttemptsByCourseIDNoMap(courseID, userID).map(
+          pack =>
+            (new GradeReportGenerator).getForCurrentAttempt(userID, pack.id)
+        ).filter(report => report != None).map(report => report.get)
+        jsonModel(reports)
+      }
+      else {
+        jsonModel(((new GradeReportGenerator).getForCurrentAttempt(userID, packageID)).toSeq)
+      }
+      report
     }
-    else {
-      jsonModel(((new GradeReportGenerator).getForCurrentAttempt(userID, packageID)).toSeq)
-    }
-    report
+    answers
   }
 
   private val courseService = new CourseService()
@@ -84,10 +117,15 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
   get("/GetCourseInfo/:courseID/user/:userID") {
     val courseID = parameter("courseID").intRequired
     val userID = parameter("userID").intRequired
+
+    if (!hasTeacherPermissions && userID != getSessionUserID) halt(401) // only teachers and admins can see result of other people
+
     courseInfoJsonModel(courseService.getCourseGradeAndComment(courseID, userID))
   }
 
   post("/UpdateScoreAndStatus") {
+    requireTeacherPermissions()
+
     val packageID = parameter("packageID").intRequired
     val userID = parameter("userID").intRequired
     val activityID = parameter("activityID").required
@@ -106,11 +144,14 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
   }
 
   post("/SaveCourseGradeAndComment") {
+    requireTeacherPermissions()
+
     val courseID = parameter("courseID").intRequired
     val userID = parameter("userID").intRequired
     val grade = parameter("grade").withDefault("")
     val comment = parameter("comment").withDefault("")
     courseService.saveCourseGradeAndComment(courseID, userID, grade, comment.replace("\n", "%20"))
+    new CertificateService().addCertificatePassedActivity(courseID, userID, courseID)
     ""
   }
 
