@@ -8,7 +8,7 @@ Supported Liferay version is currently 6.1.1+
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
-The current implementation is able to display SCORM content with respect towards the different content organizations and the activity structure in each organization.
+The current implementation is able to display SCORM and Tin Can content with respect towards the different content organizations and the activity structure in each organization.
 Application includes a question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.)
 
 Administrative features let you manage SCORM packages, uploading the them in standard zipped format.
@@ -17,8 +17,6 @@ The user interface is available as a JSR-compliant portlets, which may be deploy
 The solution uses Liferay database, so no need to install additional database.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
-
-The solution will be further developed to support the full set of requirements from the SCORM set of standards.
 
 ### Download 
 Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4.5/**
@@ -29,6 +27,19 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 ###Known issues
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 1.5 Update: 9.10.2013
+ - Tin Can API support
+ - Integration connecting 3rd party Tin Can LRS with Basic Auth
+ - Open Badges integration for issuing and earning badges
+ - My Certificates -portlet
+ - Badges functionality to Curriculum
+ - Integration to Open Badges to show your earned Open Badges in My Certificates portlet
+ - Badge Designer integration to Curriculum
+ - Badge uploading
+ - Curriculum improvements
+ - Gradebook matrix view, to see all students for a course
+ - Small improvements and bug fixes
 
 ## Version 1.4.5 Update: 13.08.2013
  - new Curriculum portlet for managing certifications, awards and learning paths
