@@ -1,4 +1,6 @@
-# Valamis eLearning (formerly known as Project Learn)
+# Valamis - eLearning for Liferay
+
+**http://www.valamislearning.com**
 
 [![build status](https://api.travis-ci.org/arcusys/JSCORM.png)](http://travis-ci.org/arcusys/JSCORM)
 
