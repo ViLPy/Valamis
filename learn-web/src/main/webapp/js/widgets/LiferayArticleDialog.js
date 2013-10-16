@@ -23,7 +23,9 @@ LiferayLanguageModel = Backbone.Model.extend({
 
 LiferayArticleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
-        'read': "/services/liferay/article/"
+        'read': function () {
+            return "/services/liferay/article?companyID=" + jQuery("#companyID").val()
+        }
     }
 });
 

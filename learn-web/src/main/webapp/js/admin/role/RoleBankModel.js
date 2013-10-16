@@ -60,12 +60,16 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
         this.activePackageView.onDestroy();
     },
 
+    isSelected:function(){
+        return this.activePackageView != null;
+    },
+
     fetchRolesByPermission:function (permission) {
         this.permission = permission;
         jQuery.when(this.getRolesList(permission))
             .done(jQuery.proxy(function (roles) {
-            this.addRoles(roles);
-        }, this));
+                this.addRoles(roles);
+            }, this));
     },
     getRolesList:function (permission) {
         return window.LearnAjax.get(Utils.getContextPath() + "services/roles/" + permission);

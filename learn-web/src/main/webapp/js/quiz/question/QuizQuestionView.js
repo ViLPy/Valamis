@@ -125,7 +125,6 @@ QuizQuestionView = Backbone.View.extend({
 
         switch (model.get('questionType')) {
             case QuestionType.ChoiceQuestion:
-            case QuestionType.PositioningQuestion:
                 this.$("#SCORMQuestionIsBounded").show();
                 break;
             case QuestionType.ShortAnswerQuestion:

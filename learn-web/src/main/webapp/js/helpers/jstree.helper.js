@@ -4,7 +4,7 @@ jsTreeModel = Backbone.Model.extend({
         content:null,
         parentID:null,
         type:"default",
-        state:"closed"
+        state:null
     },
 
     getID:function () {

@@ -73,12 +73,18 @@ class QuizCategoryService(configuration: BindingModule) extends ServletBase(conf
     val targetID = parameter("targetId").intOption(-1)
 
     val moveAfterTarget = dndMode == "after"
+    val isEntityTarget = itemType == "entity"
 
-    val siblingID = if (dndMode == "last" || (dndMode == "before" && itemType == "entity")) None
+    val siblingID = if (dndMode == "last" || (dndMode == "before" && isEntityTarget)) None
     else targetID
 
     val parentID = if (siblingID != None) (quizQuestionCategoryStorage getByID siblingID.get getOrElse halt(404, "Can't find category")).parentID
-    else targetID
+    else {
+      if (isEntityTarget)
+        quizQuestionStorage.getByID(targetID.get).getOrElse(halt(404, "Can't find question")).categoryID
+      else
+        targetID
+    }
 
     jsonModel(quizQuestionCategoryStorage.move(id, parentID, siblingID, moveAfterTarget))
   }

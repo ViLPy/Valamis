@@ -35,7 +35,7 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
       "certificateID" -> user.certificateID,
       "userID" -> user.userID,
       "name" -> user.name,
-      "portrait" ->  ( "/image/user_male_portrait?img_id=" + user.portrait))
+      "portrait" -> ("/image/user_male_portrait?img_id=" + user.portrait))
   )
 
   before() {
@@ -66,18 +66,20 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
     new com.arcusys.scorm.lms.CertificateService().addNewCertificateActivity(userID, certificateID)
 
     val studentRole = roleStorage.getDefault(PermissionType.Student)
-    if (studentRole.isDefined) {
-      val studentRoleIDs = Array(studentRole.get.liferayRoleID.toLong)
-      certificateSiteStorage.getByCertificate(certificateID).foreach(site => {
-        try{
+    val studentRoleIDs = if (studentRole.isDefined) Array(studentRole.get.liferayRoleID.toLong) else Array[Long]()
+
+    certificateSiteStorage.getByCertificate(certificateID).foreach(site => {
+      try {
         UserLocalServiceUtil.addGroupUsers(site.siteID, Array(userID.toLong))
         UserGroupRoleLocalServiceUtil.addUserGroupRoles(userID, site.siteID, studentRoleIDs)
+      }
+      catch {
+        case e: NoSuchGroupException => {
+          System.out.println("Liferay site " + site.siteID + " does not exists")
         }
-        catch {
-          case e: NoSuchGroupException =>{ System.out.println("Liferay site " + site.siteID + " does not exists") }
-        }
-      })
-    }
+      }
+    })
+
     val lfUser = UserLocalServiceUtil.getUser(userID)
     jsonModel(new LiferayUser(id, certificateID, userID, lfUser.getFullName, lfUser.getPortraitId))
   }
@@ -99,7 +101,7 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
   }
 
 
-  get("/GetCertificateProgress/:userID/:certificateID"){
+  get("/GetCertificateProgress/:userID/:certificateID") {
     requireTeacherPermissions()
 
     val certificateID = parameter("certificateID").intRequired
@@ -111,18 +113,18 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
     val result = sites.map(item => {
       val course = courseStorage.get(item.siteID, userID)
       val data =
-      try{
-       Map("course"-> (if (course.isDefined) course.get else new Course(item.siteID, userID, "", "", None)),
-          "lfGroup" -> GroupLocalServiceUtil.getGroup(item.siteID))
-      }
-      catch {
-        case e: NoSuchGroupException=>{
-          System.out.println("Liferay site " + item.siteID + " does not exists")
-          null
+        try {
+          Map("course" -> (if (course.isDefined) course.get else new Course(item.siteID, userID, "", "", None)),
+            "lfGroup" -> GroupLocalServiceUtil.getGroup(item.siteID))
         }
-      }
+        catch {
+          case e: NoSuchGroupException => {
+            System.out.println("Liferay site " + item.siteID + " does not exists")
+            null
+          }
+        }
       data
-    }).filter(i=>i!= null).map(i=>{
+    }).filter(i => i != null).map(i => {
       val course = i("course").asInstanceOf[Course]
       val group = i("lfGroup").asInstanceOf[Group]
       Map("siteID" -> course.courseID,

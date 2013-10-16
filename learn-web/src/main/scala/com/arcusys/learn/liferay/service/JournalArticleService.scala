@@ -32,8 +32,8 @@ class JournalArticleService(configuration: BindingModule) extends ServletBase(co
   }
 
   private def getJournalArticles = {
-    // TODO: articles taken from default company, needs to be checked
-    JournalArticleLocalServiceUtil.getCompanyArticles(PortalUtil.getDefaultCompanyId,
+    val companyID = parameter("companyID").longRequired
+    JournalArticleLocalServiceUtil.getCompanyArticles(companyID,
       WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS, QueryUtil.ALL_POS).asScala
       // get last approved version
       .groupBy{

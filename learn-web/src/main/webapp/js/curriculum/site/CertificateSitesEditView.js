@@ -187,7 +187,7 @@ CertificateSiteEditView = Backbone.View.extend({
                 var goUpload = true;
                 var uploadFile = data.files[0];
                 if (!(/\.(gif|jpg|jpeg|png)$/i).test(uploadFile.name)) {
-                    alert(this.options.language['notImageError']);
+                    //alert(this.options.language['notImageError']);
                     goUpload = false;
                 }
                 if (uploadFile.size > 1000000) { // 1mb

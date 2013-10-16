@@ -20,7 +20,7 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
     case Seq(("courseID", courseId: Int)) => {
       // Liferay ServiceBuilder doesn't support nullable primitives and instead it converts null to 0
       val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseId)
-      LFQuestionCategoryLocalServiceUtil.findByCourseId(courseIdsForSearch).asScala.map { extract }
+      LFQuestionCategoryLocalServiceUtil.findByCourseId(courseIdsForSearch).asScala.map { extract }.sortBy(_.arrangementIndex)
     }
     case Seq(a: (String, Int), b: (String, Int)) if Set(a._1, b._1) == Set("courseID", "parentID") => {
       val courseId: Int = parameters.find(_._1 == "courseID").map { _._2.asInstanceOf[Int] }.get
@@ -29,7 +29,7 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
       val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseId)
       val parentIdsForSearch: Array[java.lang.Integer] = if (parentId == -1) Array(nullInteger) else Array(new Integer(parentId))
 
-      LFQuestionCategoryLocalServiceUtil.findByCourseIdAndParentId(courseIdsForSearch, parentIdsForSearch).asScala.map { extract }
+      LFQuestionCategoryLocalServiceUtil.findByCourseIdAndParentId(courseIdsForSearch, parentIdsForSearch).asScala.map { extract }.sortBy(_.arrangementIndex)
     }
   }
 

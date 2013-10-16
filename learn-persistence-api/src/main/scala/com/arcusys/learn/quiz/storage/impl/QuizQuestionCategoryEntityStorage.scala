@@ -22,14 +22,17 @@ trait QuizQuestionCategoryEntityStorage extends QuizQuestionCategoryStorage with
 
   def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestionCategory = {
     val questionCategoryForUpdate = getByID(id).get
-    val oldChildren: Seq[QuizQuestionCategory] = getAll("parentID" -> parentID.getOrElse(-1))
+    val oldChildren: Seq[QuizQuestionCategory] = getAll("quizID"->questionCategoryForUpdate.quizID, "parentID" -> parentID.getOrElse(-1))
 
     def doMove(forUpdate: Seq[QuizQuestionCategory], forIndex: Seq[QuizQuestionCategory]) {
       forUpdate.foreach {
         questionCategory =>
           modify("id" -> questionCategory.id, "arrangementIndex" -> (questionCategory.arrangementIndex + 1))
       }
-      modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forIndex) + 1), "parentID" -> parentID)
+      if (moveAfterTarget)
+        modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forUpdate) + 1), "parentID" -> parentID)
+      else
+        modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forIndex) + 1), "parentID" -> parentID)
     }
 
     siblingID match {
