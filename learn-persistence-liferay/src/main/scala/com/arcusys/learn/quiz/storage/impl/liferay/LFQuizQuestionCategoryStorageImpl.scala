@@ -25,13 +25,10 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
         val parentIdForSearch = if (parentId == -1) (nullInteger) else (new Integer(parentId))
         LFQuizQuestionCategoryLocalServiceUtil.findByQuizIdAndParentId(quizId, parentIdForSearch).asScala.map {
           extract
-        }
+        }.sortBy(_.arrangementIndex)
       case Seq(("parentID", parentId: Int)) =>
-        val parentIdForSearch = if (parentId == -1) (nullInteger) else (new Integer(parentId))
-        LFQuizQuestionCategoryLocalServiceUtil.findByQuizIdAndParentId(null, parentIdForSearch).asScala.map {
-          extract
-        }
-      case _ => LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategories(ALL_POS, ALL_POS).asScala.map(extract)
+        throw new UnsupportedOperationException("Quiz ID should be declared!")
+      case _ => LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategories(ALL_POS, ALL_POS).asScala.map(extract).sortBy(_.arrangementIndex)
     }
   }
 
@@ -108,8 +105,10 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
             case ("title", title: String) => lfEntity.setTitle(title)
             case ("description", description: String) => lfEntity.setDescription(description)
             case ("parentID", parentId: Option[Int]) =>
-              parentId.foreach {
-                lfEntity.setParentId(_)
+              if (parentId.isDefined) {
+                lfEntity.setParentId(parentId.get)
+              } else {
+                lfEntity.setParentId(nullInteger)
               }
             case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
           }

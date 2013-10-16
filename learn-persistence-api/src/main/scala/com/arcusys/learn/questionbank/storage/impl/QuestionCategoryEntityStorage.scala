@@ -31,7 +31,10 @@ trait QuestionCategoryEntityStorage extends QuestionCategoryStorage with KeyedEn
         questionCategory =>
           modify("id" -> questionCategory.id, "arrangementIndex" -> (questionCategory.arrangementIndex + 1))
       }
-      modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forIndex) + 1), "parentID" -> parentID)
+      if (moveAfterTarget)
+        modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forUpdate) + 1), "parentID" -> parentID)
+      else
+        modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forIndex) + 1), "parentID" -> parentID)
     }
 
     siblingID match {

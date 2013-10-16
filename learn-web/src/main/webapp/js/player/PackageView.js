@@ -97,7 +97,12 @@ PlayerPackageListView = Backbone.View.extend({
             this.trigger('resume', id)
         }, this);
         var renderedView = view.render();
-        this.scormPackageList.add(pkg.id, renderedView, pkg.toJSON());
+        var pkgJSON = pkg.toJSON();
+        var filterData = {
+            summary: pkgJSON.summary || "",
+            title: pkgJSON.title || ""
+        };
+        this.scormPackageList.add(pkg.id, renderedView, filterData);
         this.$("#SCORMPackagesGrid").append(renderedView);
     },
 

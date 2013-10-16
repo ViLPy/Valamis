@@ -29,7 +29,7 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
         LFQuizQuestionLocalServiceUtil.findByQuizAndCategory(quizID, if (categoryID == -1)  null else categoryID)
       case _ => LFQuizQuestionLocalServiceUtil.getLFQuizQuestions(-1,-1)
     }
-    lfResult.asScala.map { extract }
+    lfResult.asScala.map { extract }.sortBy(_.arrangementIndex)
   }
 
   def execute(sqlKey: String, parameters: (String, Any)*) {

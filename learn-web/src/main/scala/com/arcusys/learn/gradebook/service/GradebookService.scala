@@ -92,7 +92,7 @@ class GradebookService(configuration: BindingModule) extends ServletBase(configu
       }).toList
 
       json(
-        Map("packages" -> storageFactory.packageStorage.getPackagesWithAttempts.map(item => Map("title" -> item.title, "id" -> item.id)),
+        Map("packages" -> new PackageService().getPackagesWithAttemptsByCourseIDNoMap(courseID, 0).map(item => Map("title" -> item.title, "id" -> item.id)),
           "users" -> users
         )
       )

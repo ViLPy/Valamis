@@ -153,7 +153,12 @@ PackageListView = Backbone.View.extend({
         view.on('change-active', this.changeActive, this);
         view.on('change-isDefault', this.changeIsDefault, this);
         var renderedView = view.render();
-        this.scormPackageList.add(pkg.id, renderedView, pkg.toJSON());
+        var pkgJSON = pkg.toJSON();
+        var filterData = {
+            summary: pkgJSON.summary || "",
+            title: pkgJSON.title || ""
+        };
+        this.scormPackageList.add(pkg.id, renderedView, filterData);
         this.$("#SCORMAdminPackagesGrid").append(renderedView);
     },
 

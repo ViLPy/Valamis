@@ -16,12 +16,12 @@ ManageRolesDialog = Backbone.View.extend({
     },
 
     removeTeacher: function(){
-        if (confirm(this.options.language['warningDeleteNodeMessageLabel'])) {
+        if (this.teacherTreeData.isSelected() && confirm(this.options.language['warningDeleteNodeMessageLabel'])) {
             this.teacherTreeData.drop();
         }
     },
     removeStudent: function(){
-        if (confirm(this.options.language['warningDeleteNodeMessageLabel'])) {
+        if (this.studentTreeData.isSelected() && confirm(this.options.language['warningDeleteNodeMessageLabel'])) {
             this.studentTreeData.drop();
         }
     },
@@ -42,8 +42,8 @@ ManageRolesDialog = Backbone.View.extend({
     },
     addLiferayRole: function (roleID) {
         this.teacherTreeData.createRoleMap(roleID, Permissions.Teacher).done(jQuery.proxy(function (role) {
-                this.teacherTreeData.addRole(role);
-                this.addRoleSuccess();
+            this.teacherTreeData.addRole(role);
+            this.addRoleSuccess();
         }, this)).error(jQuery.proxy(function (err) { this.addRoleError(); }, this));
     },
     addRoleSuccess: function(){

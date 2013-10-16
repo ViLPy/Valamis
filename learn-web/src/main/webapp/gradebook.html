@@ -177,16 +177,16 @@ function review(id, packageID) {
 function drawTable(data) {
     _.each(data.users, function (user) {
         var array = [];
-        _.each(data.packages, function (package) {
+        _.each(data.packages, function (pkg) {
             var internal = undefined;
             _.each(user.grades, function (grade) {
-                if (package.id == grade.packageID) {
+                if (pkg.id == grade.packageID) {
                     internal = grade.userGrade
                 }
             });
             if (!isNaN(internal)) internal = (Math.round((parseFloat(internal) * 100) * 100) / 100) + "%";
-            array.push({packageID:package.id,
-                packageName:package.title,
+            array.push({packageID:pkg.id,
+                packageName:pkg.title,
                 userGrade:internal})
         });
         user.grades = array;
@@ -201,23 +201,23 @@ function drawTable(data) {
 
 function courseGradeFunc(userID) {
     window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetCourseInfo/" + courseID.value + "/user/" + userID,
-            jQuery1816Gradebook.proxy(function (data) {
-                jQuery1816Gradebook("#gradeCourseTextarea").val(data.comment);
+                    jQuery1816Gradebook.proxy(function (data) {
+                        jQuery1816Gradebook("#gradeCourseTextarea").val(data.comment);
 
-                if (data.grade != null) {
-                    jQuery1816Gradebook('input:radio[name="gradeCourse"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
-                }
+                        if (data.grade != null) {
+                            jQuery1816Gradebook('input:radio[name="gradeCourse"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
+                        }
 
-                /*{{^isAdmin}}*/
-                if (data.comment == '')
-                    jQuery1816Gradebook("#courseCommentPlaceholder").hide();
-                if (data.grade == null)
-                    jQuery1816Gradebook("#courseGradePlaceholder").hide();
-                /*{{/isAdmin}}*/
-                jQuery1816Gradebook("#courseGrade-dialog-form").dialog('open');
-                jQuery("#userID").attr("value", userID);
-            }, this)
-    ).fail(function () {
+                        /*{{^isAdmin}}*/
+                        if (data.comment == '')
+                            jQuery1816Gradebook("#courseCommentPlaceholder").hide();
+                        if (data.grade == null)
+                            jQuery1816Gradebook("#courseGradePlaceholder").hide();
+                        /*{{/isAdmin}}*/
+                        jQuery1816Gradebook("#courseGrade-dialog-form").dialog('open');
+                        jQuery("#userID").attr("value", userID);
+                    }, this)
+            ).fail(function () {
                 /*{{^isAdmin}}*/
                 jQuery1816Gradebook("#courseGradeWrapper").hide();
                 /*{{/isAdmin}}*/
@@ -225,7 +225,7 @@ function courseGradeFunc(userID) {
                 jQuery1816Gradebook("#gradeCourseTextarea").val("");
                 jQuery1816Gradebook("#courseGrade-dialog-form").dialog('open');
                 jQuery("#userID").attr("value", userID);
-                });            
+            });
 }
 
 function saveCourseGradeFunc() {
@@ -263,16 +263,16 @@ function printReport() {
     //Allstudents option in student select is chosen
     if (userID == 0) {
         window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + "user/" + userID + "/" + packageID + "/" + courseID,
-                jQuery1816Gradebook.proxy(function (data) {
-                    jQuery1816Gradebook("#noGradebookContent").hide();
-                    jQuery1816Gradebook("#gradebookWrapper").show();
-                    jQuery1816Gradebook("#courseGradeWrapper").hide();
-                    jQuery1816Gradebook("#studentsOverview").show()
-                    jQuery(".jstree-grid-wrapper").hide()
-                    jQuery1816Gradebook("#gradebookPackageChoice").hide();
-                    drawTable(data);
-                }, this)
-        ).fail(function () {
+                        jQuery1816Gradebook.proxy(function (data) {
+                            jQuery1816Gradebook("#noGradebookContent").hide();
+                            jQuery1816Gradebook("#gradebookWrapper").show();
+                            jQuery1816Gradebook("#courseGradeWrapper").hide();
+                            jQuery1816Gradebook("#studentsOverview").show()
+                            jQuery(".jstree-grid-wrapper").hide()
+                            jQuery1816Gradebook("#gradebookPackageChoice").hide();
+                            drawTable(data);
+                        }, this)
+                ).fail(function () {
                     jQuery1816Gradebook("#noGradebookContent").show();
                     jQuery1816Gradebook("#gradebookWrapper").hide();
                     jQuery1816Gradebook("#courseGradeWrapper").hide();
@@ -283,12 +283,12 @@ function printReport() {
         jQuery1816Gradebook("#gradebookPackageChoice").show();
         jQuery1816Gradebook("#studentsOverview").hide();
         window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + "user/" + userID + "/" + packageID + "/" + courseID,
-                jQuery1816Gradebook.proxy(function (data) {
-                    jQuery1816Gradebook("#noGradebookContent").hide();
-                    jQuery1816Gradebook("#gradebookWrapper").show();
-                    drawTree(formatJsonEntitiesToJSTree(data));
-                }, this)
-        ).fail(function () {
+                        jQuery1816Gradebook.proxy(function (data) {
+                            jQuery1816Gradebook("#noGradebookContent").hide();
+                            jQuery1816Gradebook("#gradebookWrapper").show();
+                            drawTree(formatJsonEntitiesToJSTree(data));
+                        }, this)
+                ).fail(function () {
                     jQuery1816Gradebook("#gradebookWrapper").hide();
                     jQuery1816Gradebook("#noGradebookContent").show();
                     jQuery1816Gradebook("#courseGradeWrapper").hide();
@@ -304,21 +304,21 @@ function printReport() {
 
             jQuery1816Gradebook("#courseGradeWrapper").show();
             window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetCourseInfo/" + courseID + "/user/" + userID,
-                    jQuery1816Gradebook.proxy(function (data) {
-                        jQuery1816Gradebook("#courseComment").val(data.comment);
-                        if (data.grade != null) {
-                            jQuery1816Gradebook('input:radio[name="courseGrade"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
-                        }
+                            jQuery1816Gradebook.proxy(function (data) {
+                                jQuery1816Gradebook("#courseComment").val(data.comment);
+                                if (data.grade != null) {
+                                    jQuery1816Gradebook('input:radio[name="courseGrade"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
+                                }
 
-                        /*{{^isAdmin}}*/
-                        if (data.comment == '')
-                            jQuery1816Gradebook("#courseCommentPlaceholder").hide();
-                        if (data.grade == null)
-                            jQuery1816Gradebook("#courseGradePlaceholder").hide();
-                        /*{{/isAdmin}}*/
+                                /*{{^isAdmin}}*/
+                                if (data.comment == '')
+                                    jQuery1816Gradebook("#courseCommentPlaceholder").hide();
+                                if (data.grade == null)
+                                    jQuery1816Gradebook("#courseGradePlaceholder").hide();
+                                /*{{/isAdmin}}*/
 
-                    }, this)
-            ).fail(function () {
+                            }, this)
+                    ).fail(function () {
                         /*{{^isAdmin}}*/
                         jQuery1816Gradebook("#courseGradeWrapper").hide();
                         /*{{/isAdmin}}*/
@@ -526,8 +526,8 @@ function closeReviewAnswerDialog() {
 <div id="answer-dialog-form" title="{{userAnswer}}">
     <div id="reviewAnswer"></div>
     <div class="float-right" style="float: right;">
-    <input type="button" class="textbutton" onclick="closeReviewAnswerDialog()"
-           value="{{reviewDialogCloseButtonLabel}}"/>
+        <input type="button" class="textbutton" onclick="closeReviewAnswerDialog()"
+               value="{{reviewDialogCloseButtonLabel}}"/>
     </div>
 </div>
 

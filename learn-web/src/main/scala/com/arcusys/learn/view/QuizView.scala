@@ -17,10 +17,12 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+
     val language = LiferayHelpers.getLanguage(request)
     val userUID = request.getRemoteUser
     val userID = themeDisplay.getUser.getUserId
     val courseID = themeDisplay.getLayout.getGroupId
+    val companyId = PortalUtil.getCompanyId(request)
 
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
     val cookie = new Cookie("valamisSessionID", sessionID)
@@ -41,7 +43,8 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     if (hasPermissions) {
       val groupID = themeDisplay.getScopeGroupId
       val translations = getTranslation("quiz", language)
-      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language, "courseID" -> courseID, "actionURL" -> response.createResourceURL()) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
+      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language,
+        "courseID" -> courseID, "actionURL" -> response.createResourceURL(), "companyID" -> companyId) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
       val data = mustache(map, "scorm_quiz.html")
       out.println(data)
     }

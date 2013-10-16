@@ -26,6 +26,7 @@ QuestionBankCollectionProxy = Backbone.Collection.extend({
             content:category,
             parentID:parentID,
             type:"folder",
+            state:"closed",
             id:category.cid
         };
 
@@ -49,7 +50,6 @@ QuestionBankCollectionProxy = Backbone.Collection.extend({
             content:question,
             parentID:parentID,
             type:"entity",
-            state:null,
             id:question.cid
         };
 
@@ -92,15 +92,15 @@ QuestionBankCollectionProxy = Backbone.Collection.extend({
 
         jQuery.when(this.getChildCategories(parentID), this.getChildQuestions(parentID))
             .done(jQuery.proxy(function (categoriesArgs, questionsArgs) {
-            // got AJAX args, data in args[0]
-            var categories = categoriesArgs[0];
-            var questions = questionsArgs[0];
+                // got AJAX args, data in args[0]
+                var categories = categoriesArgs[0];
+                var questions = questionsArgs[0];
 
-            this.addCategories(categories);
-            this.addQuestions(questions);
-            this.trigger('loaded', id);
-            //$.growlUI('Fetching question bank questions', 'Complete!');
-        }, this)).fail(function () {
+                this.addCategories(categories);
+                this.addQuestions(questions);
+                this.trigger('loaded', id);
+                //$.growlUI('Fetching question bank questions', 'Complete!');
+            }, this)).fail(function () {
                 //$.growlWarning('Fetching question bank questions', 'Failed!');
             });
     },

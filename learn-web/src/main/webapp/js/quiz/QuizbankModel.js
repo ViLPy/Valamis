@@ -26,6 +26,7 @@ QuizbankCollectionProxy = Backbone.Collection.extend({
             content: category,
             parentID: parentID,
             type: "folder",
+            state: "closed",
             id: category.cid
         };
 

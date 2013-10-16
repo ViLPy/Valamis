@@ -122,7 +122,7 @@ class LFQuizQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mock
       storage.getByID(questionId4.id).get.parentID must  beEqualTo(parentId)
 
       checkArrangementIndex(
-        ExpectedIndex(questionId4, 4),
+        ExpectedIndex(questionId4, 1),
         ExpectedIndex(questionId1, 1),
         ExpectedIndex(questionId2, 2),
         ExpectedIndex(questionId3, 3)
@@ -150,7 +150,7 @@ class LFQuizQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mock
       storage.getByID(questionId4.id).get.parentID must  beEqualTo(parentId)
 
       checkArrangementIndex(
-        ExpectedIndex(questionId4, 3),
+        ExpectedIndex(questionId4, 4),
         ExpectedIndex(questionId1, 1),
         ExpectedIndex(questionId2, 2),
         ExpectedIndex(questionId3, 4)

@@ -82,8 +82,8 @@ PlayerView = Backbone.View.extend({
         function addOption(element, key, value) {
             jQuery(element).
                 append(jQuery("<option></option>").
-                attr("value", key).
-                text(value));
+                    attr("value", key).
+                    text(value));
         }
 
         var organizationsData = window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/organizations/package/" + this.packageID);
@@ -146,7 +146,7 @@ PlayerView = Backbone.View.extend({
             this.trigger('endSession');
             jQuery.ajax({
                 type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/clearSession"
+                url: jQuery("#SCORMContextPath").val()+"/services/sequencing/clearSession"
             });
         }
 
@@ -263,7 +263,7 @@ PlayerView = Backbone.View.extend({
             this.trigger('endSession');
             jQuery.ajax({
                 type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/clearSession"
+                url: jQuery("#SCORMContextPath").val()+"/services/sequencing/clearSession"
             });
             jQuery('#SCORMDataOutput').attr("src", "");
         } else {
