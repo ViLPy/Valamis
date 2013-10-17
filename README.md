@@ -30,6 +30,14 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.5.1 Update: 16.10.2013
+
+Fixed problems:
+ - JavaScript Minifier failed for SCORM Gradebook viewer
+ - Quiz portlet shows only main instance LF Articles
+ - Gradebook matrix view shows all quizes even from another courses
+ - Reordering questions and categories is not working properly
+
 ## Version 1.5 Update: 9.10.2013
  - Tin Can API support
  - Integration connecting 3rd party Tin Can LRS with Basic Auth
