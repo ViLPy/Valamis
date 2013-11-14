@@ -30,6 +30,23 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 1.5.6 Update: 14.11.2013
+
+ - Support for Liferay 6.1.2 GA3
+ - Support for Liferay 6.1.30 EE
+
+ Fixed issues:
+ - Special characters in LIFERAY_HOME
+ - Question management - Numberic question bug
+ - Search hook fix for Liferay 6.1.2 GA3
+ - Relative URL conversion in TinyMCE
+ - Liferay web content scopes
+ - Gradebook instance-wide visibility in multi-instance installation
+ - Curriculum - User visibility issue in multi-instance installation
+ - Curriculum - Course site link issue
+ - Database update issue with Service Builder
+ - Name refactoring - Removing SCORM references
+
 ## Version 1.5.1 Update: 16.10.2013
 
 Fixed problems:
