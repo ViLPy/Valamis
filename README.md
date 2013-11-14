@@ -33,16 +33,15 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
 ## Version 1.5.6 Update: 14.11.2013
  - Support for Liferay 6.1.2 GA3
  - Support for Liferay 6.1.30 EE
-Fixed issues:
- - Special characters in LIFERAY_HOME
- - Question management - Numberic question bug
+ - Special characters issue in LIFERAY_HOME path
+ - Question management - Numberic question issue
  - Search hook fix for Liferay 6.1.2 GA3
- - Relative URL conversion in TinyMCE
- - Liferay web content scopes
- - Gradebook instance-wide visibility in multi-instance installation
- - Curriculum - User visibility issue in multi-instance installation
- - Curriculum - Course site link issue
- - Database update issue with Service Builder
+ - Relative URL conversion fix in TinyMCE
+ - Fix for Liferay web content scopes
+ - Fix for Gradebook instance-wide visibility in multi-instance installation
+ - Curriculum - Fix for user visibility issue in multi-instance installation
+ - Curriculum - Fix for course site link issue
+ - Fix for database update issue with Service Builder
  - Name refactoring - Removing SCORM references
 
 ## Version 1.5.1 Update: 16.10.2013
