@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFPackageComment;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -50,12 +49,7 @@ public class LFPackageCommentCacheModel implements CacheModel<LFPackageComment>,
         lfPackageCommentImpl.setId(id);
         lfPackageCommentImpl.setSocialPackageID(socialPackageID);
         lfPackageCommentImpl.setAuthorID(authorID);
-
-        if (comment == null) {
-            lfPackageCommentImpl.setComment(StringPool.BLANK);
-        } else {
-            lfPackageCommentImpl.setComment(comment);
-        }
+        lfPackageCommentImpl.setComment(comment);
 
         if (publishDate == Long.MIN_VALUE) {
             lfPackageCommentImpl.setPublishDate(null);

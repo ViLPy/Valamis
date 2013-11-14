@@ -126,15 +126,15 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
   }
 
   private def getCollection(key: String): Map[String, Option[String]] = {
-    key match {
-      // "LMS based" collections
-      case "cmi.comments_from_lms" => lmsBehavior.getCommentsFromLMS
-      case "cmi.objectives" => lmsBehavior.getObjectives
-      case "adl.data" => lmsBehavior.getAdlData
-      case _ => {
-        dataModelStorage.getCollectionValues(attempt.id, activityID, key)
-      }
-    }
+    // "LMS based" collections
+    if (key.startsWith("cmi.comments_from_lms"))
+      lmsBehavior.getCommentsFromLMS
+    else if (key.startsWith("cmi.objectives"))
+      lmsBehavior.getObjectives
+    else if (key.startsWith("adl.data"))
+      lmsBehavior.getAdlData
+    else
+      dataModelStorage.getCollectionValues(attempt.id, activityID, key)
   }
 
   private def getSingle(key: String): Option[String] = {

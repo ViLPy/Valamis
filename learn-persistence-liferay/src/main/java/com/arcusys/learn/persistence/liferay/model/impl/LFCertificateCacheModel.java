@@ -24,10 +24,11 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
     public Boolean isPermanent;
     public Boolean publishBadge;
     public String shortDescription;
+    public Integer companyID;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(id);
@@ -43,6 +44,8 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         sb.append(publishBadge);
         sb.append(", shortDescription=");
         sb.append(shortDescription);
+        sb.append(", companyID=");
+        sb.append(companyID);
         sb.append("}");
 
         return sb.toString();
@@ -79,6 +82,8 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         } else {
             lfCertificateImpl.setShortDescription(shortDescription);
         }
+
+        lfCertificateImpl.setCompanyID(companyID);
 
         lfCertificateImpl.resetOriginalValues();
 

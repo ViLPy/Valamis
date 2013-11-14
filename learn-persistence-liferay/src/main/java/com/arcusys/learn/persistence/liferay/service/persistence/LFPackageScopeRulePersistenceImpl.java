@@ -18,6 +18,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSi
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
@@ -42,7 +43,6 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleCondition
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
@@ -384,6 +384,8 @@ public class LFPackageScopeRulePersistenceImpl extends BasePersistenceImpl<LFPac
     protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
     @BeanReference(type = LFConditionRulePersistence.class)
     protected LFConditionRulePersistence lfConditionRulePersistence;
+    @BeanReference(type = LFConfigPersistence.class)
+    protected LFConfigPersistence lfConfigPersistence;
     @BeanReference(type = LFCoursePersistence.class)
     protected LFCoursePersistence lfCoursePersistence;
     @BeanReference(type = LFFileStoragePersistence.class)
@@ -432,8 +434,6 @@ public class LFPackageScopeRulePersistenceImpl extends BasePersistenceImpl<LFPac
     protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSettingPersistence.class)
-    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackagePersistence.class)
     protected LFSocialPackagePersistence lfSocialPackagePersistence;
     @BeanReference(type = LFSocialPackageTagPersistence.class)
@@ -461,26 +461,50 @@ public class LFPackageScopeRulePersistenceImpl extends BasePersistenceImpl<LFPac
             LFPackageScopeRuleImpl.class, lfPackageScopeRule.getPrimaryKey(),
             lfPackageScopeRule);
 
-        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PACKAGEID,
-            new Object[] { Integer.valueOf(lfPackageScopeRule.getPackageID()) },
-            lfPackageScopeRule);
+        boolean noNullsInPACKAGEID = true;
 
-        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SCOPEANDISDEFAULT,
-            new Object[] {
+        if (lfPackageScopeRule.getPackageID() == null) {
+            noNullsInPACKAGEID = false;
+        }
+
+        if (noNullsInPACKAGEID) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PACKAGEID,
+                new Object[] { Integer.valueOf(
+                        lfPackageScopeRule.getPackageID()) }, lfPackageScopeRule);
+        }
+
+        boolean noNullsInSCOPEANDISDEFAULT = true;
+
+        if (lfPackageScopeRule.getIsDefault() == null) {
+            noNullsInSCOPEANDISDEFAULT = false;
+        }
+
+        if (noNullsInSCOPEANDISDEFAULT) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_SCOPEANDISDEFAULT,
+                new Object[] {
+                    lfPackageScopeRule.getScope(),
+                    
+                lfPackageScopeRule.getScopeID(),
+                    Boolean.valueOf(lfPackageScopeRule.getIsDefault())
+                }, lfPackageScopeRule);
+        }
+
+        boolean noNullsInPACKAGEIDANDSCOPE = true;
+
+        if (lfPackageScopeRule.getPackageID() == null) {
+            noNullsInPACKAGEIDANDSCOPE = false;
+        }
+
+        if (noNullsInPACKAGEIDANDSCOPE) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PACKAGEIDANDSCOPE,
+                new Object[] {
+                    Integer.valueOf(lfPackageScopeRule.getPackageID()),
+                    
                 lfPackageScopeRule.getScope(),
-                
-            lfPackageScopeRule.getScopeID(),
-                Boolean.valueOf(lfPackageScopeRule.getIsDefault())
-            }, lfPackageScopeRule);
-
-        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_PACKAGEIDANDSCOPE,
-            new Object[] {
-                Integer.valueOf(lfPackageScopeRule.getPackageID()),
-                
-            lfPackageScopeRule.getScope(),
-                
-            lfPackageScopeRule.getScopeID()
-            }, lfPackageScopeRule);
+                    
+                lfPackageScopeRule.getScopeID()
+                }, lfPackageScopeRule);
+        }
 
         lfPackageScopeRule.resetOriginalValues();
     }
@@ -556,25 +580,50 @@ public class LFPackageScopeRulePersistenceImpl extends BasePersistenceImpl<LFPac
 
     protected void clearUniqueFindersCache(
         LFPackageScopeRule lfPackageScopeRule) {
-        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PACKAGEID,
-            new Object[] { Integer.valueOf(lfPackageScopeRule.getPackageID()) });
+        boolean noNullsInPACKAGEID = true;
 
-        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SCOPEANDISDEFAULT,
-            new Object[] {
+        if (lfPackageScopeRule.getPackageID() == null) {
+            noNullsInPACKAGEID = false;
+        }
+
+        if (noNullsInPACKAGEID) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PACKAGEID,
+                new Object[] { Integer.valueOf(
+                        lfPackageScopeRule.getPackageID()) });
+        }
+
+        boolean noNullsInSCOPEANDISDEFAULT = true;
+
+        if (lfPackageScopeRule.getIsDefault() == null) {
+            noNullsInSCOPEANDISDEFAULT = false;
+        }
+
+        if (noNullsInSCOPEANDISDEFAULT) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_SCOPEANDISDEFAULT,
+                new Object[] {
+                    lfPackageScopeRule.getScope(),
+                    
+                lfPackageScopeRule.getScopeID(),
+                    Boolean.valueOf(lfPackageScopeRule.getIsDefault())
+                });
+        }
+
+        boolean noNullsInPACKAGEIDANDSCOPE = true;
+
+        if (lfPackageScopeRule.getPackageID() == null) {
+            noNullsInPACKAGEIDANDSCOPE = false;
+        }
+
+        if (noNullsInPACKAGEIDANDSCOPE) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PACKAGEIDANDSCOPE,
+                new Object[] {
+                    Integer.valueOf(lfPackageScopeRule.getPackageID()),
+                    
                 lfPackageScopeRule.getScope(),
-                
-            lfPackageScopeRule.getScopeID(),
-                Boolean.valueOf(lfPackageScopeRule.getIsDefault())
-            });
-
-        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_PACKAGEIDANDSCOPE,
-            new Object[] {
-                Integer.valueOf(lfPackageScopeRule.getPackageID()),
-                
-            lfPackageScopeRule.getScope(),
-                
-            lfPackageScopeRule.getScopeID()
-            });
+                    
+                lfPackageScopeRule.getScopeID()
+                });
+        }
     }
 
     /**

@@ -90,6 +90,125 @@ public interface LFCertificatePersistence extends BasePersistence<LFCertificate>
         long id) throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Returns all the l f certificates where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @return the matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByCompanyID(
+        java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns a range of all the l f certificates where companyID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param companyID the company i d
+    * @param start the lower bound of the range of l f certificates
+    * @param end the upper bound of the range of l f certificates (not inclusive)
+    * @return the range of matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByCompanyID(
+        java.lang.Integer companyID, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns an ordered range of all the l f certificates where companyID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * </p>
+    *
+    * @param companyID the company i d
+    * @param start the lower bound of the range of l f certificates
+    * @param end the upper bound of the range of l f certificates (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByCompanyID(
+        java.lang.Integer companyID, int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the first l f certificate in the ordered set where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f certificate
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a matching l f certificate could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFCertificate findByCompanyID_First(
+        java.lang.Integer companyID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the first l f certificate in the ordered set where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f certificate, or <code>null</code> if a matching l f certificate could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFCertificate fetchByCompanyID_First(
+        java.lang.Integer companyID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the last l f certificate in the ordered set where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f certificate
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a matching l f certificate could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFCertificate findByCompanyID_Last(
+        java.lang.Integer companyID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the last l f certificate in the ordered set where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f certificate, or <code>null</code> if a matching l f certificate could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFCertificate fetchByCompanyID_Last(
+        java.lang.Integer companyID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f certificates before and after the current l f certificate in the ordered set where companyID = &#63;.
+    *
+    * @param id the primary key of the current l f certificate
+    * @param companyID the company i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the previous, current, and next l f certificate
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a l f certificate with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFCertificate[] findByCompanyID_PrevAndNext(
+        long id, java.lang.Integer companyID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f certificates where title LIKE &#63;.
     *
     * @param title the title
@@ -252,6 +371,15 @@ public interface LFCertificatePersistence extends BasePersistence<LFCertificate>
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f certificates where companyID = &#63; from the database.
+    *
+    * @param companyID the company i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByCompanyID(java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Removes all the l f certificates where title LIKE &#63; from the database.
     *
     * @param title the title
@@ -266,6 +394,16 @@ public interface LFCertificatePersistence extends BasePersistence<LFCertificate>
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f certificates where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @return the number of matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByCompanyID(java.lang.Integer companyID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

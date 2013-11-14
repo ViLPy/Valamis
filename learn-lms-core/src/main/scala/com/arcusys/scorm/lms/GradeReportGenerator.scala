@@ -23,6 +23,9 @@ class GradeReportGenerator(implicit val bindingModule: BindingModule) extends In
     val responses = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.learner_response")
     val texts = dataModelStorage.getValuesByKey(attempt.id, "cmi.interactions.0.description")
     val score = dataModelStorage.getValuesByKey(attempt.id, "cmi.score.scaled")
+    val scoreRaw = dataModelStorage.getValuesByKey(attempt.id, "cmi.core.score.raw")
+    val scoreMin = dataModelStorage.getValuesByKey(attempt.id, "cmi.core.score.min")
+    val scoreMax = dataModelStorage.getValuesByKey(attempt.id, "cmi.core.score.max")
     val essayComment = dataModelStorage.getValuesByKey(attempt.id, "cmi.essay_comment")
     val tree = activityTreeStorage.get(attempt.id)
 
@@ -34,29 +37,21 @@ class GradeReportGenerator(implicit val bindingModule: BindingModule) extends In
       case leaf: LeafActivity => new GradeReportLeaf(leaf,
         if (grades.isEmpty || grades.get(leaf.id) == None || grades.get(leaf.id).get.get.equals("unknown")) {
           None
-        } else {
+        } else if (score.contains(leaf.id)) {
           Some(score.get(leaf.id).get.get.toDouble)
+        } else if (scoreRaw.contains(leaf.id) && scoreMax.contains(leaf.id) && scoreMin.contains(leaf.id)) {
+          val raw = scoreRaw.get(leaf.id).get.get.toDouble
+          val min = scoreMin.get(leaf.id).get.get.toDouble
+          val max = scoreMax.get(leaf.id).get.get.toDouble
+          Some((raw-min)/(max-min))
+        } else {
+          None
         },
         texts.get(leaf.id).getOrElse(None),
         responseTypes.get(leaf.id).getOrElse(None) match {
           case Some("long_fill_in") => responses.get(leaf.id).getOrElse(Some(""))
           case Some("numeric") => responses.get(leaf.id).getOrElse(Some(""))
-          case Some("choice") => {
-            val responses_splitted = responses.get(leaf.id).getOrElse(Some("")).getOrElse("").split("\\[,\\]").filter(_!="").map(response =>  response.toInt)
-            val question_num = leaf.id.drop("question".length).toInt
-            val avail_answers = quizQuestionStorage.getByID(question_num).get match {
-              case questionBankQuizQuestion: QuestionBankQuizQuestion =>
-                questionBankQuizQuestion.question.answers
-              case _ => throw new IllegalArgumentException
-            }
-            val userAnswers = avail_answers.filter(ans => responses_splitted.contains(ans.id))
-            val stringBuilder = new StringBuilder()
-            userAnswers.foreach(answer => answer match {
-              case choiceAnswer: ChoiceAnswer => stringBuilder.append(choiceAnswer.text)
-              case _ => throw new IllegalArgumentException
-            })
-            Option(stringBuilder.toString())
-          }
+          case Some("choice") => responses.get(leaf.id).getOrElse(Some("")).map(_.replace("[,]",""))
           case Some("matching") => {
             if (responses.get(leaf.id).getOrElse(Some("")).getOrElse("").length > 0) {
               val twoArrays = responses.get(leaf.id).getOrElse(Some("")).get.replaceAll("</*p>", "").split("\\[,\\]").map(x => x.split("\\[.\\]"))

@@ -54,7 +54,7 @@ public class LFRollupRuleModelImpl extends BaseModelImpl<LFRollupRule>
             { "minimumPercent", Types.NUMERIC },
             { "action", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFRollupRule (id_ LONG not null primary key,sequencingID INTEGER,combination TEXT null,childActivitySet TEXT null,minimumCount INTEGER null,minimumPercent NUMERIC(20,2),action TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFRollupRule (id_ LONG not null primary key,sequencingID INTEGER null,combination TEXT null,childActivitySet TEXT null,minimumCount INTEGER null,minimumPercent NUMERIC(20,2),action TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFRollupRule";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

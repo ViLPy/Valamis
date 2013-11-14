@@ -51,7 +51,7 @@ public class LFActivityDataMapModelImpl extends BaseModelImpl<LFActivityDataMap>
             { "readSharedData", Types.BOOLEAN },
             { "writeSharedData", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityDataMap (id_ LONG not null primary key,packageID INTEGER,activityID VARCHAR(512) null,targetId TEXT null,readSharedData BOOLEAN,writeSharedData BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityDataMap (id_ LONG not null primary key,packageID INTEGER null,activityID VARCHAR(512) null,targetId TEXT null,readSharedData BOOLEAN null,writeSharedData BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFActivityDataMap";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

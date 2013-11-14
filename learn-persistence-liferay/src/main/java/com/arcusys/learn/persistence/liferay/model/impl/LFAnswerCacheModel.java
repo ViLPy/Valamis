@@ -70,13 +70,7 @@ public class LFAnswerCacheModel implements CacheModel<LFAnswer>, Serializable {
         lfAnswerImpl.setQuestionId(questionId);
         lfAnswerImpl.setRangeFrom(rangeFrom);
         lfAnswerImpl.setRangeTo(rangeTo);
-
-        if (matchingText == null) {
-            lfAnswerImpl.setMatchingText(StringPool.BLANK);
-        } else {
-            lfAnswerImpl.setMatchingText(matchingText);
-        }
-
+        lfAnswerImpl.setMatchingText(matchingText);
         lfAnswerImpl.setAnswerPosition(answerPosition);
         lfAnswerImpl.setAnswerType(answerType);
 

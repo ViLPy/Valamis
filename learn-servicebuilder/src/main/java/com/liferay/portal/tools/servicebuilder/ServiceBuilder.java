@@ -4691,7 +4691,7 @@ public class ServiceBuilder {
             String idType = columnElement.attributeValue("id-type");
             String idParam = columnElement.attributeValue("id-param");
             boolean convertNull = GetterUtil.getBoolean(
-                    columnElement.attributeValue("convert-null"), true);
+                    columnElement.attributeValue("convert-null"), false);
             boolean lazy = GetterUtil.getBoolean(
                     columnElement.attributeValue("lazy"), true);
             boolean localized = GetterUtil.getBoolean(

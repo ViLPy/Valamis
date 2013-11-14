@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -55,7 +54,7 @@ public class LFRollupContributionModelImpl extends BaseModelImpl<LFRollupContrib
             { "objectiveMeasureWeight", Types.NUMERIC },
             { "measureSatisfactionIfActive", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFRollupContribution (id_ LONG not null primary key,sequencingID INTEGER,contributeToSatisfied TEXT null,contributeToNotSatisfied TEXT null,contributeToCompleted TEXT null,contributeToIncomplete TEXT null,objectiveMeasureWeight NUMERIC(20,2),measureSatisfactionIfActive BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFRollupContribution (id_ LONG not null primary key,sequencingID INTEGER null,contributeToSatisfied TEXT null,contributeToNotSatisfied TEXT null,contributeToCompleted TEXT null,contributeToIncomplete TEXT null,objectiveMeasureWeight NUMERIC(20,2),measureSatisfactionIfActive BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFRollupContribution";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -219,11 +218,7 @@ public class LFRollupContributionModelImpl extends BaseModelImpl<LFRollupContrib
     }
 
     public String getContributeToSatisfied() {
-        if (_contributeToSatisfied == null) {
-            return StringPool.BLANK;
-        } else {
-            return _contributeToSatisfied;
-        }
+        return _contributeToSatisfied;
     }
 
     public void setContributeToSatisfied(String contributeToSatisfied) {
@@ -231,11 +226,7 @@ public class LFRollupContributionModelImpl extends BaseModelImpl<LFRollupContrib
     }
 
     public String getContributeToNotSatisfied() {
-        if (_contributeToNotSatisfied == null) {
-            return StringPool.BLANK;
-        } else {
-            return _contributeToNotSatisfied;
-        }
+        return _contributeToNotSatisfied;
     }
 
     public void setContributeToNotSatisfied(String contributeToNotSatisfied) {
@@ -243,11 +234,7 @@ public class LFRollupContributionModelImpl extends BaseModelImpl<LFRollupContrib
     }
 
     public String getContributeToCompleted() {
-        if (_contributeToCompleted == null) {
-            return StringPool.BLANK;
-        } else {
-            return _contributeToCompleted;
-        }
+        return _contributeToCompleted;
     }
 
     public void setContributeToCompleted(String contributeToCompleted) {
@@ -255,11 +242,7 @@ public class LFRollupContributionModelImpl extends BaseModelImpl<LFRollupContrib
     }
 
     public String getContributeToIncomplete() {
-        if (_contributeToIncomplete == null) {
-            return StringPool.BLANK;
-        } else {
-            return _contributeToIncomplete;
-        }
+        return _contributeToIncomplete;
     }
 
     public void setContributeToIncomplete(String contributeToIncomplete) {

@@ -1,0 +1,181 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#wrapper {
+    width: 100%;
+    min-width: 630px;
+    height: 100%;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 50px;
+    width: 100%;
+    background: #CCCCCC;
+}
+
+/* Middle
+-----------------------------------------------------------------------------*/
+#middle {
+    width: 100%;
+    height: 1%;
+    position: relative;
+}
+
+#middle:after {
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+}
+
+#container {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}
+
+#content {
+    /*padding: 0 0 0 270px;*/
+    overflow: auto;
+}
+
+/* Sidebar Left
+-----------------------------------------------------------------------------*/
+/*#sideLeft {
+    float: left;
+    width: 240px;
+    margin-left: -100%;
+    position: relative;
+    background: #FFE680;
+    padding-left: 10px;
+    padding-right: 10px;
+}*/
+
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+    height: 25px;
+    background: #CCCCCC;
+}
+
+.imageItem {
+    border: #2e2e2e solid 1px;
+    width: 128px;
+    height: 144px;
+    display: block;
+    float: left;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.imageDir {
+    border: #2e2e2e dashed 1px;
+    width: 128px;
+    height: 144px;
+    display: block;
+    float: left;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.imageItemTitle {
+    white-space: pre-line;
+    width: 128px;
+    display: block;
+    overflow: hidden;
+    margin-top: 5px;
+    height: 16px;
+}
+
+.imageDirTitle {
+    white-space: pre-line;
+    width: 128px;
+    display: block;
+    overflow: hidden;
+    margin-top: 10px;
+    height: 144px;
+}
+
+.fileItem {
+    padding: 3px;
+    width: 250px;
+    cursor: pointer;
+    display: block;
+    float: left;
+}
+
+.fileItemTitle {
+    white-space: pre-line;
+    width: 210px;
+    display: block;
+    overflow: hidden;
+    line-height: 32px;
+    margin-left: 3px;
+}
+
+.currentDirLink {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #555555;
+}
+
+.currentDirLink:hover {
+    color: #603030;
+}
+
+.infoBar {
+    color: #303030;
+    padding-top: 5px;
+    margin-bottom: -5px;
+}
+
+.filePath {
+    font-size: large;
+    height: 50px;
+    float: left;
+    line-height: 50px;
+}
+
+.menuBarSeparator {
+    float: left;
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: #505050;
+    margin: 9px;
+}
+
+.menuBarButton {
+    float: left;
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 9px;
+    cursor: pointer;
+}
+
+.menuBarButton:hover,
+.menuBarButtonActive {
+    padding: 8px;
+    border: #555555 solid 1px;
+    background: #AAAAAA;
+}
+
+.rightMargin {
+    margin-right: 5px;
+}

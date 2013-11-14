@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -46,30 +45,10 @@ public class LFTincanLrsEndpointCacheModel implements CacheModel<LFTincanLrsEndp
         LFTincanLrsEndpointImpl lfTincanLrsEndpointImpl = new LFTincanLrsEndpointImpl();
 
         lfTincanLrsEndpointImpl.setId(id);
-
-        if (endpoint == null) {
-            lfTincanLrsEndpointImpl.setEndpoint(StringPool.BLANK);
-        } else {
-            lfTincanLrsEndpointImpl.setEndpoint(endpoint);
-        }
-
-        if (authType == null) {
-            lfTincanLrsEndpointImpl.setAuthType(StringPool.BLANK);
-        } else {
-            lfTincanLrsEndpointImpl.setAuthType(authType);
-        }
-
-        if (key == null) {
-            lfTincanLrsEndpointImpl.setKey(StringPool.BLANK);
-        } else {
-            lfTincanLrsEndpointImpl.setKey(key);
-        }
-
-        if (secret == null) {
-            lfTincanLrsEndpointImpl.setSecret(StringPool.BLANK);
-        } else {
-            lfTincanLrsEndpointImpl.setSecret(secret);
-        }
+        lfTincanLrsEndpointImpl.setEndpoint(endpoint);
+        lfTincanLrsEndpointImpl.setAuthType(authType);
+        lfTincanLrsEndpointImpl.setKey(key);
+        lfTincanLrsEndpointImpl.setSecret(secret);
 
         lfTincanLrsEndpointImpl.resetOriginalValues();
 

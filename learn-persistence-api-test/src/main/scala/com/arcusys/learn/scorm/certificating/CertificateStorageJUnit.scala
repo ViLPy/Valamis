@@ -22,15 +22,15 @@ trait CertificateStorageJUnit {
 
   @Test
   def canCreate() {
-    certificateStorage.createAndGetID(Certificate(0,"certificate1", ""))
-    certificateStorage.createAndGetID(Certificate(0,"certificate2", ""))
+    certificateStorage.createAndGetID(Certificate(0,"certificate1", "", companyId = 1))
+    certificateStorage.createAndGetID(Certificate(0,"certificate2", "", companyId = 1))
     // should be one guest
     assertEquals(2, certificateStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val item = Certificate(0,"certificate3", "")
+    val item = Certificate(0,"certificate3", "", companyId = 1)
     val testId = certificateStorage.createAndGetID(item)
     assertEquals(item.id, testId)
     val fetched = certificateStorage.getByID(testId).get
@@ -40,7 +40,7 @@ trait CertificateStorageJUnit {
 
   @Test
   def canUpdate() {
-    val item = Certificate(0,"certificate4", "")
+    val item = Certificate(0,"certificate4", "", companyId = 1)
     val testId = certificateStorage.createAndGetID(item)
     assertEquals(item.id, testId)
     val newName = "Updated Title"

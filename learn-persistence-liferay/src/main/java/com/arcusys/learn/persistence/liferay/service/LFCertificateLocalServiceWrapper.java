@@ -269,6 +269,12 @@ public class LFCertificateLocalServiceWrapper
         return _lfCertificateLocalService.findByTitle(title);
     }
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByCompanyID(
+        java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfCertificateLocalService.findByCompanyID(companyID);
+    }
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfCertificateLocalService.removeAll();

@@ -61,12 +61,7 @@ public class LFRuleConditionCacheModel implements CacheModel<LFRuleCondition>,
             lfRuleConditionImpl.setConditionType(conditionType);
         }
 
-        if (objectiveId == null) {
-            lfRuleConditionImpl.setObjectiveId(StringPool.BLANK);
-        } else {
-            lfRuleConditionImpl.setObjectiveId(objectiveId);
-        }
-
+        lfRuleConditionImpl.setObjectiveId(objectiveId);
         lfRuleConditionImpl.setMeasureThreshold(measureThreshold);
         lfRuleConditionImpl.setInverse(inverse);
         lfRuleConditionImpl.setRollupRuleID(rollupRuleID);

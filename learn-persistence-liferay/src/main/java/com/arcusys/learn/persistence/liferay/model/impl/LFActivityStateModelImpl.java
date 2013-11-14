@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -61,7 +60,7 @@ public class LFActivityStateModelImpl extends BaseModelImpl<LFActivityState>
             { "activityStateNodeID", Types.INTEGER },
             { "activityStateTreeID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityState (id_ LONG not null primary key,packageID INTEGER,activityID TEXT null,active_ BOOLEAN,suspended BOOLEAN,attemptCompleted BOOLEAN null,attemptCompletionAmount NUMERIC(20,2),attemptAbsoluteDuration NUMERIC(20,2),attemptExperiencedDuration NUMERIC(20,2),activityAbsoluteDuration NUMERIC(20,2),activityExperiencedDuration NUMERIC(20,2),attemptCount INTEGER,activityStateNodeID INTEGER null,activityStateTreeID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityState (id_ LONG not null primary key,packageID INTEGER null,activityID TEXT null,active_ BOOLEAN null,suspended BOOLEAN null,attemptCompleted BOOLEAN null,attemptCompletionAmount NUMERIC(20,2),attemptAbsoluteDuration NUMERIC(20,2),attemptExperiencedDuration NUMERIC(20,2),activityAbsoluteDuration NUMERIC(20,2),activityExperiencedDuration NUMERIC(20,2),attemptCount INTEGER null,activityStateNodeID INTEGER null,activityStateTreeID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFActivityState";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -268,11 +267,7 @@ public class LFActivityStateModelImpl extends BaseModelImpl<LFActivityState>
     }
 
     public String getActivityID() {
-        if (_activityID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _activityID;
-        }
+        return _activityID;
     }
 
     public void setActivityID(String activityID) {
@@ -286,7 +281,7 @@ public class LFActivityStateModelImpl extends BaseModelImpl<LFActivityState>
     }
 
     public String getOriginalActivityID() {
-        return GetterUtil.getString(_originalActivityID);
+        return _originalActivityID;
     }
 
     public Boolean getActive() {

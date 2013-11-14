@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFResource;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -50,30 +49,10 @@ public class LFResourceCacheModel implements CacheModel<LFResource>,
 
         lfResourceImpl.setId(id);
         lfResourceImpl.setPackageID(packageID);
-
-        if (scormType == null) {
-            lfResourceImpl.setScormType(StringPool.BLANK);
-        } else {
-            lfResourceImpl.setScormType(scormType);
-        }
-
-        if (resourceID == null) {
-            lfResourceImpl.setResourceID(StringPool.BLANK);
-        } else {
-            lfResourceImpl.setResourceID(resourceID);
-        }
-
-        if (href == null) {
-            lfResourceImpl.setHref(StringPool.BLANK);
-        } else {
-            lfResourceImpl.setHref(href);
-        }
-
-        if (base == null) {
-            lfResourceImpl.setBase(StringPool.BLANK);
-        } else {
-            lfResourceImpl.setBase(base);
-        }
+        lfResourceImpl.setScormType(scormType);
+        lfResourceImpl.setResourceID(resourceID);
+        lfResourceImpl.setHref(href);
+        lfResourceImpl.setBase(base);
 
         lfResourceImpl.resetOriginalValues();
 

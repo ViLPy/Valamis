@@ -15,7 +15,7 @@
     build.namespace=${portletShortName}
     build.number=${buildNumber}
     build.date=${currentTimeMillis?c}
-    build.auto.upgrade=true
+    build.auto.upgrade=false
 
 ##
 ## Spring

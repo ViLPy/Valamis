@@ -12,10 +12,11 @@ import com.arcusys.learn.player._
 import com.arcusys.learn.scope.{PlayerScopeTest, AdminScopeTest, QuizScopeTest}
 import com.arcusys.learn.gradebook._
 import org.openqa.selenium.remote.{CapabilityType, DesiredCapabilities}
+import com.arcusys.learn.curriculum.{StudentCurriculumTest, UserManagementTest, CurriculumManagementTest, BasicCurriculumAdminTest}
 
 @RunWith(classOf[JUnitRunner])
 class UISuitTest extends Suites with LoginSupport with BeforeAndAfterAll {
-  val dc =new DesiredCapabilities()
+  val dc = new DesiredCapabilities()
   dc.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true)
   val driver = new FirefoxDriver(dc)
 
@@ -24,34 +25,39 @@ class UISuitTest extends Suites with LoginSupport with BeforeAndAfterAll {
   }
 
   override val nestedSuites = collection.immutable.IndexedSeq(
-    new AdminTest(driver),
-    new BasicViewTest(driver),
-    new SearchTest(driver),
+    /* new AdminTest(driver),
+   new BasicViewTest(driver),
+   new SearchTest(driver),
 
-    new CategoryTest(driver),
-    new QuestionTest(driver),
-    new BasicQuizTest(driver),
-    new QuizCategoryTest(driver),
-    new QuizQuestionTest(driver),
-    new MainQuizTest(driver),
+   new CategoryTest(driver),
+   new QuestionTest(driver),
+   new BasicQuizTest(driver),
+   new QuizCategoryTest(driver),
+   new QuizQuestionTest(driver),
+   new MainQuizTest(driver),
 
-    new GeneratedQuizCorrectPass(driver),
-    new CorrectResultsTest(driver),
-    new StudentNotPassedTest(driver),
+   new GeneratedQuizCorrectPass(driver),
+   new CorrectResultsTest(driver),
+   new StudentNotPassedTest(driver),
 
-    new GeneratedQuizIncorrectPass(driver),
+   new GeneratedQuizIncorrectPass(driver),
 
-    new StudentPassedTest(driver),
-    new TeacherTest(driver),
-    new StudentViewMarkTest(driver),
+   new StudentPassedTest(driver),
+   new TeacherTest(driver),
+   new StudentViewMarkTest(driver),
 
-    new ViewedStateTest(driver)
-    /*new CleanUpTest(driver),
-    new PermissionTest(driver),
-    new QuizScopeTest(driver),
-    new AdminScopeTest(driver),
-    new PlayerScopeTest(driver)*/
-    )
+   new ViewedStateTest(driver)
+   new CleanUpTest(driver),
+   new PermissionTest(driver),
+   new QuizScopeTest(driver),
+   new AdminScopeTest(driver),
+   new PlayerScopeTest(driver)*/
+
+    new BasicCurriculumAdminTest(driver),
+    new UserManagementTest(driver),
+    new CurriculumManagementTest(driver),
+    new StudentCurriculumTest(driver)
+  )
 
   override def afterAll(configMap: Map[String, Any]) {
     driver.quit()

@@ -2,9 +2,9 @@ package com.arcusys.learn.settings.model
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.settings.model.Setting
-import com.arcusys.learn.persistence.liferay.service.LFSettingLocalServiceUtil
-import com.arcusys.learn.persistence.liferay.model.LFSetting
+import com.arcusys.learn.persistence.liferay.service.LFConfigLocalServiceUtil
 import scala.collection.JavaConverters._
+import com.arcusys.learn.persistence.liferay.model.LFConfig
 
 /**
  * User: Yulia.Glushonkova
@@ -12,26 +12,26 @@ import scala.collection.JavaConverters._
  */
 trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
   protected def doRenew() {
-      LFSettingLocalServiceUtil.removeAll()
+      LFConfigLocalServiceUtil.removeAll()
   }
 
-  def extract(entity: LFSetting) = new Setting(
+  def extract(entity: LFConfig) = new Setting(
     entity.getId.toInt,
-    SettingType.withName(entity.getKey),
-    entity.getValue)
+    SettingType.withName(entity.getDataKey),
+    entity.getDataValue)
 
 
   def getOne(parameters: (String, Any)*) = {
     parameters match {
       case Seq(("key", key: String)) => {
-        val lfEntity = LFSettingLocalServiceUtil.findByKey(key)
+        val lfEntity = LFConfigLocalServiceUtil.findByKey(key)
         if (lfEntity == null) None else Option(extract(lfEntity))
       }
     }
   }
 
   def getAll(parameters: (String, Any)*) = {
-    LFSettingLocalServiceUtil.getLFSettings(-1,-1).asScala.map(extract)
+    LFConfigLocalServiceUtil.getLFConfigs(-1,-1).asScala.map(extract)
   }
 
   def create(parameters: (String, Any)*) {
@@ -49,9 +49,9 @@ trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
   def modify(parameters: (String, Any)*) {
     parameters match {
       case Seq(("key", key: String), ("value", value: String)) => {
-        val lfentity = LFSettingLocalServiceUtil.findByKey(key)
-        lfentity.setValue(value)
-        LFSettingLocalServiceUtil.updateLFSetting(lfentity)
+        val lfentity = LFConfigLocalServiceUtil.findByKey(key)
+        lfentity.setDataValue(value)
+        LFConfigLocalServiceUtil.updateLFConfig(lfentity)
       }
     }
 
@@ -84,10 +84,10 @@ trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
   def createAndGetID(parameters: (String, Any)*) = {
     parameters match {
       case Seq(("key", key: String), ("value", value: String)) => {
-        val lfEntity = LFSettingLocalServiceUtil.createLFSetting()
-        lfEntity.setKey(key)
-        lfEntity.setValue(value)
-        LFSettingLocalServiceUtil.addLFSetting(lfEntity).getId.toInt
+        val lfEntity = LFConfigLocalServiceUtil.createLFConfig()
+        lfEntity.setDataKey(key)
+        lfEntity.setDataValue(value)
+        LFConfigLocalServiceUtil.addLFConfig(lfEntity).getId.toInt
       }
     }
   }

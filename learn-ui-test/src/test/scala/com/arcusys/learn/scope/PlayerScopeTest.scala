@@ -33,9 +33,9 @@ class PlayerScopeTest (_driver:WebDriver) extends Suite with FlatSpec with Shoul
   }
 
   it should  "be able to open prefernces and update scope setting" in{
-    driver.findElement(By.id("_SCORMApplication_WAR_learnweb_kldx_menuButton")).click()
+    driver.findElement(By.id("_SCORMApplication_WAR_learnportlet_kldx_menuButton")).click()
     wait(2)
-    driver.findElement(By.id("_SCORMApplication_WAR_learnweb_kldx_menu_preferences")).click()
+    driver.findElement(By.id("_SCORMApplication_WAR_learnportlet_kldx_menu_preferences")).click()
     wait(1)
     new Select(driver.findElement(By.id("scopeOptions"))).selectByVisibleText("Instance Scope")
     wait(1)
@@ -49,9 +49,9 @@ class PlayerScopeTest (_driver:WebDriver) extends Suite with FlatSpec with Shoul
   }
 
   it should "be able to update visibility settings" in {
-    driver.findElement(By.id("_SCORMApplication_WAR_learnweb_kldx_menuButton")).click()
+    driver.findElement(By.id("_SCORMApplication_WAR_learnportlet_kldx_menuButton")).click()
     wait(2)
-    driver.findElement(By.id("_SCORMApplication_WAR_learnweb_kldx_menu_preferences")).click()
+    driver.findElement(By.id("_SCORMApplication_WAR_learnportlet_kldx_menu_preferences")).click()
     wait(1)
     driver.findElement(By.xpath("//*[@id=\"scormPackageTable\"]/tbody/tr/td[4]/input")).click()
     driver.findElement(By.partialLinkText("Return to Full Page")).click()

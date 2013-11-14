@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFTincanPackage;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -46,19 +45,8 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         LFTincanPackageImpl lfTincanPackageImpl = new LFTincanPackageImpl();
 
         lfTincanPackageImpl.setId(id);
-
-        if (title == null) {
-            lfTincanPackageImpl.setTitle(StringPool.BLANK);
-        } else {
-            lfTincanPackageImpl.setTitle(title);
-        }
-
-        if (summary == null) {
-            lfTincanPackageImpl.setSummary(StringPool.BLANK);
-        } else {
-            lfTincanPackageImpl.setSummary(summary);
-        }
-
+        lfTincanPackageImpl.setTitle(title);
+        lfTincanPackageImpl.setSummary(summary);
         lfTincanPackageImpl.setAssetRefID(assetRefID);
         lfTincanPackageImpl.setCourseID(courseID);
 

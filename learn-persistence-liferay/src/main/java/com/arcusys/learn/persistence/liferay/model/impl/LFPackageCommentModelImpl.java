@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -51,7 +50,7 @@ public class LFPackageCommentModelImpl extends BaseModelImpl<LFPackageComment>
             { "comment_", Types.VARCHAR },
             { "publishDate", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageComment (id_ LONG not null primary key,socialPackageID INTEGER,authorID INTEGER,comment_ VARCHAR(75) null,publishDate DATE null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageComment (id_ LONG not null primary key,socialPackageID INTEGER null,authorID INTEGER null,comment_ VARCHAR(75) null,publishDate DATE null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackageComment";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -192,11 +191,7 @@ public class LFPackageCommentModelImpl extends BaseModelImpl<LFPackageComment>
     }
 
     public String getComment() {
-        if (_comment == null) {
-            return StringPool.BLANK;
-        } else {
-            return _comment;
-        }
+        return _comment;
     }
 
     public void setComment(String comment) {

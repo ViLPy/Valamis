@@ -50,9 +50,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
             { "logo", Types.VARCHAR },
             { "isPermanent", Types.BOOLEAN },
             { "publishBadge", Types.BOOLEAN },
-            { "shortDescription", Types.VARCHAR }
+            { "shortDescription", Types.VARCHAR },
+            { "companyID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,isPermanent BOOLEAN,publishBadge BOOLEAN,shortDescription VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,isPermanent BOOLEAN null,publishBadge BOOLEAN null,shortDescription VARCHAR(75) null,companyID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificate";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -66,7 +67,8 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
                 "value.object.column.bitmask.enabled.com.arcusys.learn.persistence.liferay.model.LFCertificate"),
             true);
-    public static long TITLE_COLUMN_BITMASK = 1L;
+    public static long COMPANYID_COLUMN_BITMASK = 1L;
+    public static long TITLE_COLUMN_BITMASK = 2L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFCertificate"));
     private static ClassLoader _classLoader = LFCertificate.class.getClassLoader();
@@ -81,6 +83,9 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     private Boolean _isPermanent;
     private Boolean _publishBadge;
     private String _shortDescription;
+    private Integer _companyID;
+    private Integer _originalCompanyID;
+    private boolean _setOriginalCompanyID;
     private long _columnBitmask;
     private LFCertificate _escapedModelProxy;
 
@@ -122,6 +127,7 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         attributes.put("isPermanent", getIsPermanent());
         attributes.put("publishBadge", getPublishBadge());
         attributes.put("shortDescription", getShortDescription());
+        attributes.put("companyID", getCompanyID());
 
         return attributes;
     }
@@ -168,6 +174,12 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
         if (shortDescription != null) {
             setShortDescription(shortDescription);
+        }
+
+        Integer companyID = (Integer) attributes.get("companyID");
+
+        if (companyID != null) {
+            setCompanyID(companyID);
         }
     }
 
@@ -253,6 +265,26 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         _shortDescription = shortDescription;
     }
 
+    public Integer getCompanyID() {
+        return _companyID;
+    }
+
+    public void setCompanyID(Integer companyID) {
+        _columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+        if (!_setOriginalCompanyID) {
+            _setOriginalCompanyID = true;
+
+            _originalCompanyID = _companyID;
+        }
+
+        _companyID = companyID;
+    }
+
+    public Integer getOriginalCompanyID() {
+        return _originalCompanyID;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -292,6 +324,7 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         lfCertificateImpl.setIsPermanent(getIsPermanent());
         lfCertificateImpl.setPublishBadge(getPublishBadge());
         lfCertificateImpl.setShortDescription(getShortDescription());
+        lfCertificateImpl.setCompanyID(getCompanyID());
 
         lfCertificateImpl.resetOriginalValues();
 
@@ -344,6 +377,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
         lfCertificateModelImpl._originalTitle = lfCertificateModelImpl._title;
 
+        lfCertificateModelImpl._originalCompanyID = lfCertificateModelImpl._companyID;
+
+        lfCertificateModelImpl._setOriginalCompanyID = false;
+
         lfCertificateModelImpl._columnBitmask = 0;
     }
 
@@ -389,12 +426,14 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
             lfCertificateCacheModel.shortDescription = null;
         }
 
+        lfCertificateCacheModel.companyID = getCompanyID();
+
         return lfCertificateCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -410,13 +449,15 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(getPublishBadge());
         sb.append(", shortDescription=");
         sb.append(getShortDescription());
+        sb.append(", companyID=");
+        sb.append(getCompanyID());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCertificate");
@@ -449,6 +490,10 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(
             "<column><column-name>shortDescription</column-name><column-value><![CDATA[");
         sb.append(getShortDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>companyID</column-name><column-value><![CDATA[");
+        sb.append(getCompanyID());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

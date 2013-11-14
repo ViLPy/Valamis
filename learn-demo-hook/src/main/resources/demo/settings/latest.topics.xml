@@ -5,29 +5,19 @@
     </preference>
     <preference>
         <name>classTypeIdsJournalArticleAssetRendererFactory</name>
-        <value>
-            3f142778-5a32-4bc2-814e-f1568c24f910,ba6b9a58-d65d-43bc-b840-846de5fc13d1,b5dc3252-6424-4ff2-bac7-4b5713ce70a1
-        </value>
+        <value>9fb275cf-f009-4dc2-b8c5-55307137ae11,5bf670e8-be56-43cf-ab28-cd0b829d5d90,7cf05724-c980-4d76-a590-80d3be28e9e9</value>
     </preference>
     <preference>
         <name>assetTitle</name>
         <value/>
     </preference>
     <preference>
-        <name>showAvailableLocales</name>
-        <value>false</value>
-    </preference>
-    <preference>
-        <name>portletSetupUseCustomTitle</name>
-        <value>true</value>
-    </preference>
-    <preference>
         <name>enableRss</name>
         <value>false</value>
     </preference>
     <preference>
-        <name>lfrWapInitialWindowState</name>
-        <value>NORMAL</value>
+        <name>showAvailableLocales</name>
+        <value>false</value>
     </preference>
     <preference>
         <name>paginationType</name>
@@ -65,8 +55,8 @@
         <value/>
     </preference>
     <preference>
-        <name>lfrWapTitle</name>
-        <value/>
+        <name>orderByColumn2</name>
+        <value>title</value>
     </preference>
     <preference>
         <name>rssDelta</name>
@@ -79,10 +69,6 @@
     <preference>
         <name>metadataFields</name>
         <value/>
-    </preference>
-    <preference>
-        <name>orderByColumn2</name>
-        <value>title</value>
     </preference>
     <preference>
         <name>showAssetTitle</name>
@@ -109,22 +95,16 @@
         <value>false</value>
     </preference>
     <preference>
-        <name>showMetadataDescriptions</name>
-        <value>false</value>
-    </preference>
-    <preference>
-        <name>enableRelatedAssets</name>
-        <value>false</value>
-    </preference>
-    <preference>
         <name>orderByType2</name>
         <value>ASC</value>
     </preference>
     <preference>
-        <name>portletSetupCss</name>
-        <value>[$NEW_LINE$]
-            {"wapData":{"title":"","initialWindowState":"NORMAL"},"hasCssValue":true,"spacingData":{"margin":{"sameForAll":true,"bottom":{"unit":"px","value":""},"left":{"unit":"px","value":""},"right":{"unit":"px","value":""},"top":{"unit":"px","value":""}},"padding":{"sameForAll":true,"bottom":{"unit":"px","value":""},"left":{"unit":"px","value":""},"right":{"unit":"px","value":""},"top":{"unit":"px","value":""}}},"borderData":{"borderStyle":{"sameForAll":true,"bottom":"","left":"","right":"","top":""},"borderColor":{"sameForAll":true,"bottom":"","left":"","right":"","top":""},"borderWidth":{"sameForAll":true,"bottom":{"unit":"px","value":""},"left":{"unit":"px","value":""},"right":{"unit":"px","value":""},"top":{"unit":"px","value":""}}},"textData":{"fontWeight":"","lineHeight":"","textDecoration":"","letterSpacing":"","color":"","textAlign":"","fontStyle":"","fontFamily":"","wordSpacing":"","fontSize":""},"bgData":{"backgroundPosition":{"left":{"unit":"px","value":""},"top":{"unit":"px","value":""}},"backgroundColor":"","backgroundRepeat":"","backgroundImage":"","useBgImage":false},"advancedData":{"customCSS":"","customCSSClassName":""}}[$NEW_LINE$]
-        </value>
+        <name>showMetadataDescriptions</name>
+        <value>true</value>
+    </preference>
+    <preference>
+        <name>enableRelatedAssets</name>
+        <value>true</value>
     </preference>
     <preference>
         <name>socialBookmarksDisplayPosition</name>
@@ -156,15 +136,11 @@
     </preference>
     <preference>
         <name>assetLinkBehavior</name>
-        <value>viewInPortlet</value>
+        <value>showFullContent</value>
     </preference>
     <preference>
         <name>enablePermissions</name>
         <value>false</value>
-    </preference>
-    <preference>
-        <name>portletSetupShowBorders</name>
-        <value>true</value>
     </preference>
     <preference>
         <name>enableCommentRatings</name>
@@ -172,7 +148,7 @@
     </preference>
     <preference>
         <name>enableSocialBookmarks</name>
-        <value>false</value>
+        <value>true</value>
     </preference>
     <preference>
         <name>anyClassTypeDLFileEntryAssetRendererFactory</name>
@@ -208,7 +184,7 @@
     </preference>
     <preference>
         <name>classTypeIdsDLFileEntryAssetRendererFactory</name>
-        <value>10277,10279,10281,10283</value>
+        <value>56cc8937-a428-4710-a1f1-a988404fd9b1,8fe0fb3e-5e15-45f6-bd4a-a3c91fd7217b,a3a979c5-fa0c-4aa4-b65b-1351d63b9ac1,ef1c6542-ca88-4996-bf0e-706029fe90ef</value>
     </preference>
     <preference>
         <name>orderByType1</name>
@@ -216,18 +192,15 @@
     </preference>
     <preference>
         <name>classNameIds</name>
-        <value>10007</value>
-    </preference>
-    <preference>
-        <name>portletSetupTitle_en_US</name>
-        <value>Latest topics</value>
-    </preference>
-    <preference>
-        <name>anyAssetType</name>
-        <value>10007</value>
+        <value>#mbMessage#</value>
+        <value>#blogsEntry#</value>
     </preference>
     <preference>
         <name>queryContains0</name>
         <value>true</value>
+    </preference>
+    <preference>
+        <name>anyAssetType</name>
+        <value>false</value>
     </preference>
 </portlet-preferences>

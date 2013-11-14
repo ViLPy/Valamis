@@ -6,16 +6,13 @@ import org.scalatest.matchers.ShouldMatchers
 import com.arcusys.learn.base.UITestBase
 import org.junit.Assert._
 
-/**
- * User: Yulia.Glushonkova
- * Date: 12.07.13
- */
-class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
+
+class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase with UICurriculumBase {
   val driver = _driver
 
   "Curriculum " should "be opened correctly" in {
     driver.get(baseUrl + curriculumUrl)
-    val managementTab = driver.findElement(By.id("certificateTabs")).findElement(By.partialLinkText("Management"))
+    val managementTab = driver.findElement(By.id("certificateTabs")).findElement(By.partialLinkText(manager))
     assertNotNull(managementTab)
 
     assertTrue(isElementPresent(By.id("SCORMButtonAddCertificate")))
@@ -23,40 +20,21 @@ class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec 
   }
 
   it should "be able to create new certificate" in {
-    driver.findElement(By.id("SCORMButtonAddCertificate")).click()
+    addEmptyCertificate()
 
     val certificates = driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
     assertNotNull(certificates)
     assertEquals(1, certificates.size)
 
-    val certificate = certificates.get(0)
-    val title = certificate.findElement(By.className("quizItemTitle")).getText
-    assertEquals("New certificate", title)
-
-    val description = certificate.findElement(By.id("SCORMCategoryDescription")).getText
-    assertEquals("Certificate info", description)
-
-    //val sites = certificate.findElement(By.className("quizQuestionAmount")).getText
-    //assertEquals("0 Sites selected", sites)
+    assertTitleAndDescription("New certificate", "Certificate info")
     assertSiteAmountInManagement(0)
   }
 
   it should "be able to edit certificate" in{
-    driver.findElement(By.id("certificateEdit")).click()
-    driver.findElement(By.className("certificateEditTitle")).click()
-
     val name = "Test cert1"
-    val input = driver.findElements(By.className("quizItemTitle")).get(2)
-    input.clear()
-    input.sendKeys(name)
-
-
-    driver.findElement(By.className("certificateTitleUpdate")).click()
-
-    wait(1)
+    val certificateId = updateTitleAndReturnCertificateID(name)
     val title = driver.findElements(By.className("quizItemTitle")).get(1).getText
     assertEquals(name, title)
-
 
     driver.findElement(By.id("SCORMEditDescription")).click()
     wait(1)
@@ -66,20 +44,38 @@ class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec 
 
     wait(1)
 
-    val newDescription = driver.findElement(By.id("certificateDescription")).getText
+    val newDescription = driver.findElement(By.id("certificateDescription_" + certificateId)).getText
     assertEquals(description, newDescription)
 
+    openManagement()
+    assertTitleAndDescription(name, description)
+  }
+
+  it should "be able to change other properties" in{
+    openCertManager()
+
+    assertTrue(isElementPresent(By.className("validPeriod")))
+    assertTrue(isElementPresent(By.className("publishBadgeCheckbox")))
+
+    driver.findElements(By.className("validPeriod")).get(1).click()
+    driver.findElement(By.className("publishBadgeCheckbox")).click()
+
+    // close tab
+    driver.findElement(By.className("ui-tabs-close")).click()
+    wait(1)
+    // verify that it really saves data
+    openCertManager()
+    assertFalse(driver.findElements(By.className("validPeriod")).get(0).isSelected)
+    assertTrue(driver.findElements(By.className("validPeriod")).get(1).isSelected)
+
+
+    // set default values back (permanent and not open badges
+    driver.findElements(By.className("validPeriod")).get(0).click()
+    driver.findElement(By.className("publishBadgeCheckbox")).click()
   }
 
   it should "be able to add site" in{
-    driver.findElement(By.id("addSites")).click()
-    assertTrue(isElementPresent(By.id("liferaySiteDialog")))
-
-    val site = driver.findElement(By.id("siteList")).findElements(By.id("liferaySiteElement")).get(1)
-    site.findElement(By.id("selectSiteButton")).click()
-
-    wait(1)
-
+    addSiteAndReturnName(1)
     assertSiteAmount(1)
   }
 
@@ -91,24 +87,17 @@ class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec 
     val desc = driver.findElement(By.id("SCORMCategoryDescription")).getText
     assertEquals("test info", desc)
 
-   // val sites = driver.findElement(By.className("quizQuestionAmount")).getText
-   // assertEquals("1 Sites selected", sites)
     assertSiteAmountInManagement(1)
 
   }
 
   it should "be able to create and delete certificate" in {
-    driver.findElement(By.id("SCORMButtonAddCertificate")).click()
-    wait(1)
+    addEmptyCertificate()
     val certificates = driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
     assertNotNull(certificates)
     assertEquals(2, certificates.size)
 
-    val certificate = certificates.get(0)
-    certificate.findElement(By.id("certificateDelete")).click()
-    wait(1)
-    assertTrue(closeAlertAndGetItsText.matches("^This will delete certificate from the system\\. Are you sure[\\s\\S]$"));
-    wait(1)
+    deleteCertificate()
 
     val newCertificateList = driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
     assertNotNull(newCertificateList)
@@ -117,16 +106,9 @@ class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec 
 
   var siteName = ""
   it should "be able to edit sites in certificate" in{
-    driver.findElement(By.id("certificateEdit")).click()
+    openCertManager()
 
-    driver.findElement(By.id("addSites")).click()
-    assertTrue(isElementPresent(By.id("liferaySiteDialog")))
-
-    val sites = driver.findElement(By.id("siteList")).findElements(By.id("liferaySiteElement"))
-    siteName = sites.get(sites.size -1).getText
-    sites.get(sites.size -1).findElement(By.id("selectSiteButton")).click()
-    wait(1)
-
+    siteName = addSiteAndReturnName(3)
     assertSiteAmount(2)
 
     driver.findElement(By.id("addSites")).click()
@@ -145,32 +127,11 @@ class BasicCurriculumAdminTest  (_driver:WebDriver) extends Suite with FlatSpec 
   }
 
   it should "be able to remove site " in {
-    val element = driver.findElements(By.className("siteSortableList")).get(2)
-    element.click()
+    driver.findElement(By.className("certificateRemoveSite")).click()
     wait(1)
-    driver.findElement(By.id("removeSite")).click()
-    wait(1)
-    assertTrue(closeAlertAndGetItsText.matches("^Are you sure want to delete site[\\s\\S]$"))
-   // wait(3)
+    assertTrue(closeAlertAndGetItsText.matches("^Are you sure want to delete course[\\s\\S]$"))
     assertSiteAmount(2)
-   // wait(1)
     openManagement()
-   // wait(1)
-   // assertSiteAmountInManagement(2)
-  }
-
-  def assertSiteAmount(expected: Int){
-    val size = driver.findElement(By.className("ui-sortable")).findElements(By.className("siteSortableList")).size
-    assertEquals(expected, size)
-  }
-
-  def openManagement(){
-    driver.findElement(By.partialLinkText("Management")).click()
-    wait(1)
-  }
-
-  def assertSiteAmountInManagement(expected: Int){
-    val sites = driver.findElement(By.className("quizQuestionAmount")).getText
-    assertEquals( expected + " Sites selected", sites)
+    assertSiteAmountInManagement(2)
   }
 }

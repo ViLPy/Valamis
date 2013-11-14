@@ -145,6 +145,20 @@ public interface LFCertificateModel extends BaseModel<LFCertificate> {
     */
     public void setShortDescription(String shortDescription);
 
+    /**
+    * Returns the company i d of this l f certificate.
+    *
+    * @return the company i d of this l f certificate
+    */
+    public Integer getCompanyID();
+
+    /**
+        * Sets the company i d of this l f certificate.
+    *
+    * @param companyID the company i d of this l f certificate
+    */
+    public void setCompanyID(Integer companyID);
+
     public boolean isNew();
 
     public void setNew(boolean n);

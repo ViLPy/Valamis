@@ -28,7 +28,7 @@
             <useAllReactorProjects>true</useAllReactorProjects>
 
             <includes>
-                <include>com.arcusys.learn:learn-web</include>
+                <include>com.arcusys.learn:learn-portlet</include>
                 <!--<include>com.arcusys.learn:learn-demo-hook</include>-->
             </includes>
 

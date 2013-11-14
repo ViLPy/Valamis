@@ -57,7 +57,7 @@ public class LFSequencingModelImpl extends BaseModelImpl<LFSequencing>
             { "preventChildrenActivation", Types.BOOLEAN },
             { "constrainChoice", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencing (id_ LONG not null primary key,packageID INTEGER,activityID VARCHAR(512) null,sharedId TEXT null,sharedSequencingIdReference TEXT null,onlyCurrentAttemptObjectiveProgressForChildren BOOLEAN,onlyCurrentAttemptAttemptProgressForChildren BOOLEAN,attemptLimit INTEGER null,durationLimitInMilliseconds LONG null,rollupContributionID INTEGER,preventChildrenActivation BOOLEAN,constrainChoice BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencing (id_ LONG not null primary key,packageID INTEGER null,activityID VARCHAR(512) null,sharedId TEXT null,sharedSequencingIdReference TEXT null,onlyCurrentAttemptObjectiveProgressForChildren BOOLEAN null,onlyCurrentAttemptAttemptProgressForChildren BOOLEAN null,attemptLimit INTEGER null,durationLimitInMilliseconds LONG null,rollupContributionID INTEGER null,preventChildrenActivation BOOLEAN null,constrainChoice BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSequencing";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -289,11 +289,7 @@ public class LFSequencingModelImpl extends BaseModelImpl<LFSequencing>
     }
 
     public String getSharedSequencingIdReference() {
-        if (_sharedSequencingIdReference == null) {
-            return StringPool.BLANK;
-        } else {
-            return _sharedSequencingIdReference;
-        }
+        return _sharedSequencingIdReference;
     }
 
     public void setSharedSequencingIdReference(

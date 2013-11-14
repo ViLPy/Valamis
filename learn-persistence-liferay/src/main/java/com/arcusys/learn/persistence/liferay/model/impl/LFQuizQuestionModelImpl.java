@@ -54,7 +54,7 @@ public class LFQuizQuestionModelImpl extends BaseModelImpl<LFQuizQuestion>
             { "plainText", Types.CLOB },
             { "arrangementIndex", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizQuestion (id_ LONG not null primary key,quizId INTEGER,categoryId INTEGER null,questionId INTEGER,questionType TEXT null,title TEXT null,url TEXT null,plainText TEXT null,arrangementIndex INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizQuestion (id_ LONG not null primary key,quizId INTEGER null,categoryId INTEGER null,questionId INTEGER null,questionType TEXT null,title TEXT null,url TEXT null,plainText TEXT null,arrangementIndex INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuizQuestion";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -262,11 +262,7 @@ public class LFQuizQuestionModelImpl extends BaseModelImpl<LFQuizQuestion>
     }
 
     public String getTitle() {
-        if (_title == null) {
-            return StringPool.BLANK;
-        } else {
-            return _title;
-        }
+        return _title;
     }
 
     public void setTitle(String title) {

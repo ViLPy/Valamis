@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -49,7 +48,7 @@ public class LFActivityStateTreeModelImpl extends BaseModelImpl<LFActivityStateT
             { "suspendedActivityID", Types.CLOB },
             { "attemptID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityStateTree (id_ LONG not null primary key,currentActivityID TEXT null,suspendedActivityID TEXT null,attemptID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityStateTree (id_ LONG not null primary key,currentActivityID TEXT null,suspendedActivityID TEXT null,attemptID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFActivityStateTree";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -155,11 +154,7 @@ public class LFActivityStateTreeModelImpl extends BaseModelImpl<LFActivityStateT
     }
 
     public String getCurrentActivityID() {
-        if (_currentActivityID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _currentActivityID;
-        }
+        return _currentActivityID;
     }
 
     public void setCurrentActivityID(String currentActivityID) {
@@ -167,11 +162,7 @@ public class LFActivityStateTreeModelImpl extends BaseModelImpl<LFActivityStateT
     }
 
     public String getSuspendedActivityID() {
-        if (_suspendedActivityID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _suspendedActivityID;
-        }
+        return _suspendedActivityID;
     }
 
     public void setSuspendedActivityID(String suspendedActivityID) {

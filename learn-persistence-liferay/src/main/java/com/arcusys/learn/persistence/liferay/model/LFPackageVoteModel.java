@@ -85,18 +85,18 @@ public interface LFPackageVoteModel extends BaseModel<LFPackageVote> {
     public void setSocialPackageID(Integer socialPackageID);
 
     /**
-    * Returns the value of this l f package vote.
+    * Returns the vote value of this l f package vote.
     *
-    * @return the value of this l f package vote
+    * @return the vote value of this l f package vote
     */
-    public Integer getValue();
+    public Integer getVoteValue();
 
     /**
-        * Sets the value of this l f package vote.
+        * Sets the vote value of this l f package vote.
     *
-    * @param value the value of this l f package vote
+    * @param voteValue the vote value of this l f package vote
     */
-    public void setValue(Integer value);
+    public void setVoteValue(Integer voteValue);
 
     public boolean isNew();
 

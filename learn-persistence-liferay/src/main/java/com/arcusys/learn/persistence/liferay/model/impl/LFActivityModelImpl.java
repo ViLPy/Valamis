@@ -59,7 +59,7 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
             { "masteryScore", Types.CLOB },
             { "maxTimeAllowed", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivity (indexNumber LONG not null primary key,id_ VARCHAR(512) null,packageID INTEGER,organizationID VARCHAR(512) null,parentID VARCHAR(512) null,title TEXT null,identifierRef TEXT null,resourceParameters TEXT null,hideLMSUI TEXT null,visible BOOLEAN,objectivesGlobalToSystem BOOLEAN,sharedDataGlobalToSystem BOOLEAN,masteryScore TEXT null,maxTimeAllowed TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivity (indexNumber LONG not null primary key,id_ VARCHAR(512) null,packageID INTEGER null,organizationID VARCHAR(512) null,parentID VARCHAR(512) null,title TEXT null,identifierRef TEXT null,resourceParameters TEXT null,hideLMSUI TEXT null,visible BOOLEAN null,objectivesGlobalToSystem BOOLEAN null,sharedDataGlobalToSystem BOOLEAN null,masteryScore TEXT null,maxTimeAllowed TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFActivity";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -253,11 +253,7 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
     }
 
     public String getId() {
-        if (_id == null) {
-            return StringPool.BLANK;
-        } else {
-            return _id;
-        }
+        return _id;
     }
 
     public void setId(String id) {
@@ -271,7 +267,7 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
     }
 
     public String getOriginalId() {
-        return GetterUtil.getString(_originalId);
+        return _originalId;
     }
 
     public Integer getPackageID() {
@@ -295,11 +291,7 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
     }
 
     public String getOrganizationID() {
-        if (_organizationID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _organizationID;
-        }
+        return _organizationID;
     }
 
     public void setOrganizationID(String organizationID) {
@@ -313,7 +305,7 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
     }
 
     public String getOriginalOrganizationID() {
-        return GetterUtil.getString(_originalOrganizationID);
+        return _originalOrganizationID;
     }
 
     public String getParentID() {
@@ -367,7 +359,11 @@ public class LFActivityModelImpl extends BaseModelImpl<LFActivity>
     }
 
     public String getHideLMSUI() {
-        return _hideLMSUI;
+        if (_hideLMSUI == null) {
+            return StringPool.BLANK;
+        } else {
+            return _hideLMSUI;
+        }
     }
 
     public void setHideLMSUI(String hideLMSUI) {

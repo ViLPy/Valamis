@@ -8,7 +8,7 @@ else
 fi
 
 Checkpoints=(
-    '/learn-web/css/scorm_main.css'
+    '/learn-portlet/css/scorm_main.css'
     '/learn-demo-hook/css/test.css'
 )
 

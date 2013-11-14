@@ -15,14 +15,14 @@
     //{{#multipleChoice}}
     jQuery(".playerMainArea > span > div > :checkbox").each(function (index, elem) {
     if (jQuery(elem).attr("checked")) {
-    userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
+    userAnswers.push((jQuery(elem).attr('id').replace("scormAnswer", "")));
     }
     });
     //{{/multipleChoice}}
     //{{^multipleChoice}}
     jQuery(".playerMainArea > span > div > :radio").each(function (index, elem) {
     if (jQuery(elem).prop("checked")) {
-    userAnswers.push(parseInt(jQuery(elem).attr('id').replace("scormAnswer", "")));
+    userAnswers.push((jQuery(elem).attr('id').replace("scormAnswer", "")));
     }
     });
     //{{/multipleChoice}}

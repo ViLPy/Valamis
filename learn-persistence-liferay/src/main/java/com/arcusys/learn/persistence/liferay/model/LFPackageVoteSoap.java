@@ -15,7 +15,7 @@ public class LFPackageVoteSoap implements Serializable {
     private long _id;
     private Integer _userID;
     private Integer _socialPackageID;
-    private Integer _value;
+    private Integer _voteValue;
 
     public LFPackageVoteSoap() {
     }
@@ -26,7 +26,7 @@ public class LFPackageVoteSoap implements Serializable {
         soapModel.setId(model.getId());
         soapModel.setUserID(model.getUserID());
         soapModel.setSocialPackageID(model.getSocialPackageID());
-        soapModel.setValue(model.getValue());
+        soapModel.setVoteValue(model.getVoteValue());
 
         return soapModel;
     }
@@ -99,11 +99,11 @@ public class LFPackageVoteSoap implements Serializable {
         _socialPackageID = socialPackageID;
     }
 
-    public Integer getValue() {
-        return _value;
+    public Integer getVoteValue() {
+        return _voteValue;
     }
 
-    public void setValue(Integer value) {
-        _value = value;
+    public void setVoteValue(Integer voteValue) {
+        _voteValue = voteValue;
     }
 }

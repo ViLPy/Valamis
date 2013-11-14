@@ -18,6 +18,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSi
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
@@ -42,7 +43,6 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleCondition
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
@@ -234,6 +234,8 @@ public class LFObjectiveStatePersistenceImpl extends BasePersistenceImpl<LFObjec
     protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
     @BeanReference(type = LFConditionRulePersistence.class)
     protected LFConditionRulePersistence lfConditionRulePersistence;
+    @BeanReference(type = LFConfigPersistence.class)
+    protected LFConfigPersistence lfConfigPersistence;
     @BeanReference(type = LFCoursePersistence.class)
     protected LFCoursePersistence lfCoursePersistence;
     @BeanReference(type = LFFileStoragePersistence.class)
@@ -282,8 +284,6 @@ public class LFObjectiveStatePersistenceImpl extends BasePersistenceImpl<LFObjec
     protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSettingPersistence.class)
-    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackagePersistence.class)
     protected LFSocialPackagePersistence lfSocialPackagePersistence;
     @BeanReference(type = LFSocialPackageTagPersistence.class)
@@ -311,11 +311,19 @@ public class LFObjectiveStatePersistenceImpl extends BasePersistenceImpl<LFObjec
             LFObjectiveStateImpl.class, lfObjectiveState.getPrimaryKey(),
             lfObjectiveState);
 
-        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_MAPKEYANDACTIVITYSTATEID,
-            new Object[] {
-                lfObjectiveState.getMapKey(),
-                Integer.valueOf(lfObjectiveState.getActivityStateID())
-            }, lfObjectiveState);
+        boolean noNullsInMAPKEYANDACTIVITYSTATEID = true;
+
+        if (lfObjectiveState.getActivityStateID() == null) {
+            noNullsInMAPKEYANDACTIVITYSTATEID = false;
+        }
+
+        if (noNullsInMAPKEYANDACTIVITYSTATEID) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_MAPKEYANDACTIVITYSTATEID,
+                new Object[] {
+                    lfObjectiveState.getMapKey(),
+                    Integer.valueOf(lfObjectiveState.getActivityStateID())
+                }, lfObjectiveState);
+        }
 
         lfObjectiveState.resetOriginalValues();
     }
@@ -390,11 +398,19 @@ public class LFObjectiveStatePersistenceImpl extends BasePersistenceImpl<LFObjec
     }
 
     protected void clearUniqueFindersCache(LFObjectiveState lfObjectiveState) {
-        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_MAPKEYANDACTIVITYSTATEID,
-            new Object[] {
-                lfObjectiveState.getMapKey(),
-                Integer.valueOf(lfObjectiveState.getActivityStateID())
-            });
+        boolean noNullsInMAPKEYANDACTIVITYSTATEID = true;
+
+        if (lfObjectiveState.getActivityStateID() == null) {
+            noNullsInMAPKEYANDACTIVITYSTATEID = false;
+        }
+
+        if (noNullsInMAPKEYANDACTIVITYSTATEID) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_MAPKEYANDACTIVITYSTATEID,
+                new Object[] {
+                    lfObjectiveState.getMapKey(),
+                    Integer.valueOf(lfObjectiveState.getActivityStateID())
+                });
+        }
     }
 
     /**

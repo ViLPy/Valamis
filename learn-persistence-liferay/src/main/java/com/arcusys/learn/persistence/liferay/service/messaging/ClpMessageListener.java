@@ -15,6 +15,7 @@ import com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalServi
 import com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFConfigLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalServiceUtil;
@@ -39,7 +40,6 @@ import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalServiceUtil;
-import com.arcusys.learn.persistence.liferay.service.LFSettingLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil;
@@ -91,6 +91,8 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFConditionRuleLocalServiceUtil.clearService();
 
+            LFConfigLocalServiceUtil.clearService();
+
             LFCourseLocalServiceUtil.clearService();
 
             LFFileStorageLocalServiceUtil.clearService();
@@ -138,8 +140,6 @@ public class ClpMessageListener extends BaseMessageListener {
             LFSequencingPermissionsLocalServiceUtil.clearService();
 
             LFSequencingTrackingLocalServiceUtil.clearService();
-
-            LFSettingLocalServiceUtil.clearService();
 
             LFSocialPackageLocalServiceUtil.clearService();
 

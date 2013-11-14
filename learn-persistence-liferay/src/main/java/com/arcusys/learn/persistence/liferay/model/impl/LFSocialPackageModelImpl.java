@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -51,7 +50,7 @@ public class LFSocialPackageModelImpl extends BaseModelImpl<LFSocialPackage>
             { "publishDate", Types.TIMESTAMP },
             { "authorID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSocialPackage (id_ LONG not null primary key,packageID INTEGER,aboutPackage TEXT null,publishDate DATE null,authorID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSocialPackage (id_ LONG not null primary key,packageID INTEGER null,aboutPackage TEXT null,publishDate DATE null,authorID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSocialPackage";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -172,11 +171,7 @@ public class LFSocialPackageModelImpl extends BaseModelImpl<LFSocialPackage>
     }
 
     public String getAboutPackage() {
-        if (_aboutPackage == null) {
-            return StringPool.BLANK;
-        } else {
-            return _aboutPackage;
-        }
+        return _aboutPackage;
     }
 
     public void setAboutPackage(String aboutPackage) {

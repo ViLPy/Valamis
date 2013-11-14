@@ -55,7 +55,7 @@ public class LFQuestionModelImpl extends BaseModelImpl<LFQuestion>
             { "courseId", Types.INTEGER },
             { "arrangementIndex", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuestion (id_ LONG not null primary key,categoryId INTEGER null,title TEXT null,description TEXT null,explanationText TEXT null,forceCorrectCount BOOLEAN,caseSensitive BOOLEAN,questionType INTEGER,courseId INTEGER null,arrangementIndex INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuestion (id_ LONG not null primary key,categoryId INTEGER null,title TEXT null,description TEXT null,explanationText TEXT null,forceCorrectCount BOOLEAN null,caseSensitive BOOLEAN null,questionType INTEGER null,courseId INTEGER null,arrangementIndex INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuestion";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -157,11 +156,7 @@ public class LFTincanLrsEndpointModelImpl extends BaseModelImpl<LFTincanLrsEndpo
     }
 
     public String getEndpoint() {
-        if (_endpoint == null) {
-            return StringPool.BLANK;
-        } else {
-            return _endpoint;
-        }
+        return _endpoint;
     }
 
     public void setEndpoint(String endpoint) {
@@ -169,11 +164,7 @@ public class LFTincanLrsEndpointModelImpl extends BaseModelImpl<LFTincanLrsEndpo
     }
 
     public String getAuthType() {
-        if (_authType == null) {
-            return StringPool.BLANK;
-        } else {
-            return _authType;
-        }
+        return _authType;
     }
 
     public void setAuthType(String authType) {
@@ -181,11 +172,7 @@ public class LFTincanLrsEndpointModelImpl extends BaseModelImpl<LFTincanLrsEndpo
     }
 
     public String getKey() {
-        if (_key == null) {
-            return StringPool.BLANK;
-        } else {
-            return _key;
-        }
+        return _key;
     }
 
     public void setKey(String key) {
@@ -193,11 +180,7 @@ public class LFTincanLrsEndpointModelImpl extends BaseModelImpl<LFTincanLrsEndpo
     }
 
     public String getSecret() {
-        if (_secret == null) {
-            return StringPool.BLANK;
-        } else {
-            return _secret;
-        }
+        return _secret;
     }
 
     public void setSecret(String secret) {

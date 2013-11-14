@@ -52,7 +52,7 @@ public class LFObjectiveStateModelImpl extends BaseModelImpl<LFObjectiveState>
             { "activityStateID", Types.INTEGER },
             { "objectiveID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjectiveState (id_ LONG not null primary key,satisfied BOOLEAN,normalizedMeasure NUMERIC(20,2),mapKey TEXT null,activityStateID INTEGER,objectiveID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjectiveState (id_ LONG not null primary key,satisfied BOOLEAN null,normalizedMeasure NUMERIC(20,2),mapKey TEXT null,activityStateID INTEGER null,objectiveID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFObjectiveState";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

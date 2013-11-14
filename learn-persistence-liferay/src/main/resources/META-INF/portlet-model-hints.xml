@@ -154,6 +154,7 @@
 		<field name="isPermanent" type="Boolean" />
 		<field name="publishBadge" type="Boolean" />
 		<field name="shortDescription" type="String" />
+		<field name="companyID" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateSite">
 		<field name="id" type="long" />
@@ -189,6 +190,11 @@
 		<field name="action" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFConfig">
+		<field name="id" type="long" />
+		<field name="dataKey" type="String" />
+		<field name="dataValue" type="String" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFCourse">
 		<field name="id" type="long" />
@@ -334,7 +340,7 @@
 		<field name="id" type="long" />
 		<field name="userID" type="Integer" />
 		<field name="socialPackageID" type="Integer" />
-		<field name="value" type="Integer" />
+		<field name="voteValue" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule">
 		<field name="id" type="long" />
@@ -527,11 +533,6 @@
 		<field name="sequencingID" type="Integer" />
 		<field name="completionSetByContent" type="boolean" />
 		<field name="objectiveSetByContent" type="boolean" />
-	</model>
-	<model name="com.arcusys.learn.persistence.liferay.model.LFSetting">
-		<field name="id" type="long" />
-		<field name="key" type="String" />
-		<field name="value" type="String" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFSocialPackage">
 		<field name="id" type="long" />

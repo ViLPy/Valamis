@@ -51,7 +51,7 @@ public class LFQuizQuestionCategoryModelImpl extends BaseModelImpl<LFQuizQuestio
             { "parentId", Types.INTEGER },
             { "arrangementIndex", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizQuestionCategory (id_ LONG not null primary key,title TEXT null,description TEXT null,quizId INTEGER,parentId INTEGER null,arrangementIndex INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizQuestionCategory (id_ LONG not null primary key,title TEXT null,description TEXT null,quizId INTEGER null,parentId INTEGER null,arrangementIndex INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuizQuestionCategory";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

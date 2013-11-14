@@ -169,6 +169,7 @@
 			<basic name="isPermanent" />
 			<basic name="publishBadge" />
 			<basic name="shortDescription" />
+			<basic name="companyID" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -222,6 +223,18 @@
 			<basic name="combination" />
 			<basic name="ruleType" />
 			<basic name="action" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFConfigModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="dataKey" />
+			<basic name="dataValue" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -384,7 +397,7 @@
 			</id>
 			<basic name="userID" />
 			<basic name="socialPackageID" />
-			<basic name="value" />
+			<basic name="voteValue" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -610,20 +623,6 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSettingModelImpl">
-		<attributes>
-			<id name="id">
-				<column name="ID_" />
-			</id>
-			<basic name="key">
-				<column name="KEY_" />
-			</basic>
-			<basic name="value" />
-			<transient name="modelAttributes" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl">
 		<attributes>
 			<id name="id">
@@ -771,6 +770,10 @@
 		<table name="Learn_LFConditionRule" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFConfigImpl" name="LFConfig">
+		<table name="Learn_LFConfig" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCourseImpl" name="LFCourse">
 		<table name="Learn_LFCourse" />
 		<attributes />
@@ -865,10 +868,6 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" name="LFSequencingTracking">
 		<table name="Learn_LFSequencingTracking" />
-		<attributes />
-	</entity>
-	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSettingImpl" name="LFSetting">
-		<table name="Learn_LFSetting" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" name="LFSocialPackage">

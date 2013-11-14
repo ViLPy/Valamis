@@ -27,8 +27,8 @@ class QuestionViewGenerator(isPreview: Boolean) {
   def getHTMLByQuestionId(question: Question[Answer], contextPath: String = "") = {
     question match {
       case choiceQuestion: ChoiceQuestion =>
-        val answers = choiceQuestion.answers.map(answer => Map("text" -> prepareString(answer.text), "id" -> answer.id))
-        val correctAnswers = Json.toJson(choiceQuestion.answers.filter(_.isCorrect).map(_.id))
+        val answers = choiceQuestion.answers.map(answer => Map("text" -> prepareString(answer.text), "id" -> prepareString(answer.text)))
+        val correctAnswers = Json.toJson(choiceQuestion.answers.filter(_.isCorrect).map(x => prepareString(x.text)))
         val multipleChoice = !choiceQuestion.forceCorrectCount || (choiceQuestion.answers.filter(_.isCorrect).size > 1)
         val viewModel = Map("title" -> decode(choiceQuestion.title),
           "text" -> prepareString(choiceQuestion.text),

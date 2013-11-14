@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFTincanActivity;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -55,44 +54,13 @@ public class LFTincanActivityCacheModel implements CacheModel<LFTincanActivity>,
         LFTincanActivityImpl lfTincanActivityImpl = new LFTincanActivityImpl();
 
         lfTincanActivityImpl.setId(id);
-
-        if (tincanID == null) {
-            lfTincanActivityImpl.setTincanID(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setTincanID(tincanID);
-        }
-
+        lfTincanActivityImpl.setTincanID(tincanID);
         lfTincanActivityImpl.setPackageID(packageID);
-
-        if (activityType == null) {
-            lfTincanActivityImpl.setActivityType(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setActivityType(activityType);
-        }
-
-        if (name == null) {
-            lfTincanActivityImpl.setName(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setName(name);
-        }
-
-        if (description == null) {
-            lfTincanActivityImpl.setDescription(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setDescription(description);
-        }
-
-        if (launch == null) {
-            lfTincanActivityImpl.setLaunch(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setLaunch(launch);
-        }
-
-        if (resource == null) {
-            lfTincanActivityImpl.setResource(StringPool.BLANK);
-        } else {
-            lfTincanActivityImpl.setResource(resource);
-        }
+        lfTincanActivityImpl.setActivityType(activityType);
+        lfTincanActivityImpl.setName(name);
+        lfTincanActivityImpl.setDescription(description);
+        lfTincanActivityImpl.setLaunch(launch);
+        lfTincanActivityImpl.setResource(resource);
 
         lfTincanActivityImpl.resetOriginalValues();
 

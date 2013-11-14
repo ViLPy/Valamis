@@ -68,11 +68,7 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
             lfQuizQuestionImpl.setQuestionType(questionType);
         }
 
-        if (title == null) {
-            lfQuizQuestionImpl.setTitle(StringPool.BLANK);
-        } else {
-            lfQuizQuestionImpl.setTitle(title);
-        }
+        lfQuizQuestionImpl.setTitle(title);
 
         if (url == null) {
             lfQuizQuestionImpl.setUrl(StringPool.BLANK);

@@ -73,26 +73,10 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
         LFActivityImpl lfActivityImpl = new LFActivityImpl();
 
         lfActivityImpl.setIndexNumber(indexNumber);
-
-        if (id == null) {
-            lfActivityImpl.setId(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setId(id);
-        }
-
+        lfActivityImpl.setId(id);
         lfActivityImpl.setPackageID(packageID);
-
-        if (organizationID == null) {
-            lfActivityImpl.setOrganizationID(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setOrganizationID(organizationID);
-        }
-
-        if (parentID == null) {
-            lfActivityImpl.setParentID(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setParentID(parentID);
-        }
+        lfActivityImpl.setOrganizationID(organizationID);
+        lfActivityImpl.setParentID(parentID);
 
         if (title == null) {
             lfActivityImpl.setTitle(StringPool.BLANK);
@@ -106,11 +90,7 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
             lfActivityImpl.setIdentifierRef(identifierRef);
         }
 
-        if (resourceParameters == null) {
-            lfActivityImpl.setResourceParameters(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setResourceParameters(resourceParameters);
-        }
+        lfActivityImpl.setResourceParameters(resourceParameters);
 
         if (hideLMSUI == null) {
             lfActivityImpl.setHideLMSUI(StringPool.BLANK);
@@ -121,18 +101,8 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
         lfActivityImpl.setVisible(visible);
         lfActivityImpl.setObjectivesGlobalToSystem(objectivesGlobalToSystem);
         lfActivityImpl.setSharedDataGlobalToSystem(sharedDataGlobalToSystem);
-
-        if (masteryScore == null) {
-            lfActivityImpl.setMasteryScore(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setMasteryScore(masteryScore);
-        }
-
-        if (maxTimeAllowed == null) {
-            lfActivityImpl.setMaxTimeAllowed(StringPool.BLANK);
-        } else {
-            lfActivityImpl.setMaxTimeAllowed(maxTimeAllowed);
-        }
+        lfActivityImpl.setMasteryScore(masteryScore);
+        lfActivityImpl.setMaxTimeAllowed(maxTimeAllowed);
 
         lfActivityImpl.resetOriginalValues();
 

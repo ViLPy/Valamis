@@ -54,7 +54,7 @@ public class LFRuleConditionModelImpl extends BaseModelImpl<LFRuleCondition>
             { "rollupRuleID", Types.INTEGER },
             { "conditionRuleID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFRuleCondition (id_ LONG not null primary key,conditionType TEXT null,objectiveId TEXT null,measureThreshold NUMERIC(20,2),inverse BOOLEAN,rollupRuleID INTEGER,conditionRuleID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFRuleCondition (id_ LONG not null primary key,conditionType TEXT null,objectiveId TEXT null,measureThreshold NUMERIC(20,2),inverse BOOLEAN null,rollupRuleID INTEGER null,conditionRuleID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFRuleCondition";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -199,11 +199,7 @@ public class LFRuleConditionModelImpl extends BaseModelImpl<LFRuleCondition>
     }
 
     public String getObjectiveId() {
-        if (_objectiveId == null) {
-            return StringPool.BLANK;
-        } else {
-            return _objectiveId;
-        }
+        return _objectiveId;
     }
 
     public void setObjectiveId(String objectiveId) {

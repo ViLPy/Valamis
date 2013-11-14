@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/javascript" language="javascript">
+        var jQuery1816User = jQuery.noConflict();
+        var scormLanguageDataUser = {};
+        var userAccountModel = new UserAccountModel();
+
+        jQuery1816User(function () {
+          //  userAccountModel.fetch({reset: true});
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
+            window.LearnAjax.setHeader("scormUserID", "{{userID}}");
+            window.LearnAjax.setHeader("liferayGroupID", "{{groupID}}");
+            var defaultURL = Utils.getContextPath() + '/i18n/curriculum_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onUserLanguageLoad, onUserLanguageError);
+        });
+
+        function onUserLanguageLoad(properties) {
+            scormLanguageDataUser = properties;
+            initUserView();
+        }
+        function onUserLanguageError() {
+            alert('Translation resource loading failed!');
+        }
+
+        function initUserView() {
+
+            var loader = new TemplateLoader(jQuery1816User.proxy(function(){
+                userAccountModel.fetch({
+                    success: function () {
+                        new UserAccountView({el:jQuery1816User('#userData'), model: userAccountModel, language:scormLanguageDataUser});
+                    }
+                });
+            }, this));
+            loader.fetch("templates/scorm_user_templates.html");
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="projectLearnGeneric">
+    <div id="userData">
+    </div>
+
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="courseID" value="{{courseID}}"/>
+    <input type="hidden" id="companyID" value="{{companyID}}">
+    <input type="hidden" id="userID" value="{{userID}}"/>
+    <input type="hidden" id="rootUrl" value="{{root}}"/>
+
+
+</div>
+</body>
+</html>

@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -51,7 +50,7 @@ public class LFResourceModelImpl extends BaseModelImpl<LFResource>
             { "href", Types.CLOB },
             { "base", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFResource (id_ LONG not null primary key,packageID INTEGER,scormType TEXT null,resourceID TEXT null,href TEXT null,base TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFResource (id_ LONG not null primary key,packageID INTEGER null,scormType TEXT null,resourceID TEXT null,href TEXT null,base TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFResource";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -194,11 +193,7 @@ public class LFResourceModelImpl extends BaseModelImpl<LFResource>
     }
 
     public String getScormType() {
-        if (_scormType == null) {
-            return StringPool.BLANK;
-        } else {
-            return _scormType;
-        }
+        return _scormType;
     }
 
     public void setScormType(String scormType) {
@@ -206,11 +201,7 @@ public class LFResourceModelImpl extends BaseModelImpl<LFResource>
     }
 
     public String getResourceID() {
-        if (_resourceID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _resourceID;
-        }
+        return _resourceID;
     }
 
     public void setResourceID(String resourceID) {
@@ -224,15 +215,11 @@ public class LFResourceModelImpl extends BaseModelImpl<LFResource>
     }
 
     public String getOriginalResourceID() {
-        return GetterUtil.getString(_originalResourceID);
+        return _originalResourceID;
     }
 
     public String getHref() {
-        if (_href == null) {
-            return StringPool.BLANK;
-        } else {
-            return _href;
-        }
+        return _href;
     }
 
     public void setHref(String href) {
@@ -240,11 +227,7 @@ public class LFResourceModelImpl extends BaseModelImpl<LFResource>
     }
 
     public String getBase() {
-        if (_base == null) {
-            return StringPool.BLANK;
-        } else {
-            return _base;
-        }
+        return _base;
     }
 
     public void setBase(String base) {

@@ -75,18 +75,8 @@ public class LFSequencingCacheModel implements CacheModel<LFSequencing>,
             lfSequencingImpl.setActivityID(activityID);
         }
 
-        if (sharedId == null) {
-            lfSequencingImpl.setSharedId(StringPool.BLANK);
-        } else {
-            lfSequencingImpl.setSharedId(sharedId);
-        }
-
-        if (sharedSequencingIdReference == null) {
-            lfSequencingImpl.setSharedSequencingIdReference(StringPool.BLANK);
-        } else {
-            lfSequencingImpl.setSharedSequencingIdReference(sharedSequencingIdReference);
-        }
-
+        lfSequencingImpl.setSharedId(sharedId);
+        lfSequencingImpl.setSharedSequencingIdReference(sharedSequencingIdReference);
         lfSequencingImpl.setOnlyCurrentAttemptObjectiveProgressForChildren(onlyCurrentAttemptObjectiveProgressForChildren);
         lfSequencingImpl.setOnlyCurrentAttemptAttemptProgressForChildren(onlyCurrentAttemptAttemptProgressForChildren);
         lfSequencingImpl.setAttemptLimit(attemptLimit);

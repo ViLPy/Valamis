@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -48,7 +47,7 @@ public class LFSocialPackageTagModelImpl extends BaseModelImpl<LFSocialPackageTa
             { "socialPackageID", Types.INTEGER },
             { "name", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSocialPackageTag (id_ LONG not null primary key,socialPackageID INTEGER,name VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSocialPackageTag (id_ LONG not null primary key,socialPackageID INTEGER null,name VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSocialPackageTag";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -167,11 +166,7 @@ public class LFSocialPackageTagModelImpl extends BaseModelImpl<LFSocialPackageTa
     }
 
     public String getName() {
-        if (_name == null) {
-            return StringPool.BLANK;
-        } else {
-            return _name;
-        }
+        return _name;
     }
 
     public void setName(String name) {
@@ -185,7 +180,7 @@ public class LFSocialPackageTagModelImpl extends BaseModelImpl<LFSocialPackageTa
     }
 
     public String getOriginalName() {
-        return GetterUtil.getString(_originalName);
+        return _originalName;
     }
 
     public long getColumnBitmask() {

@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFRollupContribution;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -58,31 +57,10 @@ public class LFRollupContributionCacheModel implements CacheModel<LFRollupContri
 
         lfRollupContributionImpl.setId(id);
         lfRollupContributionImpl.setSequencingID(sequencingID);
-
-        if (contributeToSatisfied == null) {
-            lfRollupContributionImpl.setContributeToSatisfied(StringPool.BLANK);
-        } else {
-            lfRollupContributionImpl.setContributeToSatisfied(contributeToSatisfied);
-        }
-
-        if (contributeToNotSatisfied == null) {
-            lfRollupContributionImpl.setContributeToNotSatisfied(StringPool.BLANK);
-        } else {
-            lfRollupContributionImpl.setContributeToNotSatisfied(contributeToNotSatisfied);
-        }
-
-        if (contributeToCompleted == null) {
-            lfRollupContributionImpl.setContributeToCompleted(StringPool.BLANK);
-        } else {
-            lfRollupContributionImpl.setContributeToCompleted(contributeToCompleted);
-        }
-
-        if (contributeToIncomplete == null) {
-            lfRollupContributionImpl.setContributeToIncomplete(StringPool.BLANK);
-        } else {
-            lfRollupContributionImpl.setContributeToIncomplete(contributeToIncomplete);
-        }
-
+        lfRollupContributionImpl.setContributeToSatisfied(contributeToSatisfied);
+        lfRollupContributionImpl.setContributeToNotSatisfied(contributeToNotSatisfied);
+        lfRollupContributionImpl.setContributeToCompleted(contributeToCompleted);
+        lfRollupContributionImpl.setContributeToIncomplete(contributeToIncomplete);
         lfRollupContributionImpl.setObjectiveMeasureWeight(objectiveMeasureWeight);
         lfRollupContributionImpl.setMeasureSatisfactionIfActive(measureSatisfactionIfActive);
 

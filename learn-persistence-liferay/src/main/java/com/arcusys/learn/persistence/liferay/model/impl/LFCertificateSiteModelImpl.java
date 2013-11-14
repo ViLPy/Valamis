@@ -48,7 +48,7 @@ public class LFCertificateSiteModelImpl extends BaseModelImpl<LFCertificateSite>
             { "siteID", Types.INTEGER },
             { "arrangementIndex", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateSite (id_ LONG not null primary key,certificateID INTEGER,siteID INTEGER,arrangementIndex INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateSite (id_ LONG not null primary key,certificateID INTEGER null,siteID INTEGER null,arrangementIndex INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificateSite";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

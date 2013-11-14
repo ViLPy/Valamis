@@ -58,12 +58,16 @@ ${entity.name}Impl ${entity.varName}Impl = new ${entity.name}Impl();
         }
         <#else>
             <#if column.type == "String">
-            if (${column.name} == null) {
-            ${entity.varName}Impl.set${column.methodName}(StringPool.BLANK);
-            }
-            else {
-            ${entity.varName}Impl.set${column.methodName}(${column.name});
-            }
+                <#if column.type == "String" && column.isConvertNull()>
+                    if (${column.name} == null) {
+                    ${entity.varName}Impl.set${column.methodName}(StringPool.BLANK);
+                    }
+                    else {
+                    ${entity.varName}Impl.set${column.methodName}(${column.name});
+                    }
+                <#else>
+                    ${entity.varName}Impl.set${column.methodName}(${column.name});
+                </#if>
             <#else>
             ${entity.varName}Impl.set${column.methodName}(${column.name});
             </#if>

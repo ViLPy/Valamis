@@ -36,7 +36,7 @@ public class LFPackageVoteWrapper implements LFPackageVote,
         attributes.put("id", getId());
         attributes.put("userID", getUserID());
         attributes.put("socialPackageID", getSocialPackageID());
-        attributes.put("value", getValue());
+        attributes.put("voteValue", getVoteValue());
 
         return attributes;
     }
@@ -60,10 +60,10 @@ public class LFPackageVoteWrapper implements LFPackageVote,
             setSocialPackageID(socialPackageID);
         }
 
-        Integer value = (Integer) attributes.get("value");
+        Integer voteValue = (Integer) attributes.get("voteValue");
 
-        if (value != null) {
-            setValue(value);
+        if (voteValue != null) {
+            setVoteValue(voteValue);
         }
     }
 
@@ -140,21 +140,21 @@ public class LFPackageVoteWrapper implements LFPackageVote,
     }
 
     /**
-     * Returns the value of this l f package vote.
+     * Returns the vote value of this l f package vote.
      *
-     * @return the value of this l f package vote
+     * @return the vote value of this l f package vote
      */
-    public java.lang.Integer getValue() {
-        return _lfPackageVote.getValue();
+    public java.lang.Integer getVoteValue() {
+        return _lfPackageVote.getVoteValue();
     }
 
     /**
-     * Sets the value of this l f package vote.
+     * Sets the vote value of this l f package vote.
      *
-     * @param value the value of this l f package vote
+     * @param voteValue the vote value of this l f package vote
      */
-    public void setValue(java.lang.Integer value) {
-        _lfPackageVote.setValue(value);
+    public void setVoteValue(java.lang.Integer voteValue) {
+        _lfPackageVote.setVoteValue(voteValue);
     }
 
     public boolean isNew() {

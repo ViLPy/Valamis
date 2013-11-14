@@ -54,12 +54,7 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>, Serializable 
         LFPackageImpl lfPackageImpl = new LFPackageImpl();
 
         lfPackageImpl.setId(id);
-
-        if (defaultOrganizationID == null) {
-            lfPackageImpl.setDefaultOrganizationID(StringPool.BLANK);
-        } else {
-            lfPackageImpl.setDefaultOrganizationID(defaultOrganizationID);
-        }
+        lfPackageImpl.setDefaultOrganizationID(defaultOrganizationID);
 
         if (title == null) {
             lfPackageImpl.setTitle(StringPool.BLANK);
@@ -67,24 +62,9 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>, Serializable 
             lfPackageImpl.setTitle(title);
         }
 
-        if (base == null) {
-            lfPackageImpl.setBase(StringPool.BLANK);
-        } else {
-            lfPackageImpl.setBase(base);
-        }
-
-        if (resourcesBase == null) {
-            lfPackageImpl.setResourcesBase(StringPool.BLANK);
-        } else {
-            lfPackageImpl.setResourcesBase(resourcesBase);
-        }
-
-        if (summary == null) {
-            lfPackageImpl.setSummary(StringPool.BLANK);
-        } else {
-            lfPackageImpl.setSummary(summary);
-        }
-
+        lfPackageImpl.setBase(base);
+        lfPackageImpl.setResourcesBase(resourcesBase);
+        lfPackageImpl.setSummary(summary);
         lfPackageImpl.setAssetRefID(assetRefID);
         lfPackageImpl.setCourseID(courseID);
 

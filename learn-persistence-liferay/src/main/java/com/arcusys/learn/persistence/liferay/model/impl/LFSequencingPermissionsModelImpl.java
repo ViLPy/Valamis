@@ -50,7 +50,7 @@ public class LFSequencingPermissionsModelImpl extends BaseModelImpl<LFSequencing
             { "flowForChildren", Types.BOOLEAN },
             { "forwardOnlyForChildren", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencingPermissions (id_ LONG not null primary key,sequencingID INTEGER,choiceForChildren BOOLEAN,choiceForNonDescendants BOOLEAN,flowForChildren BOOLEAN,forwardOnlyForChildren BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencingPermissions (id_ LONG not null primary key,sequencingID INTEGER null,choiceForChildren BOOLEAN null,choiceForNonDescendants BOOLEAN null,flowForChildren BOOLEAN null,forwardOnlyForChildren BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSequencingPermissions";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

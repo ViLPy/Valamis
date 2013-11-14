@@ -23,7 +23,7 @@
 
         var isPassed = true;
         for (var i = 0; i < dataToCompare.length; i++) {
-            if(decodeURIComponent(dataToCompare[i].matchingText) == "") continue; // We are trying to compare to an empty category -> always true
+            if(dataToCompare[i].matchingText == null || decodeURIComponent(dataToCompare[i].matchingText) == "") continue; // We are trying to compare to an empty category -> always true
             var cmpString = decodeURIComponent(dataToCompare[i].text) + "[.]" + decodeURIComponent(dataToCompare[i].matchingText);
             patterAnswers.push(cmpString);
             var found = false;

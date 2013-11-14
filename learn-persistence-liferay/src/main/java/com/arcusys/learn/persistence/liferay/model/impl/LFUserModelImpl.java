@@ -52,7 +52,7 @@ public class LFUserModelImpl extends BaseModelImpl<LFUser>
             { "preferredDeliverySpeed", Types.DOUBLE },
             { "preferredAudioCaptioning", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFUser (lfid LONG not null primary key,id_ INTEGER,name TEXT null,preferredAudioLevel DOUBLE,preferredLanguage TEXT null,preferredDeliverySpeed DOUBLE,preferredAudioCaptioning INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFUser (lfid LONG not null primary key,id_ INTEGER null,name TEXT null,preferredAudioLevel DOUBLE null,preferredLanguage TEXT null,preferredDeliverySpeed DOUBLE null,preferredAudioCaptioning INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFUser";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

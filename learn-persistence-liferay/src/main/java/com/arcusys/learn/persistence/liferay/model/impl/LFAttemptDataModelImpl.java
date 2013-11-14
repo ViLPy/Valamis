@@ -50,7 +50,7 @@ public class LFAttemptDataModelImpl extends BaseModelImpl<LFAttemptData>
             { "attemptID", Types.INTEGER },
             { "activityID", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFAttemptData (id_ LONG not null primary key,dataKey TEXT null,dataValue TEXT null,attemptID INTEGER,activityID TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFAttemptData (id_ LONG not null primary key,dataKey TEXT null,dataValue TEXT null,attemptID INTEGER null,activityID TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFAttemptData";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -189,11 +189,7 @@ public class LFAttemptDataModelImpl extends BaseModelImpl<LFAttemptData>
     }
 
     public String getDataValue() {
-        if (_dataValue == null) {
-            return StringPool.BLANK;
-        } else {
-            return _dataValue;
-        }
+        return _dataValue;
     }
 
     public void setDataValue(String dataValue) {

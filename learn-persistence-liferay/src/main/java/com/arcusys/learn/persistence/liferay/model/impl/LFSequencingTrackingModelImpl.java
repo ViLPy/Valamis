@@ -48,7 +48,7 @@ public class LFSequencingTrackingModelImpl extends BaseModelImpl<LFSequencingTra
             { "completionSetByContent", Types.BOOLEAN },
             { "objectiveSetByContent", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencingTracking (id_ LONG not null primary key,sequencingID INTEGER,completionSetByContent BOOLEAN,objectiveSetByContent BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSequencingTracking (id_ LONG not null primary key,sequencingID INTEGER null,completionSetByContent BOOLEAN null,objectiveSetByContent BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSequencingTracking";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
