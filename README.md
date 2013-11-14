@@ -42,6 +42,7 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
  - Curriculum - Fix for user visibility issue in multi-instance installation
  - Curriculum - Fix for course site link issue
  - Fix for database update issue with Service Builder
+ - Fix for Openbadges.me integration
  - Name refactoring - Removing SCORM references
 
 ## Version 1.5.1 Update: 16.10.2013
