@@ -31,11 +31,9 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
 ## Version 1.5.6 Update: 14.11.2013
-
  - Support for Liferay 6.1.2 GA3
  - Support for Liferay 6.1.30 EE
-
- Fixed issues:
+Fixed issues:
  - Special characters in LIFERAY_HOME
  - Question management - Numberic question bug
  - Search hook fix for Liferay 6.1.2 GA3
