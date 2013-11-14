@@ -6,7 +6,7 @@
 
 Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn using Liferay platform. You can use it as your organizations social learning environment.
 
-Supported Liferay version is currently 6.1.1+
+Supported Liferay version is currently 6.1.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -14,7 +14,7 @@ The current implementation is able to display SCORM and Tin Can content with res
 Application includes a question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.)
 
 Administrative features let you manage SCORM packages, uploading the them in standard zipped format.
-The user interface is available as a JSR-compliant portlets, which may be deployed into Liferay portal. The portlet version has been tested on Liferay 6.1.1, and depend on its specific features.
+The user interface is available as a JSR-compliant portlets, which may be deployed into Liferay portal. The portlet version has been tested on Liferay 6.1.1 and 6.1.2, and depend on its specific features.
 
 The solution uses Liferay database, so no need to install additional database.
 
