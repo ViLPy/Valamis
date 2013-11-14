@@ -53,12 +53,7 @@ public class LFAttemptDataCacheModel implements CacheModel<LFAttemptData>,
             lfAttemptDataImpl.setDataKey(dataKey);
         }
 
-        if (dataValue == null) {
-            lfAttemptDataImpl.setDataValue(StringPool.BLANK);
-        } else {
-            lfAttemptDataImpl.setDataValue(dataValue);
-        }
-
+        lfAttemptDataImpl.setDataValue(dataValue);
         lfAttemptDataImpl.setAttemptID(attemptID);
 
         if (activityID == null) {

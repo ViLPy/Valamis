@@ -19,6 +19,7 @@ public class LFCertificateSoap implements Serializable {
     private Boolean _isPermanent;
     private Boolean _publishBadge;
     private String _shortDescription;
+    private Integer _companyID;
 
     public LFCertificateSoap() {
     }
@@ -33,6 +34,7 @@ public class LFCertificateSoap implements Serializable {
         soapModel.setIsPermanent(model.getIsPermanent());
         soapModel.setPublishBadge(model.getPublishBadge());
         soapModel.setShortDescription(model.getShortDescription());
+        soapModel.setCompanyID(model.getCompanyID());
 
         return soapModel;
     }
@@ -135,5 +137,13 @@ public class LFCertificateSoap implements Serializable {
 
     public void setShortDescription(String shortDescription) {
         _shortDescription = shortDescription;
+    }
+
+    public Integer getCompanyID() {
+        return _companyID;
+    }
+
+    public void setCompanyID(Integer companyID) {
+        _companyID = companyID;
     }
 }

@@ -15,6 +15,7 @@ import com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalServi
 import com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFConfigLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService;
@@ -39,7 +40,6 @@ import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService;
-import com.arcusys.learn.persistence.liferay.service.LFSettingLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService;
@@ -60,6 +60,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSi
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
@@ -84,7 +85,6 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleCondition
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
@@ -192,6 +192,10 @@ public abstract class LFRuleConditionLocalServiceBaseImpl
     protected LFConditionRuleLocalService lfConditionRuleLocalService;
     @BeanReference(type = LFConditionRulePersistence.class)
     protected LFConditionRulePersistence lfConditionRulePersistence;
+    @BeanReference(type = LFConfigLocalService.class)
+    protected LFConfigLocalService lfConfigLocalService;
+    @BeanReference(type = LFConfigPersistence.class)
+    protected LFConfigPersistence lfConfigPersistence;
     @BeanReference(type = LFCourseLocalService.class)
     protected LFCourseLocalService lfCourseLocalService;
     @BeanReference(type = LFCoursePersistence.class)
@@ -288,10 +292,6 @@ public abstract class LFRuleConditionLocalServiceBaseImpl
     protected LFSequencingTrackingLocalService lfSequencingTrackingLocalService;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
     protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSettingLocalService.class)
-    protected LFSettingLocalService lfSettingLocalService;
-    @BeanReference(type = LFSettingPersistence.class)
-    protected LFSettingPersistence lfSettingPersistence;
     @BeanReference(type = LFSocialPackageLocalService.class)
     protected LFSocialPackageLocalService lfSocialPackageLocalService;
     @BeanReference(type = LFSocialPackagePersistence.class)
@@ -1073,6 +1073,43 @@ public abstract class LFRuleConditionLocalServiceBaseImpl
     public void setLFConditionRulePersistence(
         LFConditionRulePersistence lfConditionRulePersistence) {
         this.lfConditionRulePersistence = lfConditionRulePersistence;
+    }
+
+    /**
+     * Returns the l f config local service.
+     *
+     * @return the l f config local service
+     */
+    public LFConfigLocalService getLFConfigLocalService() {
+        return lfConfigLocalService;
+    }
+
+    /**
+     * Sets the l f config local service.
+     *
+     * @param lfConfigLocalService the l f config local service
+     */
+    public void setLFConfigLocalService(
+        LFConfigLocalService lfConfigLocalService) {
+        this.lfConfigLocalService = lfConfigLocalService;
+    }
+
+    /**
+     * Returns the l f config persistence.
+     *
+     * @return the l f config persistence
+     */
+    public LFConfigPersistence getLFConfigPersistence() {
+        return lfConfigPersistence;
+    }
+
+    /**
+     * Sets the l f config persistence.
+     *
+     * @param lfConfigPersistence the l f config persistence
+     */
+    public void setLFConfigPersistence(LFConfigPersistence lfConfigPersistence) {
+        this.lfConfigPersistence = lfConfigPersistence;
     }
 
     /**
@@ -1980,44 +2017,6 @@ public abstract class LFRuleConditionLocalServiceBaseImpl
     public void setLFSequencingTrackingPersistence(
         LFSequencingTrackingPersistence lfSequencingTrackingPersistence) {
         this.lfSequencingTrackingPersistence = lfSequencingTrackingPersistence;
-    }
-
-    /**
-     * Returns the l f setting local service.
-     *
-     * @return the l f setting local service
-     */
-    public LFSettingLocalService getLFSettingLocalService() {
-        return lfSettingLocalService;
-    }
-
-    /**
-     * Sets the l f setting local service.
-     *
-     * @param lfSettingLocalService the l f setting local service
-     */
-    public void setLFSettingLocalService(
-        LFSettingLocalService lfSettingLocalService) {
-        this.lfSettingLocalService = lfSettingLocalService;
-    }
-
-    /**
-     * Returns the l f setting persistence.
-     *
-     * @return the l f setting persistence
-     */
-    public LFSettingPersistence getLFSettingPersistence() {
-        return lfSettingPersistence;
-    }
-
-    /**
-     * Sets the l f setting persistence.
-     *
-     * @param lfSettingPersistence the l f setting persistence
-     */
-    public void setLFSettingPersistence(
-        LFSettingPersistence lfSettingPersistence) {
-        this.lfSettingPersistence = lfSettingPersistence;
     }
 
     /**

@@ -49,7 +49,7 @@ public class LFActivityStateNodeModelImpl extends BaseModelImpl<LFActivityStateN
             { "treeID", Types.INTEGER },
             { "availableChildrenIDs", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityStateNode (id_ LONG not null primary key,parentID INTEGER null,treeID INTEGER,availableChildrenIDs TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFActivityStateNode (id_ LONG not null primary key,parentID INTEGER null,treeID INTEGER null,availableChildrenIDs TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFActivityStateNode";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

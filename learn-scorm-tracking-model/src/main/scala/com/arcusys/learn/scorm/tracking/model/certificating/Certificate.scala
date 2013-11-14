@@ -17,7 +17,8 @@ case class Certificate
   logo: String = "",
   isPermanent: Boolean = true,
   publishBadge: Boolean = false,
-  shortDescription: String = ""
+  shortDescription: String = "",
+  companyId: Int
   )
 
 

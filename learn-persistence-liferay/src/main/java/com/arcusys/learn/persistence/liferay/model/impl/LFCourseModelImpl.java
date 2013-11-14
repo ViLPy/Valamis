@@ -52,7 +52,7 @@ public class LFCourseModelImpl extends BaseModelImpl<LFCourse>
             { "comment_", Types.CLOB },
             { "date_", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCourse (id_ LONG not null primary key,courseID INTEGER,userID INTEGER,grade TEXT null,comment_ TEXT null,date_ DATE null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCourse (id_ LONG not null primary key,courseID INTEGER null,userID INTEGER null,grade TEXT null,comment_ TEXT null,date_ DATE null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCourse";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

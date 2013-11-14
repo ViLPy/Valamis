@@ -9,7 +9,7 @@ trait LoginSupport extends UITestBase {
   private val adminLogin = "test@liferay.com"
   private val adminPassword = "test"
 
-  private val studentLogin = "student@st.u"
+  protected val studentLogin = "student@liferay.com"
   private val studentPassword = "test"
 
   def loginAsAdmin() {

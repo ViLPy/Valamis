@@ -6,106 +6,144 @@ import org.scalatest.matchers.ShouldMatchers
 import com.arcusys.learn.base.UITestBase
 import org.junit.Assert._
 
-/**
- * User: Yulia.Glushonkova
- * Date: 16.07.13
- */
-class CurriculumManagementTest  (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
+
+class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase with UICurriculumBase {
   val driver = _driver
 
   "Curriculum management" should "be able to create more certificates" in {
     driver.get(baseUrl + curriculumUrl)
     addCertificate("certificate2")
-    addCertificate("test 3")
+    addCertificate("test x3")
     addCertificate("xxx yyy")
 
-    driver.findElement(By.partialLinkText("Management")).click()
+    driver.findElement(By.partialLinkText(manager)).click()
     wait(1)
     assertAmount(4)
   }
 
   it should "be able to search across certificates" in {
-    //search("test")
-    //assertAmount(2)
+    search("test")
+    assertAmount(2)
 
-    //search("cert")
-    //assertAmount(2)
+    search("cert")
+    assertAmount(2)
 
-   // search("y")
-    //assertAmount(1)
+    search("y")
+    assertAmount(1)
 
     search("")
     assertAmount(4)
   }
 
- /* it should "be able to sort" in{
+  it should "be able to sort" in {
     driver.findElement(By.id("sortList")).click()
     assertAmount(4)
-    assertName("Test cert1", 1)
-    assertName("certificate2", 2)
-    assertName("test 3", 3)
-    assertName("xxx yyy", 4)
+    assertTitleInList("xxx yyy", 1)
+    assertTitleInList("test x3", 2)
+    assertTitleInList("Test cert1", 3)
+    assertTitleInList("certificate2", 4)
+
 
     driver.findElement(By.id("sortList")).click()
-    assertName("xxx yyy", 1)
-    assertName("test 3", 2)
-    assertName("certificate2", 3)
-    assertName("Test cert1", 4)
-  }*/
+    assertTitleInList("certificate2", 1)
+    assertTitleInList("Test cert1", 2)
+    assertTitleInList("test x3", 3)
+    assertTitleInList("xxx yyy", 4)
+  }
 
   it should "be able to delete site and it is not able to be found in list" in {
-    driver.findElement(By.id("certificateDelete")).click()
-    wait(1)
-    assertTrue(closeAlertAndGetItsText.matches("^This will delete certificate from the system\\. Are you sure[\\s\\S]$"));
-    wait(1)
+    deleteCertificate()
     assertAmount(3)
-    search("y")
+    search("2")
     assertAmount(0)
     search("")
     assertAmount(3)
   }
 
-  def assertName(name: String, index: Int){
-    assertEquals(name, driver.findElement(By.xpath("//*[@id=\"certificateList\"]/li["+ index +"]/div/div[1]/div[1]")).getText)
+  val name1 = "Aaa"
+  val name2 = "ABa"
+  val name3 = "Bbb"
+  val name4 = "Ccc"
+  val name5 = "Ddd"
+  val name6 = "DE"
+  val name7 = "Eee"
+  val name8 = "Fff"
+  it should "show paging if many certificates" in {
+    addCertificate(name1)
+    addCertificate(name2)
+    addCertificate(name3)
+    addCertificate(name4)
+    addCertificate(name5)
+    addCertificate(name6)
+    addCertificate(name7)
+    addCertificate(name8)
+    driver.findElement(By.partialLinkText(manager)).click()
+    wait(1)
+    assertAmount(11)
+
+    driver.get(baseUrl + curriculumUrl)
+    assertAmount(10)
+    assertTrue(isElementPresent(By.id("allCertificatesPaginator")))
+    assertEquals("Prev", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/span")).getText)
+    assertEquals("1", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[2]/span")).getText)
+    assertEquals("2", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]")).getText)
+    assertEquals("Next", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[4]")).getText)
+
+    driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]/a")).click()
+    wait(1)
+    assertAmount(1)
+    assertTitleInList("xxx yyy", 1)
+
+    driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/a")).click()
+    wait(1)
+    assertAmount(10)
+
   }
 
-  def search(value: String){
+  it should "delete unnecessary certificates" in {
+    driver.get(baseUrl + curriculumUrl)
+    assertTitleInList(name1, 1)
+    deleteCertificate()
+
+    assertTitleInList(name2, 1)
+    deleteCertificate()
+
+    assertTitleInList(name3, 1)
+    deleteCertificate()
+
+    assertTitleInList(name4, 1)
+    deleteCertificate()
+
+    assertTitleInList(name5, 1)
+    deleteCertificate()
+
+    assertTitleInList(name6, 1)
+    deleteCertificate()
+
+    assertTitleInList(name7, 1)
+    deleteCertificate()
+
+    assertTitleInList(name8, 1)
+    deleteCertificate()
+
+    driver.get(baseUrl + curriculumUrl)
+    assertAmount(3)
+  }
+
+
+  def search(value: String) {
     driver.findElement(By.id("certificateSearch")).clear()
-    if (value != "" ) driver.findElement(By.id("certificateSearch")).sendKeys(value)
+    if (value != "") driver.findElement(By.id("certificateSearch")).sendKeys(value)
 
-
-    driver.findElement(By.id("certificateSearch")).sendKeys(Keys.ENTER)
+    driver.findElement(By.id("filterList")).click()
     wait(2)
   }
 
-  def assertAmount(expected: Int){
+  def assertAmount(expected: Int) {
     var amount = 0;
     driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
       .toArray.foreach(x => if (x.asInstanceOf[WebElement].isDisplayed) amount += 1)
     assertEquals(expected, amount)
-  }
-
-  def addCertificate(name: String){
-    driver.findElement(By.partialLinkText("Management")).click()
-    wait(1)
-
-    driver.findElement(By.id("SCORMButtonAddCertificate")).click()
-    wait(1)
-
-    driver.findElement(By.id("certificateEdit")).click()
-
-    getElement("certificateEditTitle").click()
-    val input = getElement("quizItemTitle")
-    input.clear()
-    input.sendKeys(name)
-    getElement("certificateTitleUpdate").click()
-    wait(1)
-  }
-
-  def getElement(name: String): WebElement = {
-    val element = driver.findElements(By.className(name)).toArray
-      .foreach(x => if (x.asInstanceOf[WebElement].isDisplayed) return  x.asInstanceOf[WebElement])
-    return element.asInstanceOf[WebElement]
   }
 
 }

@@ -14,6 +14,7 @@ import com.arcusys.learn.persistence.liferay.model.LFCertificateSiteClp;
 import com.arcusys.learn.persistence.liferay.model.LFCertificateUserClp;
 import com.arcusys.learn.persistence.liferay.model.LFChildrenSelectionClp;
 import com.arcusys.learn.persistence.liferay.model.LFConditionRuleClp;
+import com.arcusys.learn.persistence.liferay.model.LFConfigClp;
 import com.arcusys.learn.persistence.liferay.model.LFCourseClp;
 import com.arcusys.learn.persistence.liferay.model.LFFileStorageClp;
 import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveStateClp;
@@ -38,7 +39,6 @@ import com.arcusys.learn.persistence.liferay.model.LFRuleConditionClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTrackingClp;
-import com.arcusys.learn.persistence.liferay.model.LFSettingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageTagClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanActivityClp;
@@ -188,6 +188,10 @@ public class ClpSerializer {
             return translateInputLFConditionRule(oldModel);
         }
 
+        if (oldModelClassName.equals(LFConfigClp.class.getName())) {
+            return translateInputLFConfig(oldModel);
+        }
+
         if (oldModelClassName.equals(LFCourseClp.class.getName())) {
             return translateInputLFCourse(oldModel);
         }
@@ -282,10 +286,6 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(LFSequencingTrackingClp.class.getName())) {
             return translateInputLFSequencingTracking(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFSettingClp.class.getName())) {
-            return translateInputLFSetting(oldModel);
         }
 
         if (oldModelClassName.equals(LFSocialPackageClp.class.getName())) {
@@ -464,6 +464,16 @@ public class ClpSerializer {
         LFConditionRuleClp oldClpModel = (LFConditionRuleClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFConditionRuleRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFConfig(BaseModel<?> oldModel) {
+        LFConfigClp oldClpModel = (LFConfigClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFConfigRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -715,16 +725,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFSetting(BaseModel<?> oldModel) {
-        LFSettingClp oldClpModel = (LFSettingClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFSettingRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
     public static Object translateInputLFSocialPackage(BaseModel<?> oldModel) {
         LFSocialPackageClp oldClpModel = (LFSocialPackageClp) oldModel;
 
@@ -872,6 +872,11 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFConfigImpl")) {
+            return translateOutputLFConfig(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFCourseImpl")) {
             return translateOutputLFCourse(oldModel);
         }
@@ -989,11 +994,6 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl")) {
             return translateOutputLFSequencingTracking(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFSettingImpl")) {
-            return translateOutputLFSetting(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1173,6 +1173,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFConfigException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFConfigException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFCourseException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFCourseException();
         }
@@ -1290,11 +1295,6 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFSettingException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFSettingException();
         }
 
         if (className.equals(
@@ -1469,6 +1469,16 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFConditionRuleRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFConfig(BaseModel<?> oldModel) {
+        LFConfigClp newModel = new LFConfigClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFConfigRemoteModel(oldModel);
 
         return newModel;
     }
@@ -1716,16 +1726,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFSequencingTrackingRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFSetting(BaseModel<?> oldModel) {
-        LFSettingClp newModel = new LFSettingClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFSettingRemoteModel(oldModel);
 
         return newModel;
     }

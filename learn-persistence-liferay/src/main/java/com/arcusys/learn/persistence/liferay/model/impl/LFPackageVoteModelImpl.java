@@ -46,9 +46,9 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
             { "id_", Types.BIGINT },
             { "userID", Types.INTEGER },
             { "socialPackageID", Types.INTEGER },
-            { "value", Types.INTEGER }
+            { "voteValue", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageVote (id_ LONG not null primary key,userID INTEGER,socialPackageID INTEGER,value INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageVote (id_ LONG not null primary key,userID INTEGER null,socialPackageID INTEGER null,voteValue INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackageVote";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -74,7 +74,7 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
     private Integer _socialPackageID;
     private Integer _originalSocialPackageID;
     private boolean _setOriginalSocialPackageID;
-    private Integer _value;
+    private Integer _voteValue;
     private long _columnBitmask;
     private LFPackageVote _escapedModelProxy;
 
@@ -112,7 +112,7 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
         attributes.put("id", getId());
         attributes.put("userID", getUserID());
         attributes.put("socialPackageID", getSocialPackageID());
-        attributes.put("value", getValue());
+        attributes.put("voteValue", getVoteValue());
 
         return attributes;
     }
@@ -137,10 +137,10 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
             setSocialPackageID(socialPackageID);
         }
 
-        Integer value = (Integer) attributes.get("value");
+        Integer voteValue = (Integer) attributes.get("voteValue");
 
-        if (value != null) {
-            setValue(value);
+        if (voteValue != null) {
+            setVoteValue(voteValue);
         }
     }
 
@@ -180,12 +180,12 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
         return _originalSocialPackageID;
     }
 
-    public Integer getValue() {
-        return _value;
+    public Integer getVoteValue() {
+        return _voteValue;
     }
 
-    public void setValue(Integer value) {
-        _value = value;
+    public void setVoteValue(Integer voteValue) {
+        _voteValue = voteValue;
     }
 
     public long getColumnBitmask() {
@@ -223,7 +223,7 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
         lfPackageVoteImpl.setId(getId());
         lfPackageVoteImpl.setUserID(getUserID());
         lfPackageVoteImpl.setSocialPackageID(getSocialPackageID());
-        lfPackageVoteImpl.setValue(getValue());
+        lfPackageVoteImpl.setVoteValue(getVoteValue());
 
         lfPackageVoteImpl.resetOriginalValues();
 
@@ -291,7 +291,7 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
 
         lfPackageVoteCacheModel.socialPackageID = getSocialPackageID();
 
-        lfPackageVoteCacheModel.value = getValue();
+        lfPackageVoteCacheModel.voteValue = getVoteValue();
 
         return lfPackageVoteCacheModel;
     }
@@ -306,8 +306,8 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
         sb.append(getUserID());
         sb.append(", socialPackageID=");
         sb.append(getSocialPackageID());
-        sb.append(", value=");
-        sb.append(getValue());
+        sb.append(", voteValue=");
+        sb.append(getVoteValue());
         sb.append("}");
 
         return sb.toString();
@@ -333,8 +333,8 @@ public class LFPackageVoteModelImpl extends BaseModelImpl<LFPackageVote>
         sb.append(getSocialPackageID());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>value</column-name><column-value><![CDATA[");
-        sb.append(getValue());
+            "<column><column-name>voteValue</column-name><column-value><![CDATA[");
+        sb.append(getVoteValue());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

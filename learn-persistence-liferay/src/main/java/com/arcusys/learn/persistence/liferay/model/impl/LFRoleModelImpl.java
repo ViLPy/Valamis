@@ -49,7 +49,7 @@ public class LFRoleModelImpl extends BaseModelImpl<LFRole>
             { "permission", Types.VARCHAR },
             { "isDefault", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFRole (id_ LONG not null primary key,liferayRoleID INTEGER,permission VARCHAR(75) null,isDefault BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFRole (id_ LONG not null primary key,liferayRoleID INTEGER null,permission VARCHAR(75) null,isDefault BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFRole";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

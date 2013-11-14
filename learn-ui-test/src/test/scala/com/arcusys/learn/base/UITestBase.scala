@@ -24,6 +24,7 @@ trait UITestBase {
   protected val quizUrl = "/web/guest/quiz"
   protected val gradebookUrl = "/web/guest/gradebook"
   protected val curriculumUrl = "/web/guest/curriculum"
+  protected val myAccountUrl = "/web/student/home"
 
   protected val packageTitle12 = "Test package SCORM 1.2"
   protected val packageDescription12 = "Test package description SCORM 1.2"

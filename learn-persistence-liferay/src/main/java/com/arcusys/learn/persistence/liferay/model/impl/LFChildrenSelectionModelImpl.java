@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -50,7 +49,7 @@ public class LFChildrenSelectionModelImpl extends BaseModelImpl<LFChildrenSelect
             { "takeTimingOnEachAttempt", Types.CLOB },
             { "reorderOnEachAttempt", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFChildrenSelection (id_ LONG not null primary key,sequencingID INTEGER,takeCount INTEGER,takeTimingOnEachAttempt TEXT null,reorderOnEachAttempt TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFChildrenSelection (id_ LONG not null primary key,sequencingID INTEGER null,takeCount INTEGER null,takeTimingOnEachAttempt TEXT null,reorderOnEachAttempt TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFChildrenSelection";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -193,11 +192,7 @@ public class LFChildrenSelectionModelImpl extends BaseModelImpl<LFChildrenSelect
     }
 
     public String getTakeTimingOnEachAttempt() {
-        if (_takeTimingOnEachAttempt == null) {
-            return StringPool.BLANK;
-        } else {
-            return _takeTimingOnEachAttempt;
-        }
+        return _takeTimingOnEachAttempt;
     }
 
     public void setTakeTimingOnEachAttempt(String takeTimingOnEachAttempt) {
@@ -205,11 +200,7 @@ public class LFChildrenSelectionModelImpl extends BaseModelImpl<LFChildrenSelect
     }
 
     public String getReorderOnEachAttempt() {
-        if (_reorderOnEachAttempt == null) {
-            return StringPool.BLANK;
-        } else {
-            return _reorderOnEachAttempt;
-        }
+        return _reorderOnEachAttempt;
     }
 
     public void setReorderOnEachAttempt(String reorderOnEachAttempt) {

@@ -99,7 +99,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>learn-web</artifactId>
+            <artifactId>learn-portlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <classifier>classes</classifier>

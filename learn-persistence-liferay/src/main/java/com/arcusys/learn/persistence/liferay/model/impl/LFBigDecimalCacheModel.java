@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFBigDecimal;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -43,12 +42,7 @@ public class LFBigDecimalCacheModel implements CacheModel<LFBigDecimal>,
 
         lfBigDecimalImpl.setId(id);
         lfBigDecimalImpl.setDecimal(decimal);
-
-        if (text == null) {
-            lfBigDecimalImpl.setText(StringPool.BLANK);
-        } else {
-            lfBigDecimalImpl.setText(text);
-        }
+        lfBigDecimalImpl.setText(text);
 
         lfBigDecimalImpl.resetOriginalValues();
 

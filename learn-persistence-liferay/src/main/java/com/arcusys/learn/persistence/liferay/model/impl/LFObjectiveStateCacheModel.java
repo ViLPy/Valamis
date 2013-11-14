@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveState;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -53,13 +52,7 @@ public class LFObjectiveStateCacheModel implements CacheModel<LFObjectiveState>,
         lfObjectiveStateImpl.setId(id);
         lfObjectiveStateImpl.setSatisfied(satisfied);
         lfObjectiveStateImpl.setNormalizedMeasure(normalizedMeasure);
-
-        if (mapKey == null) {
-            lfObjectiveStateImpl.setMapKey(StringPool.BLANK);
-        } else {
-            lfObjectiveStateImpl.setMapKey(mapKey);
-        }
-
+        lfObjectiveStateImpl.setMapKey(mapKey);
         lfObjectiveStateImpl.setActivityStateID(activityStateID);
         lfObjectiveStateImpl.setObjectiveID(objectiveID);
 

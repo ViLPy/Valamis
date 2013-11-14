@@ -11,7 +11,7 @@
 
     <properties>
         <serviceBuilder.baseModule>${project.basedir}/../learn-persistence-liferay/</serviceBuilder.baseModule>
-        <serviceBuilder.targetDir>${project.basedir}/../learn-web/src/main/webapp/WEB-INF/</serviceBuilder.targetDir>
+        <serviceBuilder.targetDir>${project.basedir}/../learn-portlet/src/main/webapp/WEB-INF/</serviceBuilder.targetDir>
     </properties>
 
     <build>

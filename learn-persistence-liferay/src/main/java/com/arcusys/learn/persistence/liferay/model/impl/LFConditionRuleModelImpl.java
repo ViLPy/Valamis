@@ -50,7 +50,7 @@ public class LFConditionRuleModelImpl extends BaseModelImpl<LFConditionRule>
             { "ruleType", Types.CLOB },
             { "action", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFConditionRule (id_ LONG not null primary key,sequencingID INTEGER,combination TEXT null,ruleType TEXT null,action TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFConditionRule (id_ LONG not null primary key,sequencingID INTEGER null,combination TEXT null,ruleType TEXT null,action TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFConditionRule";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

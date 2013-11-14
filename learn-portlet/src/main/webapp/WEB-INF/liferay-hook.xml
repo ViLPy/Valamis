@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.0.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_0_0.dtd">
+
+<hook>
+    <portal-properties>portal-ext.properties</portal-properties>
+    <language-properties>content/Language.properties</language-properties>
+    <struts-action>
+        <struts-action-path>/portal/learn-portlet/open_package</struts-action-path>
+        <struts-action-impl>com.arcusys.learn.liferay.service.OpenPackageAction</struts-action-impl>
+    </struts-action>
+</hook>

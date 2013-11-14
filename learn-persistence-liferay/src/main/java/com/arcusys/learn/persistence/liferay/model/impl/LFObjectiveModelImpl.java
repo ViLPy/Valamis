@@ -52,7 +52,7 @@ public class LFObjectiveModelImpl extends BaseModelImpl<LFObjective>
             { "minNormalizedMeasure", Types.NUMERIC },
             { "isPrimary", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjective (lfId LONG not null primary key,sequencingID INTEGER,satisfiedByMeasure BOOLEAN,identifier TEXT null,minNormalizedMeasure NUMERIC(20,2),isPrimary BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjective (lfId LONG not null primary key,sequencingID INTEGER null,satisfiedByMeasure BOOLEAN null,identifier TEXT null,minNormalizedMeasure NUMERIC(20,2),isPrimary BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFObjective";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

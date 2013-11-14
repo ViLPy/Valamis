@@ -15,7 +15,7 @@ trait LFPackageVoteStorageImpl extends KeyedEntityStorage[PackageVote] {
     entity.getId.toInt,
     entity.getUserID,
     entity.getSocialPackageID,
-    entity.getValue)
+    entity.getVoteValue)
 
   def getAll(parameters: (String, Any)*): Seq[PackageVote] = parameters match {
     case Seq(("packageID", packageID: Int)) => LFPackageVoteLocalServiceUtil.findBySocialPackageID(packageID).asScala.map(extract)
@@ -26,7 +26,7 @@ trait LFPackageVoteStorageImpl extends KeyedEntityStorage[PackageVote] {
     val newEntity = LFPackageVoteLocalServiceUtil.createLFPackageVote()
     newEntity.setSocialPackageID(entity.socialPackageID)
     newEntity.setUserID(entity.userID)
-    newEntity.setValue(entity.value)
+    newEntity.setVoteValue(entity.value)
     LFPackageVoteLocalServiceUtil.addLFPackageVote(newEntity).getId.toInt
   }
 

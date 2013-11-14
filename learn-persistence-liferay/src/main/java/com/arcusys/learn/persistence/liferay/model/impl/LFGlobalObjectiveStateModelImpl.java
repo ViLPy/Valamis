@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -53,7 +52,7 @@ public class LFGlobalObjectiveStateModelImpl extends BaseModelImpl<LFGlobalObjec
             { "mapKey", Types.CLOB },
             { "treeID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFGlobalObjectiveState (id_ LONG not null primary key,satisfied BOOLEAN,normalizedMeasure NUMERIC(20,2),attemptCompleted BOOLEAN,mapKey TEXT null,treeID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFGlobalObjectiveState (id_ LONG not null primary key,satisfied BOOLEAN null,normalizedMeasure NUMERIC(20,2),attemptCompleted BOOLEAN null,mapKey TEXT null,treeID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFGlobalObjectiveState";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -201,11 +200,7 @@ public class LFGlobalObjectiveStateModelImpl extends BaseModelImpl<LFGlobalObjec
     }
 
     public String getMapKey() {
-        if (_mapKey == null) {
-            return StringPool.BLANK;
-        } else {
-            return _mapKey;
-        }
+        return _mapKey;
     }
 
     public void setMapKey(String mapKey) {
@@ -219,7 +214,7 @@ public class LFGlobalObjectiveStateModelImpl extends BaseModelImpl<LFGlobalObjec
     }
 
     public String getOriginalMapKey() {
-        return GetterUtil.getString(_originalMapKey);
+        return _originalMapKey;
     }
 
     public Integer getTreeID() {

@@ -50,7 +50,7 @@ public class LFAttemptModelImpl extends BaseModelImpl<LFAttempt>
             { "organizationID", Types.CLOB },
             { "isComplete", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFAttempt (id_ LONG not null primary key,userID INTEGER,packageID INTEGER,organizationID TEXT null,isComplete BOOLEAN)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFAttempt (id_ LONG not null primary key,userID INTEGER null,packageID INTEGER null,organizationID TEXT null,isComplete BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFAttempt";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

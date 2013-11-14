@@ -21,7 +21,7 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
     private long _id;
     private Integer _userID;
     private Integer _socialPackageID;
-    private Integer _value;
+    private Integer _voteValue;
     private BaseModel<?> _lfPackageVoteRemoteModel;
 
     public LFPackageVoteClp() {
@@ -58,7 +58,7 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
         attributes.put("id", getId());
         attributes.put("userID", getUserID());
         attributes.put("socialPackageID", getSocialPackageID());
-        attributes.put("value", getValue());
+        attributes.put("voteValue", getVoteValue());
 
         return attributes;
     }
@@ -83,10 +83,10 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
             setSocialPackageID(socialPackageID);
         }
 
-        Integer value = (Integer) attributes.get("value");
+        Integer voteValue = (Integer) attributes.get("voteValue");
 
-        if (value != null) {
-            setValue(value);
+        if (voteValue != null) {
+            setVoteValue(voteValue);
         }
     }
 
@@ -114,12 +114,12 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
         _socialPackageID = socialPackageID;
     }
 
-    public Integer getValue() {
-        return _value;
+    public Integer getVoteValue() {
+        return _voteValue;
     }
 
-    public void setValue(Integer value) {
-        _value = value;
+    public void setVoteValue(Integer voteValue) {
+        _voteValue = voteValue;
     }
 
     public BaseModel<?> getLFPackageVoteRemoteModel() {
@@ -152,7 +152,7 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
         clone.setId(getId());
         clone.setUserID(getUserID());
         clone.setSocialPackageID(getSocialPackageID());
-        clone.setValue(getValue());
+        clone.setVoteValue(getVoteValue());
 
         return clone;
     }
@@ -207,8 +207,8 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
         sb.append(getUserID());
         sb.append(", socialPackageID=");
         sb.append(getSocialPackageID());
-        sb.append(", value=");
-        sb.append(getValue());
+        sb.append(", voteValue=");
+        sb.append(getVoteValue());
         sb.append("}");
 
         return sb.toString();
@@ -234,8 +234,8 @@ public class LFPackageVoteClp extends BaseModelImpl<LFPackageVote>
         sb.append(getSocialPackageID());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>value</column-name><column-value><![CDATA[");
-        sb.append(getValue());
+            "<column><column-name>voteValue</column-name><column-value><![CDATA[");
+        sb.append(getVoteValue());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -25,6 +25,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
     private Boolean _isPermanent;
     private Boolean _publishBadge;
     private String _shortDescription;
+    private Integer _companyID;
     private BaseModel<?> _lfCertificateRemoteModel;
 
     public LFCertificateClp() {
@@ -65,6 +66,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         attributes.put("isPermanent", getIsPermanent());
         attributes.put("publishBadge", getPublishBadge());
         attributes.put("shortDescription", getShortDescription());
+        attributes.put("companyID", getCompanyID());
 
         return attributes;
     }
@@ -111,6 +113,12 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
         if (shortDescription != null) {
             setShortDescription(shortDescription);
+        }
+
+        Integer companyID = (Integer) attributes.get("companyID");
+
+        if (companyID != null) {
+            setCompanyID(companyID);
         }
     }
 
@@ -170,6 +178,14 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         _shortDescription = shortDescription;
     }
 
+    public Integer getCompanyID() {
+        return _companyID;
+    }
+
+    public void setCompanyID(Integer companyID) {
+        _companyID = companyID;
+    }
+
     public BaseModel<?> getLFCertificateRemoteModel() {
         return _lfCertificateRemoteModel;
     }
@@ -204,6 +220,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         clone.setIsPermanent(getIsPermanent());
         clone.setPublishBadge(getPublishBadge());
         clone.setShortDescription(getShortDescription());
+        clone.setCompanyID(getCompanyID());
 
         return clone;
     }
@@ -250,7 +267,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -266,13 +283,15 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         sb.append(getPublishBadge());
         sb.append(", shortDescription=");
         sb.append(getShortDescription());
+        sb.append(", companyID=");
+        sb.append(getCompanyID());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCertificate");
@@ -305,6 +324,10 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         sb.append(
             "<column><column-name>shortDescription</column-name><column-value><![CDATA[");
         sb.append(getShortDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>companyID</column-name><column-value><![CDATA[");
+        sb.append(getCompanyID());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

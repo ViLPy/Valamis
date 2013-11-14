@@ -40,6 +40,7 @@ public class LFCertificateWrapper implements LFCertificate,
         attributes.put("isPermanent", getIsPermanent());
         attributes.put("publishBadge", getPublishBadge());
         attributes.put("shortDescription", getShortDescription());
+        attributes.put("companyID", getCompanyID());
 
         return attributes;
     }
@@ -85,6 +86,12 @@ public class LFCertificateWrapper implements LFCertificate,
 
         if (shortDescription != null) {
             setShortDescription(shortDescription);
+        }
+
+        Integer companyID = (Integer) attributes.get("companyID");
+
+        if (companyID != null) {
+            setCompanyID(companyID);
         }
     }
 
@@ -230,6 +237,24 @@ public class LFCertificateWrapper implements LFCertificate,
      */
     public void setShortDescription(java.lang.String shortDescription) {
         _lfCertificate.setShortDescription(shortDescription);
+    }
+
+    /**
+     * Returns the company i d of this l f certificate.
+     *
+     * @return the company i d of this l f certificate
+     */
+    public java.lang.Integer getCompanyID() {
+        return _lfCertificate.getCompanyID();
+    }
+
+    /**
+     * Sets the company i d of this l f certificate.
+     *
+     * @param companyID the company i d of this l f certificate
+     */
+    public void setCompanyID(java.lang.Integer companyID) {
+        _lfCertificate.setCompanyID(companyID);
     }
 
     public boolean isNew() {

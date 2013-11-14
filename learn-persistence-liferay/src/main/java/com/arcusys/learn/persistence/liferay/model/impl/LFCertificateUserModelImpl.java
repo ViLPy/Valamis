@@ -47,7 +47,7 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
             { "certificateID", Types.INTEGER },
             { "userID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateUser (id_ LONG not null primary key,certificateID INTEGER,userID INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateUser (id_ LONG not null primary key,certificateID INTEGER null,userID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificateUser";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

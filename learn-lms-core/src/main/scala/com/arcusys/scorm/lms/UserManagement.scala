@@ -32,7 +32,7 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
     }
 
     val studentRoles = storageFactory.roleStorage.getForPermission(PermissionType.Student)
-    getUsersByRole(studentRoles).map(user => Map("id" -> user.id, "name" -> user.name))
+    getUsersByRole(studentRoles).distinct.map(user => Map("id" -> user.id, "name" -> user.name))
   }
 
   def isLearnUser(userID: Long, courseID: Long) = {

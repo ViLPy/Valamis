@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateTree;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -43,19 +42,8 @@ public class LFActivityStateTreeCacheModel implements CacheModel<LFActivityState
         LFActivityStateTreeImpl lfActivityStateTreeImpl = new LFActivityStateTreeImpl();
 
         lfActivityStateTreeImpl.setId(id);
-
-        if (currentActivityID == null) {
-            lfActivityStateTreeImpl.setCurrentActivityID(StringPool.BLANK);
-        } else {
-            lfActivityStateTreeImpl.setCurrentActivityID(currentActivityID);
-        }
-
-        if (suspendedActivityID == null) {
-            lfActivityStateTreeImpl.setSuspendedActivityID(StringPool.BLANK);
-        } else {
-            lfActivityStateTreeImpl.setSuspendedActivityID(suspendedActivityID);
-        }
-
+        lfActivityStateTreeImpl.setCurrentActivityID(currentActivityID);
+        lfActivityStateTreeImpl.setSuspendedActivityID(suspendedActivityID);
         lfActivityStateTreeImpl.setAttemptID(attemptID);
 
         lfActivityStateTreeImpl.resetOriginalValues();

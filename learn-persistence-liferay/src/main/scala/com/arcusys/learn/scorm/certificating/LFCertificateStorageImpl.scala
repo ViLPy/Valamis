@@ -5,6 +5,7 @@ import com.arcusys.learn.persistence.liferay.service.{LFCertificateUserLocalServ
 import com.arcusys.learn.persistence.liferay.model.LFCertificate
 import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
 import scala.collection.JavaConverters._
+import com.liferay.portal.util.PortalUtil
 
 /**
  * User: Yulia.Glushonkova
@@ -22,14 +23,27 @@ trait LFCertificateStorageImpl extends KeyedEntityStorage[Certificate] {
     entity.getLogo,
     entity.getIsPermanent,
     entity.getPublishBadge,
-    entity.getShortDescription)
+    entity.getShortDescription,
+    entity.getCompanyID)
 
 
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
 
-  def getAll(parameters: (String, Any)*) = {
-    LFCertificateLocalServiceUtil.getLFCertificates(-1, -1).asScala.map(extract)
+  def getAll(parameters: (String, Any)*) = parameters match {
+    case Seq(("companyID", companyId: Int)) => {
+      // update certificates from 1.5 version which does not have companyId
+      val defaultCompanyID = PortalUtil.getDefaultCompanyId
+      if (companyId == defaultCompanyID){
+        val noCompanyCertificates = LFCertificateLocalServiceUtil.findByCompanyID(null)
+        noCompanyCertificates.toArray.foreach(i=>{
+          i.asInstanceOf[LFCertificate].setCompanyID(defaultCompanyID.toInt)
+          LFCertificateLocalServiceUtil.updateLFCertificate(i.asInstanceOf[LFCertificate])
+        })
+      }
+      LFCertificateLocalServiceUtil.findByCompanyID(companyId).asScala.map(extract)
+    }
   }
+
 
   def create(parameters: (String, Any)*) {
     throw new UnsupportedOperationException
@@ -95,6 +109,7 @@ trait LFCertificateStorageImpl extends KeyedEntityStorage[Certificate] {
     lfEntity.setIsPermanent(true)
     lfEntity.setPublishBadge(false)
     lfEntity.setShortDescription("")
+    lfEntity.setCompanyID(entity.companyId)
     LFCertificateLocalServiceUtil.addLFCertificate(lfEntity).getId.toInt
   }
 

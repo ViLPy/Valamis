@@ -19,7 +19,7 @@ public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
     public long id;
     public Integer userID;
     public Integer socialPackageID;
-    public Integer value;
+    public Integer voteValue;
 
     @Override
     public String toString() {
@@ -31,8 +31,8 @@ public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
         sb.append(userID);
         sb.append(", socialPackageID=");
         sb.append(socialPackageID);
-        sb.append(", value=");
-        sb.append(value);
+        sb.append(", voteValue=");
+        sb.append(voteValue);
         sb.append("}");
 
         return sb.toString();
@@ -44,7 +44,7 @@ public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
         lfPackageVoteImpl.setId(id);
         lfPackageVoteImpl.setUserID(userID);
         lfPackageVoteImpl.setSocialPackageID(socialPackageID);
-        lfPackageVoteImpl.setValue(value);
+        lfPackageVoteImpl.setVoteValue(voteValue);
 
         lfPackageVoteImpl.resetOriginalValues();
 

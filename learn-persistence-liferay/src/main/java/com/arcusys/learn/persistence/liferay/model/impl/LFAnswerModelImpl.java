@@ -56,7 +56,7 @@ public class LFAnswerModelImpl extends BaseModelImpl<LFAnswer>
             { "answerPosition", Types.INTEGER },
             { "answerType", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFAnswer (id_ LONG not null primary key,description TEXT null,correct BOOLEAN,questionId INTEGER,rangeFrom NUMERIC(20,2),rangeTo NUMERIC(20,2),matchingText TEXT null,answerPosition INTEGER,answerType INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFAnswer (id_ LONG not null primary key,description TEXT null,correct BOOLEAN null,questionId INTEGER null,rangeFrom NUMERIC(20,2),rangeTo NUMERIC(20,2),matchingText TEXT null,answerPosition INTEGER null,answerType INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFAnswer";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -261,11 +261,7 @@ public class LFAnswerModelImpl extends BaseModelImpl<LFAnswer>
     }
 
     public String getMatchingText() {
-        if (_matchingText == null) {
-            return StringPool.BLANK;
-        } else {
-            return _matchingText;
-        }
+        return _matchingText;
     }
 
     public void setMatchingText(String matchingText) {

@@ -241,6 +241,10 @@ public interface LFCertificateLocalService extends BaseLocalService,
         java.lang.String title)
         throws com.liferay.portal.kernel.exception.SystemException;
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> findByCompanyID(
+        java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException;
 }

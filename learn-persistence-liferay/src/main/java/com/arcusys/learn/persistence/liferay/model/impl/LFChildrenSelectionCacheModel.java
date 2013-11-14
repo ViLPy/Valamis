@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFChildrenSelection;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -48,18 +47,8 @@ public class LFChildrenSelectionCacheModel implements CacheModel<LFChildrenSelec
         lfChildrenSelectionImpl.setId(id);
         lfChildrenSelectionImpl.setSequencingID(sequencingID);
         lfChildrenSelectionImpl.setTakeCount(takeCount);
-
-        if (takeTimingOnEachAttempt == null) {
-            lfChildrenSelectionImpl.setTakeTimingOnEachAttempt(StringPool.BLANK);
-        } else {
-            lfChildrenSelectionImpl.setTakeTimingOnEachAttempt(takeTimingOnEachAttempt);
-        }
-
-        if (reorderOnEachAttempt == null) {
-            lfChildrenSelectionImpl.setReorderOnEachAttempt(StringPool.BLANK);
-        } else {
-            lfChildrenSelectionImpl.setReorderOnEachAttempt(reorderOnEachAttempt);
-        }
+        lfChildrenSelectionImpl.setTakeTimingOnEachAttempt(takeTimingOnEachAttempt);
+        lfChildrenSelectionImpl.setReorderOnEachAttempt(reorderOnEachAttempt);
 
         lfChildrenSelectionImpl.resetOriginalValues();
 

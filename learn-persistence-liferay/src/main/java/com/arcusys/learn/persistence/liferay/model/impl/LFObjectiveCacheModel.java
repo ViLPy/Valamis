@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFObjective;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -53,13 +52,7 @@ public class LFObjectiveCacheModel implements CacheModel<LFObjective>,
         lfObjectiveImpl.setLfId(lfId);
         lfObjectiveImpl.setSequencingID(sequencingID);
         lfObjectiveImpl.setSatisfiedByMeasure(satisfiedByMeasure);
-
-        if (identifier == null) {
-            lfObjectiveImpl.setIdentifier(StringPool.BLANK);
-        } else {
-            lfObjectiveImpl.setIdentifier(identifier);
-        }
-
+        lfObjectiveImpl.setIdentifier(identifier);
         lfObjectiveImpl.setMinNormalizedMeasure(minNormalizedMeasure);
         lfObjectiveImpl.setIsPrimary(isPrimary);
 

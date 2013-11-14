@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -61,7 +60,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
             { "writeCompletionStatusTo", Types.CLOB },
             { "writeProgressMeasureTo", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjectiveMap (id_ LONG not null primary key,objectiveID INTEGER,readSatisfiedStatusFrom TEXT null,readNormalizedMeasureFrom TEXT null,writeSatisfiedStatusTo TEXT null,writeNormalizedMeasureTo TEXT null,readRawScoreFrom TEXT null,readMinScoreFrom TEXT null,readMaxScoreFrom TEXT null,readCompletionStatusFrom TEXT null,readProgressMeasureFrom TEXT null,writeRawScoreTo TEXT null,writeMinScoreTo TEXT null,writeMaxScoreTo TEXT null,writeCompletionStatusTo TEXT null,writeProgressMeasureTo TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFObjectiveMap (id_ LONG not null primary key,objectiveID INTEGER null,readSatisfiedStatusFrom TEXT null,readNormalizedMeasureFrom TEXT null,writeSatisfiedStatusTo TEXT null,writeNormalizedMeasureTo TEXT null,readRawScoreFrom TEXT null,readMinScoreFrom TEXT null,readMaxScoreFrom TEXT null,readCompletionStatusFrom TEXT null,readProgressMeasureFrom TEXT null,writeRawScoreTo TEXT null,writeMinScoreTo TEXT null,writeMaxScoreTo TEXT null,writeCompletionStatusTo TEXT null,writeProgressMeasureTo TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFObjectiveMap";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -291,11 +290,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadSatisfiedStatusFrom() {
-        if (_readSatisfiedStatusFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readSatisfiedStatusFrom;
-        }
+        return _readSatisfiedStatusFrom;
     }
 
     public void setReadSatisfiedStatusFrom(String readSatisfiedStatusFrom) {
@@ -303,11 +298,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadNormalizedMeasureFrom() {
-        if (_readNormalizedMeasureFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readNormalizedMeasureFrom;
-        }
+        return _readNormalizedMeasureFrom;
     }
 
     public void setReadNormalizedMeasureFrom(String readNormalizedMeasureFrom) {
@@ -315,11 +306,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteSatisfiedStatusTo() {
-        if (_writeSatisfiedStatusTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeSatisfiedStatusTo;
-        }
+        return _writeSatisfiedStatusTo;
     }
 
     public void setWriteSatisfiedStatusTo(String writeSatisfiedStatusTo) {
@@ -327,11 +314,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteNormalizedMeasureTo() {
-        if (_writeNormalizedMeasureTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeNormalizedMeasureTo;
-        }
+        return _writeNormalizedMeasureTo;
     }
 
     public void setWriteNormalizedMeasureTo(String writeNormalizedMeasureTo) {
@@ -339,11 +322,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadRawScoreFrom() {
-        if (_readRawScoreFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readRawScoreFrom;
-        }
+        return _readRawScoreFrom;
     }
 
     public void setReadRawScoreFrom(String readRawScoreFrom) {
@@ -351,11 +330,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadMinScoreFrom() {
-        if (_readMinScoreFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readMinScoreFrom;
-        }
+        return _readMinScoreFrom;
     }
 
     public void setReadMinScoreFrom(String readMinScoreFrom) {
@@ -363,11 +338,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadMaxScoreFrom() {
-        if (_readMaxScoreFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readMaxScoreFrom;
-        }
+        return _readMaxScoreFrom;
     }
 
     public void setReadMaxScoreFrom(String readMaxScoreFrom) {
@@ -375,11 +346,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadCompletionStatusFrom() {
-        if (_readCompletionStatusFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readCompletionStatusFrom;
-        }
+        return _readCompletionStatusFrom;
     }
 
     public void setReadCompletionStatusFrom(String readCompletionStatusFrom) {
@@ -387,11 +354,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getReadProgressMeasureFrom() {
-        if (_readProgressMeasureFrom == null) {
-            return StringPool.BLANK;
-        } else {
-            return _readProgressMeasureFrom;
-        }
+        return _readProgressMeasureFrom;
     }
 
     public void setReadProgressMeasureFrom(String readProgressMeasureFrom) {
@@ -399,11 +362,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteRawScoreTo() {
-        if (_writeRawScoreTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeRawScoreTo;
-        }
+        return _writeRawScoreTo;
     }
 
     public void setWriteRawScoreTo(String writeRawScoreTo) {
@@ -411,11 +370,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteMinScoreTo() {
-        if (_writeMinScoreTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeMinScoreTo;
-        }
+        return _writeMinScoreTo;
     }
 
     public void setWriteMinScoreTo(String writeMinScoreTo) {
@@ -423,11 +378,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteMaxScoreTo() {
-        if (_writeMaxScoreTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeMaxScoreTo;
-        }
+        return _writeMaxScoreTo;
     }
 
     public void setWriteMaxScoreTo(String writeMaxScoreTo) {
@@ -435,11 +386,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteCompletionStatusTo() {
-        if (_writeCompletionStatusTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeCompletionStatusTo;
-        }
+        return _writeCompletionStatusTo;
     }
 
     public void setWriteCompletionStatusTo(String writeCompletionStatusTo) {
@@ -447,11 +394,7 @@ public class LFObjectiveMapModelImpl extends BaseModelImpl<LFObjectiveMap>
     }
 
     public String getWriteProgressMeasureTo() {
-        if (_writeProgressMeasureTo == null) {
-            return StringPool.BLANK;
-        } else {
-            return _writeProgressMeasureTo;
-        }
+        return _writeProgressMeasureTo;
     }
 
     public void setWriteProgressMeasureTo(String writeProgressMeasureTo) {

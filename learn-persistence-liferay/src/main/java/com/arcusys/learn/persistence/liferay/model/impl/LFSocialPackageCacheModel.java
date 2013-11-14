@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackage;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -49,12 +48,7 @@ public class LFSocialPackageCacheModel implements CacheModel<LFSocialPackage>,
 
         lfSocialPackageImpl.setId(id);
         lfSocialPackageImpl.setPackageID(packageID);
-
-        if (aboutPackage == null) {
-            lfSocialPackageImpl.setAboutPackage(StringPool.BLANK);
-        } else {
-            lfSocialPackageImpl.setAboutPackage(aboutPackage);
-        }
+        lfSocialPackageImpl.setAboutPackage(aboutPackage);
 
         if (publishDate == Long.MIN_VALUE) {
             lfSocialPackageImpl.setPublishDate(null);

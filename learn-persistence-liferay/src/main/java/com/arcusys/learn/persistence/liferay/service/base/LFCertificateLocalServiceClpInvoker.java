@@ -48,6 +48,8 @@ public class LFCertificateLocalServiceClpInvoker {
     private String[] _methodParameterTypes219;
     private String _methodName220;
     private String[] _methodParameterTypes220;
+    private String _methodName221;
+    private String[] _methodParameterTypes221;
 
     public LFCertificateLocalServiceClpInvoker() {
         _methodName0 = "addLFCertificate";
@@ -148,9 +150,13 @@ public class LFCertificateLocalServiceClpInvoker {
 
         _methodParameterTypes219 = new String[] { "java.lang.String" };
 
-        _methodName220 = "removeAll";
+        _methodName220 = "findByCompanyID";
 
-        _methodParameterTypes220 = new String[] {  };
+        _methodParameterTypes220 = new String[] { "java.lang.Integer" };
+
+        _methodName221 = "removeAll";
+
+        _methodParameterTypes221 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -266,6 +272,11 @@ public class LFCertificateLocalServiceClpInvoker {
 
         if (_methodName220.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes220, parameterTypes)) {
+            return LFCertificateLocalServiceUtil.findByCompanyID((java.lang.Integer) arguments[0]);
+        }
+
+        if (_methodName221.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes221, parameterTypes)) {
             LFCertificateLocalServiceUtil.removeAll();
 
             return null;

@@ -51,7 +51,7 @@ public class LFPackageScopeRuleModelImpl extends BaseModelImpl<LFPackageScopeRul
             { "visibility", Types.BOOLEAN },
             { "isDefault", Types.BOOLEAN }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageScopeRule (id_ LONG not null primary key,packageID INTEGER,scope TEXT null,scopeID TEXT null,visibility BOOLEAN,isDefault BOOLEAN null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageScopeRule (id_ LONG not null primary key,packageID INTEGER null,scope TEXT null,scopeID TEXT null,visibility BOOLEAN null,isDefault BOOLEAN null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackageScopeRule";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

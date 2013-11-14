@@ -36,6 +36,11 @@ public class LFCertificateLocalServiceImpl
         return lfCertificatePersistence.findByTitle(title);
     }
 
+    public java.util.List<LFCertificate> findByCompanyID(Integer companyID)
+            throws com.liferay.portal.kernel.exception.SystemException{
+        return lfCertificatePersistence.findByCompanyID(companyID);
+    }
+
     public void removeAll() throws SystemException {
         lfCertificatePersistence.removeAll();
     }

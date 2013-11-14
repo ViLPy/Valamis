@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -53,7 +52,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
             { "launch", Types.VARCHAR },
             { "resource", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanActivity (id_ LONG not null primary key,tincanID VARCHAR(75) null,packageID LONG,activityType VARCHAR(75) null,name VARCHAR(75) null,description VARCHAR(75) null,launch VARCHAR(75) null,resource VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanActivity (id_ LONG not null primary key,tincanID VARCHAR(75) null,packageID LONG null,activityType VARCHAR(75) null,name VARCHAR(75) null,description VARCHAR(75) null,launch VARCHAR(75) null,resource VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanActivity";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -190,11 +189,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     }
 
     public String getTincanID() {
-        if (_tincanID == null) {
-            return StringPool.BLANK;
-        } else {
-            return _tincanID;
-        }
+        return _tincanID;
     }
 
     public void setTincanID(String tincanID) {
@@ -222,11 +217,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     }
 
     public String getActivityType() {
-        if (_activityType == null) {
-            return StringPool.BLANK;
-        } else {
-            return _activityType;
-        }
+        return _activityType;
     }
 
     public void setActivityType(String activityType) {
@@ -234,11 +225,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     }
 
     public String getName() {
-        if (_name == null) {
-            return StringPool.BLANK;
-        } else {
-            return _name;
-        }
+        return _name;
     }
 
     public void setName(String name) {
@@ -246,11 +233,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     }
 
     public String getDescription() {
-        if (_description == null) {
-            return StringPool.BLANK;
-        } else {
-            return _description;
-        }
+        return _description;
     }
 
     public void setDescription(String description) {

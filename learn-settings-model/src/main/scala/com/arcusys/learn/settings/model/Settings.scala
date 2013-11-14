@@ -1,7 +1,5 @@
 package com.arcusys.learn.settings.model
 
-
-
 /**
 * A site which is part of certificate
 * @param key             Unique settings key
@@ -18,4 +16,5 @@ object SettingType extends Enumeration {
   val IssuerName = Value("IssuerName")
   val IssuerURL = Value("IssuerURL")
   val IssuerOrganization = Value("IssuerOrganization")
+  val DBVersion = Value("DBVersion")
 }

@@ -45,8 +45,7 @@ trait LFRollupContributionStorageImpl extends EntityStorage[RollupContribution] 
 
     val satisfactionParam = parameters find {_._1 == "satisfaction"} map(_._2)
     val satisfaction = satisfactionParam.get.asInstanceOf[Option[SatisfactionRollupContribution]]
-    if (satisfaction.isDefined)
-    {
+    if (satisfaction.isDefined) {
       lfEntity.setContributeToSatisfied(satisfaction.get.contributeToSatisfied.toString)
       lfEntity.setContributeToNotSatisfied(satisfaction.get.contributeToNotSatisfied.toString)
     }

@@ -57,12 +57,7 @@ public class LFPackageScopeRuleCacheModel implements CacheModel<LFPackageScopeRu
             lfPackageScopeRuleImpl.setScope(scope);
         }
 
-        if (scopeID == null) {
-            lfPackageScopeRuleImpl.setScopeID(StringPool.BLANK);
-        } else {
-            lfPackageScopeRuleImpl.setScopeID(scopeID);
-        }
-
+        lfPackageScopeRuleImpl.setScopeID(scopeID);
         lfPackageScopeRuleImpl.setVisibility(visibility);
         lfPackageScopeRuleImpl.setIsDefault(isDefault);
 

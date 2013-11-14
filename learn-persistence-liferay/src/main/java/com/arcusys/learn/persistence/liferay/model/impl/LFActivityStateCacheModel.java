@@ -3,7 +3,6 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFActivityState;
 
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
 import java.io.Serializable;
@@ -76,13 +75,7 @@ public class LFActivityStateCacheModel implements CacheModel<LFActivityState>,
 
         lfActivityStateImpl.setId(id);
         lfActivityStateImpl.setPackageID(packageID);
-
-        if (activityID == null) {
-            lfActivityStateImpl.setActivityID(StringPool.BLANK);
-        } else {
-            lfActivityStateImpl.setActivityID(activityID);
-        }
-
+        lfActivityStateImpl.setActivityID(activityID);
         lfActivityStateImpl.setActive(active);
         lfActivityStateImpl.setSuspended(suspended);
         lfActivityStateImpl.setAttemptCompleted(attemptCompleted);

@@ -261,6 +261,16 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 		<#list entity.getUniqueFinderList() as finder>
 			<#assign finderColsList = finder.getColumns()>
 
+            boolean noNullsIn${finder.name?upper_case} = true;
+
+            <#list finderColsList as finderCol>
+                <#if finderCol.isPrimitiveType()>
+                    if (${entity.varName}.get${finderCol.methodName}() == null) noNullsIn${finder.name?upper_case} = false;
+                </#if>
+            </#list>
+
+            if (noNullsIn${finder.name?upper_case}) {
+
 			FinderCacheUtil.putResult(
 				FINDER_PATH_FETCH_BY_${finder.name?upper_case},
 				new Object[] {
@@ -269,7 +279,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 							${serviceBuilder.getPrimitiveObj("${finderCol.type}")}.valueOf(
 						</#if>
 
-						${entity.varName}.get${finderCol.methodName}()
+                        ${entity.varName}.get${finderCol.methodName}()
 
 						<#if finderCol.isPrimitiveType()>
 							)
@@ -281,6 +291,8 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 					</#list>
 				},
 				${entity.varName});
+
+            }
 		</#list>
 
 		${entity.varName}.resetOriginalValues();
@@ -360,7 +372,17 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 			<#list entity.getUniqueFinderList() as finder>
 				<#assign finderColsList = finder.getColumns()>
 
-				FinderCacheUtil.removeResult(
+                boolean noNullsIn${finder.name?upper_case} = true;
+
+                <#list finderColsList as finderCol>
+                    <#if finderCol.isPrimitiveType()>
+                    if (${entity.varName}.get${finderCol.methodName}() == null) noNullsIn${finder.name?upper_case} = false;
+                    </#if>
+                </#list>
+
+                if (noNullsIn${finder.name?upper_case}) {
+
+                FinderCacheUtil.removeResult(
 					FINDER_PATH_FETCH_BY_${finder.name?upper_case},
 					new Object[] {
 						<#list finderColsList as finderCol>
@@ -368,7 +390,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 								${serviceBuilder.getPrimitiveObj("${finderCol.type}")}.valueOf(
 							</#if>
 
-							${entity.varName}.get${finderCol.methodName}()
+                            ${entity.varName}.get${finderCol.methodName}()
 
 							<#if finderCol.isPrimitiveType()>
 								)
@@ -379,6 +401,7 @@ public class ${entity.name}PersistenceImpl extends BasePersistenceImpl<${entity.
 							</#if>
 						</#list>
 					});
+                }
 			</#list>
 		}
 	</#if>

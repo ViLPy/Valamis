@@ -2,6 +2,7 @@ package com.arcusys.learn.storage.impl.liferay
 
 import java.lang.{Integer => JavaInteger}
 import java.lang.{Long => JavaLong}
+import java.lang.{Double => JavaDouble}
 import java.math
 
 /**
@@ -11,6 +12,7 @@ import java.math
 object LiferayCommon {
 //  val nullInteger: JavaInteger = new JavaInteger(0)
   val nullInteger: JavaInteger = null
+  val nullDouble: JavaDouble = null
   val nullLong: JavaLong = null
 
   implicit def optionToNullableInteger(value: Option[Int]): JavaInteger = value.map(new JavaInteger(_)).getOrElse(nullInteger)

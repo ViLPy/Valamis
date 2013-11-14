@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 import com.liferay.portal.service.ServiceContext;
@@ -166,11 +165,7 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
     }
 
     public String getTitle() {
-        if (_title == null) {
-            return StringPool.BLANK;
-        } else {
-            return _title;
-        }
+        return _title;
     }
 
     public void setTitle(String title) {
