@@ -329,11 +329,6 @@ with MessageBoardSupport with DocumentLibrarySupport
 
     val portletLanding2 = addPortletId(layoutTheory, PortletKeys.JOURNAL_CONTENT, "column-2")
 
-    val journalArticle2 = addJournalArticle(defaultUserId, group.getGroupId,
-      "Discussion", "demo/articles/landing3.xml",
-      pictureBoxStructure.getStructureId, pictureBoxTemplate.getTemplateId,
-      serviceContext)
-
     val url = "/documents/" + discussion.getGroupId + "/" + discussion.getFolderId + "/" + discussion.getTitle
 
     val pictureContent = <root available-locales="en_US" default-locale="en_US">
@@ -344,8 +339,11 @@ with MessageBoardSupport with DocumentLibrarySupport
       </dynamic-element>
     </root>
 
-    journalArticle2.setContent(pictureContent.toString())
-    JournalArticleLocalServiceUtil.updateJournalArticle(journalArticle2)
+    val journalArticle2 = addJournalArticleWithContent(defaultUserId, group.getGroupId,
+      "Discussion", pictureContent.toString(), pictureBoxStructure.getStructureId, pictureBoxTemplate.getTemplateId,
+      serviceContext)
+
+    //JournalArticleLocalServiceUtil.updateJournalArticle(journalArticle2)
     configureJournalContent(layoutTheory, group, portletLanding2, journalArticle2.getArticleId)
     removePortletBorder(layoutTheory, portletLanding2)
 
@@ -669,6 +667,13 @@ with MessageBoardSupport with DocumentLibrarySupport
                                   structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
 
     val content = HookHelpers.getString(filename)
+
+    addJournalArticleWithContent(userId, groupId, title, content, structureId, templateId, serviceContext)
+  }
+
+  protected def addJournalArticleWithContent(userId: Long, groupId: Long,
+                                  title: String, content: String,
+                                  structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
 
     serviceContext.setAddGroupPermissions(true)
     serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
