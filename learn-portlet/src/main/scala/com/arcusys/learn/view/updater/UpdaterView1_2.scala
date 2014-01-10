@@ -3,17 +3,13 @@ package com.arcusys.learn.view.updater
 import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
-import java.io.File
-import com.arcusys.learn.scorm.manifest.model.ScopeType
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import com.arcusys.learn.storage.DBType
 
 class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSupport {
   override def destroy() {}
 
-  val fileStorage = StorageFactory.fileStorage
-  val storageUpdater = StorageFactory.storageUpdater
+  /*val fileStorage = StorageFactory.fileStorage
+  val storageUpdater = StorageFactory.storageUpdater*/
 
   override def doView(request: RenderRequest, response: RenderResponse) {
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
@@ -25,7 +21,7 @@ class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSup
       "scopeID" -> scopeID)
     response.getWriter.println(mustache(data, "updater12.html"))
   }
-
+/*
   override def serveResource(request: ResourceRequest, response: ResourceResponse) {
     if (StorageFactory.dbType == DBType.Postgres) {
       System.out.println("Updating to version 1.2.1")
@@ -58,5 +54,5 @@ class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSup
   private def recursiveListFiles(f: File): Array[File] = {
     val these = f.listFiles
     these ++ these.filter(_.isDirectory).flatMap(recursiveListFiles)
-  }
+  }*/
 }

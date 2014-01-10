@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.rte.service
 
 import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.net.URLDecoder
@@ -55,11 +55,18 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
       case Some(LrsEndpointSettings(endpoint, UserBasicAuthorization)) => {
         json(Map(
           "launchURL" -> mainFileName,
-          "endpoint" -> endpoint,
+          "endpoint" -> endpoint.trim,
           "authType" -> "Basic"
         ))
       }
-      case None => json("noSettings" -> true)
+      case None =>{
+        json(Map("" +
+          "internal" -> true,
+          "launchURL" -> mainFileName,
+          "authType" -> "Basic",
+          "auth" -> ("Basic " + DatatypeConverter.printBase64Binary(("loginName" + ":" + "password").toCharArray.map(_.toByte)))
+        ))
+      }
       case _ => throw new UnsupportedOperationException()
     }
 

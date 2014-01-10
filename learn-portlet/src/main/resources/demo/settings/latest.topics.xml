@@ -192,7 +192,8 @@
     </preference>
     <preference>
         <name>classNameIds</name>
-        <value>com.liferay.portlet.messageboards.model.MBMessage,com.liferay.portlet.blogs.model.BlogsEntry</value>
+        <value>#mbMessage#</value>
+        <value>#blogsEntry#</value>
     </preference>
     <preference>
         <name>queryContains0</name>

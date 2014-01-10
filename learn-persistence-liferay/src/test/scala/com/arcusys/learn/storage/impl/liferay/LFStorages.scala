@@ -22,9 +22,10 @@ import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{LFAttemptDataStora
 import com.arcusys.learn.scorm.course.impl.liferay.CourseEntityContainer
 import com.arcusys.learn.scorm.tracking.storage.impl.{DataModelEntityStorage, AttemptCreator, AttemptEntityStorage}
 import com.arcusys.learn.scorm.tracking.storage.UserStorage
-import com.arcusys.learn.scorm.manifest.storage.{PackagesStorage}
-import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
+import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
+import com.arcusys.learn.tincan.storage._
 
 /**
  * User: dkudinov
@@ -68,7 +69,14 @@ object LFStorages extends StorageFactoryContract {
   lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
 
   lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("TincanPackageStorage not implemented for LFStorages")
-  lazy val tincanActivityStorage: TincanActivityStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for LFStorages")
+  lazy val tincanActivityStorage: TincanManifestActivityStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for LFStorages")
+
+  lazy val tincanLrsStatemntStorage: StatementStorage = throw new UnsupportedOperationException("Tincan StatementStorage not implemented for LFStorages")
+  lazy val tincanLrsStateStorage: StateStorage = throw new UnsupportedOperationException("Tincan StateStorage not implemented for LFStorages")
+  lazy val tincanLrsActivityStorage : TincanActivityStorage = throw new UnsupportedOperationException("Tincan ActivityStorage not implemented for LFStorages")
+  lazy val tincanLrsActivityProfileStorage : ActivityProfileStorage = throw new UnsupportedOperationException("Tincan ActivityProfileStorage not implemented for LFStorages")
+  lazy val tincanLrsStatementStorage: StatementStorage = throw new UnsupportedOperationException("Tincan LrsStatementStorage not implemented for LFStorages")
+  lazy val tincanLrsAgentProfileStorage: AgentProfileStorage = throw new UnsupportedOperationException("Tincan LrsStatementStorage not implemented for LFStorages")
 
   val fileStorage: FileStorage = new FileRecordEntityStorage with LFFileRecordStorageImpl
 
@@ -171,4 +179,13 @@ object LFStorages extends StorageFactoryContract {
   def roleStorage = LFStorageFactory.roleStorage
 
   def settingStorage = LFStorageFactory.settingStorage
+
+  def tincanLrsStatementRefStorage: StatementRefStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsContextActivitiesStorage: ContextActivitiesStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsSubStatementStorage: SubStatementStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsAttachmentStorage: AttachmentStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsResultStorage: TincanResultStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsContextStorage: ContextStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsActorStorage: ActorStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+  def tincanLrsDocumentStorage: DocumentStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
 }

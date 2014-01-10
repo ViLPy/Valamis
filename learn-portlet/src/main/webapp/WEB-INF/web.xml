@@ -23,7 +23,11 @@
     </filter>
     <filter>
         <filter-name>CurriculumView</filter-name>
-        <filter-class>com.arcusys.learn.view.CurriculumView</filter-class>
+        <filter-class>com.arcusys.learn.view.CurriculumAdmin</filter-class>
+    </filter>
+    <filter>
+        <filter-name>CurriculumUser</filter-name>
+        <filter-class>com.arcusys.learn.view.CurriculumUser</filter-class>
     </filter>
     <filter>
         <filter-name>MyAccountView</filter-name>
@@ -52,6 +56,10 @@
     <filter-mapping>
         <filter-name>CurriculumView</filter-name>
         <url-pattern>/CurriculumView/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CurriculumUser</filter-name>
+        <url-pattern>/CurriculumUser/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>MyAccountView</filter-name>
@@ -112,7 +120,7 @@
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
-            <param-value>com.arcusys.learn.view.CurriculumView</param-value>
+            <param-value>com.arcusys.learn.view.CurriculumAdmin</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -401,6 +409,51 @@
     <servlet-mapping>
         <servlet-name>CertificateUserService</servlet-name>
         <url-pattern>/services/certificating/users/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanApiStatement</servlet-name>
+        <servlet-class>com.arcusys.learn.tincan.api.StatementService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanApiStatement</servlet-name>
+        <url-pattern>/TincanApi/statements/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanApiActivities</servlet-name>
+        <servlet-class>com.arcusys.learn.tincan.api.ActivitiesService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanApiActivities</servlet-name>
+        <url-pattern>/TincanApi/activities/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanApiAgent</servlet-name>
+        <servlet-class>com.arcusys.learn.tincan.api.AgentService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanApiAgent</servlet-name>
+        <url-pattern>/TincanApi/agents/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanApiState</servlet-name>
+        <servlet-class>com.arcusys.learn.tincan.api.StateService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanApiState</servlet-name>
+        <url-pattern>/TincanApi/activities/state/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TincanApiAbout</servlet-name>
+        <servlet-class>com.arcusys.learn.tincan.api.AboutService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanApiAbout</servlet-name>
+        <url-pattern>/TincanApi/about/*</url-pattern>
     </servlet-mapping>
 
     <session-config>

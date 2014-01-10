@@ -5,7 +5,7 @@ import com.arcusys.scorm.util._
 import scala.collection.mutable
 
 import com.arcusys.learn.ioc.Configuration
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
 

@@ -1,7 +1,7 @@
 package com.arcusys.learn.certificating
 
 import com.arcusys.learn.scorm.tracking.model.certificating.{CertificateValidStatus, Certificate}
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.scorm.tracking.model.Course

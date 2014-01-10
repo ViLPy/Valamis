@@ -1,6 +1,6 @@
 package com.arcusys.learn.ioc
 
-import org.scala_tools.subcut.inject.Injectable
+import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.storage.StorageFactoryContract
 
 trait InjectableFactory extends Injectable {

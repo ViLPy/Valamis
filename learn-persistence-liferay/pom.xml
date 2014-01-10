@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.6-SNAPSHOT</version>
+        <version>1.7-SNAPSHOT</version>
     </parent>
     <artifactId>learn-persistence-liferay</artifactId>
     <packaging>jar</packaging>
@@ -43,6 +43,11 @@
             <artifactId>learn-persistence-api-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_${scala.version}</artifactId>
+            <version>3.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.specs2</groupId>

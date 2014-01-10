@@ -209,6 +209,42 @@ public interface LFTincanActivityPersistence extends BasePersistence<LFTincanAct
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Returns the l f tincan activity where tincanID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException} if it could not be found.
+    *
+    * @param tincanID the tincan i d
+    * @return the matching l f tincan activity
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException if a matching l f tincan activity could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity findByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan activity where tincanID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param tincanID the tincan i d
+    * @return the matching l f tincan activity, or <code>null</code> if a matching l f tincan activity could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity fetchByTincanID(
+        java.lang.String tincanID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan activity where tincanID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param tincanID the tincan i d
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching l f tincan activity, or <code>null</code> if a matching l f tincan activity could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity fetchByTincanID(
+        java.lang.String tincanID, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f tincan activities.
     *
     * @return the l f tincan activities
@@ -261,6 +297,18 @@ public interface LFTincanActivityPersistence extends BasePersistence<LFTincanAct
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes the l f tincan activity where tincanID = &#63; from the database.
+    *
+    * @param tincanID the tincan i d
+    * @return the l f tincan activity that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity removeByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Removes all the l f tincan activities from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -276,6 +324,16 @@ public interface LFTincanActivityPersistence extends BasePersistence<LFTincanAct
     * @throws SystemException if a system exception occurred
     */
     public int countByPackageID(java.lang.Long packageID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f tincan activities where tincanID = &#63;.
+    *
+    * @param tincanID the tincan i d
+    * @return the number of matching l f tincan activities
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByTincanID(java.lang.String tincanID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

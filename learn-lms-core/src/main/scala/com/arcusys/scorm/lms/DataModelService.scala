@@ -2,7 +2,7 @@ package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.storage.StorageFactoryContract
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import org.joda.time._
 import org.joda.time.format.DateTimeFormat
 

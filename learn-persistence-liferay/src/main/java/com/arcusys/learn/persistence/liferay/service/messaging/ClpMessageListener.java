@@ -43,7 +43,20 @@ import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalSe
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsActivityProfileLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextActivitiesLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanManifestActivityLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalServiceUtil;
 
@@ -147,7 +160,33 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFTincanActivityLocalServiceUtil.clearService();
 
+            LFTincanActorLocalServiceUtil.clearService();
+
+            LFTincanLrsActivityProfileLocalServiceUtil.clearService();
+
+            LFTincanLrsAgentProfileLocalServiceUtil.clearService();
+
+            LFTincanLrsAttachmentLocalServiceUtil.clearService();
+
+            LFTincanLrsContextLocalServiceUtil.clearService();
+
+            LFTincanLrsContextActivitiesLocalServiceUtil.clearService();
+
+            LFTincanLrsDocumentLocalServiceUtil.clearService();
+
             LFTincanLrsEndpointLocalServiceUtil.clearService();
+
+            LFTincanLrsResultLocalServiceUtil.clearService();
+
+            LFTincanLrsStateLocalServiceUtil.clearService();
+
+            LFTincanLrsStatementLocalServiceUtil.clearService();
+
+            LFTincanLrsStatementRefLocalServiceUtil.clearService();
+
+            LFTincanLrsSubStatementLocalServiceUtil.clearService();
+
+            LFTincanManifestActivityLocalServiceUtil.clearService();
 
             LFTincanPackageLocalServiceUtil.clearService();
 

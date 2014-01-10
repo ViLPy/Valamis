@@ -8,7 +8,7 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil
 import com.liferay.portal.kernel.util.ContentTypes
 import com.liferay.portlet.asset.NoSuchEntryException
 import com.arcusys.learn.ioc.Configuration
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 
 

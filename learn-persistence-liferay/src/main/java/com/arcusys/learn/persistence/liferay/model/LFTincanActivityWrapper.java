@@ -36,11 +36,19 @@ public class LFTincanActivityWrapper implements LFTincanActivity,
         attributes.put("id", getId());
         attributes.put("tincanID", getTincanID());
         attributes.put("packageID", getPackageID());
-        attributes.put("activityType", getActivityType());
+        attributes.put("objectType", getObjectType());
         attributes.put("name", getName());
         attributes.put("description", getDescription());
-        attributes.put("launch", getLaunch());
-        attributes.put("resource", getResource());
+        attributes.put("theType", getTheType());
+        attributes.put("moreInfo", getMoreInfo());
+        attributes.put("interactionType", getInteractionType());
+        attributes.put("correctResponsesPattern", getCorrectResponsesPattern());
+        attributes.put("choices", getChoices());
+        attributes.put("scale", getScale());
+        attributes.put("source", getSource());
+        attributes.put("target", getTarget());
+        attributes.put("steps", getSteps());
+        attributes.put("extensions", getExtensions());
 
         return attributes;
     }
@@ -64,10 +72,10 @@ public class LFTincanActivityWrapper implements LFTincanActivity,
             setPackageID(packageID);
         }
 
-        String activityType = (String) attributes.get("activityType");
+        String objectType = (String) attributes.get("objectType");
 
-        if (activityType != null) {
-            setActivityType(activityType);
+        if (objectType != null) {
+            setObjectType(objectType);
         }
 
         String name = (String) attributes.get("name");
@@ -82,16 +90,65 @@ public class LFTincanActivityWrapper implements LFTincanActivity,
             setDescription(description);
         }
 
-        String launch = (String) attributes.get("launch");
+        String theType = (String) attributes.get("theType");
 
-        if (launch != null) {
-            setLaunch(launch);
+        if (theType != null) {
+            setTheType(theType);
         }
 
-        String resource = (String) attributes.get("resource");
+        String moreInfo = (String) attributes.get("moreInfo");
 
-        if (resource != null) {
-            setResource(resource);
+        if (moreInfo != null) {
+            setMoreInfo(moreInfo);
+        }
+
+        String interactionType = (String) attributes.get("interactionType");
+
+        if (interactionType != null) {
+            setInteractionType(interactionType);
+        }
+
+        String correctResponsesPattern = (String) attributes.get(
+                "correctResponsesPattern");
+
+        if (correctResponsesPattern != null) {
+            setCorrectResponsesPattern(correctResponsesPattern);
+        }
+
+        String choices = (String) attributes.get("choices");
+
+        if (choices != null) {
+            setChoices(choices);
+        }
+
+        String scale = (String) attributes.get("scale");
+
+        if (scale != null) {
+            setScale(scale);
+        }
+
+        String source = (String) attributes.get("source");
+
+        if (source != null) {
+            setSource(source);
+        }
+
+        String target = (String) attributes.get("target");
+
+        if (target != null) {
+            setTarget(target);
+        }
+
+        String steps = (String) attributes.get("steps");
+
+        if (steps != null) {
+            setSteps(steps);
+        }
+
+        String extensions = (String) attributes.get("extensions");
+
+        if (extensions != null) {
+            setExtensions(extensions);
         }
     }
 
@@ -168,21 +225,21 @@ public class LFTincanActivityWrapper implements LFTincanActivity,
     }
 
     /**
-     * Returns the activity type of this l f tincan activity.
+     * Returns the object type of this l f tincan activity.
      *
-     * @return the activity type of this l f tincan activity
+     * @return the object type of this l f tincan activity
      */
-    public java.lang.String getActivityType() {
-        return _lfTincanActivity.getActivityType();
+    public java.lang.String getObjectType() {
+        return _lfTincanActivity.getObjectType();
     }
 
     /**
-     * Sets the activity type of this l f tincan activity.
+     * Sets the object type of this l f tincan activity.
      *
-     * @param activityType the activity type of this l f tincan activity
+     * @param objectType the object type of this l f tincan activity
      */
-    public void setActivityType(java.lang.String activityType) {
-        _lfTincanActivity.setActivityType(activityType);
+    public void setObjectType(java.lang.String objectType) {
+        _lfTincanActivity.setObjectType(objectType);
     }
 
     /**
@@ -222,39 +279,184 @@ public class LFTincanActivityWrapper implements LFTincanActivity,
     }
 
     /**
-     * Returns the launch of this l f tincan activity.
+     * Returns the the type of this l f tincan activity.
      *
-     * @return the launch of this l f tincan activity
+     * @return the the type of this l f tincan activity
      */
-    public java.lang.String getLaunch() {
-        return _lfTincanActivity.getLaunch();
+    public java.lang.String getTheType() {
+        return _lfTincanActivity.getTheType();
     }
 
     /**
-     * Sets the launch of this l f tincan activity.
+     * Sets the the type of this l f tincan activity.
      *
-     * @param launch the launch of this l f tincan activity
+     * @param theType the the type of this l f tincan activity
      */
-    public void setLaunch(java.lang.String launch) {
-        _lfTincanActivity.setLaunch(launch);
+    public void setTheType(java.lang.String theType) {
+        _lfTincanActivity.setTheType(theType);
     }
 
     /**
-     * Returns the resource of this l f tincan activity.
+     * Returns the more info of this l f tincan activity.
      *
-     * @return the resource of this l f tincan activity
+     * @return the more info of this l f tincan activity
      */
-    public java.lang.String getResource() {
-        return _lfTincanActivity.getResource();
+    public java.lang.String getMoreInfo() {
+        return _lfTincanActivity.getMoreInfo();
     }
 
     /**
-     * Sets the resource of this l f tincan activity.
+     * Sets the more info of this l f tincan activity.
      *
-     * @param resource the resource of this l f tincan activity
+     * @param moreInfo the more info of this l f tincan activity
      */
-    public void setResource(java.lang.String resource) {
-        _lfTincanActivity.setResource(resource);
+    public void setMoreInfo(java.lang.String moreInfo) {
+        _lfTincanActivity.setMoreInfo(moreInfo);
+    }
+
+    /**
+     * Returns the interaction type of this l f tincan activity.
+     *
+     * @return the interaction type of this l f tincan activity
+     */
+    public java.lang.String getInteractionType() {
+        return _lfTincanActivity.getInteractionType();
+    }
+
+    /**
+     * Sets the interaction type of this l f tincan activity.
+     *
+     * @param interactionType the interaction type of this l f tincan activity
+     */
+    public void setInteractionType(java.lang.String interactionType) {
+        _lfTincanActivity.setInteractionType(interactionType);
+    }
+
+    /**
+     * Returns the correct responses pattern of this l f tincan activity.
+     *
+     * @return the correct responses pattern of this l f tincan activity
+     */
+    public java.lang.String getCorrectResponsesPattern() {
+        return _lfTincanActivity.getCorrectResponsesPattern();
+    }
+
+    /**
+     * Sets the correct responses pattern of this l f tincan activity.
+     *
+     * @param correctResponsesPattern the correct responses pattern of this l f tincan activity
+     */
+    public void setCorrectResponsesPattern(
+        java.lang.String correctResponsesPattern) {
+        _lfTincanActivity.setCorrectResponsesPattern(correctResponsesPattern);
+    }
+
+    /**
+     * Returns the choices of this l f tincan activity.
+     *
+     * @return the choices of this l f tincan activity
+     */
+    public java.lang.String getChoices() {
+        return _lfTincanActivity.getChoices();
+    }
+
+    /**
+     * Sets the choices of this l f tincan activity.
+     *
+     * @param choices the choices of this l f tincan activity
+     */
+    public void setChoices(java.lang.String choices) {
+        _lfTincanActivity.setChoices(choices);
+    }
+
+    /**
+     * Returns the scale of this l f tincan activity.
+     *
+     * @return the scale of this l f tincan activity
+     */
+    public java.lang.String getScale() {
+        return _lfTincanActivity.getScale();
+    }
+
+    /**
+     * Sets the scale of this l f tincan activity.
+     *
+     * @param scale the scale of this l f tincan activity
+     */
+    public void setScale(java.lang.String scale) {
+        _lfTincanActivity.setScale(scale);
+    }
+
+    /**
+     * Returns the source of this l f tincan activity.
+     *
+     * @return the source of this l f tincan activity
+     */
+    public java.lang.String getSource() {
+        return _lfTincanActivity.getSource();
+    }
+
+    /**
+     * Sets the source of this l f tincan activity.
+     *
+     * @param source the source of this l f tincan activity
+     */
+    public void setSource(java.lang.String source) {
+        _lfTincanActivity.setSource(source);
+    }
+
+    /**
+     * Returns the target of this l f tincan activity.
+     *
+     * @return the target of this l f tincan activity
+     */
+    public java.lang.String getTarget() {
+        return _lfTincanActivity.getTarget();
+    }
+
+    /**
+     * Sets the target of this l f tincan activity.
+     *
+     * @param target the target of this l f tincan activity
+     */
+    public void setTarget(java.lang.String target) {
+        _lfTincanActivity.setTarget(target);
+    }
+
+    /**
+     * Returns the steps of this l f tincan activity.
+     *
+     * @return the steps of this l f tincan activity
+     */
+    public java.lang.String getSteps() {
+        return _lfTincanActivity.getSteps();
+    }
+
+    /**
+     * Sets the steps of this l f tincan activity.
+     *
+     * @param steps the steps of this l f tincan activity
+     */
+    public void setSteps(java.lang.String steps) {
+        _lfTincanActivity.setSteps(steps);
+    }
+
+    /**
+     * Returns the extensions of this l f tincan activity.
+     *
+     * @return the extensions of this l f tincan activity
+     */
+    public java.lang.String getExtensions() {
+        return _lfTincanActivity.getExtensions();
+    }
+
+    /**
+     * Sets the extensions of this l f tincan activity.
+     *
+     * @param extensions the extensions of this l f tincan activity
+     */
+    public void setExtensions(java.lang.String extensions) {
+        _lfTincanActivity.setExtensions(extensions);
     }
 
     public boolean isNew() {

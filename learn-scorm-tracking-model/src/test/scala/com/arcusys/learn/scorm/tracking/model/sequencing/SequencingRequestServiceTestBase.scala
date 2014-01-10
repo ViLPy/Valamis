@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import org.scala_tools.subcut.inject.NewBindingModule
+import com.escalatesoft.subcut.inject.NewBindingModule
 import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
 
 abstract class SequencingRequestServiceTestBase(requestType: SequencingRequestType.Value) extends ActivityStateTreeTestBase {

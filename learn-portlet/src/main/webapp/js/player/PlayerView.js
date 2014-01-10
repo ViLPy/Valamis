@@ -200,8 +200,10 @@ PlayerView = Backbone.View.extend({
         jQuery.ajax({
             type: 'POST', dataType: 'json', url: Utils.getContextPath() + "/services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
             success: function(data) {
-                if (data.noSettings == true) {
-                    alert(jQuery("#tincanLrsNotConfiguredMessage").val())
+                if (data.internal == true) {
+                    //alert(jQuery("#tincanLrsNotConfiguredMessage").val())
+                    var endpoint = document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "/TincanApi/";
+                    player.openTincanPackage(data.launchURL, endpoint, data.auth);
                 }
                 else if (data.authType == "Basic") {
                     if (data.auth) {
@@ -210,7 +212,7 @@ PlayerView = Backbone.View.extend({
                     else {
                         jQuery("#tincanLaunchUrlCredentialsDialog").val(data.launchURL);
                         jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
-                        jQuery1816Player('#tincanLrsUserCredentials').dialog('open');
+                        jQuery('#tincanLrsUserCredentials').dialog('open');
                     }
                 }
             }

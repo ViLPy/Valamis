@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.6-SNAPSHOT</version>
+        <version>1.7-SNAPSHOT</version>
     </parent>
     <artifactId>learn-util</artifactId>
     <name>learn-util</name>
@@ -12,6 +12,39 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.arcusys.learn</groupId>
+            <artifactId>learn-tincan-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_${scala.version}</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>portal-service</artifactId>
+            <version>6.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>portal-impl</artifactId>
+            <version>6.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

@@ -49,7 +49,7 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
             { "assetRefID", Types.BIGINT },
             { "courseID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanPackage (id_ LONG not null primary key,title VARCHAR(75) null,summary VARCHAR(75) null,assetRefID LONG null,courseID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanPackage (id_ LONG not null primary key,title VARCHAR(2000) null,summary VARCHAR(2000) null,assetRefID LONG null,courseID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanPackage";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

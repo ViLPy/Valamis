@@ -22,6 +22,10 @@ trait LFLrsEndpointStorageImpl extends EntityStorage[LrsEndpointSettings] {
     }
   }
 
+  def delete(parameters: (String, Any)*) {
+    LFTincanLrsEndpointLocalServiceUtil.removeAll()
+  }
+
   private def extract(entity: LFTincanLrsEndpoint): Option[LrsEndpointSettings] = {
     if (entity == null) None
     else {
@@ -39,8 +43,6 @@ trait LFLrsEndpointStorageImpl extends EntityStorage[LrsEndpointSettings] {
   def create(parameters: (String, Any)*) = throw new UnsupportedOperationException()
 
   def create(entity: LrsEndpointSettings, parameters: (String, Any)*) = throw new UnsupportedOperationException()
-
-  def delete(parameters: (String, Any)*) = throw new UnsupportedOperationException()
 
   def modify(parameters: (String, Any)*) = throw new UnsupportedOperationException()
 

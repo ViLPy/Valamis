@@ -3,7 +3,7 @@ package com.arcusys.tincan.deployer
 import java.io._
 import java.util.zip.{ZipEntry, ZipFile}
 import com.arcusys.scorm.util.{FileProcessing, FileSystemUtil}
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 import scala.xml.XML
 import com.arcusys.tincan.manifest.parser.ActivitiesParser

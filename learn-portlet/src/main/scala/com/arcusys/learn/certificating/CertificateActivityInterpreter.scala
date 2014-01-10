@@ -5,7 +5,7 @@ import com.liferay.portal.theme.ThemeDisplay
 import com.arcusys.learn.scorm.tracking.model.certificating.{CertificateActionType, Certificate}
 import java.lang.String
 import com.liferay.portal.kernel.util.{StringBundler, StringPool}
-import org.scala_tools.subcut.inject.Injectable
+import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.ioc.Configuration
 

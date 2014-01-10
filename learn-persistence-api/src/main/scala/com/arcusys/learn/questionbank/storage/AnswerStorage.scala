@@ -12,5 +12,6 @@ trait AnswerStorage {
   def deleteByQuestion(questionID: Int)
 
   def createForQuestion(questionID: Int, answers: Seq[Answer])
+
   def renew()
 }

@@ -3,7 +3,7 @@ package com.arcusys.learn.scorm.rte.service
 import org.scalatra.CookieSupport
 import com.arcusys.scorm.lms.DataModelService
 
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState}

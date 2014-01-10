@@ -87,19 +87,19 @@ public interface LFTincanActivityModel extends BaseModel<LFTincanActivity> {
     public void setPackageID(Long packageID);
 
     /**
-    * Returns the activity type of this l f tincan activity.
+    * Returns the object type of this l f tincan activity.
     *
-    * @return the activity type of this l f tincan activity
+    * @return the object type of this l f tincan activity
     */
     @AutoEscape
-    public String getActivityType();
+    public String getObjectType();
 
     /**
-        * Sets the activity type of this l f tincan activity.
+        * Sets the object type of this l f tincan activity.
     *
-    * @param activityType the activity type of this l f tincan activity
+    * @param objectType the object type of this l f tincan activity
     */
-    public void setActivityType(String activityType);
+    public void setObjectType(String objectType);
 
     /**
     * Returns the name of this l f tincan activity.
@@ -132,34 +132,154 @@ public interface LFTincanActivityModel extends BaseModel<LFTincanActivity> {
     public void setDescription(String description);
 
     /**
-    * Returns the launch of this l f tincan activity.
+    * Returns the the type of this l f tincan activity.
     *
-    * @return the launch of this l f tincan activity
+    * @return the the type of this l f tincan activity
     */
     @AutoEscape
-    public String getLaunch();
+    public String getTheType();
 
     /**
-        * Sets the launch of this l f tincan activity.
+        * Sets the the type of this l f tincan activity.
     *
-    * @param launch the launch of this l f tincan activity
+    * @param theType the the type of this l f tincan activity
     */
-    public void setLaunch(String launch);
+    public void setTheType(String theType);
 
     /**
-    * Returns the resource of this l f tincan activity.
+    * Returns the more info of this l f tincan activity.
     *
-    * @return the resource of this l f tincan activity
+    * @return the more info of this l f tincan activity
     */
     @AutoEscape
-    public String getResource();
+    public String getMoreInfo();
 
     /**
-        * Sets the resource of this l f tincan activity.
+        * Sets the more info of this l f tincan activity.
     *
-    * @param resource the resource of this l f tincan activity
+    * @param moreInfo the more info of this l f tincan activity
     */
-    public void setResource(String resource);
+    public void setMoreInfo(String moreInfo);
+
+    /**
+    * Returns the interaction type of this l f tincan activity.
+    *
+    * @return the interaction type of this l f tincan activity
+    */
+    @AutoEscape
+    public String getInteractionType();
+
+    /**
+        * Sets the interaction type of this l f tincan activity.
+    *
+    * @param interactionType the interaction type of this l f tincan activity
+    */
+    public void setInteractionType(String interactionType);
+
+    /**
+    * Returns the correct responses pattern of this l f tincan activity.
+    *
+    * @return the correct responses pattern of this l f tincan activity
+    */
+    @AutoEscape
+    public String getCorrectResponsesPattern();
+
+    /**
+        * Sets the correct responses pattern of this l f tincan activity.
+    *
+    * @param correctResponsesPattern the correct responses pattern of this l f tincan activity
+    */
+    public void setCorrectResponsesPattern(String correctResponsesPattern);
+
+    /**
+    * Returns the choices of this l f tincan activity.
+    *
+    * @return the choices of this l f tincan activity
+    */
+    @AutoEscape
+    public String getChoices();
+
+    /**
+        * Sets the choices of this l f tincan activity.
+    *
+    * @param choices the choices of this l f tincan activity
+    */
+    public void setChoices(String choices);
+
+    /**
+    * Returns the scale of this l f tincan activity.
+    *
+    * @return the scale of this l f tincan activity
+    */
+    @AutoEscape
+    public String getScale();
+
+    /**
+        * Sets the scale of this l f tincan activity.
+    *
+    * @param scale the scale of this l f tincan activity
+    */
+    public void setScale(String scale);
+
+    /**
+    * Returns the source of this l f tincan activity.
+    *
+    * @return the source of this l f tincan activity
+    */
+    @AutoEscape
+    public String getSource();
+
+    /**
+        * Sets the source of this l f tincan activity.
+    *
+    * @param source the source of this l f tincan activity
+    */
+    public void setSource(String source);
+
+    /**
+    * Returns the target of this l f tincan activity.
+    *
+    * @return the target of this l f tincan activity
+    */
+    @AutoEscape
+    public String getTarget();
+
+    /**
+        * Sets the target of this l f tincan activity.
+    *
+    * @param target the target of this l f tincan activity
+    */
+    public void setTarget(String target);
+
+    /**
+    * Returns the steps of this l f tincan activity.
+    *
+    * @return the steps of this l f tincan activity
+    */
+    @AutoEscape
+    public String getSteps();
+
+    /**
+        * Sets the steps of this l f tincan activity.
+    *
+    * @param steps the steps of this l f tincan activity
+    */
+    public void setSteps(String steps);
+
+    /**
+    * Returns the extensions of this l f tincan activity.
+    *
+    * @return the extensions of this l f tincan activity
+    */
+    @AutoEscape
+    public String getExtensions();
+
+    /**
+        * Sets the extensions of this l f tincan activity.
+    *
+    * @param extensions the extensions of this l f tincan activity
+    */
+    public void setExtensions(String extensions);
 
     public boolean isNew();
 

@@ -1,8 +1,8 @@
 package com.arcusys.learn.ioc
 
-import org.scala_tools.subcut.inject.NewBindingModule
+import com.escalatesoft.subcut.inject.NewBindingModule
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.storage.impl.orbroker.StorageFactory
+//import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model.sequencing._
 import com.arcusys.learn.storage.impl.liferay.LFStorageFactory
 

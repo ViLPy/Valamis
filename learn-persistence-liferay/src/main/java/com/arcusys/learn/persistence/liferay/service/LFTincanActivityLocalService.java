@@ -243,4 +243,9 @@ public interface LFTincanActivityLocalService extends BaseLocalService,
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActivity> findByPackageID(
         java.lang.Long packageID)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity findByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException;
 }

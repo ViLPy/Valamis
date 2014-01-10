@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.6-SNAPSHOT</version>
+        <version>1.7-SNAPSHOT</version>
     </parent>
     <artifactId>learn-lms-core</artifactId>
     <name>learn-lms-core</name>
@@ -40,9 +40,15 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scala-tools.subcut</groupId>
+            <groupId>com.escalatesoft.subcut</groupId>
             <artifactId>subcut_2.9.1</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-compiler</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.scalamock</groupId>

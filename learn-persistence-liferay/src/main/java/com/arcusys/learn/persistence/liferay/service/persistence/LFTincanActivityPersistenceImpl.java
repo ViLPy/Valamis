@@ -46,7 +46,20 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTra
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
@@ -131,6 +144,15 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
             LFTincanActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPackageID",
             new String[] { Long.class.getName() });
+    public static final FinderPath FINDER_PATH_FETCH_BY_TINCANID = new FinderPath(LFTincanActivityModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanActivityModelImpl.FINDER_CACHE_ENABLED,
+            LFTincanActivityImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByTincanID", new String[] { String.class.getName() },
+            LFTincanActivityModelImpl.TINCANID_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_TINCANID = new FinderPath(LFTincanActivityModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTincanID",
+            new String[] { String.class.getName() });
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFTincanActivityModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanActivityModelImpl.FINDER_CACHE_ENABLED,
             LFTincanActivityImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
@@ -149,6 +171,11 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
     private static final String _FINDER_COLUMN_PACKAGEID_PACKAGEID_NULL = "lfTincanActivity.packageID IS NULL";
     private static final String _FINDER_COLUMN_PACKAGEID_PACKAGEID_NULL_2 = "lfTincanActivity.packageID IS NULL ";
     private static final String _FINDER_COLUMN_PACKAGEID_PACKAGEID_2 = "lfTincanActivity.packageID = ?";
+    private static final String _FINDER_COLUMN_TINCANID_TINCANID_1 = "lfTincanActivity.tincanID IS NULL";
+    private static final String _FINDER_COLUMN_TINCANID_TINCANID_NULL = "lfTincanActivity.tincanID IS NULL";
+    private static final String _FINDER_COLUMN_TINCANID_TINCANID_NULL_2 = "lfTincanActivity.tincanID IS NULL ";
+    private static final String _FINDER_COLUMN_TINCANID_TINCANID_2 = "lfTincanActivity.tincanID = ?";
+    private static final String _FINDER_COLUMN_TINCANID_TINCANID_3 = "(lfTincanActivity.tincanID IS NULL OR lfTincanActivity.tincanID = ?)";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfTincanActivity.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFTincanActivity exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFTincanActivity exists with the key {";
@@ -257,8 +284,34 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
     protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
     @BeanReference(type = LFTincanActivityPersistence.class)
     protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanActorPersistence.class)
+    protected LFTincanActorPersistence lfTincanActorPersistence;
+    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
+    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
+    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
+    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
+    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
+    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
+    @BeanReference(type = LFTincanLrsContextPersistence.class)
+    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
+    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
+    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
+    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
+    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
     @BeanReference(type = LFTincanLrsEndpointPersistence.class)
     protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanLrsResultPersistence.class)
+    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
+    @BeanReference(type = LFTincanLrsStatePersistence.class)
+    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
+    @BeanReference(type = LFTincanLrsStatementPersistence.class)
+    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
+    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
+    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
+    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
+    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
+    @BeanReference(type = LFTincanManifestActivityPersistence.class)
+    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
     @BeanReference(type = LFTincanPackagePersistence.class)
     protected LFTincanPackagePersistence lfTincanPackagePersistence;
     @BeanReference(type = LFUserPersistence.class)
@@ -277,6 +330,14 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
         EntityCacheUtil.putResult(LFTincanActivityModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanActivityImpl.class, lfTincanActivity.getPrimaryKey(),
             lfTincanActivity);
+
+        boolean noNullsInTINCANID = true;
+
+        if (noNullsInTINCANID) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_TINCANID,
+                new Object[] { lfTincanActivity.getTincanID() },
+                lfTincanActivity);
+        }
 
         lfTincanActivity.resetOriginalValues();
     }
@@ -333,6 +394,8 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(lfTincanActivity);
     }
 
     @Override
@@ -343,6 +406,17 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
         for (LFTincanActivity lfTincanActivity : lfTincanActivities) {
             EntityCacheUtil.removeResult(LFTincanActivityModelImpl.ENTITY_CACHE_ENABLED,
                 LFTincanActivityImpl.class, lfTincanActivity.getPrimaryKey());
+
+            clearUniqueFindersCache(lfTincanActivity);
+        }
+    }
+
+    protected void clearUniqueFindersCache(LFTincanActivity lfTincanActivity) {
+        boolean noNullsInTINCANID = true;
+
+        if (noNullsInTINCANID) {
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_TINCANID,
+                new Object[] { lfTincanActivity.getTincanID() });
         }
     }
 
@@ -492,6 +566,27 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
             LFTincanActivityImpl.class, lfTincanActivity.getPrimaryKey(),
             lfTincanActivity);
 
+        if (isNew) {
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_TINCANID,
+                new Object[] { lfTincanActivity.getTincanID() },
+                lfTincanActivity);
+        } else {
+            if ((lfTincanActivityModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_TINCANID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfTincanActivityModelImpl.getOriginalTincanID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_TINCANID, args);
+
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_TINCANID, args);
+
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_TINCANID,
+                    new Object[] { lfTincanActivity.getTincanID() },
+                    lfTincanActivity);
+            }
+        }
+
         return lfTincanActivity;
     }
 
@@ -509,11 +604,19 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
         lfTincanActivityImpl.setId(lfTincanActivity.getId());
         lfTincanActivityImpl.setTincanID(lfTincanActivity.getTincanID());
         lfTincanActivityImpl.setPackageID(lfTincanActivity.getPackageID());
-        lfTincanActivityImpl.setActivityType(lfTincanActivity.getActivityType());
+        lfTincanActivityImpl.setObjectType(lfTincanActivity.getObjectType());
         lfTincanActivityImpl.setName(lfTincanActivity.getName());
         lfTincanActivityImpl.setDescription(lfTincanActivity.getDescription());
-        lfTincanActivityImpl.setLaunch(lfTincanActivity.getLaunch());
-        lfTincanActivityImpl.setResource(lfTincanActivity.getResource());
+        lfTincanActivityImpl.setTheType(lfTincanActivity.getTheType());
+        lfTincanActivityImpl.setMoreInfo(lfTincanActivity.getMoreInfo());
+        lfTincanActivityImpl.setInteractionType(lfTincanActivity.getInteractionType());
+        lfTincanActivityImpl.setCorrectResponsesPattern(lfTincanActivity.getCorrectResponsesPattern());
+        lfTincanActivityImpl.setChoices(lfTincanActivity.getChoices());
+        lfTincanActivityImpl.setScale(lfTincanActivity.getScale());
+        lfTincanActivityImpl.setSource(lfTincanActivity.getSource());
+        lfTincanActivityImpl.setTarget(lfTincanActivity.getTarget());
+        lfTincanActivityImpl.setSteps(lfTincanActivity.getSteps());
+        lfTincanActivityImpl.setExtensions(lfTincanActivity.getExtensions());
 
         return lfTincanActivityImpl;
     }
@@ -987,6 +1090,148 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
     }
 
     /**
+     * Returns the l f tincan activity where tincanID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException} if it could not be found.
+     *
+     * @param tincanID the tincan i d
+     * @return the matching l f tincan activity
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException if a matching l f tincan activity could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public LFTincanActivity findByTincanID(String tincanID)
+        throws NoSuchLFTincanActivityException, SystemException {
+        LFTincanActivity lfTincanActivity = fetchByTincanID(tincanID);
+
+        if (lfTincanActivity == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("tincanID=");
+            msg.append(tincanID);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchLFTincanActivityException(msg.toString());
+        }
+
+        return lfTincanActivity;
+    }
+
+    /**
+     * Returns the l f tincan activity where tincanID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param tincanID the tincan i d
+     * @return the matching l f tincan activity, or <code>null</code> if a matching l f tincan activity could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public LFTincanActivity fetchByTincanID(String tincanID)
+        throws SystemException {
+        return fetchByTincanID(tincanID, true);
+    }
+
+    /**
+     * Returns the l f tincan activity where tincanID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param tincanID the tincan i d
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching l f tincan activity, or <code>null</code> if a matching l f tincan activity could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    public LFTincanActivity fetchByTincanID(String tincanID,
+        boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] { tincanID };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_TINCANID,
+                    finderArgs, this);
+        }
+
+        if (result instanceof LFTincanActivity) {
+            LFTincanActivity lfTincanActivity = (LFTincanActivity) result;
+
+            if (!Validator.equals(tincanID, lfTincanActivity.getTincanID())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_SELECT_LFTINCANACTIVITY_WHERE);
+
+            if (tincanID == null) {
+                query.append(_FINDER_COLUMN_TINCANID_TINCANID_1);
+            } else {
+                if (tincanID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TINCANID_TINCANID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_TINCANID_TINCANID_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (tincanID != null) {
+                    qPos.add(tincanID);
+                }
+
+                List<LFTincanActivity> list = q.list();
+
+                result = list;
+
+                LFTincanActivity lfTincanActivity = null;
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_TINCANID,
+                        finderArgs, list);
+                } else {
+                    lfTincanActivity = list.get(0);
+
+                    cacheResult(lfTincanActivity);
+
+                    if ((lfTincanActivity.getTincanID() == null) ||
+                            !lfTincanActivity.getTincanID().equals(tincanID)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_TINCANID,
+                            finderArgs, lfTincanActivity);
+                    }
+                }
+
+                return lfTincanActivity;
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (result == null) {
+                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_TINCANID,
+                        finderArgs);
+                }
+
+                closeSession(session);
+            }
+        } else {
+            if (result instanceof List<?>) {
+                return null;
+            } else {
+                return (LFTincanActivity) result;
+            }
+        }
+    }
+
+    /**
      * Returns all the l f tincan activities.
      *
      * @return the l f tincan activities
@@ -1108,6 +1353,20 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
     }
 
     /**
+     * Removes the l f tincan activity where tincanID = &#63; from the database.
+     *
+     * @param tincanID the tincan i d
+     * @return the l f tincan activity that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    public LFTincanActivity removeByTincanID(String tincanID)
+        throws NoSuchLFTincanActivityException, SystemException {
+        LFTincanActivity lfTincanActivity = findByTincanID(tincanID);
+
+        return remove(lfTincanActivity);
+    }
+
+    /**
      * Removes all the l f tincan activities from the database.
      *
      * @throws SystemException if a system exception occurred
@@ -1166,6 +1425,67 @@ public class LFTincanActivityPersistenceImpl extends BasePersistenceImpl<LFTinca
                 }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_PACKAGEID,
+                    finderArgs, count);
+
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f tincan activities where tincanID = &#63;.
+     *
+     * @param tincanID the tincan i d
+     * @return the number of matching l f tincan activities
+     * @throws SystemException if a system exception occurred
+     */
+    public int countByTincanID(String tincanID) throws SystemException {
+        Object[] finderArgs = new Object[] { tincanID };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_TINCANID,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFTINCANACTIVITY_WHERE);
+
+            if (tincanID == null) {
+                query.append(_FINDER_COLUMN_TINCANID_TINCANID_1);
+            } else {
+                if (tincanID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TINCANID_TINCANID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_TINCANID_TINCANID_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (tincanID != null) {
+                    qPos.add(tincanID);
+                }
+
+                count = (Long) q.uniqueResult();
+            } catch (Exception e) {
+                throw processException(e);
+            } finally {
+                if (count == null) {
+                    count = Long.valueOf(0);
+                }
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_TINCANID,
                     finderArgs, count);
 
                 closeSession(session);

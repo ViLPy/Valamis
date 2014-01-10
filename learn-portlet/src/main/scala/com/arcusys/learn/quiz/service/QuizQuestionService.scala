@@ -2,7 +2,7 @@ package com.arcusys.learn.quiz.service
 
 import com.arcusys.learn.quiz.model._
 import com.arcusys.scorm.util.QuestionSerializer
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil

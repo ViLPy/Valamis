@@ -3,9 +3,10 @@ package com.arcusys.learn.liferay.update
 import com.liferay.portal.kernel.upgrade.UpgradeProcess
 
 class DBUpdater155 extends UpgradeProcess with SQLRunner {
-  override def getThreshold = 155
+  override def getThreshold = 156
 
   override def doUpgrade() {
+    runSQLScript("create table Learn_LFConfig23 (id_ LONG not null primary key,dataKey VARCHAR(75) null,dataValue VARCHAR(75) null);")
     System.out.println("Updating to 1.5.5")
     runSQLScript("alter table Learn_LFCertificate add column companyID INTEGER null;")
     runSQLScript("create table Learn_LFConfig (id_ LONG not null primary key,dataKey VARCHAR(75) null,dataValue VARCHAR(75) null);")

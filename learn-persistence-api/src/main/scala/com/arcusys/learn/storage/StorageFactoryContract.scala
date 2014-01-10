@@ -7,17 +7,31 @@ import com.arcusys.learn.questionbank.storage._
 import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
 import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
-import com.arcusys.learn.scorm.certificating.{CertificateSiteStorage, CertificateStorage}
 import com.arcusys.learn.social.storage.{PackageCommentStorage, PackageVoteStorage, SocialPackageStorage}
 import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
 import com.arcusys.learn.setting.storage.SettingStorage
-import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
+import com.arcusys.learn.tincan.storage._
 
 trait StorageFactoryContract {
   def tincanLrsEndpointStorage: TincanLrsEndpointStorage
   def tincanPackageStorage: TincanPackageStorage
-  def tincanActivityStorage: TincanActivityStorage
+  def tincanActivityStorage: TincanManifestActivityStorage
+
+  def tincanLrsStatementRefStorage: StatementRefStorage
+  def tincanLrsContextActivitiesStorage: ContextActivitiesStorage
+  def tincanLrsStatementStorage: StatementStorage
+  def tincanLrsSubStatementStorage: SubStatementStorage
+  def tincanLrsAttachmentStorage: AttachmentStorage
+  def tincanLrsStateStorage : StateStorage
+  def tincanLrsResultStorage: TincanResultStorage
+  def tincanLrsContextStorage: ContextStorage
+  def tincanLrsActorStorage: ActorStorage
+  def tincanLrsDocumentStorage: DocumentStorage
+  def tincanLrsActivityStorage : TincanActivityStorage
+  def tincanLrsActivityProfileStorage : ActivityProfileStorage
+  def tincanLrsAgentProfileStorage : AgentProfileStorage
 
   def packageStorage: PackagesStorage
 
@@ -94,8 +108,20 @@ trait StorageFactoryContract {
     roleStorage.renew()
     settingStorage.renew()
 
-    tincanActivityStorage.renew()
-    tincanPackageStorage.renew()
     tincanLrsEndpointStorage.renew()
+    tincanPackageStorage.renew()
+    tincanActivityStorage.renew()
+    tincanLrsStatementRefStorage.renew()
+    tincanLrsContextActivitiesStorage.renew()
+    tincanLrsStatementStorage.renew()
+    tincanLrsSubStatementStorage.renew()
+    tincanLrsAttachmentStorage.renew()
+    tincanLrsStateStorage.renew()
+    tincanLrsResultStorage.renew()
+    tincanLrsContextStorage.renew()
+    tincanLrsActorStorage.renew()
+    tincanLrsDocumentStorage.renew()
+    tincanLrsActivityStorage.renew()
+    tincanLrsActivityProfileStorage.renew()
   }
 }

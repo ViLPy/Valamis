@@ -2,7 +2,7 @@ package com.arcusys.learn.web
 
 import com.arcusys.scorm.generator.util.ResourceHelpers
 import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.learn.quiz.model.{PlainTextQuizQuestion, ExternalQuizQuestion, QuestionBankQuizQuestion}

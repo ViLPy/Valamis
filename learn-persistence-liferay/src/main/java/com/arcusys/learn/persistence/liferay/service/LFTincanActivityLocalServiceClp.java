@@ -48,6 +48,8 @@ public class LFTincanActivityLocalServiceClp
     private String[] _methodParameterTypes20;
     private String _methodName21;
     private String[] _methodParameterTypes21;
+    private String _methodName22;
+    private String[] _methodParameterTypes22;
 
     public LFTincanActivityLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -154,6 +156,10 @@ public class LFTincanActivityLocalServiceClp
         _methodName21 = "findByPackageID";
 
         _methodParameterTypes21 = new String[] { "java.lang.Long" };
+
+        _methodName22 = "findByTincanID";
+
+        _methodParameterTypes22 = new String[] { "java.lang.String" };
     }
 
     public com.arcusys.learn.persistence.liferay.model.LFTincanActivity addLFTincanActivity(
@@ -724,5 +730,37 @@ public class LFTincanActivityLocalServiceClp
         }
 
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActivity>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity findByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
+                    new Object[] { ClpSerializer.translateInput(tincanID) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException) {
+                throw (com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.arcusys.learn.persistence.liferay.model.LFTincanActivity) ClpSerializer.translateOutput(returnObj);
     }
 }

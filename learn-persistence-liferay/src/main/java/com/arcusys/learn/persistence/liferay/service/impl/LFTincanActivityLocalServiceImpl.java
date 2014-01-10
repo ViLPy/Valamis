@@ -1,5 +1,6 @@
 package com.arcusys.learn.persistence.liferay.service.impl;
 
+import com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException;
 import com.arcusys.learn.persistence.liferay.model.LFActivity;
 import com.arcusys.learn.persistence.liferay.model.LFTincanActivity;
 import com.arcusys.learn.persistence.liferay.service.base.LFTincanActivityLocalServiceBaseImpl;
@@ -37,5 +38,9 @@ public class LFTincanActivityLocalServiceImpl
 
     public  java.util.List<LFTincanActivity> findByPackageID(Long packageID) throws SystemException{
         return lfTincanActivityPersistence.findByPackageID(packageID);
+    }
+
+    public LFTincanActivity findByTincanID(String tincanID) throws SystemException, NoSuchLFTincanActivityException {
+        return lfTincanActivityPersistence.findByTincanID(tincanID);
     }
 }

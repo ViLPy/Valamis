@@ -43,7 +43,20 @@ import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalSe
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsActivityProfileLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextActivitiesLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalService;
+import com.arcusys.learn.persistence.liferay.service.LFTincanManifestActivityLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalService;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalService;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
@@ -88,7 +101,20 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTra
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
@@ -304,10 +330,62 @@ public abstract class LFQuestionCategoryLocalServiceBaseImpl
     protected LFTincanActivityLocalService lfTincanActivityLocalService;
     @BeanReference(type = LFTincanActivityPersistence.class)
     protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanActorLocalService.class)
+    protected LFTincanActorLocalService lfTincanActorLocalService;
+    @BeanReference(type = LFTincanActorPersistence.class)
+    protected LFTincanActorPersistence lfTincanActorPersistence;
+    @BeanReference(type = LFTincanLrsActivityProfileLocalService.class)
+    protected LFTincanLrsActivityProfileLocalService lfTincanLrsActivityProfileLocalService;
+    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
+    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
+    @BeanReference(type = LFTincanLrsAgentProfileLocalService.class)
+    protected LFTincanLrsAgentProfileLocalService lfTincanLrsAgentProfileLocalService;
+    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
+    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
+    @BeanReference(type = LFTincanLrsAttachmentLocalService.class)
+    protected LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService;
+    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
+    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
+    @BeanReference(type = LFTincanLrsContextLocalService.class)
+    protected LFTincanLrsContextLocalService lfTincanLrsContextLocalService;
+    @BeanReference(type = LFTincanLrsContextPersistence.class)
+    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
+    @BeanReference(type = LFTincanLrsContextActivitiesLocalService.class)
+    protected LFTincanLrsContextActivitiesLocalService lfTincanLrsContextActivitiesLocalService;
+    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
+    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
+    @BeanReference(type = LFTincanLrsDocumentLocalService.class)
+    protected LFTincanLrsDocumentLocalService lfTincanLrsDocumentLocalService;
+    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
+    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
     @BeanReference(type = LFTincanLrsEndpointLocalService.class)
     protected LFTincanLrsEndpointLocalService lfTincanLrsEndpointLocalService;
     @BeanReference(type = LFTincanLrsEndpointPersistence.class)
     protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanLrsResultLocalService.class)
+    protected LFTincanLrsResultLocalService lfTincanLrsResultLocalService;
+    @BeanReference(type = LFTincanLrsResultPersistence.class)
+    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
+    @BeanReference(type = LFTincanLrsStateLocalService.class)
+    protected LFTincanLrsStateLocalService lfTincanLrsStateLocalService;
+    @BeanReference(type = LFTincanLrsStatePersistence.class)
+    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
+    @BeanReference(type = LFTincanLrsStatementLocalService.class)
+    protected LFTincanLrsStatementLocalService lfTincanLrsStatementLocalService;
+    @BeanReference(type = LFTincanLrsStatementPersistence.class)
+    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
+    @BeanReference(type = LFTincanLrsStatementRefLocalService.class)
+    protected LFTincanLrsStatementRefLocalService lfTincanLrsStatementRefLocalService;
+    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
+    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
+    @BeanReference(type = LFTincanLrsSubStatementLocalService.class)
+    protected LFTincanLrsSubStatementLocalService lfTincanLrsSubStatementLocalService;
+    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
+    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
+    @BeanReference(type = LFTincanManifestActivityLocalService.class)
+    protected LFTincanManifestActivityLocalService lfTincanManifestActivityLocalService;
+    @BeanReference(type = LFTincanManifestActivityPersistence.class)
+    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
     @BeanReference(type = LFTincanPackageLocalService.class)
     protected LFTincanPackageLocalService lfTincanPackageLocalService;
     @BeanReference(type = LFTincanPackagePersistence.class)
@@ -2134,6 +2212,272 @@ public abstract class LFQuestionCategoryLocalServiceBaseImpl
     }
 
     /**
+     * Returns the l f tincan actor local service.
+     *
+     * @return the l f tincan actor local service
+     */
+    public LFTincanActorLocalService getLFTincanActorLocalService() {
+        return lfTincanActorLocalService;
+    }
+
+    /**
+     * Sets the l f tincan actor local service.
+     *
+     * @param lfTincanActorLocalService the l f tincan actor local service
+     */
+    public void setLFTincanActorLocalService(
+        LFTincanActorLocalService lfTincanActorLocalService) {
+        this.lfTincanActorLocalService = lfTincanActorLocalService;
+    }
+
+    /**
+     * Returns the l f tincan actor persistence.
+     *
+     * @return the l f tincan actor persistence
+     */
+    public LFTincanActorPersistence getLFTincanActorPersistence() {
+        return lfTincanActorPersistence;
+    }
+
+    /**
+     * Sets the l f tincan actor persistence.
+     *
+     * @param lfTincanActorPersistence the l f tincan actor persistence
+     */
+    public void setLFTincanActorPersistence(
+        LFTincanActorPersistence lfTincanActorPersistence) {
+        this.lfTincanActorPersistence = lfTincanActorPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs activity profile local service.
+     *
+     * @return the l f tincan lrs activity profile local service
+     */
+    public LFTincanLrsActivityProfileLocalService getLFTincanLrsActivityProfileLocalService() {
+        return lfTincanLrsActivityProfileLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs activity profile local service.
+     *
+     * @param lfTincanLrsActivityProfileLocalService the l f tincan lrs activity profile local service
+     */
+    public void setLFTincanLrsActivityProfileLocalService(
+        LFTincanLrsActivityProfileLocalService lfTincanLrsActivityProfileLocalService) {
+        this.lfTincanLrsActivityProfileLocalService = lfTincanLrsActivityProfileLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs activity profile persistence.
+     *
+     * @return the l f tincan lrs activity profile persistence
+     */
+    public LFTincanLrsActivityProfilePersistence getLFTincanLrsActivityProfilePersistence() {
+        return lfTincanLrsActivityProfilePersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs activity profile persistence.
+     *
+     * @param lfTincanLrsActivityProfilePersistence the l f tincan lrs activity profile persistence
+     */
+    public void setLFTincanLrsActivityProfilePersistence(
+        LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence) {
+        this.lfTincanLrsActivityProfilePersistence = lfTincanLrsActivityProfilePersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs agent profile local service.
+     *
+     * @return the l f tincan lrs agent profile local service
+     */
+    public LFTincanLrsAgentProfileLocalService getLFTincanLrsAgentProfileLocalService() {
+        return lfTincanLrsAgentProfileLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs agent profile local service.
+     *
+     * @param lfTincanLrsAgentProfileLocalService the l f tincan lrs agent profile local service
+     */
+    public void setLFTincanLrsAgentProfileLocalService(
+        LFTincanLrsAgentProfileLocalService lfTincanLrsAgentProfileLocalService) {
+        this.lfTincanLrsAgentProfileLocalService = lfTincanLrsAgentProfileLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs agent profile persistence.
+     *
+     * @return the l f tincan lrs agent profile persistence
+     */
+    public LFTincanLrsAgentProfilePersistence getLFTincanLrsAgentProfilePersistence() {
+        return lfTincanLrsAgentProfilePersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs agent profile persistence.
+     *
+     * @param lfTincanLrsAgentProfilePersistence the l f tincan lrs agent profile persistence
+     */
+    public void setLFTincanLrsAgentProfilePersistence(
+        LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence) {
+        this.lfTincanLrsAgentProfilePersistence = lfTincanLrsAgentProfilePersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs attachment local service.
+     *
+     * @return the l f tincan lrs attachment local service
+     */
+    public LFTincanLrsAttachmentLocalService getLFTincanLrsAttachmentLocalService() {
+        return lfTincanLrsAttachmentLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs attachment local service.
+     *
+     * @param lfTincanLrsAttachmentLocalService the l f tincan lrs attachment local service
+     */
+    public void setLFTincanLrsAttachmentLocalService(
+        LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService) {
+        this.lfTincanLrsAttachmentLocalService = lfTincanLrsAttachmentLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs attachment persistence.
+     *
+     * @return the l f tincan lrs attachment persistence
+     */
+    public LFTincanLrsAttachmentPersistence getLFTincanLrsAttachmentPersistence() {
+        return lfTincanLrsAttachmentPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs attachment persistence.
+     *
+     * @param lfTincanLrsAttachmentPersistence the l f tincan lrs attachment persistence
+     */
+    public void setLFTincanLrsAttachmentPersistence(
+        LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence) {
+        this.lfTincanLrsAttachmentPersistence = lfTincanLrsAttachmentPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs context local service.
+     *
+     * @return the l f tincan lrs context local service
+     */
+    public LFTincanLrsContextLocalService getLFTincanLrsContextLocalService() {
+        return lfTincanLrsContextLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs context local service.
+     *
+     * @param lfTincanLrsContextLocalService the l f tincan lrs context local service
+     */
+    public void setLFTincanLrsContextLocalService(
+        LFTincanLrsContextLocalService lfTincanLrsContextLocalService) {
+        this.lfTincanLrsContextLocalService = lfTincanLrsContextLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs context persistence.
+     *
+     * @return the l f tincan lrs context persistence
+     */
+    public LFTincanLrsContextPersistence getLFTincanLrsContextPersistence() {
+        return lfTincanLrsContextPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs context persistence.
+     *
+     * @param lfTincanLrsContextPersistence the l f tincan lrs context persistence
+     */
+    public void setLFTincanLrsContextPersistence(
+        LFTincanLrsContextPersistence lfTincanLrsContextPersistence) {
+        this.lfTincanLrsContextPersistence = lfTincanLrsContextPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs context activities local service.
+     *
+     * @return the l f tincan lrs context activities local service
+     */
+    public LFTincanLrsContextActivitiesLocalService getLFTincanLrsContextActivitiesLocalService() {
+        return lfTincanLrsContextActivitiesLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs context activities local service.
+     *
+     * @param lfTincanLrsContextActivitiesLocalService the l f tincan lrs context activities local service
+     */
+    public void setLFTincanLrsContextActivitiesLocalService(
+        LFTincanLrsContextActivitiesLocalService lfTincanLrsContextActivitiesLocalService) {
+        this.lfTincanLrsContextActivitiesLocalService = lfTincanLrsContextActivitiesLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs context activities persistence.
+     *
+     * @return the l f tincan lrs context activities persistence
+     */
+    public LFTincanLrsContextActivitiesPersistence getLFTincanLrsContextActivitiesPersistence() {
+        return lfTincanLrsContextActivitiesPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs context activities persistence.
+     *
+     * @param lfTincanLrsContextActivitiesPersistence the l f tincan lrs context activities persistence
+     */
+    public void setLFTincanLrsContextActivitiesPersistence(
+        LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence) {
+        this.lfTincanLrsContextActivitiesPersistence = lfTincanLrsContextActivitiesPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs document local service.
+     *
+     * @return the l f tincan lrs document local service
+     */
+    public LFTincanLrsDocumentLocalService getLFTincanLrsDocumentLocalService() {
+        return lfTincanLrsDocumentLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs document local service.
+     *
+     * @param lfTincanLrsDocumentLocalService the l f tincan lrs document local service
+     */
+    public void setLFTincanLrsDocumentLocalService(
+        LFTincanLrsDocumentLocalService lfTincanLrsDocumentLocalService) {
+        this.lfTincanLrsDocumentLocalService = lfTincanLrsDocumentLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs document persistence.
+     *
+     * @return the l f tincan lrs document persistence
+     */
+    public LFTincanLrsDocumentPersistence getLFTincanLrsDocumentPersistence() {
+        return lfTincanLrsDocumentPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs document persistence.
+     *
+     * @param lfTincanLrsDocumentPersistence the l f tincan lrs document persistence
+     */
+    public void setLFTincanLrsDocumentPersistence(
+        LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence) {
+        this.lfTincanLrsDocumentPersistence = lfTincanLrsDocumentPersistence;
+    }
+
+    /**
      * Returns the l f tincan lrs endpoint local service.
      *
      * @return the l f tincan lrs endpoint local service
@@ -2169,6 +2513,234 @@ public abstract class LFQuestionCategoryLocalServiceBaseImpl
     public void setLFTincanLrsEndpointPersistence(
         LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence) {
         this.lfTincanLrsEndpointPersistence = lfTincanLrsEndpointPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs result local service.
+     *
+     * @return the l f tincan lrs result local service
+     */
+    public LFTincanLrsResultLocalService getLFTincanLrsResultLocalService() {
+        return lfTincanLrsResultLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs result local service.
+     *
+     * @param lfTincanLrsResultLocalService the l f tincan lrs result local service
+     */
+    public void setLFTincanLrsResultLocalService(
+        LFTincanLrsResultLocalService lfTincanLrsResultLocalService) {
+        this.lfTincanLrsResultLocalService = lfTincanLrsResultLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs result persistence.
+     *
+     * @return the l f tincan lrs result persistence
+     */
+    public LFTincanLrsResultPersistence getLFTincanLrsResultPersistence() {
+        return lfTincanLrsResultPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs result persistence.
+     *
+     * @param lfTincanLrsResultPersistence the l f tincan lrs result persistence
+     */
+    public void setLFTincanLrsResultPersistence(
+        LFTincanLrsResultPersistence lfTincanLrsResultPersistence) {
+        this.lfTincanLrsResultPersistence = lfTincanLrsResultPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs state local service.
+     *
+     * @return the l f tincan lrs state local service
+     */
+    public LFTincanLrsStateLocalService getLFTincanLrsStateLocalService() {
+        return lfTincanLrsStateLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs state local service.
+     *
+     * @param lfTincanLrsStateLocalService the l f tincan lrs state local service
+     */
+    public void setLFTincanLrsStateLocalService(
+        LFTincanLrsStateLocalService lfTincanLrsStateLocalService) {
+        this.lfTincanLrsStateLocalService = lfTincanLrsStateLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs state persistence.
+     *
+     * @return the l f tincan lrs state persistence
+     */
+    public LFTincanLrsStatePersistence getLFTincanLrsStatePersistence() {
+        return lfTincanLrsStatePersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs state persistence.
+     *
+     * @param lfTincanLrsStatePersistence the l f tincan lrs state persistence
+     */
+    public void setLFTincanLrsStatePersistence(
+        LFTincanLrsStatePersistence lfTincanLrsStatePersistence) {
+        this.lfTincanLrsStatePersistence = lfTincanLrsStatePersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs statement local service.
+     *
+     * @return the l f tincan lrs statement local service
+     */
+    public LFTincanLrsStatementLocalService getLFTincanLrsStatementLocalService() {
+        return lfTincanLrsStatementLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs statement local service.
+     *
+     * @param lfTincanLrsStatementLocalService the l f tincan lrs statement local service
+     */
+    public void setLFTincanLrsStatementLocalService(
+        LFTincanLrsStatementLocalService lfTincanLrsStatementLocalService) {
+        this.lfTincanLrsStatementLocalService = lfTincanLrsStatementLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs statement persistence.
+     *
+     * @return the l f tincan lrs statement persistence
+     */
+    public LFTincanLrsStatementPersistence getLFTincanLrsStatementPersistence() {
+        return lfTincanLrsStatementPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs statement persistence.
+     *
+     * @param lfTincanLrsStatementPersistence the l f tincan lrs statement persistence
+     */
+    public void setLFTincanLrsStatementPersistence(
+        LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence) {
+        this.lfTincanLrsStatementPersistence = lfTincanLrsStatementPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs statement ref local service.
+     *
+     * @return the l f tincan lrs statement ref local service
+     */
+    public LFTincanLrsStatementRefLocalService getLFTincanLrsStatementRefLocalService() {
+        return lfTincanLrsStatementRefLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs statement ref local service.
+     *
+     * @param lfTincanLrsStatementRefLocalService the l f tincan lrs statement ref local service
+     */
+    public void setLFTincanLrsStatementRefLocalService(
+        LFTincanLrsStatementRefLocalService lfTincanLrsStatementRefLocalService) {
+        this.lfTincanLrsStatementRefLocalService = lfTincanLrsStatementRefLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs statement ref persistence.
+     *
+     * @return the l f tincan lrs statement ref persistence
+     */
+    public LFTincanLrsStatementRefPersistence getLFTincanLrsStatementRefPersistence() {
+        return lfTincanLrsStatementRefPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs statement ref persistence.
+     *
+     * @param lfTincanLrsStatementRefPersistence the l f tincan lrs statement ref persistence
+     */
+    public void setLFTincanLrsStatementRefPersistence(
+        LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence) {
+        this.lfTincanLrsStatementRefPersistence = lfTincanLrsStatementRefPersistence;
+    }
+
+    /**
+     * Returns the l f tincan lrs sub statement local service.
+     *
+     * @return the l f tincan lrs sub statement local service
+     */
+    public LFTincanLrsSubStatementLocalService getLFTincanLrsSubStatementLocalService() {
+        return lfTincanLrsSubStatementLocalService;
+    }
+
+    /**
+     * Sets the l f tincan lrs sub statement local service.
+     *
+     * @param lfTincanLrsSubStatementLocalService the l f tincan lrs sub statement local service
+     */
+    public void setLFTincanLrsSubStatementLocalService(
+        LFTincanLrsSubStatementLocalService lfTincanLrsSubStatementLocalService) {
+        this.lfTincanLrsSubStatementLocalService = lfTincanLrsSubStatementLocalService;
+    }
+
+    /**
+     * Returns the l f tincan lrs sub statement persistence.
+     *
+     * @return the l f tincan lrs sub statement persistence
+     */
+    public LFTincanLrsSubStatementPersistence getLFTincanLrsSubStatementPersistence() {
+        return lfTincanLrsSubStatementPersistence;
+    }
+
+    /**
+     * Sets the l f tincan lrs sub statement persistence.
+     *
+     * @param lfTincanLrsSubStatementPersistence the l f tincan lrs sub statement persistence
+     */
+    public void setLFTincanLrsSubStatementPersistence(
+        LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence) {
+        this.lfTincanLrsSubStatementPersistence = lfTincanLrsSubStatementPersistence;
+    }
+
+    /**
+     * Returns the l f tincan manifest activity local service.
+     *
+     * @return the l f tincan manifest activity local service
+     */
+    public LFTincanManifestActivityLocalService getLFTincanManifestActivityLocalService() {
+        return lfTincanManifestActivityLocalService;
+    }
+
+    /**
+     * Sets the l f tincan manifest activity local service.
+     *
+     * @param lfTincanManifestActivityLocalService the l f tincan manifest activity local service
+     */
+    public void setLFTincanManifestActivityLocalService(
+        LFTincanManifestActivityLocalService lfTincanManifestActivityLocalService) {
+        this.lfTincanManifestActivityLocalService = lfTincanManifestActivityLocalService;
+    }
+
+    /**
+     * Returns the l f tincan manifest activity persistence.
+     *
+     * @return the l f tincan manifest activity persistence
+     */
+    public LFTincanManifestActivityPersistence getLFTincanManifestActivityPersistence() {
+        return lfTincanManifestActivityPersistence;
+    }
+
+    /**
+     * Sets the l f tincan manifest activity persistence.
+     *
+     * @param lfTincanManifestActivityPersistence the l f tincan manifest activity persistence
+     */
+    public void setLFTincanManifestActivityPersistence(
+        LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence) {
+        this.lfTincanManifestActivityPersistence = lfTincanManifestActivityPersistence;
     }
 
     /**

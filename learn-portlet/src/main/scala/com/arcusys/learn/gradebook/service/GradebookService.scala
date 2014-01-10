@@ -1,7 +1,7 @@
 package com.arcusys.learn.gradebook.service
 
 import com.arcusys.scorm.lms._
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.net._

@@ -6,7 +6,7 @@ import com.arcusys.scala.scalatra.json.JsonSupport
 import org.scalatra.fileupload.FileUploadSupport
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 

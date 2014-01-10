@@ -5,7 +5,7 @@ import com.liferay.portlet.journal.model.JournalArticle
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil
 import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import scala.collection.JavaConverters._
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.util.Locale
