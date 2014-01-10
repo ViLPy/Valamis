@@ -550,25 +550,262 @@
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanActivity">
 		<field name="id" type="long" />
-		<field name="tincanID" type="String" />
+		<field name="tincanID" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
 		<field name="packageID" type="Long" />
-		<field name="activityType" type="String" />
-		<field name="name" type="String" />
-		<field name="description" type="String" />
-		<field name="launch" type="String" />
-		<field name="resource" type="String" />
+		<field name="objectType" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="theType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="moreInfo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="interactionType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="correctResponsesPattern" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="choices" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="scale" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="source" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="target" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="steps" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="extensions" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanActor">
+		<field name="id" type="long" />
+		<field name="tincanID" type="String" />
+		<field name="objectType" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="mbox" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="mbox_sha1sum" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="openid" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="account" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="memberOf" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile">
+		<field name="id" type="long" />
+		<field name="documentId" type="Integer" />
+		<field name="activityId" type="String" />
+		<field name="profileId" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile">
+		<field name="id" type="long" />
+		<field name="documentId" type="Integer" />
+		<field name="agentId" type="Integer" />
+		<field name="profileId" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment">
+		<field name="id" type="long" />
+		<field name="parentID" type="Integer" />
+		<field name="usageType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="display" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="contentType" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="length" type="Integer" />
+		<field name="sha2" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="fileUrl" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsContext">
+		<field name="id" type="long" />
+		<field name="registration" type="String" />
+		<field name="instructorID" type="Integer" />
+		<field name="teamID" type="Integer" />
+		<field name="contextActivitiesID" type="Integer" />
+		<field name="revision" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="platform" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="language" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="statement" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="extensions" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsContextActivities">
+		<field name="id" type="long" />
+		<field name="parent" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="grouping" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="category" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="other" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument">
+		<field name="id" type="long" />
+		<field name="documentId" type="String" />
+		<field name="update" type="Date" />
+		<field name="content" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="contentType" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint">
 		<field name="id" type="long" />
-		<field name="endpoint" type="String" />
-		<field name="authType" type="String" />
-		<field name="key" type="String" />
-		<field name="secret" type="String" />
+		<field name="endpoint" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="authType" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="key" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="secret" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsResult">
+		<field name="id" type="long" />
+		<field name="score" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="success" type="Boolean" />
+		<field name="completion" type="Boolean" />
+		<field name="response" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="duration" type="Double" />
+		<field name="extension" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsState">
+		<field name="id" type="long" />
+		<field name="stateId" type="String" />
+		<field name="documentId" type="String" />
+		<field name="activityId" type="String" />
+		<field name="profileId" type="String" />
+		<field name="registration" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="agentId" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement">
+		<field name="id" type="long" />
+		<field name="tincanID" type="String" />
+		<field name="actorID" type="Integer" />
+		<field name="verbID" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="verbDisplay" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="objType" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="objID" type="Integer" />
+		<field name="resultID" type="Integer" />
+		<field name="contextID" type="Integer" />
+		<field name="timestamp" type="Date" />
+		<field name="stored" type="Date" />
+		<field name="authorityID" type="Integer" />
+		<field name="version" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRef">
+		<field name="id" type="long" />
+		<field name="uuid" type="String" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanLrsSubStatement">
+		<field name="id" type="long" />
+		<field name="actorID" type="Integer" />
+		<field name="verbID" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="verbDisplay" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="objType" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="objID" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity">
+		<field name="id" type="long" />
+		<field name="tincanID" type="String" />
+		<field name="packageID" type="Long" />
+		<field name="activityType" type="String" />
+		<field name="name" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="launch" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="resource" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFTincanPackage">
 		<field name="id" type="long" />
-		<field name="title" type="String" />
-		<field name="summary" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field name="summary" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
 		<field name="assetRefID" type="Long" />
 		<field name="courseID" type="Integer" />
 	</model>

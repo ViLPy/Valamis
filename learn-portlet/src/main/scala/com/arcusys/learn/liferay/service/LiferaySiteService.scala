@@ -1,6 +1,6 @@
 package com.arcusys.learn.liferay.service
 
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.liferay.portal.service.GroupLocalServiceUtil

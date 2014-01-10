@@ -8,7 +8,7 @@ import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
 import com.arcusys.learn.util.TreeNode
 import java.util.zip.{ZipEntry, ZipFile}
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 
 object PackageProcessor {

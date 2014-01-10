@@ -277,6 +277,13 @@ public class LFTincanActivityLocalServiceUtil {
         return getService().findByPackageID(packageID);
     }
 
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActivity findByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByTincanID(tincanID);
+    }
+
     public static void clearService() {
         _service = null;
     }

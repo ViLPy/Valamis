@@ -658,11 +658,131 @@
 			</id>
 			<basic name="tincanID" />
 			<basic name="packageID" />
-			<basic name="activityType" />
+			<basic name="objectType" />
 			<basic name="name" />
 			<basic name="description" />
-			<basic name="launch" />
-			<basic name="resource" />
+			<basic name="theType" />
+			<basic name="moreInfo" />
+			<basic name="interactionType" />
+			<basic name="correctResponsesPattern" />
+			<basic name="choices" />
+			<basic name="scale" />
+			<basic name="source" />
+			<basic name="target" />
+			<basic name="steps" />
+			<basic name="extensions" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="tincanID" />
+			<basic name="objectType" />
+			<basic name="name" />
+			<basic name="mbox" />
+			<basic name="mbox_sha1sum" />
+			<basic name="openid" />
+			<basic name="account" />
+			<basic name="memberOf" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsActivityProfileModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="documentId" />
+			<basic name="activityId" />
+			<basic name="profileId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="documentId" />
+			<basic name="agentId" />
+			<basic name="profileId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="parentID" />
+			<basic name="usageType" />
+			<basic name="display" />
+			<basic name="description" />
+			<basic name="contentType" />
+			<basic name="length" />
+			<basic name="sha2" />
+			<basic name="fileUrl" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="registration" />
+			<basic name="instructorID" />
+			<basic name="teamID" />
+			<basic name="contextActivitiesID" />
+			<basic name="revision" />
+			<basic name="platform" />
+			<basic name="language" />
+			<basic name="statement" />
+			<basic name="extensions" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="parent" />
+			<basic name="grouping" />
+			<basic name="category" />
+			<basic name="other" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="documentId" />
+			<basic name="update">
+				<column name="UPDATE_" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="content" />
+			<basic name="contentType" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -679,6 +799,109 @@
 				<column name="KEY_" />
 			</basic>
 			<basic name="secret" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsResultModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="score" />
+			<basic name="success" />
+			<basic name="completion" />
+			<basic name="response" />
+			<basic name="duration" />
+			<basic name="extension" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="stateId" />
+			<basic name="documentId" />
+			<basic name="activityId" />
+			<basic name="profileId" />
+			<basic name="registration" />
+			<basic name="agentId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="tincanID" />
+			<basic name="actorID" />
+			<basic name="verbID" />
+			<basic name="verbDisplay" />
+			<basic name="objType" />
+			<basic name="objID" />
+			<basic name="resultID" />
+			<basic name="contextID" />
+			<basic name="timestamp">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="stored">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="authorityID" />
+			<basic name="version" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementRefModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="uuid">
+				<column name="UUID_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsSubStatementModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="actorID" />
+			<basic name="verbID" />
+			<basic name="verbDisplay" />
+			<basic name="objType" />
+			<basic name="objID" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="tincanID" />
+			<basic name="packageID" />
+			<basic name="activityType" />
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="launch" />
+			<basic name="resource" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -882,8 +1105,60 @@
 		<table name="Learn_LFTincanActivity" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorImpl" name="LFTincanActor">
+		<table name="Learn_LFTincanActor" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsActivityProfileImpl" name="LFTincanLrsActivityProfile">
+		<table name="Learn_LFTincanLrsActivityProfile" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileImpl" name="LFTincanLrsAgentProfile">
+		<table name="Learn_LFTincanLrsAgentProfile" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentImpl" name="LFTincanLrsAttachment">
+		<table name="Learn_LFTincanLrsAttachment" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextImpl" name="LFTincanLrsContext">
+		<table name="Learn_LFTincanLrsContext" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesImpl" name="LFTincanLrsContextActivities">
+		<table name="Learn_LFTincanLrsContextActivities" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentImpl" name="LFTincanLrsDocument">
+		<table name="Learn_LFTincanLrsDocument" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointImpl" name="LFTincanLrsEndpoint">
 		<table name="Learn_LFTincanLrsEndpoint" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsResultImpl" name="LFTincanLrsResult">
+		<table name="Learn_LFTincanLrsResult" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateImpl" name="LFTincanLrsState">
+		<table name="Learn_LFTincanLrsState" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementImpl" name="LFTincanLrsStatement">
+		<table name="Learn_LFTincanLrsStatement" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementRefImpl" name="LFTincanLrsStatementRef">
+		<table name="Learn_LFTincanLrsStatementRef" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsSubStatementImpl" name="LFTincanLrsSubStatement">
+		<table name="Learn_LFTincanLrsSubStatement" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityImpl" name="LFTincanManifestActivity">
+		<table name="Learn_LFTincanManifestActivity" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl" name="LFTincanPackage">

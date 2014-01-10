@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.7-SNAPSHOT</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
@@ -58,17 +58,19 @@
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
         <module>learn-puppet</module>
-        <module>learn-demo-hook</module>
         <module>learn-portlet</module>
         <module>learn-servicebuilder</module>
         <module>learn-ui-test</module>
         <module>learn-assembly</module>
         <module>learn-social-model</module>
         <module>learn-tincan-package</module>
-        <module>learn-tincan-package-model</module>
+        <module>learn-tincan-model</module>
         <module>learn-settings-model</module>
-        <module>learn-hook-liferay611</module>
-        <module>learn-hook-liferay612</module>
+        <module>learn-liferay611-hook</module>
+        <module>learn-liferay612-hook</module>
+        <module>learn-demo-hook</module>
+        <!--<module>learn-site-templates-hook</module>-->
+        <module>learn-tincan-lrs</module>
     </modules>
 
     <dependencyManagement>

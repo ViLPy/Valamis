@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.service
 
 import com.arcusys.learn.tincan.manifest.model._
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.service.asset.AssetHelper
@@ -144,11 +144,9 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
     val id = parameter("id").intRequired
     val tincanPackageOption = tincanPackageStorage.getByID(id)
     for (tincanPackage <- tincanPackageOption) {
-      //for (assetRefID <- tincanPackage.assetRefID) assetHelper.deleteTincanPackage(assetRefID)
       tincanPackageStorage.delete(tincanPackage.id)
       tincanActivityStorage.deleteByPackageID(tincanPackage.id)
-      //packageScopeRuleStorage.delete(id)
-      //TODO remove activities and resources (M)
+      fileStorage.delete("data/" + id + "/", asDirectory = true)
     }
   }
 

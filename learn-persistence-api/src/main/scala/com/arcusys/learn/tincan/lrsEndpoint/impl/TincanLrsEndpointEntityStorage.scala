@@ -10,7 +10,11 @@ trait TincanLrsEndpointEntityStorage extends TincanLrsEndpointStorage with Entit
     getOne(Seq[(String, Any)]():_*)
   }
 
-  def set(lrs: LrsEndpointSettings) {
-    modify(lrs, Seq[(String, Any)]():_*)
+  def set(lrs: Option[LrsEndpointSettings]) {
+    lrs match {
+      case Some(lrs:LrsEndpointSettings) => modify(lrs, Nil:_*)
+      case _ => delete(Nil:_*)
+    }
+
   }
 }

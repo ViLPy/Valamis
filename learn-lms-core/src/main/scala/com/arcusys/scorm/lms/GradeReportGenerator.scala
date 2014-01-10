@@ -3,7 +3,7 @@ package com.arcusys.scorm.lms
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.util.TreeNode
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.questionbank.model.{ChoiceAnswer, ChoiceQuestion}
 import com.arcusys.learn.quiz.model.QuestionBankQuizQuestion

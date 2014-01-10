@@ -1,9 +1,11 @@
 package com.arcusys.learn.admin.service
 
 import java.io._
+import java.util.Properties
+import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.scorm.util.FileSystemUtil
-import org.scala_tools.subcut.inject.BindingModule
-import com.arcusys.learn.web.ServletBase
+import com.escalatesoft.subcut.inject.BindingModule
+import com.arcusys.learn.web.{DemoService, ServletBase}
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.settings.model.SettingType
 import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
@@ -12,6 +14,7 @@ import com.liferay.portlet.social.model.SocialActivity
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.tincan.model.UserBasicAuthorization
 import com.arcusys.learn.tincan.model.LrsEndpointSettings
+import com.arcusys.learn.service.util.TemplateUpgradeProcess
 
 class AdminService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -40,27 +43,40 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     BrokerFactory.init(PropertyUtil.load("db"))*/
   }
 
+  post("/demo/templates") {
+    requireAdmin()
+    val templates = new TemplateUpgradeProcess
+    templates.doUpgrade()
+  }
+
   post("/TincanLrsSettings") {
     requireAdmin()
 
-//    parameter("authType").required match {
-//      case "Basic" =>
-        if (parameter("commonCredentials").stringOption().exists(_ == "on"))
-          storageFactory.tincanLrsEndpointStorage.set(LrsEndpointSettings(
-            parameter("endpoint").required.trim,
+    parameter("isExternalLrs").option match {
+      case Some("on") => {
+        val endpoint = parameter("endpoint").required.trim
+        val endpointFixed = if (endpoint.endsWith("/")) endpoint else endpoint + "/"
+        //    parameter("authType").required match {
+        //      case "Basic" =>
+        if (parameter("commonCredentials").option.exists(_ == "on"))
+          storageFactory.tincanLrsEndpointStorage.set(Some(LrsEndpointSettings(
+            endpointFixed,
             CommonBasicAuthorization(parameter("loginName").required, parameter("password").required)
-          ))
+          )))
         else
-          storageFactory.tincanLrsEndpointStorage.set(LrsEndpointSettings(
-            parameter("endpoint").required.trim,
+          storageFactory.tincanLrsEndpointStorage.set(Some(LrsEndpointSettings(
+            endpointFixed,
             UserBasicAuthorization
-          ))
-//      case "OAuth" =>
-//        storageFactory.tincanLrsEndpointStorage.set(LrsEndpointSettings(
-//          parameter("endpoint").required,
-//          OAuthAuthorization(parameter("loginName").required, parameter("password").required)
-//        ))
-//    }
+          )))
+        //      case "OAuth" =>
+        //        storageFactory.tincanLrsEndpointStorage.set(LrsEndpointSettings(
+        //          parameter("endpoint").required,
+        //          OAuthAuthorization(parameter("loginName").required, parameter("password").required)
+        //        ))
+        //    }
+      }
+      case _ => storageFactory.tincanLrsEndpointStorage.set(None)
+    }
   }
 
   get("/GetSettings") {
@@ -79,7 +95,7 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
 
     contentType = "text/plain"
     storageFactory.renewWholeStorage()
-    SocialActivityLocalServiceUtil.getActivities(classOf[Certificate].getName, 0, Int.MaxValue).toArray.foreach(i=>{
+    SocialActivityLocalServiceUtil.getActivities(classOf[Certificate].getName, 0, Int.MaxValue).toArray.foreach(i => {
       SocialActivityLocalServiceUtil.deleteActivity(i.asInstanceOf[SocialActivity].getActivityId)
     })
     if (emptyDir(new File(FileSystemUtil.getRealPath("/SCORMData/tmp"))))

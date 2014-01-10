@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.manifest.service
 
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.scorm.util.FileSystemUtil
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.util.TreeNode

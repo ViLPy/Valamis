@@ -50,7 +50,8 @@
                 jQuery1816Admin('#SCORMAdminDialog').dialog('open');
             });
 
-            tincanLrsCommonCredentialsChanged()
+            tincanLrsCommonCredentialsChanged();
+            tincanLrsIsExternalChanged();
 
             jQuery1816Admin('#SCORMUploadDialog').dialog({autoOpen:false, width:350});
             jQuery1816Admin('#SCORMAdminDialog').dialog({autoOpen:false, width:400});
@@ -114,6 +115,15 @@
                     jQuery1816Admin('#SCORMAdminDialog').dialog('close');
                 }
             })
+        }
+
+        function tincanLrsIsExternalChanged() {
+            if (jQuery1816Admin('#tincanLrsIsExternalCheckbox').is(":checked")) {
+                jQuery1816Admin('#tincanLrsExernalPanel').show();
+            }
+            else {
+                jQuery1816Admin('#tincanLrsExernalPanel').hide();
+            }
         }
 
         function tincanLrsCommonCredentialsChanged() {
@@ -184,6 +194,14 @@
             else{
                 alert("{{invalidUrl}}");
             }
+        }
+
+        function createSiteTemplates() {
+            window.LearnAjax.post(Utils.getContextPath() + "services/administering/demo/templates").done(function() {
+                jQuery1816Admin.growlUI('{{adminDialogOverlaySiteTemplatesCreateMessage}}', '{{overlayCompleteMessageLabel}}');
+            }).fail(function() {
+                jQuery1816Admin.growlWarning('{{adminDialogOverlaySiteTemplatesCreateMessage}}', '{{overlayFailedMessageLabel}}');
+            });
         }
 
         function validateURL(textval) {
@@ -282,20 +300,26 @@
                 <div class="issuerSettingsTitle" >{{adminSettingsTincanLrsEndpointSectionLabel}}</div>
                 <form id="tincanLrsSettingsForm" method="post">
                     <div>
-                        <label class="issuerSettingLabel" >{{adminSettingsTincanEndpointLabel}}</label>
-                        <input class="issuerSettingValue" type="text" name="endpoint" value="{{tincanLrsEndpoint}}"/><br/>
+                        <label class="issuerSettingLabel" >{{adminSettingsTincanExternalEndpointLabel}}</label>
+                        <input class="issuerSettingValue" id="tincanLrsIsExternalCheckbox" type="checkbox" name="isExternalLrs" onchange="tincanLrsIsExternalChanged()" {{#tincanExternalLrs}}checked{{/tincanExternalLrs}}/><br/>
                     </div>
+                    <div id="tincanLrsExernalPanel">
+                        <div>
+                            <label class="issuerSettingLabel" >{{adminSettingsTincanEndpointLabel}}</label>
+                            <input class="issuerSettingValue" type="text" name="endpoint" value="{{tincanLrsEndpoint}}"/><br/>
+                        </div>
 
-                    <div>
-                        <label class="issuerSettingLabel" for="tincanLrsCommonCredentialsCheckbox">{{adminSettingsTincanCommonCredentialsLabel}}</label>
-                        <input class="issuerSettingValue" id="tincanLrsCommonCredentialsCheckbox" type="checkbox" name="commonCredentials" onchange="tincanLrsCommonCredentialsChanged()" {{#commonCredentials}}checked{{/commonCredentials}} /> <br />
-                    </div>
-                    <div class="clear"></div>
-                    <div id="tincanLrsCommonCredentialsPanel">
-                        <label class="issuerSettingLabel" >{{adminSettingsTincanLoginLabel}}</label>
-                        <input class="issuerSettingValue" type="text" name="loginName" value="{{tincanLrsLoginName}}" /><br />
-                        <label class="issuerSettingLabel" >{{adminSettingsTincanPasswordLabel}}</label>
-                        <input class="issuerSettingValue" type="text" name="password" value="{{tincanLrsPassword}}"  /><br />
+                        <div>
+                            <label class="issuerSettingLabel" for="tincanLrsCommonCredentialsCheckbox">{{adminSettingsTincanCommonCredentialsLabel}}</label>
+                            <input class="issuerSettingValue" id="tincanLrsCommonCredentialsCheckbox" type="checkbox" name="commonCredentials" onchange="tincanLrsCommonCredentialsChanged()" {{#commonCredentials}}checked{{/commonCredentials}} /> <br />
+                        </div>
+                        <div class="clear"></div>
+                        <div id="tincanLrsCommonCredentialsPanel">
+                            <label class="issuerSettingLabel" >{{adminSettingsTincanLoginLabel}}</label>
+                            <input class="issuerSettingValue" type="text" name="loginName" value="{{tincanLrsLoginName}}" /><br />
+                            <label class="issuerSettingLabel" >{{adminSettingsTincanPasswordLabel}}</label>
+                            <input class="issuerSettingValue" type="text" name="password" value="{{tincanLrsPassword}}"  /><br />
+                        </div>
                     </div>
 
                     <div>
@@ -304,6 +328,10 @@
                     </div>
                 </form>
             </div>
+            <hr>
+            <button onclick="createSiteTemplates()" class="textButton sortButton">
+                {{adminDialogSiteTemplatesCreateLabel}}
+            </button>
         </div>
     </div>
 

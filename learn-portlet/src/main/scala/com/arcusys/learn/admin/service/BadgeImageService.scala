@@ -1,7 +1,7 @@
 package com.arcusys.learn.admin.service
 
 import javax.servlet.{ServletRequest, ServletResponse, GenericServlet}
-import org.scala_tools.subcut.inject.Injectable
+import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.ioc.Configuration
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}

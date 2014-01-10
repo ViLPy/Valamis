@@ -2,7 +2,7 @@ package com.arcusys.scorm.lms
 
 import com.liferay.portal.service.{RoleLocalServiceUtil, UserLocalServiceUtil}
 import com.liferay.portal.model.{Role, User}
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.tracking.model.PermissionType
 

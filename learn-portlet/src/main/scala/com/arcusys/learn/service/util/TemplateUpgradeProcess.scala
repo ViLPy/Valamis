@@ -13,19 +13,18 @@ import java.util.Locale
 import com.liferay.portlet.PortletPreferencesFactoryUtil
 import java.util
 import scala.Array
-import com.arcusys.learn.storage.StorageFactoryContract
 import com.liferay.portal.kernel.lar.PortletDataHandlerKeys
 import scala.xml.XML
 import scala.collection.JavaConverters._
+import com.arcusys.liferay.util._
 
 object TemplateUpgradeProcess {
   val isPublic = false
 }
 
-class TemplateUpgradeProcess(val storageFactory: StorageFactoryContract) extends UserHelpers with BlogHelpers
-                                                                 with MessageBoardSupport with DocumentLibrarySupport
+class TemplateUpgradeProcess extends BlogHelpers with MessageBoardSupport
 {
-  final private val demoOrgName = "Project Learn Demo 1.4.5 Site Template"
+  final private val demoOrgName = "Valamis eLearning site template"
 
   def doUpgrade() {
     val companyId = PortalUtil.getDefaultCompanyId
@@ -115,7 +114,7 @@ class TemplateUpgradeProcess(val storageFactory: StorageFactoryContract) extends
     val playerPortlet = addPortletId(layoutTheory, "SCORMApplication_WAR_learnportlet", "column-4")
     setCustomTitle(layoutTheory, playerPortlet, "Check out your latest material")
 
-    val assetPublisher = addPortletId(layoutTheory, PortletKeys.ASSET_PUBLISHER, "column-5")
+    addPortletId(layoutTheory, PortletKeys.ASSET_PUBLISHER, "column-5")
     //setPortletPreferences(layoutTheory, assetPublisher, "demo/settings/latest.topics.xml")
 
     val activities = addPortletId(layoutTheory, PortletKeys.ACTIVITIES, "column-6")
@@ -199,7 +198,7 @@ class TemplateUpgradeProcess(val storageFactory: StorageFactoryContract) extends
     addSimpleJournalArticle(defaultUserId, group, layoutToolsGradebook, "Gradebook", "demo/articles/gradebook.xml", "column-1", serviceContext)
     addPortletId(layoutToolsGradebook, "Gradebook_WAR_learnportlet", "column-2")
 
-    val layoutToolsCurriculum = addLayout(group, "Curriculum", UpgradeProcess.isPublic, "/tools/curriculum", "2_columns_ii", layoutTools.getLayoutId)
+    val layoutToolsCurriculum = addLayout(group, "Curriculum", TemplateUpgradeProcess.isPublic, "/tools/curriculum", "2_columns_ii", layoutTools.getLayoutId)
     addToolsNavigationPortlet(layoutToolsCurriculum)
     addSimpleJournalArticle(defaultUserId, group, layoutToolsCurriculum, "Curriculum", "demo/articles/curriculum.xml", "column-1", serviceContext)
     addPortletId(layoutToolsCurriculum, "Curriculum_WAR_learnportlet", "column-2")
@@ -349,7 +348,7 @@ class TemplateUpgradeProcess(val storageFactory: StorageFactoryContract) extends
                                              structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
 
     serviceContext.setAddGroupPermissions(true)
-    serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
+    serviceContext.setAddGuestPermissions(TemplateUpgradeProcess.isPublic)
     serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH)
 
     val journalArticle = JournalArticleLocalServiceUtil.addArticle(userId, groupId,

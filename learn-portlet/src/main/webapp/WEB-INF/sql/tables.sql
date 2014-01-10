@@ -383,27 +383,163 @@ create table Learn_LFSocialPackageTag (
 
 create table Learn_LFTincanActivity (
 	id_ LONG not null primary key,
-	tincanID VARCHAR(75) null,
+	tincanID VARCHAR(2000) null,
 	packageID LONG null,
-	activityType VARCHAR(75) null,
-	name VARCHAR(75) null,
-	description VARCHAR(75) null,
-	launch VARCHAR(75) null,
-	resource VARCHAR(75) null
+	objectType VARCHAR(75) null,
+	name TEXT null,
+	description TEXT null,
+	theType TEXT null,
+	moreInfo TEXT null,
+	interactionType TEXT null,
+	correctResponsesPattern TEXT null,
+	choices TEXT null,
+	scale TEXT null,
+	source TEXT null,
+	target TEXT null,
+	steps TEXT null,
+	extensions TEXT null
+);
+
+create table Learn_LFTincanActor (
+	id_ LONG not null primary key,
+	tincanID VARCHAR(75) null,
+	objectType VARCHAR(75) null,
+	name TEXT null,
+	mbox TEXT null,
+	mbox_sha1sum TEXT null,
+	openid TEXT null,
+	account TEXT null,
+	memberOf TEXT null
+);
+
+create table Learn_LFTincanLrsActivityProfile (
+	id_ LONG not null primary key,
+	documentId INTEGER null,
+	activityId VARCHAR(75) null,
+	profileId VARCHAR(75) null
+);
+
+create table Learn_LFTincanLrsAgentProfile (
+	id_ LONG not null primary key,
+	documentId INTEGER null,
+	agentId INTEGER null,
+	profileId VARCHAR(75) null
+);
+
+create table Learn_LFTincanLrsAttachment (
+	id_ LONG not null primary key,
+	parentID INTEGER null,
+	usageType TEXT null,
+	display TEXT null,
+	description TEXT null,
+	contentType TEXT null,
+	length INTEGER null,
+	sha2 TEXT null,
+	fileUrl TEXT null
+);
+
+create table Learn_LFTincanLrsContext (
+	id_ LONG not null primary key,
+	registration VARCHAR(75) null,
+	instructorID INTEGER null,
+	teamID INTEGER null,
+	contextActivitiesID INTEGER null,
+	revision TEXT null,
+	platform TEXT null,
+	language TEXT null,
+	statement TEXT null,
+	extensions TEXT null
+);
+
+create table Learn_LFTincanLrsContextActivities (
+	id_ LONG not null primary key,
+	parent TEXT null,
+	grouping TEXT null,
+	category TEXT null,
+	other TEXT null
+);
+
+create table Learn_LFTincanLrsDocument (
+	id_ LONG not null primary key,
+	documentId VARCHAR(75) null,
+	update_ DATE null,
+	content TEXT null,
+	contentType VARCHAR(2000) null
 );
 
 create table Learn_LFTincanLrsEndpoint (
 	id_ LONG not null primary key,
-	endpoint VARCHAR(75) null,
-	authType VARCHAR(75) null,
-	key_ VARCHAR(75) null,
-	secret VARCHAR(75) null
+	endpoint VARCHAR(2000) null,
+	authType VARCHAR(2000) null,
+	key_ VARCHAR(2000) null,
+	secret VARCHAR(2000) null
+);
+
+create table Learn_LFTincanLrsResult (
+	id_ LONG not null primary key,
+	score TEXT null,
+	success BOOLEAN null,
+	completion BOOLEAN null,
+	response TEXT null,
+	duration DOUBLE null,
+	extension TEXT null
+);
+
+create table Learn_LFTincanLrsState (
+	id_ LONG not null primary key,
+	stateId VARCHAR(75) null,
+	documentId VARCHAR(75) null,
+	activityId VARCHAR(75) null,
+	profileId VARCHAR(75) null,
+	registration TEXT null,
+	agentId INTEGER null
+);
+
+create table Learn_LFTincanLrsStatement (
+	id_ LONG not null primary key,
+	tincanID VARCHAR(75) null,
+	actorID INTEGER null,
+	verbID VARCHAR(2000) null,
+	verbDisplay TEXT null,
+	objType VARCHAR(2000) null,
+	objID INTEGER null,
+	resultID INTEGER null,
+	contextID INTEGER null,
+	timestamp DATE null,
+	stored DATE null,
+	authorityID INTEGER null,
+	version VARCHAR(2000) null
+);
+
+create table Learn_LFTincanLrsStatementRef (
+	id_ LONG not null primary key,
+	uuid_ VARCHAR(75) null
+);
+
+create table Learn_LFTincanLrsSubStatement (
+	id_ LONG not null primary key,
+	actorID INTEGER null,
+	verbID VARCHAR(2000) null,
+	verbDisplay TEXT null,
+	objType VARCHAR(2000) null,
+	objID INTEGER null
+);
+
+create table Learn_LFTincanManifestActivity (
+	id_ LONG not null primary key,
+	tincanID VARCHAR(75) null,
+	packageID LONG null,
+	activityType VARCHAR(75) null,
+	name VARCHAR(2000) null,
+	description VARCHAR(2000) null,
+	launch VARCHAR(2000) null,
+	resource VARCHAR(2000) null
 );
 
 create table Learn_LFTincanPackage (
 	id_ LONG not null primary key,
-	title VARCHAR(75) null,
-	summary VARCHAR(75) null,
+	title VARCHAR(2000) null,
+	summary VARCHAR(2000) null,
 	assetRefID LONG null,
 	courseID INTEGER null
 );

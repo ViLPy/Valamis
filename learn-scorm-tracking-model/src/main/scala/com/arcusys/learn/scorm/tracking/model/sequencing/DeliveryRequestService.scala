@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject._
 import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
 
 /**

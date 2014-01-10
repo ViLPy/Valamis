@@ -3,7 +3,7 @@ package com.arcusys.learn.scorm.tracking.model.sequencing
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 import org.junit.runner.RunWith
-import org.scala_tools.subcut.inject.NewBindingModule
+import com.escalatesoft.subcut.inject.NewBindingModule
 import com.arcusys.learn.scorm.tracking.model._
 import org.scalamock.scalatest.MockFactory
 import org.scalamock.ProxyMockFactory

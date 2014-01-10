@@ -1,6 +1,6 @@
 package com.arcusys.learn.web
 
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
 import org.scalatra.fileupload.FileUploadSupport

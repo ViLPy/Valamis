@@ -1,7 +1,7 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model.Course
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 
 class CourseService(implicit val bindingModule: BindingModule) extends Injectable {

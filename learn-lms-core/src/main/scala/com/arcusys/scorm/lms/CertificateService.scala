@@ -3,7 +3,7 @@ package com.arcusys.scorm.lms
 import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
 import com.arcusys.learn.scorm.tracking.model.certificating._
 import com.liferay.portal.kernel.util.{UnicodeProperties, StringPool}
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.liferay.portlet.social.model.SocialActivity
 import com.liferay.portal.service.{GroupLocalServiceUtil, UserLocalServiceUtil}

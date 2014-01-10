@@ -46,7 +46,20 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTra
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
@@ -278,8 +291,34 @@ public class LFFileStoragePersistenceImpl extends BasePersistenceImpl<LFFileStor
     protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
     @BeanReference(type = LFTincanActivityPersistence.class)
     protected LFTincanActivityPersistence lfTincanActivityPersistence;
+    @BeanReference(type = LFTincanActorPersistence.class)
+    protected LFTincanActorPersistence lfTincanActorPersistence;
+    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
+    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
+    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
+    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
+    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
+    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
+    @BeanReference(type = LFTincanLrsContextPersistence.class)
+    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
+    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
+    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
+    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
+    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
     @BeanReference(type = LFTincanLrsEndpointPersistence.class)
     protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
+    @BeanReference(type = LFTincanLrsResultPersistence.class)
+    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
+    @BeanReference(type = LFTincanLrsStatePersistence.class)
+    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
+    @BeanReference(type = LFTincanLrsStatementPersistence.class)
+    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
+    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
+    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
+    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
+    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
+    @BeanReference(type = LFTincanManifestActivityPersistence.class)
+    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
     @BeanReference(type = LFTincanPackagePersistence.class)
     protected LFTincanPackagePersistence lfTincanPackagePersistence;
     @BeanReference(type = LFUserPersistence.class)

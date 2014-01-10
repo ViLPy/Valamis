@@ -2,7 +2,7 @@ package com.arcusys.learn.web
 
 import org.scalatra.ScalatraServlet
 import com.arcusys.scala.scalatra.json.JsonSupport
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.service.util.SessionHandler
 
 //import org.slf4j.LoggerFactory
@@ -46,13 +46,7 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
       case _ => halt(405, "Integer parameter '" + name + "' could not be parsed")
     }
 
-    def stringOption(): Option[String] = {
-      params.get(name).map(value => try {
-        value.toString
-      } catch {
-        case _ => halt(405, "String parameter '" + name + "' could not be parsed")
-      })
-    }
+    def option: Option[String] = params.get(name)
 
     def intOption(none: String): Option[Int] = {
       val value = params.getOrElse(name, none)

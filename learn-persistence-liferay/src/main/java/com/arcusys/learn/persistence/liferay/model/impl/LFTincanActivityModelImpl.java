@@ -46,13 +46,21 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
             { "id_", Types.BIGINT },
             { "tincanID", Types.VARCHAR },
             { "packageID", Types.BIGINT },
-            { "activityType", Types.VARCHAR },
-            { "name", Types.VARCHAR },
-            { "description", Types.VARCHAR },
-            { "launch", Types.VARCHAR },
-            { "resource", Types.VARCHAR }
+            { "objectType", Types.VARCHAR },
+            { "name", Types.CLOB },
+            { "description", Types.CLOB },
+            { "theType", Types.CLOB },
+            { "moreInfo", Types.CLOB },
+            { "interactionType", Types.CLOB },
+            { "correctResponsesPattern", Types.CLOB },
+            { "choices", Types.CLOB },
+            { "scale", Types.CLOB },
+            { "source", Types.CLOB },
+            { "target", Types.CLOB },
+            { "steps", Types.CLOB },
+            { "extensions", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanActivity (id_ LONG not null primary key,tincanID VARCHAR(75) null,packageID LONG null,activityType VARCHAR(75) null,name VARCHAR(75) null,description VARCHAR(75) null,launch VARCHAR(75) null,resource VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanActivity (id_ LONG not null primary key,tincanID VARCHAR(2000) null,packageID LONG null,objectType VARCHAR(75) null,name TEXT null,description TEXT null,theType TEXT null,moreInfo TEXT null,interactionType TEXT null,correctResponsesPattern TEXT null,choices TEXT null,scale TEXT null,source TEXT null,target TEXT null,steps TEXT null,extensions TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanActivity";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -67,6 +75,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
                 "value.object.column.bitmask.enabled.com.arcusys.learn.persistence.liferay.model.LFTincanActivity"),
             true);
     public static long PACKAGEID_COLUMN_BITMASK = 1L;
+    public static long TINCANID_COLUMN_BITMASK = 2L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFTincanActivity"));
     private static ClassLoader _classLoader = LFTincanActivity.class.getClassLoader();
@@ -75,14 +84,23 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         };
     private long _id;
     private String _tincanID;
+    private String _originalTincanID;
     private Long _packageID;
     private Long _originalPackageID;
     private boolean _setOriginalPackageID;
-    private String _activityType;
+    private String _objectType;
     private String _name;
     private String _description;
-    private String _launch;
-    private String _resource;
+    private String _theType;
+    private String _moreInfo;
+    private String _interactionType;
+    private String _correctResponsesPattern;
+    private String _choices;
+    private String _scale;
+    private String _source;
+    private String _target;
+    private String _steps;
+    private String _extensions;
     private long _columnBitmask;
     private LFTincanActivity _escapedModelProxy;
 
@@ -120,11 +138,19 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         attributes.put("id", getId());
         attributes.put("tincanID", getTincanID());
         attributes.put("packageID", getPackageID());
-        attributes.put("activityType", getActivityType());
+        attributes.put("objectType", getObjectType());
         attributes.put("name", getName());
         attributes.put("description", getDescription());
-        attributes.put("launch", getLaunch());
-        attributes.put("resource", getResource());
+        attributes.put("theType", getTheType());
+        attributes.put("moreInfo", getMoreInfo());
+        attributes.put("interactionType", getInteractionType());
+        attributes.put("correctResponsesPattern", getCorrectResponsesPattern());
+        attributes.put("choices", getChoices());
+        attributes.put("scale", getScale());
+        attributes.put("source", getSource());
+        attributes.put("target", getTarget());
+        attributes.put("steps", getSteps());
+        attributes.put("extensions", getExtensions());
 
         return attributes;
     }
@@ -149,10 +175,10 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
             setPackageID(packageID);
         }
 
-        String activityType = (String) attributes.get("activityType");
+        String objectType = (String) attributes.get("objectType");
 
-        if (activityType != null) {
-            setActivityType(activityType);
+        if (objectType != null) {
+            setObjectType(objectType);
         }
 
         String name = (String) attributes.get("name");
@@ -167,16 +193,65 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
             setDescription(description);
         }
 
-        String launch = (String) attributes.get("launch");
+        String theType = (String) attributes.get("theType");
 
-        if (launch != null) {
-            setLaunch(launch);
+        if (theType != null) {
+            setTheType(theType);
         }
 
-        String resource = (String) attributes.get("resource");
+        String moreInfo = (String) attributes.get("moreInfo");
 
-        if (resource != null) {
-            setResource(resource);
+        if (moreInfo != null) {
+            setMoreInfo(moreInfo);
+        }
+
+        String interactionType = (String) attributes.get("interactionType");
+
+        if (interactionType != null) {
+            setInteractionType(interactionType);
+        }
+
+        String correctResponsesPattern = (String) attributes.get(
+                "correctResponsesPattern");
+
+        if (correctResponsesPattern != null) {
+            setCorrectResponsesPattern(correctResponsesPattern);
+        }
+
+        String choices = (String) attributes.get("choices");
+
+        if (choices != null) {
+            setChoices(choices);
+        }
+
+        String scale = (String) attributes.get("scale");
+
+        if (scale != null) {
+            setScale(scale);
+        }
+
+        String source = (String) attributes.get("source");
+
+        if (source != null) {
+            setSource(source);
+        }
+
+        String target = (String) attributes.get("target");
+
+        if (target != null) {
+            setTarget(target);
+        }
+
+        String steps = (String) attributes.get("steps");
+
+        if (steps != null) {
+            setSteps(steps);
+        }
+
+        String extensions = (String) attributes.get("extensions");
+
+        if (extensions != null) {
+            setExtensions(extensions);
         }
     }
 
@@ -193,7 +268,17 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     }
 
     public void setTincanID(String tincanID) {
+        _columnBitmask |= TINCANID_COLUMN_BITMASK;
+
+        if (_originalTincanID == null) {
+            _originalTincanID = _tincanID;
+        }
+
         _tincanID = tincanID;
+    }
+
+    public String getOriginalTincanID() {
+        return _originalTincanID;
     }
 
     public Long getPackageID() {
@@ -216,12 +301,12 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         return _originalPackageID;
     }
 
-    public String getActivityType() {
-        return _activityType;
+    public String getObjectType() {
+        return _objectType;
     }
 
-    public void setActivityType(String activityType) {
-        _activityType = activityType;
+    public void setObjectType(String objectType) {
+        _objectType = objectType;
     }
 
     public String getName() {
@@ -240,20 +325,84 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         _description = description;
     }
 
-    public String getLaunch() {
-        return _launch;
+    public String getTheType() {
+        return _theType;
     }
 
-    public void setLaunch(String launch) {
-        _launch = launch;
+    public void setTheType(String theType) {
+        _theType = theType;
     }
 
-    public String getResource() {
-        return _resource;
+    public String getMoreInfo() {
+        return _moreInfo;
     }
 
-    public void setResource(String resource) {
-        _resource = resource;
+    public void setMoreInfo(String moreInfo) {
+        _moreInfo = moreInfo;
+    }
+
+    public String getInteractionType() {
+        return _interactionType;
+    }
+
+    public void setInteractionType(String interactionType) {
+        _interactionType = interactionType;
+    }
+
+    public String getCorrectResponsesPattern() {
+        return _correctResponsesPattern;
+    }
+
+    public void setCorrectResponsesPattern(String correctResponsesPattern) {
+        _correctResponsesPattern = correctResponsesPattern;
+    }
+
+    public String getChoices() {
+        return _choices;
+    }
+
+    public void setChoices(String choices) {
+        _choices = choices;
+    }
+
+    public String getScale() {
+        return _scale;
+    }
+
+    public void setScale(String scale) {
+        _scale = scale;
+    }
+
+    public String getSource() {
+        return _source;
+    }
+
+    public void setSource(String source) {
+        _source = source;
+    }
+
+    public String getTarget() {
+        return _target;
+    }
+
+    public void setTarget(String target) {
+        _target = target;
+    }
+
+    public String getSteps() {
+        return _steps;
+    }
+
+    public void setSteps(String steps) {
+        _steps = steps;
+    }
+
+    public String getExtensions() {
+        return _extensions;
+    }
+
+    public void setExtensions(String extensions) {
+        _extensions = extensions;
     }
 
     public long getColumnBitmask() {
@@ -291,11 +440,19 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         lfTincanActivityImpl.setId(getId());
         lfTincanActivityImpl.setTincanID(getTincanID());
         lfTincanActivityImpl.setPackageID(getPackageID());
-        lfTincanActivityImpl.setActivityType(getActivityType());
+        lfTincanActivityImpl.setObjectType(getObjectType());
         lfTincanActivityImpl.setName(getName());
         lfTincanActivityImpl.setDescription(getDescription());
-        lfTincanActivityImpl.setLaunch(getLaunch());
-        lfTincanActivityImpl.setResource(getResource());
+        lfTincanActivityImpl.setTheType(getTheType());
+        lfTincanActivityImpl.setMoreInfo(getMoreInfo());
+        lfTincanActivityImpl.setInteractionType(getInteractionType());
+        lfTincanActivityImpl.setCorrectResponsesPattern(getCorrectResponsesPattern());
+        lfTincanActivityImpl.setChoices(getChoices());
+        lfTincanActivityImpl.setScale(getScale());
+        lfTincanActivityImpl.setSource(getSource());
+        lfTincanActivityImpl.setTarget(getTarget());
+        lfTincanActivityImpl.setSteps(getSteps());
+        lfTincanActivityImpl.setExtensions(getExtensions());
 
         lfTincanActivityImpl.resetOriginalValues();
 
@@ -346,6 +503,8 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
     public void resetOriginalValues() {
         LFTincanActivityModelImpl lfTincanActivityModelImpl = this;
 
+        lfTincanActivityModelImpl._originalTincanID = lfTincanActivityModelImpl._tincanID;
+
         lfTincanActivityModelImpl._originalPackageID = lfTincanActivityModelImpl._packageID;
 
         lfTincanActivityModelImpl._setOriginalPackageID = false;
@@ -369,12 +528,12 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
 
         lfTincanActivityCacheModel.packageID = getPackageID();
 
-        lfTincanActivityCacheModel.activityType = getActivityType();
+        lfTincanActivityCacheModel.objectType = getObjectType();
 
-        String activityType = lfTincanActivityCacheModel.activityType;
+        String objectType = lfTincanActivityCacheModel.objectType;
 
-        if ((activityType != null) && (activityType.length() == 0)) {
-            lfTincanActivityCacheModel.activityType = null;
+        if ((objectType != null) && (objectType.length() == 0)) {
+            lfTincanActivityCacheModel.objectType = null;
         }
 
         lfTincanActivityCacheModel.name = getName();
@@ -393,20 +552,85 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
             lfTincanActivityCacheModel.description = null;
         }
 
-        lfTincanActivityCacheModel.launch = getLaunch();
+        lfTincanActivityCacheModel.theType = getTheType();
 
-        String launch = lfTincanActivityCacheModel.launch;
+        String theType = lfTincanActivityCacheModel.theType;
 
-        if ((launch != null) && (launch.length() == 0)) {
-            lfTincanActivityCacheModel.launch = null;
+        if ((theType != null) && (theType.length() == 0)) {
+            lfTincanActivityCacheModel.theType = null;
         }
 
-        lfTincanActivityCacheModel.resource = getResource();
+        lfTincanActivityCacheModel.moreInfo = getMoreInfo();
 
-        String resource = lfTincanActivityCacheModel.resource;
+        String moreInfo = lfTincanActivityCacheModel.moreInfo;
 
-        if ((resource != null) && (resource.length() == 0)) {
-            lfTincanActivityCacheModel.resource = null;
+        if ((moreInfo != null) && (moreInfo.length() == 0)) {
+            lfTincanActivityCacheModel.moreInfo = null;
+        }
+
+        lfTincanActivityCacheModel.interactionType = getInteractionType();
+
+        String interactionType = lfTincanActivityCacheModel.interactionType;
+
+        if ((interactionType != null) && (interactionType.length() == 0)) {
+            lfTincanActivityCacheModel.interactionType = null;
+        }
+
+        lfTincanActivityCacheModel.correctResponsesPattern = getCorrectResponsesPattern();
+
+        String correctResponsesPattern = lfTincanActivityCacheModel.correctResponsesPattern;
+
+        if ((correctResponsesPattern != null) &&
+                (correctResponsesPattern.length() == 0)) {
+            lfTincanActivityCacheModel.correctResponsesPattern = null;
+        }
+
+        lfTincanActivityCacheModel.choices = getChoices();
+
+        String choices = lfTincanActivityCacheModel.choices;
+
+        if ((choices != null) && (choices.length() == 0)) {
+            lfTincanActivityCacheModel.choices = null;
+        }
+
+        lfTincanActivityCacheModel.scale = getScale();
+
+        String scale = lfTincanActivityCacheModel.scale;
+
+        if ((scale != null) && (scale.length() == 0)) {
+            lfTincanActivityCacheModel.scale = null;
+        }
+
+        lfTincanActivityCacheModel.source = getSource();
+
+        String source = lfTincanActivityCacheModel.source;
+
+        if ((source != null) && (source.length() == 0)) {
+            lfTincanActivityCacheModel.source = null;
+        }
+
+        lfTincanActivityCacheModel.target = getTarget();
+
+        String target = lfTincanActivityCacheModel.target;
+
+        if ((target != null) && (target.length() == 0)) {
+            lfTincanActivityCacheModel.target = null;
+        }
+
+        lfTincanActivityCacheModel.steps = getSteps();
+
+        String steps = lfTincanActivityCacheModel.steps;
+
+        if ((steps != null) && (steps.length() == 0)) {
+            lfTincanActivityCacheModel.steps = null;
+        }
+
+        lfTincanActivityCacheModel.extensions = getExtensions();
+
+        String extensions = lfTincanActivityCacheModel.extensions;
+
+        if ((extensions != null) && (extensions.length() == 0)) {
+            lfTincanActivityCacheModel.extensions = null;
         }
 
         return lfTincanActivityCacheModel;
@@ -414,7 +638,7 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(33);
 
         sb.append("{id=");
         sb.append(getId());
@@ -422,23 +646,39 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         sb.append(getTincanID());
         sb.append(", packageID=");
         sb.append(getPackageID());
-        sb.append(", activityType=");
-        sb.append(getActivityType());
+        sb.append(", objectType=");
+        sb.append(getObjectType());
         sb.append(", name=");
         sb.append(getName());
         sb.append(", description=");
         sb.append(getDescription());
-        sb.append(", launch=");
-        sb.append(getLaunch());
-        sb.append(", resource=");
-        sb.append(getResource());
+        sb.append(", theType=");
+        sb.append(getTheType());
+        sb.append(", moreInfo=");
+        sb.append(getMoreInfo());
+        sb.append(", interactionType=");
+        sb.append(getInteractionType());
+        sb.append(", correctResponsesPattern=");
+        sb.append(getCorrectResponsesPattern());
+        sb.append(", choices=");
+        sb.append(getChoices());
+        sb.append(", scale=");
+        sb.append(getScale());
+        sb.append(", source=");
+        sb.append(getSource());
+        sb.append(", target=");
+        sb.append(getTarget());
+        sb.append(", steps=");
+        sb.append(getSteps());
+        sb.append(", extensions=");
+        sb.append(getExtensions());
         sb.append("}");
 
         return sb.toString();
     }
 
     public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+        StringBundler sb = new StringBundler(52);
 
         sb.append("<model><model-name>");
         sb.append(
@@ -458,8 +698,8 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         sb.append(getPackageID());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>activityType</column-name><column-value><![CDATA[");
-        sb.append(getActivityType());
+            "<column><column-name>objectType</column-name><column-value><![CDATA[");
+        sb.append(getObjectType());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>name</column-name><column-value><![CDATA[");
@@ -470,12 +710,44 @@ public class LFTincanActivityModelImpl extends BaseModelImpl<LFTincanActivity>
         sb.append(getDescription());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>launch</column-name><column-value><![CDATA[");
-        sb.append(getLaunch());
+            "<column><column-name>theType</column-name><column-value><![CDATA[");
+        sb.append(getTheType());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>resource</column-name><column-value><![CDATA[");
-        sb.append(getResource());
+            "<column><column-name>moreInfo</column-name><column-value><![CDATA[");
+        sb.append(getMoreInfo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>interactionType</column-name><column-value><![CDATA[");
+        sb.append(getInteractionType());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>correctResponsesPattern</column-name><column-value><![CDATA[");
+        sb.append(getCorrectResponsesPattern());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>choices</column-name><column-value><![CDATA[");
+        sb.append(getChoices());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>scale</column-name><column-value><![CDATA[");
+        sb.append(getScale());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>source</column-name><column-value><![CDATA[");
+        sb.append(getSource());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>target</column-name><column-value><![CDATA[");
+        sb.append(getTarget());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>steps</column-name><column-value><![CDATA[");
+        sb.append(getSteps());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>extensions</column-name><column-value><![CDATA[");
+        sb.append(getExtensions());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

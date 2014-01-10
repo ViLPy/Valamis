@@ -55,22 +55,25 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
 
       val tincanEndpointData = storageFactory.tincanLrsEndpointStorage.get match {
         case Some(LrsEndpointSettings(endpoint, CommonBasicAuthorization(loginName, password))) => Map(
-            "tincanLrsEndpoint" -> endpoint,
-            "tincanLrsIsBasicAuth" -> true,
-            "tincanLrsIsOAuth" -> false,
-            "commonCredentials" -> true,
-            "tincanLrsLoginName" -> loginName,
-            "tincanLrsPassword" -> password
-          )
+          "tincanExternalLrs" -> true,
+          "tincanLrsEndpoint" -> endpoint,
+          "tincanLrsIsBasicAuth" -> true,
+          "tincanLrsIsOAuth" -> false,
+          "commonCredentials" -> true,
+          "tincanLrsLoginName" -> loginName,
+          "tincanLrsPassword" -> password
+        )
         case Some(LrsEndpointSettings(endpoint, UserBasicAuthorization)) => Map(
-              "tincanLrsEndpoint" -> endpoint,
-              "tincanLrsIsBasicAuth" -> true,
-              "tincanLrsIsOAuth" -> false,
-              "commonCredentials" -> false,
-              "tincanLrsLoginName" -> "",
-              "tincanLrsPassword" -> ""
-            )
+          "tincanExternalLrs" -> true,
+          "tincanLrsEndpoint" -> endpoint,
+          "tincanLrsIsBasicAuth" -> true,
+          "tincanLrsIsOAuth" -> false,
+          "commonCredentials" -> false,
+          "tincanLrsLoginName" -> "",
+          "tincanLrsPassword" -> ""
+        )
         case Some(LrsEndpointSettings(endpoint, OAuthAuthorization(key, secret))) => Map(
+          "tincanExternalLrs" -> true,
           "tincanLrsEndpoint" -> endpoint,
           "tincanLrsIsBasicAuth" -> false,
           "tincanLrsIsOAuth" -> true,
@@ -79,6 +82,7 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
           "tincanLrsPassword" -> secret
         )
         case _ => Map(
+          "tincanExternalLrs" -> false,
           "tincanLrsEndpoint" -> "",
           "tincanLrsIsBasicAuth" -> true,
           "tincanLrsIsOAuth" -> false,

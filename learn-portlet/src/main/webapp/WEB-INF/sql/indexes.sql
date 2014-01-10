@@ -113,6 +113,31 @@ create index IX_CF234D5B on Learn_LFSocialPackageTag (name);
 create index IX_C54C6408 on Learn_LFSocialPackageTag (socialPackageID);
 
 create index IX_D904A10 on Learn_LFTincanActivity (packageID);
+create index IX_961ECBC7 on Learn_LFTincanActivity (tincanID);
+
+create index IX_38F9C274 on Learn_LFTincanActor (memberOf);
+create index IX_91905B9F on Learn_LFTincanActor (objectType, name, mbox, mbox_sha1sum, openid);
+create index IX_CDC60415 on Learn_LFTincanActor (tincanID);
+
+create index IX_D2D0DBF7 on Learn_LFTincanLrsActivityProfile (activityId, profileId);
+
+create index IX_E8096D4F on Learn_LFTincanLrsAgentProfile (agentId, profileId);
+create index IX_BF3CD0C9 on Learn_LFTincanLrsAgentProfile (profileId);
+
+create index IX_68D244E3 on Learn_LFTincanLrsAttachment (parentID);
+
+create index IX_2A760C2C on Learn_LFTincanLrsDocument (documentId);
+
+create index IX_538EDAB4 on Learn_LFTincanLrsState (activityId);
+create index IX_98BFD988 on Learn_LFTincanLrsState (activityId, stateId);
+
+create index IX_D28AE6C on Learn_LFTincanLrsStatement (actorID);
+create index IX_FE381CB5 on Learn_LFTincanLrsStatement (objType, objID);
+create index IX_2DF2F67A on Learn_LFTincanLrsStatement (tincanID);
+create index IX_B9F1D082 on Learn_LFTincanLrsStatement (verbID);
+
+create index IX_5C883B21 on Learn_LFTincanManifestActivity (packageID);
+create index IX_1CCBF496 on Learn_LFTincanManifestActivity (tincanID);
 
 create index IX_7A257452 on Learn_LFTincanPackage (assetRefID);
 create index IX_F334E16A on Learn_LFTincanPackage (courseID);

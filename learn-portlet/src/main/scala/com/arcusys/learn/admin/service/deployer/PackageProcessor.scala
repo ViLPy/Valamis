@@ -1,6 +1,6 @@
 package com.arcusys.learn.admin.service.deployer
 
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.liferay.service.asset.AssetHelper
 import com.arcusys.learn.storage.StorageFactoryContract
 

@@ -20,18 +20,32 @@ import com.arcusys.learn.updater.StorageUpdater
 import com.arcusys.learn.updater.impl.orbroker.StorageUpdaterImpl
 import com.arcusys.learn.social.storage.{PackageVoteStorage, PackageCommentStorage, SocialPackageStorage}
 import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, CertificateSiteStorage, CertificateStorage}
-import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.setting.storage.SettingStorage
+import com.arcusys.learn.tincan.storage._
 
 object StorageFactory extends StorageFactoryContract {
   val initBroker = {
     if (!BrokerFactory.isInitialized) BrokerFactory.init(PropertyUtil.load("db"))
   }
 
-  lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for orbroker storage")
-  lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("TincanPackageStorage not implemented for orbroker storage")
-  lazy val tincanActivityStorage: TincanActivityStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for orbroker storage")
+  lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanActivityStorage: TincanManifestActivityStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsStatementRefStorage: StatementRefStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsContextActivitiesStorage: ContextActivitiesStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsStatementStorage: StatementStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsSubStatementStorage: SubStatementStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsAttachmentStorage: AttachmentStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsStateStorage : StateStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsResultStorage: TincanResultStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsContextStorage: ContextStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsActorStorage: ActorStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsDocumentStorage: DocumentStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsActivityStorage : TincanActivityStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsActivityProfileStorage : ActivityProfileStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanLrsAgentProfileStorage: AgentProfileStorage = throw new UnsupportedOperationException("Storage not implemented for LFStorages")
   lazy val packageStorage: PackagesStorage = new PackagesStorageImpl
   lazy val activityStorage: ActivitiesStorage = new ActivitiesStorageImpl
   //lazy val organizationStorage: OrganizationsStorage = new OrganizationsStorageImpl

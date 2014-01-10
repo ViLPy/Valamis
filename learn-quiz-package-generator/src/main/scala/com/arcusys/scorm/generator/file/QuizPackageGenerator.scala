@@ -10,7 +10,7 @@ import com.arcusys.learn.scorm.manifest.serializer.ManifestGenerator
 import com.arcusys.learn.util.TreeNode
 import java.net.URLDecoder
 import com.arcusys.learn.questionbank.model.PlainText
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
 import org.apache.commons.lang.StringEscapeUtils
 

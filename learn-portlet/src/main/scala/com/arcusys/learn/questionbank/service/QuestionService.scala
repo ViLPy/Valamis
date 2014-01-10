@@ -3,7 +3,7 @@ package com.arcusys.learn.questionbank.service
 import com.arcusys.learn.questionbank.model._
 import com.arcusys.scorm.util._
 import com.arcusys.scala.json.Json._
-import org.scala_tools.subcut.inject.BindingModule
+import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}

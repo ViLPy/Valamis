@@ -11,112 +11,24 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants
 import com.liferay.portlet.journal.model.{JournalArticle, JournalArticleConstants}
 import java.util.{Calendar, Locale}
 import com.liferay.portlet.PortletPreferencesFactoryUtil
-import com.liferay.portlet.documentlibrary.service.{DLAppServiceUtil, DLFolderLocalServiceUtil}
 import com.liferay.portal.security.auth.PrincipalThreadLocal
 import com.liferay.portal.security.permission.{PermissionThreadLocal, PermissionCheckerFactoryUtil}
-import com.liferay.portlet.messageboards.service.{MBThreadLocalServiceUtil, MBDiscussionLocalServiceUtil, MBMessageLocalServiceUtil, MBCategoryLocalServiceUtil}
-import java.io.InputStream
 import java.util
 import com.arcusys.learn.admin.service.UploadService
-import com.arcusys.learn.scorm.tracking.model.{PermissionType, Role, User}
+import com.arcusys.learn.scorm.tracking.model.{User, PermissionType, Role}
 import scala.Array
 import scala.util.Random
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.liferay.portal.kernel.lar.PortletDataHandlerKeys
 import scala.xml.XML
 import scala.collection.JavaConverters._
-import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil
 import com.liferay.portlet.polls.service.{PollsChoiceLocalServiceUtil, PollsQuestionLocalServiceUtil}
 import com.arcusys.learn.questionbank.model.{ChoiceAnswer, ChoiceQuestion}
 import com.arcusys.learn.quiz.model.Quiz
+import com.arcusys.liferay.util._
 
 object UpgradeProcess {
   val isPublic = false
-}
-
-object HookHelpers {
-  def getString(path: String) = {
-    new String(getBytes(path))
-  }
-
-  def getBytes(path: String) = {
-    FileUtil.getBytes(getInputStream(path))
-  }
-
-  def getInputStream(path: String) = {
-    Thread.currentThread().getContextClassLoader.getResourceAsStream(path)
-  }
-}
-
-trait BlogHelpers {
-  def addBlogsEntry(userId: Long, title: String, fileName: String,
-                    serviceContext: ServiceContext, replacement: Map[String, String] = Map()) = {
-    val content = if (replacement.isEmpty) {
-      HookHelpers.getString(fileName)
-    } else {
-      replacement.foldLeft(HookHelpers.getString(fileName)) {
-        (src, param) => src.replaceAll(param._1, param._2)
-      }
-    }
-
-    BlogsEntryLocalServiceUtil.addEntry(
-      userId, title, StringPool.BLANK, content, 1, 1, 2013, 0, 0, false, false,
-      Array[String](), false, StringPool.BLANK, StringPool.BLANK, null, serviceContext)
-  }
-}
-
-trait MessageBoardSupport {
-  def addMBCategory(userId: Long, name: String, description: String, serviceContext: ServiceContext) = {
-    MBCategoryLocalServiceUtil.addCategory(
-      userId, 0, name, description, StringPool.BLANK, StringPool.BLANK,
-      StringPool.BLANK, StringPool.BLANK, 0, false, StringPool.BLANK,
-      StringPool.BLANK, 1, StringPool.BLANK, false, StringPool.BLANK, 0, false,
-      StringPool.BLANK, StringPool.BLANK, false, false, serviceContext)
-  }
-
-  def addMBMessage(userId: Long, userName: String, groupId: Long, categoryId: Long,
-                   threadId: Long, parentMessageId: Long, subject: String, fileName: String, serviceContext: ServiceContext) = {
-
-    val body = HookHelpers.getString(fileName)
-
-    MBMessageLocalServiceUtil.addMessage(
-      userId, userName, groupId, categoryId, threadId, parentMessageId,
-      subject, body, "bbcode", new util.ArrayList[ObjectValuePair[String, InputStream]](),
-      false, -1.0, false, serviceContext)
-  }
-
-  def addMBDiscussionMessage(userId: Long, userName: String, groupId: Long, className: String, classPK: Long,
-                             threadId: Long, parentMessageId: Long, subject: String, fileName: String,
-                             serviceContext: ServiceContext) = {
-
-    val body = HookHelpers.getString(fileName)
-    val threadID = MBDiscussionLocalServiceUtil.getDiscussion(className, classPK).getThreadId
-    MBMessageLocalServiceUtil.addDiscussionMessage(userId, userName, groupId, className, classPK, threadID,
-      MBThreadLocalServiceUtil.getMBThread(threadID).getRootMessageId, subject, body, serviceContext)
-  }
-}
-
-trait DocumentLibrarySupport {
-  protected def addDLFileEntry(userId: Long, groupId: Long, folderId: Long, fileName: String,
-                               name: String, title: String, description: String, serviceContext: ServiceContext) = {
-
-    val bytes = HookHelpers.getBytes(fileName)
-
-    serviceContext.setAddGroupPermissions(true)
-    serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
-
-    DLAppServiceUtil.addFileEntry(groupId, folderId, fileName, MimeTypesUtil.getContentType(fileName), title,
-      description, StringPool.BLANK, bytes, serviceContext)
-  }
-
-  protected def addDLFolder(userId: Long, groupId: Long, name: String, description: String) = {
-    val serviceContext = new ServiceContext
-
-    serviceContext.setAddGroupPermissions(true)
-    serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
-
-    DLFolderLocalServiceUtil.addFolder(userId, groupId, groupId, false, 0, name, description, serviceContext)
-  }
 }
 
 trait UserHelpers {
@@ -186,7 +98,7 @@ trait UserHelpers {
 class UpgradeProcess(val storageFactory: StorageFactoryContract) extends UserHelpers with BlogHelpers
 with MessageBoardSupport with DocumentLibrarySupport
 {
-  final private val demoOrgName = "Project Learn Demo 1.4.5"
+  final private val demoOrgName = "Valamis eLearning demo site 1.5.6"
 
   def doUpgrade() {
     System.out.println("Deploying private demo site")
@@ -322,10 +234,10 @@ with MessageBoardSupport with DocumentLibrarySupport
     PermissionThreadLocal.setPermissionChecker(permissionChecker)
 
     val dlFolder = addDLFolder(teacherUser.getUserId, group.getGroupId,
-      "Picures", "Picture related with the Learn Project")
+      "Picures", "Picture related with the Learn Project", UpgradeProcess.isPublic)
 
     val discussion = addDLFileEntry(teacherUser.getUserId, dlFolder.getGroupId, dlFolder.getFolderId, "demo/documents/guys-discussion.1.jpg",
-      "guys-discussion.1.jpg", "Discussion", "", serviceContext)
+      "guys-discussion.1.jpg", "Discussion", "", serviceContext, UpgradeProcess.isPublic)
 
     val portletLanding2 = addPortletId(layoutTheory, PortletKeys.JOURNAL_CONTENT, "column-2")
 
@@ -375,7 +287,7 @@ with MessageBoardSupport with DocumentLibrarySupport
       "demo/blog/pisa.xml", serviceContext)
 
     val coffee = addDLFileEntry(teacherUser.getUserId, dlFolder.getGroupId, dlFolder.getFolderId, "demo/documents/coffee-tablet.jpg",
-      "coffee-tablet.jpg", "Coffee tablet", "", serviceContext)
+      "coffee-tablet.jpg", "Coffee tablet", "", serviceContext, UpgradeProcess.isPublic)
     val coffeeUrl = "/documents/" + coffee.getGroupId + "/" + coffee.getFolderId + "/" + coffee.getTitle
     addBlogsEntry(teacherUser.getUserId, "Lifelong learning",
       "demo/blog/lifelong.xml", serviceContext, Map("__coffee__" -> coffeeUrl))
@@ -672,8 +584,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addJournalArticleWithContent(userId: Long, groupId: Long,
-                                  title: String, content: String,
-                                  structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
+                                             title: String, content: String,
+                                             structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
 
     serviceContext.setAddGroupPermissions(true)
     serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)

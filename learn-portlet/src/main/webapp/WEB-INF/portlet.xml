@@ -85,7 +85,7 @@
 
     <portlet>
         <portlet-name>Curriculum</portlet-name>
-        <portlet-class>com.arcusys.learn.view.CurriculumView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.CurriculumAdmin</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
@@ -95,7 +95,23 @@
         </supports>
 
         <portlet-info>
-            <title>Curriculum</title>
+            <title>Curriculum admin</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>CurriculumUser</portlet-name>
+        <portlet-class>com.arcusys.learn.view.CurriculumUser</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Curriculum user</title>
         </portlet-info>
     </portlet>
 

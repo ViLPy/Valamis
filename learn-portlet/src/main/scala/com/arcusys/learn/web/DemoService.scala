@@ -1,8 +1,8 @@
 package com.arcusys.learn.web
 
-import org.scala_tools.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.service.util.{TemplateUpgradeProcess, UpgradeProcess}
+import com.arcusys.learn.service.util.UpgradeProcess
 import com.arcusys.learn.storage.StorageFactoryContract
 
 class DemoService(configuration: BindingModule) extends Injectable { // extends ServletBase(configuration) {
@@ -21,8 +21,8 @@ class DemoService(configuration: BindingModule) extends Injectable { // extends 
     val upgradeProcess = new UpgradeProcess(storageFactory)
     upgradeProcess.doUpgrade()
 
-    val templateUpgradeProcess = new TemplateUpgradeProcess(storageFactory)
-    templateUpgradeProcess.doUpgrade()
+    /*val templateUpgradeProcess = new TemplateUpgradeProcess(storageFactory)
+    templateUpgradeProcess.doUpgrade()*/
   }
 
 }

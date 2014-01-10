@@ -32,16 +32,19 @@ import com.arcusys.learn.social.storage.impl.{PackageVoteEntityStorage, PackageC
 import com.arcusys.learn.social.storage.impl.liferay.{LFPackageCommentStorageImpl, LFPackageVoteStorageImpl, LFSocialPackageStorageImpl}
 import com.arcusys.learn.scorm.certificating._
 import com.arcusys.learn.scorm.certificating.impl.{CertificateUserEntityStorage, CertificateSiteEntityStorage, CertificateEntityStorage}
-import com.arcusys.learn.scorm.tracking.model.Role
 import com.arcusys.learn.setting.storage.SettingStorage
 import com.arcusys.learn.setting.storage.impl.SettingEntityStorage
 import com.arcusys.learn.settings.model.LFSettingStorageImpl
-import com.arcusys.learn.tincan.manifest.storage.{TincanActivityStorage, TincanPackageStorage}
-import com.arcusys.learn.tincan.manifest.storage.impl.{TincanActivityEntityStorage, TincanPackageEntityStorage}
-import com.arcusys.learn.tincan.manifest.storage.impl.liferay.{LFTincanActivityStorageImpl, LFTincanPackageStorageImpl}
+import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.manifest.storage.impl.{TincanManifestActivityEntityStorage, TincanPackageEntityStorage}
+import com.arcusys.learn.tincan.manifest.storage.impl.liferay.{LFTincanManifestActivityStorageImpl, LFTincanPackageStorageImpl}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.tincan.lrsEndpoint.impl.TincanLrsEndpointEntityStorage
-import com.arcusys.learn.tincan.storage.impl.liferay.LFLrsEndpointStorageImpl
+import com.arcusys.learn.tincan.storage.impl.liferay._
+import com.arcusys.learn.tincan.storage._
+import com.arcusys.learn.tincan.storage.impl._
+import com.arcusys.learn.scorm.manifest.storage.impl.ActivityEntityStorage
+import com.arcusys.learn.tincan.model.AgentProfile
 
 /**
  * User: dkudinov
@@ -49,11 +52,54 @@ import com.arcusys.learn.tincan.storage.impl.liferay.LFLrsEndpointStorageImpl
  */
 object LFStorageFactory extends StorageFactoryContract {
   lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = new TincanLrsEndpointEntityStorage with LFLrsEndpointStorageImpl {}
-
   lazy val tincanPackageStorage: TincanPackageStorage = new TincanPackageEntityStorage with LFTincanPackageStorageImpl{ }
+  lazy val tincanActivityStorage: TincanManifestActivityStorage = new TincanManifestActivityEntityStorage with LFTincanManifestActivityStorageImpl
 
-  lazy val tincanActivityStorage: TincanActivityStorage = new TincanActivityEntityStorage with LFTincanActivityStorageImpl {}
+  lazy val tincanLrsStatementRefStorage: StatementRefStorage = new StatementRefEntityStorage with LFTincanLrsStatementRefStorageImpl
+  lazy val tincanLrsContextActivitiesStorage: ContextActivitiesStorage = new ContextActivitiesEntityStorage with LFTincanLrsContextActivitiesStorageImpl
 
+  lazy val tincanLrsStatementStorage: StatementStorage = new StatementEntityStorage with LFTincanLrsStatementStorageImpl{
+    def actorStorage: LFActorStorageImpl = LFStorageFactory.this.tincanLrsActorStorage.asInstanceOf[LFActorStorageImpl]
+    def tincanActivityStorage: TincanActivityStorage = LFStorageFactory.this.tincanLrsActivityStorage
+
+    def resultStorage: TincanResultStorage = LFStorageFactory.this.tincanLrsResultStorage
+
+    def tincanStatementRefStorage: StatementRefStorage = LFStorageFactory.this.tincanLrsStatementRefStorage
+
+    def tincanSubStatementStorage: SubStatementStorage = LFStorageFactory.this.tincanLrsSubStatementStorage
+
+    def contextStorage: ContextStorage = LFStorageFactory.this.tincanLrsContextStorage
+
+    def attachmentStorage: AttachmentStorage = LFStorageFactory.this.tincanLrsAttachmentStorage
+  }
+
+  lazy val tincanLrsSubStatementStorage: SubStatementStorage = new SubStatementEntityStorage with LFTincanLrsSubStatementStorageImpl{
+    def actorStorage: LFActorStorageImpl = LFStorageFactory.this.tincanLrsActorStorage.asInstanceOf[LFActorStorageImpl]
+    def tincanActivityStorage: TincanActivityStorage = LFStorageFactory.this.tincanLrsActivityStorage
+
+    def tincanStatementRefStorage: StatementRefStorage = LFStorageFactory.this.tincanLrsStatementRefStorage
+  }
+  lazy val tincanLrsAttachmentStorage: AttachmentStorage = new AttachmentEntityStorage with LFTincanLrsAttachmentStorageImpl
+  lazy val tincanLrsResultStorage: TincanResultStorage = new TincanResultEntityStorage with LFTincanLrsResultStorageImpl
+  lazy val tincanLrsContextStorage: ContextStorage = new ContextEntityStorage with LFTincanLrsContextStorageImpl{
+    def actorStorage: LFActorStorageImpl = LFStorageFactory.this.tincanLrsActorStorage.asInstanceOf[LFActorStorageImpl]
+    def contextActivitiesStorage: ContextActivitiesStorage = LFStorageFactory.this.tincanLrsContextActivitiesStorage
+  }
+
+  lazy val tincanLrsActorStorage: ActorStorage = new ActorEntityStorage with LFActorStorageImpl
+  lazy val tincanLrsDocumentStorage: DocumentStorage = new DocumentEntityStorage with LFDocumentStorageImpl
+  lazy val tincanLrsStateStorage: StateStorage = new StateEntityStorage with LFTincanLrsStateStorageImpl{
+    def actorStorage: LFActorStorageImpl = LFStorageFactory.this.tincanLrsActorStorage.asInstanceOf[LFActorStorageImpl]
+    def documentStorage: DocumentStorage = LFStorageFactory.this.tincanLrsDocumentStorage
+  }
+  lazy val tincanLrsActivityStorage : TincanActivityStorage = new TincanActivityEntityStorage with LFTincanActivityStorageImpl
+  lazy val tincanLrsActivityProfileStorage : ActivityProfileStorage = new ActivityProfileEntityStorage with LFActivityProfileStorageImpl
+  lazy val tincanLrsAgentProfileStorage : AgentProfileStorage = new AgentProfileEntityStorage with LFAgentProfileStorageImpl {
+    def actorStorage: LFActorStorageImpl = LFStorageFactory.this.tincanLrsActorStorage.asInstanceOf[LFActorStorageImpl]
+    def documentStorage: LFDocumentStorageImpl = LFStorageFactory.this.tincanLrsDocumentStorage.asInstanceOf[LFDocumentStorageImpl]
+  }
+
+  // Not related to tincan
   lazy val packageStorage: PackagesStorage = new PackagesEntityStorage with LFPackageStorageImpl{
     val packageScopeRuleStorage = LFStorageFactory.this.packageScopeRuleStorage
   }

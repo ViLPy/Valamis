@@ -1,6 +1,6 @@
 package com.arcusys.learn.view
 
-import org.scala_tools.subcut.inject.Injectable
+import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.lms.{PackageService, UserManagement}
 import com.arcusys.learn.storage.StorageFactoryContract

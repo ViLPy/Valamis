@@ -15,11 +15,19 @@ public class LFTincanActivitySoap implements Serializable {
     private long _id;
     private String _tincanID;
     private Long _packageID;
-    private String _activityType;
+    private String _objectType;
     private String _name;
     private String _description;
-    private String _launch;
-    private String _resource;
+    private String _theType;
+    private String _moreInfo;
+    private String _interactionType;
+    private String _correctResponsesPattern;
+    private String _choices;
+    private String _scale;
+    private String _source;
+    private String _target;
+    private String _steps;
+    private String _extensions;
 
     public LFTincanActivitySoap() {
     }
@@ -30,11 +38,19 @@ public class LFTincanActivitySoap implements Serializable {
         soapModel.setId(model.getId());
         soapModel.setTincanID(model.getTincanID());
         soapModel.setPackageID(model.getPackageID());
-        soapModel.setActivityType(model.getActivityType());
+        soapModel.setObjectType(model.getObjectType());
         soapModel.setName(model.getName());
         soapModel.setDescription(model.getDescription());
-        soapModel.setLaunch(model.getLaunch());
-        soapModel.setResource(model.getResource());
+        soapModel.setTheType(model.getTheType());
+        soapModel.setMoreInfo(model.getMoreInfo());
+        soapModel.setInteractionType(model.getInteractionType());
+        soapModel.setCorrectResponsesPattern(model.getCorrectResponsesPattern());
+        soapModel.setChoices(model.getChoices());
+        soapModel.setScale(model.getScale());
+        soapModel.setSource(model.getSource());
+        soapModel.setTarget(model.getTarget());
+        soapModel.setSteps(model.getSteps());
+        soapModel.setExtensions(model.getExtensions());
 
         return soapModel;
     }
@@ -109,12 +125,12 @@ public class LFTincanActivitySoap implements Serializable {
         _packageID = packageID;
     }
 
-    public String getActivityType() {
-        return _activityType;
+    public String getObjectType() {
+        return _objectType;
     }
 
-    public void setActivityType(String activityType) {
-        _activityType = activityType;
+    public void setObjectType(String objectType) {
+        _objectType = objectType;
     }
 
     public String getName() {
@@ -133,19 +149,83 @@ public class LFTincanActivitySoap implements Serializable {
         _description = description;
     }
 
-    public String getLaunch() {
-        return _launch;
+    public String getTheType() {
+        return _theType;
     }
 
-    public void setLaunch(String launch) {
-        _launch = launch;
+    public void setTheType(String theType) {
+        _theType = theType;
     }
 
-    public String getResource() {
-        return _resource;
+    public String getMoreInfo() {
+        return _moreInfo;
     }
 
-    public void setResource(String resource) {
-        _resource = resource;
+    public void setMoreInfo(String moreInfo) {
+        _moreInfo = moreInfo;
+    }
+
+    public String getInteractionType() {
+        return _interactionType;
+    }
+
+    public void setInteractionType(String interactionType) {
+        _interactionType = interactionType;
+    }
+
+    public String getCorrectResponsesPattern() {
+        return _correctResponsesPattern;
+    }
+
+    public void setCorrectResponsesPattern(String correctResponsesPattern) {
+        _correctResponsesPattern = correctResponsesPattern;
+    }
+
+    public String getChoices() {
+        return _choices;
+    }
+
+    public void setChoices(String choices) {
+        _choices = choices;
+    }
+
+    public String getScale() {
+        return _scale;
+    }
+
+    public void setScale(String scale) {
+        _scale = scale;
+    }
+
+    public String getSource() {
+        return _source;
+    }
+
+    public void setSource(String source) {
+        _source = source;
+    }
+
+    public String getTarget() {
+        return _target;
+    }
+
+    public void setTarget(String target) {
+        _target = target;
+    }
+
+    public String getSteps() {
+        return _steps;
+    }
+
+    public void setSteps(String steps) {
+        _steps = steps;
+    }
+
+    public String getExtensions() {
+        return _extensions;
+    }
+
+    public void setExtensions(String extensions) {
+        _extensions = extensions;
     }
 }

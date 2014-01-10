@@ -49,7 +49,7 @@ public class LFTincanLrsEndpointModelImpl extends BaseModelImpl<LFTincanLrsEndpo
             { "key_", Types.VARCHAR },
             { "secret", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsEndpoint (id_ LONG not null primary key,endpoint VARCHAR(75) null,authType VARCHAR(75) null,key_ VARCHAR(75) null,secret VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsEndpoint (id_ LONG not null primary key,endpoint VARCHAR(2000) null,authType VARCHAR(2000) null,key_ VARCHAR(2000) null,secret VARCHAR(2000) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanLrsEndpoint";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";

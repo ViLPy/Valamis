@@ -275,6 +275,13 @@ public class LFTincanActivityLocalServiceWrapper
         return _lfTincanActivityLocalService.findByPackageID(packageID);
     }
 
+    public com.arcusys.learn.persistence.liferay.model.LFTincanActivity findByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _lfTincanActivityLocalService.findByTincanID(tincanID);
+    }
+
     /**
      * @deprecated Renamed to {@link #getWrappedService}
      */

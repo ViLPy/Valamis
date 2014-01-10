@@ -247,8 +247,61 @@
         <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-image.js</header-portlet-javascript>
 
         <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
 
+    <portlet>
+        <portlet-name>CurriculumUser</portlet-name>
+        <icon>/img/certificateIcon.png</icon>
+        <social-activity-interpreter-class>com.arcusys.learn.certificating.CertificateActivityInterpreter</social-activity-interpreter-class>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
 
+        <header-portlet-css>/css/scorm_main.css</header-portlet-css>
+        <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
+        <header-portlet-css>/css/curriculum.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-css>/css/tipsy.css</header-portlet-css>
+        <header-portlet-css>/css/simplePagination.css</header-portlet-css>
+
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.simplePagination.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/list.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/TemplateLoader.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/jstree.helper.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/jquery.jstree.ext.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/tiny_mce/tiny_mce.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/tiny_mce/jquery.tinymce.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/richedit.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/curriculum/curriculum.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/curriculum/CertificateSite.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/curriculum/CertificateUser.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/curriculum/Student.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/LiferaySiteSelectDialog.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/LiferayUserSelectDialog.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/blockUI.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.tipsy.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.form.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/preview.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jstreegrid.js</header-portlet-javascript>
+
+        <header-portlet-javascript>/js/libs/file-upload/vendor/jquery.ui.widget.js</header-portlet-javascript>
+        <!-- <header-portlet-javascript>/js/libs/file-upload/load-image.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/canvas-to-blob.min.js</header-portlet-javascript>-->
+        <header-portlet-javascript>/js/libs/file-upload/jquery.iframe-transport.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-process.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-image.js</header-portlet-javascript>
+
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
     </portlet>
 
     <portlet>

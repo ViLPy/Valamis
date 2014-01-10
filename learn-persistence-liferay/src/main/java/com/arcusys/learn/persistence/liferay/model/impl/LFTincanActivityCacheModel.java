@@ -19,15 +19,23 @@ public class LFTincanActivityCacheModel implements CacheModel<LFTincanActivity>,
     public long id;
     public String tincanID;
     public Long packageID;
-    public String activityType;
+    public String objectType;
     public String name;
     public String description;
-    public String launch;
-    public String resource;
+    public String theType;
+    public String moreInfo;
+    public String interactionType;
+    public String correctResponsesPattern;
+    public String choices;
+    public String scale;
+    public String source;
+    public String target;
+    public String steps;
+    public String extensions;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(33);
 
         sb.append("{id=");
         sb.append(id);
@@ -35,16 +43,32 @@ public class LFTincanActivityCacheModel implements CacheModel<LFTincanActivity>,
         sb.append(tincanID);
         sb.append(", packageID=");
         sb.append(packageID);
-        sb.append(", activityType=");
-        sb.append(activityType);
+        sb.append(", objectType=");
+        sb.append(objectType);
         sb.append(", name=");
         sb.append(name);
         sb.append(", description=");
         sb.append(description);
-        sb.append(", launch=");
-        sb.append(launch);
-        sb.append(", resource=");
-        sb.append(resource);
+        sb.append(", theType=");
+        sb.append(theType);
+        sb.append(", moreInfo=");
+        sb.append(moreInfo);
+        sb.append(", interactionType=");
+        sb.append(interactionType);
+        sb.append(", correctResponsesPattern=");
+        sb.append(correctResponsesPattern);
+        sb.append(", choices=");
+        sb.append(choices);
+        sb.append(", scale=");
+        sb.append(scale);
+        sb.append(", source=");
+        sb.append(source);
+        sb.append(", target=");
+        sb.append(target);
+        sb.append(", steps=");
+        sb.append(steps);
+        sb.append(", extensions=");
+        sb.append(extensions);
         sb.append("}");
 
         return sb.toString();
@@ -56,11 +80,19 @@ public class LFTincanActivityCacheModel implements CacheModel<LFTincanActivity>,
         lfTincanActivityImpl.setId(id);
         lfTincanActivityImpl.setTincanID(tincanID);
         lfTincanActivityImpl.setPackageID(packageID);
-        lfTincanActivityImpl.setActivityType(activityType);
+        lfTincanActivityImpl.setObjectType(objectType);
         lfTincanActivityImpl.setName(name);
         lfTincanActivityImpl.setDescription(description);
-        lfTincanActivityImpl.setLaunch(launch);
-        lfTincanActivityImpl.setResource(resource);
+        lfTincanActivityImpl.setTheType(theType);
+        lfTincanActivityImpl.setMoreInfo(moreInfo);
+        lfTincanActivityImpl.setInteractionType(interactionType);
+        lfTincanActivityImpl.setCorrectResponsesPattern(correctResponsesPattern);
+        lfTincanActivityImpl.setChoices(choices);
+        lfTincanActivityImpl.setScale(scale);
+        lfTincanActivityImpl.setSource(source);
+        lfTincanActivityImpl.setTarget(target);
+        lfTincanActivityImpl.setSteps(steps);
+        lfTincanActivityImpl.setExtensions(extensions);
 
         lfTincanActivityImpl.resetOriginalValues();
 
