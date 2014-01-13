@@ -20,6 +20,12 @@ The solution uses Liferay database, so no need to install additional database.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
+### LRS
+TinCan LRS endpoint is set by default to use our internal LRS, so no need to configure something.
+Internal LRS endpoint is: `<youd-domain>/learn-portlet/TincanApi`
+
+If you need to customize it, settings can be found in admin portlet on settings tab.
+
 ### Download 
 Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4.5/**
 
@@ -27,6 +33,8 @@ Github has deprecated the Download section. You can download the latest distribu
 Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
 
 ###Known issues
+**PermGen issue**: Valamis requires 512Mb of PermGen size. This is default size in Liferay bundled with glassfish, but permgen in Tomcat and jBoss bundles should be increased.
+
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
