@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException;
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateTree;
 import com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -81,15 +22,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -97,6 +37,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f activity state tree service.
@@ -122,15 +63,6 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
-    public static final FinderPath FINDER_PATH_FETCH_BY_ATTEMPTID = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED,
-            LFActivityStateTreeImpl.class, FINDER_CLASS_NAME_ENTITY,
-            "fetchByAttemptID", new String[] { Integer.class.getName() },
-            LFActivityStateTreeModelImpl.ATTEMPTID_COLUMN_BITMASK);
-    public static final FinderPath FINDER_PATH_COUNT_BY_ATTEMPTID = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAttemptID",
-            new String[] { Integer.class.getName() });
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED,
             LFActivityStateTreeImpl.class,
@@ -142,19 +74,31 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
     public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    public static final FinderPath FINDER_PATH_FETCH_BY_ATTEMPTID = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED,
+            LFActivityStateTreeImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByAttemptID", new String[] { Integer.class.getName() },
+            LFActivityStateTreeModelImpl.ATTEMPTID_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_ATTEMPTID = new FinderPath(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateTreeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAttemptID",
+            new String[] { Integer.class.getName() });
+    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL = "lfActivityStateTree.attemptID IS NULL";
+    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2 = "lfActivityStateTree.attemptID = ?";
+    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2 = "lfActivityStateTree.attemptID IS NULL ";
     private static final String _SQL_SELECT_LFACTIVITYSTATETREE = "SELECT lfActivityStateTree FROM LFActivityStateTree lfActivityStateTree";
     private static final String _SQL_SELECT_LFACTIVITYSTATETREE_WHERE = "SELECT lfActivityStateTree FROM LFActivityStateTree lfActivityStateTree WHERE ";
     private static final String _SQL_COUNT_LFACTIVITYSTATETREE = "SELECT COUNT(lfActivityStateTree) FROM LFActivityStateTree lfActivityStateTree";
     private static final String _SQL_COUNT_LFACTIVITYSTATETREE_WHERE = "SELECT COUNT(lfActivityStateTree) FROM LFActivityStateTree lfActivityStateTree WHERE ";
-    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL = "lfActivityStateTree.attemptID IS NULL";
-    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2 = "lfActivityStateTree.attemptID IS NULL ";
-    private static final String _FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2 = "lfActivityStateTree.attemptID = ?";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfActivityStateTree.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFActivityStateTree exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFActivityStateTree exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFActivityStateTreePersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFActivityStateTree _nullLFActivityStateTree = new LFActivityStateTreeImpl() {
             @Override
             public Object clone() {
@@ -169,154 +113,243 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
 
     private static CacheModel<LFActivityStateTree> _nullLFActivityStateTreeCacheModel =
         new CacheModel<LFActivityStateTree>() {
+            @Override
             public LFActivityStateTree toEntityModel() {
                 return _nullLFActivityStateTree;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
+    public LFActivityStateTreePersistenceImpl() {
+        setModelClass(LFActivityStateTree.class);
+    }
+
+    /**
+     * Returns the l f activity state tree where attemptID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException} if it could not be found.
+     *
+     * @param attemptID the attempt i d
+     * @return the matching l f activity state tree
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a matching l f activity state tree could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityStateTree findByAttemptID(Integer attemptID)
+        throws NoSuchLFActivityStateTreeException, SystemException {
+        LFActivityStateTree lfActivityStateTree = fetchByAttemptID(attemptID);
+
+        if (lfActivityStateTree == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("attemptID=");
+            msg.append(attemptID);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchLFActivityStateTreeException(msg.toString());
+        }
+
+        return lfActivityStateTree;
+    }
+
+    /**
+     * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param attemptID the attempt i d
+     * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityStateTree fetchByAttemptID(Integer attemptID)
+        throws SystemException {
+        return fetchByAttemptID(attemptID, true);
+    }
+
+    /**
+     * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param attemptID the attempt i d
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityStateTree fetchByAttemptID(Integer attemptID,
+        boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] { attemptID };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
+                    finderArgs, this);
+        }
+
+        if (result instanceof LFActivityStateTree) {
+            LFActivityStateTree lfActivityStateTree = (LFActivityStateTree) result;
+
+            if (!Validator.equals(attemptID, lfActivityStateTree.getAttemptID())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_SELECT_LFACTIVITYSTATETREE_WHERE);
+
+            if (attemptID == null) {
+                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (attemptID != null) {
+                    qPos.add(attemptID.intValue());
+                }
+
+                List<LFActivityStateTree> list = q.list();
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
+                        finderArgs, list);
+                } else {
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFActivityStateTreePersistenceImpl.fetchByAttemptID(Integer, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFActivityStateTree lfActivityStateTree = list.get(0);
+
+                    result = lfActivityStateTree;
+
+                    cacheResult(lfActivityStateTree);
+
+                    if ((lfActivityStateTree.getAttemptID() != attemptID)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
+                            finderArgs, lfActivityStateTree);
+                    }
+                }
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
+        } else {
+            return (LFActivityStateTree) result;
+        }
+    }
+
+    /**
+     * Removes the l f activity state tree where attemptID = &#63; from the database.
+     *
+     * @param attemptID the attempt i d
+     * @return the l f activity state tree that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityStateTree removeByAttemptID(Integer attemptID)
+        throws NoSuchLFActivityStateTreeException, SystemException {
+        LFActivityStateTree lfActivityStateTree = findByAttemptID(attemptID);
+
+        return remove(lfActivityStateTree);
+    }
+
+    /**
+     * Returns the number of l f activity state trees where attemptID = &#63;.
+     *
+     * @param attemptID the attempt i d
+     * @return the number of matching l f activity state trees
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByAttemptID(Integer attemptID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ATTEMPTID;
+
+        Object[] finderArgs = new Object[] { attemptID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFACTIVITYSTATETREE_WHERE);
+
+            if (attemptID == null) {
+                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (attemptID != null) {
+                    qPos.add(attemptID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
 
     /**
      * Caches the l f activity state tree in the entity cache if it is enabled.
      *
      * @param lfActivityStateTree the l f activity state tree
      */
+    @Override
     public void cacheResult(LFActivityStateTree lfActivityStateTree) {
         EntityCacheUtil.putResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateTreeImpl.class, lfActivityStateTree.getPrimaryKey(),
             lfActivityStateTree);
 
-        boolean noNullsInATTEMPTID = true;
-
-        if (lfActivityStateTree.getAttemptID() == null) {
-            noNullsInATTEMPTID = false;
-        }
-
-        if (noNullsInATTEMPTID) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                new Object[] { Integer.valueOf(
-                        lfActivityStateTree.getAttemptID()) },
-                lfActivityStateTree);
-        }
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
+            new Object[] { lfActivityStateTree.getAttemptID() },
+            lfActivityStateTree);
 
         lfActivityStateTree.resetOriginalValues();
     }
@@ -326,6 +359,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      *
      * @param lfActivityStateTrees the l f activity state trees
      */
+    @Override
     public void cacheResult(List<LFActivityStateTree> lfActivityStateTrees) {
         for (LFActivityStateTree lfActivityStateTree : lfActivityStateTrees) {
             if (EntityCacheUtil.getResult(
@@ -391,18 +425,47 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
         }
     }
 
+    protected void cacheUniqueFindersCache(
+        LFActivityStateTree lfActivityStateTree) {
+        if (lfActivityStateTree.isNew()) {
+            Object[] args = new Object[] { lfActivityStateTree.getAttemptID() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ATTEMPTID, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID, args,
+                lfActivityStateTree);
+        } else {
+            LFActivityStateTreeModelImpl lfActivityStateTreeModelImpl = (LFActivityStateTreeModelImpl) lfActivityStateTree;
+
+            if ((lfActivityStateTreeModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_ATTEMPTID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { lfActivityStateTree.getAttemptID() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ATTEMPTID, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID, args,
+                    lfActivityStateTree);
+            }
+        }
+    }
+
     protected void clearUniqueFindersCache(
         LFActivityStateTree lfActivityStateTree) {
-        boolean noNullsInATTEMPTID = true;
+        LFActivityStateTreeModelImpl lfActivityStateTreeModelImpl = (LFActivityStateTreeModelImpl) lfActivityStateTree;
 
-        if (lfActivityStateTree.getAttemptID() == null) {
-            noNullsInATTEMPTID = false;
-        }
+        Object[] args = new Object[] { lfActivityStateTree.getAttemptID() };
 
-        if (noNullsInATTEMPTID) {
-            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                new Object[] { Integer.valueOf(
-                        lfActivityStateTree.getAttemptID()) });
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ATTEMPTID, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID, args);
+
+        if ((lfActivityStateTreeModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_ATTEMPTID.getColumnBitmask()) != 0) {
+            args = new Object[] {
+                    lfActivityStateTreeModelImpl.getOriginalAttemptID()
+                };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ATTEMPTID, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID, args);
         }
     }
 
@@ -412,6 +475,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @param id the primary key for the new l f activity state tree
      * @return the new l f activity state tree
      */
+    @Override
     public LFActivityStateTree create(long id) {
         LFActivityStateTree lfActivityStateTree = new LFActivityStateTreeImpl();
 
@@ -429,9 +493,10 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a l f activity state tree with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityStateTree remove(long id)
         throws NoSuchLFActivityStateTreeException, SystemException {
-        return remove(Long.valueOf(id));
+        return remove((Serializable) id);
     }
 
     /**
@@ -482,36 +547,47 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
         try {
             session = openSession();
 
-            BatchSessionUtil.delete(session, lfActivityStateTree);
+            if (!session.contains(lfActivityStateTree)) {
+                lfActivityStateTree = (LFActivityStateTree) session.get(LFActivityStateTreeImpl.class,
+                        lfActivityStateTree.getPrimaryKeyObj());
+            }
+
+            if (lfActivityStateTree != null) {
+                session.delete(lfActivityStateTree);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
             closeSession(session);
         }
 
-        clearCache(lfActivityStateTree);
+        if (lfActivityStateTree != null) {
+            clearCache(lfActivityStateTree);
+        }
 
         return lfActivityStateTree;
     }
 
     @Override
     public LFActivityStateTree updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFActivityStateTree lfActivityStateTree,
-        boolean merge) throws SystemException {
+        com.arcusys.learn.persistence.liferay.model.LFActivityStateTree lfActivityStateTree)
+        throws SystemException {
         lfActivityStateTree = toUnwrappedModel(lfActivityStateTree);
 
         boolean isNew = lfActivityStateTree.isNew();
-
-        LFActivityStateTreeModelImpl lfActivityStateTreeModelImpl = (LFActivityStateTreeModelImpl) lfActivityStateTree;
 
         Session session = null;
 
         try {
             session = openSession();
 
-            BatchSessionUtil.update(session, lfActivityStateTree, merge);
+            if (lfActivityStateTree.isNew()) {
+                session.save(lfActivityStateTree);
 
-            lfActivityStateTree.setNew(false);
+                lfActivityStateTree.setNew(false);
+            } else {
+                session.merge(lfActivityStateTree);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
@@ -528,32 +604,8 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
             LFActivityStateTreeImpl.class, lfActivityStateTree.getPrimaryKey(),
             lfActivityStateTree);
 
-        if (isNew) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                new Object[] { /*Integer.valueOf( */
-                lfActivityStateTree.getAttemptID()/*) */
-                }, lfActivityStateTree);
-        } else {
-            if ((lfActivityStateTreeModelImpl.getColumnBitmask() &
-                    FINDER_PATH_FETCH_BY_ATTEMPTID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /*        Integer.valueOf( */
-                        lfActivityStateTreeModelImpl.getOriginalAttemptID()
-                    /*        ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ATTEMPTID,
-                    args);
-
-                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                    args);
-
-                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                    new Object[] { /*        Integer.valueOf( */
-                    lfActivityStateTree.getAttemptID()/*        ) */
-                    }, lfActivityStateTree);
-            }
-        }
+        clearUniqueFindersCache(lfActivityStateTree);
+        cacheUniqueFindersCache(lfActivityStateTree);
 
         return lfActivityStateTree;
     }
@@ -582,13 +634,24 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      *
      * @param primaryKey the primary key of the l f activity state tree
      * @return the l f activity state tree
-     * @throws com.liferay.portal.NoSuchModelException if a l f activity state tree with the primary key could not be found
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a l f activity state tree with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
     public LFActivityStateTree findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
+        throws NoSuchLFActivityStateTreeException, SystemException {
+        LFActivityStateTree lfActivityStateTree = fetchByPrimaryKey(primaryKey);
+
+        if (lfActivityStateTree == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFActivityStateTreeException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfActivityStateTree;
     }
 
     /**
@@ -599,20 +662,10 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a l f activity state tree with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityStateTree findByPrimaryKey(long id)
         throws NoSuchLFActivityStateTreeException, SystemException {
-        LFActivityStateTree lfActivityStateTree = fetchByPrimaryKey(id);
-
-        if (lfActivityStateTree == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFActivityStateTreeException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfActivityStateTree;
+        return findByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -625,7 +678,40 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
     @Override
     public LFActivityStateTree fetchByPrimaryKey(Serializable primaryKey)
         throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
+        LFActivityStateTree lfActivityStateTree = (LFActivityStateTree) EntityCacheUtil.getResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
+                LFActivityStateTreeImpl.class, primaryKey);
+
+        if (lfActivityStateTree == _nullLFActivityStateTree) {
+            return null;
+        }
+
+        if (lfActivityStateTree == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfActivityStateTree = (LFActivityStateTree) session.get(LFActivityStateTreeImpl.class,
+                        primaryKey);
+
+                if (lfActivityStateTree != null) {
+                    cacheResult(lfActivityStateTree);
+                } else {
+                    EntityCacheUtil.putResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
+                        LFActivityStateTreeImpl.class, primaryKey,
+                        _nullLFActivityStateTree);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
+                    LFActivityStateTreeImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfActivityStateTree;
     }
 
     /**
@@ -635,180 +721,10 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @return the l f activity state tree, or <code>null</code> if a l f activity state tree with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityStateTree fetchByPrimaryKey(long id)
         throws SystemException {
-        LFActivityStateTree lfActivityStateTree = (LFActivityStateTree) EntityCacheUtil.getResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
-                LFActivityStateTreeImpl.class, id);
-
-        if (lfActivityStateTree == _nullLFActivityStateTree) {
-            return null;
-        }
-
-        if (lfActivityStateTree == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfActivityStateTree = (LFActivityStateTree) session.get(LFActivityStateTreeImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfActivityStateTree != null) {
-                    cacheResult(lfActivityStateTree);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFActivityStateTreeModelImpl.ENTITY_CACHE_ENABLED,
-                        LFActivityStateTreeImpl.class, id,
-                        _nullLFActivityStateTree);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfActivityStateTree;
-    }
-
-    /**
-     * Returns the l f activity state tree where attemptID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException} if it could not be found.
-     *
-     * @param attemptID the attempt i d
-     * @return the matching l f activity state tree
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a matching l f activity state tree could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityStateTree findByAttemptID(Integer attemptID)
-        throws NoSuchLFActivityStateTreeException, SystemException {
-        LFActivityStateTree lfActivityStateTree = fetchByAttemptID(attemptID);
-
-        if (lfActivityStateTree == null) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("attemptID=");
-            msg.append(attemptID);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            if (_log.isWarnEnabled()) {
-                _log.warn(msg.toString());
-            }
-
-            throw new NoSuchLFActivityStateTreeException(msg.toString());
-        }
-
-        return lfActivityStateTree;
-    }
-
-    /**
-     * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-     *
-     * @param attemptID the attempt i d
-     * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityStateTree fetchByAttemptID(Integer attemptID)
-        throws SystemException {
-        return fetchByAttemptID(attemptID, true);
-    }
-
-    /**
-     * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-     *
-     * @param attemptID the attempt i d
-     * @param retrieveFromCache whether to use the finder cache
-     * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityStateTree fetchByAttemptID(Integer attemptID,
-        boolean retrieveFromCache) throws SystemException {
-        Object[] finderArgs = new Object[] { attemptID };
-
-        Object result = null;
-
-        if (retrieveFromCache) {
-            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                    finderArgs, this);
-        }
-
-        if (result instanceof LFActivityStateTree) {
-            LFActivityStateTree lfActivityStateTree = (LFActivityStateTree) result;
-
-            if (!Validator.equals(attemptID, lfActivityStateTree.getAttemptID())) {
-                result = null;
-            }
-        }
-
-        if (result == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_SELECT_LFACTIVITYSTATETREE_WHERE);
-
-            if (attemptID == null) {
-                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (attemptID != null) {
-                    qPos.add(attemptID.intValue());
-                }
-
-                List<LFActivityStateTree> list = q.list();
-
-                result = list;
-
-                LFActivityStateTree lfActivityStateTree = null;
-
-                if (list.isEmpty()) {
-                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                        finderArgs, list);
-                } else {
-                    lfActivityStateTree = list.get(0);
-
-                    cacheResult(lfActivityStateTree);
-
-                    if ((lfActivityStateTree.getAttemptID() != attemptID)) {
-                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                            finderArgs, lfActivityStateTree);
-                    }
-                }
-
-                return lfActivityStateTree;
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (result == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ATTEMPTID,
-                        finderArgs);
-                }
-
-                closeSession(session);
-            }
-        } else {
-            if (result instanceof List<?>) {
-                return null;
-            } else {
-                return (LFActivityStateTree) result;
-            }
-        }
+        return fetchByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -817,6 +733,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @return the l f activity state trees
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityStateTree> findAll() throws SystemException {
         return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
     }
@@ -825,7 +742,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * Returns a range of all the l f activity state trees.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f activity state trees
@@ -833,6 +750,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @return the range of l f activity state trees
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityStateTree> findAll(int start, int end)
         throws SystemException {
         return findAll(start, end, null);
@@ -842,7 +760,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * Returns an ordered range of all the l f activity state trees.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f activity state trees
@@ -851,13 +769,16 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @return the ordered range of l f activity state trees
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityStateTree> findAll(int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
+        Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
             finderArgs = FINDER_ARGS_EMPTY;
         } else {
@@ -884,6 +805,10 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
                 sql = query.toString();
             } else {
                 sql = _SQL_SELECT_LFACTIVITYSTATETREE;
+
+                if (pagination) {
+                    sql = sql.concat(LFActivityStateTreeModelImpl.ORDER_BY_JPQL);
+                }
             }
 
             Session session = null;
@@ -893,26 +818,26 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
 
                 Query q = session.createQuery(sql);
 
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFActivityStateTree>) QueryUtil.list(q,
                             getDialect(), start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityStateTree>(list);
                 } else {
                     list = (List<LFActivityStateTree>) QueryUtil.list(q,
                             getDialect(), start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
@@ -921,85 +846,15 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
     }
 
     /**
-     * Removes the l f activity state tree where attemptID = &#63; from the database.
-     *
-     * @param attemptID the attempt i d
-     * @return the l f activity state tree that was removed
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityStateTree removeByAttemptID(Integer attemptID)
-        throws NoSuchLFActivityStateTreeException, SystemException {
-        LFActivityStateTree lfActivityStateTree = findByAttemptID(attemptID);
-
-        return remove(lfActivityStateTree);
-    }
-
-    /**
      * Removes all the l f activity state trees from the database.
      *
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeAll() throws SystemException {
         for (LFActivityStateTree lfActivityStateTree : findAll()) {
             remove(lfActivityStateTree);
         }
-    }
-
-    /**
-     * Returns the number of l f activity state trees where attemptID = &#63;.
-     *
-     * @param attemptID the attempt i d
-     * @return the number of matching l f activity state trees
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByAttemptID(Integer attemptID) throws SystemException {
-        Object[] finderArgs = new Object[] { attemptID };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ATTEMPTID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFACTIVITYSTATETREE_WHERE);
-
-            if (attemptID == null) {
-                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ATTEMPTID_ATTEMPTID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (attemptID != null) {
-                    qPos.add(attemptID.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ATTEMPTID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
     }
 
     /**
@@ -1008,6 +863,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
      * @return the number of l f activity state trees
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1021,21 +877,25 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
                 Query q = session.createQuery(_SQL_COUNT_LFACTIVITYSTATETREE);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1052,7 +912,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFActivityStateTree>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1065,6 +925,7 @@ public class LFActivityStateTreePersistenceImpl extends BasePersistenceImpl<LFAc
     public void destroy() {
         EntityCacheUtil.removeCache(LFActivityStateTreeImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 }

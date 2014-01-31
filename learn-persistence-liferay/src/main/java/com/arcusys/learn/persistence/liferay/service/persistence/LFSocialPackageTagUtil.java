@@ -49,7 +49,7 @@ public class LFSocialPackageTagUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,101 +83,20 @@ public class LFSocialPackageTagUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFSocialPackageTag update(
-        LFSocialPackageTag lfSocialPackageTag, boolean merge)
+        LFSocialPackageTag lfSocialPackageTag) throws SystemException {
+        return getPersistence().update(lfSocialPackageTag);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
+     */
+    public static LFSocialPackageTag update(
+        LFSocialPackageTag lfSocialPackageTag, ServiceContext serviceContext)
         throws SystemException {
-        return getPersistence().update(lfSocialPackageTag, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFSocialPackageTag update(
-        LFSocialPackageTag lfSocialPackageTag, boolean merge,
-        ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfSocialPackageTag, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f social package tag in the entity cache if it is enabled.
-    *
-    * @param lfSocialPackageTag the l f social package tag
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag lfSocialPackageTag) {
-        getPersistence().cacheResult(lfSocialPackageTag);
-    }
-
-    /**
-    * Caches the l f social package tags in the entity cache if it is enabled.
-    *
-    * @param lfSocialPackageTags the l f social package tags
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag> lfSocialPackageTags) {
-        getPersistence().cacheResult(lfSocialPackageTags);
-    }
-
-    /**
-    * Creates a new l f social package tag with the primary key. Does not add the l f social package tag to the database.
-    *
-    * @param id the primary key for the new l f social package tag
-    * @return the new l f social package tag
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f social package tag with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f social package tag
-    * @return the l f social package tag that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException if a l f social package tag with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag lfSocialPackageTag,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfSocialPackageTag, merge);
-    }
-
-    /**
-    * Returns the l f social package tag with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException} if it could not be found.
-    *
-    * @param id the primary key of the l f social package tag
-    * @return the l f social package tag
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException if a l f social package tag with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f social package tag with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f social package tag
-    * @return the l f social package tag, or <code>null</code> if a l f social package tag with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfSocialPackageTag, serviceContext);
     }
 
     /**
@@ -197,7 +116,7 @@ public class LFSocialPackageTagUtil {
     * Returns a range of all the l f social package tags where name = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param name the name
@@ -216,7 +135,7 @@ public class LFSocialPackageTagUtil {
     * Returns an ordered range of all the l f social package tags where name = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param name the name
@@ -317,6 +236,29 @@ public class LFSocialPackageTagUtil {
     }
 
     /**
+    * Removes all the l f social package tags where name = &#63; from the database.
+    *
+    * @param name the name
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByName(java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByName(name);
+    }
+
+    /**
+    * Returns the number of l f social package tags where name = &#63;.
+    *
+    * @param name the name
+    * @return the number of matching l f social package tags
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByName(java.lang.String name)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByName(name);
+    }
+
+    /**
     * Returns all the l f social package tags where socialPackageID = &#63;.
     *
     * @param socialPackageID the social package i d
@@ -333,7 +275,7 @@ public class LFSocialPackageTagUtil {
     * Returns a range of all the l f social package tags where socialPackageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param socialPackageID the social package i d
@@ -353,7 +295,7 @@ public class LFSocialPackageTagUtil {
     * Returns an ordered range of all the l f social package tags where socialPackageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param socialPackageID the social package i d
@@ -465,6 +407,109 @@ public class LFSocialPackageTagUtil {
     }
 
     /**
+    * Removes all the l f social package tags where socialPackageID = &#63; from the database.
+    *
+    * @param socialPackageID the social package i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySocialPackageID(
+        java.lang.Integer socialPackageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySocialPackageID(socialPackageID);
+    }
+
+    /**
+    * Returns the number of l f social package tags where socialPackageID = &#63;.
+    *
+    * @param socialPackageID the social package i d
+    * @return the number of matching l f social package tags
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySocialPackageID(java.lang.Integer socialPackageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySocialPackageID(socialPackageID);
+    }
+
+    /**
+    * Caches the l f social package tag in the entity cache if it is enabled.
+    *
+    * @param lfSocialPackageTag the l f social package tag
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag lfSocialPackageTag) {
+        getPersistence().cacheResult(lfSocialPackageTag);
+    }
+
+    /**
+    * Caches the l f social package tags in the entity cache if it is enabled.
+    *
+    * @param lfSocialPackageTags the l f social package tags
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag> lfSocialPackageTags) {
+        getPersistence().cacheResult(lfSocialPackageTags);
+    }
+
+    /**
+    * Creates a new l f social package tag with the primary key. Does not add the l f social package tag to the database.
+    *
+    * @param id the primary key for the new l f social package tag
+    * @return the new l f social package tag
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f social package tag with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f social package tag
+    * @return the l f social package tag that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException if a l f social package tag with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag lfSocialPackageTag)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfSocialPackageTag);
+    }
+
+    /**
+    * Returns the l f social package tag with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException} if it could not be found.
+    *
+    * @param id the primary key of the l f social package tag
+    * @return the l f social package tag
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException if a l f social package tag with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f social package tag with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f social package tag
+    * @return the l f social package tag, or <code>null</code> if a l f social package tag with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f social package tags.
     *
     * @return the l f social package tags
@@ -479,7 +524,7 @@ public class LFSocialPackageTagUtil {
     * Returns a range of all the l f social package tags.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f social package tags
@@ -497,7 +542,7 @@ public class LFSocialPackageTagUtil {
     * Returns an ordered range of all the l f social package tags.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f social package tags
@@ -514,29 +559,6 @@ public class LFSocialPackageTagUtil {
     }
 
     /**
-    * Removes all the l f social package tags where name = &#63; from the database.
-    *
-    * @param name the name
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByName(java.lang.String name)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByName(name);
-    }
-
-    /**
-    * Removes all the l f social package tags where socialPackageID = &#63; from the database.
-    *
-    * @param socialPackageID the social package i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeBySocialPackageID(
-        java.lang.Integer socialPackageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeBySocialPackageID(socialPackageID);
-    }
-
-    /**
     * Removes all the l f social package tags from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -544,30 +566,6 @@ public class LFSocialPackageTagUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f social package tags where name = &#63;.
-    *
-    * @param name the name
-    * @return the number of matching l f social package tags
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByName(java.lang.String name)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByName(name);
-    }
-
-    /**
-    * Returns the number of l f social package tags where socialPackageID = &#63;.
-    *
-    * @param socialPackageID the social package i d
-    * @return the number of matching l f social package tags
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countBySocialPackageID(java.lang.Integer socialPackageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countBySocialPackageID(socialPackageID);
     }
 
     /**
@@ -594,7 +592,7 @@ public class LFSocialPackageTagUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFSocialPackageTagPersistence persistence) {
     }

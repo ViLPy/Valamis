@@ -1,23 +1,25 @@
 package com.arcusys.learn.curriculum
 
-import org.openqa.selenium.{WebElement, By, WebDriver}
+import org.openqa.selenium.{WebElement, By}
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.{LoginSupport, UITestBase}
+import com.arcusys.learn.base.{WebDriverArcusys, LoginSupport, UITestBase}
 import org.junit.Assert._
 
 
 
-class ActivityCurriculumTest  (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with LoginSupport with UITestBase with UICurriculumBase {
+class ActivityCurriculumTest  (_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with LoginSupport with UITestBase with UICurriculumBase {
   val driver = _driver
-  val activity = "New Certificate is available Test cert1"
+  val activity = "New Certificate is available "
+  val certificateJava = "Java certification"
+  val certificateC ="C# expert"
 
   // 15.1 - 15.4
   "Activity portlet" should "be onpage" in {
-    driver.findElement(By.linkText("Sign Out")).click()
+    logout()
     loginAsAdmin()
     driver.get(baseUrl + curriculumUrl)
-    wait(1)
+
     def findPortlet: Boolean = {
     driver.findElements(By.className("portlet-title-text")).toArray.foreach(p =>{
       if (p.asInstanceOf[WebElement].getText == "Activities") return true
@@ -29,68 +31,87 @@ class ActivityCurriculumTest  (_driver:WebDriver) extends Suite with FlatSpec wi
   }
 
   it should "show certificate activity" in {
-    assertTrue(findActivity(activity))
+    assertTrue(findActivity(activity+permanentCertificateName))
   }
 
-  it should "not show activity if certificate info is not cmplete" in {
-    val name = "Java certification"
-    addCertificate(name)
-    addSiteAndReturnName(0)
+  it should "not show activity if certificate info is not complete" in {
+    addCertificate(certificateJava)
+    addSiteByName(testSite1)
+
     driver.get(baseUrl + curriculumUrl)
     // do not show yet, because no users still
-    assertFalse(findActivity("New Certificate is available " + name))
+    assertFalse(findActivity("New Certificate is available " + certificateJava))
   }
 
-  it should "show activity about passed certificate" in {
-    openUserManagement()
-    val username = addMemberAndReturnName(0)
+  it should "show activity about new certificate" in {
+    openUserManagement(certificateJava)
+    val username = addNotStudentMemberAndReturnName(0)
 
     driver.get(baseUrl + curriculumUrl)
-    wait(1)
-    assertTrue(findActivity("New Certificate is available Java certification"))
-    openUserManagement()
+    assertTrue(findActivity("New Certificate is available "+certificateJava))
+    openUserManagement(certificateJava)
 
-    driver.findElement(By.className("expandMember")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.className("expandMember")).click()
 
     setGrade(7, "OK")
 
     driver.get(baseUrl + curriculumUrl)
-    wait(1)
-    assertTrue(findActivity(username.split("\\n").head + " has passed certificate Java certification"))
+
+    findUserActivity(username, certificateJava)
+
+//    if (username.equals(teacherUserName))
+//      assertTrue(findActivity(username.split(" ").head + " has passed certificate "+certificateJava))
+//    else
+//      assertTrue(findActivity(username.split("\\n").head + " has passed certificate "+certificateJava))
   }
 
   it should "not show activity if certificate is not complete by user" in {
-    val certificate ="C# expert"
-    addCertificate(certificate)
-    addSiteAndReturnName(0)
-    addSiteAndReturnName(1)
+    addCertificate(certificateC)
+    addSiteByName(testSite1)
+    addSiteByName(testSite2)
     openManagement()
-    openUserManagement()
-    val username = addMemberAndReturnName(1)
-    driver.findElement(By.className("expandMember")).click()
+
+    openUserManagement(certificateC)
+    val username = addNotStudentMemberAndReturnName(1)
+    driver.getVisibleElementAfterWaitBy(By.className("expandMember")).click()
     setGrade(2, "BAD")
     driver.get(baseUrl + curriculumUrl)
-    wait(1)
-    assertFalse(findActivity(username.split("\\n").head + " has passed certificate " + certificate))
+//    assertFalse(findActivity(username.split("\\n").head + " has passed certificate " + certificateC))
 
-    openUserManagement()
-    driver.findElement(By.className("expandMember")).click()
+    dontFindUserActivity(username, certificateC)
+
+    openUserManagement(certificateC)
+    driver.getVisibleElementAfterWaitBy(By.className("expandMember")).click()
     setGrade(1, 4, "Not so bad")
     driver.get(baseUrl + curriculumUrl)
-    wait(1)
-    assertTrue(findActivity(username.split("\\n").head + " has passed certificate " + certificate))
+
+    findUserActivity(username, certificateC)
+//      val qwe = username.split("\\n").head + " has passed certificate " + certificateC
+//    assertTrue(findActivity(qwe))
   }
 
   it should "delete activities when certificate is deleted" in{
-    assertTrue(findActivity(activity))
-    deleteCertificate(2) // Test cert1
+    assertTrue(findActivity(activity+certificateC))
+    deleteCertificate(certificateC)
 
     driver.get(baseUrl + curriculumUrl)
-    assertFalse(findActivity(activity))
+    assertFalse(findActivity(activity+certificateC))
   }
 
+  // need because activities show only user name  TODO: try to get liferay user names
+  def findUserActivity(name: String, certificate: String)
+  {
+    if (name.contains(teacherUserName))
+      assertTrue(findActivity(name.split(" ").head + " has passed certificate "+certificate))
+    else
+      assertTrue(findActivity(name.split("\\n").head + " has passed certificate "+certificate))
+  }
 
-
-
+  def dontFindUserActivity(name: String, certificate: String)
+  {
+    if (name.contains(teacherUserName))
+      assertFalse(findActivity(name.split(" ").head + " has passed certificate "+certificate))
+    else
+      assertFalse(findActivity(name.split("\\n").head + " has passed certificate "+certificate))
+  }
 }

@@ -4,6 +4,27 @@
 	<hint-collection name="CLOB">
 		<hint name="max-length">2000000</hint>
 	</hint-collection>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAchievement">
+		<field name="id" type="long" />
+		<field name="title" type="String" />
+		<field name="description" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="logo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
+		<field name="creationDate" type="Date" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAchievementActivity">
+		<field name="id" type="long" />
+		<field name="userId" type="Integer" />
+		<field name="achievementId" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFAchievementUser">
+		<field name="id" type="long" />
+		<field name="userId" type="Integer" />
+		<field name="achievementId" type="Integer" />
+	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFActivity">
 		<field name="indexNumber" type="long" />
 		<field name="id" type="String">
@@ -427,6 +448,12 @@
 		<field name="quizId" type="Integer" />
 		<field name="parentId" type="Integer" />
 		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFRequiredActivity">
+		<field name="id" type="long" />
+		<field name="achievementId" type="Integer" />
+		<field name="activityClassName" type="String" />
+		<field name="numberActivitiesRequired" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFResource">
 		<field name="id" type="long" />

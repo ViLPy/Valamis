@@ -24,6 +24,7 @@ public abstract class LFGlobalObjectiveStateBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f global objective state model instance should use the {@link LFGlobalObjectiveState} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFGlobalObjectiveStateLocalServiceUtil.addLFGlobalObjectiveState(this);

@@ -24,6 +24,7 @@ public abstract class LFCertificateBaseImpl extends LFCertificateModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f certificate model instance should use the {@link LFCertificate} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCertificateLocalServiceUtil.addLFCertificate(this);

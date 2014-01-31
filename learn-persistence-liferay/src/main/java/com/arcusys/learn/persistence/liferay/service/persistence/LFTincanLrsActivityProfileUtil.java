@@ -50,7 +50,7 @@ public class LFTincanLrsActivityProfileUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -84,102 +84,22 @@ public class LFTincanLrsActivityProfileUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFTincanLrsActivityProfile update(
-        LFTincanLrsActivityProfile lfTincanLrsActivityProfile, boolean merge)
+        LFTincanLrsActivityProfile lfTincanLrsActivityProfile)
         throws SystemException {
-        return getPersistence().update(lfTincanLrsActivityProfile, merge);
+        return getPersistence().update(lfTincanLrsActivityProfile);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanLrsActivityProfile update(
-        LFTincanLrsActivityProfile lfTincanLrsActivityProfile, boolean merge,
+        LFTincanLrsActivityProfile lfTincanLrsActivityProfile,
         ServiceContext serviceContext) throws SystemException {
         return getPersistence()
-                   .update(lfTincanLrsActivityProfile, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan lrs activity profile in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsActivityProfile the l f tincan lrs activity profile
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile lfTincanLrsActivityProfile) {
-        getPersistence().cacheResult(lfTincanLrsActivityProfile);
-    }
-
-    /**
-    * Caches the l f tincan lrs activity profiles in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsActivityProfiles the l f tincan lrs activity profiles
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile> lfTincanLrsActivityProfiles) {
-        getPersistence().cacheResult(lfTincanLrsActivityProfiles);
-    }
-
-    /**
-    * Creates a new l f tincan lrs activity profile with the primary key. Does not add the l f tincan lrs activity profile to the database.
-    *
-    * @param id the primary key for the new l f tincan lrs activity profile
-    * @return the new l f tincan lrs activity profile
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan lrs activity profile with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan lrs activity profile
-    * @return the l f tincan lrs activity profile that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException if a l f tincan lrs activity profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile lfTincanLrsActivityProfile,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanLrsActivityProfile, merge);
-    }
-
-    /**
-    * Returns the l f tincan lrs activity profile with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs activity profile
-    * @return the l f tincan lrs activity profile
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException if a l f tincan lrs activity profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan lrs activity profile with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs activity profile
-    * @return the l f tincan lrs activity profile, or <code>null</code> if a l f tincan lrs activity profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+                   .update(lfTincanLrsActivityProfile, serviceContext);
     }
 
     /**
@@ -233,6 +153,116 @@ public class LFTincanLrsActivityProfileUtil {
     }
 
     /**
+    * Removes the l f tincan lrs activity profile where activityId = &#63; and profileId = &#63; from the database.
+    *
+    * @param activityId the activity ID
+    * @param profileId the profile ID
+    * @return the l f tincan lrs activity profile that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile removeByActivityIdAndProfileId(
+        java.lang.String activityId, java.lang.String profileId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .removeByActivityIdAndProfileId(activityId, profileId);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs activity profiles where activityId = &#63; and profileId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param profileId the profile ID
+    * @return the number of matching l f tincan lrs activity profiles
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIdAndProfileId(
+        java.lang.String activityId, java.lang.String profileId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityIdAndProfileId(activityId, profileId);
+    }
+
+    /**
+    * Caches the l f tincan lrs activity profile in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsActivityProfile the l f tincan lrs activity profile
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile lfTincanLrsActivityProfile) {
+        getPersistence().cacheResult(lfTincanLrsActivityProfile);
+    }
+
+    /**
+    * Caches the l f tincan lrs activity profiles in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsActivityProfiles the l f tincan lrs activity profiles
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile> lfTincanLrsActivityProfiles) {
+        getPersistence().cacheResult(lfTincanLrsActivityProfiles);
+    }
+
+    /**
+    * Creates a new l f tincan lrs activity profile with the primary key. Does not add the l f tincan lrs activity profile to the database.
+    *
+    * @param id the primary key for the new l f tincan lrs activity profile
+    * @return the new l f tincan lrs activity profile
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan lrs activity profile with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan lrs activity profile
+    * @return the l f tincan lrs activity profile that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException if a l f tincan lrs activity profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile lfTincanLrsActivityProfile)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanLrsActivityProfile);
+    }
+
+    /**
+    * Returns the l f tincan lrs activity profile with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs activity profile
+    * @return the l f tincan lrs activity profile
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException if a l f tincan lrs activity profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan lrs activity profile with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs activity profile
+    * @return the l f tincan lrs activity profile, or <code>null</code> if a l f tincan lrs activity profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f tincan lrs activity profiles.
     *
     * @return the l f tincan lrs activity profiles
@@ -247,7 +277,7 @@ public class LFTincanLrsActivityProfileUtil {
     * Returns a range of all the l f tincan lrs activity profiles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsActivityProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs activity profiles
@@ -265,7 +295,7 @@ public class LFTincanLrsActivityProfileUtil {
     * Returns an ordered range of all the l f tincan lrs activity profiles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsActivityProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs activity profiles
@@ -282,22 +312,6 @@ public class LFTincanLrsActivityProfileUtil {
     }
 
     /**
-    * Removes the l f tincan lrs activity profile where activityId = &#63; and profileId = &#63; from the database.
-    *
-    * @param activityId the activity ID
-    * @param profileId the profile ID
-    * @return the l f tincan lrs activity profile that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsActivityProfile removeByActivityIdAndProfileId(
-        java.lang.String activityId, java.lang.String profileId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsActivityProfileException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .removeByActivityIdAndProfileId(activityId, profileId);
-    }
-
-    /**
     * Removes all the l f tincan lrs activity profiles from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -305,21 +319,6 @@ public class LFTincanLrsActivityProfileUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan lrs activity profiles where activityId = &#63; and profileId = &#63;.
-    *
-    * @param activityId the activity ID
-    * @param profileId the profile ID
-    * @return the number of matching l f tincan lrs activity profiles
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityIdAndProfileId(
-        java.lang.String activityId, java.lang.String profileId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityIdAndProfileId(activityId, profileId);
     }
 
     /**
@@ -346,7 +345,7 @@ public class LFTincanLrsActivityProfileUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(
         LFTincanLrsActivityProfilePersistence persistence) {

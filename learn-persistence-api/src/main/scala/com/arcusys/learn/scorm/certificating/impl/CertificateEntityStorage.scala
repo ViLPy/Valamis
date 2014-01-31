@@ -18,6 +18,10 @@ trait CertificateEntityStorage extends CertificateStorage with KeyedEntityStorag
     new CertificatePage(page, allFiltered.length)
   }
 
+  def getAll(companyId: Int) = {
+    getAll("companyID" -> companyId)
+  }
+
   def saveLogo(id: Int, logo: String) {
     modify("id" -> id, "logo" -> logo)
   }

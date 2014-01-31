@@ -3,64 +3,63 @@ package com.arcusys.learn.questionbank
 import org.openqa.selenium._
 import interactions.Actions
 import org.junit.Assert._
-import com.arcusys.learn.base.UITestBase
+import com.arcusys.learn.base.{WebDriverArcusys, UITestBase}
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
+import org.openqa.selenium.By._
 
-class CategoryTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
+class CategoryTest (_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
   val driver = _driver
 
   "Question Editor" should "be able to create and edit categories" in {
     driver.get(baseUrl + questionUrl)
-    driver.findElement(By.id("questionbankAddCategory")).click()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).clear()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).sendKeys("Category")
-    driver.findElement(By.id("questionbankUpdate")).click()
-    driver.findElement(By.id("questionbankEditBottom")).click()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).clear()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).sendKeys("Category test")
-    driver.findElement(By.id("questionbankUpdateBottom")).click()
-    wait(1)
-    driver.findElement(By.partialLinkText("Question base")).click()
-    wait(1)
-    driver.findElement(By.partialLinkText("Category test")).click()
-    wait(1)
-    driver.findElement(By.id("questionbankEdit")).click()
-    driver.findElement(By.id("SCORMEditButtonDescription")).click()
-    wait(1)
-    driver.asInstanceOf[JavascriptExecutor].executeScript("tinyMCE.activeEditor.setContent('Test description');")
-    driver.findElement(By.xpath("//button[@type='button']")).click()
-    driver.findElement(By.id("questionbankUpdate")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankAddCategory")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).clear()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).sendKeys("Category")
 
-    val description = driver.findElement(By.id("SCORMCategoryDescription")).getText
-    assertEquals("Test description", description)
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(id("questionbankUpdate")).click()
+
+    driver.getVisibleElementAfterWaitBy(id("questionbankEditBottom")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).clear()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).sendKeys("Category test")
+    driver.getVisibleElementAfterWaitBy(id("questionbankUpdateBottom")).click()
+
+    driver.getVisibleElementAfterWaitBy(partialLinkText("Question base")).click()
+    driver.getVisibleElementAfterWaitBy(partialLinkText("Category test")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankEdit")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMEditButtonDescription")).click()
+    driver.asInstanceOf[JavascriptExecutor].executeScript("tinyMCE.activeEditor.setContent('Test description');")
+    driver.getVisibleElementAfterWaitBy(By.xpath("//button[@type='button']")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankUpdate")).click()
+
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryDescription")).getText should be("Test description")
+    driver.getVisibleElementAfterWaitBy(id("SCORMQuestionBankTree")).findElements(By.tagName("li")).size should be(2)
   }
 
-  it should  " work correctly with child categories" in {
+  it should  "work correctly with child categories" in {
     driver.get(baseUrl + questionUrl)
-    driver.findElement(By.partialLinkText("Question base")).click()
-    driver.findElement(By.id("questionbankAddCategory")).click()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).clear()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).sendKeys("New category2")
-    driver.findElement(By.id("questionbankUpdateBottom")).click()
-    wait(1)
-    val source = driver.findElement(By.partialLinkText("New category2"))
-    val target = driver.findElement(By.partialLinkText("Category test"))
+    driver.getVisibleElementAfterWaitBy(partialLinkText("Question base")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankAddCategory")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).clear()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).sendKeys("New category2")
+
+    driver.getVisibleElementAfterWaitBy(id("questionbankUpdateBottom")).click()
+    val source = driver.getVisibleElementAfterWaitBy(partialLinkText("New category2"))
+    val target = driver.getVisibleElementAfterWaitBy(partialLinkText("Category test"))
     new Actions(driver).dragAndDrop(source, target).perform()
-    //new Actions(myTestDriver).dragAndDrop(draggable, droppable).build().perform();
-    wait(1)
-    driver.findElement(By.id("questionbankRemoveElement")).click()
-    assertEquals("This will delete all included elements!", closeAlertAndGetItsText)
-    driver.findElement(By.id("questionbankAddCategory")).click()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).clear()
-    driver.findElement(By.id("SCORMCategoryNameEdit")).sendKeys("Child")
-    driver.findElement(By.id("questionbankUpdate")).click()
-    wait(1)
-    driver.findElement(By.partialLinkText("Category test")).click()
-    driver.findElement(By.id("questionbankRemoveElement")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankRemoveElement")).click()
 
+    driver.getAlertTextAndCloseAfterWait should be("This will delete all included elements!")
+    driver.getVisibleElementAfterWaitBy(id("questionbankAddCategory")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).clear()
+    driver.getVisibleElementAfterWaitBy(id("SCORMCategoryNameEdit")).sendKeys("Child")
 
-    assertEquals("This will delete all included elements!", closeAlertAndGetItsText)
+    driver.getVisibleElementAfterWaitBy(id("questionbankUpdate")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMQuestionBankTree")).findElements(By.tagName("li")).size should be(3)
+    driver.getVisibleElementAfterWaitBy(partialLinkText("Category test")).click()
+    driver.getVisibleElementAfterWaitBy(id("questionbankRemoveElement")).click()
+
+    driver.getAlertTextAndCloseAfterWait should be("This will delete all included elements!")
+    driver.getVisibleElementAfterWaitBy(id("SCORMQuestionBankTree")).findElements(By.tagName("li")).size should be(1)
   }
 }

@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,26 +29,32 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
     public LFCertificateSiteClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFCertificateSite.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFCertificateSite.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -90,36 +98,94 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfCertificateSiteRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateSiteRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfCertificateSiteRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCertificateID() {
         return _certificateID;
     }
 
+    @Override
     public void setCertificateID(Integer certificateID) {
         _certificateID = certificateID;
+
+        if (_lfCertificateSiteRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateSiteRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCertificateID",
+                        Integer.class);
+
+                method.invoke(_lfCertificateSiteRemoteModel, certificateID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getSiteID() {
         return _siteID;
     }
 
+    @Override
     public void setSiteID(Integer siteID) {
         _siteID = siteID;
+
+        if (_lfCertificateSiteRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateSiteRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSiteID", Integer.class);
+
+                method.invoke(_lfCertificateSiteRemoteModel, siteID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getArrangementIndex() {
         return _arrangementIndex;
     }
 
+    @Override
     public void setArrangementIndex(Integer arrangementIndex) {
         _arrangementIndex = arrangementIndex;
+
+        if (_lfCertificateSiteRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateSiteRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setArrangementIndex",
+                        Integer.class);
+
+                method.invoke(_lfCertificateSiteRemoteModel, arrangementIndex);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFCertificateSiteRemoteModel() {
@@ -131,6 +197,47 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
         _lfCertificateSiteRemoteModel = lfCertificateSiteRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfCertificateSiteRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfCertificateSiteRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCertificateSiteLocalServiceUtil.addLFCertificateSite(this);
@@ -141,7 +248,7 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
 
     @Override
     public LFCertificateSite toEscapedModel() {
-        return (LFCertificateSite) Proxy.newProxyInstance(LFCertificateSite.class.getClassLoader(),
+        return (LFCertificateSite) ProxyUtil.newProxyInstance(LFCertificateSite.class.getClassLoader(),
             new Class[] { LFCertificateSite.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -158,6 +265,7 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
         return clone;
     }
 
+    @Override
     public int compareTo(LFCertificateSite lfCertificateSite) {
         long primaryKey = lfCertificateSite.getPrimaryKey();
 
@@ -172,17 +280,15 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFCertificateSiteClp)) {
             return false;
         }
 
-        LFCertificateSiteClp lfCertificateSite = null;
-
-        try {
-            lfCertificateSite = (LFCertificateSiteClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFCertificateSiteClp lfCertificateSite = (LFCertificateSiteClp) obj;
 
         long primaryKey = lfCertificateSite.getPrimaryKey();
 
@@ -215,6 +321,7 @@ public class LFCertificateSiteClp extends BaseModelImpl<LFCertificateSite>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(16);
 

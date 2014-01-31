@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<root>
+	<dynamic-element name="title" type="text" index-type="text" repeatable="true">
+		<dynamic-element name="description" type="text_area" index-type="text" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[Kuvaus]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="media-mp4" type="document_library" index-type="" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[MPEG 4 Video]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="media-ogg" type="document_library" index-type="" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[Ogg Video]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="media-webm" type="document_library" index-type="" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[WebM Video]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="youtube" type="text" index-type="text" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[Youtube-video]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="document_library" type="document_library" index-type="" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[Kuva]]></entry>
+			</meta-data>
+		</dynamic-element>
+		<dynamic-element name="image" type="image" index-type="" repeatable="false">
+			<meta-data>
+				<entry name="displayAsTooltip"><![CDATA[false]]></entry>
+				<entry name="required"><![CDATA[false]]></entry>
+				<entry name="instructions"><![CDATA[]]></entry>
+				<entry name="label"><![CDATA[Kuva omalta tietokoneelta]]></entry>
+			</meta-data>
+		</dynamic-element>
+	</dynamic-element>
+</root>

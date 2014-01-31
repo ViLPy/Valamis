@@ -49,7 +49,7 @@ public class LFBigDecimalUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFBigDecimalUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFBigDecimal update(LFBigDecimal lfBigDecimal, boolean merge)
+    public static LFBigDecimal update(LFBigDecimal lfBigDecimal)
         throws SystemException {
-        return getPersistence().update(lfBigDecimal, merge);
+        return getPersistence().update(lfBigDecimal);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
-    public static LFBigDecimal update(LFBigDecimal lfBigDecimal, boolean merge,
+    public static LFBigDecimal update(LFBigDecimal lfBigDecimal,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfBigDecimal, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f big decimal in the entity cache if it is enabled.
-    *
-    * @param lfBigDecimal the l f big decimal
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFBigDecimal lfBigDecimal) {
-        getPersistence().cacheResult(lfBigDecimal);
-    }
-
-    /**
-    * Caches the l f big decimals in the entity cache if it is enabled.
-    *
-    * @param lfBigDecimals the l f big decimals
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFBigDecimal> lfBigDecimals) {
-        getPersistence().cacheResult(lfBigDecimals);
-    }
-
-    /**
-    * Creates a new l f big decimal with the primary key. Does not add the l f big decimal to the database.
-    *
-    * @param id the primary key for the new l f big decimal
-    * @return the new l f big decimal
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f big decimal with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f big decimal
-    * @return the l f big decimal that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException if a l f big decimal with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFBigDecimal lfBigDecimal,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfBigDecimal, merge);
-    }
-
-    /**
-    * Returns the l f big decimal with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException} if it could not be found.
-    *
-    * @param id the primary key of the l f big decimal
-    * @return the l f big decimal
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException if a l f big decimal with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f big decimal with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f big decimal
-    * @return the l f big decimal, or <code>null</code> if a l f big decimal with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfBigDecimal, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFBigDecimalUtil {
     * Returns a range of all the l f big decimals where decimal = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param decimal the decimal
@@ -214,7 +134,7 @@ public class LFBigDecimalUtil {
     * Returns an ordered range of all the l f big decimals where decimal = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param decimal the decimal
@@ -316,6 +236,108 @@ public class LFBigDecimalUtil {
     }
 
     /**
+    * Removes all the l f big decimals where decimal = &#63; from the database.
+    *
+    * @param decimal the decimal
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByDecimal(java.math.BigDecimal decimal)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByDecimal(decimal);
+    }
+
+    /**
+    * Returns the number of l f big decimals where decimal = &#63;.
+    *
+    * @param decimal the decimal
+    * @return the number of matching l f big decimals
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByDecimal(java.math.BigDecimal decimal)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByDecimal(decimal);
+    }
+
+    /**
+    * Caches the l f big decimal in the entity cache if it is enabled.
+    *
+    * @param lfBigDecimal the l f big decimal
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFBigDecimal lfBigDecimal) {
+        getPersistence().cacheResult(lfBigDecimal);
+    }
+
+    /**
+    * Caches the l f big decimals in the entity cache if it is enabled.
+    *
+    * @param lfBigDecimals the l f big decimals
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFBigDecimal> lfBigDecimals) {
+        getPersistence().cacheResult(lfBigDecimals);
+    }
+
+    /**
+    * Creates a new l f big decimal with the primary key. Does not add the l f big decimal to the database.
+    *
+    * @param id the primary key for the new l f big decimal
+    * @return the new l f big decimal
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f big decimal with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f big decimal
+    * @return the l f big decimal that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException if a l f big decimal with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFBigDecimal lfBigDecimal)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfBigDecimal);
+    }
+
+    /**
+    * Returns the l f big decimal with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException} if it could not be found.
+    *
+    * @param id the primary key of the l f big decimal
+    * @return the l f big decimal
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException if a l f big decimal with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFBigDecimalException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f big decimal with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f big decimal
+    * @return the l f big decimal, or <code>null</code> if a l f big decimal with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFBigDecimal fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f big decimals.
     *
     * @return the l f big decimals
@@ -330,7 +352,7 @@ public class LFBigDecimalUtil {
     * Returns a range of all the l f big decimals.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f big decimals
@@ -348,7 +370,7 @@ public class LFBigDecimalUtil {
     * Returns an ordered range of all the l f big decimals.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f big decimals
@@ -365,17 +387,6 @@ public class LFBigDecimalUtil {
     }
 
     /**
-    * Removes all the l f big decimals where decimal = &#63; from the database.
-    *
-    * @param decimal the decimal
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByDecimal(java.math.BigDecimal decimal)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByDecimal(decimal);
-    }
-
-    /**
     * Removes all the l f big decimals from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -383,18 +394,6 @@ public class LFBigDecimalUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f big decimals where decimal = &#63;.
-    *
-    * @param decimal the decimal
-    * @return the number of matching l f big decimals
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByDecimal(java.math.BigDecimal decimal)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByDecimal(decimal);
     }
 
     /**
@@ -421,7 +420,7 @@ public class LFBigDecimalUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFBigDecimalPersistence persistence) {
     }

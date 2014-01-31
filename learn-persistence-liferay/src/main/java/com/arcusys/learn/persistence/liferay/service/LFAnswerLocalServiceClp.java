@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
     private InvokableLocalService _invokableLocalService;
     private String _methodName0;
@@ -102,37 +105,37 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFAnswer";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFAnswer";
+        _methodName10 = "fetchLFAnswer";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFAnswer";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFAnswers";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFAnswersCount";
+        _methodName13 = "getLFAnswers";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFAnswer";
+        _methodName14 = "getLFAnswersCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAnswer"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFAnswer";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAnswer",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFAnswer"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -160,6 +163,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         _methodParameterTypes22 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer addLFAnswer(
         com.arcusys.learn.persistence.liferay.model.LFAnswer lfAnswer)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -187,6 +191,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer createLFAnswer(
         long id) {
         Object returnObj = null;
@@ -208,6 +213,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer deleteLFAnswer(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -239,6 +245,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer deleteLFAnswer(
         com.arcusys.learn.persistence.liferay.model.LFAnswer lfAnswer)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -266,6 +273,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -286,6 +294,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -314,6 +323,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -348,6 +358,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -386,6 +397,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -413,13 +425,47 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer fetchLFAnswer(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -438,6 +484,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer getLFAnswer(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -445,8 +492,8 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -469,6 +516,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -476,8 +524,8 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -501,14 +549,15 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAnswer> getLFAnswers(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -527,13 +576,14 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAnswer>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFAnswersCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -552,14 +602,15 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer updateLFAnswer(
         com.arcusys.learn.persistence.liferay.model.LFAnswer lfAnswer)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(lfAnswer) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -579,34 +630,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFAnswer updateLFAnswer(
-        com.arcusys.learn.persistence.liferay.model.LFAnswer lfAnswer,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] { ClpSerializer.translateInput(lfAnswer), merge });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -627,6 +651,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -644,12 +669,14 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAnswer createLFAnswer()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -675,6 +702,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAnswer) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAnswer> findByQuestionId(
         java.lang.Integer questionId)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -702,6 +730,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAnswer>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeByQuestionId(java.lang.Integer questionId)
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
@@ -724,6 +753,7 @@ public class LFAnswerLocalServiceClp implements LFAnswerLocalService {
         }
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

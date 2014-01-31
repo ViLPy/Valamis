@@ -125,7 +125,7 @@ class PackageIndexer extends BaseIndexer with InjectableFactory {
     SearchEngineUtil.updateDocuments(getSearchEngineId, companyId, documents)
   }
 
-  def hasPermission(permissionChecker: PermissionChecker, entryClassName: String, entryClassPK: Long, actionId: String): Boolean = {
+  override def hasPermission(permissionChecker: PermissionChecker, entryClassName: String, entryClassPK: Long, actionId: String): Boolean = {
     true
   }
 }

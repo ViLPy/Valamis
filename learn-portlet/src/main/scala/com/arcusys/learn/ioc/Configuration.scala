@@ -2,15 +2,25 @@ package com.arcusys.learn.ioc
 
 import com.escalatesoft.subcut.inject.NewBindingModule
 import com.arcusys.learn.storage.StorageFactoryContract
-//import com.arcusys.learn.storage.impl.orbroker.StorageFactory
 import com.arcusys.learn.scorm.tracking.model.sequencing._
 import com.arcusys.learn.storage.impl.liferay.LFStorageFactory
+import com.arcusys.scorm.lms._
+import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementActivityStorage, AchievementRequiredStorage, AchievementStorage}
+import com.arcusys.learn.scorm.Archivements.impl.{AchievementUserEntityStorage, AchievementActivityEntityStorage, AchievementRequiredEntityStorage, AchievementEntityStorage}
+import com.arcusys.learn.scorm.achievements.{LFAchievementUserStorageImpl, LFAchievementActivityStorageImpl, LFAchievementRequiredStorageImpl, LFAchievementStorageImpl}
 
 object Configuration extends NewBindingModule({
   implicit module =>
     import module._
     //bind[StorageFactoryContract] toSingle StorageFactory
     bind[StorageFactoryContract] toSingle LFStorageFactory
+    bind[AchievementRepositoryContract] toSingle new AchievementRepository
+    bind[ActivityRepositoryContract] toSingle new ActivityRepository
+
+    bind[AchievementStorage] toSingle new AchievementEntityStorage with LFAchievementStorageImpl
+    bind[AchievementRequiredStorage] toSingle new AchievementRequiredEntityStorage with LFAchievementRequiredStorageImpl
+    bind[AchievementActivityStorage] toSingle new AchievementActivityEntityStorage with LFAchievementActivityStorageImpl
+    bind[AchievementUserStorage] toSingle new AchievementUserEntityStorage with LFAchievementUserStorageImpl
 
     bind[NavigationRequestServiceContract] toSingle new NavigationRequestService
     bind[TerminationRequestServiceContract] toSingle new TerminationRequestService

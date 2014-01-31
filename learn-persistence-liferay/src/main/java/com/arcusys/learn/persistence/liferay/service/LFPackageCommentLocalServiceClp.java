@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFPackageCommentLocalServiceClp
     implements LFPackageCommentLocalService {
     private InvokableLocalService _invokableLocalService;
@@ -102,37 +105,37 @@ public class LFPackageCommentLocalServiceClp
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFPackageComment";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFPackageComment";
+        _methodName10 = "fetchLFPackageComment";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFPackageComment";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFPackageComments";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFPackageCommentsCount";
+        _methodName13 = "getLFPackageComments";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFPackageComment";
+        _methodName14 = "getLFPackageCommentsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFPackageComment"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFPackageComment";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFPackageComment",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFPackageComment"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -156,6 +159,7 @@ public class LFPackageCommentLocalServiceClp
         _methodParameterTypes21 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment addLFPackageComment(
         com.arcusys.learn.persistence.liferay.model.LFPackageComment lfPackageComment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -184,6 +188,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment createLFPackageComment(
         long id) {
         Object returnObj = null;
@@ -205,6 +210,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment deleteLFPackageComment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -236,6 +242,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment deleteLFPackageComment(
         com.arcusys.learn.persistence.liferay.model.LFPackageComment lfPackageComment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -264,6 +271,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -284,6 +292,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -312,6 +321,7 @@ public class LFPackageCommentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -346,6 +356,7 @@ public class LFPackageCommentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -384,6 +395,7 @@ public class LFPackageCommentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -411,13 +423,47 @@ public class LFPackageCommentLocalServiceClp
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment fetchLFPackageComment(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -436,6 +482,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment getLFPackageComment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -443,8 +490,8 @@ public class LFPackageCommentLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -467,6 +514,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -474,8 +522,8 @@ public class LFPackageCommentLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -499,14 +547,15 @@ public class LFPackageCommentLocalServiceClp
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageComment> getLFPackageComments(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -525,13 +574,14 @@ public class LFPackageCommentLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageComment>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFPackageCommentsCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -550,14 +600,15 @@ public class LFPackageCommentLocalServiceClp
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment updateLFPackageComment(
         com.arcusys.learn.persistence.liferay.model.LFPackageComment lfPackageComment)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(
                             lfPackageComment) });
         } catch (Throwable t) {
@@ -578,38 +629,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFPackageComment updateLFPackageComment(
-        com.arcusys.learn.persistence.liferay.model.LFPackageComment lfPackageComment,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] {
-                        ClpSerializer.translateInput(lfPackageComment),
-                        
-                    merge
-                    });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -630,6 +650,7 @@ public class LFPackageCommentLocalServiceClp
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -647,12 +668,14 @@ public class LFPackageCommentLocalServiceClp
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPackageComment createLFPackageComment()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -678,6 +701,7 @@ public class LFPackageCommentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFPackageComment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageComment> findBySocialPackageID(
         java.lang.Integer packageID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -705,6 +729,7 @@ public class LFPackageCommentLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageComment>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

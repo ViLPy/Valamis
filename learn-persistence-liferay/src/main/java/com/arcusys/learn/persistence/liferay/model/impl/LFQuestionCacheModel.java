@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFQuestion in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFQuestion
-* @generated
-*/
+ * The cache model class for representing LFQuestion in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFQuestion
+ * @generated
+ */
 public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer categoryId;
     public String title;
@@ -57,6 +60,7 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
         return sb.toString();
     }
 
+    @Override
     public LFQuestion toEntityModel() {
         LFQuestionImpl lfQuestionImpl = new LFQuestionImpl();
 
@@ -90,5 +94,50 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
         lfQuestionImpl.resetOriginalValues();
 
         return lfQuestionImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        categoryId = objectInput.readInt();
+        title = objectInput.readUTF();
+        description = objectInput.readUTF();
+        explanationText = objectInput.readUTF();
+        forceCorrectCount = objectInput.readBoolean();
+        caseSensitive = objectInput.readBoolean();
+        questionType = objectInput.readInt();
+        courseId = objectInput.readInt();
+        arrangementIndex = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(categoryId);
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (description == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(description);
+        }
+
+        if (explanationText == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(explanationText);
+        }
+
+        objectOutput.writeBoolean(forceCorrectCount);
+        objectOutput.writeBoolean(caseSensitive);
+        objectOutput.writeInt(questionType);
+        objectOutput.writeInt(courseId);
+        objectOutput.writeInt(arrangementIndex);
     }
 }

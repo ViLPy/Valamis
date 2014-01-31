@@ -24,6 +24,7 @@ public abstract class LFCourseBaseImpl extends LFCourseModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f course model instance should use the {@link LFCourse} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCourseLocalServiceUtil.addLFCourse(this);

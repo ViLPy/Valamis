@@ -24,6 +24,7 @@ public abstract class LFTincanLrsSubStatementBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs sub statement model instance should use the {@link LFTincanLrsSubStatement} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsSubStatementLocalServiceUtil.addLFTincanLrsSubStatement(this);

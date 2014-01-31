@@ -24,70 +24,6 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
      */
 
     /**
-    * Caches the l f config in the entity cache if it is enabled.
-    *
-    * @param lfConfig the l f config
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFConfig lfConfig);
-
-    /**
-    * Caches the l f configs in the entity cache if it is enabled.
-    *
-    * @param lfConfigs the l f configs
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFConfig> lfConfigs);
-
-    /**
-    * Creates a new l f config with the primary key. Does not add the l f config to the database.
-    *
-    * @param id the primary key for the new l f config
-    * @return the new l f config
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFConfig create(long id);
-
-    /**
-    * Removes the l f config with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f config
-    * @return the l f config that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException if a l f config with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFConfig remove(long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFConfig updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFConfig lfConfig,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f config with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFConfigException} if it could not be found.
-    *
-    * @param id the primary key of the l f config
-    * @return the l f config
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException if a l f config with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFConfig findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f config with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f config
-    * @return the l f config, or <code>null</code> if a l f config with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFConfig fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f configs where dataKey = &#63;.
     *
     * @param dataKey the data key
@@ -102,7 +38,7 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
     * Returns a range of all the l f configs where dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFConfigModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dataKey the data key
@@ -119,7 +55,7 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
     * Returns an ordered range of all the l f configs where dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFConfigModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dataKey the data key
@@ -207,6 +143,88 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f configs where dataKey = &#63; from the database.
+    *
+    * @param dataKey the data key
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByDataKey(java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f configs where dataKey = &#63;.
+    *
+    * @param dataKey the data key
+    * @return the number of matching l f configs
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByDataKey(java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f config in the entity cache if it is enabled.
+    *
+    * @param lfConfig the l f config
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFConfig lfConfig);
+
+    /**
+    * Caches the l f configs in the entity cache if it is enabled.
+    *
+    * @param lfConfigs the l f configs
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFConfig> lfConfigs);
+
+    /**
+    * Creates a new l f config with the primary key. Does not add the l f config to the database.
+    *
+    * @param id the primary key for the new l f config
+    * @return the new l f config
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFConfig create(long id);
+
+    /**
+    * Removes the l f config with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f config
+    * @return the l f config that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException if a l f config with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFConfig remove(long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFConfig updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFConfig lfConfig)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f config with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFConfigException} if it could not be found.
+    *
+    * @param id the primary key of the l f config
+    * @return the l f config
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException if a l f config with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFConfig findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFConfigException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f config with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f config
+    * @return the l f config, or <code>null</code> if a l f config with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFConfig fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f configs.
     *
     * @return the l f configs
@@ -219,7 +237,7 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
     * Returns a range of all the l f configs.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFConfigModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f configs
@@ -235,7 +253,7 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
     * Returns an ordered range of all the l f configs.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFConfigModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f configs
@@ -250,30 +268,11 @@ public interface LFConfigPersistence extends BasePersistence<LFConfig> {
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f configs where dataKey = &#63; from the database.
-    *
-    * @param dataKey the data key
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByDataKey(java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f configs from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f configs where dataKey = &#63;.
-    *
-    * @param dataKey the data key
-    * @return the number of matching l f configs
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByDataKey(java.lang.String dataKey)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

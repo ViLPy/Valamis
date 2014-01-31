@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,26 +29,32 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
     public LFTincanLrsAgentProfileClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsAgentProfile.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsAgentProfile.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -90,36 +98,92 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsAgentProfileRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAgentProfileRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsAgentProfileRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getDocumentId() {
         return _documentId;
     }
 
+    @Override
     public void setDocumentId(Integer documentId) {
         _documentId = documentId;
+
+        if (_lfTincanLrsAgentProfileRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAgentProfileRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDocumentId", Integer.class);
+
+                method.invoke(_lfTincanLrsAgentProfileRemoteModel, documentId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getAgentId() {
         return _agentId;
     }
 
+    @Override
     public void setAgentId(Integer agentId) {
         _agentId = agentId;
+
+        if (_lfTincanLrsAgentProfileRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAgentProfileRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAgentId", Integer.class);
+
+                method.invoke(_lfTincanLrsAgentProfileRemoteModel, agentId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getProfileId() {
         return _profileId;
     }
 
+    @Override
     public void setProfileId(String profileId) {
         _profileId = profileId;
+
+        if (_lfTincanLrsAgentProfileRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAgentProfileRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setProfileId", String.class);
+
+                method.invoke(_lfTincanLrsAgentProfileRemoteModel, profileId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsAgentProfileRemoteModel() {
@@ -131,6 +195,47 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
         _lfTincanLrsAgentProfileRemoteModel = lfTincanLrsAgentProfileRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsAgentProfileRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsAgentProfileRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsAgentProfileLocalServiceUtil.addLFTincanLrsAgentProfile(this);
@@ -141,7 +246,7 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
 
     @Override
     public LFTincanLrsAgentProfile toEscapedModel() {
-        return (LFTincanLrsAgentProfile) Proxy.newProxyInstance(LFTincanLrsAgentProfile.class.getClassLoader(),
+        return (LFTincanLrsAgentProfile) ProxyUtil.newProxyInstance(LFTincanLrsAgentProfile.class.getClassLoader(),
             new Class[] { LFTincanLrsAgentProfile.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -158,6 +263,7 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsAgentProfile lfTincanLrsAgentProfile) {
         long primaryKey = lfTincanLrsAgentProfile.getPrimaryKey();
 
@@ -172,17 +278,15 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsAgentProfileClp)) {
             return false;
         }
 
-        LFTincanLrsAgentProfileClp lfTincanLrsAgentProfile = null;
-
-        try {
-            lfTincanLrsAgentProfile = (LFTincanLrsAgentProfileClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsAgentProfileClp lfTincanLrsAgentProfile = (LFTincanLrsAgentProfileClp) obj;
 
         long primaryKey = lfTincanLrsAgentProfile.getPrimaryKey();
 
@@ -215,6 +319,7 @@ public class LFTincanLrsAgentProfileClp extends BaseModelImpl<LFTincanLrsAgentPr
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(16);
 

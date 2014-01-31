@@ -6,16 +6,19 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFConfig in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFConfig
-* @generated
-*/
-public class LFConfigCacheModel implements CacheModel<LFConfig>, Serializable {
+ * The cache model class for representing LFConfig in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFConfig
+ * @generated
+ */
+public class LFConfigCacheModel implements CacheModel<LFConfig>, Externalizable {
     public long id;
     public String dataKey;
     public String dataValue;
@@ -35,6 +38,7 @@ public class LFConfigCacheModel implements CacheModel<LFConfig>, Serializable {
         return sb.toString();
     }
 
+    @Override
     public LFConfig toEntityModel() {
         LFConfigImpl lfConfigImpl = new LFConfigImpl();
 
@@ -55,5 +59,30 @@ public class LFConfigCacheModel implements CacheModel<LFConfig>, Serializable {
         lfConfigImpl.resetOriginalValues();
 
         return lfConfigImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        dataKey = objectInput.readUTF();
+        dataValue = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (dataKey == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(dataKey);
+        }
+
+        if (dataValue == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(dataValue);
+        }
     }
 }

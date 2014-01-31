@@ -224,7 +224,7 @@ class TemplateUpgradeProcess extends BlogHelpers with MessageBoardSupport
     parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA, Array[String](true.toString))
     parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA_CONTROL_DEFAULT, Array[String](true.toString))
     parameterMap.put(PortletDataHandlerKeys.PORTLET_SETUP, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.USER_PERMISSIONS, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeys.PERMISSIONS, Array[String](true.toString))
 
     LayoutLocalServiceUtil.importLayouts(userId, groupId, privateLayout, parameterMap, larFile)
   }
@@ -352,7 +352,7 @@ class TemplateUpgradeProcess extends BlogHelpers with MessageBoardSupport
     serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH)
 
     val journalArticle = JournalArticleLocalServiceUtil.addArticle(userId, groupId,
-      0, 0, //classNameId, classPK,
+      0, 0, 0, //folderId, classNameId, classPK,
       title.replaceAll(" ", "_"), //articleId,
       false, //autoArticleId,
       JournalArticleConstants.VERSION_DEFAULT,
@@ -378,7 +378,7 @@ class TemplateUpgradeProcess extends BlogHelpers with MessageBoardSupport
     JournalArticleLocalServiceUtil.updateStatus(
       userId, groupId, journalArticle.getArticleId,
       journalArticle.getVersion, WorkflowConstants.STATUS_APPROVED,
-      StringPool.BLANK, serviceContext)
+      StringPool.BLANK, null, serviceContext)
 
     journalArticle
   }

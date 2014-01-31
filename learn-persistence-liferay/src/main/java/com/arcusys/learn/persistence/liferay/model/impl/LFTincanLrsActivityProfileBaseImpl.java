@@ -25,6 +25,7 @@ public abstract class LFTincanLrsActivityProfileBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs activity profile model instance should use the {@link LFTincanLrsActivityProfile} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsActivityProfileLocalServiceUtil.addLFTincanLrsActivityProfile(this);

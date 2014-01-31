@@ -24,6 +24,7 @@ public abstract class LFTincanLrsStatementRefBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs statement ref model instance should use the {@link LFTincanLrsStatementRef} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsStatementRefLocalServiceUtil.addLFTincanLrsStatementRef(this);

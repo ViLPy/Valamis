@@ -11,7 +11,7 @@ import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
 import com.arcusys.scala.json.Json
-import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.arcusys.learn.service.util.{AntiSamyHelper}
 import com.liferay.portal.kernel.util.Base64
 import com.arcusys.learn.admin.service.deployer.PackageProcessor
 
@@ -41,8 +41,8 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     FileProcessing.copyInputStream(stream, outStream)
     val result = packageProcessor.processPackageAndGetID(title, summary, packageTmpUUID, courseID, userID, groupID)
     Json.toJson(Map(
-      "id"-> result.packageId,
-      "type"-> result.packageType
+      "id" -> result.packageId,
+      "type" -> result.packageType
     ))
   }
 
@@ -99,7 +99,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     Json.toJson(Map("thumb" -> thumbName, "url" -> imageName, "name" -> name, "isDirectory" -> false))
   }
 
-  post("/base64-icon/:folderID"){
+  post("/base64-icon/:folderID") {
     requireAdmin()
 
     val directory = parameter("folderID").intRequired
@@ -127,10 +127,49 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     json(Map("name" -> name))
   }
 
-  private def saveLogo(directory: Int, name: String, content: Array[Byte]){
+  post("/base64-icon/achievement/:folderID") {
+    requireAdmin()
+
+    val directory = parameter("folderID").intRequired
+    val inputBase64 = parameter("inputBase64").required.replace("data:image/png;base64,", "")
+    val position = inputBase64.indexOf(";")
+    val base64 = if (position == -1) inputBase64 else inputBase64.substring(0, position)
+    val outputData = Base64.decode(base64)
+
+    saveAchievementLogo(directory, "icon.png", outputData)
+  }
+
+  post("/upload-icon/achievement/:folderID") {
+    requireAdmin()
+
+    val directory = parameter("folderID").intRequired
+    val stream = fileParams.get("file").head.getInputStream // take only the first
+    val fullName = fileParams.get("file").head.getName // IE returns absolute path, e.g. C:/users/anonymous/Docs/pict.jpg Need to trim it
+    val name = new File(fullName).getName.replaceAll(" ", "_")
+    val contentSource = scala.io.Source.fromInputStream(stream)(scala.io.Codec.ISO8859)
+    val content = contentSource.map(_.toByte).toArray
+    contentSource.close()
+
+    saveAchievementLogo(directory, name, content)
+
+    json(Map("name" -> name))
+  }
+
+  // TODO Replace to business service layer
+  private def saveLogo(directory: Int, name: String, content: Array[Byte]) {
     storageFactory.fileStorage.delete("files/" + directory, true)
     storageFactory.fileStorage.store("files/" + directory + "/" + name, content)
     storageFactory.certificateStorage.saveLogo(directory, name)
+  }
+
+  // TODO Replace to business service layer
+  private def saveAchievementLogo(directory: Int, name: String, content: Array[Byte]) {
+    storageFactory.fileStorage.delete("files/" + directory, true)
+    storageFactory.fileStorage.store("files/" + directory + "/" + name, content)
+    /*val achievement = storageFactory.achievementStorage.getByID(directory)
+    achievement.get.copy(logo = name)
+    storageFactory.achievementStorage.modify(achievement.get)*/
+    //storageFactory.achievementStorage.saveLogo(directory, name)
   }
 
   post("/create-folder") {

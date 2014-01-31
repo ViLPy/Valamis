@@ -24,6 +24,7 @@ public abstract class LFTincanLrsDocumentBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs document model instance should use the {@link LFTincanLrsDocument} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsDocumentLocalServiceUtil.addLFTincanLrsDocument(this);

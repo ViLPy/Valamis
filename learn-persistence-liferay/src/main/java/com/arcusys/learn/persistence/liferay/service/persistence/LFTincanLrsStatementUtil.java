@@ -49,7 +49,7 @@ public class LFTincanLrsStatementUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,102 +83,20 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFTincanLrsStatement update(
-        LFTincanLrsStatement lfTincanLrsStatement, boolean merge)
+        LFTincanLrsStatement lfTincanLrsStatement) throws SystemException {
+        return getPersistence().update(lfTincanLrsStatement);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
+     */
+    public static LFTincanLrsStatement update(
+        LFTincanLrsStatement lfTincanLrsStatement, ServiceContext serviceContext)
         throws SystemException {
-        return getPersistence().update(lfTincanLrsStatement, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFTincanLrsStatement update(
-        LFTincanLrsStatement lfTincanLrsStatement, boolean merge,
-        ServiceContext serviceContext) throws SystemException {
-        return getPersistence()
-                   .update(lfTincanLrsStatement, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan lrs statement in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsStatement the l f tincan lrs statement
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement lfTincanLrsStatement) {
-        getPersistence().cacheResult(lfTincanLrsStatement);
-    }
-
-    /**
-    * Caches the l f tincan lrs statements in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsStatements the l f tincan lrs statements
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement> lfTincanLrsStatements) {
-        getPersistence().cacheResult(lfTincanLrsStatements);
-    }
-
-    /**
-    * Creates a new l f tincan lrs statement with the primary key. Does not add the l f tincan lrs statement to the database.
-    *
-    * @param id the primary key for the new l f tincan lrs statement
-    * @return the new l f tincan lrs statement
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan lrs statement with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan lrs statement
-    * @return the l f tincan lrs statement that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException if a l f tincan lrs statement with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement lfTincanLrsStatement,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanLrsStatement, merge);
-    }
-
-    /**
-    * Returns the l f tincan lrs statement with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs statement
-    * @return the l f tincan lrs statement
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException if a l f tincan lrs statement with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan lrs statement with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs statement
-    * @return the l f tincan lrs statement, or <code>null</code> if a l f tincan lrs statement with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfTincanLrsStatement, serviceContext);
     }
 
     /**
@@ -199,7 +117,7 @@ public class LFTincanLrsStatementUtil {
     * Returns a range of all the l f tincan lrs statements where objType = &#63; and objID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objType the obj type
@@ -219,7 +137,7 @@ public class LFTincanLrsStatementUtil {
     * Returns an ordered range of all the l f tincan lrs statements where objType = &#63; and objID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objType the obj type
@@ -336,6 +254,33 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
+    * Removes all the l f tincan lrs statements where objType = &#63; and objID = &#63; from the database.
+    *
+    * @param objType the obj type
+    * @param objID the obj i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByObjTypeAndObjID(java.lang.String objType,
+        java.lang.Integer objID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByObjTypeAndObjID(objType, objID);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs statements where objType = &#63; and objID = &#63;.
+    *
+    * @param objType the obj type
+    * @param objID the obj i d
+    * @return the number of matching l f tincan lrs statements
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByObjTypeAndObjID(java.lang.String objType,
+        java.lang.Integer objID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByObjTypeAndObjID(objType, objID);
+    }
+
+    /**
     * Returns all the l f tincan lrs statements where actorID = &#63;.
     *
     * @param actorID the actor i d
@@ -352,7 +297,7 @@ public class LFTincanLrsStatementUtil {
     * Returns a range of all the l f tincan lrs statements where actorID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param actorID the actor i d
@@ -371,7 +316,7 @@ public class LFTincanLrsStatementUtil {
     * Returns an ordered range of all the l f tincan lrs statements where actorID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param actorID the actor i d
@@ -473,6 +418,29 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
+    * Removes all the l f tincan lrs statements where actorID = &#63; from the database.
+    *
+    * @param actorID the actor i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActorID(java.lang.Integer actorID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByActorID(actorID);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs statements where actorID = &#63;.
+    *
+    * @param actorID the actor i d
+    * @return the number of matching l f tincan lrs statements
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActorID(java.lang.Integer actorID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByActorID(actorID);
+    }
+
+    /**
     * Returns all the l f tincan lrs statements where verbID = &#63;.
     *
     * @param verbID the verb i d
@@ -489,7 +457,7 @@ public class LFTincanLrsStatementUtil {
     * Returns a range of all the l f tincan lrs statements where verbID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param verbID the verb i d
@@ -508,7 +476,7 @@ public class LFTincanLrsStatementUtil {
     * Returns an ordered range of all the l f tincan lrs statements where verbID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param verbID the verb i d
@@ -610,6 +578,29 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
+    * Removes all the l f tincan lrs statements where verbID = &#63; from the database.
+    *
+    * @param verbID the verb i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByVerbID(java.lang.String verbID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByVerbID(verbID);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs statements where verbID = &#63;.
+    *
+    * @param verbID the verb i d
+    * @return the number of matching l f tincan lrs statements
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByVerbID(java.lang.String verbID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByVerbID(verbID);
+    }
+
+    /**
     * Returns the l f tincan lrs statement where tincanID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException} if it could not be found.
     *
     * @param tincanID the tincan i d
@@ -652,6 +643,111 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
+    * Removes the l f tincan lrs statement where tincanID = &#63; from the database.
+    *
+    * @param tincanID the tincan i d
+    * @return the l f tincan lrs statement that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement removeByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByTincanID(tincanID);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs statements where tincanID = &#63;.
+    *
+    * @param tincanID the tincan i d
+    * @return the number of matching l f tincan lrs statements
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByTincanID(java.lang.String tincanID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByTincanID(tincanID);
+    }
+
+    /**
+    * Caches the l f tincan lrs statement in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsStatement the l f tincan lrs statement
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement lfTincanLrsStatement) {
+        getPersistence().cacheResult(lfTincanLrsStatement);
+    }
+
+    /**
+    * Caches the l f tincan lrs statements in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsStatements the l f tincan lrs statements
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement> lfTincanLrsStatements) {
+        getPersistence().cacheResult(lfTincanLrsStatements);
+    }
+
+    /**
+    * Creates a new l f tincan lrs statement with the primary key. Does not add the l f tincan lrs statement to the database.
+    *
+    * @param id the primary key for the new l f tincan lrs statement
+    * @return the new l f tincan lrs statement
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan lrs statement with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan lrs statement
+    * @return the l f tincan lrs statement that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException if a l f tincan lrs statement with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement lfTincanLrsStatement)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanLrsStatement);
+    }
+
+    /**
+    * Returns the l f tincan lrs statement with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs statement
+    * @return the l f tincan lrs statement
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException if a l f tincan lrs statement with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan lrs statement with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs statement
+    * @return the l f tincan lrs statement, or <code>null</code> if a l f tincan lrs statement with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f tincan lrs statements.
     *
     * @return the l f tincan lrs statements
@@ -666,7 +762,7 @@ public class LFTincanLrsStatementUtil {
     * Returns a range of all the l f tincan lrs statements.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs statements
@@ -684,7 +780,7 @@ public class LFTincanLrsStatementUtil {
     * Returns an ordered range of all the l f tincan lrs statements.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs statements
@@ -701,55 +797,6 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
-    * Removes all the l f tincan lrs statements where objType = &#63; and objID = &#63; from the database.
-    *
-    * @param objType the obj type
-    * @param objID the obj i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByObjTypeAndObjID(java.lang.String objType,
-        java.lang.Integer objID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByObjTypeAndObjID(objType, objID);
-    }
-
-    /**
-    * Removes all the l f tincan lrs statements where actorID = &#63; from the database.
-    *
-    * @param actorID the actor i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActorID(java.lang.Integer actorID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByActorID(actorID);
-    }
-
-    /**
-    * Removes all the l f tincan lrs statements where verbID = &#63; from the database.
-    *
-    * @param verbID the verb i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByVerbID(java.lang.String verbID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByVerbID(verbID);
-    }
-
-    /**
-    * Removes the l f tincan lrs statement where tincanID = &#63; from the database.
-    *
-    * @param tincanID the tincan i d
-    * @return the l f tincan lrs statement that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement removeByTincanID(
-        java.lang.String tincanID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByTincanID(tincanID);
-    }
-
-    /**
     * Removes all the l f tincan lrs statements from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -757,56 +804,6 @@ public class LFTincanLrsStatementUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan lrs statements where objType = &#63; and objID = &#63;.
-    *
-    * @param objType the obj type
-    * @param objID the obj i d
-    * @return the number of matching l f tincan lrs statements
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByObjTypeAndObjID(java.lang.String objType,
-        java.lang.Integer objID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByObjTypeAndObjID(objType, objID);
-    }
-
-    /**
-    * Returns the number of l f tincan lrs statements where actorID = &#63;.
-    *
-    * @param actorID the actor i d
-    * @return the number of matching l f tincan lrs statements
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActorID(java.lang.Integer actorID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByActorID(actorID);
-    }
-
-    /**
-    * Returns the number of l f tincan lrs statements where verbID = &#63;.
-    *
-    * @param verbID the verb i d
-    * @return the number of matching l f tincan lrs statements
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByVerbID(java.lang.String verbID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByVerbID(verbID);
-    }
-
-    /**
-    * Returns the number of l f tincan lrs statements where tincanID = &#63;.
-    *
-    * @param tincanID the tincan i d
-    * @return the number of matching l f tincan lrs statements
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByTincanID(java.lang.String tincanID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByTincanID(tincanID);
     }
 
     /**
@@ -833,7 +830,7 @@ public class LFTincanLrsStatementUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanLrsStatementPersistence persistence) {
     }

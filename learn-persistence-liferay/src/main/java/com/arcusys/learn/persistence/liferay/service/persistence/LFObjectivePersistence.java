@@ -24,72 +24,6 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
      */
 
     /**
-    * Caches the l f objective in the entity cache if it is enabled.
-    *
-    * @param lfObjective the l f objective
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFObjective lfObjective);
-
-    /**
-    * Caches the l f objectives in the entity cache if it is enabled.
-    *
-    * @param lfObjectives the l f objectives
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjective> lfObjectives);
-
-    /**
-    * Creates a new l f objective with the primary key. Does not add the l f objective to the database.
-    *
-    * @param lfId the primary key for the new l f objective
-    * @return the new l f objective
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFObjective create(
-        long lfId);
-
-    /**
-    * Removes the l f objective with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param lfId the primary key of the l f objective
-    * @return the l f objective that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException if a l f objective with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFObjective remove(
-        long lfId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFObjective updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFObjective lfObjective,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f objective with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException} if it could not be found.
-    *
-    * @param lfId the primary key of the l f objective
-    * @return the l f objective
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException if a l f objective with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFObjective findByPrimaryKey(
-        long lfId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f objective with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param lfId the primary key of the l f objective
-    * @return the l f objective, or <code>null</code> if a l f objective with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFObjective fetchByPrimaryKey(
-        long lfId) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f objectives where sequencingID = &#63; and isPrimary = &#63;.
     *
     * @param sequencingID the sequencing i d
@@ -105,7 +39,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns a range of all the l f objectives where sequencingID = &#63; and isPrimary = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -123,7 +57,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns an ordered range of all the l f objectives where sequencingID = &#63; and isPrimary = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -218,6 +152,29 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f objectives where sequencingID = &#63; and isPrimary = &#63; from the database.
+    *
+    * @param sequencingID the sequencing i d
+    * @param isPrimary the is primary
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeBySequencingIDAndIsPrimary(
+        java.lang.Integer sequencingID, java.lang.Boolean isPrimary)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f objectives where sequencingID = &#63; and isPrimary = &#63;.
+    *
+    * @param sequencingID the sequencing i d
+    * @param isPrimary the is primary
+    * @return the number of matching l f objectives
+    * @throws SystemException if a system exception occurred
+    */
+    public int countBySequencingIDAndIsPrimary(java.lang.Integer sequencingID,
+        java.lang.Boolean isPrimary)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63;.
     *
     * @param sequencingID the sequencing i d
@@ -235,7 +192,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns a range of all the l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -255,7 +212,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns an ordered range of all the l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -361,6 +318,98 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63; from the database.
+    *
+    * @param sequencingID the sequencing i d
+    * @param isPrimary the is primary
+    * @param identifier the identifier
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeBySequencingIDAndIsPrimaryAndIdentifier(
+        java.lang.Integer sequencingID, java.lang.Boolean isPrimary,
+        java.lang.String identifier)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63;.
+    *
+    * @param sequencingID the sequencing i d
+    * @param isPrimary the is primary
+    * @param identifier the identifier
+    * @return the number of matching l f objectives
+    * @throws SystemException if a system exception occurred
+    */
+    public int countBySequencingIDAndIsPrimaryAndIdentifier(
+        java.lang.Integer sequencingID, java.lang.Boolean isPrimary,
+        java.lang.String identifier)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f objective in the entity cache if it is enabled.
+    *
+    * @param lfObjective the l f objective
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFObjective lfObjective);
+
+    /**
+    * Caches the l f objectives in the entity cache if it is enabled.
+    *
+    * @param lfObjectives the l f objectives
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjective> lfObjectives);
+
+    /**
+    * Creates a new l f objective with the primary key. Does not add the l f objective to the database.
+    *
+    * @param lfId the primary key for the new l f objective
+    * @return the new l f objective
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFObjective create(
+        long lfId);
+
+    /**
+    * Removes the l f objective with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param lfId the primary key of the l f objective
+    * @return the l f objective that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException if a l f objective with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFObjective remove(
+        long lfId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFObjective updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFObjective lfObjective)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f objective with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException} if it could not be found.
+    *
+    * @param lfId the primary key of the l f objective
+    * @return the l f objective
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException if a l f objective with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFObjective findByPrimaryKey(
+        long lfId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f objective with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param lfId the primary key of the l f objective
+    * @return the l f objective, or <code>null</code> if a l f objective with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFObjective fetchByPrimaryKey(
+        long lfId) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f objectives.
     *
     * @return the l f objectives
@@ -373,7 +422,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns a range of all the l f objectives.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objectives
@@ -389,7 +438,7 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
     * Returns an ordered range of all the l f objectives.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objectives
@@ -404,61 +453,11 @@ public interface LFObjectivePersistence extends BasePersistence<LFObjective> {
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f objectives where sequencingID = &#63; and isPrimary = &#63; from the database.
-    *
-    * @param sequencingID the sequencing i d
-    * @param isPrimary the is primary
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeBySequencingIDAndIsPrimary(
-        java.lang.Integer sequencingID, java.lang.Boolean isPrimary)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63; from the database.
-    *
-    * @param sequencingID the sequencing i d
-    * @param isPrimary the is primary
-    * @param identifier the identifier
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeBySequencingIDAndIsPrimaryAndIdentifier(
-        java.lang.Integer sequencingID, java.lang.Boolean isPrimary,
-        java.lang.String identifier)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f objectives from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f objectives where sequencingID = &#63; and isPrimary = &#63;.
-    *
-    * @param sequencingID the sequencing i d
-    * @param isPrimary the is primary
-    * @return the number of matching l f objectives
-    * @throws SystemException if a system exception occurred
-    */
-    public int countBySequencingIDAndIsPrimary(java.lang.Integer sequencingID,
-        java.lang.Boolean isPrimary)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f objectives where sequencingID = &#63; and isPrimary = &#63; and identifier = &#63;.
-    *
-    * @param sequencingID the sequencing i d
-    * @param isPrimary the is primary
-    * @param identifier the identifier
-    * @return the number of matching l f objectives
-    * @throws SystemException if a system exception occurred
-    */
-    public int countBySequencingIDAndIsPrimaryAndIdentifier(
-        java.lang.Integer sequencingID, java.lang.Boolean isPrimary,
-        java.lang.String identifier)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

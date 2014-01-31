@@ -50,7 +50,7 @@ public class LFSequencingPermissionsUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -84,102 +84,21 @@ public class LFSequencingPermissionsUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFSequencingPermissions update(
-        LFSequencingPermissions lfSequencingPermissions, boolean merge)
+        LFSequencingPermissions lfSequencingPermissions)
         throws SystemException {
-        return getPersistence().update(lfSequencingPermissions, merge);
+        return getPersistence().update(lfSequencingPermissions);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFSequencingPermissions update(
-        LFSequencingPermissions lfSequencingPermissions, boolean merge,
+        LFSequencingPermissions lfSequencingPermissions,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence()
-                   .update(lfSequencingPermissions, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f sequencing permissions in the entity cache if it is enabled.
-    *
-    * @param lfSequencingPermissions the l f sequencing permissions
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions lfSequencingPermissions) {
-        getPersistence().cacheResult(lfSequencingPermissions);
-    }
-
-    /**
-    * Caches the l f sequencing permissionses in the entity cache if it is enabled.
-    *
-    * @param lfSequencingPermissionses the l f sequencing permissionses
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions> lfSequencingPermissionses) {
-        getPersistence().cacheResult(lfSequencingPermissionses);
-    }
-
-    /**
-    * Creates a new l f sequencing permissions with the primary key. Does not add the l f sequencing permissions to the database.
-    *
-    * @param id the primary key for the new l f sequencing permissions
-    * @return the new l f sequencing permissions
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f sequencing permissions with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f sequencing permissions
-    * @return the l f sequencing permissions that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException if a l f sequencing permissions with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions lfSequencingPermissions,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfSequencingPermissions, merge);
-    }
-
-    /**
-    * Returns the l f sequencing permissions with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException} if it could not be found.
-    *
-    * @param id the primary key of the l f sequencing permissions
-    * @return the l f sequencing permissions
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException if a l f sequencing permissions with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f sequencing permissions with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f sequencing permissions
-    * @return the l f sequencing permissions, or <code>null</code> if a l f sequencing permissions with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfSequencingPermissions, serviceContext);
     }
 
     /**
@@ -199,7 +118,7 @@ public class LFSequencingPermissionsUtil {
     * Returns a range of all the l f sequencing permissionses where sequencingID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -218,7 +137,7 @@ public class LFSequencingPermissionsUtil {
     * Returns an ordered range of all the l f sequencing permissionses where sequencingID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -326,6 +245,108 @@ public class LFSequencingPermissionsUtil {
     }
 
     /**
+    * Removes all the l f sequencing permissionses where sequencingID = &#63; from the database.
+    *
+    * @param sequencingID the sequencing i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySequencingID(java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySequencingID(sequencingID);
+    }
+
+    /**
+    * Returns the number of l f sequencing permissionses where sequencingID = &#63;.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the number of matching l f sequencing permissionses
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySequencingID(java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySequencingID(sequencingID);
+    }
+
+    /**
+    * Caches the l f sequencing permissions in the entity cache if it is enabled.
+    *
+    * @param lfSequencingPermissions the l f sequencing permissions
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions lfSequencingPermissions) {
+        getPersistence().cacheResult(lfSequencingPermissions);
+    }
+
+    /**
+    * Caches the l f sequencing permissionses in the entity cache if it is enabled.
+    *
+    * @param lfSequencingPermissionses the l f sequencing permissionses
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions> lfSequencingPermissionses) {
+        getPersistence().cacheResult(lfSequencingPermissionses);
+    }
+
+    /**
+    * Creates a new l f sequencing permissions with the primary key. Does not add the l f sequencing permissions to the database.
+    *
+    * @param id the primary key for the new l f sequencing permissions
+    * @return the new l f sequencing permissions
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f sequencing permissions with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f sequencing permissions
+    * @return the l f sequencing permissions that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException if a l f sequencing permissions with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions lfSequencingPermissions)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfSequencingPermissions);
+    }
+
+    /**
+    * Returns the l f sequencing permissions with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException} if it could not be found.
+    *
+    * @param id the primary key of the l f sequencing permissions
+    * @return the l f sequencing permissions
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException if a l f sequencing permissions with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f sequencing permissions with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f sequencing permissions
+    * @return the l f sequencing permissions, or <code>null</code> if a l f sequencing permissions with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f sequencing permissionses.
     *
     * @return the l f sequencing permissionses
@@ -340,7 +361,7 @@ public class LFSequencingPermissionsUtil {
     * Returns a range of all the l f sequencing permissionses.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f sequencing permissionses
@@ -358,7 +379,7 @@ public class LFSequencingPermissionsUtil {
     * Returns an ordered range of all the l f sequencing permissionses.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f sequencing permissionses
@@ -375,17 +396,6 @@ public class LFSequencingPermissionsUtil {
     }
 
     /**
-    * Removes all the l f sequencing permissionses where sequencingID = &#63; from the database.
-    *
-    * @param sequencingID the sequencing i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeBySequencingID(java.lang.Integer sequencingID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeBySequencingID(sequencingID);
-    }
-
-    /**
     * Removes all the l f sequencing permissionses from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -393,18 +403,6 @@ public class LFSequencingPermissionsUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f sequencing permissionses where sequencingID = &#63;.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the number of matching l f sequencing permissionses
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countBySequencingID(java.lang.Integer sequencingID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countBySequencingID(sequencingID);
     }
 
     /**
@@ -431,7 +429,7 @@ public class LFSequencingPermissionsUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFSequencingPermissionsPersistence persistence) {
     }

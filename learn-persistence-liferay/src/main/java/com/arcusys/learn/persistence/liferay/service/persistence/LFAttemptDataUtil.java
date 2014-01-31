@@ -49,7 +49,7 @@ public class LFAttemptDataUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFAttemptDataUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFAttemptData update(LFAttemptData lfAttemptData)
+        throws SystemException {
+        return getPersistence().update(lfAttemptData);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFAttemptData update(LFAttemptData lfAttemptData,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfAttemptData, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFAttemptData update(LFAttemptData lfAttemptData,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfAttemptData, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f attempt data in the entity cache if it is enabled.
-    *
-    * @param lfAttemptData the l f attempt data
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData) {
-        getPersistence().cacheResult(lfAttemptData);
-    }
-
-    /**
-    * Caches the l f attempt datas in the entity cache if it is enabled.
-    *
-    * @param lfAttemptDatas the l f attempt datas
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> lfAttemptDatas) {
-        getPersistence().cacheResult(lfAttemptDatas);
-    }
-
-    /**
-    * Creates a new l f attempt data with the primary key. Does not add the l f attempt data to the database.
-    *
-    * @param id the primary key for the new l f attempt data
-    * @return the new l f attempt data
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f attempt data with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f attempt data
-    * @return the l f attempt data that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException if a l f attempt data with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfAttemptData, merge);
-    }
-
-    /**
-    * Returns the l f attempt data with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException} if it could not be found.
-    *
-    * @param id the primary key of the l f attempt data
-    * @return the l f attempt data
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException if a l f attempt data with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f attempt data with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f attempt data
-    * @return the l f attempt data, or <code>null</code> if a l f attempt data with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfAttemptData, serviceContext);
     }
 
     /**
@@ -197,7 +117,7 @@ public class LFAttemptDataUtil {
     * Returns a range of all the l f attempt datas where attemptID = &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -219,7 +139,7 @@ public class LFAttemptDataUtil {
     * Returns an ordered range of all the l f attempt datas where attemptID = &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -338,6 +258,34 @@ public class LFAttemptDataUtil {
     }
 
     /**
+    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; from the database.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByAttemptIDWithActivityID(
+        java.lang.Integer attemptID, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByAttemptIDWithActivityID(attemptID, activityID);
+    }
+
+    /**
+    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63;.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @return the number of matching l f attempt datas
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByAttemptIDWithActivityID(
+        java.lang.Integer attemptID, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByAttemptIDWithActivityID(attemptID, activityID);
+    }
+
+    /**
     * Returns all the l f attempt datas where attemptID = &#63; and dataKey = &#63;.
     *
     * @param attemptID the attempt i d
@@ -355,7 +303,7 @@ public class LFAttemptDataUtil {
     * Returns a range of all the l f attempt datas where attemptID = &#63; and dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -376,7 +324,7 @@ public class LFAttemptDataUtil {
     * Returns an ordered range of all the l f attempt datas where attemptID = &#63; and dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -495,6 +443,33 @@ public class LFAttemptDataUtil {
     }
 
     /**
+    * Removes all the l f attempt datas where attemptID = &#63; and dataKey = &#63; from the database.
+    *
+    * @param attemptID the attempt i d
+    * @param dataKey the data key
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByAttemptIDWithDataKey(
+        java.lang.Integer attemptID, java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByAttemptIDWithDataKey(attemptID, dataKey);
+    }
+
+    /**
+    * Returns the number of l f attempt datas where attemptID = &#63; and dataKey = &#63;.
+    *
+    * @param attemptID the attempt i d
+    * @param dataKey the data key
+    * @return the number of matching l f attempt datas
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByAttemptIDWithDataKey(java.lang.Integer attemptID,
+        java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByAttemptIDWithDataKey(attemptID, dataKey);
+    }
+
+    /**
     * Returns all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63;.
     *
     * @param attemptID the attempt i d
@@ -514,7 +489,7 @@ public class LFAttemptDataUtil {
     * Returns a range of all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -537,7 +512,7 @@ public class LFAttemptDataUtil {
     * Returns an ordered range of all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -667,6 +642,35 @@ public class LFAttemptDataUtil {
     }
 
     /**
+    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63; from the database.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @param dataKey the data key
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySingleKey(java.lang.Integer attemptID,
+        java.lang.String activityID, java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySingleKey(attemptID, activityID, dataKey);
+    }
+
+    /**
+    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63;.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @param dataKey the data key
+    * @return the number of matching l f attempt datas
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySingleKey(java.lang.Integer attemptID,
+        java.lang.String activityID, java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySingleKey(attemptID, activityID, dataKey);
+    }
+
+    /**
     * Returns all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63;.
     *
     * @param attemptID the attempt i d
@@ -687,7 +691,7 @@ public class LFAttemptDataUtil {
     * Returns a range of all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -711,7 +715,7 @@ public class LFAttemptDataUtil {
     * Returns an ordered range of all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param attemptID the attempt i d
@@ -841,6 +845,115 @@ public class LFAttemptDataUtil {
     }
 
     /**
+    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63; from the database.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @param dataKey the data key
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByCollectionValues(java.lang.Integer attemptID,
+        java.lang.String activityID, java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByCollectionValues(attemptID, activityID, dataKey);
+    }
+
+    /**
+    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63;.
+    *
+    * @param attemptID the attempt i d
+    * @param activityID the activity i d
+    * @param dataKey the data key
+    * @return the number of matching l f attempt datas
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCollectionValues(java.lang.Integer attemptID,
+        java.lang.String activityID, java.lang.String dataKey)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByCollectionValues(attemptID, activityID, dataKey);
+    }
+
+    /**
+    * Caches the l f attempt data in the entity cache if it is enabled.
+    *
+    * @param lfAttemptData the l f attempt data
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData) {
+        getPersistence().cacheResult(lfAttemptData);
+    }
+
+    /**
+    * Caches the l f attempt datas in the entity cache if it is enabled.
+    *
+    * @param lfAttemptDatas the l f attempt datas
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> lfAttemptDatas) {
+        getPersistence().cacheResult(lfAttemptDatas);
+    }
+
+    /**
+    * Creates a new l f attempt data with the primary key. Does not add the l f attempt data to the database.
+    *
+    * @param id the primary key for the new l f attempt data
+    * @return the new l f attempt data
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f attempt data with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f attempt data
+    * @return the l f attempt data that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException if a l f attempt data with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfAttemptData);
+    }
+
+    /**
+    * Returns the l f attempt data with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException} if it could not be found.
+    *
+    * @param id the primary key of the l f attempt data
+    * @return the l f attempt data
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException if a l f attempt data with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFAttemptDataException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f attempt data with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f attempt data
+    * @return the l f attempt data, or <code>null</code> if a l f attempt data with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFAttemptData fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f attempt datas.
     *
     * @return the l f attempt datas
@@ -855,7 +968,7 @@ public class LFAttemptDataUtil {
     * Returns a range of all the l f attempt datas.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f attempt datas
@@ -873,7 +986,7 @@ public class LFAttemptDataUtil {
     * Returns an ordered range of all the l f attempt datas.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f attempt datas
@@ -890,60 +1003,6 @@ public class LFAttemptDataUtil {
     }
 
     /**
-    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; from the database.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByAttemptIDWithActivityID(
-        java.lang.Integer attemptID, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByAttemptIDWithActivityID(attemptID, activityID);
-    }
-
-    /**
-    * Removes all the l f attempt datas where attemptID = &#63; and dataKey = &#63; from the database.
-    *
-    * @param attemptID the attempt i d
-    * @param dataKey the data key
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByAttemptIDWithDataKey(
-        java.lang.Integer attemptID, java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByAttemptIDWithDataKey(attemptID, dataKey);
-    }
-
-    /**
-    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63; from the database.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @param dataKey the data key
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeBySingleKey(java.lang.Integer attemptID,
-        java.lang.String activityID, java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeBySingleKey(attemptID, activityID, dataKey);
-    }
-
-    /**
-    * Removes all the l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63; from the database.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @param dataKey the data key
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByCollectionValues(java.lang.Integer attemptID,
-        java.lang.String activityID, java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByCollectionValues(attemptID, activityID, dataKey);
-    }
-
-    /**
     * Removes all the l f attempt datas from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -951,66 +1010,6 @@ public class LFAttemptDataUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63;.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @return the number of matching l f attempt datas
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByAttemptIDWithActivityID(
-        java.lang.Integer attemptID, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByAttemptIDWithActivityID(attemptID, activityID);
-    }
-
-    /**
-    * Returns the number of l f attempt datas where attemptID = &#63; and dataKey = &#63;.
-    *
-    * @param attemptID the attempt i d
-    * @param dataKey the data key
-    * @return the number of matching l f attempt datas
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByAttemptIDWithDataKey(java.lang.Integer attemptID,
-        java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByAttemptIDWithDataKey(attemptID, dataKey);
-    }
-
-    /**
-    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey = &#63;.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @param dataKey the data key
-    * @return the number of matching l f attempt datas
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countBySingleKey(java.lang.Integer attemptID,
-        java.lang.String activityID, java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countBySingleKey(attemptID, activityID, dataKey);
-    }
-
-    /**
-    * Returns the number of l f attempt datas where attemptID = &#63; and activityID = &#63; and dataKey LIKE &#63;.
-    *
-    * @param attemptID the attempt i d
-    * @param activityID the activity i d
-    * @param dataKey the data key
-    * @return the number of matching l f attempt datas
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByCollectionValues(java.lang.Integer attemptID,
-        java.lang.String activityID, java.lang.String dataKey)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByCollectionValues(attemptID, activityID, dataKey);
     }
 
     /**
@@ -1037,7 +1036,7 @@ public class LFAttemptDataUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFAttemptDataPersistence persistence) {
     }

@@ -49,7 +49,7 @@ public class LFRollupRuleUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFRollupRuleUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFRollupRule update(LFRollupRule lfRollupRule, boolean merge)
+    public static LFRollupRule update(LFRollupRule lfRollupRule)
         throws SystemException {
-        return getPersistence().update(lfRollupRule, merge);
+        return getPersistence().update(lfRollupRule);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
-    public static LFRollupRule update(LFRollupRule lfRollupRule, boolean merge,
+    public static LFRollupRule update(LFRollupRule lfRollupRule,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfRollupRule, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f rollup rule in the entity cache if it is enabled.
-    *
-    * @param lfRollupRule the l f rollup rule
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule) {
-        getPersistence().cacheResult(lfRollupRule);
-    }
-
-    /**
-    * Caches the l f rollup rules in the entity cache if it is enabled.
-    *
-    * @param lfRollupRules the l f rollup rules
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRollupRule> lfRollupRules) {
-        getPersistence().cacheResult(lfRollupRules);
-    }
-
-    /**
-    * Creates a new l f rollup rule with the primary key. Does not add the l f rollup rule to the database.
-    *
-    * @param id the primary key for the new l f rollup rule
-    * @return the new l f rollup rule
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f rollup rule
-    * @return the l f rollup rule that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfRollupRule, merge);
-    }
-
-    /**
-    * Returns the l f rollup rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException} if it could not be found.
-    *
-    * @param id the primary key of the l f rollup rule
-    * @return the l f rollup rule
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f rollup rule
-    * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfRollupRule, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFRollupRuleUtil {
     * Returns a range of all the l f rollup rules where sequencingID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -214,7 +134,7 @@ public class LFRollupRuleUtil {
     * Returns an ordered range of all the l f rollup rules where sequencingID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param sequencingID the sequencing i d
@@ -322,6 +242,108 @@ public class LFRollupRuleUtil {
     }
 
     /**
+    * Removes all the l f rollup rules where sequencingID = &#63; from the database.
+    *
+    * @param sequencingID the sequencing i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySequencingID(java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySequencingID(sequencingID);
+    }
+
+    /**
+    * Returns the number of l f rollup rules where sequencingID = &#63;.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the number of matching l f rollup rules
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySequencingID(java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySequencingID(sequencingID);
+    }
+
+    /**
+    * Caches the l f rollup rule in the entity cache if it is enabled.
+    *
+    * @param lfRollupRule the l f rollup rule
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule) {
+        getPersistence().cacheResult(lfRollupRule);
+    }
+
+    /**
+    * Caches the l f rollup rules in the entity cache if it is enabled.
+    *
+    * @param lfRollupRules the l f rollup rules
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRollupRule> lfRollupRules) {
+        getPersistence().cacheResult(lfRollupRules);
+    }
+
+    /**
+    * Creates a new l f rollup rule with the primary key. Does not add the l f rollup rule to the database.
+    *
+    * @param id the primary key for the new l f rollup rule
+    * @return the new l f rollup rule
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f rollup rule
+    * @return the l f rollup rule that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfRollupRule);
+    }
+
+    /**
+    * Returns the l f rollup rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException} if it could not be found.
+    *
+    * @param id the primary key of the l f rollup rule
+    * @return the l f rollup rule
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f rollup rule
+    * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFRollupRule fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f rollup rules.
     *
     * @return the l f rollup rules
@@ -336,7 +358,7 @@ public class LFRollupRuleUtil {
     * Returns a range of all the l f rollup rules.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f rollup rules
@@ -354,7 +376,7 @@ public class LFRollupRuleUtil {
     * Returns an ordered range of all the l f rollup rules.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f rollup rules
@@ -371,17 +393,6 @@ public class LFRollupRuleUtil {
     }
 
     /**
-    * Removes all the l f rollup rules where sequencingID = &#63; from the database.
-    *
-    * @param sequencingID the sequencing i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeBySequencingID(java.lang.Integer sequencingID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeBySequencingID(sequencingID);
-    }
-
-    /**
     * Removes all the l f rollup rules from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -389,18 +400,6 @@ public class LFRollupRuleUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f rollup rules where sequencingID = &#63;.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the number of matching l f rollup rules
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countBySequencingID(java.lang.Integer sequencingID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countBySequencingID(sequencingID);
     }
 
     /**
@@ -427,7 +426,7 @@ public class LFRollupRuleUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFRollupRulePersistence persistence) {
     }

@@ -49,7 +49,7 @@ public class LFSocialPackageUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFSocialPackageUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFSocialPackage update(LFSocialPackage lfSocialPackage)
+        throws SystemException {
+        return getPersistence().update(lfSocialPackage);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFSocialPackage update(LFSocialPackage lfSocialPackage,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfSocialPackage, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFSocialPackage update(LFSocialPackage lfSocialPackage,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfSocialPackage, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f social package in the entity cache if it is enabled.
-    *
-    * @param lfSocialPackage the l f social package
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFSocialPackage lfSocialPackage) {
-        getPersistence().cacheResult(lfSocialPackage);
-    }
-
-    /**
-    * Caches the l f social packages in the entity cache if it is enabled.
-    *
-    * @param lfSocialPackages the l f social packages
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSocialPackage> lfSocialPackages) {
-        getPersistence().cacheResult(lfSocialPackages);
-    }
-
-    /**
-    * Creates a new l f social package with the primary key. Does not add the l f social package to the database.
-    *
-    * @param id the primary key for the new l f social package
-    * @return the new l f social package
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f social package with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f social package
-    * @return the l f social package that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException if a l f social package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFSocialPackage lfSocialPackage,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfSocialPackage, merge);
-    }
-
-    /**
-    * Returns the l f social package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException} if it could not be found.
-    *
-    * @param id the primary key of the l f social package
-    * @return the l f social package
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException if a l f social package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f social package with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f social package
-    * @return the l f social package, or <code>null</code> if a l f social package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfSocialPackage, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFSocialPackageUtil {
     * Returns a range of all the l f social packages where authorID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param authorID the author i d
@@ -214,7 +134,7 @@ public class LFSocialPackageUtil {
     * Returns an ordered range of all the l f social packages where authorID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param authorID the author i d
@@ -317,6 +237,108 @@ public class LFSocialPackageUtil {
     }
 
     /**
+    * Removes all the l f social packages where authorID = &#63; from the database.
+    *
+    * @param authorID the author i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByAuthorID(java.lang.Integer authorID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByAuthorID(authorID);
+    }
+
+    /**
+    * Returns the number of l f social packages where authorID = &#63;.
+    *
+    * @param authorID the author i d
+    * @return the number of matching l f social packages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByAuthorID(java.lang.Integer authorID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByAuthorID(authorID);
+    }
+
+    /**
+    * Caches the l f social package in the entity cache if it is enabled.
+    *
+    * @param lfSocialPackage the l f social package
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFSocialPackage lfSocialPackage) {
+        getPersistence().cacheResult(lfSocialPackage);
+    }
+
+    /**
+    * Caches the l f social packages in the entity cache if it is enabled.
+    *
+    * @param lfSocialPackages the l f social packages
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSocialPackage> lfSocialPackages) {
+        getPersistence().cacheResult(lfSocialPackages);
+    }
+
+    /**
+    * Creates a new l f social package with the primary key. Does not add the l f social package to the database.
+    *
+    * @param id the primary key for the new l f social package
+    * @return the new l f social package
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f social package with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f social package
+    * @return the l f social package that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException if a l f social package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFSocialPackage lfSocialPackage)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfSocialPackage);
+    }
+
+    /**
+    * Returns the l f social package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException} if it could not be found.
+    *
+    * @param id the primary key of the l f social package
+    * @return the l f social package
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException if a l f social package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f social package with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f social package
+    * @return the l f social package, or <code>null</code> if a l f social package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSocialPackage fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f social packages.
     *
     * @return the l f social packages
@@ -331,7 +353,7 @@ public class LFSocialPackageUtil {
     * Returns a range of all the l f social packages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f social packages
@@ -349,7 +371,7 @@ public class LFSocialPackageUtil {
     * Returns an ordered range of all the l f social packages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f social packages
@@ -366,17 +388,6 @@ public class LFSocialPackageUtil {
     }
 
     /**
-    * Removes all the l f social packages where authorID = &#63; from the database.
-    *
-    * @param authorID the author i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByAuthorID(java.lang.Integer authorID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByAuthorID(authorID);
-    }
-
-    /**
     * Removes all the l f social packages from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -384,18 +395,6 @@ public class LFSocialPackageUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f social packages where authorID = &#63;.
-    *
-    * @param authorID the author i d
-    * @return the number of matching l f social packages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByAuthorID(java.lang.Integer authorID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByAuthorID(authorID);
     }
 
     /**
@@ -422,7 +421,7 @@ public class LFSocialPackageUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFSocialPackagePersistence persistence) {
     }

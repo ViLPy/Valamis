@@ -24,6 +24,7 @@ public abstract class LFConditionRuleBaseImpl extends LFConditionRuleModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f condition rule model instance should use the {@link LFConditionRule} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFConditionRuleLocalServiceUtil.addLFConditionRule(this);

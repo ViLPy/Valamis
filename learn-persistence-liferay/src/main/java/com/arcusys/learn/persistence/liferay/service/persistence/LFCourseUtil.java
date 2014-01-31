@@ -49,7 +49,7 @@ public class LFCourseUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,18 @@ public class LFCourseUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFCourse update(LFCourse lfCourse, boolean merge)
-        throws SystemException {
-        return getPersistence().update(lfCourse, merge);
+    public static LFCourse update(LFCourse lfCourse) throws SystemException {
+        return getPersistence().update(lfCourse);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
-    public static LFCourse update(LFCourse lfCourse, boolean merge,
+    public static LFCourse update(LFCourse lfCourse,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfCourse, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f course in the entity cache if it is enabled.
-    *
-    * @param lfCourse the l f course
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFCourse lfCourse) {
-        getPersistence().cacheResult(lfCourse);
-    }
-
-    /**
-    * Caches the l f courses in the entity cache if it is enabled.
-    *
-    * @param lfCourses the l f courses
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFCourse> lfCourses) {
-        getPersistence().cacheResult(lfCourses);
-    }
-
-    /**
-    * Creates a new l f course with the primary key. Does not add the l f course to the database.
-    *
-    * @param id the primary key for the new l f course
-    * @return the new l f course
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f course with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f course
-    * @return the l f course that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException if a l f course with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFCourse lfCourse,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfCourse, merge);
-    }
-
-    /**
-    * Returns the l f course with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCourseException} if it could not be found.
-    *
-    * @param id the primary key of the l f course
-    * @return the l f course
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException if a l f course with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f course with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f course
-    * @return the l f course, or <code>null</code> if a l f course with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfCourse, serviceContext);
     }
 
     /**
@@ -226,6 +145,35 @@ public class LFCourseUtil {
     }
 
     /**
+    * Removes the l f course where courseID = &#63; and userID = &#63; from the database.
+    *
+    * @param courseID the course i d
+    * @param userID the user i d
+    * @return the l f course that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse removeByCourseIdAndUserId(
+        java.lang.Integer courseID, java.lang.Integer userID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByCourseIdAndUserId(courseID, userID);
+    }
+
+    /**
+    * Returns the number of l f courses where courseID = &#63; and userID = &#63;.
+    *
+    * @param courseID the course i d
+    * @param userID the user i d
+    * @return the number of matching l f courses
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCourseIdAndUserId(java.lang.Integer courseID,
+        java.lang.Integer userID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByCourseIdAndUserId(courseID, userID);
+    }
+
+    /**
     * Returns the l f course where grade = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCourseException} if it could not be found.
     *
     * @param grade the grade
@@ -268,6 +216,111 @@ public class LFCourseUtil {
     }
 
     /**
+    * Removes the l f course where grade = &#63; from the database.
+    *
+    * @param grade the grade
+    * @return the l f course that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse removeByGrade(
+        java.lang.String grade)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByGrade(grade);
+    }
+
+    /**
+    * Returns the number of l f courses where grade = &#63;.
+    *
+    * @param grade the grade
+    * @return the number of matching l f courses
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByGrade(java.lang.String grade)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByGrade(grade);
+    }
+
+    /**
+    * Caches the l f course in the entity cache if it is enabled.
+    *
+    * @param lfCourse the l f course
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFCourse lfCourse) {
+        getPersistence().cacheResult(lfCourse);
+    }
+
+    /**
+    * Caches the l f courses in the entity cache if it is enabled.
+    *
+    * @param lfCourses the l f courses
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFCourse> lfCourses) {
+        getPersistence().cacheResult(lfCourses);
+    }
+
+    /**
+    * Creates a new l f course with the primary key. Does not add the l f course to the database.
+    *
+    * @param id the primary key for the new l f course
+    * @return the new l f course
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f course with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f course
+    * @return the l f course that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException if a l f course with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFCourse lfCourse)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfCourse);
+    }
+
+    /**
+    * Returns the l f course with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCourseException} if it could not be found.
+    *
+    * @param id the primary key of the l f course
+    * @return the l f course
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException if a l f course with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f course with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f course
+    * @return the l f course, or <code>null</code> if a l f course with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCourse fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f courses.
     *
     * @return the l f courses
@@ -282,7 +335,7 @@ public class LFCourseUtil {
     * Returns a range of all the l f courses.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCourseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f courses
@@ -300,7 +353,7 @@ public class LFCourseUtil {
     * Returns an ordered range of all the l f courses.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCourseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f courses
@@ -317,35 +370,6 @@ public class LFCourseUtil {
     }
 
     /**
-    * Removes the l f course where courseID = &#63; and userID = &#63; from the database.
-    *
-    * @param courseID the course i d
-    * @param userID the user i d
-    * @return the l f course that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse removeByCourseIdAndUserId(
-        java.lang.Integer courseID, java.lang.Integer userID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByCourseIdAndUserId(courseID, userID);
-    }
-
-    /**
-    * Removes the l f course where grade = &#63; from the database.
-    *
-    * @param grade the grade
-    * @return the l f course that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCourse removeByGrade(
-        java.lang.String grade)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCourseException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByGrade(grade);
-    }
-
-    /**
     * Removes all the l f courses from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -353,32 +377,6 @@ public class LFCourseUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f courses where courseID = &#63; and userID = &#63;.
-    *
-    * @param courseID the course i d
-    * @param userID the user i d
-    * @return the number of matching l f courses
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByCourseIdAndUserId(java.lang.Integer courseID,
-        java.lang.Integer userID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByCourseIdAndUserId(courseID, userID);
-    }
-
-    /**
-    * Returns the number of l f courses where grade = &#63;.
-    *
-    * @param grade the grade
-    * @return the number of matching l f courses
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByGrade(java.lang.String grade)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByGrade(grade);
     }
 
     /**
@@ -405,7 +403,7 @@ public class LFCourseUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFCoursePersistence persistence) {
     }

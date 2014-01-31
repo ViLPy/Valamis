@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
     private InvokableLocalService _invokableLocalService;
     private String _methodName0;
@@ -109,37 +112,37 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFFileStorage";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFFileStorage";
+        _methodName10 = "fetchLFFileStorage";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFFileStorage";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFFileStorages";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFFileStoragesCount";
+        _methodName13 = "getLFFileStorages";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFFileStorage";
+        _methodName14 = "getLFFileStoragesCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFFileStorage"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFFileStorage";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFFileStorage",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFFileStorage"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -179,6 +182,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         _methodParameterTypes25 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage addLFFileStorage(
         com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -206,6 +210,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage createLFFileStorage(
         long id) {
         Object returnObj = null;
@@ -227,6 +232,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage deleteLFFileStorage(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -258,6 +264,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage deleteLFFileStorage(
         com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -285,6 +292,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -305,6 +313,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -333,6 +342,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -367,6 +377,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -405,6 +416,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -432,13 +444,47 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage fetchLFFileStorage(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -457,6 +503,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage getLFFileStorage(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -464,8 +511,8 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -488,6 +535,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -495,8 +543,8 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -520,14 +568,15 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> getLFFileStorages(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -546,13 +595,14 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFFileStoragesCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -571,14 +621,15 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage updateLFFileStorage(
         com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(lfFileStorage) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -598,38 +649,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFFileStorage updateLFFileStorage(
-        com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] {
-                        ClpSerializer.translateInput(lfFileStorage),
-                        
-                    merge
-                    });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -650,6 +670,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -667,12 +688,14 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFFileStorage createLFFileStorage()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -698,6 +721,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFFileStorage) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> findByFilename(
         java.lang.String filename)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -725,6 +749,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> findByFilename(
         java.lang.String filename, int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -758,6 +783,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeByFilename(java.lang.String filename)
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
@@ -780,6 +806,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         }
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> findByDirectory(
         java.lang.String filename)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -807,6 +834,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeByDirectory(java.lang.String filename)
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
@@ -829,6 +857,7 @@ public class LFFileStorageLocalServiceClp implements LFFileStorageLocalService {
         }
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

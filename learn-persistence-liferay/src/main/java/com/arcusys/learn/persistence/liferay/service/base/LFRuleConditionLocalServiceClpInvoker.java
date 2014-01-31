@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFRuleConditionLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,24 +41,24 @@ public class LFRuleConditionLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
-    private String _methodName270;
-    private String[] _methodParameterTypes270;
-    private String _methodName271;
-    private String[] _methodParameterTypes271;
-    private String _methodName272;
-    private String[] _methodParameterTypes272;
-    private String _methodName273;
-    private String[] _methodParameterTypes273;
-    private String _methodName274;
-    private String[] _methodParameterTypes274;
-    private String _methodName275;
-    private String[] _methodParameterTypes275;
     private String _methodName276;
     private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
+    private String _methodName282;
+    private String[] _methodParameterTypes282;
+    private String _methodName283;
+    private String[] _methodParameterTypes283;
+    private String _methodName284;
+    private String[] _methodParameterTypes284;
+    private String _methodName285;
+    private String[] _methodParameterTypes285;
+    private String _methodName286;
+    private String[] _methodParameterTypes286;
+    private String _methodName287;
+    private String[] _methodParameterTypes287;
+    private String _methodName288;
+    private String[] _methodParameterTypes288;
 
     public LFRuleConditionLocalServiceClpInvoker() {
         _methodName0 = "addLFRuleCondition";
@@ -107,74 +110,74 @@ public class LFRuleConditionLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFRuleCondition";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFRuleCondition";
+        _methodName10 = "fetchLFRuleCondition";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFRuleCondition";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFRuleConditions";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFRuleConditionsCount";
+        _methodName13 = "getLFRuleConditions";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFRuleCondition";
+        _methodName14 = "getLFRuleConditionsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFRuleCondition"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFRuleCondition";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFRuleCondition",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFRuleCondition"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
 
-        _methodName270 = "createLFRuleCondition";
+        _methodName282 = "createLFRuleCondition";
 
-        _methodParameterTypes270 = new String[] {  };
+        _methodParameterTypes282 = new String[] {  };
 
-        _methodName271 = "findByRollup";
+        _methodName283 = "findByRollup";
 
-        _methodParameterTypes271 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes283 = new String[] { "java.lang.Integer" };
 
-        _methodName272 = "findByCondition";
+        _methodName284 = "findByCondition";
 
-        _methodParameterTypes272 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes284 = new String[] { "java.lang.Integer" };
 
-        _methodName273 = "removeByRollup";
+        _methodName285 = "removeByRollup";
 
-        _methodParameterTypes273 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes285 = new String[] { "java.lang.Integer" };
 
-        _methodName274 = "removeByCondition";
+        _methodName286 = "removeByCondition";
 
-        _methodParameterTypes274 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes286 = new String[] { "java.lang.Integer" };
 
-        _methodName275 = "removeAll";
+        _methodName287 = "removeAll";
 
-        _methodParameterTypes275 = new String[] {  };
+        _methodParameterTypes287 = new String[] {  };
 
-        _methodName276 = "getLFRuleCondition";
+        _methodName288 = "getLFRuleCondition";
 
-        _methodParameterTypes276 = new String[] { "long" };
+        _methodParameterTypes288 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -231,91 +234,91 @@ public class LFRuleConditionLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.fetchLFRuleCondition(((Long) arguments[0]).longValue());
+            return LFRuleConditionLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.getLFRuleCondition(((Long) arguments[0]).longValue());
+            return LFRuleConditionLocalServiceUtil.fetchLFRuleCondition(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFRuleConditionLocalServiceUtil.getLFRuleCondition(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.getLFRuleConditions(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFRuleConditionLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.getLFRuleConditionsCount();
+            return LFRuleConditionLocalServiceUtil.getLFRuleConditions(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.updateLFRuleCondition((com.arcusys.learn.persistence.liferay.model.LFRuleCondition) arguments[0]);
+            return LFRuleConditionLocalServiceUtil.getLFRuleConditionsCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFRuleConditionLocalServiceUtil.updateLFRuleCondition((com.arcusys.learn.persistence.liferay.model.LFRuleCondition) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFRuleConditionLocalServiceUtil.updateLFRuleCondition((com.arcusys.learn.persistence.liferay.model.LFRuleCondition) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFRuleConditionLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFRuleConditionLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName270.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes270, parameterTypes)) {
+        if (_methodName282.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes282, parameterTypes)) {
             return LFRuleConditionLocalServiceUtil.createLFRuleCondition();
         }
 
-        if (_methodName271.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes271, parameterTypes)) {
+        if (_methodName283.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes283, parameterTypes)) {
             return LFRuleConditionLocalServiceUtil.findByRollup((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName272.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes272, parameterTypes)) {
+        if (_methodName284.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes284, parameterTypes)) {
             return LFRuleConditionLocalServiceUtil.findByCondition((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName273.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes273, parameterTypes)) {
+        if (_methodName285.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes285, parameterTypes)) {
             LFRuleConditionLocalServiceUtil.removeByRollup((java.lang.Integer) arguments[0]);
 
             return null;
         }
 
-        if (_methodName274.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes274, parameterTypes)) {
+        if (_methodName286.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
             LFRuleConditionLocalServiceUtil.removeByCondition((java.lang.Integer) arguments[0]);
 
             return null;
         }
 
-        if (_methodName275.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes275, parameterTypes)) {
+        if (_methodName287.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
             LFRuleConditionLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName276.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
+        if (_methodName288.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
             return LFRuleConditionLocalServiceUtil.getLFRuleCondition(((Long) arguments[0]).longValue());
         }
 

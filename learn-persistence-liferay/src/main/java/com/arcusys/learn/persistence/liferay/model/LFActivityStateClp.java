@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFActivityStateLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
 
@@ -39,26 +41,32 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
     public LFActivityStateClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFActivityState.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFActivityState.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -181,118 +189,327 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfActivityStateRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Integer packageID) {
         _packageID = packageID;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Integer.class);
+
+                method.invoke(_lfActivityStateRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getActivityID() {
         return _activityID;
     }
 
+    @Override
     public void setActivityID(String activityID) {
         _activityID = activityID;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityID", String.class);
+
+                method.invoke(_lfActivityStateRemoteModel, activityID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getActive() {
         return _active;
     }
 
+    @Override
     public void setActive(Boolean active) {
         _active = active;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActive", Boolean.class);
+
+                method.invoke(_lfActivityStateRemoteModel, active);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getSuspended() {
         return _suspended;
     }
 
+    @Override
     public void setSuspended(Boolean suspended) {
         _suspended = suspended;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSuspended", Boolean.class);
+
+                method.invoke(_lfActivityStateRemoteModel, suspended);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getAttemptCompleted() {
         return _attemptCompleted;
     }
 
+    @Override
     public void setAttemptCompleted(Boolean attemptCompleted) {
         _attemptCompleted = attemptCompleted;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptCompleted",
+                        Boolean.class);
+
+                method.invoke(_lfActivityStateRemoteModel, attemptCompleted);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getAttemptCompletionAmount() {
         return _attemptCompletionAmount;
     }
 
+    @Override
     public void setAttemptCompletionAmount(BigDecimal attemptCompletionAmount) {
         _attemptCompletionAmount = attemptCompletionAmount;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptCompletionAmount",
+                        BigDecimal.class);
+
+                method.invoke(_lfActivityStateRemoteModel,
+                    attemptCompletionAmount);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getAttemptAbsoluteDuration() {
         return _attemptAbsoluteDuration;
     }
 
+    @Override
     public void setAttemptAbsoluteDuration(BigDecimal attemptAbsoluteDuration) {
         _attemptAbsoluteDuration = attemptAbsoluteDuration;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptAbsoluteDuration",
+                        BigDecimal.class);
+
+                method.invoke(_lfActivityStateRemoteModel,
+                    attemptAbsoluteDuration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getAttemptExperiencedDuration() {
         return _attemptExperiencedDuration;
     }
 
+    @Override
     public void setAttemptExperiencedDuration(
         BigDecimal attemptExperiencedDuration) {
         _attemptExperiencedDuration = attemptExperiencedDuration;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptExperiencedDuration",
+                        BigDecimal.class);
+
+                method.invoke(_lfActivityStateRemoteModel,
+                    attemptExperiencedDuration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getActivityAbsoluteDuration() {
         return _activityAbsoluteDuration;
     }
 
+    @Override
     public void setActivityAbsoluteDuration(BigDecimal activityAbsoluteDuration) {
         _activityAbsoluteDuration = activityAbsoluteDuration;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityAbsoluteDuration",
+                        BigDecimal.class);
+
+                method.invoke(_lfActivityStateRemoteModel,
+                    activityAbsoluteDuration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getActivityExperiencedDuration() {
         return _activityExperiencedDuration;
     }
 
+    @Override
     public void setActivityExperiencedDuration(
         BigDecimal activityExperiencedDuration) {
         _activityExperiencedDuration = activityExperiencedDuration;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityExperiencedDuration",
+                        BigDecimal.class);
+
+                method.invoke(_lfActivityStateRemoteModel,
+                    activityExperiencedDuration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getAttemptCount() {
         return _attemptCount;
     }
 
+    @Override
     public void setAttemptCount(Integer attemptCount) {
         _attemptCount = attemptCount;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptCount", Integer.class);
+
+                method.invoke(_lfActivityStateRemoteModel, attemptCount);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getActivityStateNodeID() {
         return _activityStateNodeID;
     }
 
+    @Override
     public void setActivityStateNodeID(Integer activityStateNodeID) {
         _activityStateNodeID = activityStateNodeID;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityStateNodeID",
+                        Integer.class);
+
+                method.invoke(_lfActivityStateRemoteModel, activityStateNodeID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getActivityStateTreeID() {
         return _activityStateTreeID;
     }
 
+    @Override
     public void setActivityStateTreeID(Integer activityStateTreeID) {
         _activityStateTreeID = activityStateTreeID;
+
+        if (_lfActivityStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityStateTreeID",
+                        Integer.class);
+
+                method.invoke(_lfActivityStateRemoteModel, activityStateTreeID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFActivityStateRemoteModel() {
@@ -304,6 +521,47 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
         _lfActivityStateRemoteModel = lfActivityStateRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfActivityStateRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfActivityStateRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFActivityStateLocalServiceUtil.addLFActivityState(this);
@@ -314,7 +572,7 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
 
     @Override
     public LFActivityState toEscapedModel() {
-        return (LFActivityState) Proxy.newProxyInstance(LFActivityState.class.getClassLoader(),
+        return (LFActivityState) ProxyUtil.newProxyInstance(LFActivityState.class.getClassLoader(),
             new Class[] { LFActivityState.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -341,6 +599,7 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
         return clone;
     }
 
+    @Override
     public int compareTo(LFActivityState lfActivityState) {
         long primaryKey = lfActivityState.getPrimaryKey();
 
@@ -355,17 +614,15 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFActivityStateClp)) {
             return false;
         }
 
-        LFActivityStateClp lfActivityState = null;
-
-        try {
-            lfActivityState = (LFActivityStateClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFActivityStateClp lfActivityState = (LFActivityStateClp) obj;
 
         long primaryKey = lfActivityState.getPrimaryKey();
 
@@ -418,6 +675,7 @@ public class LFActivityStateClp extends BaseModelImpl<LFActivityState>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(46);
 

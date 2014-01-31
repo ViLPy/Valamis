@@ -3,12 +3,10 @@ package com.arcusys.learn.persistence.liferay.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link LFTincanLrsAttachmentLocalService}.
- * </p>
+ * Provides a wrapper for {@link LFTincanLrsAttachmentLocalService}.
  *
- * @author    Brian Wing Shun Chan
- * @see       LFTincanLrsAttachmentLocalService
+ * @author Brian Wing Shun Chan
+ * @see LFTincanLrsAttachmentLocalService
  * @generated
  */
 public class LFTincanLrsAttachmentLocalServiceWrapper
@@ -28,6 +26,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the l f tincan lrs attachment that was added
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment addLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -40,6 +39,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @param id the primary key for the new l f tincan lrs attachment
     * @return the new l f tincan lrs attachment
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment createLFTincanLrsAttachment(
         long id) {
         return _lfTincanLrsAttachmentLocalService.createLFTincanLrsAttachment(id);
@@ -53,6 +53,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @throws PortalException if a l f tincan lrs attachment with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment deleteLFTincanLrsAttachment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -67,12 +68,14 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the l f tincan lrs attachment that was removed
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment deleteLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfTincanLrsAttachmentLocalService.deleteLFTincanLrsAttachment(lfTincanLrsAttachment);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         return _lfTincanLrsAttachmentLocalService.dynamicQuery();
     }
@@ -84,6 +87,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -95,7 +99,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * Performs a dynamic query on the database and returns a range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -104,6 +108,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -116,7 +121,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -126,6 +131,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the ordered range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -143,12 +149,31 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the number of rows that match the dynamic query
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfTincanLrsAttachmentLocalService.dynamicQueryCount(dynamicQuery);
     }
 
+    /**
+    * Returns the number of rows that match the dynamic query.
+    *
+    * @param dynamicQuery the dynamic query
+    * @param projection the projection to apply to the query
+    * @return the number of rows that match the dynamic query
+    * @throws SystemException if a system exception occurred
+    */
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfTincanLrsAttachmentLocalService.dynamicQueryCount(dynamicQuery,
+            projection);
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment fetchLFTincanLrsAttachment(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         return _lfTincanLrsAttachmentLocalService.fetchLFTincanLrsAttachment(id);
@@ -162,6 +187,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @throws PortalException if a l f tincan lrs attachment with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment getLFTincanLrsAttachment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -169,6 +195,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
         return _lfTincanLrsAttachmentLocalService.getLFTincanLrsAttachment(id);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -180,7 +207,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * Returns a range of all the l f tincan lrs attachments.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs attachments
@@ -188,6 +215,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the range of l f tincan lrs attachments
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment> getLFTincanLrsAttachments(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -201,6 +229,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the number of l f tincan lrs attachments
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public int getLFTincanLrsAttachmentsCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfTincanLrsAttachmentLocalService.getLFTincanLrsAttachmentsCount();
@@ -213,6 +242,7 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     * @return the l f tincan lrs attachment that was updated
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment updateLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -220,26 +250,11 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     }
 
     /**
-    * Updates the l f tincan lrs attachment in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-    *
-    * @param lfTincanLrsAttachment the l f tincan lrs attachment
-    * @param merge whether to merge the l f tincan lrs attachment with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-    * @return the l f tincan lrs attachment that was updated
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment updateLFTincanLrsAttachment(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _lfTincanLrsAttachmentLocalService.updateLFTincanLrsAttachment(lfTincanLrsAttachment,
-            merge);
-    }
-
-    /**
     * Returns the Spring bean ID for this bean.
     *
     * @return the Spring bean ID for this bean
     */
+    @Override
     public java.lang.String getBeanIdentifier() {
         return _lfTincanLrsAttachmentLocalService.getBeanIdentifier();
     }
@@ -249,10 +264,12 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     *
     * @param beanIdentifier the Spring bean ID for this bean
     */
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         _lfTincanLrsAttachmentLocalService.setBeanIdentifier(beanIdentifier);
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
@@ -260,16 +277,19 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
             parameterTypes, arguments);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfTincanLrsAttachmentLocalService.removeAll();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment createLFTincanLrsAttachment()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfTincanLrsAttachmentLocalService.createLFTincanLrsAttachment();
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment> findByParentID(
         java.lang.Integer parentID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -277,24 +297,26 @@ public class LFTincanLrsAttachmentLocalServiceWrapper
     }
 
     /**
-     * @deprecated Renamed to {@link #getWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public LFTincanLrsAttachmentLocalService getWrappedLFTincanLrsAttachmentLocalService() {
         return _lfTincanLrsAttachmentLocalService;
     }
 
     /**
-     * @deprecated Renamed to {@link #setWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
      */
     public void setWrappedLFTincanLrsAttachmentLocalService(
         LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService) {
         _lfTincanLrsAttachmentLocalService = lfTincanLrsAttachmentLocalService;
     }
 
+    @Override
     public LFTincanLrsAttachmentLocalService getWrappedService() {
         return _lfTincanLrsAttachmentLocalService;
     }
 
+    @Override
     public void setWrappedService(
         LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService) {
         _lfTincanLrsAttachmentLocalService = lfTincanLrsAttachmentLocalService;

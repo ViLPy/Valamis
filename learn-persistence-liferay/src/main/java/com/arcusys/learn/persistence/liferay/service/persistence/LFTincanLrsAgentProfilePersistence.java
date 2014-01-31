@@ -24,72 +24,6 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
      */
 
     /**
-    * Caches the l f tincan lrs agent profile in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsAgentProfile the l f tincan lrs agent profile
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile lfTincanLrsAgentProfile);
-
-    /**
-    * Caches the l f tincan lrs agent profiles in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsAgentProfiles the l f tincan lrs agent profiles
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile> lfTincanLrsAgentProfiles);
-
-    /**
-    * Creates a new l f tincan lrs agent profile with the primary key. Does not add the l f tincan lrs agent profile to the database.
-    *
-    * @param id the primary key for the new l f tincan lrs agent profile
-    * @return the new l f tincan lrs agent profile
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile create(
-        long id);
-
-    /**
-    * Removes the l f tincan lrs agent profile with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan lrs agent profile
-    * @return the l f tincan lrs agent profile that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException if a l f tincan lrs agent profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile lfTincanLrsAgentProfile,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f tincan lrs agent profile with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs agent profile
-    * @return the l f tincan lrs agent profile
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException if a l f tincan lrs agent profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f tincan lrs agent profile with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs agent profile
-    * @return the l f tincan lrs agent profile, or <code>null</code> if a l f tincan lrs agent profile with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f tincan lrs agent profiles where profileId = &#63;.
     *
     * @param profileId the profile ID
@@ -104,7 +38,7 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
     * Returns a range of all the l f tincan lrs agent profiles where profileId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param profileId the profile ID
@@ -121,7 +55,7 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
     * Returns an ordered range of all the l f tincan lrs agent profiles where profileId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param profileId the profile ID
@@ -209,6 +143,25 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f tincan lrs agent profiles where profileId = &#63; from the database.
+    *
+    * @param profileId the profile ID
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByProfileId(java.lang.String profileId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f tincan lrs agent profiles where profileId = &#63;.
+    *
+    * @param profileId the profile ID
+    * @return the number of matching l f tincan lrs agent profiles
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByProfileId(java.lang.String profileId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns the l f tincan lrs agent profile where agentId = &#63; and profileId = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException} if it could not be found.
     *
     * @param agentId the agent ID
@@ -249,6 +202,96 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes the l f tincan lrs agent profile where agentId = &#63; and profileId = &#63; from the database.
+    *
+    * @param agentId the agent ID
+    * @param profileId the profile ID
+    * @return the l f tincan lrs agent profile that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile removeByAgentIdAndProfileId(
+        java.lang.Integer agentId, java.lang.String profileId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f tincan lrs agent profiles where agentId = &#63; and profileId = &#63;.
+    *
+    * @param agentId the agent ID
+    * @param profileId the profile ID
+    * @return the number of matching l f tincan lrs agent profiles
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByAgentIdAndProfileId(java.lang.Integer agentId,
+        java.lang.String profileId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f tincan lrs agent profile in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsAgentProfile the l f tincan lrs agent profile
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile lfTincanLrsAgentProfile);
+
+    /**
+    * Caches the l f tincan lrs agent profiles in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsAgentProfiles the l f tincan lrs agent profiles
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile> lfTincanLrsAgentProfiles);
+
+    /**
+    * Creates a new l f tincan lrs agent profile with the primary key. Does not add the l f tincan lrs agent profile to the database.
+    *
+    * @param id the primary key for the new l f tincan lrs agent profile
+    * @return the new l f tincan lrs agent profile
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile create(
+        long id);
+
+    /**
+    * Removes the l f tincan lrs agent profile with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan lrs agent profile
+    * @return the l f tincan lrs agent profile that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException if a l f tincan lrs agent profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile lfTincanLrsAgentProfile)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan lrs agent profile with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs agent profile
+    * @return the l f tincan lrs agent profile
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException if a l f tincan lrs agent profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan lrs agent profile with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs agent profile
+    * @return the l f tincan lrs agent profile, or <code>null</code> if a l f tincan lrs agent profile with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f tincan lrs agent profiles.
     *
     * @return the l f tincan lrs agent profiles
@@ -261,7 +304,7 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
     * Returns a range of all the l f tincan lrs agent profiles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs agent profiles
@@ -277,7 +320,7 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
     * Returns an ordered range of all the l f tincan lrs agent profiles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs agent profiles
@@ -292,55 +335,11 @@ public interface LFTincanLrsAgentProfilePersistence extends BasePersistence<LFTi
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f tincan lrs agent profiles where profileId = &#63; from the database.
-    *
-    * @param profileId the profile ID
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByProfileId(java.lang.String profileId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes the l f tincan lrs agent profile where agentId = &#63; and profileId = &#63; from the database.
-    *
-    * @param agentId the agent ID
-    * @param profileId the profile ID
-    * @return the l f tincan lrs agent profile that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile removeByAgentIdAndProfileId(
-        java.lang.Integer agentId, java.lang.String profileId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f tincan lrs agent profiles from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f tincan lrs agent profiles where profileId = &#63;.
-    *
-    * @param profileId the profile ID
-    * @return the number of matching l f tincan lrs agent profiles
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByProfileId(java.lang.String profileId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f tincan lrs agent profiles where agentId = &#63; and profileId = &#63;.
-    *
-    * @param agentId the agent ID
-    * @param profileId the profile ID
-    * @return the number of matching l f tincan lrs agent profiles
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByAgentIdAndProfileId(java.lang.Integer agentId,
-        java.lang.String profileId)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

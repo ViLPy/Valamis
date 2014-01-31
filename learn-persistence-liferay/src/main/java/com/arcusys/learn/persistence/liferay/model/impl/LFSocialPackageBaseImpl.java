@@ -24,6 +24,7 @@ public abstract class LFSocialPackageBaseImpl extends LFSocialPackageModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f social package model instance should use the {@link LFSocialPackage} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSocialPackageLocalServiceUtil.addLFSocialPackage(this);

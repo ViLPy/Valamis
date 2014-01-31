@@ -49,7 +49,7 @@ public class LFUserUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -82,98 +82,18 @@ public class LFUserUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFUser update(LFUser lfUser, boolean merge)
+    public static LFUser update(LFUser lfUser) throws SystemException {
+        return getPersistence().update(lfUser);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
+     */
+    public static LFUser update(LFUser lfUser, ServiceContext serviceContext)
         throws SystemException {
-        return getPersistence().update(lfUser, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFUser update(LFUser lfUser, boolean merge,
-        ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfUser, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f user in the entity cache if it is enabled.
-    *
-    * @param lfUser the l f user
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFUser lfUser) {
-        getPersistence().cacheResult(lfUser);
-    }
-
-    /**
-    * Caches the l f users in the entity cache if it is enabled.
-    *
-    * @param lfUsers the l f users
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> lfUsers) {
-        getPersistence().cacheResult(lfUsers);
-    }
-
-    /**
-    * Creates a new l f user with the primary key. Does not add the l f user to the database.
-    *
-    * @param lfid the primary key for the new l f user
-    * @return the new l f user
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFUser create(
-        long lfid) {
-        return getPersistence().create(lfid);
-    }
-
-    /**
-    * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param lfid the primary key of the l f user
-    * @return the l f user that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFUser remove(
-        long lfid)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(lfid);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFUser updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFUser lfUser, boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfUser, merge);
-    }
-
-    /**
-    * Returns the l f user with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFUserException} if it could not be found.
-    *
-    * @param lfid the primary key of the l f user
-    * @return the l f user
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFUser findByPrimaryKey(
-        long lfid)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(lfid);
-    }
-
-    /**
-    * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param lfid the primary key of the l f user
-    * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFUser fetchByPrimaryKey(
-        long lfid) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(lfid);
+        return getPersistence().update(lfUser, serviceContext);
     }
 
     /**
@@ -219,6 +139,32 @@ public class LFUserUtil {
     }
 
     /**
+    * Removes the l f user where id = &#63; from the database.
+    *
+    * @param id the ID
+    * @return the l f user that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFUser removeByUserId(
+        java.lang.Integer id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByUserId(id);
+    }
+
+    /**
+    * Returns the number of l f users where id = &#63;.
+    *
+    * @param id the ID
+    * @return the number of matching l f users
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByUserId(java.lang.Integer id)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByUserId(id);
+    }
+
+    /**
     * Returns all the l f users where id = &#63;.
     *
     * @param id the ID
@@ -235,7 +181,7 @@ public class LFUserUtil {
     * Returns a range of all the l f users where id = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param id the ID
@@ -254,7 +200,7 @@ public class LFUserUtil {
     * Returns an ordered range of all the l f users where id = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param id the ID
@@ -364,7 +310,7 @@ public class LFUserUtil {
     * Returns all the l f users where id = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param ids the IDs
@@ -381,7 +327,7 @@ public class LFUserUtil {
     * Returns a range of all the l f users where id = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param ids the IDs
@@ -400,7 +346,7 @@ public class LFUserUtil {
     * Returns an ordered range of all the l f users where id = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param ids the IDs
@@ -419,69 +365,6 @@ public class LFUserUtil {
     }
 
     /**
-    * Returns all the l f users.
-    *
-    * @return the l f users
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll();
-    }
-
-    /**
-    * Returns a range of all the l f users.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f users
-    * @param end the upper bound of the range of l f users (not inclusive)
-    * @return the range of l f users
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll(
-        int start, int end)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end);
-    }
-
-    /**
-    * Returns an ordered range of all the l f users.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f users
-    * @param end the upper bound of the range of l f users (not inclusive)
-    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-    * @return the ordered range of l f users
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll(
-        int start, int end,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end, orderByComparator);
-    }
-
-    /**
-    * Removes the l f user where id = &#63; from the database.
-    *
-    * @param id the ID
-    * @return the l f user that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFUser removeByUserId(
-        java.lang.Integer id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByUserId(id);
-    }
-
-    /**
     * Removes all the l f users where id = &#63; from the database.
     *
     * @param id the ID
@@ -490,28 +373,6 @@ public class LFUserUtil {
     public static void removeByUserIdCollection(java.lang.Integer id)
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeByUserIdCollection(id);
-    }
-
-    /**
-    * Removes all the l f users from the database.
-    *
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f users where id = &#63;.
-    *
-    * @param id the ID
-    * @return the number of matching l f users
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByUserId(java.lang.Integer id)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByUserId(id);
     }
 
     /**
@@ -539,6 +400,144 @@ public class LFUserUtil {
     }
 
     /**
+    * Caches the l f user in the entity cache if it is enabled.
+    *
+    * @param lfUser the l f user
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFUser lfUser) {
+        getPersistence().cacheResult(lfUser);
+    }
+
+    /**
+    * Caches the l f users in the entity cache if it is enabled.
+    *
+    * @param lfUsers the l f users
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> lfUsers) {
+        getPersistence().cacheResult(lfUsers);
+    }
+
+    /**
+    * Creates a new l f user with the primary key. Does not add the l f user to the database.
+    *
+    * @param lfid the primary key for the new l f user
+    * @return the new l f user
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFUser create(
+        long lfid) {
+        return getPersistence().create(lfid);
+    }
+
+    /**
+    * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param lfid the primary key of the l f user
+    * @return the l f user that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFUser remove(
+        long lfid)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(lfid);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFUser updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFUser lfUser)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfUser);
+    }
+
+    /**
+    * Returns the l f user with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFUserException} if it could not be found.
+    *
+    * @param lfid the primary key of the l f user
+    * @return the l f user
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFUser findByPrimaryKey(
+        long lfid)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(lfid);
+    }
+
+    /**
+    * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param lfid the primary key of the l f user
+    * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFUser fetchByPrimaryKey(
+        long lfid) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(lfid);
+    }
+
+    /**
+    * Returns all the l f users.
+    *
+    * @return the l f users
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll();
+    }
+
+    /**
+    * Returns a range of all the l f users.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f users
+    * @param end the upper bound of the range of l f users (not inclusive)
+    * @return the range of l f users
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll(
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f users.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f users
+    * @param end the upper bound of the range of l f users (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of l f users
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFUser> findAll(
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f users from the database.
+    *
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeAll();
+    }
+
+    /**
     * Returns the number of l f users.
     *
     * @return the number of l f users
@@ -561,7 +560,7 @@ public class LFUserUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFUserPersistence persistence) {
     }

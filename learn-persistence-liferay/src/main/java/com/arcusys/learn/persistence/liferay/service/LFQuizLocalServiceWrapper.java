@@ -3,12 +3,10 @@ package com.arcusys.learn.persistence.liferay.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link LFQuizLocalService}.
- * </p>
+ * Provides a wrapper for {@link LFQuizLocalService}.
  *
- * @author    Brian Wing Shun Chan
- * @see       LFQuizLocalService
+ * @author Brian Wing Shun Chan
+ * @see LFQuizLocalService
  * @generated
  */
 public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
@@ -26,6 +24,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the l f quiz that was added
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz addLFQuiz(
         com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -38,6 +37,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @param id the primary key for the new l f quiz
     * @return the new l f quiz
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz createLFQuiz(
         long id) {
         return _lfQuizLocalService.createLFQuiz(id);
@@ -51,6 +51,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @throws PortalException if a l f quiz with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz deleteLFQuiz(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -65,12 +66,14 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the l f quiz that was removed
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz deleteLFQuiz(
         com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.deleteLFQuiz(lfQuiz);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         return _lfQuizLocalService.dynamicQuery();
     }
@@ -82,6 +85,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -93,7 +97,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * Performs a dynamic query on the database and returns a range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -102,6 +106,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -113,7 +118,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -123,6 +128,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the ordered range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -140,12 +146,30 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the number of rows that match the dynamic query
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.dynamicQueryCount(dynamicQuery);
     }
 
+    /**
+    * Returns the number of rows that match the dynamic query.
+    *
+    * @param dynamicQuery the dynamic query
+    * @param projection the projection to apply to the query
+    * @return the number of rows that match the dynamic query
+    * @throws SystemException if a system exception occurred
+    */
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfQuizLocalService.dynamicQueryCount(dynamicQuery, projection);
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz fetchLFQuiz(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.fetchLFQuiz(id);
@@ -159,12 +183,14 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @throws PortalException if a l f quiz with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz getLFQuiz(long id)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.getLFQuiz(id);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -176,7 +202,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * Returns a range of all the l f quizs.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f quizs
@@ -184,6 +210,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the range of l f quizs
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuiz> getLFQuizs(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -196,6 +223,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the number of l f quizs
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public int getLFQuizsCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.getLFQuizsCount();
@@ -208,6 +236,7 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     * @return the l f quiz that was updated
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz updateLFQuiz(
         com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -215,24 +244,11 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     }
 
     /**
-    * Updates the l f quiz in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-    *
-    * @param lfQuiz the l f quiz
-    * @param merge whether to merge the l f quiz with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-    * @return the l f quiz that was updated
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuiz updateLFQuiz(
-        com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz, boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _lfQuizLocalService.updateLFQuiz(lfQuiz, merge);
-    }
-
-    /**
     * Returns the Spring bean ID for this bean.
     *
     * @return the Spring bean ID for this bean
     */
+    @Override
     public java.lang.String getBeanIdentifier() {
         return _lfQuizLocalService.getBeanIdentifier();
     }
@@ -242,51 +258,58 @@ public class LFQuizLocalServiceWrapper implements LFQuizLocalService,
     *
     * @param beanIdentifier the Spring bean ID for this bean
     */
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         _lfQuizLocalService.setBeanIdentifier(beanIdentifier);
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         return _lfQuizLocalService.invokeMethod(name, parameterTypes, arguments);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuiz createLFQuiz()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.createLFQuiz();
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuiz> findByCourseId(
         java.lang.Integer[] courseIds)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizLocalService.findByCourseId(courseIds);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfQuizLocalService.removeAll();
     }
 
     /**
-     * @deprecated Renamed to {@link #getWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public LFQuizLocalService getWrappedLFQuizLocalService() {
         return _lfQuizLocalService;
     }
 
     /**
-     * @deprecated Renamed to {@link #setWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
      */
     public void setWrappedLFQuizLocalService(
         LFQuizLocalService lfQuizLocalService) {
         _lfQuizLocalService = lfQuizLocalService;
     }
 
+    @Override
     public LFQuizLocalService getWrappedService() {
         return _lfQuizLocalService;
     }
 
+    @Override
     public void setWrappedService(LFQuizLocalService lfQuizLocalService) {
         _lfQuizLocalService = lfQuizLocalService;
     }

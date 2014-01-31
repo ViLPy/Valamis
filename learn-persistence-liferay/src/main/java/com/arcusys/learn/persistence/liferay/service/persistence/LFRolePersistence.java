@@ -24,69 +24,6 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
      */
 
     /**
-    * Caches the l f role in the entity cache if it is enabled.
-    *
-    * @param lfRole the l f role
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFRole lfRole);
-
-    /**
-    * Caches the l f roles in the entity cache if it is enabled.
-    *
-    * @param lfRoles the l f roles
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> lfRoles);
-
-    /**
-    * Creates a new l f role with the primary key. Does not add the l f role to the database.
-    *
-    * @param id the primary key for the new l f role
-    * @return the new l f role
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRole create(long id);
-
-    /**
-    * Removes the l f role with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f role
-    * @return the l f role that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException if a l f role with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRole remove(long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFRole updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFRole lfRole, boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f role with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRoleException} if it could not be found.
-    *
-    * @param id the primary key of the l f role
-    * @return the l f role
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException if a l f role with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRole findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f role with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f role
-    * @return the l f role, or <code>null</code> if a l f role with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRole fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f roles where permission = &#63;.
     *
     * @param permission the permission
@@ -101,7 +38,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns a range of all the l f roles where permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param permission the permission
@@ -118,7 +55,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns an ordered range of all the l f roles where permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param permission the permission
@@ -206,6 +143,25 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f roles where permission = &#63; from the database.
+    *
+    * @param permission the permission
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByPermission(java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f roles where permission = &#63;.
+    *
+    * @param permission the permission
+    * @return the number of matching l f roles
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByPermission(java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f roles where liferayRoleID = &#63; and permission = &#63;.
     *
     * @param liferayRoleID the liferay role i d
@@ -221,7 +177,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns a range of all the l f roles where liferayRoleID = &#63; and permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param liferayRoleID the liferay role i d
@@ -240,7 +196,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns an ordered range of all the l f roles where liferayRoleID = &#63; and permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param liferayRoleID the liferay role i d
@@ -335,6 +291,29 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f roles where liferayRoleID = &#63; and permission = &#63; from the database.
+    *
+    * @param liferayRoleID the liferay role i d
+    * @param permission the permission
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByRoleIDAndPermission(java.lang.Integer liferayRoleID,
+        java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f roles where liferayRoleID = &#63; and permission = &#63;.
+    *
+    * @param liferayRoleID the liferay role i d
+    * @param permission the permission
+    * @return the number of matching l f roles
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByRoleIDAndPermission(java.lang.Integer liferayRoleID,
+        java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f roles where isDefault = &#63; and permission = &#63;.
     *
     * @param isDefault the is default
@@ -350,7 +329,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns a range of all the l f roles where isDefault = &#63; and permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param isDefault the is default
@@ -368,7 +347,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns an ordered range of all the l f roles where isDefault = &#63; and permission = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param isDefault the is default
@@ -463,6 +442,92 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f roles where isDefault = &#63; and permission = &#63; from the database.
+    *
+    * @param isDefault the is default
+    * @param permission the permission
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByDefaultAndPermission(java.lang.Boolean isDefault,
+        java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f roles where isDefault = &#63; and permission = &#63;.
+    *
+    * @param isDefault the is default
+    * @param permission the permission
+    * @return the number of matching l f roles
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByDefaultAndPermission(java.lang.Boolean isDefault,
+        java.lang.String permission)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f role in the entity cache if it is enabled.
+    *
+    * @param lfRole the l f role
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFRole lfRole);
+
+    /**
+    * Caches the l f roles in the entity cache if it is enabled.
+    *
+    * @param lfRoles the l f roles
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> lfRoles);
+
+    /**
+    * Creates a new l f role with the primary key. Does not add the l f role to the database.
+    *
+    * @param id the primary key for the new l f role
+    * @return the new l f role
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRole create(long id);
+
+    /**
+    * Removes the l f role with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f role
+    * @return the l f role that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException if a l f role with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRole remove(long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFRole updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFRole lfRole)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f role with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRoleException} if it could not be found.
+    *
+    * @param id the primary key of the l f role
+    * @return the l f role
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException if a l f role with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRole findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRoleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f role with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f role
+    * @return the l f role, or <code>null</code> if a l f role with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRole fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f roles.
     *
     * @return the l f roles
@@ -475,7 +540,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns a range of all the l f roles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f roles
@@ -491,7 +556,7 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
     * Returns an ordered range of all the l f roles.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRoleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f roles
@@ -506,76 +571,11 @@ public interface LFRolePersistence extends BasePersistence<LFRole> {
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f roles where permission = &#63; from the database.
-    *
-    * @param permission the permission
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByPermission(java.lang.String permission)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f roles where liferayRoleID = &#63; and permission = &#63; from the database.
-    *
-    * @param liferayRoleID the liferay role i d
-    * @param permission the permission
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByRoleIDAndPermission(java.lang.Integer liferayRoleID,
-        java.lang.String permission)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f roles where isDefault = &#63; and permission = &#63; from the database.
-    *
-    * @param isDefault the is default
-    * @param permission the permission
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByDefaultAndPermission(java.lang.Boolean isDefault,
-        java.lang.String permission)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f roles from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f roles where permission = &#63;.
-    *
-    * @param permission the permission
-    * @return the number of matching l f roles
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByPermission(java.lang.String permission)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f roles where liferayRoleID = &#63; and permission = &#63;.
-    *
-    * @param liferayRoleID the liferay role i d
-    * @param permission the permission
-    * @return the number of matching l f roles
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByRoleIDAndPermission(java.lang.Integer liferayRoleID,
-        java.lang.String permission)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f roles where isDefault = &#63; and permission = &#63;.
-    *
-    * @param isDefault the is default
-    * @param permission the permission
-    * @return the number of matching l f roles
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByDefaultAndPermission(java.lang.Boolean isDefault,
-        java.lang.String permission)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

@@ -24,6 +24,7 @@ public abstract class LFPlayerScopeRuleBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f player scope rule model instance should use the {@link LFPlayerScopeRule} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFPlayerScopeRuleLocalServiceUtil.addLFPlayerScopeRule(this);

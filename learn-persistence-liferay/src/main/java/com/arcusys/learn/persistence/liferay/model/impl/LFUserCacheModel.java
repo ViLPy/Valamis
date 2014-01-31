@@ -6,16 +6,19 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFUser in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFUser
-* @generated
-*/
-public class LFUserCacheModel implements CacheModel<LFUser>, Serializable {
+ * The cache model class for representing LFUser in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFUser
+ * @generated
+ */
+public class LFUserCacheModel implements CacheModel<LFUser>, Externalizable {
     public long lfid;
     public Integer id;
     public String name;
@@ -47,6 +50,7 @@ public class LFUserCacheModel implements CacheModel<LFUser>, Serializable {
         return sb.toString();
     }
 
+    @Override
     public LFUser toEntityModel() {
         LFUserImpl lfUserImpl = new LFUserImpl();
 
@@ -73,5 +77,40 @@ public class LFUserCacheModel implements CacheModel<LFUser>, Serializable {
         lfUserImpl.resetOriginalValues();
 
         return lfUserImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        lfid = objectInput.readLong();
+        id = objectInput.readInt();
+        name = objectInput.readUTF();
+        preferredAudioLevel = objectInput.readDouble();
+        preferredLanguage = objectInput.readUTF();
+        preferredDeliverySpeed = objectInput.readDouble();
+        preferredAudioCaptioning = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(lfid);
+        objectOutput.writeInt(id);
+
+        if (name == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(name);
+        }
+
+        objectOutput.writeDouble(preferredAudioLevel);
+
+        if (preferredLanguage == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(preferredLanguage);
+        }
+
+        objectOutput.writeDouble(preferredDeliverySpeed);
+        objectOutput.writeInt(preferredAudioCaptioning);
     }
 }

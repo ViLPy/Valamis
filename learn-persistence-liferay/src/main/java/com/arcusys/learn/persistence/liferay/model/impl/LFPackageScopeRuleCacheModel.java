@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFPackageScopeRule in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFPackageScopeRule
-* @generated
-*/
+ * The cache model class for representing LFPackageScopeRule in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFPackageScopeRule
+ * @generated
+ */
 public class LFPackageScopeRuleCacheModel implements CacheModel<LFPackageScopeRule>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer packageID;
     public String scope;
@@ -45,6 +48,7 @@ public class LFPackageScopeRuleCacheModel implements CacheModel<LFPackageScopeRu
         return sb.toString();
     }
 
+    @Override
     public LFPackageScopeRule toEntityModel() {
         LFPackageScopeRuleImpl lfPackageScopeRuleImpl = new LFPackageScopeRuleImpl();
 
@@ -57,12 +61,49 @@ public class LFPackageScopeRuleCacheModel implements CacheModel<LFPackageScopeRu
             lfPackageScopeRuleImpl.setScope(scope);
         }
 
-        lfPackageScopeRuleImpl.setScopeID(scopeID);
+        if (scopeID == null) {
+            lfPackageScopeRuleImpl.setScopeID(StringPool.BLANK);
+        } else {
+            lfPackageScopeRuleImpl.setScopeID(scopeID);
+        }
+
         lfPackageScopeRuleImpl.setVisibility(visibility);
         lfPackageScopeRuleImpl.setIsDefault(isDefault);
 
         lfPackageScopeRuleImpl.resetOriginalValues();
 
         return lfPackageScopeRuleImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        packageID = objectInput.readInt();
+        scope = objectInput.readUTF();
+        scopeID = objectInput.readUTF();
+        visibility = objectInput.readBoolean();
+        isDefault = objectInput.readBoolean();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(packageID);
+
+        if (scope == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(scope);
+        }
+
+        if (scopeID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(scopeID);
+        }
+
+        objectOutput.writeBoolean(visibility);
+        objectOutput.writeBoolean(isDefault);
     }
 }

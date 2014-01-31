@@ -61,7 +61,7 @@ MyCertificateListView = Backbone.View.extend({
         this.$el.append(template);
 
         var that = this;
-        this.collection.on("collection:updated", function (details) {
+        this.collection.on("certificateCollection:updated", function (details) {
             that.updatePagination(details, that);
         });
 

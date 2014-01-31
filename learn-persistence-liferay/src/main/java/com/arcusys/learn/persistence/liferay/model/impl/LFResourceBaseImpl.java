@@ -24,6 +24,7 @@ public abstract class LFResourceBaseImpl extends LFResourceModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f resource model instance should use the {@link LFResource} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFResourceLocalServiceUtil.addLFResource(this);

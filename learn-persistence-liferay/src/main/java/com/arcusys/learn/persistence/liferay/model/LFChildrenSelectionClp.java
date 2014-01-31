@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,26 +30,32 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
     public LFChildrenSelectionClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFChildrenSelection.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFChildrenSelection.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -100,44 +108,118 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfChildrenSelectionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfChildrenSelectionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfChildrenSelectionRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getSequencingID() {
         return _sequencingID;
     }
 
+    @Override
     public void setSequencingID(Integer sequencingID) {
         _sequencingID = sequencingID;
+
+        if (_lfChildrenSelectionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfChildrenSelectionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSequencingID", Integer.class);
+
+                method.invoke(_lfChildrenSelectionRemoteModel, sequencingID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getTakeCount() {
         return _takeCount;
     }
 
+    @Override
     public void setTakeCount(Integer takeCount) {
         _takeCount = takeCount;
+
+        if (_lfChildrenSelectionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfChildrenSelectionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTakeCount", Integer.class);
+
+                method.invoke(_lfChildrenSelectionRemoteModel, takeCount);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTakeTimingOnEachAttempt() {
         return _takeTimingOnEachAttempt;
     }
 
+    @Override
     public void setTakeTimingOnEachAttempt(String takeTimingOnEachAttempt) {
         _takeTimingOnEachAttempt = takeTimingOnEachAttempt;
+
+        if (_lfChildrenSelectionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfChildrenSelectionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTakeTimingOnEachAttempt",
+                        String.class);
+
+                method.invoke(_lfChildrenSelectionRemoteModel,
+                    takeTimingOnEachAttempt);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReorderOnEachAttempt() {
         return _reorderOnEachAttempt;
     }
 
+    @Override
     public void setReorderOnEachAttempt(String reorderOnEachAttempt) {
         _reorderOnEachAttempt = reorderOnEachAttempt;
+
+        if (_lfChildrenSelectionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfChildrenSelectionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReorderOnEachAttempt",
+                        String.class);
+
+                method.invoke(_lfChildrenSelectionRemoteModel,
+                    reorderOnEachAttempt);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFChildrenSelectionRemoteModel() {
@@ -149,6 +231,47 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
         _lfChildrenSelectionRemoteModel = lfChildrenSelectionRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfChildrenSelectionRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfChildrenSelectionRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFChildrenSelectionLocalServiceUtil.addLFChildrenSelection(this);
@@ -159,7 +282,7 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
 
     @Override
     public LFChildrenSelection toEscapedModel() {
-        return (LFChildrenSelection) Proxy.newProxyInstance(LFChildrenSelection.class.getClassLoader(),
+        return (LFChildrenSelection) ProxyUtil.newProxyInstance(LFChildrenSelection.class.getClassLoader(),
             new Class[] { LFChildrenSelection.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -177,6 +300,7 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
         return clone;
     }
 
+    @Override
     public int compareTo(LFChildrenSelection lfChildrenSelection) {
         long primaryKey = lfChildrenSelection.getPrimaryKey();
 
@@ -191,17 +315,15 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFChildrenSelectionClp)) {
             return false;
         }
 
-        LFChildrenSelectionClp lfChildrenSelection = null;
-
-        try {
-            lfChildrenSelection = (LFChildrenSelectionClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFChildrenSelectionClp lfChildrenSelection = (LFChildrenSelectionClp) obj;
 
         long primaryKey = lfChildrenSelection.getPrimaryKey();
 
@@ -236,6 +358,7 @@ public class LFChildrenSelectionClp extends BaseModelImpl<LFChildrenSelection>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(19);
 

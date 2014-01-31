@@ -45,6 +45,9 @@ import com.arcusys.learn.tincan.storage._
 import com.arcusys.learn.tincan.storage.impl._
 import com.arcusys.learn.scorm.manifest.storage.impl.ActivityEntityStorage
 import com.arcusys.learn.tincan.model.AgentProfile
+import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementRequiredStorage, AchievementActivityStorage, AchievementStorage}
+import com.arcusys.learn.scorm.Archivements.impl.{AchievementUserEntityStorage, AchievementRequiredEntityStorage, AchievementActivityEntityStorage, AchievementEntityStorage}
+import com.arcusys.learn.scorm.achievements.{LFAchievementUserStorageImpl, LFAchievementRequiredStorageImpl, LFAchievementActivityStorageImpl, LFAchievementStorageImpl}
 
 /**
  * User: dkudinov
@@ -205,6 +208,11 @@ object LFStorageFactory extends StorageFactoryContract {
   lazy val certificateStorage: CertificateStorage = new CertificateEntityStorage with LFCertificateStorageImpl
   lazy val certificateSiteStorage: CertificateSiteStorage = new CertificateSiteEntityStorage with LFCertificateSiteStorageImpl
   lazy val certificateUserStorage: CertificateUserStorage = new CertificateUserEntityStorage with LFCertificateUserStorageImpl
+
+  lazy val achievementStorage: AchievementStorage = new AchievementEntityStorage with LFAchievementStorageImpl
+  lazy val achievementActivityStorage: AchievementActivityStorage = new AchievementActivityEntityStorage with LFAchievementActivityStorageImpl
+  lazy val achievementRequiredStorage: AchievementRequiredStorage = new AchievementRequiredEntityStorage with LFAchievementRequiredStorageImpl
+  lazy val achievementUserStorage: AchievementUserStorage = new AchievementUserEntityStorage with LFAchievementUserStorageImpl
 
   lazy val socialPackageStorage: SocialPackageStorage = new SocialPackageEntityStorage with LFSocialPackageStorageImpl
   lazy val packageCommentStorage: PackageCommentStorage = new PackageCommentEntityStorage with LFPackageCommentStorageImpl

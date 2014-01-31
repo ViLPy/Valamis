@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFQuestionCategory in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFQuestionCategory
-* @generated
-*/
+ * The cache model class for representing LFQuestionCategory in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFQuestionCategory
+ * @generated
+ */
 public class LFQuestionCategoryCacheModel implements CacheModel<LFQuestionCategory>,
-    Serializable {
+    Externalizable {
     public long id;
     public String title;
     public String description;
@@ -45,6 +48,7 @@ public class LFQuestionCategoryCacheModel implements CacheModel<LFQuestionCatego
         return sb.toString();
     }
 
+    @Override
     public LFQuestionCategory toEntityModel() {
         LFQuestionCategoryImpl lfQuestionCategoryImpl = new LFQuestionCategoryImpl();
 
@@ -69,5 +73,37 @@ public class LFQuestionCategoryCacheModel implements CacheModel<LFQuestionCatego
         lfQuestionCategoryImpl.resetOriginalValues();
 
         return lfQuestionCategoryImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        title = objectInput.readUTF();
+        description = objectInput.readUTF();
+        parentId = objectInput.readInt();
+        courseId = objectInput.readInt();
+        arrangementIndex = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (description == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(description);
+        }
+
+        objectOutput.writeInt(parentId);
+        objectOutput.writeInt(courseId);
+        objectOutput.writeInt(arrangementIndex);
     }
 }

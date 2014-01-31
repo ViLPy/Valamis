@@ -25,6 +25,7 @@ public abstract class LFTincanManifestActivityBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan manifest activity model instance should use the {@link LFTincanManifestActivity} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanManifestActivityLocalServiceUtil.addLFTincanManifestActivity(this);

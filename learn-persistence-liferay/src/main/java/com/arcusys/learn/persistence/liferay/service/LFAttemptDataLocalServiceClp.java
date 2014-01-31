@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
     private InvokableLocalService _invokableLocalService;
     private String _methodName0;
@@ -107,37 +110,37 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFAttemptData";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFAttemptData";
+        _methodName10 = "fetchLFAttemptData";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFAttemptData";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFAttemptDatas";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFAttemptDatasCount";
+        _methodName13 = "getLFAttemptDatas";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFAttemptData";
+        _methodName14 = "getLFAttemptDatasCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAttemptData"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFAttemptData";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAttemptData",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFAttemptData"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -182,6 +185,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         _methodParameterTypes24 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData addLFAttemptData(
         com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -209,6 +213,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData createLFAttemptData(
         long id) {
         Object returnObj = null;
@@ -230,6 +235,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData deleteLFAttemptData(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -261,6 +267,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData deleteLFAttemptData(
         com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -288,6 +295,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -308,6 +316,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -336,6 +345,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -370,6 +380,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -408,6 +419,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -435,13 +447,47 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData fetchLFAttemptData(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -460,6 +506,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData getLFAttemptData(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -467,8 +514,8 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -491,6 +538,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -498,8 +546,8 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -523,14 +571,15 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> getLFAttemptDatas(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -549,13 +598,14 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFAttemptDatasCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -574,14 +624,15 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData updateLFAttemptData(
         com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(lfAttemptData) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -601,38 +652,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFAttemptData updateLFAttemptData(
-        com.arcusys.learn.persistence.liferay.model.LFAttemptData lfAttemptData,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] {
-                        ClpSerializer.translateInput(lfAttemptData),
-                        
-                    merge
-                    });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -653,6 +673,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -670,12 +691,14 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFAttemptData createLFAttemptData()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -701,6 +724,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFAttemptData) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> findByAttemptIDWithActivityID(
         java.lang.Integer attemptID, java.lang.String activityID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -732,6 +756,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> findByAttemptIDWithDataKey(
         java.lang.Integer attemptID, java.lang.String dataKey)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -763,6 +788,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> findBySingleKey(
         java.lang.Integer attemptID, java.lang.String activityID,
         java.lang.String dataKey, int start, int end)
@@ -801,6 +827,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData> findByCollectionValues(
         java.lang.Integer attemptID, java.lang.String activityID,
         java.lang.String dataKey)
@@ -835,6 +862,7 @@ public class LFAttemptDataLocalServiceClp implements LFAttemptDataLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFAttemptData>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

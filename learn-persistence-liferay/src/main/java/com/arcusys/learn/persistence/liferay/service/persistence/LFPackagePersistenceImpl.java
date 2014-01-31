@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFPackageException;
 import com.arcusys.learn.persistence.liferay.model.LFPackage;
 import com.arcusys.learn.persistence.liferay.model.impl.LFPackageImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -82,15 +23,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -98,6 +38,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f package service.
@@ -123,6 +64,15 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_FETCH_BY_REFID = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
             LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
             FINDER_CLASS_NAME_ENTITY, "fetchByRefID",
@@ -132,14 +82,17 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRefID",
             new String[] { Long.class.getName() });
+    private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL = "lfPackage.assetRefID IS NULL";
+    private static final String _FINDER_COLUMN_REFID_ASSETREFID_2 = "lfPackage.assetRefID = ?";
+    private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL_2 = "lfPackage.assetRefID IS NULL ";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
             LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByInstance",
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE =
         new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
@@ -156,14 +109,21 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByInstance",
             new String[] { Integer.class.getName() });
+    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_NULL = "lfPackage.courseID IS NULL";
+    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_2 = "lfPackage.courseID = ?";
+    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_NULL_2 = "lfPackage.courseID IS NULL ";
+    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_INSTANCE_COURSEID_2) + ")";
+    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_INSTANCE_COURSEID_NULL_2) + ")";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
             LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCourseID",
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID =
         new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
@@ -175,38 +135,22 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCourseID",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL = "lfPackage.courseID IS NULL";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_2 = "lfPackage.courseID = ?";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL_2 = "lfPackage.courseID IS NULL ";
     private static final String _SQL_SELECT_LFPACKAGE = "SELECT lfPackage FROM LFPackage lfPackage";
     private static final String _SQL_SELECT_LFPACKAGE_WHERE = "SELECT lfPackage FROM LFPackage lfPackage WHERE ";
     private static final String _SQL_COUNT_LFPACKAGE = "SELECT COUNT(lfPackage) FROM LFPackage lfPackage";
     private static final String _SQL_COUNT_LFPACKAGE_WHERE = "SELECT COUNT(lfPackage) FROM LFPackage lfPackage WHERE ";
-    private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL = "lfPackage.assetRefID IS NULL";
-    private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL_2 = "lfPackage.assetRefID IS NULL ";
-    private static final String _FINDER_COLUMN_REFID_ASSETREFID_2 = "lfPackage.assetRefID = ?";
-    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_NULL = "lfPackage.courseID IS NULL";
-    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_NULL_2 = "lfPackage.courseID IS NULL ";
-    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_2 = "lfPackage.courseID = ?";
-    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_5_NULL = "(" +
-        _removeConjunction(_FINDER_COLUMN_INSTANCE_COURSEID_NULL_2) + ")";
-    private static final String _FINDER_COLUMN_INSTANCE_COURSEID_5 = "(" +
-        _removeConjunction(_FINDER_COLUMN_INSTANCE_COURSEID_2) + ")";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL = "lfPackage.courseID IS NULL";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL_2 = "lfPackage.courseID IS NULL ";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_2 = "lfPackage.courseID = ?";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfPackage.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFPackage exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFPackage exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFPackagePersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFPackage _nullLFPackage = new LFPackageImpl() {
             @Override
             public Object clone() {
@@ -220,544 +164,14 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
         };
 
     private static CacheModel<LFPackage> _nullLFPackageCacheModel = new CacheModel<LFPackage>() {
+            @Override
             public LFPackage toEntityModel() {
                 return _nullLFPackage;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f package in the entity cache if it is enabled.
-     *
-     * @param lfPackage the l f package
-     */
-    public void cacheResult(LFPackage lfPackage) {
-        EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageImpl.class, lfPackage.getPrimaryKey(), lfPackage);
-
-        boolean noNullsInREFID = true;
-
-        if (lfPackage.getAssetRefID() == null) {
-            noNullsInREFID = false;
-        }
-
-        if (noNullsInREFID) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID,
-                new Object[] { Long.valueOf(lfPackage.getAssetRefID()) },
-                lfPackage);
-        }
-
-        lfPackage.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f packages in the entity cache if it is enabled.
-     *
-     * @param lfPackages the l f packages
-     */
-    public void cacheResult(List<LFPackage> lfPackages) {
-        for (LFPackage lfPackage : lfPackages) {
-            if (EntityCacheUtil.getResult(
-                        LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-                        LFPackageImpl.class, lfPackage.getPrimaryKey()) == null) {
-                cacheResult(lfPackage);
-            } else {
-                lfPackage.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f packages.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFPackageImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFPackageImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f package.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFPackage lfPackage) {
-        EntityCacheUtil.removeResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageImpl.class, lfPackage.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        clearUniqueFindersCache(lfPackage);
-    }
-
-    @Override
-    public void clearCache(List<LFPackage> lfPackages) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFPackage lfPackage : lfPackages) {
-            EntityCacheUtil.removeResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-                LFPackageImpl.class, lfPackage.getPrimaryKey());
-
-            clearUniqueFindersCache(lfPackage);
-        }
-    }
-
-    protected void clearUniqueFindersCache(LFPackage lfPackage) {
-        boolean noNullsInREFID = true;
-
-        if (lfPackage.getAssetRefID() == null) {
-            noNullsInREFID = false;
-        }
-
-        if (noNullsInREFID) {
-            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID,
-                new Object[] { Long.valueOf(lfPackage.getAssetRefID()) });
-        }
-    }
-
-    /**
-     * Creates a new l f package with the primary key. Does not add the l f package to the database.
-     *
-     * @param id the primary key for the new l f package
-     * @return the new l f package
-     */
-    public LFPackage create(long id) {
-        LFPackage lfPackage = new LFPackageImpl();
-
-        lfPackage.setNew(true);
-        lfPackage.setPrimaryKey(id);
-
-        return lfPackage;
-    }
-
-    /**
-     * Removes the l f package with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param id the primary key of the l f package
-     * @return the l f package that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFPackage remove(long id)
-        throws NoSuchLFPackageException, SystemException {
-        return remove(Long.valueOf(id));
-    }
-
-    /**
-     * Removes the l f package with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f package
-     * @return the l f package that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFPackage remove(Serializable primaryKey)
-        throws NoSuchLFPackageException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFPackage lfPackage = (LFPackage) session.get(LFPackageImpl.class,
-                    primaryKey);
-
-            if (lfPackage == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFPackageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfPackage);
-        } catch (NoSuchLFPackageException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFPackage removeImpl(LFPackage lfPackage)
-        throws SystemException {
-        lfPackage = toUnwrappedModel(lfPackage);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfPackage);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfPackage);
-
-        return lfPackage;
-    }
-
-    @Override
-    public LFPackage updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFPackage lfPackage,
-        boolean merge) throws SystemException {
-        lfPackage = toUnwrappedModel(lfPackage);
-
-        boolean isNew = lfPackage.isNew();
-
-        LFPackageModelImpl lfPackageModelImpl = (LFPackageModelImpl) lfPackage;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfPackage, merge);
-
-            lfPackage.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFPackageModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfPackageModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfPackageModelImpl.getOriginalCourseID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_INSTANCE, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfPackageModelImpl.getCourseID()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_INSTANCE, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE,
-                    args);
-            }
-
-            if ((lfPackageModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfPackageModelImpl.getOriginalCourseID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfPackageModelImpl.getCourseID()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-            LFPackageImpl.class, lfPackage.getPrimaryKey(), lfPackage);
-
-        if (isNew) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID,
-                new Object[] { /*Long.valueOf( */
-                lfPackage.getAssetRefID()/*) */
-                }, lfPackage);
-        } else {
-            if ((lfPackageModelImpl.getColumnBitmask() &
-                    FINDER_PATH_FETCH_BY_REFID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /*        Long.valueOf( */
-                        lfPackageModelImpl.getOriginalAssetRefID()
-                    /*        ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_REFID, args);
-
-                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID, args);
-
-                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID,
-                    new Object[] { /*        Long.valueOf( */
-                    lfPackage.getAssetRefID()/*        ) */
-                    }, lfPackage);
-            }
-        }
-
-        return lfPackage;
-    }
-
-    protected LFPackage toUnwrappedModel(LFPackage lfPackage) {
-        if (lfPackage instanceof LFPackageImpl) {
-            return lfPackage;
-        }
-
-        LFPackageImpl lfPackageImpl = new LFPackageImpl();
-
-        lfPackageImpl.setNew(lfPackage.isNew());
-        lfPackageImpl.setPrimaryKey(lfPackage.getPrimaryKey());
-
-        lfPackageImpl.setId(lfPackage.getId());
-        lfPackageImpl.setDefaultOrganizationID(lfPackage.getDefaultOrganizationID());
-        lfPackageImpl.setTitle(lfPackage.getTitle());
-        lfPackageImpl.setBase(lfPackage.getBase());
-        lfPackageImpl.setResourcesBase(lfPackage.getResourcesBase());
-        lfPackageImpl.setSummary(lfPackage.getSummary());
-        lfPackageImpl.setAssetRefID(lfPackage.getAssetRefID());
-        lfPackageImpl.setCourseID(lfPackage.getCourseID());
-
-        return lfPackageImpl;
-    }
-
-    /**
-     * Returns the l f package with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f package
-     * @return the l f package
-     * @throws com.liferay.portal.NoSuchModelException if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFPackage findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageException} if it could not be found.
-     *
-     * @param id the primary key of the l f package
-     * @return the l f package
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFPackage findByPrimaryKey(long id)
-        throws NoSuchLFPackageException, SystemException {
-        LFPackage lfPackage = fetchByPrimaryKey(id);
-
-        if (lfPackage == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFPackageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfPackage;
-    }
-
-    /**
-     * Returns the l f package with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f package
-     * @return the l f package, or <code>null</code> if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFPackage fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f package with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param id the primary key of the l f package
-     * @return the l f package, or <code>null</code> if a l f package with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFPackage fetchByPrimaryKey(long id) throws SystemException {
-        LFPackage lfPackage = (LFPackage) EntityCacheUtil.getResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-                LFPackageImpl.class, id);
-
-        if (lfPackage == _nullLFPackage) {
-            return null;
-        }
-
-        if (lfPackage == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfPackage = (LFPackage) session.get(LFPackageImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfPackage != null) {
-                    cacheResult(lfPackage);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
-                        LFPackageImpl.class, id, _nullLFPackage);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfPackage;
+    public LFPackagePersistenceImpl() {
+        setModelClass(LFPackage.class);
     }
 
     /**
@@ -768,6 +182,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage findByRefID(Long assetRefID)
         throws NoSuchLFPackageException, SystemException {
         LFPackage lfPackage = fetchByRefID(assetRefID);
@@ -799,6 +214,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByRefID(Long assetRefID) throws SystemException {
         return fetchByRefID(assetRefID, true);
     }
@@ -811,6 +227,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByRefID(Long assetRefID, boolean retrieveFromCache)
         throws SystemException {
         Object[] finderArgs = new Object[] { assetRefID };
@@ -831,7 +248,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
         }
 
         if (result == null) {
-            StringBundler query = new StringBundler(2);
+            StringBundler query = new StringBundler(3);
 
             query.append(_SQL_SELECT_LFPACKAGE_WHERE);
 
@@ -858,15 +275,20 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
 
                 List<LFPackage> list = q.list();
 
-                result = list;
-
-                LFPackage lfPackage = null;
-
                 if (list.isEmpty()) {
                     FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID,
                         finderArgs, list);
                 } else {
-                    lfPackage = list.get(0);
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFPackagePersistenceImpl.fetchByRefID(Long, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFPackage lfPackage = list.get(0);
+
+                    result = lfPackage;
 
                     cacheResult(lfPackage);
 
@@ -875,25 +297,93 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                             finderArgs, lfPackage);
                     }
                 }
-
-                return lfPackage;
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID,
+                    finderArgs);
+
                 throw processException(e);
             } finally {
-                if (result == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID,
-                        finderArgs);
-                }
-
                 closeSession(session);
             }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
         } else {
-            if (result instanceof List<?>) {
-                return null;
+            return (LFPackage) result;
+        }
+    }
+
+    /**
+     * Removes the l f package where assetRefID = &#63; from the database.
+     *
+     * @param assetRefID the asset ref i d
+     * @return the l f package that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage removeByRefID(Long assetRefID)
+        throws NoSuchLFPackageException, SystemException {
+        LFPackage lfPackage = findByRefID(assetRefID);
+
+        return remove(lfPackage);
+    }
+
+    /**
+     * Returns the number of l f packages where assetRefID = &#63;.
+     *
+     * @param assetRefID the asset ref i d
+     * @return the number of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByRefID(Long assetRefID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_REFID;
+
+        Object[] finderArgs = new Object[] { assetRefID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
+
+            if (assetRefID == null) {
+                query.append(_FINDER_COLUMN_REFID_ASSETREFID_NULL_2);
             } else {
-                return (LFPackage) result;
+                query.append(_FINDER_COLUMN_REFID_ASSETREFID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (assetRefID != null) {
+                    qPos.add(assetRefID.longValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
             }
         }
+
+        return count.intValue();
     }
 
     /**
@@ -903,6 +393,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer courseID)
         throws SystemException {
         return findByInstance(courseID, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -913,7 +404,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns a range of all the l f packages where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -922,6 +413,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer courseID, int start, int end)
         throws SystemException {
         return findByInstance(courseID, start, end, null);
@@ -931,7 +423,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns an ordered range of all the l f packages where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -941,13 +433,16 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the ordered range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer courseID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE;
             finderArgs = new Object[] { courseID };
         } else {
@@ -975,7 +470,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFPACKAGE_WHERE);
@@ -989,6 +484,9 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFPackageModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1006,19 +504,26 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                     qPos.add(courseID.intValue());
                 }
 
-                list = (List<LFPackage>) QueryUtil.list(q, getDialect(), start,
-                        end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1035,6 +540,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage findByInstance_First(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1064,6 +570,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the first matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByInstance_First(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFPackage> list = findByInstance(courseID, 0, 1, orderByComparator);
@@ -1084,6 +591,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage findByInstance_Last(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1113,9 +621,14 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the last matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByInstance_Last(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByInstance(courseID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFPackage> list = findByInstance(courseID, count - 1, count,
                 orderByComparator);
@@ -1137,6 +650,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage[] findByInstance_PrevAndNext(long id, Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1233,6 +747,8 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                     }
                 }
             }
+        } else {
+            query.append(LFPackageModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1269,13 +785,14 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns all the l f packages where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
      * @return the matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer[] courseIDs)
         throws SystemException {
         return findByInstance(courseIDs, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -1286,7 +803,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns a range of all the l f packages where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
@@ -1295,6 +812,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer[] courseIDs, int start,
         int end) throws SystemException {
         return findByInstance(courseIDs, start, end, null);
@@ -1304,7 +822,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns an ordered range of all the l f packages where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
@@ -1314,13 +832,19 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the ordered range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByInstance(Integer[] courseIDs, int start,
         int end, OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE;
+        if ((courseIDs != null) && (courseIDs.length == 1)) {
+            return findByInstance(courseIDs[0], start, end, orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] { StringUtil.merge(courseIDs) };
         } else {
             finderArgs = new Object[] {
@@ -1330,7 +854,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 };
         }
 
-        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(finderPath,
+        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -1377,6 +901,9 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFPackageModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1398,24 +925,185 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                     }
                 }
 
-                list = (List<LFPackage>) QueryUtil.list(q, getDialect(), start,
-                        end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE,
+                    finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return list;
+    }
+
+    /**
+     * Removes all the l f packages where courseID = &#63; from the database.
+     *
+     * @param courseID the course i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByInstance(Integer courseID) throws SystemException {
+        for (LFPackage lfPackage : findByInstance(courseID, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
+            remove(lfPackage);
+        }
+    }
+
+    /**
+     * Returns the number of l f packages where courseID = &#63;.
+     *
+     * @param courseID the course i d
+     * @return the number of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByInstance(Integer courseID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_INSTANCE;
+
+        Object[] finderArgs = new Object[] { courseID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
+
+            if (courseID == null) {
+                query.append(_FINDER_COLUMN_INSTANCE_COURSEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_INSTANCE_COURSEID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (courseID != null) {
+                    qPos.add(courseID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f packages where courseID = any &#63;.
+     *
+     * @param courseIDs the course i ds
+     * @return the number of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByInstance(Integer[] courseIDs) throws SystemException {
+        Object[] finderArgs = new Object[] { StringUtil.merge(courseIDs) };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_INSTANCE,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((courseIDs != null) && (courseIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < courseIDs.length; i++) {
+                    if (courseIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_INSTANCE_COURSEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_INSTANCE_COURSEID_5);
+                    }
+
+                    if ((i + 1) < courseIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (courseIDs != null) {
+                    for (Integer courseID : courseIDs) {
+                        if (courseID != null) {
+                            qPos.add(courseID);
+                        }
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_INSTANCE,
+                    finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_INSTANCE,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
     }
 
     /**
@@ -1425,6 +1113,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByCourseID(Integer courseID)
         throws SystemException {
         return findByCourseID(courseID, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -1435,7 +1124,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns a range of all the l f packages where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -1444,6 +1133,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByCourseID(Integer courseID, int start, int end)
         throws SystemException {
         return findByCourseID(courseID, start, end, null);
@@ -1453,7 +1143,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * Returns an ordered range of all the l f packages where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -1463,13 +1153,16 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the ordered range of matching l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFPackage> findByCourseID(Integer courseID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID;
             finderArgs = new Object[] { courseID };
         } else {
@@ -1497,7 +1190,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFPACKAGE_WHERE);
@@ -1511,6 +1204,9 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFPackageModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1528,19 +1224,26 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                     qPos.add(courseID.intValue());
                 }
 
-                list = (List<LFPackage>) QueryUtil.list(q, getDialect(), start,
-                        end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1557,6 +1260,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage findByCourseID_First(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1586,6 +1290,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the first matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByCourseID_First(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFPackage> list = findByCourseID(courseID, 0, 1, orderByComparator);
@@ -1606,6 +1311,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage findByCourseID_Last(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1635,9 +1341,14 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the last matching l f package, or <code>null</code> if a matching l f package could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage fetchByCourseID_Last(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByCourseID(courseID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFPackage> list = findByCourseID(courseID, count - 1, count,
                 orderByComparator);
@@ -1659,6 +1370,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFPackage[] findByCourseID_PrevAndNext(long id, Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFPackageException, SystemException {
@@ -1755,6 +1467,8 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                     }
                 }
             }
+        } else {
+            query.append(LFPackageModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1788,218 +1502,17 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
     }
 
     /**
-     * Returns all the l f packages.
-     *
-     * @return the l f packages
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFPackage> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f packages.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f packages
-     * @param end the upper bound of the range of l f packages (not inclusive)
-     * @return the range of l f packages
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFPackage> findAll(int start, int end)
-        throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f packages.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f packages
-     * @param end the upper bound of the range of l f packages (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f packages
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFPackage> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFPACKAGE);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFPACKAGE;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
-                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
-                            start, end, false);
-
-                    Collections.sort(list);
-                } else {
-                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
-                            start, end);
-                }
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Removes the l f package where assetRefID = &#63; from the database.
-     *
-     * @param assetRefID the asset ref i d
-     * @return the l f package that was removed
-     * @throws SystemException if a system exception occurred
-     */
-    public LFPackage removeByRefID(Long assetRefID)
-        throws NoSuchLFPackageException, SystemException {
-        LFPackage lfPackage = findByRefID(assetRefID);
-
-        return remove(lfPackage);
-    }
-
-    /**
      * Removes all the l f packages where courseID = &#63; from the database.
      *
      * @param courseID the course i d
      * @throws SystemException if a system exception occurred
      */
-    public void removeByInstance(Integer courseID) throws SystemException {
-        for (LFPackage lfPackage : findByInstance(courseID)) {
-            remove(lfPackage);
-        }
-    }
-
-    /**
-     * Removes all the l f packages where courseID = &#63; from the database.
-     *
-     * @param courseID the course i d
-     * @throws SystemException if a system exception occurred
-     */
+    @Override
     public void removeByCourseID(Integer courseID) throws SystemException {
-        for (LFPackage lfPackage : findByCourseID(courseID)) {
+        for (LFPackage lfPackage : findByCourseID(courseID, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
             remove(lfPackage);
         }
-    }
-
-    /**
-     * Removes all the l f packages from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFPackage lfPackage : findAll()) {
-            remove(lfPackage);
-        }
-    }
-
-    /**
-     * Returns the number of l f packages where assetRefID = &#63;.
-     *
-     * @param assetRefID the asset ref i d
-     * @return the number of matching l f packages
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByRefID(Long assetRefID) throws SystemException {
-        Object[] finderArgs = new Object[] { assetRefID };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_REFID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
-
-            if (assetRefID == null) {
-                query.append(_FINDER_COLUMN_REFID_ASSETREFID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_REFID_ASSETREFID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (assetRefID != null) {
-                    qPos.add(assetRefID.longValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_REFID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
     }
 
     /**
@@ -2009,149 +1522,14 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
      * @return the number of matching l f packages
      * @throws SystemException if a system exception occurred
      */
-    public int countByInstance(Integer courseID) throws SystemException {
-        Object[] finderArgs = new Object[] { courseID };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_INSTANCE,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
-
-            if (courseID == null) {
-                query.append(_FINDER_COLUMN_INSTANCE_COURSEID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_INSTANCE_COURSEID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (courseID != null) {
-                    qPos.add(courseID.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_INSTANCE,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f packages where courseID = any &#63;.
-     *
-     * @param courseIDs the course i ds
-     * @return the number of matching l f packages
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByInstance(Integer[] courseIDs) throws SystemException {
-        Object[] finderArgs = new Object[] { StringUtil.merge(courseIDs) };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_INSTANCE,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler();
-
-            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
-
-            boolean conjunctionable = false;
-
-            if ((courseIDs != null) && (courseIDs.length > 0)) {
-                if (conjunctionable) {
-                    query.append(WHERE_AND);
-                }
-
-                query.append(StringPool.OPEN_PARENTHESIS);
-
-                for (int i = 0; i < courseIDs.length; i++) {
-                    if (courseIDs[i] == null) {
-                        query.append(_FINDER_COLUMN_INSTANCE_COURSEID_NULL);
-                    } else {
-                        query.append(_FINDER_COLUMN_INSTANCE_COURSEID_5);
-                    }
-
-                    if ((i + 1) < courseIDs.length) {
-                        query.append(WHERE_OR);
-                    }
-                }
-
-                query.append(StringPool.CLOSE_PARENTHESIS);
-
-                conjunctionable = true;
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (courseIDs != null) {
-                    for (Integer courseID : courseIDs) {
-                        if (courseID != null) {
-                            qPos.add(courseID);
-                        }
-                    }
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_INSTANCE,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f packages where courseID = &#63;.
-     *
-     * @param courseID the course i d
-     * @return the number of matching l f packages
-     * @throws SystemException if a system exception occurred
-     */
+    @Override
     public int countByCourseID(Integer courseID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_COURSEID;
+
         Object[] finderArgs = new Object[] { courseID };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_COURSEID,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -2180,16 +1558,13 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_COURSEID,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -2198,11 +1573,562 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
     }
 
     /**
+     * Caches the l f package in the entity cache if it is enabled.
+     *
+     * @param lfPackage the l f package
+     */
+    @Override
+    public void cacheResult(LFPackage lfPackage) {
+        EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageImpl.class, lfPackage.getPrimaryKey(), lfPackage);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID,
+            new Object[] { lfPackage.getAssetRefID() }, lfPackage);
+
+        lfPackage.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f packages in the entity cache if it is enabled.
+     *
+     * @param lfPackages the l f packages
+     */
+    @Override
+    public void cacheResult(List<LFPackage> lfPackages) {
+        for (LFPackage lfPackage : lfPackages) {
+            if (EntityCacheUtil.getResult(
+                        LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+                        LFPackageImpl.class, lfPackage.getPrimaryKey()) == null) {
+                cacheResult(lfPackage);
+            } else {
+                lfPackage.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f packages.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFPackageImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFPackageImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f package.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFPackage lfPackage) {
+        EntityCacheUtil.removeResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageImpl.class, lfPackage.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(lfPackage);
+    }
+
+    @Override
+    public void clearCache(List<LFPackage> lfPackages) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFPackage lfPackage : lfPackages) {
+            EntityCacheUtil.removeResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+                LFPackageImpl.class, lfPackage.getPrimaryKey());
+
+            clearUniqueFindersCache(lfPackage);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(LFPackage lfPackage) {
+        if (lfPackage.isNew()) {
+            Object[] args = new Object[] { lfPackage.getAssetRefID() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_REFID, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID, args,
+                lfPackage);
+        } else {
+            LFPackageModelImpl lfPackageModelImpl = (LFPackageModelImpl) lfPackage;
+
+            if ((lfPackageModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_REFID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { lfPackage.getAssetRefID() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_REFID, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_REFID, args,
+                    lfPackage);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(LFPackage lfPackage) {
+        LFPackageModelImpl lfPackageModelImpl = (LFPackageModelImpl) lfPackage;
+
+        Object[] args = new Object[] { lfPackage.getAssetRefID() };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_REFID, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID, args);
+
+        if ((lfPackageModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_REFID.getColumnBitmask()) != 0) {
+            args = new Object[] { lfPackageModelImpl.getOriginalAssetRefID() };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_REFID, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_REFID, args);
+        }
+    }
+
+    /**
+     * Creates a new l f package with the primary key. Does not add the l f package to the database.
+     *
+     * @param id the primary key for the new l f package
+     * @return the new l f package
+     */
+    @Override
+    public LFPackage create(long id) {
+        LFPackage lfPackage = new LFPackageImpl();
+
+        lfPackage.setNew(true);
+        lfPackage.setPrimaryKey(id);
+
+        return lfPackage;
+    }
+
+    /**
+     * Removes the l f package with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param id the primary key of the l f package
+     * @return the l f package that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage remove(long id)
+        throws NoSuchLFPackageException, SystemException {
+        return remove((Serializable) id);
+    }
+
+    /**
+     * Removes the l f package with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f package
+     * @return the l f package that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage remove(Serializable primaryKey)
+        throws NoSuchLFPackageException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFPackage lfPackage = (LFPackage) session.get(LFPackageImpl.class,
+                    primaryKey);
+
+            if (lfPackage == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFPackageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfPackage);
+        } catch (NoSuchLFPackageException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFPackage removeImpl(LFPackage lfPackage)
+        throws SystemException {
+        lfPackage = toUnwrappedModel(lfPackage);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfPackage)) {
+                lfPackage = (LFPackage) session.get(LFPackageImpl.class,
+                        lfPackage.getPrimaryKeyObj());
+            }
+
+            if (lfPackage != null) {
+                session.delete(lfPackage);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfPackage != null) {
+            clearCache(lfPackage);
+        }
+
+        return lfPackage;
+    }
+
+    @Override
+    public LFPackage updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFPackage lfPackage)
+        throws SystemException {
+        lfPackage = toUnwrappedModel(lfPackage);
+
+        boolean isNew = lfPackage.isNew();
+
+        LFPackageModelImpl lfPackageModelImpl = (LFPackageModelImpl) lfPackage;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfPackage.isNew()) {
+                session.save(lfPackage);
+
+                lfPackage.setNew(false);
+            } else {
+                session.merge(lfPackage);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFPackageModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfPackageModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfPackageModelImpl.getOriginalCourseID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_INSTANCE, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE,
+                    args);
+
+                args = new Object[] { lfPackageModelImpl.getCourseID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_INSTANCE, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCE,
+                    args);
+            }
+
+            if ((lfPackageModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfPackageModelImpl.getOriginalCourseID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
+                    args);
+
+                args = new Object[] { lfPackageModelImpl.getCourseID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageImpl.class, lfPackage.getPrimaryKey(), lfPackage);
+
+        clearUniqueFindersCache(lfPackage);
+        cacheUniqueFindersCache(lfPackage);
+
+        return lfPackage;
+    }
+
+    protected LFPackage toUnwrappedModel(LFPackage lfPackage) {
+        if (lfPackage instanceof LFPackageImpl) {
+            return lfPackage;
+        }
+
+        LFPackageImpl lfPackageImpl = new LFPackageImpl();
+
+        lfPackageImpl.setNew(lfPackage.isNew());
+        lfPackageImpl.setPrimaryKey(lfPackage.getPrimaryKey());
+
+        lfPackageImpl.setId(lfPackage.getId());
+        lfPackageImpl.setDefaultOrganizationID(lfPackage.getDefaultOrganizationID());
+        lfPackageImpl.setTitle(lfPackage.getTitle());
+        lfPackageImpl.setBase(lfPackage.getBase());
+        lfPackageImpl.setResourcesBase(lfPackage.getResourcesBase());
+        lfPackageImpl.setSummary(lfPackage.getSummary());
+        lfPackageImpl.setAssetRefID(lfPackage.getAssetRefID());
+        lfPackageImpl.setCourseID(lfPackage.getCourseID());
+
+        return lfPackageImpl;
+    }
+
+    /**
+     * Returns the l f package with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f package
+     * @return the l f package
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFPackageException, SystemException {
+        LFPackage lfPackage = fetchByPrimaryKey(primaryKey);
+
+        if (lfPackage == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFPackageException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfPackage;
+    }
+
+    /**
+     * Returns the l f package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageException} if it could not be found.
+     *
+     * @param id the primary key of the l f package
+     * @return the l f package
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage findByPrimaryKey(long id)
+        throws NoSuchLFPackageException, SystemException {
+        return findByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns the l f package with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f package
+     * @return the l f package, or <code>null</code> if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFPackage lfPackage = (LFPackage) EntityCacheUtil.getResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+                LFPackageImpl.class, primaryKey);
+
+        if (lfPackage == _nullLFPackage) {
+            return null;
+        }
+
+        if (lfPackage == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfPackage = (LFPackage) session.get(LFPackageImpl.class,
+                        primaryKey);
+
+                if (lfPackage != null) {
+                    cacheResult(lfPackage);
+                } else {
+                    EntityCacheUtil.putResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+                        LFPackageImpl.class, primaryKey, _nullLFPackage);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+                    LFPackageImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfPackage;
+    }
+
+    /**
+     * Returns the l f package with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param id the primary key of the l f package
+     * @return the l f package, or <code>null</code> if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage fetchByPrimaryKey(long id) throws SystemException {
+        return fetchByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns all the l f packages.
+     *
+     * @return the l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f packages.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @return the range of l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findAll(int start, int end)
+        throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f packages.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFPACKAGE);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFPACKAGE;
+
+                if (pagination) {
+                    sql = sql.concat(LFPackageModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f packages from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFPackage lfPackage : findAll()) {
+            remove(lfPackage);
+        }
+    }
+
+    /**
      * Returns the number of l f packages.
      *
      * @return the number of l f packages
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -2216,21 +2142,25 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 Query q = session.createQuery(_SQL_COUNT_LFPACKAGE);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -2247,7 +2177,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFPackage>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -2260,6 +2190,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
     public void destroy() {
         EntityCacheUtil.removeCache(LFPackageImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 

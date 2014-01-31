@@ -24,72 +24,6 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
      */
 
     /**
-    * Caches the l f rule condition in the entity cache if it is enabled.
-    *
-    * @param lfRuleCondition the l f rule condition
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition);
-
-    /**
-    * Caches the l f rule conditions in the entity cache if it is enabled.
-    *
-    * @param lfRuleConditions the l f rule conditions
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRuleCondition> lfRuleConditions);
-
-    /**
-    * Creates a new l f rule condition with the primary key. Does not add the l f rule condition to the database.
-    *
-    * @param id the primary key for the new l f rule condition
-    * @return the new l f rule condition
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition create(
-        long id);
-
-    /**
-    * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f rule condition
-    * @return the l f rule condition that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f rule condition with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException} if it could not be found.
-    *
-    * @param id the primary key of the l f rule condition
-    * @return the l f rule condition
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f rule condition
-    * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f rule conditions where rollupRuleID = &#63;.
     *
     * @param rollupRuleID the rollup rule i d
@@ -104,7 +38,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns a range of all the l f rule conditions where rollupRuleID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param rollupRuleID the rollup rule i d
@@ -121,7 +55,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns an ordered range of all the l f rule conditions where rollupRuleID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param rollupRuleID the rollup rule i d
@@ -209,6 +143,25 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f rule conditions where rollupRuleID = &#63; from the database.
+    *
+    * @param rollupRuleID the rollup rule i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByRollup(java.lang.Integer rollupRuleID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f rule conditions where rollupRuleID = &#63;.
+    *
+    * @param rollupRuleID the rollup rule i d
+    * @return the number of matching l f rule conditions
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByRollup(java.lang.Integer rollupRuleID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f rule conditions where conditionRuleID = &#63;.
     *
     * @param conditionRuleID the condition rule i d
@@ -223,7 +176,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns a range of all the l f rule conditions where conditionRuleID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param conditionRuleID the condition rule i d
@@ -240,7 +193,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns an ordered range of all the l f rule conditions where conditionRuleID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param conditionRuleID the condition rule i d
@@ -328,6 +281,90 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f rule conditions where conditionRuleID = &#63; from the database.
+    *
+    * @param conditionRuleID the condition rule i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByCondition(java.lang.Integer conditionRuleID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f rule conditions where conditionRuleID = &#63;.
+    *
+    * @param conditionRuleID the condition rule i d
+    * @return the number of matching l f rule conditions
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByCondition(java.lang.Integer conditionRuleID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f rule condition in the entity cache if it is enabled.
+    *
+    * @param lfRuleCondition the l f rule condition
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition);
+
+    /**
+    * Caches the l f rule conditions in the entity cache if it is enabled.
+    *
+    * @param lfRuleConditions the l f rule conditions
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFRuleCondition> lfRuleConditions);
+
+    /**
+    * Creates a new l f rule condition with the primary key. Does not add the l f rule condition to the database.
+    *
+    * @param id the primary key for the new l f rule condition
+    * @return the new l f rule condition
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition create(
+        long id);
+
+    /**
+    * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f rule condition
+    * @return the l f rule condition that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f rule condition with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException} if it could not be found.
+    *
+    * @param id the primary key of the l f rule condition
+    * @return the l f rule condition
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f rule condition
+    * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFRuleCondition fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f rule conditions.
     *
     * @return the l f rule conditions
@@ -340,7 +377,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns a range of all the l f rule conditions.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f rule conditions
@@ -356,7 +393,7 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
     * Returns an ordered range of all the l f rule conditions.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f rule conditions
@@ -371,49 +408,11 @@ public interface LFRuleConditionPersistence extends BasePersistence<LFRuleCondit
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f rule conditions where rollupRuleID = &#63; from the database.
-    *
-    * @param rollupRuleID the rollup rule i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByRollup(java.lang.Integer rollupRuleID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f rule conditions where conditionRuleID = &#63; from the database.
-    *
-    * @param conditionRuleID the condition rule i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByCondition(java.lang.Integer conditionRuleID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f rule conditions from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f rule conditions where rollupRuleID = &#63;.
-    *
-    * @param rollupRuleID the rollup rule i d
-    * @return the number of matching l f rule conditions
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByRollup(java.lang.Integer rollupRuleID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f rule conditions where conditionRuleID = &#63;.
-    *
-    * @param conditionRuleID the condition rule i d
-    * @return the number of matching l f rule conditions
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByCondition(java.lang.Integer conditionRuleID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

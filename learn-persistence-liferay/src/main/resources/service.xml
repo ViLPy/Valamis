@@ -6,7 +6,7 @@
 <service-builder package-path="com.arcusys.learn.persistence.liferay">
     <namespace>Learn</namespace>
 
-    <entity name="LFFileStorage" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFFileStorage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="filename" type="String" convert-null="true"/>
         <column name="content" type="String" convert-null="true"/>
@@ -20,7 +20,7 @@
             </finder-column>
         </finder>
     </entity>
-    <entity name="LFQuiz" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFQuiz" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String" convert-null="true"/>
         <column name="description" type="String" convert-null="true"/>
@@ -32,7 +32,7 @@
             <finder-column name="courseID" arrayable-operator="OR"/>
         </finder>
     </entity>
-    <entity name="LFQuizQuestion" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFQuizQuestion" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="quizId" type="Integer"/>
         <column name="categoryId" type="Integer" convert-null="false"/>
@@ -52,7 +52,7 @@
         </finder>
     </entity>
 
-    <entity name="LFQuizQuestionCategory" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFQuizQuestionCategory" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String" convert-null="true"/>
         <column name="description" type="String" convert-null="true"/>
@@ -69,7 +69,7 @@
             <finder-column name="quizId"/>
         </finder>
     </entity>
-    <entity name="LFAnswer" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFAnswer" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="description" type="String" convert-null="true"/>
         <column name="correct" type="boolean"/>
@@ -84,7 +84,7 @@
             <finder-column name="questionId"/>
         </finder>
     </entity>
-    <entity name="LFQuestionCategory" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFQuestionCategory" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String" convert-null="true"/>
         <column name="description" type="String" convert-null="true"/>
@@ -101,7 +101,7 @@
             <finder-column name="parentId" arrayable-operator="OR"/>
         </finder>
     </entity>
-    <entity name="LFQuestion" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFQuestion" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="categoryId" type="Integer" convert-null="false"/>
         <column name="title" type="String" convert-null="true"/>
@@ -118,7 +118,7 @@
             <finder-column name="categoryId" arrayable-operator="OR"/>
         </finder>
     </entity>
-    <entity name="LFAttemptData" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFAttemptData" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="dataKey" type="String" convert-null="true"/>
         <column name="dataValue" type="String"/>
@@ -147,7 +147,7 @@
         </finder>
     </entity>
 
-    <entity name="LFActivityDataMap" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFActivityDataMap" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="activityID" type="String" convert-null="true"/>
@@ -160,7 +160,7 @@
             <finder-column name="activityID"/>
         </finder>
     </entity>
-    <entity name="LFCourse" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFCourse" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="courseID" type="Integer"/>
         <column name="userID" type="Integer"/>
@@ -177,7 +177,7 @@
             <finder-column name="grade"/>
         </finder>
     </entity>
-    <entity name="LFUser" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFUser" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="lfid" type="long" primary="true"/>
         <column name="id" type="Integer"/>
         <column name="name" type="String" convert-null="true"/>
@@ -195,7 +195,7 @@
         </finder>
     </entity>
 
-    <entity name="LFPlayerScopeRule" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFPlayerScopeRule" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="playerID" type="String" convert-null="true"/>
         <column name="scope" type="String" convert-null="true"/>
@@ -205,7 +205,7 @@
         </finder>
     </entity>
 
-    <entity name="LFSequencingTracking" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFSequencingTracking" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="completionSetByContent" type="boolean"/>
@@ -215,7 +215,7 @@
         </finder>
     </entity>
 
-    <entity name="LFSequencingPermissions" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFSequencingPermissions" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="choiceForChildren" type="boolean"/>
@@ -227,7 +227,7 @@
         </finder>
     </entity>
 
-    <entity name="LFObjectiveMap" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFObjectiveMap" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="objectiveID" type="Integer"/>
         <column name="readSatisfiedStatusFrom" type="String"/>
@@ -250,7 +250,7 @@
         </finder>
     </entity>
 
-    <entity name="LFBigDecimal" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFBigDecimal" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="decimal" type="BigDecimal"/>
         <column name="text" type="String"/>
@@ -260,7 +260,7 @@
         </finder>
     </entity>
 
-    <entity name="LFRuleCondition" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFRuleCondition" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="conditionType" type="String" convert-null="true"/>
         <column name="objectiveId" type="String"/>
@@ -276,7 +276,7 @@
             <finder-column name="conditionRuleID"/>
         </finder>
     </entity>
-    <entity name="LFObjective" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFObjective" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="lfId" type="long" primary="true"/>
 
         <column name="sequencingID" type="Integer"/>
@@ -296,7 +296,7 @@
         </finder>
     </entity>
 
-    <entity name="LFResource" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFResource" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="scormType" type="String"/>
@@ -314,7 +314,7 @@
         </finder>
     </entity>
 
-    <entity name="LFObjectiveState" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFObjectiveState" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="satisfied" type="Boolean"/>
         <column name="normalizedMeasure" type="BigDecimal"/>
@@ -332,7 +332,7 @@
         </finder>
     </entity>
 
-    <entity name="LFChildrenSelection" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFChildrenSelection" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="takeCount" type="Integer"/>
@@ -343,7 +343,7 @@
             <finder-column name="sequencingID"/>
         </finder>
     </entity>
-    <entity name="LFGlobalObjectiveState" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFGlobalObjectiveState" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="satisfied" type="Boolean"/>
         <column name="normalizedMeasure" type="BigDecimal"/>
@@ -360,7 +360,7 @@
             <finder-column name="mapKey"/>
         </finder>
     </entity>
-    <entity name="LFRollupContribution" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFRollupContribution" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="contributeToSatisfied" type="String" convert-null="false"/>
@@ -375,7 +375,7 @@
         </finder>
     </entity>
 
-    <entity name="LFConditionRule" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFConditionRule" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="combination" type="String" convert-null="true"/>
@@ -391,7 +391,7 @@
         </finder>
     </entity>
 
-    <entity name="LFRollupRule" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFRollupRule" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="sequencingID" type="Integer"/>
         <column name="combination" type="String" convert-null="true"/>
@@ -405,7 +405,7 @@
         </finder>
     </entity>
 
-    <entity name="LFSequencing" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFSequencing" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="activityID" type="String" convert-null="true"/>
@@ -426,7 +426,7 @@
 
     </entity>
 
-    <entity name="LFActivity" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="indexNumber" type="long" primary="true"/>
         <column name="id" type="String"/>
         <column name="packageID" type="Integer"/>
@@ -462,7 +462,7 @@
         </finder>
     </entity>
 
-    <entity name="LFActivityState" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFActivityState" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="activityID" type="String"/>
@@ -499,7 +499,7 @@
         </finder>
     </entity>
 
-    <entity name="LFActivityStateNode" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFActivityStateNode" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="parentID" type="Integer" convert-null="false"/>
         <column name="treeID" type="Integer"/>
@@ -515,7 +515,7 @@
         </finder>
     </entity>
 
-    <entity name="LFActivityStateTree" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFActivityStateTree" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="currentActivityID" type="String"/>
         <column name="suspendedActivityID" type="String"/>
@@ -526,7 +526,7 @@
         </finder>
     </entity>
 
-    <entity name="LFAttempt" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFAttempt" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="userID" type="Integer"/>
         <column name="packageID" type="Integer"/>
@@ -548,7 +548,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanLrsDocument" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsDocument" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="documentId" type="String" />
         <column name="update" type="Date" />
@@ -559,7 +559,7 @@
             <finder-column name="documentId"/>
         </finder>
     </entity>
-    <entity name="LFTincanLrsActivityProfile" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsActivityProfile" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="documentId" type="Integer" />
         <column name="activityId" type="String" />
@@ -570,7 +570,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanLrsAgentProfile" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsAgentProfile" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="documentId" type="Integer" />
         <column name="agentId" type="Integer" />
@@ -593,7 +593,7 @@
         <!--</finder>-->
     </entity>
 
-    <entity name="LFTincanLrsStatement" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsStatement" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="tincanID" type="String" />
         <column name="actorID" type="Integer" />
@@ -626,7 +626,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanLrsSubStatement" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsSubStatement" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="actorID" type="Integer" />
         <column name="verbID" type="String" />
@@ -635,12 +635,12 @@
         <column name="objID" type="Integer" />
     </entity>
 
-    <entity name="LFTincanLrsStatementRef" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsStatementRef" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="uuid" type="String" />
     </entity>
 
-    <entity name="LFTincanLrsAttachment" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsAttachment" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="parentID" type="Integer" />
         <column name="usageType" type="String" />
@@ -656,7 +656,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanLrsResult" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsResult" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="score" type="String" />
         <column name="success" type="Boolean" />
@@ -666,7 +666,7 @@
         <column name="extension" type="String" />
     </entity>
 
-    <entity name="LFTincanLrsContext" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsContext" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="registration" type="String" />
         <column name="instructorID" type="Integer" />
@@ -679,7 +679,7 @@
         <column name="extensions" type="String" />
     </entity>
 
-    <entity name="LFTincanLrsContextActivities" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsContextActivities" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="parent" type="String" />
         <column name="grouping" type="String" />
@@ -687,7 +687,7 @@
         <column name="other" type="String" />
     </entity>
 
-    <entity name="LFTincanLrsState" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsState" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="stateId" type="String" />
         <column name="documentId" type="String" />
@@ -706,14 +706,14 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanLrsEndpoint" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanLrsEndpoint" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="endpoint" type="String" />
         <column name="authType" type="String" />
         <column name="key" type="String" />
         <column name="secret" type="String" />
     </entity>
-    <entity name="LFTincanPackage" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanPackage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String"/>
         <column name="summary" type="String" convert-null="false"/>
@@ -732,7 +732,7 @@
             <finder-column name="courseID"/>
         </finder>
     </entity>
-    <entity name="LFTincanManifestActivity" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanManifestActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="tincanID" type="String"/>
         <column name="packageID" type="Long"/>
@@ -751,7 +751,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanActivity" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="tincanID" type="String"/>
         <column name="packageID" type="Long"/>
@@ -778,7 +778,7 @@
         </finder>
     </entity>
 
-    <entity name="LFTincanActor" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFTincanActor" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="tincanID" type="String"/>
         <!--<column name="packageID" type="Long"/>-->
@@ -811,7 +811,7 @@
         </finder>
     </entity>
 
-    <entity name="LFPackage" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFPackage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="defaultOrganizationID" type="String" convert-null="false"/>
         <column name="title" type="String" convert-null="true"/>
@@ -841,7 +841,7 @@
         </finder>
     </entity>
 
-    <entity name="LFPackageScopeRule" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFPackageScopeRule" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="scope" type="String" convert-null="true"/>
@@ -886,7 +886,7 @@
     </entity>
 
 
-    <entity name="LFCertificate" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFCertificate" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String" convert-null="true"/>
         <column name="description" type="String" convert-null="true"/>
@@ -904,7 +904,54 @@
             <finder-column name="title" comparator="LIKE"/>
         </finder>
     </entity>
-    <entity name="LFCertificateSite" local-service="true" remote-service="false" json-enabled="false">
+
+    <entity name="LFAchievement" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="title" type="String"/>
+        <column name="description" type="String"/>
+        <column name="logo" type="String"/>
+        <column name="creationDate" type="Date"/>
+    </entity>
+
+    <entity name="LFRequiredActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="achievementId" type="Integer" />
+        <column name="activityClassName" type="String"/>
+        <column name="numberActivitiesRequired" type="Integer"/>
+        <finder name="AchievementId" return-type="Collection">
+            <finder-column name="achievementId"/>
+        </finder>
+    </entity>
+
+    <entity name="LFAchievementActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="userId" type="Integer" />
+        <column name="achievementId" type="Integer"/>
+        <finder name="AchievementId" return-type="Collection">
+            <finder-column name="achievementId"/>
+        </finder>
+        <finder name="UserId" return-type="Collection">
+            <finder-column name="userId"/>
+        </finder>
+        <finder name="AllByAchievementAndUserId" return-type="Collection">
+            <finder-column name="userId"/>
+            <finder-column name="achievementId"/>
+        </finder>
+    </entity>
+
+    <entity name="LFAchievementUser" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="userId" type="Integer" />
+        <column name="achievementId" type="Integer"/>
+        <finder name="UserId" return-type="Collection">
+            <finder-column name="userId"/>
+        </finder>
+        <finder name="AchievementId" return-type="Collection">
+            <finder-column name="achievementId"/>
+        </finder>
+    </entity>
+
+    <entity name="LFCertificateSite" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="certificateID" type="Integer"/>
         <column name="siteID" type="Integer"/>
@@ -918,7 +965,7 @@
             <finder-column name="siteID"/>
         </finder>
     </entity>
-    <entity name="LFCertificateUser" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFCertificateUser" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="certificateID" type="Integer"/>
         <column name="userID" type="Integer"/>
@@ -934,7 +981,7 @@
         </finder>
     </entity>
 
-    <entity name="LFSocialPackage" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFSocialPackage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="packageID" type="Integer"/>
         <column name="aboutPackage" type="String"/>
@@ -946,7 +993,7 @@
         </finder>
     </entity>
 
-    <entity name="LFSocialPackageTag" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFSocialPackageTag" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="socialPackageID" type="Integer"/>
         <column name="name" type="String"/>
@@ -960,7 +1007,7 @@
         </finder>
     </entity>
 
-    <entity name="LFPackageVote" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFPackageVote" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="userID" type="Integer"/>
         <column name="socialPackageID" type="Integer"/>
@@ -971,7 +1018,7 @@
         </finder>
     </entity>
 
-    <entity name="LFPackageComment" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFPackageComment" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="socialPackageID" type="Integer"/>
         <column name="authorID" type="Integer"/>
@@ -983,7 +1030,7 @@
         </finder>
     </entity>
 
-    <entity name="LFRole" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFRole" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="liferayRoleID" type="Integer"/>
         <column name="permission" type="String" convert-null="true"/>
@@ -1002,7 +1049,7 @@
         </finder>
     </entity>
 
-    <entity name="LFConfig" local-service="true" remote-service="false" json-enabled="false">
+    <entity name="LFConfig" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="dataKey" type="String" convert-null="true"/>
         <column name="dataValue" type="String" convert-null="true"/>

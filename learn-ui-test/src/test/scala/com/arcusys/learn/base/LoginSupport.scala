@@ -1,16 +1,9 @@
 package com.arcusys.learn.base
 
 import org.openqa.selenium._
-import java.util.concurrent.TimeUnit
 
 trait LoginSupport extends UITestBase {
-  val driver: WebDriver
-
-  private val adminLogin = "test@liferay.com"
-  private val adminPassword = "test"
-
-  protected val studentLogin = "student@liferay.com"
-  private val studentPassword = "test"
+  val driver: WebDriverArcusys
 
   def loginAsAdmin() {
     login(adminLogin, adminPassword)
@@ -26,9 +19,9 @@ trait LoginSupport extends UITestBase {
 
   private def login(name: String, password: String) {
     driver.get(baseUrl + "/c/portal/login")
-    val loginField = driver.findElement(By.id("_58_login"))
-    val passwordField = driver.findElement(By.id("_58_password"))
-    val loginForm = driver.findElement(By.id("_58_fm"))
+    val loginField = driver.getVisibleElementAfterWaitBy(By.id("_58_login"))
+    val passwordField = driver.getVisibleElementAfterWaitBy(By.id("_58_password"))
+    val loginForm = driver.getVisibleElementAfterWaitBy(By.id("_58_fm"))
 
     loginField.clear()
     loginField.sendKeys(name)
@@ -36,6 +29,8 @@ trait LoginSupport extends UITestBase {
     passwordField.sendKeys(password)
     loginForm.submit()
 
-    driver.manage.timeouts.implicitlyWait(10, TimeUnit.SECONDS)
+    driver.getVisibleElementAfterWaitBy(By.className("dockbar"))
+
+//    driver.manage.timeouts.implicitlyWait(10,TimeUnit.SECONDS) // TODO: remove after test refactoring
   }
 }

@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceU
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFQuizQuestionLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,20 +41,20 @@ public class LFQuizQuestionLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
-    private String _methodName270;
-    private String[] _methodParameterTypes270;
-    private String _methodName271;
-    private String[] _methodParameterTypes271;
-    private String _methodName272;
-    private String[] _methodParameterTypes272;
-    private String _methodName273;
-    private String[] _methodParameterTypes273;
-    private String _methodName274;
-    private String[] _methodParameterTypes274;
+    private String _methodName276;
+    private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
+    private String _methodName282;
+    private String[] _methodParameterTypes282;
+    private String _methodName283;
+    private String[] _methodParameterTypes283;
+    private String _methodName284;
+    private String[] _methodParameterTypes284;
+    private String _methodName285;
+    private String[] _methodParameterTypes285;
+    private String _methodName286;
+    private String[] _methodParameterTypes286;
 
     public LFQuizQuestionLocalServiceClpInvoker() {
         _methodName0 = "addLFQuizQuestion";
@@ -103,68 +106,68 @@ public class LFQuizQuestionLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFQuizQuestion";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFQuizQuestion";
+        _methodName10 = "fetchLFQuizQuestion";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFQuizQuestion";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFQuizQuestions";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFQuizQuestionsCount";
+        _methodName13 = "getLFQuizQuestions";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFQuizQuestion";
+        _methodName14 = "getLFQuizQuestionsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFQuizQuestion"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFQuizQuestion";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFQuizQuestion",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFQuizQuestion"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
 
-        _methodName270 = "createLFQuizQuestion";
+        _methodName282 = "createLFQuizQuestion";
 
-        _methodParameterTypes270 = new String[] {  };
+        _methodParameterTypes282 = new String[] {  };
 
-        _methodName271 = "findByQuizID";
+        _methodName283 = "findByQuizID";
 
-        _methodParameterTypes271 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes283 = new String[] { "java.lang.Integer" };
 
-        _methodName272 = "findByQuizAndCategory";
+        _methodName284 = "findByQuizAndCategory";
 
-        _methodParameterTypes272 = new String[] {
+        _methodParameterTypes284 = new String[] {
                 "java.lang.Integer", "java.lang.Integer"
             };
 
-        _methodName273 = "removeAll";
+        _methodName285 = "removeAll";
 
-        _methodParameterTypes273 = new String[] {  };
+        _methodParameterTypes285 = new String[] {  };
 
-        _methodName274 = "getLFQuizQuestion";
+        _methodName286 = "getLFQuizQuestion";
 
-        _methodParameterTypes274 = new String[] { "long" };
+        _methodParameterTypes286 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -221,78 +224,78 @@ public class LFQuizQuestionLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.fetchLFQuizQuestion(((Long) arguments[0]).longValue());
+            return LFQuizQuestionLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestion(((Long) arguments[0]).longValue());
+            return LFQuizQuestionLocalServiceUtil.fetchLFQuizQuestion(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestion(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestions(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFQuizQuestionLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestionsCount();
+            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestions(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.updateLFQuizQuestion((com.arcusys.learn.persistence.liferay.model.LFQuizQuestion) arguments[0]);
+            return LFQuizQuestionLocalServiceUtil.getLFQuizQuestionsCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFQuizQuestionLocalServiceUtil.updateLFQuizQuestion((com.arcusys.learn.persistence.liferay.model.LFQuizQuestion) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFQuizQuestionLocalServiceUtil.updateLFQuizQuestion((com.arcusys.learn.persistence.liferay.model.LFQuizQuestion) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFQuizQuestionLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFQuizQuestionLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName270.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes270, parameterTypes)) {
+        if (_methodName282.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes282, parameterTypes)) {
             return LFQuizQuestionLocalServiceUtil.createLFQuizQuestion();
         }
 
-        if (_methodName271.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes271, parameterTypes)) {
+        if (_methodName283.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes283, parameterTypes)) {
             return LFQuizQuestionLocalServiceUtil.findByQuizID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName272.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes272, parameterTypes)) {
+        if (_methodName284.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes284, parameterTypes)) {
             return LFQuizQuestionLocalServiceUtil.findByQuizAndCategory((java.lang.Integer) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName273.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes273, parameterTypes)) {
+        if (_methodName285.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes285, parameterTypes)) {
             LFQuizQuestionLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName274.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes274, parameterTypes)) {
+        if (_methodName286.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
             return LFQuizQuestionLocalServiceUtil.getLFQuizQuestion(((Long) arguments[0]).longValue());
         }
 

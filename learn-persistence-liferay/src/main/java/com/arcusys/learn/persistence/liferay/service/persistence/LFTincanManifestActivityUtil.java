@@ -50,7 +50,7 @@ public class LFTincanManifestActivityUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -84,102 +84,21 @@ public class LFTincanManifestActivityUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFTincanManifestActivity update(
-        LFTincanManifestActivity lfTincanManifestActivity, boolean merge)
+        LFTincanManifestActivity lfTincanManifestActivity)
         throws SystemException {
-        return getPersistence().update(lfTincanManifestActivity, merge);
+        return getPersistence().update(lfTincanManifestActivity);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanManifestActivity update(
-        LFTincanManifestActivity lfTincanManifestActivity, boolean merge,
+        LFTincanManifestActivity lfTincanManifestActivity,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence()
-                   .update(lfTincanManifestActivity, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan manifest activity in the entity cache if it is enabled.
-    *
-    * @param lfTincanManifestActivity the l f tincan manifest activity
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity lfTincanManifestActivity) {
-        getPersistence().cacheResult(lfTincanManifestActivity);
-    }
-
-    /**
-    * Caches the l f tincan manifest activities in the entity cache if it is enabled.
-    *
-    * @param lfTincanManifestActivities the l f tincan manifest activities
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity> lfTincanManifestActivities) {
-        getPersistence().cacheResult(lfTincanManifestActivities);
-    }
-
-    /**
-    * Creates a new l f tincan manifest activity with the primary key. Does not add the l f tincan manifest activity to the database.
-    *
-    * @param id the primary key for the new l f tincan manifest activity
-    * @return the new l f tincan manifest activity
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan manifest activity with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan manifest activity
-    * @return the l f tincan manifest activity that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException if a l f tincan manifest activity with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity lfTincanManifestActivity,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanManifestActivity, merge);
-    }
-
-    /**
-    * Returns the l f tincan manifest activity with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan manifest activity
-    * @return the l f tincan manifest activity
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException if a l f tincan manifest activity with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan manifest activity with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan manifest activity
-    * @return the l f tincan manifest activity, or <code>null</code> if a l f tincan manifest activity with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfTincanManifestActivity, serviceContext);
     }
 
     /**
@@ -199,7 +118,7 @@ public class LFTincanManifestActivityUtil {
     * Returns a range of all the l f tincan manifest activities where packageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -218,7 +137,7 @@ public class LFTincanManifestActivityUtil {
     * Returns an ordered range of all the l f tincan manifest activities where packageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -324,6 +243,29 @@ public class LFTincanManifestActivityUtil {
     }
 
     /**
+    * Removes all the l f tincan manifest activities where packageID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByPackageID(java.lang.Long packageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByPackageID(packageID);
+    }
+
+    /**
+    * Returns the number of l f tincan manifest activities where packageID = &#63;.
+    *
+    * @param packageID the package i d
+    * @return the number of matching l f tincan manifest activities
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByPackageID(java.lang.Long packageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByPackageID(packageID);
+    }
+
+    /**
     * Returns the l f tincan manifest activity where tincanID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException} if it could not be found.
     *
     * @param tincanID the tincan i d
@@ -366,6 +308,111 @@ public class LFTincanManifestActivityUtil {
     }
 
     /**
+    * Removes the l f tincan manifest activity where tincanID = &#63; from the database.
+    *
+    * @param tincanID the tincan i d
+    * @return the l f tincan manifest activity that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity removeByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByTincanID(tincanID);
+    }
+
+    /**
+    * Returns the number of l f tincan manifest activities where tincanID = &#63;.
+    *
+    * @param tincanID the tincan i d
+    * @return the number of matching l f tincan manifest activities
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByTincanID(java.lang.String tincanID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByTincanID(tincanID);
+    }
+
+    /**
+    * Caches the l f tincan manifest activity in the entity cache if it is enabled.
+    *
+    * @param lfTincanManifestActivity the l f tincan manifest activity
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity lfTincanManifestActivity) {
+        getPersistence().cacheResult(lfTincanManifestActivity);
+    }
+
+    /**
+    * Caches the l f tincan manifest activities in the entity cache if it is enabled.
+    *
+    * @param lfTincanManifestActivities the l f tincan manifest activities
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity> lfTincanManifestActivities) {
+        getPersistence().cacheResult(lfTincanManifestActivities);
+    }
+
+    /**
+    * Creates a new l f tincan manifest activity with the primary key. Does not add the l f tincan manifest activity to the database.
+    *
+    * @param id the primary key for the new l f tincan manifest activity
+    * @return the new l f tincan manifest activity
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan manifest activity with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan manifest activity
+    * @return the l f tincan manifest activity that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException if a l f tincan manifest activity with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity lfTincanManifestActivity)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanManifestActivity);
+    }
+
+    /**
+    * Returns the l f tincan manifest activity with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan manifest activity
+    * @return the l f tincan manifest activity
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException if a l f tincan manifest activity with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan manifest activity with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan manifest activity
+    * @return the l f tincan manifest activity, or <code>null</code> if a l f tincan manifest activity with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f tincan manifest activities.
     *
     * @return the l f tincan manifest activities
@@ -380,7 +427,7 @@ public class LFTincanManifestActivityUtil {
     * Returns a range of all the l f tincan manifest activities.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan manifest activities
@@ -398,7 +445,7 @@ public class LFTincanManifestActivityUtil {
     * Returns an ordered range of all the l f tincan manifest activities.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan manifest activities
@@ -415,31 +462,6 @@ public class LFTincanManifestActivityUtil {
     }
 
     /**
-    * Removes all the l f tincan manifest activities where packageID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByPackageID(java.lang.Long packageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByPackageID(packageID);
-    }
-
-    /**
-    * Removes the l f tincan manifest activity where tincanID = &#63; from the database.
-    *
-    * @param tincanID the tincan i d
-    * @return the l f tincan manifest activity that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity removeByTincanID(
-        java.lang.String tincanID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanManifestActivityException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByTincanID(tincanID);
-    }
-
-    /**
     * Removes all the l f tincan manifest activities from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -447,30 +469,6 @@ public class LFTincanManifestActivityUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan manifest activities where packageID = &#63;.
-    *
-    * @param packageID the package i d
-    * @return the number of matching l f tincan manifest activities
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByPackageID(java.lang.Long packageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByPackageID(packageID);
-    }
-
-    /**
-    * Returns the number of l f tincan manifest activities where tincanID = &#63;.
-    *
-    * @param tincanID the tincan i d
-    * @return the number of matching l f tincan manifest activities
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByTincanID(java.lang.String tincanID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByTincanID(tincanID);
     }
 
     /**
@@ -497,7 +495,7 @@ public class LFTincanManifestActivityUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanManifestActivityPersistence persistence) {
     }

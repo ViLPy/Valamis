@@ -5,17 +5,47 @@
         <groupId>com.arcusys.learn</groupId>
         <version>1.7-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>learn-servicebuilder</artifactId>
+    <artifactId>learn-maven-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
+
+    <url>http://www.arcusys.fi</url>
 
     <properties>
         <serviceBuilder.baseModule>${project.basedir}/../learn-persistence-liferay/</serviceBuilder.baseModule>
         <serviceBuilder.targetDir>${project.basedir}/../learn-portlet/src/main/webapp/WEB-INF/</serviceBuilder.targetDir>
+        <plugin.servlet.context.name>blbabalbal</plugin.servlet.context.name>
     </properties>
 
     <build>
-        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <goalPrefix>learn-maven-plugin</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>help-goal</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -37,6 +67,7 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <version>2.5</version>
                     </plugin>
                     <plugin>
                         <!-- Override default Liferay's template for service.properties file -->
@@ -96,17 +127,25 @@
                                             <value>/servicebuilder/template/custom/service_clp_invoker.ftl</value>
                                         </property>
 
+                                        <property>
+                                            <name>plugin.servlet.context.name</name>
+                                            <value />
+                                        </property>
                                     </properties>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
                     <plugin>
+                        <!--
                         <groupId>com.liferay.maven.plugins</groupId>
                         <artifactId>liferay-maven-plugin</artifactId>
-                        <version>${liferay.version}</version>
+                        <version>${liferay.maven.plugin.version}</version>
+                        -->
+                        <groupId>com.arcusys.learn</groupId>
+                        <artifactId>learn-maven-plugin</artifactId>
+                        <version>1.7-SNAPSHOT</version>
                         <dependencies>
-                            <!-- Woodoo magic: override Liferay's ServiceBuilder, used by plugin -->
                             <dependency>
                                 <groupId>${project.groupId}</groupId>
                                 <artifactId>${project.artifactId}</artifactId>
@@ -115,6 +154,21 @@
                             <dependency>
                                 <groupId>com.liferay.portal</groupId>
                                 <artifactId>portal-impl</artifactId>
+                                <version>${liferay.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.liferay.portal</groupId>
+                                <artifactId>util-bridges</artifactId>
+                                <version>${liferay.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.liferay.portal</groupId>
+                                <artifactId>util-java</artifactId>
+                                <version>${liferay.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.liferay.portal</groupId>
+                                <artifactId>portal-service</artifactId>
                                 <version>${liferay.version}</version>
                             </dependency>
                             <dependency>
@@ -170,46 +224,78 @@
     </profiles>
 
     <dependencies>
+        <!-- Standard ServiceBuilder -->
         <dependency>
             <groupId>com.liferay.maven.plugins</groupId>
             <artifactId>liferay-maven-plugin</artifactId>
-            <version>${liferay.version}</version>
-
+            <version>${liferay.maven.plugin.version}</version>
         </dependency>
+
+        <!-- Maven Plugin project dependencies -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Liferay dependencies -->
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>portal-impl</artifactId>
             <version>${liferay.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>portal-service</artifactId>
             <version>${liferay.version}</version>
-            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>util-bridges</artifactId>
             <version>${liferay.version}</version>
-            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>util-taglib</artifactId>
             <version>${liferay.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>util-java</artifactId>
             <version>${liferay.version}</version>
-            <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>3.0.5.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>com.thoughtworks.qdox</groupId>
             <artifactId>qdox</artifactId>
@@ -221,16 +307,17 @@
             <artifactId>dom4j</artifactId>
             <version>1.6.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.17</version>
         </dependency>
+
         <dependency>
             <groupId>jalopy</groupId>
             <artifactId>jalopy</artifactId>
             <version>1.5rc3</version>
         </dependency>
-
     </dependencies>
 </project>

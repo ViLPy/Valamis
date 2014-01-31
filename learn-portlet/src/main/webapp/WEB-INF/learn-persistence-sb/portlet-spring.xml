@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" default-lazy-init="true" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFAchievementLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFAchievementLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFAchievementActivityLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementActivityPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFAchievementUserLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementUserPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementUserPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFActivityLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFActivityDataMapLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFActivityDataMapLocalServiceImpl" />
@@ -63,6 +69,8 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFQuizQuestionCategoryLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRequiredActivityLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFRequiredActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFRequiredActivityPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFResourceLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFResourceLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFRoleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRoleLocalServiceImpl" />

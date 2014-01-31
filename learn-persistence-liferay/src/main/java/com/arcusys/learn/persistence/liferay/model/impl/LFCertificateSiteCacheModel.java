@@ -5,17 +5,20 @@ import com.arcusys.learn.persistence.liferay.model.LFCertificateSite;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFCertificateSite in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFCertificateSite
-* @generated
-*/
+ * The cache model class for representing LFCertificateSite in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFCertificateSite
+ * @generated
+ */
 public class LFCertificateSiteCacheModel implements CacheModel<LFCertificateSite>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer certificateID;
     public Integer siteID;
@@ -38,6 +41,7 @@ public class LFCertificateSiteCacheModel implements CacheModel<LFCertificateSite
         return sb.toString();
     }
 
+    @Override
     public LFCertificateSite toEntityModel() {
         LFCertificateSiteImpl lfCertificateSiteImpl = new LFCertificateSiteImpl();
 
@@ -49,5 +53,22 @@ public class LFCertificateSiteCacheModel implements CacheModel<LFCertificateSite
         lfCertificateSiteImpl.resetOriginalValues();
 
         return lfCertificateSiteImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        certificateID = objectInput.readInt();
+        siteID = objectInput.readInt();
+        arrangementIndex = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(certificateID);
+        objectOutput.writeInt(siteID);
+        objectOutput.writeInt(arrangementIndex);
     }
 }

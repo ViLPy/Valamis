@@ -1,13 +1,13 @@
 package com.arcusys.learn.curriculum
 
-import org.openqa.selenium.{Keys, WebElement, By, WebDriver}
+import org.openqa.selenium.{WebElement, By}
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.UITestBase
+import com.arcusys.learn.base.{WebDriverArcusys, UITestBase}
 import org.junit.Assert._
 
 
-class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase with UICurriculumBase {
+class CurriculumManagementTest(_driver: WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with UITestBase with UICurriculumBase {
   val driver = _driver
 
   "Curriculum management" should "be able to create more certificates" in {
@@ -16,9 +16,8 @@ class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec w
     addCertificate("test x3")
     addCertificate("xxx yyy")
 
-    driver.findElement(By.partialLinkText(manager)).click()
-    wait(1)
-    assertAmount(4)
+    driver.getVisibleElementAfterWaitBy(By.partialLinkText(manager)).click()
+    assertAmount(6)
   }
 
   it should "be able to search across certificates" in {
@@ -26,38 +25,41 @@ class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec w
     assertAmount(2)
 
     search("cert")
-    assertAmount(2)
+    assertAmount(4)
 
     search("y")
-    assertAmount(1)
+    assertAmount(2)
 
     search("")
-    assertAmount(4)
+    assertAmount(6)
   }
 
   it should "be able to sort" in {
-    driver.findElement(By.id("sortList")).click()
-    assertAmount(4)
+    driver.getVisibleElementAfterWaitBy(By.id("sortList")).click()
+    assertAmount(6)
     assertTitleInList("xxx yyy", 1)
     assertTitleInList("test x3", 2)
     assertTitleInList("Test cert1", 3)
-    assertTitleInList("certificate2", 4)
+    assertTitleInList(permanentCertificateName, 4)
+    assertTitleInList("certificate2", 5)
+    assertTitleInList(yearCertificateName, 6)
 
-
-    driver.findElement(By.id("sortList")).click()
-    assertTitleInList("certificate2", 1)
-    assertTitleInList("Test cert1", 2)
-    assertTitleInList("test x3", 3)
-    assertTitleInList("xxx yyy", 4)
+    driver.getVisibleElementAfterWaitBy(By.id("sortList")).click()
+    assertTitleInList(yearCertificateName, 1)
+    assertTitleInList("certificate2", 2)
+    assertTitleInList(permanentCertificateName, 3)
+    assertTitleInList("Test cert1", 4)
+    assertTitleInList("test x3", 5)
+    assertTitleInList("xxx yyy", 6)
   }
 
-  it should "be able to delete site and it is not able to be found in list" in {
-    deleteCertificate()
-    assertAmount(3)
+  it should "be able to delete certificate and it is not able to be found in list" in {
+    deleteCertificate("certificate2")
+    assertAmount(5)
     search("2")
     assertAmount(0)
     search("")
-    assertAmount(3)
+    assertAmount(5)
   }
 
   val name1 = "Aaa"
@@ -66,8 +68,6 @@ class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec w
   val name4 = "Ccc"
   val name5 = "Ddd"
   val name6 = "DE"
-  val name7 = "Eee"
-  val name8 = "Fff"
   it should "show paging if many certificates" in {
     addCertificate(name1)
     addCertificate(name2)
@@ -75,73 +75,67 @@ class CurriculumManagementTest(_driver: WebDriver) extends Suite with FlatSpec w
     addCertificate(name4)
     addCertificate(name5)
     addCertificate(name6)
-    addCertificate(name7)
-    addCertificate(name8)
-    driver.findElement(By.partialLinkText(manager)).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.partialLinkText(manager)).click()
     assertAmount(11)
 
     driver.get(baseUrl + curriculumUrl)
     assertAmount(10)
-    assertTrue(isElementPresent(By.id("allCertificatesPaginator")))
-    assertEquals("Prev", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/span")).getText)
-    assertEquals("1", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[2]/span")).getText)
-    assertEquals("2", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]")).getText)
-    assertEquals("Next", driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[4]")).getText)
+    driver.waitForElementVisibleBy(By.id("allCertificatesPaginator"))
+//    assertTrue(isElementPresent())
+    assertEquals("Prev", driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/span")).getText)
+    assertEquals("1", driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[2]/span")).getText)
+    assertEquals("2", driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]")).getText)
+    assertEquals("Next", driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[4]")).getText)
 
-    driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]/a")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[3]/a")).click()
     assertAmount(1)
     assertTitleInList("xxx yyy", 1)
 
-    driver.findElement(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/a")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"allCertificatesPaginator\"]/ul/li[1]/a")).click()
     assertAmount(10)
 
   }
 
   it should "delete unnecessary certificates" in {
     driver.get(baseUrl + curriculumUrl)
-    assertTitleInList(name1, 1)
-    deleteCertificate()
+    assertTitleInList(yearCertificateName, 1)
 
-    assertTitleInList(name2, 1)
-    deleteCertificate()
+    assertTitleInList(name1, 2)
+    deleteCertificate(name1)
 
-    assertTitleInList(name3, 1)
-    deleteCertificate()
+    assertTitleInList(name2, 2)
+    deleteCertificate(name2)
 
-    assertTitleInList(name4, 1)
-    deleteCertificate()
+    assertTitleInList(name3, 2)
+    deleteCertificate(name3)
 
-    assertTitleInList(name5, 1)
-    deleteCertificate()
+    assertTitleInList(name4, 2)
+    deleteCertificate(name4)
 
-    assertTitleInList(name6, 1)
-    deleteCertificate()
+    assertTitleInList(name5, 2)
+    deleteCertificate(name5)
 
-    assertTitleInList(name7, 1)
-    deleteCertificate()
+    assertTitleInList(name6, 2)
+    deleteCertificate(name6)
 
-    assertTitleInList(name8, 1)
-    deleteCertificate()
+    assertTitleInList(permanentCertificateName, 2)
 
     driver.get(baseUrl + curriculumUrl)
-    assertAmount(3)
+    assertAmount(5)
   }
 
 
   def search(value: String) {
-    driver.findElement(By.id("certificateSearch")).clear()
-    if (value != "") driver.findElement(By.id("certificateSearch")).sendKeys(value)
+    driver.getVisibleElementAfterWaitBy(By.id("certificateSearch")).clear()
+    if (value != "") driver.getVisibleElementAfterWaitBy(By.id("certificateSearch")).sendKeys(value)
 
-    driver.findElement(By.id("filterList")).click()
-    wait(2)
+    driver.getVisibleElementAfterWaitBy(By.id("filterList")).click()
   }
 
   def assertAmount(expected: Int) {
-    var amount = 0;
-    driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
+    var amount = 0
+    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.id("certificateList")).findElements(By.className("availableQuizItem"))
       .toArray.foreach(x => if (x.asInstanceOf[WebElement].isDisplayed) amount += 1)
     assertEquals(expected, amount)
   }

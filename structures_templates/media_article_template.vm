@@ -1,0 +1,40 @@
+<div class="media-artikkeli-wrapper">
+   <div id="media-artikkeli">
+      #foreach($item in $title.getSiblings())
+         #if ($item.getData() != "")
+            <div style="font-weight: bold;">$!item.getData()</div>
+         #end
+         #if ($item.getChild("description").getData() != "")
+            <div class="ma-description">$item.getChild("description").getData()</div>
+         #end
+         #if ($item.getChild("media-mp4").getData() != "" || $item.getChild("media-ogg").getData() != "" || $item.getChild("media-webm").getData() != "")
+           <div>
+               <video width="560" height="315" controls>
+                    #if ($item.getChild("media-mp4").getData() != "")
+                        <source src="$item.getChild("media-mp4").getData()" type="video/mp4">
+                    #end
+                    #if ($item.getChild("media-ogg").getData() != "")
+                        <source src="$item.getChild("media-ogg").getData()" type="video/ogg">
+                    #end
+                    #if ($item.getChild("media-webm").getData() != "")
+                        <source src="$item.getChild("media-webm").getData()" type="video/webm">
+                    #end
+                   Your browser does not support the video tag.
+               </video>
+           </div>
+         #elseif ($item.getChild("youtube").getData() != "")
+           <div>
+               <iframe width="560" height="315" src="$item.getChild("youtube").getData()" frameborder="0" allowfullscreen></iframe>
+           </div>
+         #elseif ($item.getChild("document_library").getData() != "")
+           <div>
+               <img src="$item.getChild("document_library").getData()" />
+           </div>
+     #elseif ($item.getChild("image").getData() != "")
+           <div>
+               <img src="$item.getChild("image").getData()" />
+           </div>
+         #end
+       #end
+   </div>
+</div>

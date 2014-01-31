@@ -6,7 +6,7 @@
 
 Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn using Liferay platform. You can use it as your organizations social learning environment.
 
-Supported Liferay version is currently 6.1.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
+Supported Liferay version is currently 6.2 since release 1.6.6. Older versions has support of 6.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -22,12 +22,12 @@ If deployed against a portlet container, the end-user features are available via
 
 ### LRS
 TinCan LRS endpoint is set by default to use our internal LRS, so no need to configure something.
-Internal LRS endpoint is: `<youd-domain>/learn-portlet/TincanApi`
+Internal LRS endpoint is: `<your-domain>/learn-portlet/TincanApi`
 
 If you need to customize it, settings can be found in admin portlet on settings tab.
 
 ### Download 
-Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4.5/**
+Github has deprecated the Download section. You can download the latest distributable from Liferay Marketplace
 
 ###Post-deployment process
 Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
@@ -37,6 +37,11 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 1.6.6 Update 31.1.2014
+**Liferay 6.2 support. Liferay 6.1 is not supported since this version**
+ - Liferay 6.2 support
+ - Achievements portlets
 
 ## Version 1.6.1 Update 10.1.2014
  - Tin Can API LRS - Learning Record Store implementation

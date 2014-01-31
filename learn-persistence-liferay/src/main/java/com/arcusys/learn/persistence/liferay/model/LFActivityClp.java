@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFActivityLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,26 +39,32 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
     public LFActivityClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFActivity.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFActivity.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _indexNumber;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setIndexNumber(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_indexNumber);
+        return _indexNumber;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -173,128 +181,332 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
         }
     }
 
+    @Override
     public long getIndexNumber() {
         return _indexNumber;
     }
 
+    @Override
     public void setIndexNumber(long indexNumber) {
         _indexNumber = indexNumber;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setIndexNumber", long.class);
+
+                method.invoke(_lfActivityRemoteModel, indexNumber);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getId() {
         return _id;
     }
 
+    @Override
     public void setId(String id) {
         _id = id;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", String.class);
+
+                method.invoke(_lfActivityRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Integer packageID) {
         _packageID = packageID;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Integer.class);
+
+                method.invoke(_lfActivityRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getOrganizationID() {
         return _organizationID;
     }
 
+    @Override
     public void setOrganizationID(String organizationID) {
         _organizationID = organizationID;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setOrganizationID",
+                        String.class);
+
+                method.invoke(_lfActivityRemoteModel, organizationID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getParentID() {
         return _parentID;
     }
 
+    @Override
     public void setParentID(String parentID) {
         _parentID = parentID;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setParentID", String.class);
+
+                method.invoke(_lfActivityRemoteModel, parentID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTitle", String.class);
+
+                method.invoke(_lfActivityRemoteModel, title);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getIdentifierRef() {
         return _identifierRef;
     }
 
+    @Override
     public void setIdentifierRef(String identifierRef) {
         _identifierRef = identifierRef;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setIdentifierRef", String.class);
+
+                method.invoke(_lfActivityRemoteModel, identifierRef);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getResourceParameters() {
         return _resourceParameters;
     }
 
+    @Override
     public void setResourceParameters(String resourceParameters) {
         _resourceParameters = resourceParameters;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setResourceParameters",
+                        String.class);
+
+                method.invoke(_lfActivityRemoteModel, resourceParameters);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getHideLMSUI() {
         return _hideLMSUI;
     }
 
+    @Override
     public void setHideLMSUI(String hideLMSUI) {
         _hideLMSUI = hideLMSUI;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setHideLMSUI", String.class);
+
+                method.invoke(_lfActivityRemoteModel, hideLMSUI);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getVisible() {
         return _visible;
     }
 
+    @Override
     public boolean isVisible() {
         return _visible;
     }
 
+    @Override
     public void setVisible(boolean visible) {
         _visible = visible;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setVisible", boolean.class);
+
+                method.invoke(_lfActivityRemoteModel, visible);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getObjectivesGlobalToSystem() {
         return _objectivesGlobalToSystem;
     }
 
+    @Override
     public boolean isObjectivesGlobalToSystem() {
         return _objectivesGlobalToSystem;
     }
 
+    @Override
     public void setObjectivesGlobalToSystem(boolean objectivesGlobalToSystem) {
         _objectivesGlobalToSystem = objectivesGlobalToSystem;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setObjectivesGlobalToSystem",
+                        boolean.class);
+
+                method.invoke(_lfActivityRemoteModel, objectivesGlobalToSystem);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getSharedDataGlobalToSystem() {
         return _sharedDataGlobalToSystem;
     }
 
+    @Override
     public boolean isSharedDataGlobalToSystem() {
         return _sharedDataGlobalToSystem;
     }
 
+    @Override
     public void setSharedDataGlobalToSystem(boolean sharedDataGlobalToSystem) {
         _sharedDataGlobalToSystem = sharedDataGlobalToSystem;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSharedDataGlobalToSystem",
+                        boolean.class);
+
+                method.invoke(_lfActivityRemoteModel, sharedDataGlobalToSystem);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMasteryScore() {
         return _masteryScore;
     }
 
+    @Override
     public void setMasteryScore(String masteryScore) {
         _masteryScore = masteryScore;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMasteryScore", String.class);
+
+                method.invoke(_lfActivityRemoteModel, masteryScore);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMaxTimeAllowed() {
         return _maxTimeAllowed;
     }
 
+    @Override
     public void setMaxTimeAllowed(String maxTimeAllowed) {
         _maxTimeAllowed = maxTimeAllowed;
+
+        if (_lfActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMaxTimeAllowed",
+                        String.class);
+
+                method.invoke(_lfActivityRemoteModel, maxTimeAllowed);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFActivityRemoteModel() {
@@ -305,6 +517,47 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
         _lfActivityRemoteModel = lfActivityRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfActivityRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfActivityRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFActivityLocalServiceUtil.addLFActivity(this);
@@ -315,7 +568,7 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
 
     @Override
     public LFActivity toEscapedModel() {
-        return (LFActivity) Proxy.newProxyInstance(LFActivity.class.getClassLoader(),
+        return (LFActivity) ProxyUtil.newProxyInstance(LFActivity.class.getClassLoader(),
             new Class[] { LFActivity.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -341,6 +594,7 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
         return clone;
     }
 
+    @Override
     public int compareTo(LFActivity lfActivity) {
         long primaryKey = lfActivity.getPrimaryKey();
 
@@ -355,17 +609,15 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFActivityClp)) {
             return false;
         }
 
-        LFActivityClp lfActivity = null;
-
-        try {
-            lfActivity = (LFActivityClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFActivityClp lfActivity = (LFActivityClp) obj;
 
         long primaryKey = lfActivity.getPrimaryKey();
 
@@ -418,6 +670,7 @@ public class LFActivityClp extends BaseModelImpl<LFActivity>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(46);
 

@@ -24,6 +24,7 @@ public abstract class LFAttemptBaseImpl extends LFAttemptModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f attempt model instance should use the {@link LFAttempt} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFAttemptLocalServiceUtil.addLFAttempt(this);

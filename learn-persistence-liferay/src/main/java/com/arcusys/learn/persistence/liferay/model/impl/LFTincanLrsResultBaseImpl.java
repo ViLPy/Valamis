@@ -24,6 +24,7 @@ public abstract class LFTincanLrsResultBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs result model instance should use the {@link LFTincanLrsResult} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsResultLocalServiceUtil.addLFTincanLrsResult(this);

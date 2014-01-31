@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,26 +37,32 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
     public LFSequencingClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFSequencing.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFSequencing.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -165,119 +173,303 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfSequencingRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Integer packageID) {
         _packageID = packageID;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Integer.class);
+
+                method.invoke(_lfSequencingRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getActivityID() {
         return _activityID;
     }
 
+    @Override
     public void setActivityID(String activityID) {
         _activityID = activityID;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityID", String.class);
+
+                method.invoke(_lfSequencingRemoteModel, activityID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getSharedId() {
         return _sharedId;
     }
 
+    @Override
     public void setSharedId(String sharedId) {
         _sharedId = sharedId;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSharedId", String.class);
+
+                method.invoke(_lfSequencingRemoteModel, sharedId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getSharedSequencingIdReference() {
         return _sharedSequencingIdReference;
     }
 
+    @Override
     public void setSharedSequencingIdReference(
         String sharedSequencingIdReference) {
         _sharedSequencingIdReference = sharedSequencingIdReference;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSharedSequencingIdReference",
+                        String.class);
+
+                method.invoke(_lfSequencingRemoteModel,
+                    sharedSequencingIdReference);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getOnlyCurrentAttemptObjectiveProgressForChildren() {
         return _onlyCurrentAttemptObjectiveProgressForChildren;
     }
 
+    @Override
     public boolean isOnlyCurrentAttemptObjectiveProgressForChildren() {
         return _onlyCurrentAttemptObjectiveProgressForChildren;
     }
 
+    @Override
     public void setOnlyCurrentAttemptObjectiveProgressForChildren(
         boolean onlyCurrentAttemptObjectiveProgressForChildren) {
         _onlyCurrentAttemptObjectiveProgressForChildren = onlyCurrentAttemptObjectiveProgressForChildren;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setOnlyCurrentAttemptObjectiveProgressForChildren",
+                        boolean.class);
+
+                method.invoke(_lfSequencingRemoteModel,
+                    onlyCurrentAttemptObjectiveProgressForChildren);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getOnlyCurrentAttemptAttemptProgressForChildren() {
         return _onlyCurrentAttemptAttemptProgressForChildren;
     }
 
+    @Override
     public boolean isOnlyCurrentAttemptAttemptProgressForChildren() {
         return _onlyCurrentAttemptAttemptProgressForChildren;
     }
 
+    @Override
     public void setOnlyCurrentAttemptAttemptProgressForChildren(
         boolean onlyCurrentAttemptAttemptProgressForChildren) {
         _onlyCurrentAttemptAttemptProgressForChildren = onlyCurrentAttemptAttemptProgressForChildren;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setOnlyCurrentAttemptAttemptProgressForChildren",
+                        boolean.class);
+
+                method.invoke(_lfSequencingRemoteModel,
+                    onlyCurrentAttemptAttemptProgressForChildren);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getAttemptLimit() {
         return _attemptLimit;
     }
 
+    @Override
     public void setAttemptLimit(Integer attemptLimit) {
         _attemptLimit = attemptLimit;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptLimit", Integer.class);
+
+                method.invoke(_lfSequencingRemoteModel, attemptLimit);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Long getDurationLimitInMilliseconds() {
         return _durationLimitInMilliseconds;
     }
 
+    @Override
     public void setDurationLimitInMilliseconds(Long durationLimitInMilliseconds) {
         _durationLimitInMilliseconds = durationLimitInMilliseconds;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDurationLimitInMilliseconds",
+                        Long.class);
+
+                method.invoke(_lfSequencingRemoteModel,
+                    durationLimitInMilliseconds);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getRollupContributionID() {
         return _rollupContributionID;
     }
 
+    @Override
     public void setRollupContributionID(Integer rollupContributionID) {
         _rollupContributionID = rollupContributionID;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setRollupContributionID",
+                        Integer.class);
+
+                method.invoke(_lfSequencingRemoteModel, rollupContributionID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getPreventChildrenActivation() {
         return _preventChildrenActivation;
     }
 
+    @Override
     public boolean isPreventChildrenActivation() {
         return _preventChildrenActivation;
     }
 
+    @Override
     public void setPreventChildrenActivation(boolean preventChildrenActivation) {
         _preventChildrenActivation = preventChildrenActivation;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPreventChildrenActivation",
+                        boolean.class);
+
+                method.invoke(_lfSequencingRemoteModel,
+                    preventChildrenActivation);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getConstrainChoice() {
         return _constrainChoice;
     }
 
+    @Override
     public boolean isConstrainChoice() {
         return _constrainChoice;
     }
 
+    @Override
     public void setConstrainChoice(boolean constrainChoice) {
         _constrainChoice = constrainChoice;
+
+        if (_lfSequencingRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSequencingRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setConstrainChoice",
+                        boolean.class);
+
+                method.invoke(_lfSequencingRemoteModel, constrainChoice);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFSequencingRemoteModel() {
@@ -288,6 +480,47 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
         _lfSequencingRemoteModel = lfSequencingRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfSequencingRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfSequencingRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSequencingLocalServiceUtil.addLFSequencing(this);
@@ -298,7 +531,7 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
 
     @Override
     public LFSequencing toEscapedModel() {
-        return (LFSequencing) Proxy.newProxyInstance(LFSequencing.class.getClassLoader(),
+        return (LFSequencing) ProxyUtil.newProxyInstance(LFSequencing.class.getClassLoader(),
             new Class[] { LFSequencing.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -322,6 +555,7 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
         return clone;
     }
 
+    @Override
     public int compareTo(LFSequencing lfSequencing) {
         long primaryKey = lfSequencing.getPrimaryKey();
 
@@ -336,17 +570,15 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFSequencingClp)) {
             return false;
         }
 
-        LFSequencingClp lfSequencing = null;
-
-        try {
-            lfSequencing = (LFSequencingClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFSequencingClp lfSequencing = (LFSequencingClp) obj;
 
         long primaryKey = lfSequencing.getPrimaryKey();
 
@@ -395,6 +627,7 @@ public class LFSequencingClp extends BaseModelImpl<LFSequencing>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(40);
 

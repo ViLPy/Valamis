@@ -24,6 +24,7 @@ public abstract class LFFileStorageBaseImpl extends LFFileStorageModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f file storage model instance should use the {@link LFFileStorage} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFFileStorageLocalServiceUtil.addLFFileStorage(this);

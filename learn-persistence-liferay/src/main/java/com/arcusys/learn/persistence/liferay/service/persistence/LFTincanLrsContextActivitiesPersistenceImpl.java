@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextActivitiesE
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsContextActivities;
 import com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -80,13 +21,12 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -94,6 +34,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f tincan lrs context activities service.
@@ -139,6 +80,9 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFTincanLrsContextActivitiesPersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFTincanLrsContextActivities _nullLFTincanLrsContextActivities =
         new LFTincanLrsContextActivitiesImpl() {
             @Override
@@ -154,137 +98,22 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
 
     private static CacheModel<LFTincanLrsContextActivities> _nullLFTincanLrsContextActivitiesCacheModel =
         new CacheModel<LFTincanLrsContextActivities>() {
+            @Override
             public LFTincanLrsContextActivities toEntityModel() {
                 return _nullLFTincanLrsContextActivities;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
+    public LFTincanLrsContextActivitiesPersistenceImpl() {
+        setModelClass(LFTincanLrsContextActivities.class);
+    }
 
     /**
      * Caches the l f tincan lrs context activities in the entity cache if it is enabled.
      *
      * @param lfTincanLrsContextActivities the l f tincan lrs context activities
      */
+    @Override
     public void cacheResult(
         LFTincanLrsContextActivities lfTincanLrsContextActivities) {
         EntityCacheUtil.putResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
@@ -300,6 +129,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      *
      * @param lfTincanLrsContextActivitieses the l f tincan lrs context activitieses
      */
+    @Override
     public void cacheResult(
         List<LFTincanLrsContextActivities> lfTincanLrsContextActivitieses) {
         for (LFTincanLrsContextActivities lfTincanLrsContextActivities : lfTincanLrsContextActivitieses) {
@@ -371,6 +201,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @param id the primary key for the new l f tincan lrs context activities
      * @return the new l f tincan lrs context activities
      */
+    @Override
     public LFTincanLrsContextActivities create(long id) {
         LFTincanLrsContextActivities lfTincanLrsContextActivities = new LFTincanLrsContextActivitiesImpl();
 
@@ -388,9 +219,10 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextActivitiesException if a l f tincan lrs context activities with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsContextActivities remove(long id)
         throws NoSuchLFTincanLrsContextActivitiesException, SystemException {
-        return remove(Long.valueOf(id));
+        return remove((Serializable) id);
     }
 
     /**
@@ -442,22 +274,31 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
         try {
             session = openSession();
 
-            BatchSessionUtil.delete(session, lfTincanLrsContextActivities);
+            if (!session.contains(lfTincanLrsContextActivities)) {
+                lfTincanLrsContextActivities = (LFTincanLrsContextActivities) session.get(LFTincanLrsContextActivitiesImpl.class,
+                        lfTincanLrsContextActivities.getPrimaryKeyObj());
+            }
+
+            if (lfTincanLrsContextActivities != null) {
+                session.delete(lfTincanLrsContextActivities);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
             closeSession(session);
         }
 
-        clearCache(lfTincanLrsContextActivities);
+        if (lfTincanLrsContextActivities != null) {
+            clearCache(lfTincanLrsContextActivities);
+        }
 
         return lfTincanLrsContextActivities;
     }
 
     @Override
     public LFTincanLrsContextActivities updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsContextActivities lfTincanLrsContextActivities,
-        boolean merge) throws SystemException {
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsContextActivities lfTincanLrsContextActivities)
+        throws SystemException {
         lfTincanLrsContextActivities = toUnwrappedModel(lfTincanLrsContextActivities);
 
         boolean isNew = lfTincanLrsContextActivities.isNew();
@@ -467,9 +308,13 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
         try {
             session = openSession();
 
-            BatchSessionUtil.update(session, lfTincanLrsContextActivities, merge);
+            if (lfTincanLrsContextActivities.isNew()) {
+                session.save(lfTincanLrsContextActivities);
 
-            lfTincanLrsContextActivities.setNew(false);
+                lfTincanLrsContextActivities.setNew(false);
+            } else {
+                session.merge(lfTincanLrsContextActivities);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
@@ -515,13 +360,25 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      *
      * @param primaryKey the primary key of the l f tincan lrs context activities
      * @return the l f tincan lrs context activities
-     * @throws com.liferay.portal.NoSuchModelException if a l f tincan lrs context activities with the primary key could not be found
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextActivitiesException if a l f tincan lrs context activities with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
     public LFTincanLrsContextActivities findByPrimaryKey(
-        Serializable primaryKey) throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
+        Serializable primaryKey)
+        throws NoSuchLFTincanLrsContextActivitiesException, SystemException {
+        LFTincanLrsContextActivities lfTincanLrsContextActivities = fetchByPrimaryKey(primaryKey);
+
+        if (lfTincanLrsContextActivities == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFTincanLrsContextActivitiesException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfTincanLrsContextActivities;
     }
 
     /**
@@ -532,20 +389,10 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextActivitiesException if a l f tincan lrs context activities with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsContextActivities findByPrimaryKey(long id)
         throws NoSuchLFTincanLrsContextActivitiesException, SystemException {
-        LFTincanLrsContextActivities lfTincanLrsContextActivities = fetchByPrimaryKey(id);
-
-        if (lfTincanLrsContextActivities == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFTincanLrsContextActivitiesException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfTincanLrsContextActivities;
+        return findByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -558,7 +405,40 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
     @Override
     public LFTincanLrsContextActivities fetchByPrimaryKey(
         Serializable primaryKey) throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
+        LFTincanLrsContextActivities lfTincanLrsContextActivities = (LFTincanLrsContextActivities) EntityCacheUtil.getResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
+                LFTincanLrsContextActivitiesImpl.class, primaryKey);
+
+        if (lfTincanLrsContextActivities == _nullLFTincanLrsContextActivities) {
+            return null;
+        }
+
+        if (lfTincanLrsContextActivities == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfTincanLrsContextActivities = (LFTincanLrsContextActivities) session.get(LFTincanLrsContextActivitiesImpl.class,
+                        primaryKey);
+
+                if (lfTincanLrsContextActivities != null) {
+                    cacheResult(lfTincanLrsContextActivities);
+                } else {
+                    EntityCacheUtil.putResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
+                        LFTincanLrsContextActivitiesImpl.class, primaryKey,
+                        _nullLFTincanLrsContextActivities);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
+                    LFTincanLrsContextActivitiesImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfTincanLrsContextActivities;
     }
 
     /**
@@ -568,43 +448,10 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @return the l f tincan lrs context activities, or <code>null</code> if a l f tincan lrs context activities with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsContextActivities fetchByPrimaryKey(long id)
         throws SystemException {
-        LFTincanLrsContextActivities lfTincanLrsContextActivities = (LFTincanLrsContextActivities) EntityCacheUtil.getResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
-                LFTincanLrsContextActivitiesImpl.class, id);
-
-        if (lfTincanLrsContextActivities == _nullLFTincanLrsContextActivities) {
-            return null;
-        }
-
-        if (lfTincanLrsContextActivities == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfTincanLrsContextActivities = (LFTincanLrsContextActivities) session.get(LFTincanLrsContextActivitiesImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfTincanLrsContextActivities != null) {
-                    cacheResult(lfTincanLrsContextActivities);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFTincanLrsContextActivitiesModelImpl.ENTITY_CACHE_ENABLED,
-                        LFTincanLrsContextActivitiesImpl.class, id,
-                        _nullLFTincanLrsContextActivities);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfTincanLrsContextActivities;
+        return fetchByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -613,6 +460,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @return the l f tincan lrs context activitieses
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsContextActivities> findAll()
         throws SystemException {
         return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
@@ -622,7 +470,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * Returns a range of all the l f tincan lrs context activitieses.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f tincan lrs context activitieses
@@ -630,6 +478,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @return the range of l f tincan lrs context activitieses
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsContextActivities> findAll(int start, int end)
         throws SystemException {
         return findAll(start, end, null);
@@ -639,7 +488,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * Returns an ordered range of all the l f tincan lrs context activitieses.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f tincan lrs context activitieses
@@ -648,13 +497,16 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @return the ordered range of l f tincan lrs context activitieses
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsContextActivities> findAll(int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
+        Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
             finderArgs = FINDER_ARGS_EMPTY;
         } else {
@@ -681,6 +533,10 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
                 sql = query.toString();
             } else {
                 sql = _SQL_SELECT_LFTINCANLRSCONTEXTACTIVITIES;
+
+                if (pagination) {
+                    sql = sql.concat(LFTincanLrsContextActivitiesModelImpl.ORDER_BY_JPQL);
+                }
             }
 
             Session session = null;
@@ -690,26 +546,26 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
 
                 Query q = session.createQuery(sql);
 
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFTincanLrsContextActivities>) QueryUtil.list(q,
                             getDialect(), start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFTincanLrsContextActivities>(list);
                 } else {
                     list = (List<LFTincanLrsContextActivities>) QueryUtil.list(q,
                             getDialect(), start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
@@ -722,6 +578,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      *
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeAll() throws SystemException {
         for (LFTincanLrsContextActivities lfTincanLrsContextActivities : findAll()) {
             remove(lfTincanLrsContextActivities);
@@ -734,6 +591,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
      * @return the number of l f tincan lrs context activitieses
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -747,21 +605,25 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
                 Query q = session.createQuery(_SQL_COUNT_LFTINCANLRSCONTEXTACTIVITIES);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -778,7 +640,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFTincanLrsContextActivities>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -791,6 +653,7 @@ public class LFTincanLrsContextActivitiesPersistenceImpl
     public void destroy() {
         EntityCacheUtil.removeCache(LFTincanLrsContextActivitiesImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 }

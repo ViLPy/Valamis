@@ -24,6 +24,7 @@ public abstract class LFTincanActivityBaseImpl extends LFTincanActivityModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan activity model instance should use the {@link LFTincanActivity} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanActivityLocalServiceUtil.addLFTincanActivity(this);

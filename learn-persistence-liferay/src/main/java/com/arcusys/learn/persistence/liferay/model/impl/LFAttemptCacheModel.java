@@ -6,16 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFAttempt in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFAttempt
-* @generated
-*/
-public class LFAttemptCacheModel implements CacheModel<LFAttempt>, Serializable {
+ * The cache model class for representing LFAttempt in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFAttempt
+ * @generated
+ */
+public class LFAttemptCacheModel implements CacheModel<LFAttempt>,
+    Externalizable {
     public long id;
     public Integer userID;
     public Integer packageID;
@@ -41,6 +45,7 @@ public class LFAttemptCacheModel implements CacheModel<LFAttempt>, Serializable 
         return sb.toString();
     }
 
+    @Override
     public LFAttempt toEntityModel() {
         LFAttemptImpl lfAttemptImpl = new LFAttemptImpl();
 
@@ -59,5 +64,30 @@ public class LFAttemptCacheModel implements CacheModel<LFAttempt>, Serializable 
         lfAttemptImpl.resetOriginalValues();
 
         return lfAttemptImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        userID = objectInput.readInt();
+        packageID = objectInput.readInt();
+        organizationID = objectInput.readUTF();
+        isComplete = objectInput.readBoolean();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(userID);
+        objectOutput.writeInt(packageID);
+
+        if (organizationID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(organizationID);
+        }
+
+        objectOutput.writeBoolean(isComplete);
     }
 }

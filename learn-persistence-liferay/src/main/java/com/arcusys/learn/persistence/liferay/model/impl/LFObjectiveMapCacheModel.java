@@ -3,19 +3,23 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMap;
 
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFObjectiveMap in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFObjectiveMap
-* @generated
-*/
+ * The cache model class for representing LFObjectiveMap in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFObjectiveMap
+ * @generated
+ */
 public class LFObjectiveMapCacheModel implements CacheModel<LFObjectiveMap>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer objectiveID;
     public String readSatisfiedStatusFrom;
@@ -74,28 +78,210 @@ public class LFObjectiveMapCacheModel implements CacheModel<LFObjectiveMap>,
         return sb.toString();
     }
 
+    @Override
     public LFObjectiveMap toEntityModel() {
         LFObjectiveMapImpl lfObjectiveMapImpl = new LFObjectiveMapImpl();
 
         lfObjectiveMapImpl.setId(id);
         lfObjectiveMapImpl.setObjectiveID(objectiveID);
-        lfObjectiveMapImpl.setReadSatisfiedStatusFrom(readSatisfiedStatusFrom);
-        lfObjectiveMapImpl.setReadNormalizedMeasureFrom(readNormalizedMeasureFrom);
-        lfObjectiveMapImpl.setWriteSatisfiedStatusTo(writeSatisfiedStatusTo);
-        lfObjectiveMapImpl.setWriteNormalizedMeasureTo(writeNormalizedMeasureTo);
-        lfObjectiveMapImpl.setReadRawScoreFrom(readRawScoreFrom);
-        lfObjectiveMapImpl.setReadMinScoreFrom(readMinScoreFrom);
-        lfObjectiveMapImpl.setReadMaxScoreFrom(readMaxScoreFrom);
-        lfObjectiveMapImpl.setReadCompletionStatusFrom(readCompletionStatusFrom);
-        lfObjectiveMapImpl.setReadProgressMeasureFrom(readProgressMeasureFrom);
-        lfObjectiveMapImpl.setWriteRawScoreTo(writeRawScoreTo);
-        lfObjectiveMapImpl.setWriteMinScoreTo(writeMinScoreTo);
-        lfObjectiveMapImpl.setWriteMaxScoreTo(writeMaxScoreTo);
-        lfObjectiveMapImpl.setWriteCompletionStatusTo(writeCompletionStatusTo);
-        lfObjectiveMapImpl.setWriteProgressMeasureTo(writeProgressMeasureTo);
+
+        if (readSatisfiedStatusFrom == null) {
+            lfObjectiveMapImpl.setReadSatisfiedStatusFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadSatisfiedStatusFrom(readSatisfiedStatusFrom);
+        }
+
+        if (readNormalizedMeasureFrom == null) {
+            lfObjectiveMapImpl.setReadNormalizedMeasureFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadNormalizedMeasureFrom(readNormalizedMeasureFrom);
+        }
+
+        if (writeSatisfiedStatusTo == null) {
+            lfObjectiveMapImpl.setWriteSatisfiedStatusTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteSatisfiedStatusTo(writeSatisfiedStatusTo);
+        }
+
+        if (writeNormalizedMeasureTo == null) {
+            lfObjectiveMapImpl.setWriteNormalizedMeasureTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteNormalizedMeasureTo(writeNormalizedMeasureTo);
+        }
+
+        if (readRawScoreFrom == null) {
+            lfObjectiveMapImpl.setReadRawScoreFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadRawScoreFrom(readRawScoreFrom);
+        }
+
+        if (readMinScoreFrom == null) {
+            lfObjectiveMapImpl.setReadMinScoreFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadMinScoreFrom(readMinScoreFrom);
+        }
+
+        if (readMaxScoreFrom == null) {
+            lfObjectiveMapImpl.setReadMaxScoreFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadMaxScoreFrom(readMaxScoreFrom);
+        }
+
+        if (readCompletionStatusFrom == null) {
+            lfObjectiveMapImpl.setReadCompletionStatusFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadCompletionStatusFrom(readCompletionStatusFrom);
+        }
+
+        if (readProgressMeasureFrom == null) {
+            lfObjectiveMapImpl.setReadProgressMeasureFrom(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setReadProgressMeasureFrom(readProgressMeasureFrom);
+        }
+
+        if (writeRawScoreTo == null) {
+            lfObjectiveMapImpl.setWriteRawScoreTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteRawScoreTo(writeRawScoreTo);
+        }
+
+        if (writeMinScoreTo == null) {
+            lfObjectiveMapImpl.setWriteMinScoreTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteMinScoreTo(writeMinScoreTo);
+        }
+
+        if (writeMaxScoreTo == null) {
+            lfObjectiveMapImpl.setWriteMaxScoreTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteMaxScoreTo(writeMaxScoreTo);
+        }
+
+        if (writeCompletionStatusTo == null) {
+            lfObjectiveMapImpl.setWriteCompletionStatusTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteCompletionStatusTo(writeCompletionStatusTo);
+        }
+
+        if (writeProgressMeasureTo == null) {
+            lfObjectiveMapImpl.setWriteProgressMeasureTo(StringPool.BLANK);
+        } else {
+            lfObjectiveMapImpl.setWriteProgressMeasureTo(writeProgressMeasureTo);
+        }
 
         lfObjectiveMapImpl.resetOriginalValues();
 
         return lfObjectiveMapImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        objectiveID = objectInput.readInt();
+        readSatisfiedStatusFrom = objectInput.readUTF();
+        readNormalizedMeasureFrom = objectInput.readUTF();
+        writeSatisfiedStatusTo = objectInput.readUTF();
+        writeNormalizedMeasureTo = objectInput.readUTF();
+        readRawScoreFrom = objectInput.readUTF();
+        readMinScoreFrom = objectInput.readUTF();
+        readMaxScoreFrom = objectInput.readUTF();
+        readCompletionStatusFrom = objectInput.readUTF();
+        readProgressMeasureFrom = objectInput.readUTF();
+        writeRawScoreTo = objectInput.readUTF();
+        writeMinScoreTo = objectInput.readUTF();
+        writeMaxScoreTo = objectInput.readUTF();
+        writeCompletionStatusTo = objectInput.readUTF();
+        writeProgressMeasureTo = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(objectiveID);
+
+        if (readSatisfiedStatusFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readSatisfiedStatusFrom);
+        }
+
+        if (readNormalizedMeasureFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readNormalizedMeasureFrom);
+        }
+
+        if (writeSatisfiedStatusTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeSatisfiedStatusTo);
+        }
+
+        if (writeNormalizedMeasureTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeNormalizedMeasureTo);
+        }
+
+        if (readRawScoreFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readRawScoreFrom);
+        }
+
+        if (readMinScoreFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readMinScoreFrom);
+        }
+
+        if (readMaxScoreFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readMaxScoreFrom);
+        }
+
+        if (readCompletionStatusFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readCompletionStatusFrom);
+        }
+
+        if (readProgressMeasureFrom == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(readProgressMeasureFrom);
+        }
+
+        if (writeRawScoreTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeRawScoreTo);
+        }
+
+        if (writeMinScoreTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeMinScoreTo);
+        }
+
+        if (writeMaxScoreTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeMaxScoreTo);
+        }
+
+        if (writeCompletionStatusTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeCompletionStatusTo);
+        }
+
+        if (writeProgressMeasureTo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(writeProgressMeasureTo);
+        }
     }
 }

@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFCertificate in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFCertificate
-* @generated
-*/
+ * The cache model class for representing LFCertificate in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFCertificate
+ * @generated
+ */
 public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
-    Serializable {
+    Externalizable {
     public long id;
     public String title;
     public String description;
@@ -51,6 +54,7 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         return sb.toString();
     }
 
+    @Override
     public LFCertificate toEntityModel() {
         LFCertificateImpl lfCertificateImpl = new LFCertificateImpl();
 
@@ -88,5 +92,52 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         lfCertificateImpl.resetOriginalValues();
 
         return lfCertificateImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        title = objectInput.readUTF();
+        description = objectInput.readUTF();
+        logo = objectInput.readUTF();
+        isPermanent = objectInput.readBoolean();
+        publishBadge = objectInput.readBoolean();
+        shortDescription = objectInput.readUTF();
+        companyID = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (description == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(description);
+        }
+
+        if (logo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(logo);
+        }
+
+        objectOutput.writeBoolean(isPermanent);
+        objectOutput.writeBoolean(publishBadge);
+
+        if (shortDescription == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(shortDescription);
+        }
+
+        objectOutput.writeInt(companyID);
     }
 }

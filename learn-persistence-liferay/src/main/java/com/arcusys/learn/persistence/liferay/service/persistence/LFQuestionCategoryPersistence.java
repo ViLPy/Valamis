@@ -24,72 +24,6 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
      */
 
     /**
-    * Caches the l f question category in the entity cache if it is enabled.
-    *
-    * @param lfQuestionCategory the l f question category
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFQuestionCategory lfQuestionCategory);
-
-    /**
-    * Caches the l f question categories in the entity cache if it is enabled.
-    *
-    * @param lfQuestionCategories the l f question categories
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> lfQuestionCategories);
-
-    /**
-    * Creates a new l f question category with the primary key. Does not add the l f question category to the database.
-    *
-    * @param id the primary key for the new l f question category
-    * @return the new l f question category
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory create(
-        long id);
-
-    /**
-    * Removes the l f question category with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f question category
-    * @return the l f question category that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException if a l f question category with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFQuestionCategory lfQuestionCategory,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f question category with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException} if it could not be found.
-    *
-    * @param id the primary key of the l f question category
-    * @return the l f question category
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException if a l f question category with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f question category with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f question category
-    * @return the l f question category, or <code>null</code> if a l f question category with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f question categories where courseId = &#63;.
     *
     * @param courseId the course ID
@@ -104,7 +38,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns a range of all the l f question categories where courseId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseId the course ID
@@ -121,7 +55,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns an ordered range of all the l f question categories where courseId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseId the course ID
@@ -212,7 +146,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns all the l f question categories where courseId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -227,7 +161,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns a range of all the l f question categories where courseId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -244,7 +178,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns an ordered range of all the l f question categories where courseId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -257,6 +191,35 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findByCourseId(
         java.lang.Integer[] courseIds, int start, int end,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes all the l f question categories where courseId = &#63; from the database.
+    *
+    * @param courseId the course ID
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByCourseId(java.lang.Integer courseId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f question categories where courseId = &#63;.
+    *
+    * @param courseId the course ID
+    * @return the number of matching l f question categories
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByCourseId(java.lang.Integer courseId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f question categories where courseId = any &#63;.
+    *
+    * @param courseIds the course IDs
+    * @return the number of matching l f question categories
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByCourseId(java.lang.Integer[] courseIds)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -275,7 +238,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns a range of all the l f question categories where courseId = &#63; and parentId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseId the course ID
@@ -293,7 +256,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns an ordered range of all the l f question categories where courseId = &#63; and parentId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseId the course ID
@@ -391,7 +354,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns all the l f question categories where courseId = any &#63; and parentId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -407,7 +370,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns a range of all the l f question categories where courseId = any &#63; and parentId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -426,7 +389,7 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     * Returns an ordered range of all the l f question categories where courseId = any &#63; and parentId = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIds the course IDs
@@ -444,58 +407,6 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Returns all the l f question categories.
-    *
-    * @return the l f question categories
-    * @throws SystemException if a system exception occurred
-    */
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns a range of all the l f question categories.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f question categories
-    * @param end the upper bound of the range of l f question categories (not inclusive)
-    * @return the range of l f question categories
-    * @throws SystemException if a system exception occurred
-    */
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll(
-        int start, int end)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns an ordered range of all the l f question categories.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f question categories
-    * @param end the upper bound of the range of l f question categories (not inclusive)
-    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-    * @return the ordered range of l f question categories
-    * @throws SystemException if a system exception occurred
-    */
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll(
-        int start, int end,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f question categories where courseId = &#63; from the database.
-    *
-    * @param courseId the course ID
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByCourseId(java.lang.Integer courseId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f question categories where courseId = &#63; and parentId = &#63; from the database.
     *
     * @param courseId the course ID
@@ -504,34 +415,6 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     */
     public void removeByCourseIdAndParentId(java.lang.Integer courseId,
         java.lang.Integer parentId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f question categories from the database.
-    *
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f question categories where courseId = &#63;.
-    *
-    * @param courseId the course ID
-    * @return the number of matching l f question categories
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByCourseId(java.lang.Integer courseId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f question categories where courseId = any &#63;.
-    *
-    * @param courseIds the course IDs
-    * @return the number of matching l f question categories
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByCourseId(java.lang.Integer[] courseIds)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -556,6 +439,122 @@ public interface LFQuestionCategoryPersistence extends BasePersistence<LFQuestio
     */
     public int countByCourseIdAndParentId(java.lang.Integer[] courseIds,
         java.lang.Integer[] parentIds)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f question category in the entity cache if it is enabled.
+    *
+    * @param lfQuestionCategory the l f question category
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFQuestionCategory lfQuestionCategory);
+
+    /**
+    * Caches the l f question categories in the entity cache if it is enabled.
+    *
+    * @param lfQuestionCategories the l f question categories
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> lfQuestionCategories);
+
+    /**
+    * Creates a new l f question category with the primary key. Does not add the l f question category to the database.
+    *
+    * @param id the primary key for the new l f question category
+    * @return the new l f question category
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory create(
+        long id);
+
+    /**
+    * Removes the l f question category with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f question category
+    * @return the l f question category that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException if a l f question category with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFQuestionCategory lfQuestionCategory)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f question category with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException} if it could not be found.
+    *
+    * @param id the primary key of the l f question category
+    * @return the l f question category
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException if a l f question category with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuestionCategoryException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f question category with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f question category
+    * @return the l f question category, or <code>null</code> if a l f question category with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFQuestionCategory fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns all the l f question categories.
+    *
+    * @return the l f question categories
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll()
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns a range of all the l f question categories.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f question categories
+    * @param end the upper bound of the range of l f question categories (not inclusive)
+    * @return the range of l f question categories
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll(
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns an ordered range of all the l f question categories.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f question categories
+    * @param end the upper bound of the range of l f question categories (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of l f question categories
+    * @throws SystemException if a system exception occurred
+    */
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuestionCategory> findAll(
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes all the l f question categories from the database.
+    *
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

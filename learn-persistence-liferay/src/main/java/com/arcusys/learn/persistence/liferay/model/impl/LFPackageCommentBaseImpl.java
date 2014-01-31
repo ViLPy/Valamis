@@ -24,6 +24,7 @@ public abstract class LFPackageCommentBaseImpl extends LFPackageCommentModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f package comment model instance should use the {@link LFPackageComment} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFPackageCommentLocalServiceUtil.addLFPackageComment(this);

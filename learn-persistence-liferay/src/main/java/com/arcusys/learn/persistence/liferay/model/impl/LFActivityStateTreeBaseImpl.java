@@ -24,6 +24,7 @@ public abstract class LFActivityStateTreeBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f activity state tree model instance should use the {@link LFActivityStateTree} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFActivityStateTreeLocalServiceUtil.addLFActivityStateTree(this);

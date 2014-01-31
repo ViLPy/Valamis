@@ -296,6 +296,7 @@
                     </button>
                 </div>
             </div>
+            <br><hr><br>
             <div class="SCORMAddNewButton">
                 <div class="issuerSettingsTitle" >{{adminSettingsTincanLrsEndpointSectionLabel}}</div>
                 <form id="tincanLrsSettingsForm" method="post">
@@ -304,7 +305,7 @@
                         <input class="issuerSettingValue" id="tincanLrsIsExternalCheckbox" type="checkbox" name="isExternalLrs" onchange="tincanLrsIsExternalChanged()" {{#tincanExternalLrs}}checked{{/tincanExternalLrs}}/><br/>
                     </div>
                     <div id="tincanLrsExernalPanel">
-                        <div>
+                        <div style="margin-top: 5px;">
                             <label class="issuerSettingLabel" >{{adminSettingsTincanEndpointLabel}}</label>
                             <input class="issuerSettingValue" type="text" name="endpoint" value="{{tincanLrsEndpoint}}"/><br/>
                         </div>

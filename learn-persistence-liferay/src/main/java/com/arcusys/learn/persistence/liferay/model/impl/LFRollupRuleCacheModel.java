@@ -6,19 +6,22 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import java.math.BigDecimal;
 
 /**
-* The cache model class for representing LFRollupRule in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFRollupRule
-* @generated
-*/
+ * The cache model class for representing LFRollupRule in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFRollupRule
+ * @generated
+ */
 public class LFRollupRuleCacheModel implements CacheModel<LFRollupRule>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer sequencingID;
     public String combination;
@@ -50,6 +53,7 @@ public class LFRollupRuleCacheModel implements CacheModel<LFRollupRule>,
         return sb.toString();
     }
 
+    @Override
     public LFRollupRule toEntityModel() {
         LFRollupRuleImpl lfRollupRuleImpl = new LFRollupRuleImpl();
 
@@ -80,5 +84,45 @@ public class LFRollupRuleCacheModel implements CacheModel<LFRollupRule>,
         lfRollupRuleImpl.resetOriginalValues();
 
         return lfRollupRuleImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput)
+        throws ClassNotFoundException, IOException {
+        id = objectInput.readLong();
+        sequencingID = objectInput.readInt();
+        combination = objectInput.readUTF();
+        childActivitySet = objectInput.readUTF();
+        minimumCount = objectInput.readInt();
+        minimumPercent = (BigDecimal) objectInput.readObject();
+        action = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(sequencingID);
+
+        if (combination == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(combination);
+        }
+
+        if (childActivitySet == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(childActivitySet);
+        }
+
+        objectOutput.writeInt(minimumCount);
+        objectOutput.writeObject(minimumPercent);
+
+        if (action == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(action);
+        }
     }
 }

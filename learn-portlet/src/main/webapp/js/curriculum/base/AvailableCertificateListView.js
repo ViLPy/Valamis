@@ -16,7 +16,7 @@ AvailableCertificateListView = Backbone.View.extend({
         this.render();
 
         var that = this;
-        this.collection.on("collection:updated", function (details) {
+        this.collection.on("certificateCollection:updated", function (details) {
             that.updatePagination(details, that);
         });
 
@@ -131,9 +131,13 @@ AvailableCertificateListView = Backbone.View.extend({
 
     render:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#availableCertificateListView").html(), _.extend({
-            cid:this.cid, isAdmin:this.options.isAdmin
-        }, language));
+        var template = Mustache.to_html(
+            jQuery("#availableCertificateListView").html(),
+            _.extend({
+                cid:this.cid,
+                isAdmin:this.options.isAdmin
+            },
+            language));
 
         this.$el.append(template);
 

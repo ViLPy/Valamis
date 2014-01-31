@@ -49,7 +49,7 @@ CertificateCollectionService = new Backbone.Service({ url: Utils.getContextPath,
 CertificateCollection = Backbone.Collection.extend({
     model: Certificate,
     parse : function( response ){
-        this.trigger("collection:updated", { total : response.total, currentPage : response.currentPage } );
+        this.trigger("certificateCollection:updated", { total : response.total, currentPage : response.currentPage } );
         return response.records;
     }
 }).extend(CertificateCollectionService);

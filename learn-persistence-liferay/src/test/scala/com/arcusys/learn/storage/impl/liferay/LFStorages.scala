@@ -172,6 +172,11 @@ object LFStorages extends StorageFactoryContract {
   def certificateSiteStorage = LFStorageFactory.certificateSiteStorage
   def certificateUserStorage = LFStorageFactory.certificateUserStorage
 
+  def achievementStorage = LFStorageFactory.achievementStorage
+  def achievementActivityStorage = LFStorageFactory.achievementActivityStorage
+  def achievementRequiredStorage = LFStorageFactory.achievementRequiredStorage
+  def achievementUserStorage = LFStorageFactory.achievementUserStorage
+
   def socialPackageStorage = LFStorageFactory.socialPackageStorage
   def packageVoteStorage = LFStorageFactory.packageVoteStorage
   def packageCommentStorage = LFStorageFactory.packageCommentStorage

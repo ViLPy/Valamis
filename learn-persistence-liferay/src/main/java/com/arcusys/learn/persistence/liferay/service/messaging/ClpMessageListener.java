@@ -1,6 +1,9 @@
 package com.arcusys.learn.persistence.liferay.service.messaging;
 
 import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
+import com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFAchievementLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFActivityDataMapLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFActivityLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFActivityStateLocalServiceUtil;
@@ -32,6 +35,7 @@ import com.arcusys.learn.persistence.liferay.service.LFQuestionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRoleLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalServiceUtil;
@@ -76,6 +80,12 @@ public class ClpMessageListener extends BaseMessageListener {
 
         if (command.equals("undeploy") &&
                 servletContextName.equals(getServletContextName())) {
+            LFAchievementLocalServiceUtil.clearService();
+
+            LFAchievementActivityLocalServiceUtil.clearService();
+
+            LFAchievementUserLocalServiceUtil.clearService();
+
             LFActivityLocalServiceUtil.clearService();
 
             LFActivityDataMapLocalServiceUtil.clearService();
@@ -137,6 +147,8 @@ public class ClpMessageListener extends BaseMessageListener {
             LFQuizQuestionLocalServiceUtil.clearService();
 
             LFQuizQuestionCategoryLocalServiceUtil.clearService();
+
+            LFRequiredActivityLocalServiceUtil.clearService();
 
             LFResourceLocalServiceUtil.clearService();
 

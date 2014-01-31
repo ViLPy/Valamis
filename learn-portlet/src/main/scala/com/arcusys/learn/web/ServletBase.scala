@@ -105,6 +105,21 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
     case e: Exception => false
   }
 
+  def getCompanyId = { //try {
+    val company = request.cookies.get("COMPANY_ID")
+    company.getOrElse("-1").toInt
+  }
+   /*
+    company match {
+      case Some(value) => value.toInt
+      case None => -1
+    }
+
+    //SessionHandler.getAttribute(request.getCookies, "COMPANY_ID").asInstanceOf[String].toInt
+  } catch {
+    case e: Exception => -1
+  }*/
+
   def getSessionUserID = try {
     SessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
   } catch {

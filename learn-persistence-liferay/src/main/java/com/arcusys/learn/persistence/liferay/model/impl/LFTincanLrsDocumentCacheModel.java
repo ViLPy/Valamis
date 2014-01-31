@@ -3,21 +3,25 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument;
 
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import java.util.Date;
 
 /**
-* The cache model class for representing LFTincanLrsDocument in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFTincanLrsDocument
-* @generated
-*/
+ * The cache model class for representing LFTincanLrsDocument in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFTincanLrsDocument
+ * @generated
+ */
 public class LFTincanLrsDocumentCacheModel implements CacheModel<LFTincanLrsDocument>,
-    Serializable {
+    Externalizable {
     public long id;
     public String documentId;
     public long update;
@@ -43,11 +47,17 @@ public class LFTincanLrsDocumentCacheModel implements CacheModel<LFTincanLrsDocu
         return sb.toString();
     }
 
+    @Override
     public LFTincanLrsDocument toEntityModel() {
         LFTincanLrsDocumentImpl lfTincanLrsDocumentImpl = new LFTincanLrsDocumentImpl();
 
         lfTincanLrsDocumentImpl.setId(id);
-        lfTincanLrsDocumentImpl.setDocumentId(documentId);
+
+        if (documentId == null) {
+            lfTincanLrsDocumentImpl.setDocumentId(StringPool.BLANK);
+        } else {
+            lfTincanLrsDocumentImpl.setDocumentId(documentId);
+        }
 
         if (update == Long.MIN_VALUE) {
             lfTincanLrsDocumentImpl.setUpdate(null);
@@ -55,11 +65,55 @@ public class LFTincanLrsDocumentCacheModel implements CacheModel<LFTincanLrsDocu
             lfTincanLrsDocumentImpl.setUpdate(new Date(update));
         }
 
-        lfTincanLrsDocumentImpl.setContent(content);
-        lfTincanLrsDocumentImpl.setContentType(contentType);
+        if (content == null) {
+            lfTincanLrsDocumentImpl.setContent(StringPool.BLANK);
+        } else {
+            lfTincanLrsDocumentImpl.setContent(content);
+        }
+
+        if (contentType == null) {
+            lfTincanLrsDocumentImpl.setContentType(StringPool.BLANK);
+        } else {
+            lfTincanLrsDocumentImpl.setContentType(contentType);
+        }
 
         lfTincanLrsDocumentImpl.resetOriginalValues();
 
         return lfTincanLrsDocumentImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        documentId = objectInput.readUTF();
+        update = objectInput.readLong();
+        content = objectInput.readUTF();
+        contentType = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (documentId == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(documentId);
+        }
+
+        objectOutput.writeLong(update);
+
+        if (content == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(content);
+        }
+
+        if (contentType == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(contentType);
+        }
     }
 }

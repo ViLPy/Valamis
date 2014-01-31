@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFActivityLocalServiceUtil;
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFActivityLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,24 +41,24 @@ public class LFActivityLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
-    private String _methodName270;
-    private String[] _methodParameterTypes270;
-    private String _methodName271;
-    private String[] _methodParameterTypes271;
-    private String _methodName272;
-    private String[] _methodParameterTypes272;
-    private String _methodName273;
-    private String[] _methodParameterTypes273;
-    private String _methodName274;
-    private String[] _methodParameterTypes274;
-    private String _methodName275;
-    private String[] _methodParameterTypes275;
     private String _methodName276;
     private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
+    private String _methodName282;
+    private String[] _methodParameterTypes282;
+    private String _methodName283;
+    private String[] _methodParameterTypes283;
+    private String _methodName284;
+    private String[] _methodParameterTypes284;
+    private String _methodName285;
+    private String[] _methodParameterTypes285;
+    private String _methodName286;
+    private String[] _methodParameterTypes286;
+    private String _methodName287;
+    private String[] _methodParameterTypes287;
+    private String _methodName288;
+    private String[] _methodParameterTypes288;
 
     public LFActivityLocalServiceClpInvoker() {
         _methodName0 = "addLFActivity";
@@ -107,80 +110,80 @@ public class LFActivityLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFActivity";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFActivity";
+        _methodName10 = "fetchLFActivity";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFActivity";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFActivities";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFActivitiesCount";
+        _methodName13 = "getLFActivities";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFActivity";
+        _methodName14 = "getLFActivitiesCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFActivity"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFActivity";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFActivity",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFActivity"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
 
-        _methodName270 = "createLFActivity";
+        _methodName282 = "createLFActivity";
 
-        _methodParameterTypes270 = new String[] {  };
+        _methodParameterTypes282 = new String[] {  };
 
-        _methodName271 = "findByPackageAndID";
+        _methodName283 = "findByPackageAndID";
 
-        _methodParameterTypes271 = new String[] {
+        _methodParameterTypes283 = new String[] {
                 "java.lang.Integer", "java.lang.String"
             };
 
-        _methodName272 = "findByPackageID";
+        _methodName284 = "findByPackageID";
 
-        _methodParameterTypes272 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes284 = new String[] { "java.lang.Integer" };
 
-        _methodName273 = "findByPackageIDAndOrganizationID";
+        _methodName285 = "findByPackageIDAndOrganizationID";
 
-        _methodParameterTypes273 = new String[] {
+        _methodParameterTypes285 = new String[] {
                 "java.lang.Integer", "java.lang.String"
             };
 
-        _methodName274 = "findByPackageIDAndParentID";
+        _methodName286 = "findByPackageIDAndParentID";
 
-        _methodParameterTypes274 = new String[] {
+        _methodParameterTypes286 = new String[] {
                 "java.lang.Integer", "java.lang.String"
             };
 
-        _methodName275 = "removeAll";
+        _methodName287 = "removeAll";
 
-        _methodParameterTypes275 = new String[] {  };
+        _methodParameterTypes287 = new String[] {  };
 
-        _methodName276 = "getLFActivity";
+        _methodName288 = "getLFActivity";
 
-        _methodParameterTypes276 = new String[] { "long" };
+        _methodParameterTypes288 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -237,90 +240,90 @@ public class LFActivityLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFActivityLocalServiceUtil.fetchLFActivity(((Long) arguments[0]).longValue());
+            return LFActivityLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFActivityLocalServiceUtil.getLFActivity(((Long) arguments[0]).longValue());
+            return LFActivityLocalServiceUtil.fetchLFActivity(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFActivityLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFActivityLocalServiceUtil.getLFActivity(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFActivityLocalServiceUtil.getLFActivities(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFActivityLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFActivityLocalServiceUtil.getLFActivitiesCount();
+            return LFActivityLocalServiceUtil.getLFActivities(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFActivityLocalServiceUtil.updateLFActivity((com.arcusys.learn.persistence.liferay.model.LFActivity) arguments[0]);
+            return LFActivityLocalServiceUtil.getLFActivitiesCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFActivityLocalServiceUtil.updateLFActivity((com.arcusys.learn.persistence.liferay.model.LFActivity) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFActivityLocalServiceUtil.updateLFActivity((com.arcusys.learn.persistence.liferay.model.LFActivity) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFActivityLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFActivityLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName270.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes270, parameterTypes)) {
+        if (_methodName282.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes282, parameterTypes)) {
             return LFActivityLocalServiceUtil.createLFActivity();
         }
 
-        if (_methodName271.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes271, parameterTypes)) {
+        if (_methodName283.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes283, parameterTypes)) {
             return LFActivityLocalServiceUtil.findByPackageAndID((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName272.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes272, parameterTypes)) {
+        if (_methodName284.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes284, parameterTypes)) {
             return LFActivityLocalServiceUtil.findByPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName273.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes273, parameterTypes)) {
+        if (_methodName285.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes285, parameterTypes)) {
             return LFActivityLocalServiceUtil.findByPackageIDAndOrganizationID((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName274.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes274, parameterTypes)) {
+        if (_methodName286.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
             return LFActivityLocalServiceUtil.findByPackageIDAndParentID((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName275.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes275, parameterTypes)) {
+        if (_methodName287.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
             LFActivityLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName276.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
+        if (_methodName288.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
             return LFActivityLocalServiceUtil.getLFActivity(((Long) arguments[0]).longValue());
         }
 

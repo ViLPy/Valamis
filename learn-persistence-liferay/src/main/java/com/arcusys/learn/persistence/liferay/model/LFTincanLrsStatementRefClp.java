@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,26 +27,32 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
     public LFTincanLrsStatementRefClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsStatementRef.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsStatementRef.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -74,20 +82,48 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsStatementRefRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsStatementRefRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsStatementRefRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getUuid() {
         return _uuid;
     }
 
+    @Override
     public void setUuid(String uuid) {
         _uuid = uuid;
+
+        if (_lfTincanLrsStatementRefRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsStatementRefRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setUuid", String.class);
+
+                method.invoke(_lfTincanLrsStatementRefRemoteModel, uuid);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsStatementRefRemoteModel() {
@@ -99,6 +135,47 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
         _lfTincanLrsStatementRefRemoteModel = lfTincanLrsStatementRefRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsStatementRefRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsStatementRefRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsStatementRefLocalServiceUtil.addLFTincanLrsStatementRef(this);
@@ -109,7 +186,7 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
 
     @Override
     public LFTincanLrsStatementRef toEscapedModel() {
-        return (LFTincanLrsStatementRef) Proxy.newProxyInstance(LFTincanLrsStatementRef.class.getClassLoader(),
+        return (LFTincanLrsStatementRef) ProxyUtil.newProxyInstance(LFTincanLrsStatementRef.class.getClassLoader(),
             new Class[] { LFTincanLrsStatementRef.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -124,6 +201,7 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsStatementRef lfTincanLrsStatementRef) {
         long primaryKey = lfTincanLrsStatementRef.getPrimaryKey();
 
@@ -138,17 +216,15 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsStatementRefClp)) {
             return false;
         }
 
-        LFTincanLrsStatementRefClp lfTincanLrsStatementRef = null;
-
-        try {
-            lfTincanLrsStatementRef = (LFTincanLrsStatementRefClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsStatementRefClp lfTincanLrsStatementRef = (LFTincanLrsStatementRefClp) obj;
 
         long primaryKey = lfTincanLrsStatementRef.getPrimaryKey();
 
@@ -177,6 +253,7 @@ public class LFTincanLrsStatementRefClp extends BaseModelImpl<LFTincanLrsStateme
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(10);
 

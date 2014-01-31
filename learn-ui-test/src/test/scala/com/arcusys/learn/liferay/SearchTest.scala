@@ -4,84 +4,85 @@ import org.openqa.selenium._
 import org.openqa.selenium.By._
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.UITestBase
+import com.arcusys.learn.base.{WebDriverArcusys, UITestBase}
 import scala.collection.JavaConverters._
 
-class SearchTest(_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
+class SearchTest(_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
   val driver = _driver
 
   private def checkPackage() {
-    driver.findElement(partialLinkText("How to Play")).getAttribute("class").contains("jstree-clicked") should be(true)
-    driver.switchTo().frame(driver.findElement(id("SCORMDataOutput")))
-    driver.findElement(xpath("/html/body/h1")).getText should be("Play of the game")
-    driver.switchTo().defaultContent()
+    checkPage("How to Play", "Play of the game")
 
-    driver.findElement(id("SCORMNavigationExit")).click()
-    wait(2)
+    driver.getVisibleElementAfterWaitBy(id("SCORMNavigationExit")).click()
   }
 
-  "Search portlet" should "be able to search for uploaded package" in {
-    // reindex first
+  //TODO: move to UITestBase
+  protected def checkPage(linkString: String, title: String){
+    driver.getVisibleElementAfterWaitBy(partialLinkText(linkString)).click()
+    driver.getVisibleElementAfterWaitBy(partialLinkText(linkString)).getAttribute("class").contains("jstree-clicked") should be(true)
+    driver.switchTo().frame(driver.getVisibleElementAfterWaitBy(id("SCORMDataOutput")))
+    driver.getVisibleElementAfterWaitBy(xpath("/html/body/h1")).getText should be(title)
+    driver.switchTo().defaultContent()
+  }
+
+  "Search portlet" should "be able to search for uploaded package" in {      //Search portlet 6.1.2 liferay.
+    //Reindex first
     driver.get(baseUrl + "/group/control_panel/manage?p_p_id=137")
-    wait(5)
-    (driver.asInstanceOf[JavascriptExecutor]).executeScript("_137_saveServer('reindex');")
-    wait(10)
+    driver.getVisibleElementAfterWaitBy(xpath("//tr/td[text()=' Reindex all search indexes. ']/../td/input")).click()
+    driver.getVisibleElementAfterWaitBy(xpath("//div[text() = ' Your request completed successfully. ']"))
+    wait(5)   // TODO: temporal solution, if no wait -> search will find not all items
+    //======
 
     driver.get(baseUrl + searchUrl)
-    driver.findElement(name("_3_keywords")).sendKeys(packageTitle12)
-    driver.findElement(name("_3_keywords")).submit()
-    wait(2)
-    driver.findElements(className("asset-entry-type")).asScala.filter(_.getText.contains("Deployed SCORM Package")).size should be(2)
-    driver.findElement(partialLinkText("Deployed SCORM Package")).click()
-    wait(1)
-    driver.findElements(className("portlet-section-body")).asScala.head.findElement(xpath("//*[@class=\"asset-entry-title\"]/a")).click()
-    wait(10)
+    driver.getVisibleElementAfterWaitBy(name("_3_keywords")).sendKeys(packageTitle12)
+    driver.getVisibleElementAfterWaitBy(name("_3_keywords")).submit()
+    driver.waitForNumberOfElementsWithFilterToEqual(_.getText.contains("Deployed SCORM Package"),className("asset-entry-type"),2) //TODO: if TinCan should be found?
+    driver.getVisibleElementAfterWaitBy(partialLinkText("Deployed SCORM Package")).click()
+    driver.getVisibleElementAfterWaitBy(xpath("//tr[contains(@class,'portlet-section-body') and contains(@class,'results-row')]//a")).click()
 
     checkPackage()
   }
 
   "Asset publisher" should "be able to show uploaded packages" in {
     driver.get(baseUrl + assetPublisherUrl)
-    isElementPresent(linkText(packageTitle12)) should be(true)
-    isElementPresent(linkText(packageTitle2004)) should be(true)
+    driver.waitForElementVisibleBy(linkText(packageTitle12))
+    driver.waitForElementVisibleBy(linkText(packageTitle2004))
+//    driver.waitForElementVisibleBy(linkText(packageTitleTincan)) // TODO: add when tincan supports this
   }
 
   it should "be able to show uploaded packages with filtering" in {
     driver.get(baseUrl + assetPublisherScormOnlyUrl)
-    wait(5)
-    isElementPresent(linkText(packageTitle12)) should be(true)
-    isElementPresent(linkText(packageTitle2004)) should be(true)
+    driver.waitForElementVisibleBy(linkText(packageTitle12))
+    driver.waitForElementVisibleBy(linkText(packageTitle2004))
   }
 
   it should "be able to open player in context" in {
-    driver.findElement(linkText(packageTitle12)).click()
-    wait(2)
-    driver.findElement(linkText("View in Context »")).click()
-    wait(10)
+    driver.getVisibleElementAfterWaitBy(linkText(packageTitle12)).click()
+    driver.getVisibleElementAfterWaitBy(linkText("View in Context »")).click()
 
     checkPackage()
   }
 
   it should "be able to upload new package" in {
+    val testPackageName = "TestPackageFromAssetPublisher"
+    val testPackageDescription = "Test package from asset publisher"
     driver.get(baseUrl + assetPublisherUrl)
 
-    driver.findElement(linkText("Add New")).click()
-    wait(1)
-    driver.findElement(linkText("Deployed SCORM Package")).click()
-    wait(3)
-    driver.switchTo().frame(driver.findElement(By.tagName("iframe")))
-    uploadPackage("SCORM12.zip", "TestPackageFromAssetPublisher", "Test package from asset publisher")
+    driver.getVisibleElementAfterWaitBy(linkText("Add New")).click()
+    driver.getVisibleElementAfterWaitBy(linkText("Deployed SCORM Package")).click()
+    driver.switchTo().frame(driver.getVisibleElementAfterWaitBy(By.tagName("iframe")))
+    uploadPackage(packageFile12, testPackageName, testPackageDescription)
     driver.switchTo().defaultContent()
 
-    driver.findElement(id("closethick")).click()
-    wait(1)
+    //driver.getVisibleElementAfterWaitBy(id("closethick")).click()
+
     driver.get(driver.getCurrentUrl)
 
-    driver.findElements(linkText("TestPackageFromAssetPublisher")).size should be(1)
+    driver.waitForNumberOfElementsWithFilterToEqual( _=> true ,linkText(testPackageName), 1)
 
     // remove uploaded package
     driver.get(baseUrl + adminUrl)
-    driver.findElement(xpath("//*[@id=\"SCORMAdminPackagesGrid\"]/tr[3]")).click()
-    driver.findElement(id("SCORMPackageRemove")).click()
+    driver.getVisibleElementAfterWaitBy(xpath("id('SCORMAdminPackagesGrid')//*[text()='" + testPackageName + "']")).click()
+    driver.getVisibleElementAfterWaitBy(id("SCORMPackageRemove")).click()
   }
 }

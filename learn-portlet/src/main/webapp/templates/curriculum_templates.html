@@ -217,12 +217,14 @@
         <td>{{{grade}}}</td>
     </tr>
 </script>
+
 <script type="text/mustache" id="myCertificateSiteRow">
     <tr>
         <td>{{{title}}}</td>
         <td>{{{grade}}}</td>
     </tr>
 </script>
+
 <script type="text/mustache" id="userCourseRow">
     <tr>
         <td><a href="{{url}}" target="_blank">{{{title}}}</a></td>
@@ -299,12 +301,14 @@
                     <div style="clear:both"></div>
                 </div>
                 <div id="certificateValidPeriod" class="SCORMResult">
-                    <input  type="radio" name="validPeriod_{{id}}" value="true" class="validPeriod"
-                    {{#isPermanent}}checked{{/isPermanent}} />
-                    <label class="captionLabel">{{permanent}}</label>
-                    <input type="radio" name="validPeriod_{{id}}" value="false" class="validPeriod" style="margin-left:10px;"
-                    {{^isPermanent}}checked{{/isPermanent}} />
-                    <label class="captionLabel">{{year}}</label>
+                    <label class="captionLabel">
+                        <input  type="radio" name="validPeriod_{{id}}" value="true" class="validPeriod"
+                        {{#isPermanent}}checked{{/isPermanent}} /> {{permanent}}
+                    </label>
+                    <label class="captionLabel">
+                        <input type="radio" name="validPeriod_{{id}}" value="false" class="validPeriod"
+                        {{^isPermanent}}checked{{/isPermanent}} /> {{year}}
+                    </label>
                 </div>
 
 
@@ -313,9 +317,10 @@
                     <div style="clear:both"></div>
                 </div>
                 <div id="certificatePublishBadge" class="SCORMResult">
-                    <input id="publishBadge_{{id}}" type="checkbox" class="publishBadgeCheckbox"
-                    {{#publishBadge}}checked{{/publishBadge}} />
-                    <label class="captionLabel">{{publishBadgeLabel}}</label>
+                    <label class="captionLabel">
+                        <input id="publishBadge_{{id}}" type="checkbox" class="publishBadgeCheckbox"
+                        {{#publishBadge}}checked{{/publishBadge}} /> {{publishBadgeLabel}}
+                    </label>
 
                     <div id="shortDescriptionSection_{{id}}">
                         {{shortDescriptionLabel}}
@@ -556,3 +561,158 @@
     </tr>
 </script>
 
+<script type="text/template" id="activity">
+    <input value="{{activityClassName}}" class="activityClassName" />
+    <input value="{{numberActivitiesRequired}}" class="numberActivitiesRequired" />
+    <button class="modifyActivity"> Modify Activity </button>
+</script>
+
+<!--<script type="text/template" id="app">
+    <div class="SCORMAddNewButton">
+        <button class="addAchievement certificateAddItem">Add Achievement </button>
+    </div>
+    <ul id="achievementList"> </ul>
+</script>-->
+
+<script type="text/mustache" xmlns="http://www.w3.org/1999/html" id="availableAchievementListView">
+    <div id="achievementListWidget">
+        <div id="SCORMAchievementHeader">
+            <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" class="SCORMSearch achievementSearch"/>
+            <abbr>
+                <button id="filterAchievementList" class="textButton sortButton filterButton">{{filterLabel}}</button>
+            </abbr>
+            <abbr title="Sort">
+                <button id="sortAchievementList" class="textButton sortButton sortAchievement">{{sortOrderAscLabel}}</button>
+                <input type="hidden" id="sortAchievementAZ" value="true"/>
+            </abbr>
+        </div>
+
+        <ul class="quizList"></ul>
+
+        <div id="allAchievementPaginator" class="paginator">
+            <button class="textButton prevPageButton"> < </button>
+            <button class="textButton buttonPageNum"> 1 </button>
+            <button class="textButton nextPageButton"> > </button>
+        </div>
+    </div>
+
+</script>
+
+
+<script type="text/mustache" id="availableAchievementListItemView">
+    <div class="availableQuizItem">
+        <div class="itemHeader">
+            <div class="quizItemTitle">{{title}}</div>
+
+            <abbr title="{{joinCertificate}}">
+                <button class="commandButton quizManagementButton joinCertificate joinAchievement">
+                    {{joinCertificate}}
+                </button>
+            </abbr>
+            <abbr title="{{leaveCertificate}}">
+                <button class="commandButton quizManagementButton leaveCertificate leaveAchievement">
+                    {{leaveCertificate}}
+                </button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+                <div>
+                    <div class="certificateIconDiv">
+                        <img src="{{logo}}" alt="" class="logo">
+                    </div>
+                    <div class="certificateInfoDiv">
+                        <div class="certificateInfoLine quizSection">
+                            <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="SCORMResult SCORMCategoryDescription">{{{description}}}</div>
+
+                        <div style="margin-top:30px;">
+                            <div style="float:left;" class="quizSectionTitle ">{{numberActivities}}
+                                {{achievementSitesSubtitleLabel}}
+                            </div>
+
+                            <div style="margin-left:50%;" class="quizSectionTitle ">
+                                {{usersCount}} {{usersSubtitleLabel}}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="myAchievementListItemView">
+    <div class="availableQuizItem">
+        <div class="certificateItemHeader">
+            <div class="quizItemTitle">{{title}}</div>
+            <abbr title="{{open}}">
+                <button class="commandButton quizManagementButton toggleCertificate expandCertificate expandAchievement">
+                    {{open}}
+                </button>
+            </abbr>
+            <abbr title="{{close}}">
+                <button class="commandButton quizManagementButton toggleCertificate collapseCertificate collapseAchievement">
+                    {{close}}
+                </button>
+            </abbr>
+            {{#completed}} <div class="achievementCompleteStatus">{{CompletedAchievement}}</div> {{/completed}}
+            {{^completed}} <div class="achievementCompleteStatus">{{IncompletedAchievement}}</div> {{/completed}}
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="itemBody certificateItemBody achievementItemBody">
+
+            <div class="certificateIconDiv">
+                <img src="{{logo}}" alt="" class="logo">
+            </div>
+            <div class="certificateInfoDiv">
+                <div class="itemBody">
+                    <div class="quizBodyContent">
+                        <div>
+                            <div class="certificateInfoLine quizSection">
+                                <div class="quizSectionTitle">{{achievementLabel}}</div>
+                                <div style="clear:both"></div>
+                            </div>
+                            <div class="SCORMResult">{{{description}}}</div>
+                        </div>
+                       <div class="SCORMPackageList">
+                            <div class="SCORMPackageListHeader">
+                                <div class="SCORMPackageListHeaderText">{{activitiesLabel}}</div>
+                                <div style="clear:both"/>
+                            </div>
+                            <table style="width: 100%" cellpadding="0" class="myCertificateGrid" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="scormSiteTitleColumn sortable listTitle" ref="title"></th>
+                                    <th scope="col" class="scormSiteGradeColumn listTitle">{{activitiesComplited}}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="SCORMMyCertificatesGrid" class="MyAchievementsGrid">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="myAchievementActivityRow">
+        <td>
+            <div>{{activityClassName}}</div>
+            <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        </td>
+        <td>{{numberActivitiesCompleted}}/{{numberActivitiesRequired}}</td>
+</script>

@@ -49,7 +49,7 @@ public class LFTincanActorUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFTincanActorUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFTincanActor update(LFTincanActor lfTincanActor)
+        throws SystemException {
+        return getPersistence().update(lfTincanActor);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanActor update(LFTincanActor lfTincanActor,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfTincanActor, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFTincanActor update(LFTincanActor lfTincanActor,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfTincanActor, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan actor in the entity cache if it is enabled.
-    *
-    * @param lfTincanActor the l f tincan actor
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanActor lfTincanActor) {
-        getPersistence().cacheResult(lfTincanActor);
-    }
-
-    /**
-    * Caches the l f tincan actors in the entity cache if it is enabled.
-    *
-    * @param lfTincanActors the l f tincan actors
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> lfTincanActors) {
-        getPersistence().cacheResult(lfTincanActors);
-    }
-
-    /**
-    * Creates a new l f tincan actor with the primary key. Does not add the l f tincan actor to the database.
-    *
-    * @param id the primary key for the new l f tincan actor
-    * @return the new l f tincan actor
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan actor with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan actor
-    * @return the l f tincan actor that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException if a l f tincan actor with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanActor lfTincanActor,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanActor, merge);
-    }
-
-    /**
-    * Returns the l f tincan actor with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan actor
-    * @return the l f tincan actor
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException if a l f tincan actor with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan actor with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan actor
-    * @return the l f tincan actor, or <code>null</code> if a l f tincan actor with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfTincanActor, serviceContext);
     }
 
     /**
@@ -221,6 +141,32 @@ public class LFTincanActorUtil {
     }
 
     /**
+    * Removes the l f tincan actor where tincanID = &#63; from the database.
+    *
+    * @param tincanID the tincan i d
+    * @return the l f tincan actor that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor removeByTincanID(
+        java.lang.String tincanID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByTincanID(tincanID);
+    }
+
+    /**
+    * Returns the number of l f tincan actors where tincanID = &#63;.
+    *
+    * @param tincanID the tincan i d
+    * @return the number of matching l f tincan actors
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByTincanID(java.lang.String tincanID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByTincanID(tincanID);
+    }
+
+    /**
     * Returns all the l f tincan actors where memberOf = &#63;.
     *
     * @param memberOf the member of
@@ -237,7 +183,7 @@ public class LFTincanActorUtil {
     * Returns a range of all the l f tincan actors where memberOf = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param memberOf the member of
@@ -256,7 +202,7 @@ public class LFTincanActorUtil {
     * Returns an ordered range of all the l f tincan actors where memberOf = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param memberOf the member of
@@ -359,6 +305,29 @@ public class LFTincanActorUtil {
     }
 
     /**
+    * Removes all the l f tincan actors where memberOf = &#63; from the database.
+    *
+    * @param memberOf the member of
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByMemberOf(java.lang.String memberOf)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByMemberOf(memberOf);
+    }
+
+    /**
+    * Returns the number of l f tincan actors where memberOf = &#63;.
+    *
+    * @param memberOf the member of
+    * @return the number of matching l f tincan actors
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByMemberOf(java.lang.String memberOf)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByMemberOf(memberOf);
+    }
+
+    /**
     * Returns all the l f tincan actors where objectType = &#63; and name = &#63; and mbox = &#63; and mbox_sha1sum = &#63; and openid = &#63;.
     *
     * @param objectType the object type
@@ -382,7 +351,7 @@ public class LFTincanActorUtil {
     * Returns a range of all the l f tincan actors where objectType = &#63; and name = &#63; and mbox = &#63; and mbox_sha1sum = &#63; and openid = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objectType the object type
@@ -409,7 +378,7 @@ public class LFTincanActorUtil {
     * Returns an ordered range of all the l f tincan actors where objectType = &#63; and name = &#63; and mbox = &#63; and mbox_sha1sum = &#63; and openid = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objectType the object type
@@ -557,80 +526,6 @@ public class LFTincanActorUtil {
     }
 
     /**
-    * Returns all the l f tincan actors.
-    *
-    * @return the l f tincan actors
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll();
-    }
-
-    /**
-    * Returns a range of all the l f tincan actors.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f tincan actors
-    * @param end the upper bound of the range of l f tincan actors (not inclusive)
-    * @return the range of l f tincan actors
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll(
-        int start, int end)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end);
-    }
-
-    /**
-    * Returns an ordered range of all the l f tincan actors.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f tincan actors
-    * @param end the upper bound of the range of l f tincan actors (not inclusive)
-    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-    * @return the ordered range of l f tincan actors
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll(
-        int start, int end,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end, orderByComparator);
-    }
-
-    /**
-    * Removes the l f tincan actor where tincanID = &#63; from the database.
-    *
-    * @param tincanID the tincan i d
-    * @return the l f tincan actor that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor removeByTincanID(
-        java.lang.String tincanID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByTincanID(tincanID);
-    }
-
-    /**
-    * Removes all the l f tincan actors where memberOf = &#63; from the database.
-    *
-    * @param memberOf the member of
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByMemberOf(java.lang.String memberOf)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByMemberOf(memberOf);
-    }
-
-    /**
     * Removes all the l f tincan actors where objectType = &#63; and name = &#63; and mbox = &#63; and mbox_sha1sum = &#63; and openid = &#63; from the database.
     *
     * @param objectType the object type
@@ -646,40 +541,6 @@ public class LFTincanActorUtil {
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence()
             .removeByAgent(objectType, name, mbox, mbox_sha1sum, openid);
-    }
-
-    /**
-    * Removes all the l f tincan actors from the database.
-    *
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan actors where tincanID = &#63;.
-    *
-    * @param tincanID the tincan i d
-    * @return the number of matching l f tincan actors
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByTincanID(java.lang.String tincanID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByTincanID(tincanID);
-    }
-
-    /**
-    * Returns the number of l f tincan actors where memberOf = &#63;.
-    *
-    * @param memberOf the member of
-    * @return the number of matching l f tincan actors
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByMemberOf(java.lang.String memberOf)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByMemberOf(memberOf);
     }
 
     /**
@@ -699,6 +560,144 @@ public class LFTincanActorUtil {
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
                    .countByAgent(objectType, name, mbox, mbox_sha1sum, openid);
+    }
+
+    /**
+    * Caches the l f tincan actor in the entity cache if it is enabled.
+    *
+    * @param lfTincanActor the l f tincan actor
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanActor lfTincanActor) {
+        getPersistence().cacheResult(lfTincanActor);
+    }
+
+    /**
+    * Caches the l f tincan actors in the entity cache if it is enabled.
+    *
+    * @param lfTincanActors the l f tincan actors
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> lfTincanActors) {
+        getPersistence().cacheResult(lfTincanActors);
+    }
+
+    /**
+    * Creates a new l f tincan actor with the primary key. Does not add the l f tincan actor to the database.
+    *
+    * @param id the primary key for the new l f tincan actor
+    * @return the new l f tincan actor
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan actor with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan actor
+    * @return the l f tincan actor that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException if a l f tincan actor with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanActor lfTincanActor)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanActor);
+    }
+
+    /**
+    * Returns the l f tincan actor with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan actor
+    * @return the l f tincan actor
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException if a l f tincan actor with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan actor with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan actor
+    * @return the l f tincan actor, or <code>null</code> if a l f tincan actor with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanActor fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
+    * Returns all the l f tincan actors.
+    *
+    * @return the l f tincan actors
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll();
+    }
+
+    /**
+    * Returns a range of all the l f tincan actors.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f tincan actors
+    * @param end the upper bound of the range of l f tincan actors (not inclusive)
+    * @return the range of l f tincan actors
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll(
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f tincan actors.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f tincan actors
+    * @param end the upper bound of the range of l f tincan actors (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of l f tincan actors
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanActor> findAll(
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f tincan actors from the database.
+    *
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeAll();
     }
 
     /**
@@ -725,7 +724,7 @@ public class LFTincanActorUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanActorPersistence persistence) {
     }

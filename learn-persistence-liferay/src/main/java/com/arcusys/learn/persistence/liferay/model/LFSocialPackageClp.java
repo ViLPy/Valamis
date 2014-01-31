@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,26 +31,32 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
     public LFSocialPackageClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFSocialPackage.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFSocialPackage.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -99,44 +107,114 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfSocialPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSocialPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfSocialPackageRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Integer packageID) {
         _packageID = packageID;
+
+        if (_lfSocialPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSocialPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Integer.class);
+
+                method.invoke(_lfSocialPackageRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getAboutPackage() {
         return _aboutPackage;
     }
 
+    @Override
     public void setAboutPackage(String aboutPackage) {
         _aboutPackage = aboutPackage;
+
+        if (_lfSocialPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSocialPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAboutPackage", String.class);
+
+                method.invoke(_lfSocialPackageRemoteModel, aboutPackage);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Date getPublishDate() {
         return _publishDate;
     }
 
+    @Override
     public void setPublishDate(Date publishDate) {
         _publishDate = publishDate;
+
+        if (_lfSocialPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSocialPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPublishDate", Date.class);
+
+                method.invoke(_lfSocialPackageRemoteModel, publishDate);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getAuthorID() {
         return _authorID;
     }
 
+    @Override
     public void setAuthorID(Integer authorID) {
         _authorID = authorID;
+
+        if (_lfSocialPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfSocialPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAuthorID", Integer.class);
+
+                method.invoke(_lfSocialPackageRemoteModel, authorID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFSocialPackageRemoteModel() {
@@ -148,6 +226,47 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
         _lfSocialPackageRemoteModel = lfSocialPackageRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfSocialPackageRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfSocialPackageRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSocialPackageLocalServiceUtil.addLFSocialPackage(this);
@@ -158,7 +277,7 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
 
     @Override
     public LFSocialPackage toEscapedModel() {
-        return (LFSocialPackage) Proxy.newProxyInstance(LFSocialPackage.class.getClassLoader(),
+        return (LFSocialPackage) ProxyUtil.newProxyInstance(LFSocialPackage.class.getClassLoader(),
             new Class[] { LFSocialPackage.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -176,6 +295,7 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
         return clone;
     }
 
+    @Override
     public int compareTo(LFSocialPackage lfSocialPackage) {
         long primaryKey = lfSocialPackage.getPrimaryKey();
 
@@ -190,17 +310,15 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFSocialPackageClp)) {
             return false;
         }
 
-        LFSocialPackageClp lfSocialPackage = null;
-
-        try {
-            lfSocialPackage = (LFSocialPackageClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFSocialPackageClp lfSocialPackage = (LFSocialPackageClp) obj;
 
         long primaryKey = lfSocialPackage.getPrimaryKey();
 
@@ -235,6 +353,7 @@ public class LFSocialPackageClp extends BaseModelImpl<LFSocialPackage>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(19);
 

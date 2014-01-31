@@ -24,6 +24,7 @@ public abstract class LFSocialPackageTagBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f social package tag model instance should use the {@link LFSocialPackageTag} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSocialPackageTagLocalServiceUtil.addLFSocialPackageTag(this);

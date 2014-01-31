@@ -49,7 +49,7 @@ public class LFQuizQuestionUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFQuizQuestionUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFQuizQuestion update(LFQuizQuestion lfQuizQuestion)
+        throws SystemException {
+        return getPersistence().update(lfQuizQuestion);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFQuizQuestion update(LFQuizQuestion lfQuizQuestion,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfQuizQuestion, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFQuizQuestion update(LFQuizQuestion lfQuizQuestion,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfQuizQuestion, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f quiz question in the entity cache if it is enabled.
-    *
-    * @param lfQuizQuestion the l f quiz question
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFQuizQuestion lfQuizQuestion) {
-        getPersistence().cacheResult(lfQuizQuestion);
-    }
-
-    /**
-    * Caches the l f quiz questions in the entity cache if it is enabled.
-    *
-    * @param lfQuizQuestions the l f quiz questions
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizQuestion> lfQuizQuestions) {
-        getPersistence().cacheResult(lfQuizQuestions);
-    }
-
-    /**
-    * Creates a new l f quiz question with the primary key. Does not add the l f quiz question to the database.
-    *
-    * @param id the primary key for the new l f quiz question
-    * @return the new l f quiz question
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f quiz question with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f quiz question
-    * @return the l f quiz question that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException if a l f quiz question with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFQuizQuestion lfQuizQuestion,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfQuizQuestion, merge);
-    }
-
-    /**
-    * Returns the l f quiz question with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException} if it could not be found.
-    *
-    * @param id the primary key of the l f quiz question
-    * @return the l f quiz question
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException if a l f quiz question with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f quiz question with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f quiz question
-    * @return the l f quiz question, or <code>null</code> if a l f quiz question with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfQuizQuestion, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFQuizQuestionUtil {
     * Returns a range of all the l f quiz questions where quizId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param quizId the quiz ID
@@ -214,7 +134,7 @@ public class LFQuizQuestionUtil {
     * Returns an ordered range of all the l f quiz questions where quizId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param quizId the quiz ID
@@ -316,6 +236,29 @@ public class LFQuizQuestionUtil {
     }
 
     /**
+    * Removes all the l f quiz questions where quizId = &#63; from the database.
+    *
+    * @param quizId the quiz ID
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByQuizID(java.lang.Integer quizId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByQuizID(quizId);
+    }
+
+    /**
+    * Returns the number of l f quiz questions where quizId = &#63;.
+    *
+    * @param quizId the quiz ID
+    * @return the number of matching l f quiz questions
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByQuizID(java.lang.Integer quizId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByQuizID(quizId);
+    }
+
+    /**
     * Returns all the l f quiz questions where quizId = &#63; and categoryId = &#63;.
     *
     * @param quizId the quiz ID
@@ -333,7 +276,7 @@ public class LFQuizQuestionUtil {
     * Returns a range of all the l f quiz questions where quizId = &#63; and categoryId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param quizId the quiz ID
@@ -354,7 +297,7 @@ public class LFQuizQuestionUtil {
     * Returns an ordered range of all the l f quiz questions where quizId = &#63; and categoryId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param quizId the quiz ID
@@ -473,6 +416,112 @@ public class LFQuizQuestionUtil {
     }
 
     /**
+    * Removes all the l f quiz questions where quizId = &#63; and categoryId = &#63; from the database.
+    *
+    * @param quizId the quiz ID
+    * @param categoryId the category ID
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByQuizAndCategory(java.lang.Integer quizId,
+        java.lang.Integer categoryId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByQuizAndCategory(quizId, categoryId);
+    }
+
+    /**
+    * Returns the number of l f quiz questions where quizId = &#63; and categoryId = &#63;.
+    *
+    * @param quizId the quiz ID
+    * @param categoryId the category ID
+    * @return the number of matching l f quiz questions
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByQuizAndCategory(java.lang.Integer quizId,
+        java.lang.Integer categoryId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByQuizAndCategory(quizId, categoryId);
+    }
+
+    /**
+    * Caches the l f quiz question in the entity cache if it is enabled.
+    *
+    * @param lfQuizQuestion the l f quiz question
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFQuizQuestion lfQuizQuestion) {
+        getPersistence().cacheResult(lfQuizQuestion);
+    }
+
+    /**
+    * Caches the l f quiz questions in the entity cache if it is enabled.
+    *
+    * @param lfQuizQuestions the l f quiz questions
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizQuestion> lfQuizQuestions) {
+        getPersistence().cacheResult(lfQuizQuestions);
+    }
+
+    /**
+    * Creates a new l f quiz question with the primary key. Does not add the l f quiz question to the database.
+    *
+    * @param id the primary key for the new l f quiz question
+    * @return the new l f quiz question
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f quiz question with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f quiz question
+    * @return the l f quiz question that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException if a l f quiz question with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFQuizQuestion lfQuizQuestion)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfQuizQuestion);
+    }
+
+    /**
+    * Returns the l f quiz question with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException} if it could not be found.
+    *
+    * @param id the primary key of the l f quiz question
+    * @return the l f quiz question
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException if a l f quiz question with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f quiz question with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f quiz question
+    * @return the l f quiz question, or <code>null</code> if a l f quiz question with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizQuestion fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f quiz questions.
     *
     * @return the l f quiz questions
@@ -487,7 +536,7 @@ public class LFQuizQuestionUtil {
     * Returns a range of all the l f quiz questions.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f quiz questions
@@ -505,7 +554,7 @@ public class LFQuizQuestionUtil {
     * Returns an ordered range of all the l f quiz questions.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f quiz questions
@@ -522,30 +571,6 @@ public class LFQuizQuestionUtil {
     }
 
     /**
-    * Removes all the l f quiz questions where quizId = &#63; from the database.
-    *
-    * @param quizId the quiz ID
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByQuizID(java.lang.Integer quizId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByQuizID(quizId);
-    }
-
-    /**
-    * Removes all the l f quiz questions where quizId = &#63; and categoryId = &#63; from the database.
-    *
-    * @param quizId the quiz ID
-    * @param categoryId the category ID
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByQuizAndCategory(java.lang.Integer quizId,
-        java.lang.Integer categoryId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByQuizAndCategory(quizId, categoryId);
-    }
-
-    /**
     * Removes all the l f quiz questions from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -553,32 +578,6 @@ public class LFQuizQuestionUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f quiz questions where quizId = &#63;.
-    *
-    * @param quizId the quiz ID
-    * @return the number of matching l f quiz questions
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByQuizID(java.lang.Integer quizId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByQuizID(quizId);
-    }
-
-    /**
-    * Returns the number of l f quiz questions where quizId = &#63; and categoryId = &#63;.
-    *
-    * @param quizId the quiz ID
-    * @param categoryId the category ID
-    * @return the number of matching l f quiz questions
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByQuizAndCategory(java.lang.Integer quizId,
-        java.lang.Integer categoryId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByQuizAndCategory(quizId, categoryId);
     }
 
     /**
@@ -605,7 +604,7 @@ public class LFQuizQuestionUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFQuizQuestionPersistence persistence) {
     }

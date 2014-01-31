@@ -12,6 +12,7 @@ import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, Certificat
 import com.arcusys.learn.setting.storage.SettingStorage
 import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
+import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementRequiredStorage, AchievementActivityStorage, AchievementStorage}
 import com.arcusys.learn.tincan.storage._
 
 trait StorageFactoryContract {
@@ -73,6 +74,11 @@ trait StorageFactoryContract {
   def certificateSiteStorage: CertificateSiteStorage
 
   def certificateUserStorage: CertificateUserStorage
+
+  def achievementStorage: AchievementStorage
+  def achievementActivityStorage: AchievementActivityStorage
+  def achievementRequiredStorage: AchievementRequiredStorage
+  def achievementUserStorage: AchievementUserStorage
 
   def socialPackageStorage: SocialPackageStorage
   def packageCommentStorage: PackageCommentStorage

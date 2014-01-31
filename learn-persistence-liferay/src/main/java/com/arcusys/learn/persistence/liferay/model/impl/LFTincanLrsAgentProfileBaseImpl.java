@@ -24,6 +24,7 @@ public abstract class LFTincanLrsAgentProfileBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs agent profile model instance should use the {@link LFTincanLrsAgentProfile} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsAgentProfileLocalServiceUtil.addLFTincanLrsAgentProfile(this);

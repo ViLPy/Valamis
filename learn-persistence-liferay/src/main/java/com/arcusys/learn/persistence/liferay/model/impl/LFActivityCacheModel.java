@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFActivity in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFActivity
-* @generated
-*/
+ * The cache model class for representing LFActivity in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFActivity
+ * @generated
+ */
 public class LFActivityCacheModel implements CacheModel<LFActivity>,
-    Serializable {
+    Externalizable {
     public long indexNumber;
     public String id;
     public Integer packageID;
@@ -69,14 +72,31 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
         return sb.toString();
     }
 
+    @Override
     public LFActivity toEntityModel() {
         LFActivityImpl lfActivityImpl = new LFActivityImpl();
 
         lfActivityImpl.setIndexNumber(indexNumber);
-        lfActivityImpl.setId(id);
+
+        if (id == null) {
+            lfActivityImpl.setId(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setId(id);
+        }
+
         lfActivityImpl.setPackageID(packageID);
-        lfActivityImpl.setOrganizationID(organizationID);
-        lfActivityImpl.setParentID(parentID);
+
+        if (organizationID == null) {
+            lfActivityImpl.setOrganizationID(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setOrganizationID(organizationID);
+        }
+
+        if (parentID == null) {
+            lfActivityImpl.setParentID(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setParentID(parentID);
+        }
 
         if (title == null) {
             lfActivityImpl.setTitle(StringPool.BLANK);
@@ -90,7 +110,11 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
             lfActivityImpl.setIdentifierRef(identifierRef);
         }
 
-        lfActivityImpl.setResourceParameters(resourceParameters);
+        if (resourceParameters == null) {
+            lfActivityImpl.setResourceParameters(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setResourceParameters(resourceParameters);
+        }
 
         if (hideLMSUI == null) {
             lfActivityImpl.setHideLMSUI(StringPool.BLANK);
@@ -101,11 +125,105 @@ public class LFActivityCacheModel implements CacheModel<LFActivity>,
         lfActivityImpl.setVisible(visible);
         lfActivityImpl.setObjectivesGlobalToSystem(objectivesGlobalToSystem);
         lfActivityImpl.setSharedDataGlobalToSystem(sharedDataGlobalToSystem);
-        lfActivityImpl.setMasteryScore(masteryScore);
-        lfActivityImpl.setMaxTimeAllowed(maxTimeAllowed);
+
+        if (masteryScore == null) {
+            lfActivityImpl.setMasteryScore(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setMasteryScore(masteryScore);
+        }
+
+        if (maxTimeAllowed == null) {
+            lfActivityImpl.setMaxTimeAllowed(StringPool.BLANK);
+        } else {
+            lfActivityImpl.setMaxTimeAllowed(maxTimeAllowed);
+        }
 
         lfActivityImpl.resetOriginalValues();
 
         return lfActivityImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        indexNumber = objectInput.readLong();
+        id = objectInput.readUTF();
+        packageID = objectInput.readInt();
+        organizationID = objectInput.readUTF();
+        parentID = objectInput.readUTF();
+        title = objectInput.readUTF();
+        identifierRef = objectInput.readUTF();
+        resourceParameters = objectInput.readUTF();
+        hideLMSUI = objectInput.readUTF();
+        visible = objectInput.readBoolean();
+        objectivesGlobalToSystem = objectInput.readBoolean();
+        sharedDataGlobalToSystem = objectInput.readBoolean();
+        masteryScore = objectInput.readUTF();
+        maxTimeAllowed = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(indexNumber);
+
+        if (id == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(id);
+        }
+
+        objectOutput.writeInt(packageID);
+
+        if (organizationID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(organizationID);
+        }
+
+        if (parentID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(parentID);
+        }
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (identifierRef == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(identifierRef);
+        }
+
+        if (resourceParameters == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(resourceParameters);
+        }
+
+        if (hideLMSUI == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(hideLMSUI);
+        }
+
+        objectOutput.writeBoolean(visible);
+        objectOutput.writeBoolean(objectivesGlobalToSystem);
+        objectOutput.writeBoolean(sharedDataGlobalToSystem);
+
+        if (masteryScore == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(masteryScore);
+        }
+
+        if (maxTimeAllowed == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(maxTimeAllowed);
+        }
     }
 }
