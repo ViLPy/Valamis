@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalServiceUtil
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFObjectiveLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,20 +41,20 @@ public class LFObjectiveLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
-    private String _methodName270;
-    private String[] _methodParameterTypes270;
-    private String _methodName271;
-    private String[] _methodParameterTypes271;
-    private String _methodName272;
-    private String[] _methodParameterTypes272;
-    private String _methodName273;
-    private String[] _methodParameterTypes273;
-    private String _methodName274;
-    private String[] _methodParameterTypes274;
+    private String _methodName276;
+    private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
+    private String _methodName282;
+    private String[] _methodParameterTypes282;
+    private String _methodName283;
+    private String[] _methodParameterTypes283;
+    private String _methodName284;
+    private String[] _methodParameterTypes284;
+    private String _methodName285;
+    private String[] _methodParameterTypes285;
+    private String _methodName286;
+    private String[] _methodParameterTypes286;
 
     public LFObjectiveLocalServiceClpInvoker() {
         _methodName0 = "addLFObjective";
@@ -103,68 +106,68 @@ public class LFObjectiveLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFObjective";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFObjective";
+        _methodName10 = "fetchLFObjective";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFObjective";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFObjectives";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFObjectivesCount";
+        _methodName13 = "getLFObjectives";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFObjective";
+        _methodName14 = "getLFObjectivesCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFObjective"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFObjective";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFObjective",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFObjective"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
 
-        _methodName270 = "createLFObjective";
+        _methodName282 = "createLFObjective";
 
-        _methodParameterTypes270 = new String[] {  };
+        _methodParameterTypes282 = new String[] {  };
 
-        _methodName271 = "findBySequencingIDAndIsPrimary";
+        _methodName283 = "findBySequencingIDAndIsPrimary";
 
-        _methodParameterTypes271 = new String[] { "java.lang.Integer", "boolean" };
+        _methodParameterTypes283 = new String[] { "java.lang.Integer", "boolean" };
 
-        _methodName272 = "findBySequencingIDAndIsPrimaryAndIdentifier";
+        _methodName284 = "findBySequencingIDAndIsPrimaryAndIdentifier";
 
-        _methodParameterTypes272 = new String[] {
+        _methodParameterTypes284 = new String[] {
                 "java.lang.Integer", "boolean", "java.lang.String"
             };
 
-        _methodName273 = "removeAll";
+        _methodName285 = "removeAll";
 
-        _methodParameterTypes273 = new String[] {  };
+        _methodParameterTypes285 = new String[] {  };
 
-        _methodName274 = "getLFObjective";
+        _methodName286 = "getLFObjective";
 
-        _methodParameterTypes274 = new String[] { "long" };
+        _methodParameterTypes286 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -221,80 +224,80 @@ public class LFObjectiveLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.fetchLFObjective(((Long) arguments[0]).longValue());
+            return LFObjectiveLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.getLFObjective(((Long) arguments[0]).longValue());
+            return LFObjectiveLocalServiceUtil.fetchLFObjective(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFObjectiveLocalServiceUtil.getLFObjective(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.getLFObjectives(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFObjectiveLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.getLFObjectivesCount();
+            return LFObjectiveLocalServiceUtil.getLFObjectives(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.updateLFObjective((com.arcusys.learn.persistence.liferay.model.LFObjective) arguments[0]);
+            return LFObjectiveLocalServiceUtil.getLFObjectivesCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFObjectiveLocalServiceUtil.updateLFObjective((com.arcusys.learn.persistence.liferay.model.LFObjective) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFObjectiveLocalServiceUtil.updateLFObjective((com.arcusys.learn.persistence.liferay.model.LFObjective) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFObjectiveLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFObjectiveLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName270.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes270, parameterTypes)) {
+        if (_methodName282.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes282, parameterTypes)) {
             return LFObjectiveLocalServiceUtil.createLFObjective();
         }
 
-        if (_methodName271.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes271, parameterTypes)) {
+        if (_methodName283.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes283, parameterTypes)) {
             return LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary((java.lang.Integer) arguments[0],
                 ((Boolean) arguments[1]).booleanValue());
         }
 
-        if (_methodName272.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes272, parameterTypes)) {
+        if (_methodName284.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes284, parameterTypes)) {
             return LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimaryAndIdentifier((java.lang.Integer) arguments[0],
                 ((Boolean) arguments[1]).booleanValue(),
                 (java.lang.String) arguments[2]);
         }
 
-        if (_methodName273.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes273, parameterTypes)) {
+        if (_methodName285.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes285, parameterTypes)) {
             LFObjectiveLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName274.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes274, parameterTypes)) {
+        if (_methodName286.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
             return LFObjectiveLocalServiceUtil.getLFObjective(((Long) arguments[0]).longValue());
         }
 

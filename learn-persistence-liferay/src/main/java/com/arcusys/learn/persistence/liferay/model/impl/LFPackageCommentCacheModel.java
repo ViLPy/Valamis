@@ -3,21 +3,25 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 import com.arcusys.learn.persistence.liferay.model.LFPackageComment;
 
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 import java.util.Date;
 
 /**
-* The cache model class for representing LFPackageComment in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFPackageComment
-* @generated
-*/
+ * The cache model class for representing LFPackageComment in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFPackageComment
+ * @generated
+ */
 public class LFPackageCommentCacheModel implements CacheModel<LFPackageComment>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer socialPackageID;
     public Integer authorID;
@@ -43,13 +47,19 @@ public class LFPackageCommentCacheModel implements CacheModel<LFPackageComment>,
         return sb.toString();
     }
 
+    @Override
     public LFPackageComment toEntityModel() {
         LFPackageCommentImpl lfPackageCommentImpl = new LFPackageCommentImpl();
 
         lfPackageCommentImpl.setId(id);
         lfPackageCommentImpl.setSocialPackageID(socialPackageID);
         lfPackageCommentImpl.setAuthorID(authorID);
-        lfPackageCommentImpl.setComment(comment);
+
+        if (comment == null) {
+            lfPackageCommentImpl.setComment(StringPool.BLANK);
+        } else {
+            lfPackageCommentImpl.setComment(comment);
+        }
 
         if (publishDate == Long.MIN_VALUE) {
             lfPackageCommentImpl.setPublishDate(null);
@@ -60,5 +70,30 @@ public class LFPackageCommentCacheModel implements CacheModel<LFPackageComment>,
         lfPackageCommentImpl.resetOriginalValues();
 
         return lfPackageCommentImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        socialPackageID = objectInput.readInt();
+        authorID = objectInput.readInt();
+        comment = objectInput.readUTF();
+        publishDate = objectInput.readLong();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(socialPackageID);
+        objectOutput.writeInt(authorID);
+
+        if (comment == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(comment);
+        }
+
+        objectOutput.writeLong(publishDate);
     }
 }

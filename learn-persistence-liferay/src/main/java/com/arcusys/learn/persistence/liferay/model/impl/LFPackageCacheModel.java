@@ -6,16 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFPackage in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFPackage
-* @generated
-*/
-public class LFPackageCacheModel implements CacheModel<LFPackage>, Serializable {
+ * The cache model class for representing LFPackage in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFPackage
+ * @generated
+ */
+public class LFPackageCacheModel implements CacheModel<LFPackage>,
+    Externalizable {
     public long id;
     public String defaultOrganizationID;
     public String title;
@@ -50,11 +54,17 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>, Serializable 
         return sb.toString();
     }
 
+    @Override
     public LFPackage toEntityModel() {
         LFPackageImpl lfPackageImpl = new LFPackageImpl();
 
         lfPackageImpl.setId(id);
-        lfPackageImpl.setDefaultOrganizationID(defaultOrganizationID);
+
+        if (defaultOrganizationID == null) {
+            lfPackageImpl.setDefaultOrganizationID(StringPool.BLANK);
+        } else {
+            lfPackageImpl.setDefaultOrganizationID(defaultOrganizationID);
+        }
 
         if (title == null) {
             lfPackageImpl.setTitle(StringPool.BLANK);
@@ -62,14 +72,80 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>, Serializable 
             lfPackageImpl.setTitle(title);
         }
 
-        lfPackageImpl.setBase(base);
-        lfPackageImpl.setResourcesBase(resourcesBase);
-        lfPackageImpl.setSummary(summary);
+        if (base == null) {
+            lfPackageImpl.setBase(StringPool.BLANK);
+        } else {
+            lfPackageImpl.setBase(base);
+        }
+
+        if (resourcesBase == null) {
+            lfPackageImpl.setResourcesBase(StringPool.BLANK);
+        } else {
+            lfPackageImpl.setResourcesBase(resourcesBase);
+        }
+
+        if (summary == null) {
+            lfPackageImpl.setSummary(StringPool.BLANK);
+        } else {
+            lfPackageImpl.setSummary(summary);
+        }
+
         lfPackageImpl.setAssetRefID(assetRefID);
         lfPackageImpl.setCourseID(courseID);
 
         lfPackageImpl.resetOriginalValues();
 
         return lfPackageImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        defaultOrganizationID = objectInput.readUTF();
+        title = objectInput.readUTF();
+        base = objectInput.readUTF();
+        resourcesBase = objectInput.readUTF();
+        summary = objectInput.readUTF();
+        assetRefID = objectInput.readLong();
+        courseID = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (defaultOrganizationID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(defaultOrganizationID);
+        }
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (base == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(base);
+        }
+
+        if (resourcesBase == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(resourcesBase);
+        }
+
+        if (summary == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(summary);
+        }
+
+        objectOutput.writeLong(assetRefID);
+        objectOutput.writeInt(courseID);
     }
 }

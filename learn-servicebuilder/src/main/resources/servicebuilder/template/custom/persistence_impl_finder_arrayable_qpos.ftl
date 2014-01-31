@@ -8,9 +8,6 @@
             }
 		}
 	<#else>
-		<#if !finderCol.isPrimitiveType()>
-
-		</#if>
     if (${finderCol.name} != null) {
 		qPos.add(
 
@@ -25,9 +22,6 @@
 		</#if>
 
 		);
-                                    }
-		<#if !finderCol.isPrimitiveType()>
-
-		</#if>
+    }
 	</#if>
 </#list>

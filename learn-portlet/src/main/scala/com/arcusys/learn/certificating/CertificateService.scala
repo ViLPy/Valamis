@@ -180,7 +180,7 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
     val result = json(Map(
       "total" -> page.total,
       "currentPage"-> skip,
-      "records" -> page.certificates.map(i => mapCertificate(i)).toList) )
+      "records" -> page.certificates.map(i => mapCertificate(i)).toList))
     result
   }
 
@@ -209,8 +209,8 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
   post("/") {
     requireTeacherPermissions()
 
-    val title = parameter("title").required
-    val description = parameter("description").required
+    val title = "New certificate"
+    val description = "Description info"
     val companyID = parameter("companyID").intRequired
     val id = certificateStorage.createAndGetID(new Certificate(0, title, description, companyId = companyID))
     jsonModel(certificateStorage.getByID(id).get)

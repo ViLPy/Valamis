@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,26 +35,32 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
     public LFTincanLrsContextClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsContext.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsContext.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -139,84 +147,226 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getRegistration() {
         return _registration;
     }
 
+    @Override
     public void setRegistration(String registration) {
         _registration = registration;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setRegistration", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, registration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getInstructorID() {
         return _instructorID;
     }
 
+    @Override
     public void setInstructorID(Integer instructorID) {
         _instructorID = instructorID;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setInstructorID", Integer.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, instructorID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getTeamID() {
         return _teamID;
     }
 
+    @Override
     public void setTeamID(Integer teamID) {
         _teamID = teamID;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTeamID", Integer.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, teamID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getContextActivitiesID() {
         return _contextActivitiesID;
     }
 
+    @Override
     public void setContextActivitiesID(Integer contextActivitiesID) {
         _contextActivitiesID = contextActivitiesID;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setContextActivitiesID",
+                        Integer.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel,
+                    contextActivitiesID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getRevision() {
         return _revision;
     }
 
+    @Override
     public void setRevision(String revision) {
         _revision = revision;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setRevision", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, revision);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getPlatform() {
         return _platform;
     }
 
+    @Override
     public void setPlatform(String platform) {
         _platform = platform;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPlatform", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, platform);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getLanguage() {
         return _language;
     }
 
+    @Override
     public void setLanguage(String language) {
         _language = language;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLanguage", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, language);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getStatement() {
         return _statement;
     }
 
+    @Override
     public void setStatement(String statement) {
         _statement = statement;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setStatement", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, statement);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getExtensions() {
         return _extensions;
     }
 
+    @Override
     public void setExtensions(String extensions) {
         _extensions = extensions;
+
+        if (_lfTincanLrsContextRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsContextRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setExtensions", String.class);
+
+                method.invoke(_lfTincanLrsContextRemoteModel, extensions);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsContextRemoteModel() {
@@ -228,6 +378,47 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
         _lfTincanLrsContextRemoteModel = lfTincanLrsContextRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsContextRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsContextRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsContextLocalServiceUtil.addLFTincanLrsContext(this);
@@ -238,7 +429,7 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
 
     @Override
     public LFTincanLrsContext toEscapedModel() {
-        return (LFTincanLrsContext) Proxy.newProxyInstance(LFTincanLrsContext.class.getClassLoader(),
+        return (LFTincanLrsContext) ProxyUtil.newProxyInstance(LFTincanLrsContext.class.getClassLoader(),
             new Class[] { LFTincanLrsContext.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -261,6 +452,7 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsContext lfTincanLrsContext) {
         long primaryKey = lfTincanLrsContext.getPrimaryKey();
 
@@ -275,17 +467,15 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsContextClp)) {
             return false;
         }
 
-        LFTincanLrsContextClp lfTincanLrsContext = null;
-
-        try {
-            lfTincanLrsContext = (LFTincanLrsContextClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsContextClp lfTincanLrsContext = (LFTincanLrsContextClp) obj;
 
         long primaryKey = lfTincanLrsContext.getPrimaryKey();
 
@@ -330,6 +520,7 @@ public class LFTincanLrsContextClp extends BaseModelImpl<LFTincanLrsContext>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(34);
 

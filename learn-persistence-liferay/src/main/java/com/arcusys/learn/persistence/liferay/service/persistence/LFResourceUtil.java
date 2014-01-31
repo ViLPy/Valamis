@@ -49,7 +49,7 @@ public class LFResourceUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFResourceUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFResource update(LFResource lfResource, boolean merge)
+    public static LFResource update(LFResource lfResource)
         throws SystemException {
-        return getPersistence().update(lfResource, merge);
+        return getPersistence().update(lfResource);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
-    public static LFResource update(LFResource lfResource, boolean merge,
+    public static LFResource update(LFResource lfResource,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfResource, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f resource in the entity cache if it is enabled.
-    *
-    * @param lfResource the l f resource
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFResource lfResource) {
-        getPersistence().cacheResult(lfResource);
-    }
-
-    /**
-    * Caches the l f resources in the entity cache if it is enabled.
-    *
-    * @param lfResources the l f resources
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFResource> lfResources) {
-        getPersistence().cacheResult(lfResources);
-    }
-
-    /**
-    * Creates a new l f resource with the primary key. Does not add the l f resource to the database.
-    *
-    * @param id the primary key for the new l f resource
-    * @return the new l f resource
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFResource create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f resource with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f resource
-    * @return the l f resource that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException if a l f resource with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFResource remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFResource updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFResource lfResource,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfResource, merge);
-    }
-
-    /**
-    * Returns the l f resource with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFResourceException} if it could not be found.
-    *
-    * @param id the primary key of the l f resource
-    * @return the l f resource
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException if a l f resource with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFResource findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f resource with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f resource
-    * @return the l f resource, or <code>null</code> if a l f resource with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFResource fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfResource, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFResourceUtil {
     * Returns a range of all the l f resources where packageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -214,7 +134,7 @@ public class LFResourceUtil {
     * Returns an ordered range of all the l f resources where packageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -320,6 +240,29 @@ public class LFResourceUtil {
     }
 
     /**
+    * Removes all the l f resources where packageID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByPackageID(java.lang.Integer packageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByPackageID(packageID);
+    }
+
+    /**
+    * Returns the number of l f resources where packageID = &#63;.
+    *
+    * @param packageID the package i d
+    * @return the number of matching l f resources
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByPackageID(java.lang.Integer packageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByPackageID(packageID);
+    }
+
+    /**
     * Returns all the l f resources where packageID = &#63; and resourceID = &#63;.
     *
     * @param packageID the package i d
@@ -338,7 +281,7 @@ public class LFResourceUtil {
     * Returns a range of all the l f resources where packageID = &#63; and resourceID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -360,7 +303,7 @@ public class LFResourceUtil {
     * Returns an ordered range of all the l f resources where packageID = &#63; and resourceID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -479,6 +422,113 @@ public class LFResourceUtil {
     }
 
     /**
+    * Removes all the l f resources where packageID = &#63; and resourceID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @param resourceID the resource i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByPackageIDAndResourceID(
+        java.lang.Integer packageID, java.lang.String resourceID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByPackageIDAndResourceID(packageID, resourceID);
+    }
+
+    /**
+    * Returns the number of l f resources where packageID = &#63; and resourceID = &#63;.
+    *
+    * @param packageID the package i d
+    * @param resourceID the resource i d
+    * @return the number of matching l f resources
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByPackageIDAndResourceID(
+        java.lang.Integer packageID, java.lang.String resourceID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByPackageIDAndResourceID(packageID, resourceID);
+    }
+
+    /**
+    * Caches the l f resource in the entity cache if it is enabled.
+    *
+    * @param lfResource the l f resource
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFResource lfResource) {
+        getPersistence().cacheResult(lfResource);
+    }
+
+    /**
+    * Caches the l f resources in the entity cache if it is enabled.
+    *
+    * @param lfResources the l f resources
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFResource> lfResources) {
+        getPersistence().cacheResult(lfResources);
+    }
+
+    /**
+    * Creates a new l f resource with the primary key. Does not add the l f resource to the database.
+    *
+    * @param id the primary key for the new l f resource
+    * @return the new l f resource
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFResource create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f resource with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f resource
+    * @return the l f resource that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException if a l f resource with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFResource remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFResource updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFResource lfResource)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfResource);
+    }
+
+    /**
+    * Returns the l f resource with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFResourceException} if it could not be found.
+    *
+    * @param id the primary key of the l f resource
+    * @return the l f resource
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException if a l f resource with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFResource findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFResourceException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f resource with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f resource
+    * @return the l f resource, or <code>null</code> if a l f resource with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFResource fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f resources.
     *
     * @return the l f resources
@@ -493,7 +543,7 @@ public class LFResourceUtil {
     * Returns a range of all the l f resources.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f resources
@@ -511,7 +561,7 @@ public class LFResourceUtil {
     * Returns an ordered range of all the l f resources.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f resources
@@ -528,30 +578,6 @@ public class LFResourceUtil {
     }
 
     /**
-    * Removes all the l f resources where packageID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByPackageID(java.lang.Integer packageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByPackageID(packageID);
-    }
-
-    /**
-    * Removes all the l f resources where packageID = &#63; and resourceID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @param resourceID the resource i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByPackageIDAndResourceID(
-        java.lang.Integer packageID, java.lang.String resourceID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByPackageIDAndResourceID(packageID, resourceID);
-    }
-
-    /**
     * Removes all the l f resources from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -559,33 +585,6 @@ public class LFResourceUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f resources where packageID = &#63;.
-    *
-    * @param packageID the package i d
-    * @return the number of matching l f resources
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByPackageID(java.lang.Integer packageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByPackageID(packageID);
-    }
-
-    /**
-    * Returns the number of l f resources where packageID = &#63; and resourceID = &#63;.
-    *
-    * @param packageID the package i d
-    * @param resourceID the resource i d
-    * @return the number of matching l f resources
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByPackageIDAndResourceID(
-        java.lang.Integer packageID, java.lang.String resourceID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByPackageIDAndResourceID(packageID, resourceID);
     }
 
     /**
@@ -612,7 +611,7 @@ public class LFResourceUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFResourcePersistence persistence) {
     }

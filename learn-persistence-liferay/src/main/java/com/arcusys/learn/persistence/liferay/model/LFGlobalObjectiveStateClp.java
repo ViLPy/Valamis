@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
 
@@ -31,26 +33,32 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
     public LFGlobalObjectiveStateClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFGlobalObjectiveState.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFGlobalObjectiveState.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -109,52 +117,140 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getSatisfied() {
         return _satisfied;
     }
 
+    @Override
     public void setSatisfied(Boolean satisfied) {
         _satisfied = satisfied;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSatisfied", Boolean.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel, satisfied);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getNormalizedMeasure() {
         return _normalizedMeasure;
     }
 
+    @Override
     public void setNormalizedMeasure(BigDecimal normalizedMeasure) {
         _normalizedMeasure = normalizedMeasure;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setNormalizedMeasure",
+                        BigDecimal.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel,
+                    normalizedMeasure);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getAttemptCompleted() {
         return _attemptCompleted;
     }
 
+    @Override
     public void setAttemptCompleted(Boolean attemptCompleted) {
         _attemptCompleted = attemptCompleted;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttemptCompleted",
+                        Boolean.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel,
+                    attemptCompleted);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMapKey() {
         return _mapKey;
     }
 
+    @Override
     public void setMapKey(String mapKey) {
         _mapKey = mapKey;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMapKey", String.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel, mapKey);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getTreeID() {
         return _treeID;
     }
 
+    @Override
     public void setTreeID(Integer treeID) {
         _treeID = treeID;
+
+        if (_lfGlobalObjectiveStateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTreeID", Integer.class);
+
+                method.invoke(_lfGlobalObjectiveStateRemoteModel, treeID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFGlobalObjectiveStateRemoteModel() {
@@ -166,6 +262,47 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
         _lfGlobalObjectiveStateRemoteModel = lfGlobalObjectiveStateRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfGlobalObjectiveStateRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfGlobalObjectiveStateRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFGlobalObjectiveStateLocalServiceUtil.addLFGlobalObjectiveState(this);
@@ -176,7 +313,7 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
 
     @Override
     public LFGlobalObjectiveState toEscapedModel() {
-        return (LFGlobalObjectiveState) Proxy.newProxyInstance(LFGlobalObjectiveState.class.getClassLoader(),
+        return (LFGlobalObjectiveState) ProxyUtil.newProxyInstance(LFGlobalObjectiveState.class.getClassLoader(),
             new Class[] { LFGlobalObjectiveState.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -195,6 +332,7 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
         return clone;
     }
 
+    @Override
     public int compareTo(LFGlobalObjectiveState lfGlobalObjectiveState) {
         long primaryKey = lfGlobalObjectiveState.getPrimaryKey();
 
@@ -209,17 +347,15 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFGlobalObjectiveStateClp)) {
             return false;
         }
 
-        LFGlobalObjectiveStateClp lfGlobalObjectiveState = null;
-
-        try {
-            lfGlobalObjectiveState = (LFGlobalObjectiveStateClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFGlobalObjectiveStateClp lfGlobalObjectiveState = (LFGlobalObjectiveStateClp) obj;
 
         long primaryKey = lfGlobalObjectiveState.getPrimaryKey();
 
@@ -256,6 +392,7 @@ public class LFGlobalObjectiveStateClp extends BaseModelImpl<LFGlobalObjectiveSt
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(22);
 

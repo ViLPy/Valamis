@@ -24,72 +24,6 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
      */
 
     /**
-    * Caches the l f package scope rule in the entity cache if it is enabled.
-    *
-    * @param lfPackageScopeRule the l f package scope rule
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule lfPackageScopeRule);
-
-    /**
-    * Caches the l f package scope rules in the entity cache if it is enabled.
-    *
-    * @param lfPackageScopeRules the l f package scope rules
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule> lfPackageScopeRules);
-
-    /**
-    * Creates a new l f package scope rule with the primary key. Does not add the l f package scope rule to the database.
-    *
-    * @param id the primary key for the new l f package scope rule
-    * @return the new l f package scope rule
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule create(
-        long id);
-
-    /**
-    * Removes the l f package scope rule with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f package scope rule
-    * @return the l f package scope rule that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException if a l f package scope rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule lfPackageScopeRule,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f package scope rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException} if it could not be found.
-    *
-    * @param id the primary key of the l f package scope rule
-    * @return the l f package scope rule
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException if a l f package scope rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f package scope rule with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f package scope rule
-    * @return the l f package scope rule, or <code>null</code> if a l f package scope rule with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns the l f package scope rule where packageID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException} if it could not be found.
     *
     * @param packageID the package i d
@@ -123,6 +57,28 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     */
     public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule fetchByPackageID(
         java.lang.Integer packageID, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes the l f package scope rule where packageID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @return the l f package scope rule that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByPackageID(
+        java.lang.Integer packageID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where packageID = &#63;.
+    *
+    * @param packageID the package i d
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByPackageID(java.lang.Integer packageID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -171,6 +127,34 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes the l f package scope rule where scope = &#63; and scopeID = &#63; and isDefault = &#63; from the database.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @param isDefault the is default
+    * @return the l f package scope rule that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByScopeAndIsDefault(
+        java.lang.String scope, java.lang.String scopeID,
+        java.lang.Boolean isDefault)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63; and isDefault = &#63;.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @param isDefault the is default
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByScopeAndIsDefault(java.lang.String scope,
+        java.lang.String scopeID, java.lang.Boolean isDefault)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f package scope rules where scope = &#63; and scopeID = &#63;.
     *
     * @param scope the scope
@@ -186,7 +170,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns a range of all the l f package scope rules where scope = &#63; and scopeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param scope the scope
@@ -204,7 +188,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns an ordered range of all the l f package scope rules where scope = &#63; and scopeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param scope the scope
@@ -298,6 +282,27 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f package scope rules where scope = &#63; and scopeID = &#63; from the database.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByScope(java.lang.String scope, java.lang.String scopeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63;.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByScope(java.lang.String scope, java.lang.String scopeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns the l f package scope rule where packageID = &#63; and scope = &#63; and scopeID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException} if it could not be found.
     *
     * @param packageID the package i d
@@ -343,6 +348,34 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes the l f package scope rule where packageID = &#63; and scope = &#63; and scopeID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @return the l f package scope rule that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByPackageIDAndScope(
+        java.lang.Integer packageID, java.lang.String scope,
+        java.lang.String scopeID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
+    *
+    * @param packageID the package i d
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByPackageIDAndScope(java.lang.Integer packageID,
+        java.lang.String scope, java.lang.String scopeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
     *
     * @param packageID the package i d
@@ -360,7 +393,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns a range of all the l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -380,7 +413,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns an ordered range of all the l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param packageID the package i d
@@ -486,6 +519,31 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByAllByPackageIDAndScope(java.lang.Integer packageID,
+        java.lang.String scope, java.lang.String scopeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
+    *
+    * @param packageID the package i d
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByAllByPackageIDAndScope(java.lang.Integer packageID,
+        java.lang.String scope, java.lang.String scopeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63;.
     *
     * @param scope the scope
@@ -503,7 +561,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns a range of all the l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param scope the scope
@@ -523,7 +581,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns an ordered range of all the l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param scope the scope
@@ -629,6 +687,96 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63; from the database.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @param visibility the visibility
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByVisibility(java.lang.String scope,
+        java.lang.String scopeID, java.lang.Boolean visibility)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63;.
+    *
+    * @param scope the scope
+    * @param scopeID the scope i d
+    * @param visibility the visibility
+    * @return the number of matching l f package scope rules
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByVisibility(java.lang.String scope,
+        java.lang.String scopeID, java.lang.Boolean visibility)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f package scope rule in the entity cache if it is enabled.
+    *
+    * @param lfPackageScopeRule the l f package scope rule
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule lfPackageScopeRule);
+
+    /**
+    * Caches the l f package scope rules in the entity cache if it is enabled.
+    *
+    * @param lfPackageScopeRules the l f package scope rules
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule> lfPackageScopeRules);
+
+    /**
+    * Creates a new l f package scope rule with the primary key. Does not add the l f package scope rule to the database.
+    *
+    * @param id the primary key for the new l f package scope rule
+    * @return the new l f package scope rule
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule create(
+        long id);
+
+    /**
+    * Removes the l f package scope rule with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f package scope rule
+    * @return the l f package scope rule that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException if a l f package scope rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule lfPackageScopeRule)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f package scope rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException} if it could not be found.
+    *
+    * @param id the primary key of the l f package scope rule
+    * @return the l f package scope rule
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException if a l f package scope rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f package scope rule with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f package scope rule
+    * @return the l f package scope rule, or <code>null</code> if a l f package scope rule with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f package scope rules.
     *
     * @return the l f package scope rules
@@ -641,7 +789,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns a range of all the l f package scope rules.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f package scope rules
@@ -657,7 +805,7 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
     * Returns an ordered range of all the l f package scope rules.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f package scope rules
@@ -672,160 +820,11 @@ public interface LFPackageScopeRulePersistence extends BasePersistence<LFPackage
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes the l f package scope rule where packageID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @return the l f package scope rule that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByPackageID(
-        java.lang.Integer packageID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes the l f package scope rule where scope = &#63; and scopeID = &#63; and isDefault = &#63; from the database.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @param isDefault the is default
-    * @return the l f package scope rule that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByScopeAndIsDefault(
-        java.lang.String scope, java.lang.String scopeID,
-        java.lang.Boolean isDefault)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f package scope rules where scope = &#63; and scopeID = &#63; from the database.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByScope(java.lang.String scope, java.lang.String scopeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes the l f package scope rule where packageID = &#63; and scope = &#63; and scopeID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @return the l f package scope rule that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule removeByPackageIDAndScope(
-        java.lang.Integer packageID, java.lang.String scope,
-        java.lang.String scopeID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByAllByPackageIDAndScope(java.lang.Integer packageID,
-        java.lang.String scope, java.lang.String scopeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63; from the database.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @param visibility the visibility
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByVisibility(java.lang.String scope,
-        java.lang.String scopeID, java.lang.Boolean visibility)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f package scope rules from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where packageID = &#63;.
-    *
-    * @param packageID the package i d
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByPackageID(java.lang.Integer packageID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63; and isDefault = &#63;.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @param isDefault the is default
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByScopeAndIsDefault(java.lang.String scope,
-        java.lang.String scopeID, java.lang.Boolean isDefault)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63;.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByScope(java.lang.String scope, java.lang.String scopeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
-    *
-    * @param packageID the package i d
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByPackageIDAndScope(java.lang.Integer packageID,
-        java.lang.String scope, java.lang.String scopeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where packageID = &#63; and scope = &#63; and scopeID = &#63;.
-    *
-    * @param packageID the package i d
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByAllByPackageIDAndScope(java.lang.Integer packageID,
-        java.lang.String scope, java.lang.String scopeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f package scope rules where scope = &#63; and scopeID = &#63; and visibility = &#63;.
-    *
-    * @param scope the scope
-    * @param scopeID the scope i d
-    * @param visibility the visibility
-    * @return the number of matching l f package scope rules
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByVisibility(java.lang.String scope,
-        java.lang.String scopeID, java.lang.Boolean visibility)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

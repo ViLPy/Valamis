@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,26 +34,32 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
     public LFTincanActorClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanActor.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanActor.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -130,76 +138,202 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanActorRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTincanID() {
         return _tincanID;
     }
 
+    @Override
     public void setTincanID(String tincanID) {
         _tincanID = tincanID;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTincanID", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, tincanID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getObjectType() {
         return _objectType;
     }
 
+    @Override
     public void setObjectType(String objectType) {
         _objectType = objectType;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setObjectType", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, objectType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setName", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, name);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMbox() {
         return _mbox;
     }
 
+    @Override
     public void setMbox(String mbox) {
         _mbox = mbox;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMbox", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, mbox);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMbox_sha1sum() {
         return _mbox_sha1sum;
     }
 
+    @Override
     public void setMbox_sha1sum(String mbox_sha1sum) {
         _mbox_sha1sum = mbox_sha1sum;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMbox_sha1sum", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, mbox_sha1sum);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getOpenid() {
         return _openid;
     }
 
+    @Override
     public void setOpenid(String openid) {
         _openid = openid;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setOpenid", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, openid);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getAccount() {
         return _account;
     }
 
+    @Override
     public void setAccount(String account) {
         _account = account;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAccount", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, account);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getMemberOf() {
         return _memberOf;
     }
 
+    @Override
     public void setMemberOf(String memberOf) {
         _memberOf = memberOf;
+
+        if (_lfTincanActorRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanActorRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMemberOf", String.class);
+
+                method.invoke(_lfTincanActorRemoteModel, memberOf);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanActorRemoteModel() {
@@ -211,6 +345,47 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
         _lfTincanActorRemoteModel = lfTincanActorRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanActorRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanActorRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanActorLocalServiceUtil.addLFTincanActor(this);
@@ -221,7 +396,7 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
 
     @Override
     public LFTincanActor toEscapedModel() {
-        return (LFTincanActor) Proxy.newProxyInstance(LFTincanActor.class.getClassLoader(),
+        return (LFTincanActor) ProxyUtil.newProxyInstance(LFTincanActor.class.getClassLoader(),
             new Class[] { LFTincanActor.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -242,6 +417,7 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanActor lfTincanActor) {
         long primaryKey = lfTincanActor.getPrimaryKey();
 
@@ -256,17 +432,15 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanActorClp)) {
             return false;
         }
 
-        LFTincanActorClp lfTincanActor = null;
-
-        try {
-            lfTincanActor = (LFTincanActorClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanActorClp lfTincanActor = (LFTincanActorClp) obj;
 
         long primaryKey = lfTincanActor.getPrimaryKey();
 
@@ -309,6 +483,7 @@ public class LFTincanActorClp extends BaseModelImpl<LFTincanActor>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(31);
 

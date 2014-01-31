@@ -49,7 +49,7 @@ public class LFFileStorageUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFFileStorageUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFFileStorage update(LFFileStorage lfFileStorage)
+        throws SystemException {
+        return getPersistence().update(lfFileStorage);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFFileStorage update(LFFileStorage lfFileStorage,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfFileStorage, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFFileStorage update(LFFileStorage lfFileStorage,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfFileStorage, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f file storage in the entity cache if it is enabled.
-    *
-    * @param lfFileStorage the l f file storage
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage) {
-        getPersistence().cacheResult(lfFileStorage);
-    }
-
-    /**
-    * Caches the l f file storages in the entity cache if it is enabled.
-    *
-    * @param lfFileStorages the l f file storages
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> lfFileStorages) {
-        getPersistence().cacheResult(lfFileStorages);
-    }
-
-    /**
-    * Creates a new l f file storage with the primary key. Does not add the l f file storage to the database.
-    *
-    * @param id the primary key for the new l f file storage
-    * @return the new l f file storage
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f file storage with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f file storage
-    * @return the l f file storage that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException if a l f file storage with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfFileStorage, merge);
-    }
-
-    /**
-    * Returns the l f file storage with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException} if it could not be found.
-    *
-    * @param id the primary key of the l f file storage
-    * @return the l f file storage
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException if a l f file storage with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f file storage with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f file storage
-    * @return the l f file storage, or <code>null</code> if a l f file storage with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfFileStorage, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFFileStorageUtil {
     * Returns a range of all the l f file storages where filename = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param filename the filename
@@ -214,7 +134,7 @@ public class LFFileStorageUtil {
     * Returns an ordered range of all the l f file storages where filename = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param filename the filename
@@ -317,6 +237,29 @@ public class LFFileStorageUtil {
     }
 
     /**
+    * Removes all the l f file storages where filename = &#63; from the database.
+    *
+    * @param filename the filename
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByFilename(java.lang.String filename)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByFilename(filename);
+    }
+
+    /**
+    * Returns the number of l f file storages where filename = &#63;.
+    *
+    * @param filename the filename
+    * @return the number of matching l f file storages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByFilename(java.lang.String filename)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByFilename(filename);
+    }
+
+    /**
     * Returns all the l f file storages where filename LIKE &#63;.
     *
     * @param filename the filename
@@ -333,7 +276,7 @@ public class LFFileStorageUtil {
     * Returns a range of all the l f file storages where filename LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param filename the filename
@@ -352,7 +295,7 @@ public class LFFileStorageUtil {
     * Returns an ordered range of all the l f file storages where filename LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param filename the filename
@@ -457,6 +400,108 @@ public class LFFileStorageUtil {
     }
 
     /**
+    * Removes all the l f file storages where filename LIKE &#63; from the database.
+    *
+    * @param filename the filename
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByDirectory(java.lang.String filename)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByDirectory(filename);
+    }
+
+    /**
+    * Returns the number of l f file storages where filename LIKE &#63;.
+    *
+    * @param filename the filename
+    * @return the number of matching l f file storages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByDirectory(java.lang.String filename)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByDirectory(filename);
+    }
+
+    /**
+    * Caches the l f file storage in the entity cache if it is enabled.
+    *
+    * @param lfFileStorage the l f file storage
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage) {
+        getPersistence().cacheResult(lfFileStorage);
+    }
+
+    /**
+    * Caches the l f file storages in the entity cache if it is enabled.
+    *
+    * @param lfFileStorages the l f file storages
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFFileStorage> lfFileStorages) {
+        getPersistence().cacheResult(lfFileStorages);
+    }
+
+    /**
+    * Creates a new l f file storage with the primary key. Does not add the l f file storage to the database.
+    *
+    * @param id the primary key for the new l f file storage
+    * @return the new l f file storage
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f file storage with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f file storage
+    * @return the l f file storage that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException if a l f file storage with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFFileStorage lfFileStorage)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfFileStorage);
+    }
+
+    /**
+    * Returns the l f file storage with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException} if it could not be found.
+    *
+    * @param id the primary key of the l f file storage
+    * @return the l f file storage
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException if a l f file storage with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f file storage with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f file storage
+    * @return the l f file storage, or <code>null</code> if a l f file storage with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFFileStorage fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f file storages.
     *
     * @return the l f file storages
@@ -471,7 +516,7 @@ public class LFFileStorageUtil {
     * Returns a range of all the l f file storages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f file storages
@@ -489,7 +534,7 @@ public class LFFileStorageUtil {
     * Returns an ordered range of all the l f file storages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f file storages
@@ -506,28 +551,6 @@ public class LFFileStorageUtil {
     }
 
     /**
-    * Removes all the l f file storages where filename = &#63; from the database.
-    *
-    * @param filename the filename
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByFilename(java.lang.String filename)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByFilename(filename);
-    }
-
-    /**
-    * Removes all the l f file storages where filename LIKE &#63; from the database.
-    *
-    * @param filename the filename
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByDirectory(java.lang.String filename)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByDirectory(filename);
-    }
-
-    /**
     * Removes all the l f file storages from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -535,30 +558,6 @@ public class LFFileStorageUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f file storages where filename = &#63;.
-    *
-    * @param filename the filename
-    * @return the number of matching l f file storages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByFilename(java.lang.String filename)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByFilename(filename);
-    }
-
-    /**
-    * Returns the number of l f file storages where filename LIKE &#63;.
-    *
-    * @param filename the filename
-    * @return the number of matching l f file storages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByDirectory(java.lang.String filename)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByDirectory(filename);
     }
 
     /**
@@ -585,7 +584,7 @@ public class LFFileStorageUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFFileStoragePersistence persistence) {
     }

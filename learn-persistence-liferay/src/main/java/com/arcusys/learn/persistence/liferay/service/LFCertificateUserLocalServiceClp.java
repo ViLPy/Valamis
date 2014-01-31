@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFCertificateUserLocalServiceClp
     implements LFCertificateUserLocalService {
     private InvokableLocalService _invokableLocalService;
@@ -108,37 +111,37 @@ public class LFCertificateUserLocalServiceClp
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFCertificateUser";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFCertificateUser";
+        _methodName10 = "fetchLFCertificateUser";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFCertificateUser";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFCertificateUsers";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFCertificateUsersCount";
+        _methodName13 = "getLFCertificateUsers";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFCertificateUser";
+        _methodName14 = "getLFCertificateUsersCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFCertificateUser"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFCertificateUser";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFCertificateUser",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFCertificateUser"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -178,6 +181,7 @@ public class LFCertificateUserLocalServiceClp
         _methodParameterTypes24 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser addLFCertificateUser(
         com.arcusys.learn.persistence.liferay.model.LFCertificateUser lfCertificateUser)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -206,6 +210,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser(
         long id) {
         Object returnObj = null;
@@ -227,6 +232,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser deleteLFCertificateUser(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -258,6 +264,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser deleteLFCertificateUser(
         com.arcusys.learn.persistence.liferay.model.LFCertificateUser lfCertificateUser)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -286,6 +293,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -306,6 +314,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -334,6 +343,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -368,6 +378,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -406,6 +417,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -433,13 +445,47 @@ public class LFCertificateUserLocalServiceClp
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser fetchLFCertificateUser(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -458,6 +504,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser getLFCertificateUser(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -465,8 +512,8 @@ public class LFCertificateUserLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -489,6 +536,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -496,8 +544,8 @@ public class LFCertificateUserLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -521,14 +569,15 @@ public class LFCertificateUserLocalServiceClp
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> getLFCertificateUsers(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -547,13 +596,14 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFCertificateUsersCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -572,14 +622,15 @@ public class LFCertificateUserLocalServiceClp
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser updateLFCertificateUser(
         com.arcusys.learn.persistence.liferay.model.LFCertificateUser lfCertificateUser)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(
                             lfCertificateUser) });
         } catch (Throwable t) {
@@ -600,38 +651,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFCertificateUser updateLFCertificateUser(
-        com.arcusys.learn.persistence.liferay.model.LFCertificateUser lfCertificateUser,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] {
-                        ClpSerializer.translateInput(lfCertificateUser),
-                        
-                    merge
-                    });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -652,6 +672,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -669,12 +690,14 @@ public class LFCertificateUserLocalServiceClp
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -700,6 +723,7 @@ public class LFCertificateUserLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByCertificateID(
         java.lang.Integer certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -727,6 +751,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserID(
         java.lang.Integer userID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -754,6 +779,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserIDAndCertificateID(
         java.lang.Integer userID, java.lang.Integer certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -785,6 +811,7 @@ public class LFCertificateUserLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeByUserIDAndCertificateID(java.lang.Integer userID,
         java.lang.Integer certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -812,6 +839,7 @@ public class LFCertificateUserLocalServiceClp
         }
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

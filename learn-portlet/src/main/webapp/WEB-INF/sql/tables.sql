@@ -1,3 +1,29 @@
+create table Learn_AchievementActivity (
+	id_ LONG not null primary key,
+	userId INTEGER,
+	achievementId INTEGER null
+);
+
+create table Learn_LFAchievement (
+	id_ LONG not null primary key,
+	title VARCHAR(75) null,
+	description TEXT null,
+	logo TEXT null,
+	creationDate DATE null
+);
+
+create table Learn_LFAchievementActivity (
+	id_ LONG not null primary key,
+	userId INTEGER null,
+	achievementId INTEGER null
+);
+
+create table Learn_LFAchievementUser (
+	id_ LONG not null primary key,
+	userId INTEGER null,
+	achievementId INTEGER null
+);
+
 create table Learn_LFActivity (
 	indexNumber LONG not null primary key,
 	id_ VARCHAR(512) null,
@@ -65,6 +91,13 @@ create table Learn_LFAnswer (
 	matchingText TEXT null,
 	answerPosition INTEGER null,
 	answerType INTEGER null
+);
+
+create table Learn_LFArchivement (
+	id_ LONG not null primary key,
+	title VARCHAR(75) null,
+	description VARCHAR(75) null,
+	logo VARCHAR(75) null
 );
 
 create table Learn_LFAttempt (
@@ -287,6 +320,13 @@ create table Learn_LFQuizQuestionCategory (
 	quizId INTEGER null,
 	parentId INTEGER null,
 	arrangementIndex INTEGER null
+);
+
+create table Learn_LFRequiredActivity (
+	id_ LONG not null primary key,
+	achievementId INTEGER null,
+	activityClassName VARCHAR(75) null,
+	numberActivitiesRequired INTEGER null
 );
 
 create table Learn_LFResource (
@@ -552,4 +592,10 @@ create table Learn_LFUser (
 	preferredLanguage TEXT null,
 	preferredDeliverySpeed DOUBLE null,
 	preferredAudioCaptioning INTEGER null
+);
+
+create table Learn_RequiredActivity (
+	id_ LONG not null primary key,
+	activityClassName VARCHAR(75) null,
+	numberActivitiesRequired INTEGER
 );

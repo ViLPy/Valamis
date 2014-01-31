@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,26 +31,32 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
     public LFCourseClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFCourse.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFCourse.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -106,52 +114,136 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfCourseRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCourseID() {
         return _courseID;
     }
 
+    @Override
     public void setCourseID(Integer courseID) {
         _courseID = courseID;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCourseID", Integer.class);
+
+                method.invoke(_lfCourseRemoteModel, courseID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getUserID() {
         return _userID;
     }
 
+    @Override
     public void setUserID(Integer userID) {
         _userID = userID;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setUserID", Integer.class);
+
+                method.invoke(_lfCourseRemoteModel, userID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getGrade() {
         return _grade;
     }
 
+    @Override
     public void setGrade(String grade) {
         _grade = grade;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setGrade", String.class);
+
+                method.invoke(_lfCourseRemoteModel, grade);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getComment() {
         return _comment;
     }
 
+    @Override
     public void setComment(String comment) {
         _comment = comment;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setComment", String.class);
+
+                method.invoke(_lfCourseRemoteModel, comment);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Date getDate() {
         return _date;
     }
 
+    @Override
     public void setDate(Date date) {
         _date = date;
+
+        if (_lfCourseRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCourseRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDate", Date.class);
+
+                method.invoke(_lfCourseRemoteModel, date);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFCourseRemoteModel() {
@@ -162,6 +254,47 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         _lfCourseRemoteModel = lfCourseRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfCourseRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfCourseRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCourseLocalServiceUtil.addLFCourse(this);
@@ -172,7 +305,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
 
     @Override
     public LFCourse toEscapedModel() {
-        return (LFCourse) Proxy.newProxyInstance(LFCourse.class.getClassLoader(),
+        return (LFCourse) ProxyUtil.newProxyInstance(LFCourse.class.getClassLoader(),
             new Class[] { LFCourse.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -190,6 +323,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         return clone;
     }
 
+    @Override
     public int compareTo(LFCourse lfCourse) {
         long primaryKey = lfCourse.getPrimaryKey();
 
@@ -204,17 +338,15 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFCourseClp)) {
             return false;
         }
 
-        LFCourseClp lfCourse = null;
-
-        try {
-            lfCourse = (LFCourseClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFCourseClp lfCourse = (LFCourseClp) obj;
 
         long primaryKey = lfCourse.getPrimaryKey();
 
@@ -251,6 +383,7 @@ public class LFCourseClp extends BaseModelImpl<LFCourse> implements LFCourse {
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(22);
 

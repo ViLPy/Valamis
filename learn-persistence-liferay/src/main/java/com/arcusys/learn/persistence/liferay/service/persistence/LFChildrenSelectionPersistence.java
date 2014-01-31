@@ -24,6 +24,64 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
      */
 
     /**
+    * Returns the l f children selection where sequencingID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException} if it could not be found.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the matching l f children selection
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException if a matching l f children selection could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection findBySequencingID(
+        java.lang.Integer sequencingID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f children selection where sequencingID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the matching l f children selection, or <code>null</code> if a matching l f children selection could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection fetchBySequencingID(
+        java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f children selection where sequencingID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param sequencingID the sequencing i d
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching l f children selection, or <code>null</code> if a matching l f children selection could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection fetchBySequencingID(
+        java.lang.Integer sequencingID, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes the l f children selection where sequencingID = &#63; from the database.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the l f children selection that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection removeBySequencingID(
+        java.lang.Integer sequencingID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f children selections where sequencingID = &#63;.
+    *
+    * @param sequencingID the sequencing i d
+    * @return the number of matching l f children selections
+    * @throws SystemException if a system exception occurred
+    */
+    public int countBySequencingID(java.lang.Integer sequencingID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Caches the l f children selection in the entity cache if it is enabled.
     *
     * @param lfChildrenSelection the l f children selection
@@ -62,8 +120,7 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
             com.liferay.portal.kernel.exception.SystemException;
 
     public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFChildrenSelection lfChildrenSelection,
-        boolean merge)
+        com.arcusys.learn.persistence.liferay.model.LFChildrenSelection lfChildrenSelection)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -90,42 +147,6 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
         long id) throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Returns the l f children selection where sequencingID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException} if it could not be found.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the matching l f children selection
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException if a matching l f children selection could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection findBySequencingID(
-        java.lang.Integer sequencingID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f children selection where sequencingID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the matching l f children selection, or <code>null</code> if a matching l f children selection could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection fetchBySequencingID(
-        java.lang.Integer sequencingID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f children selection where sequencingID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-    *
-    * @param sequencingID the sequencing i d
-    * @param retrieveFromCache whether to use the finder cache
-    * @return the matching l f children selection, or <code>null</code> if a matching l f children selection could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection fetchBySequencingID(
-        java.lang.Integer sequencingID, boolean retrieveFromCache)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f children selections.
     *
     * @return the l f children selections
@@ -138,7 +159,7 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
     * Returns a range of all the l f children selections.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f children selections
@@ -154,7 +175,7 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
     * Returns an ordered range of all the l f children selections.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f children selections
@@ -169,33 +190,11 @@ public interface LFChildrenSelectionPersistence extends BasePersistence<LFChildr
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes the l f children selection where sequencingID = &#63; from the database.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the l f children selection that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFChildrenSelection removeBySequencingID(
-        java.lang.Integer sequencingID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f children selections from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f children selections where sequencingID = &#63;.
-    *
-    * @param sequencingID the sequencing i d
-    * @return the number of matching l f children selections
-    * @throws SystemException if a system exception occurred
-    */
-    public int countBySequencingID(java.lang.Integer sequencingID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

@@ -3,6 +3,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAchievement" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAchievementActivity" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFAchievementUser" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFActivity" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityDataMap" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFActivityState" />
@@ -34,6 +37,7 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuiz" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestion" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFRequiredActivity" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFResource" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFRole" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFRollupContribution" />
@@ -61,8 +65,30 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanManifestActivity" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanPackage" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFUser" />
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementImpl" table="Learn_LFAchievement">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="title" type="org.hibernate.type.StringType" />
+		<property name="description" type="org.hibernate.type.StringType" />
+		<property name="logo" type="org.hibernate.type.StringType" />
+		<property name="creationDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementActivityImpl" table="Learn_LFAchievementActivity">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userId" type="org.hibernate.type.IntegerType" />
+		<property name="achievementId" type="org.hibernate.type.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementUserImpl" table="Learn_LFAchievementUser">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="userId" type="org.hibernate.type.IntegerType" />
+		<property name="achievementId" type="org.hibernate.type.IntegerType" />
+	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl" table="Learn_LFActivity">
-		<cache usage="read-write" />
 		<id name="indexNumber" type="long">
 			<generator class="assigned" />
 		</id>
@@ -81,7 +107,6 @@
 		<property name="maxTimeAllowed" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityDataMapImpl" table="Learn_LFActivityDataMap">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -92,7 +117,6 @@
 		<property name="writeSharedData" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateImpl" table="Learn_LFActivityState">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -111,7 +135,6 @@
 		<property name="activityStateTreeID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeImpl" table="Learn_LFActivityStateNode">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -120,7 +143,6 @@
 		<property name="availableChildrenIDs" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeImpl" table="Learn_LFActivityStateTree">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -129,7 +151,6 @@
 		<property name="attemptID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAnswerImpl" table="Learn_LFAnswer">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -143,7 +164,6 @@
 		<property name="answerType" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptImpl" table="Learn_LFAttempt">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -153,7 +173,6 @@
 		<property name="isComplete" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAttemptDataImpl" table="Learn_LFAttemptData">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -163,7 +182,6 @@
 		<property name="activityID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFBigDecimalImpl" table="Learn_LFBigDecimal">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -171,7 +189,6 @@
 		<property name="text" type="org.hibernate.type.StringType" column="text_" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateImpl" table="Learn_LFCertificate">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -184,7 +201,6 @@
 		<property name="companyID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteImpl" table="Learn_LFCertificateSite">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -193,7 +209,6 @@
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl" table="Learn_LFCertificateUser">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -201,7 +216,6 @@
 		<property name="userID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl" table="Learn_LFChildrenSelection">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -211,7 +225,6 @@
 		<property name="reorderOnEachAttempt" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFConditionRuleImpl" table="Learn_LFConditionRule">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -221,7 +234,6 @@
 		<property name="action" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFConfigImpl" table="Learn_LFConfig">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -229,7 +241,6 @@
 		<property name="dataValue" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFCourseImpl" table="Learn_LFCourse">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -240,7 +251,6 @@
 		<property name="date" type="org.hibernate.type.TimestampType" column="date_" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageImpl" table="Learn_LFFileStorage">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -248,7 +258,6 @@
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFGlobalObjectiveStateImpl" table="Learn_LFGlobalObjectiveState">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -259,7 +268,6 @@
 		<property name="treeID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl" table="Learn_LFObjective">
-		<cache usage="read-write" />
 		<id name="lfId" type="long">
 			<generator class="assigned" />
 		</id>
@@ -270,7 +278,6 @@
 		<property name="isPrimary" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapImpl" table="Learn_LFObjectiveMap">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -291,7 +298,6 @@
 		<property name="writeProgressMeasureTo" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateImpl" table="Learn_LFObjectiveState">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -302,7 +308,6 @@
 		<property name="objectiveID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageImpl" table="Learn_LFPackage">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -315,7 +320,6 @@
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentImpl" table="Learn_LFPackageComment">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -325,7 +329,6 @@
 		<property name="publishDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" table="Learn_LFPackageScopeRule">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -336,7 +339,6 @@
 		<property name="isDefault" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteImpl" table="Learn_LFPackageVote">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -345,7 +347,6 @@
 		<property name="voteValue" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleImpl" table="Learn_LFPlayerScopeRule">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -353,7 +354,6 @@
 		<property name="scope" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionImpl" table="Learn_LFQuestion">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -368,7 +368,6 @@
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuestionCategoryImpl" table="Learn_LFQuestionCategory">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -379,7 +378,6 @@
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizImpl" table="Learn_LFQuiz">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -390,7 +388,6 @@
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl" table="Learn_LFQuizQuestion">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -404,7 +401,6 @@
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" table="Learn_LFQuizQuestionCategory">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -414,8 +410,15 @@
 		<property name="parentId" type="org.hibernate.type.IntegerType" />
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
 	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityImpl" table="Learn_LFRequiredActivity">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="achievementId" type="org.hibernate.type.IntegerType" />
+		<property name="activityClassName" type="org.hibernate.type.StringType" />
+		<property name="numberActivitiesRequired" type="org.hibernate.type.IntegerType" />
+	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFResourceImpl" table="Learn_LFResource">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -426,7 +429,6 @@
 		<property name="base" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRoleImpl" table="Learn_LFRole">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -435,7 +437,6 @@
 		<property name="isDefault" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRollupContributionImpl" table="Learn_LFRollupContribution">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -448,7 +449,6 @@
 		<property name="measureSatisfactionIfActive" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleImpl" table="Learn_LFRollupRule">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -460,7 +460,6 @@
 		<property name="action" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionImpl" table="Learn_LFRuleCondition">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -472,7 +471,6 @@
 		<property name="conditionRuleID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingImpl" table="Learn_LFSequencing">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -489,7 +487,6 @@
 		<property name="constrainChoice" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsImpl" table="Learn_LFSequencingPermissions">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -500,7 +497,6 @@
 		<property name="forwardOnlyForChildren" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" table="Learn_LFSequencingTracking">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -509,7 +505,6 @@
 		<property name="objectiveSetByContent" type="org.hibernate.type.BooleanType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" table="Learn_LFSocialPackage">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -519,7 +514,6 @@
 		<property name="authorID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl" table="Learn_LFSocialPackageTag">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -527,7 +521,6 @@
 		<property name="name" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActivityImpl" table="Learn_LFTincanActivity">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -548,7 +541,6 @@
 		<property name="extensions" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorImpl" table="Learn_LFTincanActor">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -562,7 +554,6 @@
 		<property name="memberOf" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsActivityProfileImpl" table="Learn_LFTincanLrsActivityProfile">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -571,7 +562,6 @@
 		<property name="profileId" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileImpl" table="Learn_LFTincanLrsAgentProfile">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -580,7 +570,6 @@
 		<property name="profileId" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentImpl" table="Learn_LFTincanLrsAttachment">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -594,7 +583,6 @@
 		<property name="fileUrl" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextImpl" table="Learn_LFTincanLrsContext">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -609,7 +597,6 @@
 		<property name="extensions" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextActivitiesImpl" table="Learn_LFTincanLrsContextActivities">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -619,7 +606,6 @@
 		<property name="other" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentImpl" table="Learn_LFTincanLrsDocument">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -629,7 +615,6 @@
 		<property name="contentType" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointImpl" table="Learn_LFTincanLrsEndpoint">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -639,7 +624,6 @@
 		<property name="secret" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsResultImpl" table="Learn_LFTincanLrsResult">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -651,7 +635,6 @@
 		<property name="extension" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateImpl" table="Learn_LFTincanLrsState">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -663,7 +646,6 @@
 		<property name="agentId" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementImpl" table="Learn_LFTincanLrsStatement">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -681,14 +663,12 @@
 		<property name="version" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementRefImpl" table="Learn_LFTincanLrsStatementRef">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
 		<property name="uuid" type="org.hibernate.type.StringType" column="uuid_" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsSubStatementImpl" table="Learn_LFTincanLrsSubStatement">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -699,7 +679,6 @@
 		<property name="objID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanManifestActivityImpl" table="Learn_LFTincanManifestActivity">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -712,7 +691,6 @@
 		<property name="resource" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl" table="Learn_LFTincanPackage">
-		<cache usage="read-write" />
 		<id name="id" column="id_" type="long">
 			<generator class="assigned" />
 		</id>
@@ -722,7 +700,6 @@
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" table="Learn_LFUser">
-		<cache usage="read-write" />
 		<id name="lfid" type="long">
 			<generator class="assigned" />
 		</id>

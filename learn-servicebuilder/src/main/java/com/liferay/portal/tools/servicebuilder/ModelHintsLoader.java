@@ -76,6 +76,22 @@ public class ModelHintsLoader implements ModelHints {
     }
 
     @Override
+    public int getMaxLength(String model, String field) {
+        Map<String, String> hints = getHints(model, field);
+
+        if (hints == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        int maxLength = GetterUtil.getInteger(
+                ModelHintsConstants.TEXT_MAX_LENGTH);
+
+        maxLength = GetterUtil.getInteger(hints.get("max-length"), maxLength);
+
+        return maxLength;
+    }
+
+    @Override
     public List<String> getModels() {
         return ListUtil.fromCollection(_models);
     }
@@ -99,21 +115,20 @@ public class ModelHintsLoader implements ModelHints {
         if (fields == null) {
             return Collections.emptyList();
         }
-        else {
-            List<Tuple> sanitizeTuples = new ArrayList<Tuple>();
 
-            for (Map.Entry<String, Object> entry : fields.entrySet()) {
-                String key = entry.getKey();
+        List<Tuple> sanitizeTuples = new ArrayList<Tuple>();
 
-                if (key.endsWith(_SANITIZE_SUFFIX)) {
-                    Tuple sanitizeTuple = (Tuple)entry.getValue();
+        for (Map.Entry<String, Object> entry : fields.entrySet()) {
+            String key = entry.getKey();
 
-                    sanitizeTuples.add(sanitizeTuple);
-                }
+            if (key.endsWith(_SANITIZE_SUFFIX)) {
+                Tuple sanitizeTuple = (Tuple)entry.getValue();
+
+                sanitizeTuples.add(sanitizeTuple);
             }
-
-            return sanitizeTuples;
         }
+
+        return sanitizeTuples;
     }
 
     @Override
@@ -143,6 +158,31 @@ public class ModelHintsLoader implements ModelHints {
     }
 
     @Override
+    public String getValue(
+            String model, String field, String name, String defaultValue) {
+
+        Map<String, String> hints = getHints(model, field);
+
+        if (hints == null) {
+            return defaultValue;
+        }
+
+        return GetterUtil.getString(hints.get(name), defaultValue);
+    }
+
+    @Override
+    public boolean hasField(String model, String field) {
+        Map<String, Object> fields = (Map<String, Object>)_modelFields.get(
+                model);
+
+        if (fields == null) {
+            return false;
+        }
+
+        return fields.containsKey(field + _ELEMENTS_SUFFIX);
+    }
+
+    @Override
     public boolean isCustomValidator(String validatorName) {
         if (validatorName.equals("custom")) {
             return true;
@@ -158,16 +198,14 @@ public class ModelHintsLoader implements ModelHints {
         if (fields == null) {
             return false;
         }
-        else {
-            Boolean localized = (Boolean)fields.get(
-                    field + _LOCALIZATION_SUFFIX);
 
-            if (localized != null) {
-                return localized;
-            }
-            else {
-                return false;
-            }
+        Boolean localized = (Boolean)fields.get(field + _LOCALIZATION_SUFFIX);
+
+        if (localized != null) {
+            return localized;
+        }
+        else {
+            return false;
         }
     }
 

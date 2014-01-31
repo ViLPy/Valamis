@@ -1,0 +1,364 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Curriculum editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div ng-app="curriculum" class="projectLearnGeneric">
+<script type="text/javascript">
+    var scormContextPath = '{{contextPath}}';
+    var courseID = {{ courseID }}
+    ;
+    var companyID = {{ companyID }}
+    ;
+    var rootUrl = '{{root}}';
+    var localizedResources = {{{ translations }}};
+    var courses = {{{ courses }}};
+    var users = {{{ users }}};
+    //var activities = '{{{activities}}}';
+</script>
+<div id="certificateTabs" ng-controller="CurriculumController" jui-tabs="tabs">
+    <ul>
+        <li>
+            <a href="#achievementTab">{{achievementTabsHeaderLabel}}</a>
+        </li>
+        <li ng-repeat="tab in tabs" class="ui-tabs-selected ui-state-active" ng-controller="tabController">
+            <a href="#[[tab.key]]Tab">[[tab.title]]</a>
+            <span class='ui-icon ui-icon-close' ng-click="close(tab)" role='presentation'>Remove Tab</span>
+        </li>
+    </ul>
+    <div id="achievementTab" ng-controller="AchievementListController">
+        <div id="achievementListWidget">
+            <form id="SCORMAchievementHeader">
+                <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" ng-model="achievementFilter"
+                       class="SCORMSearch"/>
+                <abbr>
+                    <button ng-click="achievementFiltering()" class="textButton sortButton" type="button">
+                        {{filterLabel}}
+                    </button>
+                </abbr>
+                <abbr title="Sort">
+                    <button ng-click="achievementSort()" class="textButton sortButton" type="button">
+                        [[achievementSortLabel]]
+                    </button>
+                </abbr>
+            </form>
+
+            <!--{{#isAdmin}}-->
+            <div id="SCORMAchievementQuestionAnswers" class="SCORMAddNewButton">
+                <div id="SCORMAchievementQuestionAnswersEditors"></div>
+                <button ng-click="addAchievement()" id="SCORMButtonAddAchievement" class="certificateAddItem">
+                    {{addNewAchievementButtonLabel}}
+                </button>
+            </div>
+            <!--{{/isAdmin}}-->
+
+            <ul class="quizList" ng-show="hasAchievements()">
+                <li ng-repeat="achievement in achievements.records">
+                    <div class="availableQuizItem">
+                        <div class="itemHeader">
+                            <div class="quizItemTitle">[[achievement.title]]</div>
+                            <!--{{#isAdmin}}-->
+                            <abbr title="{{quizRemoveButtonTooltipLabel}}">
+                                <button ng-confirm-click="This will be deleted achievement from the system. Are you sure?"
+                                        ng-click="deleteAchievement(achievement)"
+                                        class="button28 removeQuizButton buttonRemove"></button>
+                            </abbr>
+                            <abbr title="{{quizEditUsersButtonTooltipLabel}}">
+                                <button ng-click="editAchievementUsers(achievement)" class="membership"></button>
+                            </abbr>
+                            <abbr title="{{quizEditButtonTooltipLabel}}">
+                                <button ng-click="editAchievement(achievement)"
+                                        class="button28 removeQuizButton buttonEdit"></button>
+                            </abbr>
+                            <!--{{/isAdmin}}-->
+
+                            <!--{{^isAdmin}}-->
+                            <abbr title="{{joinCertificate}}">
+                                <button id="joinCertificate_{{id}}"
+                                        class="commandButton quizManagementButton joinCertificate">
+                                    {{joinCertificate}}
+                                </button>
+                            </abbr>
+                            <abbr title="{{leaveCertificate}}">
+                                <button id="leaveCertificate_{{id}}"
+                                        class="commandButton quizManagementButton leaveCertificate">
+                                    {{leaveCertificate}}
+                                </button>
+                            </abbr>
+                            <!--{{/isAdmin}}-->
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="itemBody">
+                            <div class="quizBodyContent">
+                                <div>
+                                    <div class="certificateIconDiv">
+                                        <img ng-src="[[achievement.logo]]" alt="" class="logo">
+                                    </div>
+                                    <div class="certificateInfoDiv">
+                                        <div class="certificateInfoLine quizSection">
+                                            <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div id="SCORMCategoryDescription" class="SCORMResult"
+                                             ng-bind-html="unescape(achievement.description)"></div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div ng-hide="hasAchievements()">
+                {{userHasNoAchievements}}
+            </div>
+
+            <div class="paginator light-theme simple-pagination" ng-show="isShowPager()">
+                <ul>
+                    <li><a href="#"  ng-class="{current: isFirstPage()}" class="page-link next" ng-click="previousAchievementPage()">Prev</a></li>
+                    <li ng-repeat="n in [1, totalPages()] | range"><a ng-click="toPage(n)" ng-class="{current: n == achievements.page}">[[n]]</a></li>
+                    <li><a href="#" ng-class="{current: isLastPage()}" class="page-link next" ng-click="nextAchievementPage()">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div ng-repeat="tab in tabs" id="[[tab.key]]Tab" ng-include src="tab.template"></div>
+</div>
+<script type="text/ng-template" id="achievementUserListEdit.html">
+    <div class="availableQuizItem" ng-controller="EditAchievementUsersController">
+        <div class="SCORMAddNewButton">
+            <button class="certificateAddItem" open-dialog="usersDialog_[[achievement.id]]" open-dialog-config="usersDialogConfig">Add
+                users
+            </button>
+        </div>
+        <div>
+            <div ng-hide="hasAchievementUsers()">
+                User list is empty
+            </div>
+
+            <div ng-repeat="user in achievement.users" ng-init="user.isShowDetail = false">
+                <div>
+                    <div class="availableQuizItem">
+                        <div class="certificateItemHeader">
+                            <div class="quizItemTitle">[[user.login]]</div>
+                            <abbr>
+                                <button id="memberDelete" class="button28 removeQuizButton buttonRemove"
+                                        style="margin-top: 2px;" ng-click="removeUser(user)"></button>
+                            </abbr>
+                            <abbr title="Open">
+                                <button id="expandUserInfo_101" class="commandButton quizManagementButton expandMember"
+                                        ng-click="showUserDetails(user)" ng-hide="user.isShowDetail">
+                                    Open
+                                </button>
+                            </abbr>
+                            <abbr title="Close">
+                                <button id="collapseUserInfo_101"
+                                        class="commandButton quizManagementButton collapseMember"
+                                        ng-click="hideUserDetails(user)" ng-show="user.isShowDetail">
+                                    Close
+                                </button>
+                            </abbr>
+
+                            <div style="clear:both"></div>
+                        </div>
+
+                        <div class="itemBody certificateItemBody" ng-show="user.isShowDetail">
+                            <div style="float:left; width: 14% ">
+                                <img src="/image/user_male_portrait?img_id=[[user.portrait]]" alt="" width="85px">
+                            </div>
+                            <div style="float: right; width: 84%">
+                                <div class="itemBody">
+                                    <div class="quizBodyContent bodyContentWide">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="usersDialog_[[achievement.id]]" title="Users" style="display: none">
+            <div class="userSearch">
+                <input type="text" class="SCORMSearch" ng-model="userSearchFilter" ng-change="search()">
+                <abbr title="Sort">
+                    <button id="sortUser" class="textButton sortButton" ng-click="sort()">[[sortLabel]]</button>
+                </abbr>
+            </div>
+
+            <div id="siteList">
+                <div ng-repeat="user in users" ng-show="hasUsers()">
+                    <div style="display: block;">
+                        <div id="liferayUserElement" class="portlet-learn-scorm">
+                            <hr>
+                            <button class="button28 buttonInstall quizManagementButton"
+                                    ng-click="addUser(user)"></button>
+                            <div style="width:60px; float:left;">
+                                <a href="[[name.userPublicPageUrl]]" target="_blank">
+
+                                    <img ng-src="[[user.portrait]]" alt="[[user.name]]" width="60px">
+                                </a>
+                            </div>
+                            <div style="margin-left: 65px; margin-top: 5px">
+                                [[user.name]]
+                                <br>
+                                [[user.email]]
+                            </div>
+                            <br>
+                            <br clear="all">
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-hide="hasUsers()">
+                    Available user list is empty
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="achievementItemEditSites.html">
+    <div class="availableQuizItem" ng-controller="EditAchievementController">
+        <div class="itemHeader">
+            <div class="quizItemTitle" ng-hide="isEditingTitle">[[achievement.title]]</div>
+
+            <input type='text' class="quizItemTitle" title='{{requiredFieldTooltipLabel}}' ng-model='newTitle'
+                   ng-show="isEditingTitle"/>
+
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button class="certificateEditTitle button28 removeQuizButton buttonEdit" ng-click="editTitle()"
+                        ng-hide="isEditingTitle"></button>
+            </abbr>
+            <abbr title="{{quizEditButtonTooltipLabel}}">
+                <button class="certificateTitleUpdate button28 buttonInstall quizManagementButton"
+                        ng-click="applyTitle()" ng-show="isEditingTitle"></button>
+            </abbr>
+
+            <div style="clear:both"></div>
+        </div>
+        <div class="itemBody">
+            <div class="quizBodyContent">
+                <div>
+                    <div class="certificateIconDiv">
+                        <div class="quizSection">
+                            <div class="quizSectionTitle">{{LogoTitle}}</div>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="SCORMResult">
+                            <div>
+                                <img ng-src="[[achievement.logo]]" alt="" class="logo">
+                            </div>
+                            <br>
+
+                            <div class="upload">
+                                <input type="file" ng-file-select>
+                            </div>
+                            <div>
+                                <button ng-click="modifyWithDesignBadge()" class="designBadge commandButton">
+                                    {{designNewBadge}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="certificateInfoDiv">
+                        <div class="certificateInfoLine quizSection certificateValidPeriod">
+                            <div class="quizSectionTitle">{{descriptionSubtitleLabel}}</div>
+                            <abbr title="{{editDescriptionButtonTooltipLabel}}">
+                                <button open-dialog="descriptionEditorDialog"
+                                        open-dialog-config="descriptionEditorDialogConfig"
+                                        class="button24x18 buttonPen questionarieEditTextButton"></button>
+                            </abbr>
+                        </div>
+                        <div class="SCORMResult" ng-bind-html="unescape(achievement.description)"></div>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    <div class="achievementStartPeriod quizSection">
+                        <div class="quizSectionTitle">{{startAchievementDateTitleLabel}}</div>
+                        <div style="clear:both"></div>
+                    </div>
+
+                    <div class="SCORMResult">
+                        <input jq-date-picker="achievement.startDate"/>
+                    </div>
+
+                    <div class="quizSection certificateDetailSection">
+                        <div class="quizSectionTitle">{{achievementSitesSubtitleLabel}}</div>
+                        <abbr title="{{sitesSubtitleLabel}}">
+                            <button open-dialog="activitiesDialog_[[achievement.id]]"
+                                    open-dialog-config="activityDialogConfig"
+                                    class="button24x18 buttonList editQuestionsButton"></button>
+                        </abbr>
+
+                        <div style="clear:both"></div>
+                    </div>
+                    <div id="siteList">
+                        <div ng-repeat="activity in achievement.activities" ng-show="hasActivities()">
+                            <div class="portlet-learn-scorm">
+                                <button class="button28 removeQuizButton buttonRemove"
+                                        ng-confirm-click="This will be deleted activity from this achievement. Are you sure?"
+                                        ng-click="removeActivity(activity)"></button>
+                                <div>
+                                    <b>[[activity.name]]</b>
+                                    <input ng-model="activity.requiredCount" type="number" jq-spinner
+                                           ng-change="requiredActivityNumberChanged(activity)" min="0"
+                                           style="width: 50px; float: right"/>
+                                </div>
+                                <div style="margin-top:5px; margin-left: 20px"></div>
+                                <br>
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div ng-hide="hasActivities()">
+                            Activity list is empty
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div id="activitiesDialog_[[achievement.id]]" title="Activities" style="display: none">
+            <div>
+                <div ng-repeat="activity in activities" ng-show="hasExceptedActivities()">
+                    <div class="portlet-learn-scorm">
+                        <button class="button28 buttonInstall quizManagementButton" ng-click="addActivity(activity)"></button>
+                        <div>
+                            <b>[[activity.name]]</b>
+                        </div>
+                        <div style="margin-top:5px; margin-left: 20px"></div>
+                        <br>
+                        <hr>
+                    </div>
+                </div>
+
+                <div ng-hide="hasExceptedActivities()">
+                    Available activity list is empty
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div id="descriptionEditorDialog" title="Description" style="display: none">
+    <textarea id="descriptionEditor" style="height: 500px; width: 900px;"></textarea>
+</div>
+
+<div id="SCORMCurriculumEditRichEdit"></div>
+<div id="CurriculumLiferaySiteDialog" title="{{liferaySiteDialogTitle}}"></div>
+<div id="CurriculumLiferayUserDialog" title="{{liferayUserDialogTitle}}"></div>
+<div id="CurriculumUserCourseGradeDialog" title="{{courseGradeDialogTitle}}"></div>
+
+</div>
+</body>
+</html>

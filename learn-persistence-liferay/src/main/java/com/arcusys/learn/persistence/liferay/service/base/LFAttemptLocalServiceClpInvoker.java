@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFAttemptLocalServiceUtil;
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFAttemptLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,22 +41,22 @@ public class LFAttemptLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
-    private String _methodName270;
-    private String[] _methodParameterTypes270;
-    private String _methodName271;
-    private String[] _methodParameterTypes271;
-    private String _methodName272;
-    private String[] _methodParameterTypes272;
-    private String _methodName273;
-    private String[] _methodParameterTypes273;
-    private String _methodName274;
-    private String[] _methodParameterTypes274;
-    private String _methodName275;
-    private String[] _methodParameterTypes275;
+    private String _methodName276;
+    private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
+    private String _methodName282;
+    private String[] _methodParameterTypes282;
+    private String _methodName283;
+    private String[] _methodParameterTypes283;
+    private String _methodName284;
+    private String[] _methodParameterTypes284;
+    private String _methodName285;
+    private String[] _methodParameterTypes285;
+    private String _methodName286;
+    private String[] _methodParameterTypes286;
+    private String _methodName287;
+    private String[] _methodParameterTypes287;
 
     public LFAttemptLocalServiceClpInvoker() {
         _methodName0 = "addLFAttempt";
@@ -105,72 +108,72 @@ public class LFAttemptLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFAttempt";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFAttempt";
+        _methodName10 = "fetchLFAttempt";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFAttempt";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFAttempts";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFAttemptsCount";
+        _methodName13 = "getLFAttempts";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFAttempt";
+        _methodName14 = "getLFAttemptsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAttempt"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFAttempt";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFAttempt",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFAttempt"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
 
-        _methodName270 = "createLFAttempt";
+        _methodName282 = "createLFAttempt";
 
-        _methodParameterTypes270 = new String[] {  };
+        _methodParameterTypes282 = new String[] {  };
 
-        _methodName271 = "findByUserIDPackageIDIsComplete";
+        _methodName283 = "findByUserIDPackageIDIsComplete";
 
-        _methodParameterTypes271 = new String[] {
+        _methodParameterTypes283 = new String[] {
                 "java.lang.Integer", "java.lang.Integer", "java.lang.Boolean"
             };
 
-        _methodName272 = "findByPackageID";
+        _methodName284 = "findByPackageID";
 
-        _methodParameterTypes272 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes284 = new String[] { "java.lang.Integer" };
 
-        _methodName273 = "findByUserID";
+        _methodName285 = "findByUserID";
 
-        _methodParameterTypes273 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes285 = new String[] { "java.lang.Integer" };
 
-        _methodName274 = "removeAll";
+        _methodName286 = "removeAll";
 
-        _methodParameterTypes274 = new String[] {  };
+        _methodParameterTypes286 = new String[] {  };
 
-        _methodName275 = "getLFAttempt";
+        _methodName287 = "getLFAttempt";
 
-        _methodParameterTypes275 = new String[] { "long" };
+        _methodParameterTypes287 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -227,84 +230,84 @@ public class LFAttemptLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.fetchLFAttempt(((Long) arguments[0]).longValue());
+            return LFAttemptLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.getLFAttempt(((Long) arguments[0]).longValue());
+            return LFAttemptLocalServiceUtil.fetchLFAttempt(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFAttemptLocalServiceUtil.getLFAttempt(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.getLFAttempts(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFAttemptLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.getLFAttemptsCount();
+            return LFAttemptLocalServiceUtil.getLFAttempts(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.updateLFAttempt((com.arcusys.learn.persistence.liferay.model.LFAttempt) arguments[0]);
+            return LFAttemptLocalServiceUtil.getLFAttemptsCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFAttemptLocalServiceUtil.updateLFAttempt((com.arcusys.learn.persistence.liferay.model.LFAttempt) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFAttemptLocalServiceUtil.updateLFAttempt((com.arcusys.learn.persistence.liferay.model.LFAttempt) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFAttemptLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFAttemptLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName270.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes270, parameterTypes)) {
+        if (_methodName282.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes282, parameterTypes)) {
             return LFAttemptLocalServiceUtil.createLFAttempt();
         }
 
-        if (_methodName271.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes271, parameterTypes)) {
+        if (_methodName283.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes283, parameterTypes)) {
             return LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete((java.lang.Integer) arguments[0],
                 (java.lang.Integer) arguments[1],
                 (java.lang.Boolean) arguments[2]);
         }
 
-        if (_methodName272.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes272, parameterTypes)) {
+        if (_methodName284.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes284, parameterTypes)) {
             return LFAttemptLocalServiceUtil.findByPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName273.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes273, parameterTypes)) {
+        if (_methodName285.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes285, parameterTypes)) {
             return LFAttemptLocalServiceUtil.findByUserID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName274.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes274, parameterTypes)) {
+        if (_methodName286.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
             LFAttemptLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName275.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes275, parameterTypes)) {
+        if (_methodName287.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
             return LFAttemptLocalServiceUtil.getLFAttempt(((Long) arguments[0]).longValue());
         }
 

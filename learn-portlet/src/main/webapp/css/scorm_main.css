@@ -6,6 +6,14 @@
     border-collapse: collapse;
 }
 
+.nav {
+    display: inherit !important;
+}
+
+hr {
+    margin: 0px !important;
+}
+
 .portlet-learn-scorm body {
     /*font-size: 14px;
     font-family: "Tahoma", sans-serif;*/

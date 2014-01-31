@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException;
 import com.arcusys.learn.persistence.liferay.model.LFRollupRule;
 import com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -81,15 +22,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -97,6 +37,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f rollup rule service.
@@ -122,6 +63,15 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, LFRollupRuleImpl.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, LFRollupRuleImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SEQUENCINGID =
         new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
             LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, LFRollupRuleImpl.class,
@@ -129,8 +79,8 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID =
         new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
@@ -142,28 +92,22 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
             LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySequencingID",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, LFRollupRuleImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, LFRollupRuleImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_NULL = "lfRollupRule.sequencingID IS NULL";
+    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_2 = "lfRollupRule.sequencingID = ?";
+    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_NULL_2 = "lfRollupRule.sequencingID IS NULL ";
     private static final String _SQL_SELECT_LFROLLUPRULE = "SELECT lfRollupRule FROM LFRollupRule lfRollupRule";
     private static final String _SQL_SELECT_LFROLLUPRULE_WHERE = "SELECT lfRollupRule FROM LFRollupRule lfRollupRule WHERE ";
     private static final String _SQL_COUNT_LFROLLUPRULE = "SELECT COUNT(lfRollupRule) FROM LFRollupRule lfRollupRule";
     private static final String _SQL_COUNT_LFROLLUPRULE_WHERE = "SELECT COUNT(lfRollupRule) FROM LFRollupRule lfRollupRule WHERE ";
-    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_NULL = "lfRollupRule.sequencingID IS NULL";
-    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_NULL_2 = "lfRollupRule.sequencingID IS NULL ";
-    private static final String _FINDER_COLUMN_SEQUENCINGID_SEQUENCINGID_2 = "lfRollupRule.sequencingID = ?";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfRollupRule.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFRollupRule exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFRollupRule exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFRollupRulePersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFRollupRule _nullLFRollupRule = new LFRollupRuleImpl() {
             @Override
             public Object clone() {
@@ -177,470 +121,14 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
         };
 
     private static CacheModel<LFRollupRule> _nullLFRollupRuleCacheModel = new CacheModel<LFRollupRule>() {
+            @Override
             public LFRollupRule toEntityModel() {
                 return _nullLFRollupRule;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f rollup rule in the entity cache if it is enabled.
-     *
-     * @param lfRollupRule the l f rollup rule
-     */
-    public void cacheResult(LFRollupRule lfRollupRule) {
-        EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey(), lfRollupRule);
-
-        lfRollupRule.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f rollup rules in the entity cache if it is enabled.
-     *
-     * @param lfRollupRules the l f rollup rules
-     */
-    public void cacheResult(List<LFRollupRule> lfRollupRules) {
-        for (LFRollupRule lfRollupRule : lfRollupRules) {
-            if (EntityCacheUtil.getResult(
-                        LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-                        LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey()) == null) {
-                cacheResult(lfRollupRule);
-            } else {
-                lfRollupRule.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f rollup rules.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFRollupRuleImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFRollupRuleImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f rollup rule.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFRollupRule lfRollupRule) {
-        EntityCacheUtil.removeResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    @Override
-    public void clearCache(List<LFRollupRule> lfRollupRules) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFRollupRule lfRollupRule : lfRollupRules) {
-            EntityCacheUtil.removeResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-                LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey());
-        }
-    }
-
-    /**
-     * Creates a new l f rollup rule with the primary key. Does not add the l f rollup rule to the database.
-     *
-     * @param id the primary key for the new l f rollup rule
-     * @return the new l f rollup rule
-     */
-    public LFRollupRule create(long id) {
-        LFRollupRule lfRollupRule = new LFRollupRuleImpl();
-
-        lfRollupRule.setNew(true);
-        lfRollupRule.setPrimaryKey(id);
-
-        return lfRollupRule;
-    }
-
-    /**
-     * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param id the primary key of the l f rollup rule
-     * @return the l f rollup rule that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRollupRule remove(long id)
-        throws NoSuchLFRollupRuleException, SystemException {
-        return remove(Long.valueOf(id));
-    }
-
-    /**
-     * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f rollup rule
-     * @return the l f rollup rule that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRollupRule remove(Serializable primaryKey)
-        throws NoSuchLFRollupRuleException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFRollupRule lfRollupRule = (LFRollupRule) session.get(LFRollupRuleImpl.class,
-                    primaryKey);
-
-            if (lfRollupRule == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFRollupRuleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfRollupRule);
-        } catch (NoSuchLFRollupRuleException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFRollupRule removeImpl(LFRollupRule lfRollupRule)
-        throws SystemException {
-        lfRollupRule = toUnwrappedModel(lfRollupRule);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfRollupRule);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfRollupRule);
-
-        return lfRollupRule;
-    }
-
-    @Override
-    public LFRollupRule updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule,
-        boolean merge) throws SystemException {
-        lfRollupRule = toUnwrappedModel(lfRollupRule);
-
-        boolean isNew = lfRollupRule.isNew();
-
-        LFRollupRuleModelImpl lfRollupRuleModelImpl = (LFRollupRuleModelImpl) lfRollupRule;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfRollupRule, merge);
-
-            lfRollupRule.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFRollupRuleModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfRollupRuleModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfRollupRuleModelImpl.getOriginalSequencingID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfRollupRuleModelImpl.getSequencingID()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey(), lfRollupRule);
-
-        return lfRollupRule;
-    }
-
-    protected LFRollupRule toUnwrappedModel(LFRollupRule lfRollupRule) {
-        if (lfRollupRule instanceof LFRollupRuleImpl) {
-            return lfRollupRule;
-        }
-
-        LFRollupRuleImpl lfRollupRuleImpl = new LFRollupRuleImpl();
-
-        lfRollupRuleImpl.setNew(lfRollupRule.isNew());
-        lfRollupRuleImpl.setPrimaryKey(lfRollupRule.getPrimaryKey());
-
-        lfRollupRuleImpl.setId(lfRollupRule.getId());
-        lfRollupRuleImpl.setSequencingID(lfRollupRule.getSequencingID());
-        lfRollupRuleImpl.setCombination(lfRollupRule.getCombination());
-        lfRollupRuleImpl.setChildActivitySet(lfRollupRule.getChildActivitySet());
-        lfRollupRuleImpl.setMinimumCount(lfRollupRule.getMinimumCount());
-        lfRollupRuleImpl.setMinimumPercent(lfRollupRule.getMinimumPercent());
-        lfRollupRuleImpl.setAction(lfRollupRule.getAction());
-
-        return lfRollupRuleImpl;
-    }
-
-    /**
-     * Returns the l f rollup rule with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f rollup rule
-     * @return the l f rollup rule
-     * @throws com.liferay.portal.NoSuchModelException if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRollupRule findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f rollup rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException} if it could not be found.
-     *
-     * @param id the primary key of the l f rollup rule
-     * @return the l f rollup rule
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRollupRule findByPrimaryKey(long id)
-        throws NoSuchLFRollupRuleException, SystemException {
-        LFRollupRule lfRollupRule = fetchByPrimaryKey(id);
-
-        if (lfRollupRule == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFRollupRuleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfRollupRule;
-    }
-
-    /**
-     * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f rollup rule
-     * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRollupRule fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param id the primary key of the l f rollup rule
-     * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRollupRule fetchByPrimaryKey(long id) throws SystemException {
-        LFRollupRule lfRollupRule = (LFRollupRule) EntityCacheUtil.getResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-                LFRollupRuleImpl.class, id);
-
-        if (lfRollupRule == _nullLFRollupRule) {
-            return null;
-        }
-
-        if (lfRollupRule == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfRollupRule = (LFRollupRule) session.get(LFRollupRuleImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfRollupRule != null) {
-                    cacheResult(lfRollupRule);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
-                        LFRollupRuleImpl.class, id, _nullLFRollupRule);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfRollupRule;
+    public LFRollupRulePersistenceImpl() {
+        setModelClass(LFRollupRule.class);
     }
 
     /**
@@ -650,6 +138,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the matching l f rollup rules
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRollupRule> findBySequencingID(Integer sequencingID)
         throws SystemException {
         return findBySequencingID(sequencingID, QueryUtil.ALL_POS,
@@ -660,7 +149,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * Returns a range of all the l f rollup rules where sequencingID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param sequencingID the sequencing i d
@@ -669,6 +158,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the range of matching l f rollup rules
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRollupRule> findBySequencingID(Integer sequencingID,
         int start, int end) throws SystemException {
         return findBySequencingID(sequencingID, start, end, null);
@@ -678,7 +168,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * Returns an ordered range of all the l f rollup rules where sequencingID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param sequencingID the sequencing i d
@@ -688,14 +178,17 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the ordered range of matching l f rollup rules
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRollupRule> findBySequencingID(Integer sequencingID,
         int start, int end, OrderByComparator orderByComparator)
         throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID;
             finderArgs = new Object[] { sequencingID };
         } else {
@@ -728,7 +221,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFROLLUPRULE_WHERE);
@@ -742,6 +235,9 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFRollupRuleModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -759,19 +255,26 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
                     qPos.add(sequencingID.intValue());
                 }
 
-                list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFRollupRule>(list);
+                } else {
+                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -788,6 +291,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a matching l f rollup rule could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRollupRule findBySequencingID_First(Integer sequencingID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRollupRuleException, SystemException {
@@ -818,6 +322,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the first matching l f rollup rule, or <code>null</code> if a matching l f rollup rule could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRollupRule fetchBySequencingID_First(Integer sequencingID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFRollupRule> list = findBySequencingID(sequencingID, 0, 1,
@@ -839,6 +344,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a matching l f rollup rule could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRollupRule findBySequencingID_Last(Integer sequencingID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRollupRuleException, SystemException {
@@ -869,9 +375,14 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the last matching l f rollup rule, or <code>null</code> if a matching l f rollup rule could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRollupRule fetchBySequencingID_Last(Integer sequencingID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countBySequencingID(sequencingID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFRollupRule> list = findBySequencingID(sequencingID, count - 1,
                 count, orderByComparator);
@@ -893,6 +404,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRollupRule[] findBySequencingID_PrevAndNext(long id,
         Integer sequencingID, OrderByComparator orderByComparator)
         throws NoSuchLFRollupRuleException, SystemException {
@@ -989,6 +501,8 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
                     }
                 }
             }
+        } else {
+            query.append(LFRollupRuleModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1022,134 +536,16 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
     }
 
     /**
-     * Returns all the l f rollup rules.
-     *
-     * @return the l f rollup rules
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRollupRule> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f rollup rules.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f rollup rules
-     * @param end the upper bound of the range of l f rollup rules (not inclusive)
-     * @return the range of l f rollup rules
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRollupRule> findAll(int start, int end)
-        throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f rollup rules.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f rollup rules
-     * @param end the upper bound of the range of l f rollup rules (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f rollup rules
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRollupRule> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFRollupRule> list = (List<LFRollupRule>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFROLLUPRULE);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFROLLUPRULE;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
-                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
-                            start, end, false);
-
-                    Collections.sort(list);
-                } else {
-                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
-                            start, end);
-                }
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
      * Removes all the l f rollup rules where sequencingID = &#63; from the database.
      *
      * @param sequencingID the sequencing i d
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeBySequencingID(Integer sequencingID)
         throws SystemException {
-        for (LFRollupRule lfRollupRule : findBySequencingID(sequencingID)) {
-            remove(lfRollupRule);
-        }
-    }
-
-    /**
-     * Removes all the l f rollup rules from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFRollupRule lfRollupRule : findAll()) {
+        for (LFRollupRule lfRollupRule : findBySequencingID(sequencingID,
+                QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
             remove(lfRollupRule);
         }
     }
@@ -1161,12 +557,15 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
      * @return the number of matching l f rollup rules
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countBySequencingID(Integer sequencingID)
         throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_SEQUENCINGID;
+
         Object[] finderArgs = new Object[] { sequencingID };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -1195,16 +594,13 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -1213,11 +609,496 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
     }
 
     /**
+     * Caches the l f rollup rule in the entity cache if it is enabled.
+     *
+     * @param lfRollupRule the l f rollup rule
+     */
+    @Override
+    public void cacheResult(LFRollupRule lfRollupRule) {
+        EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey(), lfRollupRule);
+
+        lfRollupRule.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f rollup rules in the entity cache if it is enabled.
+     *
+     * @param lfRollupRules the l f rollup rules
+     */
+    @Override
+    public void cacheResult(List<LFRollupRule> lfRollupRules) {
+        for (LFRollupRule lfRollupRule : lfRollupRules) {
+            if (EntityCacheUtil.getResult(
+                        LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+                        LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey()) == null) {
+                cacheResult(lfRollupRule);
+            } else {
+                lfRollupRule.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f rollup rules.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFRollupRuleImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFRollupRuleImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f rollup rule.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFRollupRule lfRollupRule) {
+        EntityCacheUtil.removeResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    @Override
+    public void clearCache(List<LFRollupRule> lfRollupRules) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFRollupRule lfRollupRule : lfRollupRules) {
+            EntityCacheUtil.removeResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+                LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey());
+        }
+    }
+
+    /**
+     * Creates a new l f rollup rule with the primary key. Does not add the l f rollup rule to the database.
+     *
+     * @param id the primary key for the new l f rollup rule
+     * @return the new l f rollup rule
+     */
+    @Override
+    public LFRollupRule create(long id) {
+        LFRollupRule lfRollupRule = new LFRollupRuleImpl();
+
+        lfRollupRule.setNew(true);
+        lfRollupRule.setPrimaryKey(id);
+
+        return lfRollupRule;
+    }
+
+    /**
+     * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param id the primary key of the l f rollup rule
+     * @return the l f rollup rule that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule remove(long id)
+        throws NoSuchLFRollupRuleException, SystemException {
+        return remove((Serializable) id);
+    }
+
+    /**
+     * Removes the l f rollup rule with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f rollup rule
+     * @return the l f rollup rule that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule remove(Serializable primaryKey)
+        throws NoSuchLFRollupRuleException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFRollupRule lfRollupRule = (LFRollupRule) session.get(LFRollupRuleImpl.class,
+                    primaryKey);
+
+            if (lfRollupRule == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFRollupRuleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfRollupRule);
+        } catch (NoSuchLFRollupRuleException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFRollupRule removeImpl(LFRollupRule lfRollupRule)
+        throws SystemException {
+        lfRollupRule = toUnwrappedModel(lfRollupRule);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfRollupRule)) {
+                lfRollupRule = (LFRollupRule) session.get(LFRollupRuleImpl.class,
+                        lfRollupRule.getPrimaryKeyObj());
+            }
+
+            if (lfRollupRule != null) {
+                session.delete(lfRollupRule);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfRollupRule != null) {
+            clearCache(lfRollupRule);
+        }
+
+        return lfRollupRule;
+    }
+
+    @Override
+    public LFRollupRule updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFRollupRule lfRollupRule)
+        throws SystemException {
+        lfRollupRule = toUnwrappedModel(lfRollupRule);
+
+        boolean isNew = lfRollupRule.isNew();
+
+        LFRollupRuleModelImpl lfRollupRuleModelImpl = (LFRollupRuleModelImpl) lfRollupRule;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfRollupRule.isNew()) {
+                session.save(lfRollupRule);
+
+                lfRollupRule.setNew(false);
+            } else {
+                session.merge(lfRollupRule);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFRollupRuleModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfRollupRuleModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfRollupRuleModelImpl.getOriginalSequencingID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID,
+                    args);
+
+                args = new Object[] { lfRollupRuleModelImpl.getSequencingID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_SEQUENCINGID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SEQUENCINGID,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+            LFRollupRuleImpl.class, lfRollupRule.getPrimaryKey(), lfRollupRule);
+
+        return lfRollupRule;
+    }
+
+    protected LFRollupRule toUnwrappedModel(LFRollupRule lfRollupRule) {
+        if (lfRollupRule instanceof LFRollupRuleImpl) {
+            return lfRollupRule;
+        }
+
+        LFRollupRuleImpl lfRollupRuleImpl = new LFRollupRuleImpl();
+
+        lfRollupRuleImpl.setNew(lfRollupRule.isNew());
+        lfRollupRuleImpl.setPrimaryKey(lfRollupRule.getPrimaryKey());
+
+        lfRollupRuleImpl.setId(lfRollupRule.getId());
+        lfRollupRuleImpl.setSequencingID(lfRollupRule.getSequencingID());
+        lfRollupRuleImpl.setCombination(lfRollupRule.getCombination());
+        lfRollupRuleImpl.setChildActivitySet(lfRollupRule.getChildActivitySet());
+        lfRollupRuleImpl.setMinimumCount(lfRollupRule.getMinimumCount());
+        lfRollupRuleImpl.setMinimumPercent(lfRollupRule.getMinimumPercent());
+        lfRollupRuleImpl.setAction(lfRollupRule.getAction());
+
+        return lfRollupRuleImpl;
+    }
+
+    /**
+     * Returns the l f rollup rule with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f rollup rule
+     * @return the l f rollup rule
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFRollupRuleException, SystemException {
+        LFRollupRule lfRollupRule = fetchByPrimaryKey(primaryKey);
+
+        if (lfRollupRule == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFRollupRuleException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfRollupRule;
+    }
+
+    /**
+     * Returns the l f rollup rule with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException} if it could not be found.
+     *
+     * @param id the primary key of the l f rollup rule
+     * @return the l f rollup rule
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRollupRuleException if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule findByPrimaryKey(long id)
+        throws NoSuchLFRollupRuleException, SystemException {
+        return findByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f rollup rule
+     * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFRollupRule lfRollupRule = (LFRollupRule) EntityCacheUtil.getResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+                LFRollupRuleImpl.class, primaryKey);
+
+        if (lfRollupRule == _nullLFRollupRule) {
+            return null;
+        }
+
+        if (lfRollupRule == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfRollupRule = (LFRollupRule) session.get(LFRollupRuleImpl.class,
+                        primaryKey);
+
+                if (lfRollupRule != null) {
+                    cacheResult(lfRollupRule);
+                } else {
+                    EntityCacheUtil.putResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+                        LFRollupRuleImpl.class, primaryKey, _nullLFRollupRule);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFRollupRuleModelImpl.ENTITY_CACHE_ENABLED,
+                    LFRollupRuleImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfRollupRule;
+    }
+
+    /**
+     * Returns the l f rollup rule with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param id the primary key of the l f rollup rule
+     * @return the l f rollup rule, or <code>null</code> if a l f rollup rule with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRollupRule fetchByPrimaryKey(long id) throws SystemException {
+        return fetchByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns all the l f rollup rules.
+     *
+     * @return the l f rollup rules
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRollupRule> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f rollup rules.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f rollup rules
+     * @param end the upper bound of the range of l f rollup rules (not inclusive)
+     * @return the range of l f rollup rules
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRollupRule> findAll(int start, int end)
+        throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f rollup rules.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRollupRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f rollup rules
+     * @param end the upper bound of the range of l f rollup rules (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f rollup rules
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRollupRule> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFRollupRule> list = (List<LFRollupRule>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFROLLUPRULE);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFROLLUPRULE;
+
+                if (pagination) {
+                    sql = sql.concat(LFRollupRuleModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFRollupRule>(list);
+                } else {
+                    list = (List<LFRollupRule>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f rollup rules from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFRollupRule lfRollupRule : findAll()) {
+            remove(lfRollupRule);
+        }
+    }
+
+    /**
      * Returns the number of l f rollup rules.
      *
      * @return the number of l f rollup rules
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1231,21 +1112,25 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
                 Query q = session.createQuery(_SQL_COUNT_LFROLLUPRULE);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1262,7 +1147,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFRollupRule>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1275,6 +1160,7 @@ public class LFRollupRulePersistenceImpl extends BasePersistenceImpl<LFRollupRul
     public void destroy() {
         EntityCacheUtil.removeCache(LFRollupRuleImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 }

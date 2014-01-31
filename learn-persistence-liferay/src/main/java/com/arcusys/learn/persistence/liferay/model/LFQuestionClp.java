@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFQuestionLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,26 +35,32 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
     public LFQuestionClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFQuestion.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFQuestion.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -139,92 +147,238 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfQuestionRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCategoryId() {
         return _categoryId;
     }
 
+    @Override
     public void setCategoryId(Integer categoryId) {
         _categoryId = categoryId;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCategoryId", Integer.class);
+
+                method.invoke(_lfQuestionRemoteModel, categoryId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTitle", String.class);
+
+                method.invoke(_lfQuestionRemoteModel, title);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDescription", String.class);
+
+                method.invoke(_lfQuestionRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getExplanationText() {
         return _explanationText;
     }
 
+    @Override
     public void setExplanationText(String explanationText) {
         _explanationText = explanationText;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setExplanationText",
+                        String.class);
+
+                method.invoke(_lfQuestionRemoteModel, explanationText);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getForceCorrectCount() {
         return _forceCorrectCount;
     }
 
+    @Override
     public boolean isForceCorrectCount() {
         return _forceCorrectCount;
     }
 
+    @Override
     public void setForceCorrectCount(boolean forceCorrectCount) {
         _forceCorrectCount = forceCorrectCount;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setForceCorrectCount",
+                        boolean.class);
+
+                method.invoke(_lfQuestionRemoteModel, forceCorrectCount);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public boolean getCaseSensitive() {
         return _caseSensitive;
     }
 
+    @Override
     public boolean isCaseSensitive() {
         return _caseSensitive;
     }
 
+    @Override
     public void setCaseSensitive(boolean caseSensitive) {
         _caseSensitive = caseSensitive;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCaseSensitive",
+                        boolean.class);
+
+                method.invoke(_lfQuestionRemoteModel, caseSensitive);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getQuestionType() {
         return _questionType;
     }
 
+    @Override
     public void setQuestionType(Integer questionType) {
         _questionType = questionType;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setQuestionType", Integer.class);
+
+                method.invoke(_lfQuestionRemoteModel, questionType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCourseId() {
         return _courseId;
     }
 
+    @Override
     public void setCourseId(Integer courseId) {
         _courseId = courseId;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCourseId", Integer.class);
+
+                method.invoke(_lfQuestionRemoteModel, courseId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getArrangementIndex() {
         return _arrangementIndex;
     }
 
+    @Override
     public void setArrangementIndex(Integer arrangementIndex) {
         _arrangementIndex = arrangementIndex;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setArrangementIndex",
+                        Integer.class);
+
+                method.invoke(_lfQuestionRemoteModel, arrangementIndex);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFQuestionRemoteModel() {
@@ -235,6 +389,47 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         _lfQuestionRemoteModel = lfQuestionRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfQuestionRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfQuestionRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFQuestionLocalServiceUtil.addLFQuestion(this);
@@ -245,7 +440,7 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
 
     @Override
     public LFQuestion toEscapedModel() {
-        return (LFQuestion) Proxy.newProxyInstance(LFQuestion.class.getClassLoader(),
+        return (LFQuestion) ProxyUtil.newProxyInstance(LFQuestion.class.getClassLoader(),
             new Class[] { LFQuestion.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -267,6 +462,7 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         return clone;
     }
 
+    @Override
     public int compareTo(LFQuestion lfQuestion) {
         long primaryKey = lfQuestion.getPrimaryKey();
 
@@ -281,17 +477,15 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFQuestionClp)) {
             return false;
         }
 
-        LFQuestionClp lfQuestion = null;
-
-        try {
-            lfQuestion = (LFQuestionClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFQuestionClp lfQuestion = (LFQuestionClp) obj;
 
         long primaryKey = lfQuestion.getPrimaryKey();
 
@@ -336,6 +530,7 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(34);
 

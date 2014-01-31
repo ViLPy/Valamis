@@ -49,7 +49,7 @@ public class LFTincanLrsStateUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFTincanLrsState update(LFTincanLrsState lfTincanLrsState)
+        throws SystemException {
+        return getPersistence().update(lfTincanLrsState);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanLrsState update(LFTincanLrsState lfTincanLrsState,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfTincanLrsState, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFTincanLrsState update(LFTincanLrsState lfTincanLrsState,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfTincanLrsState, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan lrs state in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsState the l f tincan lrs state
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsState lfTincanLrsState) {
-        getPersistence().cacheResult(lfTincanLrsState);
-    }
-
-    /**
-    * Caches the l f tincan lrs states in the entity cache if it is enabled.
-    *
-    * @param lfTincanLrsStates the l f tincan lrs states
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> lfTincanLrsStates) {
-        getPersistence().cacheResult(lfTincanLrsStates);
-    }
-
-    /**
-    * Creates a new l f tincan lrs state with the primary key. Does not add the l f tincan lrs state to the database.
-    *
-    * @param id the primary key for the new l f tincan lrs state
-    * @return the new l f tincan lrs state
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan lrs state with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan lrs state
-    * @return the l f tincan lrs state that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsState lfTincanLrsState,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanLrsState, merge);
-    }
-
-    /**
-    * Returns the l f tincan lrs state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs state
-    * @return the l f tincan lrs state
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan lrs state with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan lrs state
-    * @return the l f tincan lrs state, or <code>null</code> if a l f tincan lrs state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfTincanLrsState, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFTincanLrsStateUtil {
     * Returns a range of all the l f tincan lrs states where activityId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityId the activity ID
@@ -214,7 +134,7 @@ public class LFTincanLrsStateUtil {
     * Returns an ordered range of all the l f tincan lrs states where activityId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityId the activity ID
@@ -321,6 +241,29 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
+    * Removes all the l f tincan lrs states where activityId = &#63; from the database.
+    *
+    * @param activityId the activity ID
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityId(java.lang.String activityId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByActivityId(activityId);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs states where activityId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @return the number of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityId(java.lang.String activityId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByActivityId(activityId);
+    }
+
+    /**
     * Returns all the l f tincan lrs states where activityId = &#63; and stateId = &#63;.
     *
     * @param activityId the activity ID
@@ -338,7 +281,7 @@ public class LFTincanLrsStateUtil {
     * Returns a range of all the l f tincan lrs states where activityId = &#63; and stateId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityId the activity ID
@@ -359,7 +302,7 @@ public class LFTincanLrsStateUtil {
     * Returns an ordered range of all the l f tincan lrs states where activityId = &#63; and stateId = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityId the activity ID
@@ -478,6 +421,112 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
+    * Removes all the l f tincan lrs states where activityId = &#63; and stateId = &#63; from the database.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityIdAndStateId(
+        java.lang.String activityId, java.lang.String stateId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByActivityIdAndStateId(activityId, stateId);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs states where activityId = &#63; and stateId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @return the number of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIdAndStateId(java.lang.String activityId,
+        java.lang.String stateId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByActivityIdAndStateId(activityId, stateId);
+    }
+
+    /**
+    * Caches the l f tincan lrs state in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsState the l f tincan lrs state
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsState lfTincanLrsState) {
+        getPersistence().cacheResult(lfTincanLrsState);
+    }
+
+    /**
+    * Caches the l f tincan lrs states in the entity cache if it is enabled.
+    *
+    * @param lfTincanLrsStates the l f tincan lrs states
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> lfTincanLrsStates) {
+        getPersistence().cacheResult(lfTincanLrsStates);
+    }
+
+    /**
+    * Creates a new l f tincan lrs state with the primary key. Does not add the l f tincan lrs state to the database.
+    *
+    * @param id the primary key for the new l f tincan lrs state
+    * @return the new l f tincan lrs state
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan lrs state with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan lrs state
+    * @return the l f tincan lrs state that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsState lfTincanLrsState)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanLrsState);
+    }
+
+    /**
+    * Returns the l f tincan lrs state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs state
+    * @return the l f tincan lrs state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan lrs state with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan lrs state
+    * @return the l f tincan lrs state, or <code>null</code> if a l f tincan lrs state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f tincan lrs states.
     *
     * @return the l f tincan lrs states
@@ -492,7 +541,7 @@ public class LFTincanLrsStateUtil {
     * Returns a range of all the l f tincan lrs states.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs states
@@ -510,7 +559,7 @@ public class LFTincanLrsStateUtil {
     * Returns an ordered range of all the l f tincan lrs states.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs states
@@ -527,30 +576,6 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
-    * Removes all the l f tincan lrs states where activityId = &#63; from the database.
-    *
-    * @param activityId the activity ID
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActivityId(java.lang.String activityId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByActivityId(activityId);
-    }
-
-    /**
-    * Removes all the l f tincan lrs states where activityId = &#63; and stateId = &#63; from the database.
-    *
-    * @param activityId the activity ID
-    * @param stateId the state ID
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActivityIdAndStateId(
-        java.lang.String activityId, java.lang.String stateId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByActivityIdAndStateId(activityId, stateId);
-    }
-
-    /**
     * Removes all the l f tincan lrs states from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -558,32 +583,6 @@ public class LFTincanLrsStateUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan lrs states where activityId = &#63;.
-    *
-    * @param activityId the activity ID
-    * @return the number of matching l f tincan lrs states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityId(java.lang.String activityId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByActivityId(activityId);
-    }
-
-    /**
-    * Returns the number of l f tincan lrs states where activityId = &#63; and stateId = &#63;.
-    *
-    * @param activityId the activity ID
-    * @param stateId the state ID
-    * @return the number of matching l f tincan lrs states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityIdAndStateId(java.lang.String activityId,
-        java.lang.String stateId)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByActivityIdAndStateId(activityId, stateId);
     }
 
     /**
@@ -610,7 +609,7 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanLrsStatePersistence persistence) {
     }

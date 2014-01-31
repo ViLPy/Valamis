@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFQuizLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,26 +30,32 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
     public LFQuizClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFQuiz.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFQuiz.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -106,52 +114,138 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfQuizRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTitle", String.class);
+
+                method.invoke(_lfQuizRemoteModel, title);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDescription", String.class);
+
+                method.invoke(_lfQuizRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWelcomePageContent() {
         return _welcomePageContent;
     }
 
+    @Override
     public void setWelcomePageContent(String welcomePageContent) {
         _welcomePageContent = welcomePageContent;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWelcomePageContent",
+                        String.class);
+
+                method.invoke(_lfQuizRemoteModel, welcomePageContent);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getFinalPageContent() {
         return _finalPageContent;
     }
 
+    @Override
     public void setFinalPageContent(String finalPageContent) {
         _finalPageContent = finalPageContent;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setFinalPageContent",
+                        String.class);
+
+                method.invoke(_lfQuizRemoteModel, finalPageContent);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCourseID() {
         return _courseID;
     }
 
+    @Override
     public void setCourseID(Integer courseID) {
         _courseID = courseID;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCourseID", Integer.class);
+
+                method.invoke(_lfQuizRemoteModel, courseID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFQuizRemoteModel() {
@@ -162,6 +256,47 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         _lfQuizRemoteModel = lfQuizRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfQuizRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfQuizRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFQuizLocalServiceUtil.addLFQuiz(this);
@@ -172,7 +307,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public LFQuiz toEscapedModel() {
-        return (LFQuiz) Proxy.newProxyInstance(LFQuiz.class.getClassLoader(),
+        return (LFQuiz) ProxyUtil.newProxyInstance(LFQuiz.class.getClassLoader(),
             new Class[] { LFQuiz.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -190,6 +325,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         return clone;
     }
 
+    @Override
     public int compareTo(LFQuiz lfQuiz) {
         long primaryKey = lfQuiz.getPrimaryKey();
 
@@ -204,17 +340,15 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFQuizClp)) {
             return false;
         }
 
-        LFQuizClp lfQuiz = null;
-
-        try {
-            lfQuiz = (LFQuizClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFQuizClp lfQuiz = (LFQuizClp) obj;
 
         long primaryKey = lfQuiz.getPrimaryKey();
 
@@ -251,6 +385,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(22);
 

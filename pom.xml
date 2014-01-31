@@ -11,7 +11,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.version>2.9.1</scala.version>
-        <liferay.version>6.1.1</liferay.version>
+        <liferay.version>6.2.0-GA1</liferay.version>
+        <!-- NOTE: Apparently in Liferay's repo version numbers ARE CASE-SENSITIVE, beware -->
+        <liferay.maven.plugin.version>6.2.0-ga1</liferay.maven.plugin.version>
         <portlet-api.version>2.0</portlet-api.version>
         <servlet-api.version>2.5</servlet-api.version>
         <slf4j.version>1.6.3</slf4j.version>
@@ -57,7 +59,7 @@
         <module>learn-persistence-liferay</module>
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
-        <module>learn-puppet</module>
+        <!--<module>learn-puppet</module>-->
         <module>learn-portlet</module>
         <module>learn-servicebuilder</module>
         <module>learn-ui-test</module>
@@ -68,6 +70,7 @@
         <module>learn-settings-model</module>
         <module>learn-liferay611-hook</module>
         <module>learn-liferay612-hook</module>
+        <module>learn-liferay620-hook</module>
         <module>learn-demo-hook</module>
         <!--<module>learn-site-templates-hook</module>-->
         <module>learn-tincan-lrs</module>
@@ -194,7 +197,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>${spring.framework.version</version>
+                <version>${spring.framework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -203,6 +206,12 @@
             <id>maven2-repository.dev.java.net</id>
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>liferay-ce</id>
+            <name>Liferay CE</name>
+            <url>https://repository.liferay.com/nexus/content/groups/public/</url>
             <layout>default</layout>
         </repository>
         <repository>
@@ -303,7 +312,6 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <encoding>UTF-8</encoding>
                         <scalaVersion>${scala.version}</scalaVersion>
                         <args>
                             <arg>-target:jvm-1.5</arg>

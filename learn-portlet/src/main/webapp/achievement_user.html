@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {{{curriculumTemplates_}}}
+    <title></title>
+    <script>
+        var jQuery1816AchievementUser = jQuery.noConflict();
+        var localizedResources = {{{translations_}}};
+        var userId = {{userId}};
+        var companyId = {{companyId_}};
+
+        var subscribedAchievementList
+
+        jQuery1816AchievementUser(function(){
+            jQuery1816AchievementUser("#achievementTabs").tabs();
+            jQuery1816AchievementUser.getJSON("/learn-portlet/services/achievementUser/userId/" + userId,spagetti)
+        })
+
+        var spagetti = function(data){
+            subscribedAchievementList = data;
+
+            var chosenAchievementList = new ChosenAchievementList();
+            var availableAchievementList = new AvailableAchievementList(); // chosenAchievementList needed to fetch after joining(leaving) the achievement
+
+            new AvailableAchievementListView({el: jQuery1816AchievementUser("#availableAchievementsTab"), collection: availableAchievementList, chosenAchievementList: chosenAchievementList});
+            new ChosenAchievementListView ({el: jQuery1816AchievementUser("#myAchievementsTab"), collection: chosenAchievementList});
+        }
+
+
+    </script>
+</head>
+<body>
+<div class="projectLearnGeneric">
+    <div id="achievementTabs">
+        <ul>
+            <li><a href="#myAchievementsTab">{{myAchievementsTabs}}</a></li>
+            <li><a href="#availableAchievementsTab">{{allAchievementsTabs}}</a></li>
+        </ul>
+        <div id="myAchievementsTab">
+
+        </div>
+        <div id="availableAchievementsTab">
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

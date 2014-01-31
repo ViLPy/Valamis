@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.1.0//EN"
-        "http://www.liferay.com/dtd/liferay-portlet-app_6_1_0.dtd">
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.2.0//EN"
+        "http://www.liferay.com/dtd/liferay-portlet-app_6_2_0.dtd">
 <liferay-portlet-app>
     <portlet>
         <portlet-name>SCORMApplication</portlet-name>
@@ -136,6 +136,7 @@
         <portlet-name>SCORMQuizes</portlet-name>
         <preferences-unique-per-layout>false</preferences-unique-per-layout>
         <preferences-owned-by-group>false</preferences-owned-by-group>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
         <ajaxable>false</ajaxable>
         <header-portlet-css>/css/scorm_main.css</header-portlet-css>
         <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
@@ -210,6 +211,9 @@
         <header-portlet-css>/css/simplePagination.css</header-portlet-css>
 
         <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular-cookies.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/from.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
@@ -225,6 +229,7 @@
         <header-portlet-javascript>/js/libs/tiny_mce/tiny_mce.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/tiny_mce/jquery.tinymce.js</header-portlet-javascript>
         <header-portlet-javascript>/js/widgets/richedit.js</header-portlet-javascript>
+        <!--<header-portlet-javascript>/js/curriculum/portlet-admin.js</header-portlet-javascript>-->
         <header-portlet-javascript>/js/curriculum/curriculum.js</header-portlet-javascript>
         <header-portlet-javascript>/js/curriculum/CertificateSite.js</header-portlet-javascript>
         <header-portlet-javascript>/js/curriculum/CertificateUser.js</header-portlet-javascript>
@@ -238,13 +243,94 @@
         <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/jstreegrid.js</header-portlet-javascript>
 
-       <header-portlet-javascript>/js/libs/file-upload/vendor/jquery.ui.widget.js</header-portlet-javascript>
-        <!-- <header-portlet-javascript>/js/libs/file-upload/load-image.min.js</header-portlet-javascript>
-        <header-portlet-javascript>/js/libs/file-upload/canvas-to-blob.min.js</header-portlet-javascript>-->
+        <header-portlet-javascript>/js/libs/file-upload/vendor/jquery.ui.widget.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/file-upload/jquery.iframe-transport.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-process.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-image.js</header-portlet-javascript>
+
+        <!--<footer-portlet-javascript>/js/curriculum/achievement.js</footer-portlet-javascript>-->
+        <!--<footer-portlet-javascript>/js/curriculum/angular-curriculum.js</footer-portlet-javascript>-->
+
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
+
+    <portlet>
+        <portlet-name>AchievementUser</portlet-name>
+        <icon>/img/certificateIcon.png</icon>
+        <social-activity-interpreter-class>com.arcusys.learn.certificating.CertificateActivityInterpreter</social-activity-interpreter-class>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
+
+        <header-portlet-css>/css/scorm_main.css</header-portlet-css>
+        <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
+        <header-portlet-css>/css/curriculum.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-css>/css/tipsy.css</header-portlet-css>
+
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/TemplateLoader.js</header-portlet-javascript>
+
+        <footer-portlet-javascript>/js/curriculum/achievement/AchievementUser.js</footer-portlet-javascript>
+
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
+
+    <portlet>
+        <portlet-name>Achievement</portlet-name>
+        <icon>/img/certificateIcon.png</icon>
+        <social-activity-interpreter-class>com.arcusys.learn.certificating.CertificateActivityInterpreter</social-activity-interpreter-class>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
+
+        <header-portlet-css>/css/scorm_main.css</header-portlet-css>
+        <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
+        <header-portlet-css>/css/curriculum.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-css>/css/tipsy.css</header-portlet-css>
+        <header-portlet-css>/css/simplePagination.css</header-portlet-css>
+
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular-cookies.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular-file-uploader.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/angular-sanitize.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/from.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.simplePagination.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/list.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/TemplateLoader.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/jstree.helper.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/jquery.jstree.ext.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/tiny_mce/tiny_mce.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/tiny_mce/jquery.tinymce.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/richedit.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/blockUI.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.tipsy.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.form.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jstreegrid.js</header-portlet-javascript>
+
+        <header-portlet-javascript>/js/libs/file-upload/vendor/jquery.ui.widget.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.iframe-transport.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-process.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/file-upload/jquery.fileupload-image.js</header-portlet-javascript>
+        <footer-portlet-javascript>/js/achievement.js</footer-portlet-javascript>
 
         <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
     </portlet>

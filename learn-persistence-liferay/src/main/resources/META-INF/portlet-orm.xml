@@ -7,6 +7,46 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="title" />
+			<basic name="description" />
+			<basic name="logo" />
+			<basic name="creationDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementActivityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="userId" />
+			<basic name="achievementId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementUserModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="userId" />
+			<basic name="achievementId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityModelImpl">
 		<attributes>
 			<id name="indexNumber" />
@@ -497,6 +537,19 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="achievementId" />
+			<basic name="activityClassName" />
+			<basic name="numberActivitiesRequired" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl">
 		<attributes>
 			<id name="id">
@@ -937,6 +990,18 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementImpl" name="LFAchievement">
+		<table name="Learn_LFAchievement" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementActivityImpl" name="LFAchievementActivity">
+		<table name="Learn_LFAchievementActivity" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementUserImpl" name="LFAchievementUser">
+		<table name="Learn_LFAchievementUser" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl" name="LFActivity">
 		<table name="Learn_LFActivity" />
 		<attributes />
@@ -1059,6 +1124,10 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" name="LFQuizQuestionCategory">
 		<table name="Learn_LFQuizQuestionCategory" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityImpl" name="LFRequiredActivity">
+		<table name="Learn_LFRequiredActivity" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFResourceImpl" name="LFResource">

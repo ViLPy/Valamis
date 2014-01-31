@@ -24,6 +24,7 @@ public abstract class LFObjectiveBaseImpl extends LFObjectiveModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f objective model instance should use the {@link LFObjective} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFObjectiveLocalServiceUtil.addLFObjective(this);

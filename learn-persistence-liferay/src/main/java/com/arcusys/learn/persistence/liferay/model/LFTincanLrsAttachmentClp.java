@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,26 +34,32 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
     public LFTincanLrsAttachmentClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsAttachment.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsAttachment.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -130,76 +138,202 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getParentID() {
         return _parentID;
     }
 
+    @Override
     public void setParentID(Integer parentID) {
         _parentID = parentID;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setParentID", Integer.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, parentID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getUsageType() {
         return _usageType;
     }
 
+    @Override
     public void setUsageType(String usageType) {
         _usageType = usageType;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setUsageType", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, usageType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDisplay() {
         return _display;
     }
 
+    @Override
     public void setDisplay(String display) {
         _display = display;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDisplay", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, display);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDescription", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getContentType() {
         return _contentType;
     }
 
+    @Override
     public void setContentType(String contentType) {
         _contentType = contentType;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setContentType", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, contentType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getLength() {
         return _length;
     }
 
+    @Override
     public void setLength(Integer length) {
         _length = length;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLength", Integer.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, length);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getSha2() {
         return _sha2;
     }
 
+    @Override
     public void setSha2(String sha2) {
         _sha2 = sha2;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSha2", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, sha2);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getFileUrl() {
         return _fileUrl;
     }
 
+    @Override
     public void setFileUrl(String fileUrl) {
         _fileUrl = fileUrl;
+
+        if (_lfTincanLrsAttachmentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setFileUrl", String.class);
+
+                method.invoke(_lfTincanLrsAttachmentRemoteModel, fileUrl);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsAttachmentRemoteModel() {
@@ -211,6 +345,47 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
         _lfTincanLrsAttachmentRemoteModel = lfTincanLrsAttachmentRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsAttachmentRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsAttachmentRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsAttachmentLocalServiceUtil.addLFTincanLrsAttachment(this);
@@ -221,7 +396,7 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
 
     @Override
     public LFTincanLrsAttachment toEscapedModel() {
-        return (LFTincanLrsAttachment) Proxy.newProxyInstance(LFTincanLrsAttachment.class.getClassLoader(),
+        return (LFTincanLrsAttachment) ProxyUtil.newProxyInstance(LFTincanLrsAttachment.class.getClassLoader(),
             new Class[] { LFTincanLrsAttachment.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -243,6 +418,7 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsAttachment lfTincanLrsAttachment) {
         long primaryKey = lfTincanLrsAttachment.getPrimaryKey();
 
@@ -257,17 +433,15 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsAttachmentClp)) {
             return false;
         }
 
-        LFTincanLrsAttachmentClp lfTincanLrsAttachment = null;
-
-        try {
-            lfTincanLrsAttachment = (LFTincanLrsAttachmentClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsAttachmentClp lfTincanLrsAttachment = (LFTincanLrsAttachmentClp) obj;
 
         long primaryKey = lfTincanLrsAttachment.getPrimaryKey();
 
@@ -310,6 +484,7 @@ public class LFTincanLrsAttachmentClp extends BaseModelImpl<LFTincanLrsAttachmen
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(31);
 

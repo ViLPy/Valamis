@@ -1,108 +1,124 @@
 package com.arcusys.learn.curriculum
 
 import org.openqa.selenium._
-import org.openqa.selenium.By._
-import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.junit.Assert._
-import com.arcusys.learn.base.UITestBase
+import com.arcusys.learn.base.{WebDriverArcusys, UITestBase}
 
 trait UICurriculumBase extends UITestBase{
-  val driver: WebDriver
+  val driver: WebDriverArcusys
   val manager = "Certificate manager"
 
   def getElement(name: String): WebElement = {
     val element = driver.findElements(By.className(name)).toArray
       .foreach(x => if (x.asInstanceOf[WebElement].isDisplayed) return x.asInstanceOf[WebElement])
-    return element.asInstanceOf[WebElement]
+    element.asInstanceOf[WebElement]
   }
 
   def openManagement(){
-    driver.findElement(By.partialLinkText(manager)).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.partialLinkText(manager)).click()
   }
-  def openCertManager(){
-    driver.findElement(By.id("certificateEdit")).click()
+  def openCertManager(name: String){
+    driver.getVisibleElementAfterWaitBy(By.xpath("//div[@class='availableQuizItem']/div/div[text()='"+ name +"']/..//*[@id='certificateEdit']")).click()
   }
-  def openUserManagement(){
-    driver.findElements(By.id("certificateEditUsers")).get(0).click()
+  def openUserManagement(name: String){
+    driver.getVisibleElementAfterWaitBy(By.xpath("//div[@class='availableQuizItem']/div/div[text()='"+ name +"']/..//*[@id='certificateEditUsers']")).click()
+//    driver.findElements(By.id("certificateEditUsers")).get(0).click()
   }
   def assertSiteAmount(expected: Int){
-    val element = driver.findElement(By.className("siteSortableList"))
+    val element = driver.getVisibleElementAfterWaitBy(By.className("siteSortableList"))
     val certificateId = element.getAttribute("id").replace("certificateSitesSortable_", "")
     val size = driver.findElements(By.xpath("//*[@id=\"certificateSitesSortable_"+ certificateId +"\"]/li")).size
     assertEquals(expected, size)
   }
 
-  def assertSiteAmountInManagement(expected: Int){
-    val sites = driver.findElements(By.className("quizSectionTitle")).get(1).getText
+  def assertSiteAmountInManagement(name: String, expected: Int){
+    driver.getVisibleElementAfterWaitBy(By.xpath("//div[text()='"+name+"']"))
+    val sites = driver.getVisibleElementAfterWaitBy(By.xpath("//div[text()='"+name+"']/../..")).findElements(By.className("quizSectionTitle")).get(1).getText
     assertEquals( expected + " Courses", sites)
   }
 
-  def assertTitleAndDescription(title: String, description: String){
-    val certificates = driver.findElement(By.id("certificateList")).findElements(By.className("availableQuizItem"))
+  def assertMembersAmountInManagement(name: String, expected: Int) {
+    driver.getVisibleElementAfterWaitBy(By.xpath("//div[text()='"+name+"']"))
+    val members = driver.getVisibleElementAfterWaitBy(By.xpath("//div[text()='"+name+"']/../..")).findElements(By.className("quizSectionTitle")).get(2).getText
+    assertEquals(expected + " Members", members)
+  }
 
-    val certificate = certificates.get(0)
-    val title = certificate.findElement(By.className("quizItemTitle")).getText
-    assertEquals(title, title)
+  def assertTitleAndDescription(title: String, description: String, index: Int){
+    val certificates = driver.getVisibleElementAfterWaitBy(By.id("certificateList")).findElements(By.className("availableQuizItem"))
 
-    val description = certificate.findElement(By.id("SCORMCategoryDescription")).getText
-    assertEquals(description, description)
+    val certificate = certificates.get(index)
+    val title1 = certificate.findElement(By.className("quizItemTitle")).getText
+    assertEquals(title, title1)
 
+    val description2 = certificate.findElement(By.id("SCORMCategoryDescription")).getText
+    assertEquals(description, description2)
+  }
+
+  def assertImage(name: String, index: Int) {
+    val certificates = driver.getVisibleElementAfterWaitBy(By.id("certificateList")).findElements(By.className("availableQuizItem"))
+    val certificate = certificates.get(index)
+
+    val imageName = certificate.findElement(By.className("logo")).getAttribute("src")
+
+    if (name == "default")
+      assertEquals(defaultImageSrc, imageName)
+    else
+      assertEquals(name, getUploadedImageName(imageName))
   }
 
   def assertTitleInList(name: String, index: Int) {
-    assertEquals(name, driver.findElement(By.xpath("//*[@id=\"certificateList\"]/li[" + index + "]/div/div[1]/div[1]")).getText)
+    assertEquals(name, driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"certificateList\"]/li[" + index + "]/div/div[1]/div[1]")).getText)
   }
 
-  def deleteCertificate() {
-    deleteCertificate(0)
-  }
-  def deleteCertificate(index: Int) {
-    driver.findElements(By.id("certificateDelete")).get(index).click()
-    wait(1)
-    assertTrue(closeAlertAndGetItsText.matches("^This will delete certificate from the system\\. Are you sure[\\s\\S]$"))
+  def deleteCertificate(name: String) {
+    driver.getVisibleElementAfterWaitBy(By.xpath("//div[text()='"+name+"']/..//*[@id='certificateDelete']")).click()
+    driver.getAlertTextAndCloseAfterWait.matches("^This will delete certificate from the system\\. Are you sure[\\s\\S]$")
   }
 
   def addEmptyCertificate() {
     openManagement()
-    driver.findElement(By.id("SCORMButtonAddCertificate")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.id("SCORMButtonAddCertificate")).click()
   }
   def addCertificate(name: String) {
     addEmptyCertificate()
     updateTitleAndReturnCertificateID(name)
   }
 
+  @deprecated
   def addSiteAndReturnName(number: Int) = {
-    driver.findElement(By.id("addSites")).click()
-    assertTrue(isElementPresent(By.id("liferaySiteDialog")))
+    driver.getVisibleElementAfterWaitBy(By.id("addSites")).click()
+    driver.waitForElementVisibleBy(By.id("liferaySiteDialog"))
 
-    val site = driver.findElement(By.id("siteList")).findElements(By.id("liferaySiteElement")).get(number)
+    val site = driver.getVisibleElementAfterWaitBy(By.id("siteList")).findElements(By.id("liferaySiteElement")).get(number)
     val name = site.getText
     site.findElement(By.id("selectSiteButton")).click()
-    wait(1)
     name
   }
 
-  def addMemberAndReturnName(number: Int)={
-    driver.findElement(By.id("addMember")).click()
-    wait(1)
-    assertTrue(isElementPresent(By.id("CurriculumLiferayUserDialog")))
-    val user = driver.findElement(By.id("userList")).findElements(By.id("liferayUserElement")).get(number)
+  def addSiteByName (name: String) {
+    driver.getVisibleElementAfterWaitBy(By.id("addSites")).click()
+    driver.waitForElementVisibleBy(By.id("liferaySiteDialog"))
+
+    driver.getVisibleElementAfterWaitBy(By.xpath("id('siteList')//*[text()='"+name+"']/../../button")).click()
+  }
+
+  def addNotStudentMemberAndReturnName(number: Int)={
+    driver.getVisibleElementAfterWaitBy(By.id("addMember")).click()
+    driver.waitForElementVisibleBy(By.id("CurriculumLiferayUserDialog"))
+    val user = if (driver.getVisibleElementAfterWaitBy(By.id("userList")).findElements(By.id("liferayUserElement")).get(number).getText.contains(studentLogin))
+       driver.getVisibleElementAfterWaitBy(By.id("userList")).findElements(By.id("liferayUserElement")).get(number+1)
+    else driver.getVisibleElementAfterWaitBy(By.id("userList")).findElements(By.id("liferayUserElement")).get(number)
     val username = user.getText
 
     user.findElement(By.id("selectUserButton")).click()
-    driver.findElement(By.partialLinkText("close")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.partialLinkText("close")).click()
     username
   }
   def addStudentMember(){
-    driver.findElement(By.id("addMember")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.id("addMember")).click()
 
     // require user with name Student and he is not first in the student list
-    driver.findElement(By.id("userSearch")).sendKeys(studentUserName)
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.id("userSearch")).sendKeys(studentUserName)
 
     val users = driver.findElements(By.id("liferayUserElement"))
 
@@ -115,8 +131,7 @@ trait UICurriculumBase extends UITestBase{
 
     val user =  userHelper
     user.findElement(By.id("selectUserButton")).click()
-    driver.findElement(By.partialLinkText("close")).click()
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(By.partialLinkText("close")).click()
   }
 
 
@@ -124,19 +139,20 @@ trait UICurriculumBase extends UITestBase{
     setGrade(0, grade, comment)
   }
   def setGrade(reviewNumber: Int, grade: Int, comment: String){
+    driver.getVisibleElementAfterWaitBy(By.className("userCourseReview"))
     val reviews = driver.findElements(By.className("userCourseReview"))
     reviews.get(reviewNumber).click()
-    assertTrue(isElementPresent(By.id("userCourseGrade")))
+    driver.waitForElementVisibleBy(By.id("userCourseGrade"))
 
-    driver.findElement(By.id("certificateCourseComment")).sendKeys(comment)
-    driver.findElement(By.xpath("(//input[@name='grade'])["+ grade +"]")).click()
-    driver.findElement(By.id("saveCourseGradeButton")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("certificateCourseComment")).clear()
+    driver.getVisibleElementAfterWaitBy(By.id("certificateCourseComment")).sendKeys(comment)
+    driver.getVisibleElementAfterWaitBy(By.xpath("(//input[@name='grade'])["+ (grade+1) +"]")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("saveCourseGradeButton")).click()
 
-    wait(1)
   }
 
   def updateTitleAndReturnCertificateID(name: String) = {
-    openCertManager()
+    openCertManager("New certificate")
 
     getElement("certificateEditTitle").click()
     val input = getElement("quizItemTitle")
@@ -145,7 +161,6 @@ trait UICurriculumBase extends UITestBase{
     val id = input.getAttribute("id")
     val certificateId = id.replace("editSitesCertificateTitleInput_", "").toInt
     getElement("certificateTitleUpdate").click()
-    wait(1)
     certificateId
   }
 
@@ -156,5 +171,7 @@ trait UICurriculumBase extends UITestBase{
     false
   }
 
-
+  def getUploadedImageName (src: String) = {
+    src.substring(src.lastIndexOf("=")+1)
+  }
 }

@@ -24,6 +24,7 @@ public abstract class LFTincanLrsEndpointBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs endpoint model instance should use the {@link LFTincanLrsEndpoint} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsEndpointLocalServiceUtil.addLFTincanLrsEndpoint(this);

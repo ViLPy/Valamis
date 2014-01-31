@@ -1,9 +1,9 @@
 package com.arcusys.learn.gradebook
 
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.By
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.{LoginSupport, UITestBase}
+import com.arcusys.learn.base.{WebDriverArcusys, LoginSupport, UITestBase}
 import org.junit.Assert._
 import org.openqa.selenium.support.ui.Select
 
@@ -11,12 +11,12 @@ import org.openqa.selenium.support.ui.Select
  * User: Yulia.Glushonkova
  * Date: 31.05.13
  */
-class StudentViewMarkTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase with LoginSupport  with GradebookManager{
+class StudentViewMarkTest (_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with UITestBase with LoginSupport  with GradebookManager{
   val driver = _driver
 
   //10.8
   "Gradebook" should "be able to view marks for student"in{
-    driver.findElement(By.linkText("Sign Out")).click()
+    logout()
     loginAsStudent()
     wait(1)
     driver.get(baseUrl + gradebookUrl)
@@ -27,7 +27,7 @@ class StudentViewMarkTest (_driver:WebDriver) extends Suite with FlatSpec with S
     new Select(driver.findElement(By.id("gradebookPackageChoice"))).selectByVisibleText("Test 1")
 
     wait(2)
-    val essayIndex = getEssayIndex()
+    val essayIndex = getEssayIndex
 
     assertMark(essayIndex, 90)
     assertEquals("good!", getEssayComment(essayIndex))

@@ -3,12 +3,10 @@ package com.arcusys.learn.persistence.liferay.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link LFPlayerScopeRuleLocalService}.
- * </p>
+ * Provides a wrapper for {@link LFPlayerScopeRuleLocalService}.
  *
- * @author    Brian Wing Shun Chan
- * @see       LFPlayerScopeRuleLocalService
+ * @author Brian Wing Shun Chan
+ * @see LFPlayerScopeRuleLocalService
  * @generated
  */
 public class LFPlayerScopeRuleLocalServiceWrapper
@@ -28,6 +26,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the l f player scope rule that was added
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule addLFPlayerScopeRule(
         com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule lfPlayerScopeRule)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -40,6 +39,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @param id the primary key for the new l f player scope rule
     * @return the new l f player scope rule
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule createLFPlayerScopeRule(
         long id) {
         return _lfPlayerScopeRuleLocalService.createLFPlayerScopeRule(id);
@@ -53,6 +53,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @throws PortalException if a l f player scope rule with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule deleteLFPlayerScopeRule(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -67,12 +68,14 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the l f player scope rule that was removed
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule deleteLFPlayerScopeRule(
         com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule lfPlayerScopeRule)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.deleteLFPlayerScopeRule(lfPlayerScopeRule);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         return _lfPlayerScopeRuleLocalService.dynamicQuery();
     }
@@ -84,6 +87,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -95,7 +99,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * Performs a dynamic query on the database and returns a range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -104,6 +108,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -116,7 +121,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -126,6 +131,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the ordered range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -143,12 +149,31 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the number of rows that match the dynamic query
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.dynamicQueryCount(dynamicQuery);
     }
 
+    /**
+    * Returns the number of rows that match the dynamic query.
+    *
+    * @param dynamicQuery the dynamic query
+    * @param projection the projection to apply to the query
+    * @return the number of rows that match the dynamic query
+    * @throws SystemException if a system exception occurred
+    */
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfPlayerScopeRuleLocalService.dynamicQueryCount(dynamicQuery,
+            projection);
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule fetchLFPlayerScopeRule(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.fetchLFPlayerScopeRule(id);
@@ -162,6 +187,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @throws PortalException if a l f player scope rule with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule getLFPlayerScopeRule(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -169,6 +195,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
         return _lfPlayerScopeRuleLocalService.getLFPlayerScopeRule(id);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -180,7 +207,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * Returns a range of all the l f player scope rules.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPlayerScopeRuleModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f player scope rules
@@ -188,6 +215,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the range of l f player scope rules
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule> getLFPlayerScopeRules(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -200,6 +228,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the number of l f player scope rules
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public int getLFPlayerScopeRulesCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.getLFPlayerScopeRulesCount();
@@ -212,6 +241,7 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     * @return the l f player scope rule that was updated
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule updateLFPlayerScopeRule(
         com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule lfPlayerScopeRule)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -219,26 +249,11 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     }
 
     /**
-    * Updates the l f player scope rule in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-    *
-    * @param lfPlayerScopeRule the l f player scope rule
-    * @param merge whether to merge the l f player scope rule with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-    * @return the l f player scope rule that was updated
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule updateLFPlayerScopeRule(
-        com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule lfPlayerScopeRule,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _lfPlayerScopeRuleLocalService.updateLFPlayerScopeRule(lfPlayerScopeRule,
-            merge);
-    }
-
-    /**
     * Returns the Spring bean ID for this bean.
     *
     * @return the Spring bean ID for this bean
     */
+    @Override
     public java.lang.String getBeanIdentifier() {
         return _lfPlayerScopeRuleLocalService.getBeanIdentifier();
     }
@@ -248,10 +263,12 @@ public class LFPlayerScopeRuleLocalServiceWrapper
     *
     * @param beanIdentifier the Spring bean ID for this bean
     */
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         _lfPlayerScopeRuleLocalService.setBeanIdentifier(beanIdentifier);
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
@@ -259,17 +276,20 @@ public class LFPlayerScopeRuleLocalServiceWrapper
             parameterTypes, arguments);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule createLFPlayerScopeRule()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.createLFPlayerScopeRule();
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule> findByPlayerID(
         java.lang.String playerID)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfPlayerScopeRuleLocalService.findByPlayerID(playerID);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule> findByPlayerID(
         java.lang.String playerID, int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -277,35 +297,39 @@ public class LFPlayerScopeRuleLocalServiceWrapper
             end);
     }
 
+    @Override
     public void removeByPlayerID(java.lang.String playerID)
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfPlayerScopeRuleLocalService.removeByPlayerID(playerID);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfPlayerScopeRuleLocalService.removeAll();
     }
 
     /**
-     * @deprecated Renamed to {@link #getWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public LFPlayerScopeRuleLocalService getWrappedLFPlayerScopeRuleLocalService() {
         return _lfPlayerScopeRuleLocalService;
     }
 
     /**
-     * @deprecated Renamed to {@link #setWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
      */
     public void setWrappedLFPlayerScopeRuleLocalService(
         LFPlayerScopeRuleLocalService lfPlayerScopeRuleLocalService) {
         _lfPlayerScopeRuleLocalService = lfPlayerScopeRuleLocalService;
     }
 
+    @Override
     public LFPlayerScopeRuleLocalService getWrappedService() {
         return _lfPlayerScopeRuleLocalService;
     }
 
+    @Override
     public void setWrappedService(
         LFPlayerScopeRuleLocalService lfPlayerScopeRuleLocalService) {
         _lfPlayerScopeRuleLocalService = lfPlayerScopeRuleLocalService;

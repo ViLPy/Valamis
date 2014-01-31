@@ -24,6 +24,64 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
      */
 
     /**
+    * Returns the l f tincan lrs document where documentId = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException} if it could not be found.
+    *
+    * @param documentId the document ID
+    * @return the matching l f tincan lrs document
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a matching l f tincan lrs document could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument findByDocumentId(
+        java.lang.String documentId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param documentId the document ID
+    * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument fetchByDocumentId(
+        java.lang.String documentId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param documentId the document ID
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument fetchByDocumentId(
+        java.lang.String documentId, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Removes the l f tincan lrs document where documentId = &#63; from the database.
+    *
+    * @param documentId the document ID
+    * @return the l f tincan lrs document that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument removeByDocumentId(
+        java.lang.String documentId)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f tincan lrs documents where documentId = &#63;.
+    *
+    * @param documentId the document ID
+    * @return the number of matching l f tincan lrs documents
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByDocumentId(java.lang.String documentId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Caches the l f tincan lrs document in the entity cache if it is enabled.
     *
     * @param lfTincanLrsDocument the l f tincan lrs document
@@ -62,8 +120,7 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
             com.liferay.portal.kernel.exception.SystemException;
 
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument lfTincanLrsDocument,
-        boolean merge)
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument lfTincanLrsDocument)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
@@ -90,42 +147,6 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
         long id) throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Returns the l f tincan lrs document where documentId = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException} if it could not be found.
-    *
-    * @param documentId the document ID
-    * @return the matching l f tincan lrs document
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a matching l f tincan lrs document could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument findByDocumentId(
-        java.lang.String documentId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-    *
-    * @param documentId the document ID
-    * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument fetchByDocumentId(
-        java.lang.String documentId)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-    *
-    * @param documentId the document ID
-    * @param retrieveFromCache whether to use the finder cache
-    * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument fetchByDocumentId(
-        java.lang.String documentId, boolean retrieveFromCache)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f tincan lrs documents.
     *
     * @return the l f tincan lrs documents
@@ -138,7 +159,7 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
     * Returns a range of all the l f tincan lrs documents.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs documents
@@ -154,7 +175,7 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
     * Returns an ordered range of all the l f tincan lrs documents.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs documents
@@ -169,33 +190,11 @@ public interface LFTincanLrsDocumentPersistence extends BasePersistence<LFTincan
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes the l f tincan lrs document where documentId = &#63; from the database.
-    *
-    * @param documentId the document ID
-    * @return the l f tincan lrs document that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument removeByDocumentId(
-        java.lang.String documentId)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f tincan lrs documents from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f tincan lrs documents where documentId = &#63;.
-    *
-    * @param documentId the document ID
-    * @return the number of matching l f tincan lrs documents
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByDocumentId(java.lang.String documentId)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

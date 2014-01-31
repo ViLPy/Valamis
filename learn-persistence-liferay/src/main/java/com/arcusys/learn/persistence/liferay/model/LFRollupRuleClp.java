@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
 
@@ -32,26 +34,32 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
     public LFRollupRuleClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFRollupRule.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFRollupRule.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -117,60 +125,160 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getSequencingID() {
         return _sequencingID;
     }
 
+    @Override
     public void setSequencingID(Integer sequencingID) {
         _sequencingID = sequencingID;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSequencingID", Integer.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, sequencingID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getCombination() {
         return _combination;
     }
 
+    @Override
     public void setCombination(String combination) {
         _combination = combination;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCombination", String.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, combination);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getChildActivitySet() {
         return _childActivitySet;
     }
 
+    @Override
     public void setChildActivitySet(String childActivitySet) {
         _childActivitySet = childActivitySet;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setChildActivitySet",
+                        String.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, childActivitySet);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getMinimumCount() {
         return _minimumCount;
     }
 
+    @Override
     public void setMinimumCount(Integer minimumCount) {
         _minimumCount = minimumCount;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMinimumCount", Integer.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, minimumCount);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getMinimumPercent() {
         return _minimumPercent;
     }
 
+    @Override
     public void setMinimumPercent(BigDecimal minimumPercent) {
         _minimumPercent = minimumPercent;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMinimumPercent",
+                        BigDecimal.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, minimumPercent);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getAction() {
         return _action;
     }
 
+    @Override
     public void setAction(String action) {
         _action = action;
+
+        if (_lfRollupRuleRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfRollupRuleRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAction", String.class);
+
+                method.invoke(_lfRollupRuleRemoteModel, action);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFRollupRuleRemoteModel() {
@@ -181,6 +289,47 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
         _lfRollupRuleRemoteModel = lfRollupRuleRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfRollupRuleRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfRollupRuleRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFRollupRuleLocalServiceUtil.addLFRollupRule(this);
@@ -191,7 +340,7 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
 
     @Override
     public LFRollupRule toEscapedModel() {
-        return (LFRollupRule) Proxy.newProxyInstance(LFRollupRule.class.getClassLoader(),
+        return (LFRollupRule) ProxyUtil.newProxyInstance(LFRollupRule.class.getClassLoader(),
             new Class[] { LFRollupRule.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -210,6 +359,7 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
         return clone;
     }
 
+    @Override
     public int compareTo(LFRollupRule lfRollupRule) {
         long primaryKey = lfRollupRule.getPrimaryKey();
 
@@ -224,17 +374,15 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFRollupRuleClp)) {
             return false;
         }
 
-        LFRollupRuleClp lfRollupRule = null;
-
-        try {
-            lfRollupRule = (LFRollupRuleClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFRollupRuleClp lfRollupRule = (LFRollupRuleClp) obj;
 
         long primaryKey = lfRollupRule.getPrimaryKey();
 
@@ -273,6 +421,7 @@ public class LFRollupRuleClp extends BaseModelImpl<LFRollupRule>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(25);
 

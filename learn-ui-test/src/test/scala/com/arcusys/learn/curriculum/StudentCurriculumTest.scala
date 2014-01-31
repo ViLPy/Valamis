@@ -1,66 +1,92 @@
 package com.arcusys.learn.curriculum
 
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.By
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.{LoginSupport, UITestBase}
+import com.arcusys.learn.base.{WebDriverArcusys, LoginSupport, UITestBase}
 import org.junit.Assert._
 
 
-class StudentCurriculumTest  (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with LoginSupport with UITestBase {
+class StudentCurriculumTest  (_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with LoginSupport with UITestBase {
   val driver = _driver
   val myCertificates = By.partialLinkText("My certificates")
   val available = By.partialLinkText("Available certificates")
 
   "Curriculum for student" should "be opened correctly" in {
-    driver.findElement(By.linkText("Sign Out")).click()
+    logout()
     loginAsStudent()
-    driver.get(baseUrl + curriculumUrl)
-    wait(1)
-    assertTrue(isElementPresent(myCertificates))
-    assertTrue(isElementPresent(available))
+    driver.get(baseUrl + curriculumUserUrl)
+    driver.waitForElementVisibleBy(myCertificates)
+    driver.waitForElementVisibleBy(available)
   }
 
   it should "show my certificates" in {
-    val list = driver.findElement(By.id("myCertificateList"))
+    val list = driver.getVisibleElementAfterWaitBy(By.id("myCertificateList"))
     assertEquals(1,  list.findElements(By.className("availableQuizItem")).size())
-    assertEquals("Test cert1", list.findElement(By.className("quizItemTitle")).getText)
+    assertEquals(permanentCertificateName, list.findElement(By.className("quizItemTitle")).getText)
   }
 
   it should "show available certificates" in {
-    driver.findElement(available).click()
-    wait(1)
-    val list = driver.findElement(By.id("certificateList"))
-    assertEquals(3, list.findElements(By.className("availableQuizItem")).size())
-  }
-
-  it should "be able to join certificate" in {
-    assertTrue(driver.findElements(By.className("joinCertificate")).get(1).isDisplayed)
-    assertFalse(driver.findElements(By.className("leaveCertificate")).get(1).isDisplayed)
-
-    driver.findElements(By.className("joinCertificate")).get(1).click()
-    wait(1)
-    assertFalse(driver.findElements(By.className("joinCertificate")).get(1).isDisplayed)
-    assertTrue(driver.findElements(By.className("leaveCertificate")).get(1).isDisplayed)
-
-    driver.findElement(myCertificates).click()
-    assertEquals(2,  driver.findElement(By.id("myCertificateList")).findElements(By.className("availableQuizItem")).size())
+    driver.getVisibleElementAfterWaitBy(available).click()
+    val list = driver.getVisibleElementAfterWaitBy(By.id("certificateList"))
+    assertEquals(5, list.findElements(By.className("availableQuizItem")).size())
   }
 
   it should "be able to leave certificate" in{
-    driver.findElement(available).click()
-    driver.findElement(By.className("leaveCertificate")).click()
-    wait(1)
-    assertTrue(driver.findElement(By.className("joinCertificate")).isDisplayed)
-    assertFalse(driver.findElement(By.className("leaveCertificate")).isDisplayed)
-    wait(1)
+    driver.getVisibleElementAfterWaitBy(available).click()
+    driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("leaveCertificate")).click()
+    assertTrue(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("joinCertificate")).isDisplayed)
+    assertFalse(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("leaveCertificate")).isDisplayed)
 
-    driver.findElement(myCertificates).click()
-    assertEquals(1,  driver.findElement(By.id("myCertificateList")).findElements(By.className("availableQuizItem")).size())
+    driver.getVisibleElementAfterWaitBy(myCertificates).click()
+    assertEquals(0,  driver.getVisibleElementAfterWaitBy(By.id("myCertificateList")).findElements(By.className("availableQuizItem")).size())
+  }
+
+  it should "be able to browse available sertificates if there is no my certificates" in {
+    driver.getVisibleElementAfterWaitBy(By.id("browseAvailable")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("certificateList"))
+    val list = driver.getVisibleElementAfterWaitBy(By.id("certificateList"))
+    assertEquals(5, list.findElements(By.className("availableQuizItem")).size())
+  }
+
+  it should "be able to join certificate" in {
+    assertTrue(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("joinCertificate")).isDisplayed)
+    assertFalse(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("leaveCertificate")).isDisplayed)
+
+    driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("joinCertificate")).click()
+    assertFalse(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("joinCertificate")).isDisplayed)
+    assertTrue(driver.getVisibleElementAfterWaitBy(By.xpath("id('certificateList')//*[@class='quizItemTitle' and text()='"+permanentCertificateName+"']/..")).
+      findElement(By.className("leaveCertificate")).isDisplayed)
+
+    driver.getVisibleElementAfterWaitBy(myCertificates).click()
+    assertEquals(1,  driver.getVisibleElementAfterWaitBy(By.id("myCertificateList")).findElements(By.className("availableQuizItem")).size())
   }
 
   it should "show correct grade" in {
-    //val gradePath = "//*[@id=\"myCertificateList\"]/div/div/div/div[3]/table/tr[1]/td[2]"
-    //assertEquals("-", driver.findElement(By.xpath(gradePath)).getText)
+    driver.getVisibleElementAfterWaitBy(By.xpath("id('myCertificateList')//*[@title='Open']/button")).click()
+    val grade = driver.getVisibleElementAfterWaitBy(By.xpath("//*[@class='myCertificateGrid']/tbody/tr/td[2]")).getText
+    assertEquals("90%", grade)
+  }
+
+  it should "correct show sites and links" in {
+    val site1 = driver.getVisibleElementAfterWaitBy(By.xpath("//*[@class='myCertificateGrid']/tbody/tr/td/div/a"))
+    assertEquals(testSite1, site1.getText)
+//    assertTrue(site1.getAttribute("href").contains(testSite1))
+    assertTrue(site1.getAttribute("href").contains(baseUrl + "/group/"+ testSite1))  // it should redirect to private pages if there are no public
+
+    val site2 = driver.getVisibleElementAfterWaitBy(By.xpath("//*[@class='myCertificateGrid']/tbody/tr[2]/td/div/a"))
+    assertEquals(site2name, site2.getText)
+//    assertTrue(site2.getAttribute("href").contains(site2name))
+    assertTrue(site2.getAttribute("href").contains(baseUrl + "/web/"+ site2name))
+
+    val site3 = driver.getVisibleElementAfterWaitBy(By.xpath("//*[@class='myCertificateGrid']/tbody/tr[3]/td"))
+    assertEquals(testSite2, site3.getText)
   }
 }

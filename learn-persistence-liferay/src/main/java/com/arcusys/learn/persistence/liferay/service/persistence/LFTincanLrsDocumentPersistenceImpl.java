@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException;
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument;
 import com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -81,15 +22,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -97,6 +37,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f tincan lrs document service.
@@ -122,15 +63,6 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
-    public static final FinderPath FINDER_PATH_FETCH_BY_DOCUMENTID = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
-            LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED,
-            LFTincanLrsDocumentImpl.class, FINDER_CLASS_NAME_ENTITY,
-            "fetchByDocumentId", new String[] { String.class.getName() },
-            LFTincanLrsDocumentModelImpl.DOCUMENTID_COLUMN_BITMASK);
-    public static final FinderPath FINDER_PATH_COUNT_BY_DOCUMENTID = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
-            LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDocumentId",
-            new String[] { String.class.getName() });
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED,
             LFTincanLrsDocumentImpl.class,
@@ -142,21 +74,33 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
     public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    public static final FinderPath FINDER_PATH_FETCH_BY_DOCUMENTID = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED,
+            LFTincanLrsDocumentImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByDocumentId", new String[] { String.class.getName() },
+            LFTincanLrsDocumentModelImpl.DOCUMENTID_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_DOCUMENTID = new FinderPath(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsDocumentModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDocumentId",
+            new String[] { String.class.getName() });
+    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1 = "lfTincanLrsDocument.documentId IS NULL";
+    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_NULL = "lfTincanLrsDocument.documentId IS NULL";
+    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2 = "lfTincanLrsDocument.documentId = ?";
+    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_NULL_2 = "lfTincanLrsDocument.documentId IS NULL ";
+    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3 = "(lfTincanLrsDocument.documentId IS NULL OR lfTincanLrsDocument.documentId = '')";
     private static final String _SQL_SELECT_LFTINCANLRSDOCUMENT = "SELECT lfTincanLrsDocument FROM LFTincanLrsDocument lfTincanLrsDocument";
     private static final String _SQL_SELECT_LFTINCANLRSDOCUMENT_WHERE = "SELECT lfTincanLrsDocument FROM LFTincanLrsDocument lfTincanLrsDocument WHERE ";
     private static final String _SQL_COUNT_LFTINCANLRSDOCUMENT = "SELECT COUNT(lfTincanLrsDocument) FROM LFTincanLrsDocument lfTincanLrsDocument";
     private static final String _SQL_COUNT_LFTINCANLRSDOCUMENT_WHERE = "SELECT COUNT(lfTincanLrsDocument) FROM LFTincanLrsDocument lfTincanLrsDocument WHERE ";
-    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1 = "lfTincanLrsDocument.documentId IS NULL";
-    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_NULL = "lfTincanLrsDocument.documentId IS NULL";
-    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_NULL_2 = "lfTincanLrsDocument.documentId IS NULL ";
-    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2 = "lfTincanLrsDocument.documentId = ?";
-    private static final String _FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3 = "(lfTincanLrsDocument.documentId IS NULL OR lfTincanLrsDocument.documentId = ?)";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfTincanLrsDocument.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFTincanLrsDocument exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFTincanLrsDocument exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFTincanLrsDocumentPersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id", "update"
+            });
     private static LFTincanLrsDocument _nullLFTincanLrsDocument = new LFTincanLrsDocumentImpl() {
             @Override
             public Object clone() {
@@ -171,149 +115,270 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
 
     private static CacheModel<LFTincanLrsDocument> _nullLFTincanLrsDocumentCacheModel =
         new CacheModel<LFTincanLrsDocument>() {
+            @Override
             public LFTincanLrsDocument toEntityModel() {
                 return _nullLFTincanLrsDocument;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
+    public LFTincanLrsDocumentPersistenceImpl() {
+        setModelClass(LFTincanLrsDocument.class);
+    }
+
+    /**
+     * Returns the l f tincan lrs document where documentId = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException} if it could not be found.
+     *
+     * @param documentId the document ID
+     * @return the matching l f tincan lrs document
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a matching l f tincan lrs document could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsDocument findByDocumentId(String documentId)
+        throws NoSuchLFTincanLrsDocumentException, SystemException {
+        LFTincanLrsDocument lfTincanLrsDocument = fetchByDocumentId(documentId);
+
+        if (lfTincanLrsDocument == null) {
+            StringBundler msg = new StringBundler(4);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("documentId=");
+            msg.append(documentId);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchLFTincanLrsDocumentException(msg.toString());
+        }
+
+        return lfTincanLrsDocument;
+    }
+
+    /**
+     * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param documentId the document ID
+     * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsDocument fetchByDocumentId(String documentId)
+        throws SystemException {
+        return fetchByDocumentId(documentId, true);
+    }
+
+    /**
+     * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param documentId the document ID
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsDocument fetchByDocumentId(String documentId,
+        boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] { documentId };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+                    finderArgs, this);
+        }
+
+        if (result instanceof LFTincanLrsDocument) {
+            LFTincanLrsDocument lfTincanLrsDocument = (LFTincanLrsDocument) result;
+
+            if (!Validator.equals(documentId,
+                        lfTincanLrsDocument.getDocumentId())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_SELECT_LFTINCANLRSDOCUMENT_WHERE);
+
+            boolean bindDocumentId = false;
+
+            if (documentId == null) {
+                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1);
+            } else if (documentId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
+            } else {
+                bindDocumentId = true;
+
+                if (documentId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindDocumentId) {
+                    if (documentId != null) {
+                        qPos.add(documentId);
+                    }
+                }
+
+                List<LFTincanLrsDocument> list = q.list();
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+                        finderArgs, list);
+                } else {
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFTincanLrsDocumentPersistenceImpl.fetchByDocumentId(String, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFTincanLrsDocument lfTincanLrsDocument = list.get(0);
+
+                    result = lfTincanLrsDocument;
+
+                    cacheResult(lfTincanLrsDocument);
+
+                    if ((lfTincanLrsDocument.getDocumentId() == null) ||
+                            !lfTincanLrsDocument.getDocumentId()
+                                                    .equals(documentId)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+                            finderArgs, lfTincanLrsDocument);
+                    }
+                }
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
+        } else {
+            return (LFTincanLrsDocument) result;
+        }
+    }
+
+    /**
+     * Removes the l f tincan lrs document where documentId = &#63; from the database.
+     *
+     * @param documentId the document ID
+     * @return the l f tincan lrs document that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsDocument removeByDocumentId(String documentId)
+        throws NoSuchLFTincanLrsDocumentException, SystemException {
+        LFTincanLrsDocument lfTincanLrsDocument = findByDocumentId(documentId);
+
+        return remove(lfTincanLrsDocument);
+    }
+
+    /**
+     * Returns the number of l f tincan lrs documents where documentId = &#63;.
+     *
+     * @param documentId the document ID
+     * @return the number of matching l f tincan lrs documents
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByDocumentId(String documentId) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_DOCUMENTID;
+
+        Object[] finderArgs = new Object[] { documentId };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFTINCANLRSDOCUMENT_WHERE);
+
+            boolean bindDocumentId = false;
+
+            if (documentId == null) {
+                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1);
+            } else if (documentId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
+            } else {
+                bindDocumentId = true;
+
+                if (documentId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindDocumentId) {
+                    if (documentId != null) {
+                        qPos.add(documentId);
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
 
     /**
      * Caches the l f tincan lrs document in the entity cache if it is enabled.
      *
      * @param lfTincanLrsDocument the l f tincan lrs document
      */
+    @Override
     public void cacheResult(LFTincanLrsDocument lfTincanLrsDocument) {
         EntityCacheUtil.putResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanLrsDocumentImpl.class, lfTincanLrsDocument.getPrimaryKey(),
             lfTincanLrsDocument);
 
-        boolean noNullsInDOCUMENTID = true;
-
-        if (noNullsInDOCUMENTID) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                new Object[] { lfTincanLrsDocument.getDocumentId() },
-                lfTincanLrsDocument);
-        }
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+            new Object[] { lfTincanLrsDocument.getDocumentId() },
+            lfTincanLrsDocument);
 
         lfTincanLrsDocument.resetOriginalValues();
     }
@@ -323,6 +388,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      *
      * @param lfTincanLrsDocuments the l f tincan lrs documents
      */
+    @Override
     public void cacheResult(List<LFTincanLrsDocument> lfTincanLrsDocuments) {
         for (LFTincanLrsDocument lfTincanLrsDocument : lfTincanLrsDocuments) {
             if (EntityCacheUtil.getResult(
@@ -388,13 +454,47 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
         }
     }
 
+    protected void cacheUniqueFindersCache(
+        LFTincanLrsDocument lfTincanLrsDocument) {
+        if (lfTincanLrsDocument.isNew()) {
+            Object[] args = new Object[] { lfTincanLrsDocument.getDocumentId() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_DOCUMENTID, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID, args,
+                lfTincanLrsDocument);
+        } else {
+            LFTincanLrsDocumentModelImpl lfTincanLrsDocumentModelImpl = (LFTincanLrsDocumentModelImpl) lfTincanLrsDocument;
+
+            if ((lfTincanLrsDocumentModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_DOCUMENTID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { lfTincanLrsDocument.getDocumentId() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_DOCUMENTID,
+                    args, Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
+                    args, lfTincanLrsDocument);
+            }
+        }
+    }
+
     protected void clearUniqueFindersCache(
         LFTincanLrsDocument lfTincanLrsDocument) {
-        boolean noNullsInDOCUMENTID = true;
+        LFTincanLrsDocumentModelImpl lfTincanLrsDocumentModelImpl = (LFTincanLrsDocumentModelImpl) lfTincanLrsDocument;
 
-        if (noNullsInDOCUMENTID) {
-            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                new Object[] { lfTincanLrsDocument.getDocumentId() });
+        Object[] args = new Object[] { lfTincanLrsDocument.getDocumentId() };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_DOCUMENTID, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID, args);
+
+        if ((lfTincanLrsDocumentModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_DOCUMENTID.getColumnBitmask()) != 0) {
+            args = new Object[] {
+                    lfTincanLrsDocumentModelImpl.getOriginalDocumentId()
+                };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_DOCUMENTID, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID, args);
         }
     }
 
@@ -404,6 +504,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @param id the primary key for the new l f tincan lrs document
      * @return the new l f tincan lrs document
      */
+    @Override
     public LFTincanLrsDocument create(long id) {
         LFTincanLrsDocument lfTincanLrsDocument = new LFTincanLrsDocumentImpl();
 
@@ -421,9 +522,10 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a l f tincan lrs document with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsDocument remove(long id)
         throws NoSuchLFTincanLrsDocumentException, SystemException {
-        return remove(Long.valueOf(id));
+        return remove((Serializable) id);
     }
 
     /**
@@ -474,36 +576,47 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
         try {
             session = openSession();
 
-            BatchSessionUtil.delete(session, lfTincanLrsDocument);
+            if (!session.contains(lfTincanLrsDocument)) {
+                lfTincanLrsDocument = (LFTincanLrsDocument) session.get(LFTincanLrsDocumentImpl.class,
+                        lfTincanLrsDocument.getPrimaryKeyObj());
+            }
+
+            if (lfTincanLrsDocument != null) {
+                session.delete(lfTincanLrsDocument);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
             closeSession(session);
         }
 
-        clearCache(lfTincanLrsDocument);
+        if (lfTincanLrsDocument != null) {
+            clearCache(lfTincanLrsDocument);
+        }
 
         return lfTincanLrsDocument;
     }
 
     @Override
     public LFTincanLrsDocument updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument lfTincanLrsDocument,
-        boolean merge) throws SystemException {
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocument lfTincanLrsDocument)
+        throws SystemException {
         lfTincanLrsDocument = toUnwrappedModel(lfTincanLrsDocument);
 
         boolean isNew = lfTincanLrsDocument.isNew();
-
-        LFTincanLrsDocumentModelImpl lfTincanLrsDocumentModelImpl = (LFTincanLrsDocumentModelImpl) lfTincanLrsDocument;
 
         Session session = null;
 
         try {
             session = openSession();
 
-            BatchSessionUtil.update(session, lfTincanLrsDocument, merge);
+            if (lfTincanLrsDocument.isNew()) {
+                session.save(lfTincanLrsDocument);
 
-            lfTincanLrsDocument.setNew(false);
+                lfTincanLrsDocument.setNew(false);
+            } else {
+                session.merge(lfTincanLrsDocument);
+            }
         } catch (Exception e) {
             throw processException(e);
         } finally {
@@ -520,28 +633,8 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
             LFTincanLrsDocumentImpl.class, lfTincanLrsDocument.getPrimaryKey(),
             lfTincanLrsDocument);
 
-        if (isNew) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                new Object[] { lfTincanLrsDocument.getDocumentId() },
-                lfTincanLrsDocument);
-        } else {
-            if ((lfTincanLrsDocumentModelImpl.getColumnBitmask() &
-                    FINDER_PATH_FETCH_BY_DOCUMENTID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        lfTincanLrsDocumentModelImpl.getOriginalDocumentId()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_DOCUMENTID,
-                    args);
-
-                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                    args);
-
-                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                    new Object[] { lfTincanLrsDocument.getDocumentId() },
-                    lfTincanLrsDocument);
-            }
-        }
+        clearUniqueFindersCache(lfTincanLrsDocument);
+        cacheUniqueFindersCache(lfTincanLrsDocument);
 
         return lfTincanLrsDocument;
     }
@@ -571,13 +664,24 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      *
      * @param primaryKey the primary key of the l f tincan lrs document
      * @return the l f tincan lrs document
-     * @throws com.liferay.portal.NoSuchModelException if a l f tincan lrs document with the primary key could not be found
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a l f tincan lrs document with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
     public LFTincanLrsDocument findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
+        throws NoSuchLFTincanLrsDocumentException, SystemException {
+        LFTincanLrsDocument lfTincanLrsDocument = fetchByPrimaryKey(primaryKey);
+
+        if (lfTincanLrsDocument == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFTincanLrsDocumentException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfTincanLrsDocument;
     }
 
     /**
@@ -588,20 +692,10 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a l f tincan lrs document with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsDocument findByPrimaryKey(long id)
         throws NoSuchLFTincanLrsDocumentException, SystemException {
-        LFTincanLrsDocument lfTincanLrsDocument = fetchByPrimaryKey(id);
-
-        if (lfTincanLrsDocument == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFTincanLrsDocumentException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfTincanLrsDocument;
+        return findByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -614,7 +708,40 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
     @Override
     public LFTincanLrsDocument fetchByPrimaryKey(Serializable primaryKey)
         throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
+        LFTincanLrsDocument lfTincanLrsDocument = (LFTincanLrsDocument) EntityCacheUtil.getResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
+                LFTincanLrsDocumentImpl.class, primaryKey);
+
+        if (lfTincanLrsDocument == _nullLFTincanLrsDocument) {
+            return null;
+        }
+
+        if (lfTincanLrsDocument == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfTincanLrsDocument = (LFTincanLrsDocument) session.get(LFTincanLrsDocumentImpl.class,
+                        primaryKey);
+
+                if (lfTincanLrsDocument != null) {
+                    cacheResult(lfTincanLrsDocument);
+                } else {
+                    EntityCacheUtil.putResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
+                        LFTincanLrsDocumentImpl.class, primaryKey,
+                        _nullLFTincanLrsDocument);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
+                    LFTincanLrsDocumentImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfTincanLrsDocument;
     }
 
     /**
@@ -624,187 +751,10 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @return the l f tincan lrs document, or <code>null</code> if a l f tincan lrs document with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFTincanLrsDocument fetchByPrimaryKey(long id)
         throws SystemException {
-        LFTincanLrsDocument lfTincanLrsDocument = (LFTincanLrsDocument) EntityCacheUtil.getResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
-                LFTincanLrsDocumentImpl.class, id);
-
-        if (lfTincanLrsDocument == _nullLFTincanLrsDocument) {
-            return null;
-        }
-
-        if (lfTincanLrsDocument == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfTincanLrsDocument = (LFTincanLrsDocument) session.get(LFTincanLrsDocumentImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfTincanLrsDocument != null) {
-                    cacheResult(lfTincanLrsDocument);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFTincanLrsDocumentModelImpl.ENTITY_CACHE_ENABLED,
-                        LFTincanLrsDocumentImpl.class, id,
-                        _nullLFTincanLrsDocument);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfTincanLrsDocument;
-    }
-
-    /**
-     * Returns the l f tincan lrs document where documentId = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException} if it could not be found.
-     *
-     * @param documentId the document ID
-     * @return the matching l f tincan lrs document
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException if a matching l f tincan lrs document could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFTincanLrsDocument findByDocumentId(String documentId)
-        throws NoSuchLFTincanLrsDocumentException, SystemException {
-        LFTincanLrsDocument lfTincanLrsDocument = fetchByDocumentId(documentId);
-
-        if (lfTincanLrsDocument == null) {
-            StringBundler msg = new StringBundler(4);
-
-            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-            msg.append("documentId=");
-            msg.append(documentId);
-
-            msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-            if (_log.isWarnEnabled()) {
-                _log.warn(msg.toString());
-            }
-
-            throw new NoSuchLFTincanLrsDocumentException(msg.toString());
-        }
-
-        return lfTincanLrsDocument;
-    }
-
-    /**
-     * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-     *
-     * @param documentId the document ID
-     * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFTincanLrsDocument fetchByDocumentId(String documentId)
-        throws SystemException {
-        return fetchByDocumentId(documentId, true);
-    }
-
-    /**
-     * Returns the l f tincan lrs document where documentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-     *
-     * @param documentId the document ID
-     * @param retrieveFromCache whether to use the finder cache
-     * @return the matching l f tincan lrs document, or <code>null</code> if a matching l f tincan lrs document could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFTincanLrsDocument fetchByDocumentId(String documentId,
-        boolean retrieveFromCache) throws SystemException {
-        Object[] finderArgs = new Object[] { documentId };
-
-        Object result = null;
-
-        if (retrieveFromCache) {
-            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                    finderArgs, this);
-        }
-
-        if (result instanceof LFTincanLrsDocument) {
-            LFTincanLrsDocument lfTincanLrsDocument = (LFTincanLrsDocument) result;
-
-            if (!Validator.equals(documentId,
-                        lfTincanLrsDocument.getDocumentId())) {
-                result = null;
-            }
-        }
-
-        if (result == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_SELECT_LFTINCANLRSDOCUMENT_WHERE);
-
-            if (documentId == null) {
-                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1);
-            } else {
-                if (documentId.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2);
-                }
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (documentId != null) {
-                    qPos.add(documentId);
-                }
-
-                List<LFTincanLrsDocument> list = q.list();
-
-                result = list;
-
-                LFTincanLrsDocument lfTincanLrsDocument = null;
-
-                if (list.isEmpty()) {
-                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                        finderArgs, list);
-                } else {
-                    lfTincanLrsDocument = list.get(0);
-
-                    cacheResult(lfTincanLrsDocument);
-
-                    if ((lfTincanLrsDocument.getDocumentId() == null) ||
-                            !lfTincanLrsDocument.getDocumentId()
-                                                    .equals(documentId)) {
-                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                            finderArgs, lfTincanLrsDocument);
-                    }
-                }
-
-                return lfTincanLrsDocument;
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (result == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_DOCUMENTID,
-                        finderArgs);
-                }
-
-                closeSession(session);
-            }
-        } else {
-            if (result instanceof List<?>) {
-                return null;
-            } else {
-                return (LFTincanLrsDocument) result;
-            }
-        }
+        return fetchByPrimaryKey((Serializable) id);
     }
 
     /**
@@ -813,6 +763,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @return the l f tincan lrs documents
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsDocument> findAll() throws SystemException {
         return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
     }
@@ -821,7 +772,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * Returns a range of all the l f tincan lrs documents.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f tincan lrs documents
@@ -829,6 +780,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @return the range of l f tincan lrs documents
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsDocument> findAll(int start, int end)
         throws SystemException {
         return findAll(start, end, null);
@@ -838,7 +790,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * Returns an ordered range of all the l f tincan lrs documents.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param start the lower bound of the range of l f tincan lrs documents
@@ -847,13 +799,16 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @return the ordered range of l f tincan lrs documents
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFTincanLrsDocument> findAll(int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
+        Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
             finderArgs = FINDER_ARGS_EMPTY;
         } else {
@@ -880,6 +835,10 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
                 sql = query.toString();
             } else {
                 sql = _SQL_SELECT_LFTINCANLRSDOCUMENT;
+
+                if (pagination) {
+                    sql = sql.concat(LFTincanLrsDocumentModelImpl.ORDER_BY_JPQL);
+                }
             }
 
             Session session = null;
@@ -889,26 +848,26 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
 
                 Query q = session.createQuery(sql);
 
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFTincanLrsDocument>) QueryUtil.list(q,
                             getDialect(), start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFTincanLrsDocument>(list);
                 } else {
                     list = (List<LFTincanLrsDocument>) QueryUtil.list(q,
                             getDialect(), start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
@@ -917,89 +876,15 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
     }
 
     /**
-     * Removes the l f tincan lrs document where documentId = &#63; from the database.
-     *
-     * @param documentId the document ID
-     * @return the l f tincan lrs document that was removed
-     * @throws SystemException if a system exception occurred
-     */
-    public LFTincanLrsDocument removeByDocumentId(String documentId)
-        throws NoSuchLFTincanLrsDocumentException, SystemException {
-        LFTincanLrsDocument lfTincanLrsDocument = findByDocumentId(documentId);
-
-        return remove(lfTincanLrsDocument);
-    }
-
-    /**
      * Removes all the l f tincan lrs documents from the database.
      *
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeAll() throws SystemException {
         for (LFTincanLrsDocument lfTincanLrsDocument : findAll()) {
             remove(lfTincanLrsDocument);
         }
-    }
-
-    /**
-     * Returns the number of l f tincan lrs documents where documentId = &#63;.
-     *
-     * @param documentId the document ID
-     * @return the number of matching l f tincan lrs documents
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByDocumentId(String documentId) throws SystemException {
-        Object[] finderArgs = new Object[] { documentId };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_DOCUMENTID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFTINCANLRSDOCUMENT_WHERE);
-
-            if (documentId == null) {
-                query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_1);
-            } else {
-                if (documentId.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_DOCUMENTID_DOCUMENTID_2);
-                }
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (documentId != null) {
-                    qPos.add(documentId);
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_DOCUMENTID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
     }
 
     /**
@@ -1008,6 +893,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
      * @return the number of l f tincan lrs documents
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1021,21 +907,25 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
                 Query q = session.createQuery(_SQL_COUNT_LFTINCANLRSDOCUMENT);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1052,7 +942,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFTincanLrsDocument>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1065,6 +955,7 @@ public class LFTincanLrsDocumentPersistenceImpl extends BasePersistenceImpl<LFTi
     public void destroy() {
         EntityCacheUtil.removeCache(LFTincanLrsDocumentImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 }

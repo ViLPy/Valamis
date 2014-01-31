@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,26 +30,32 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
     public LFTincanLrsEndpointClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsEndpoint.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsEndpoint.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -98,44 +106,114 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsEndpointRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsEndpointRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsEndpointRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getEndpoint() {
         return _endpoint;
     }
 
+    @Override
     public void setEndpoint(String endpoint) {
         _endpoint = endpoint;
+
+        if (_lfTincanLrsEndpointRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsEndpointRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setEndpoint", String.class);
+
+                method.invoke(_lfTincanLrsEndpointRemoteModel, endpoint);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getAuthType() {
         return _authType;
     }
 
+    @Override
     public void setAuthType(String authType) {
         _authType = authType;
+
+        if (_lfTincanLrsEndpointRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsEndpointRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAuthType", String.class);
+
+                method.invoke(_lfTincanLrsEndpointRemoteModel, authType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getKey() {
         return _key;
     }
 
+    @Override
     public void setKey(String key) {
         _key = key;
+
+        if (_lfTincanLrsEndpointRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsEndpointRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setKey", String.class);
+
+                method.invoke(_lfTincanLrsEndpointRemoteModel, key);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getSecret() {
         return _secret;
     }
 
+    @Override
     public void setSecret(String secret) {
         _secret = secret;
+
+        if (_lfTincanLrsEndpointRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsEndpointRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSecret", String.class);
+
+                method.invoke(_lfTincanLrsEndpointRemoteModel, secret);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsEndpointRemoteModel() {
@@ -147,6 +225,47 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
         _lfTincanLrsEndpointRemoteModel = lfTincanLrsEndpointRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsEndpointRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsEndpointRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsEndpointLocalServiceUtil.addLFTincanLrsEndpoint(this);
@@ -157,7 +276,7 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
 
     @Override
     public LFTincanLrsEndpoint toEscapedModel() {
-        return (LFTincanLrsEndpoint) Proxy.newProxyInstance(LFTincanLrsEndpoint.class.getClassLoader(),
+        return (LFTincanLrsEndpoint) ProxyUtil.newProxyInstance(LFTincanLrsEndpoint.class.getClassLoader(),
             new Class[] { LFTincanLrsEndpoint.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -175,6 +294,7 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsEndpoint lfTincanLrsEndpoint) {
         long primaryKey = lfTincanLrsEndpoint.getPrimaryKey();
 
@@ -189,17 +309,15 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsEndpointClp)) {
             return false;
         }
 
-        LFTincanLrsEndpointClp lfTincanLrsEndpoint = null;
-
-        try {
-            lfTincanLrsEndpoint = (LFTincanLrsEndpointClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsEndpointClp lfTincanLrsEndpoint = (LFTincanLrsEndpointClp) obj;
 
         long primaryKey = lfTincanLrsEndpoint.getPrimaryKey();
 
@@ -234,6 +352,7 @@ public class LFTincanLrsEndpointClp extends BaseModelImpl<LFTincanLrsEndpoint>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(19);
 

@@ -107,6 +107,14 @@
     padding: 5px 10px 5px 3px;
 }
 
+.portlet-learn-scorm .achievementCompleteStatus{
+    font-size: 16px;
+    font-weight: bold;
+    vertical-align: middle;
+    float: right;
+    padding: 5px 10px 5px 3px;
+}
+
 .portlet-learn-scorm .availableQuizItem {
     margin-bottom: 5px;
     background: #fff;
@@ -405,19 +413,20 @@
 
 .portlet-learn-scorm .SCORMSearch {
     background: #FFF;
-    border: solid 2px #A5A9AA;
-    outline: none;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 7px 10px 6px 30px;
+    border: solid 2px #A5A9AA !important;
+    outline: none !important;
+    -moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+    padding: 7px 10px 6px 30px !important;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 14px !important;
     background-image: url("../img/icons/search.png");
     background-position: 8px 4px;
     background-repeat: no-repeat;
-    color: #000;
-    box-shadow: 0px 0px 8px -2px #A5A9AA;
+    color: #000 !important;
+    box-shadow: 0px 0px 8px -2px #A5A9AA !important;
+    margin-bottom: 0px !important;
 }
 
 .portlet-learn-scorm .SCORMSearch:focus {

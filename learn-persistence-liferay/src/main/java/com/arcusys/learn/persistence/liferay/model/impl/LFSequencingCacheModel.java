@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFSequencing in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFSequencing
-* @generated
-*/
+ * The cache model class for representing LFSequencing in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFSequencing
+ * @generated
+ */
 public class LFSequencingCacheModel implements CacheModel<LFSequencing>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer packageID;
     public String activityID;
@@ -63,6 +66,7 @@ public class LFSequencingCacheModel implements CacheModel<LFSequencing>,
         return sb.toString();
     }
 
+    @Override
     public LFSequencing toEntityModel() {
         LFSequencingImpl lfSequencingImpl = new LFSequencingImpl();
 
@@ -75,8 +79,18 @@ public class LFSequencingCacheModel implements CacheModel<LFSequencing>,
             lfSequencingImpl.setActivityID(activityID);
         }
 
-        lfSequencingImpl.setSharedId(sharedId);
-        lfSequencingImpl.setSharedSequencingIdReference(sharedSequencingIdReference);
+        if (sharedId == null) {
+            lfSequencingImpl.setSharedId(StringPool.BLANK);
+        } else {
+            lfSequencingImpl.setSharedId(sharedId);
+        }
+
+        if (sharedSequencingIdReference == null) {
+            lfSequencingImpl.setSharedSequencingIdReference(StringPool.BLANK);
+        } else {
+            lfSequencingImpl.setSharedSequencingIdReference(sharedSequencingIdReference);
+        }
+
         lfSequencingImpl.setOnlyCurrentAttemptObjectiveProgressForChildren(onlyCurrentAttemptObjectiveProgressForChildren);
         lfSequencingImpl.setOnlyCurrentAttemptAttemptProgressForChildren(onlyCurrentAttemptAttemptProgressForChildren);
         lfSequencingImpl.setAttemptLimit(attemptLimit);
@@ -88,5 +102,54 @@ public class LFSequencingCacheModel implements CacheModel<LFSequencing>,
         lfSequencingImpl.resetOriginalValues();
 
         return lfSequencingImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        packageID = objectInput.readInt();
+        activityID = objectInput.readUTF();
+        sharedId = objectInput.readUTF();
+        sharedSequencingIdReference = objectInput.readUTF();
+        onlyCurrentAttemptObjectiveProgressForChildren = objectInput.readBoolean();
+        onlyCurrentAttemptAttemptProgressForChildren = objectInput.readBoolean();
+        attemptLimit = objectInput.readInt();
+        durationLimitInMilliseconds = objectInput.readLong();
+        rollupContributionID = objectInput.readInt();
+        preventChildrenActivation = objectInput.readBoolean();
+        constrainChoice = objectInput.readBoolean();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(packageID);
+
+        if (activityID == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(activityID);
+        }
+
+        if (sharedId == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(sharedId);
+        }
+
+        if (sharedSequencingIdReference == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(sharedSequencingIdReference);
+        }
+
+        objectOutput.writeBoolean(onlyCurrentAttemptObjectiveProgressForChildren);
+        objectOutput.writeBoolean(onlyCurrentAttemptAttemptProgressForChildren);
+        objectOutput.writeInt(attemptLimit);
+        objectOutput.writeLong(durationLimitInMilliseconds);
+        objectOutput.writeInt(rollupContributionID);
+        objectOutput.writeBoolean(preventChildrenActivation);
+        objectOutput.writeBoolean(constrainChoice);
     }
 }

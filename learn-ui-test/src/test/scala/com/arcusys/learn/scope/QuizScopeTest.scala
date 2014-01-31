@@ -2,7 +2,7 @@ package com.arcusys.learn.scope
 
 import org.scalatest.{FlatSpec, Suite}
 import org.scalatest.matchers.ShouldMatchers
-import com.arcusys.learn.base.UITestBase
+import com.arcusys.learn.base.{LoginSupport, WebDriverArcusys, UITestBase}
 import org.openqa.selenium.{By, WebDriver}
 import org.junit.Assert._
 
@@ -10,11 +10,12 @@ import org.junit.Assert._
  * User: Yulia.Glushonkova
  * Date: 03.06.13
  */
-class QuizScopeTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldMatchers with UITestBase {
+class QuizScopeTest (_driver:WebDriverArcusys) extends Suite with FlatSpec with ShouldMatchers with UITestBase with LoginSupport{
   val driver = _driver
 
   //12.2
   "Learn" should "allow to create questions and quizes in scope1" in {
+    loginAsAdmin()
     driver.get(baseUrl + questionUrl)
     val question = "Test question, site 1"
     createQuestion(question)
@@ -37,35 +38,32 @@ class QuizScopeTest (_driver:WebDriver) extends Suite with FlatSpec with ShouldM
   }
 
   private def createQuestion(name: String){
-    driver.findElement(By.id("questionbankAddQuestions")).click()
-    driver.findElement(By.id("SCORMQuestionTitleEdit")).clear()
-    driver.findElement(By.id("SCORMQuestionTitleEdit")).sendKeys(name)
-    driver.findElement(By.id("questionbankUpdate")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("questionbankAddQuestions")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("SCORMQuestionTitleEdit")).clear()
+    driver.getVisibleElementAfterWaitBy(By.id("SCORMQuestionTitleEdit")).sendKeys(name)
+    driver.getVisibleElementAfterWaitBy(By.id("questionbankUpdate")).click()
 
   }
 
   private def createQuizAndAssertOneQuestion(name: String, questionName: String){
-    driver.findElement(By.id("SCORMButtonAddQuiz")).click()
-    driver.findElement(By.id("quizEdit")).click()
-    driver.findElement(By.id("quizTitle")).clear()
-    driver.findElement(By.id("quizTitle")).sendKeys(name)
-    driver.findElement(By.id("quizUpdate")).click()
-    wait(1)
-    driver.findElement(By.id("buttonOpen")).click()
-    driver.findElement(By.id("quizAddQuestions")).click()
-    driver.findElement(By.xpath("//*[@id=\"questionChooseDialog\"]/ul/li[1]")).findElement(By.cssSelector("ins.jstree-checkbox")).click()
-    val questions = driver.findElement(By.xpath("//*[@id=\"questionChooseDialog\"]/ul/li[1]/ul")).findElements(By.className("jstree-leaf"))
+    driver.getVisibleElementAfterWaitBy(By.id("SCORMButtonAddQuiz")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("quizEdit")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("quizTitle")).clear()
+    driver.getVisibleElementAfterWaitBy(By.id("quizTitle")).sendKeys(name)
+    driver.getVisibleElementAfterWaitBy(By.id("quizUpdate")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("buttonOpen")).click()
+    driver.getVisibleElementAfterWaitBy(By.id("quizAddQuestions")).click()
+    driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"questionChooseDialog\"]/ul/li[1]")).findElement(By.cssSelector("ins.jstree-checkbox")).click()
+    val questions = driver.getVisibleElementAfterWaitBy(By.xpath("//*[@id=\"questionChooseDialog\"]/ul/li[1]/ul")).findElements(By.className("jstree-leaf"))
     assertEquals(1, questions.toArray.length)
+    driver.getVisibleElementAfterWaitBy(By.xpath("id('questionChooseDialog')/..//button/span[text()='Add']")).click()
 
-    wait(2)
-    driver.findElement(By.xpath("(//button[@type='button'])[5]")).click()
-    assertTrue(isElementPresent(By.partialLinkText(questionName)))
+    driver.waitForElementVisibleBy(By.partialLinkText(questionName))
   }
 
   private def install(){
-    driver.findElement(By.id("buttonInstall")).click()
-    wait(2)
-    assertEquals("Package has been installed!", closeAlertAndGetItsText)
+    driver.getVisibleElementAfterWaitBy(By.id("buttonInstall")).click()
+    driver.getAlertTextAndCloseAfterWait should  be("Package has been installed!")
   }
 
 

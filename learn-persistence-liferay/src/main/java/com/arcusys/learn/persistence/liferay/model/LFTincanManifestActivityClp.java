@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanManifestActivityLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,26 +33,32 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
     public LFTincanManifestActivityClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanManifestActivity.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanManifestActivity.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -122,68 +130,180 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTincanID() {
         return _tincanID;
     }
 
+    @Override
     public void setTincanID(String tincanID) {
         _tincanID = tincanID;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTincanID", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, tincanID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Long getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Long packageID) {
         _packageID = packageID;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Long.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getActivityType() {
         return _activityType;
     }
 
+    @Override
     public void setActivityType(String activityType) {
         _activityType = activityType;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setActivityType", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, activityType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public void setName(String name) {
         _name = name;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setName", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, name);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDescription", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getLaunch() {
         return _launch;
     }
 
+    @Override
     public void setLaunch(String launch) {
         _launch = launch;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLaunch", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, launch);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getResource() {
         return _resource;
     }
 
+    @Override
     public void setResource(String resource) {
         _resource = resource;
+
+        if (_lfTincanManifestActivityRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanManifestActivityRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setResource", String.class);
+
+                method.invoke(_lfTincanManifestActivityRemoteModel, resource);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanManifestActivityRemoteModel() {
@@ -195,6 +315,47 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
         _lfTincanManifestActivityRemoteModel = lfTincanManifestActivityRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanManifestActivityRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanManifestActivityRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanManifestActivityLocalServiceUtil.addLFTincanManifestActivity(this);
@@ -205,7 +366,7 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
 
     @Override
     public LFTincanManifestActivity toEscapedModel() {
-        return (LFTincanManifestActivity) Proxy.newProxyInstance(LFTincanManifestActivity.class.getClassLoader(),
+        return (LFTincanManifestActivity) ProxyUtil.newProxyInstance(LFTincanManifestActivity.class.getClassLoader(),
             new Class[] { LFTincanManifestActivity.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -226,6 +387,7 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanManifestActivity lfTincanManifestActivity) {
         long primaryKey = lfTincanManifestActivity.getPrimaryKey();
 
@@ -240,17 +402,15 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanManifestActivityClp)) {
             return false;
         }
 
-        LFTincanManifestActivityClp lfTincanManifestActivity = null;
-
-        try {
-            lfTincanManifestActivity = (LFTincanManifestActivityClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanManifestActivityClp lfTincanManifestActivity = (LFTincanManifestActivityClp) obj;
 
         long primaryKey = lfTincanManifestActivity.getPrimaryKey();
 
@@ -291,6 +451,7 @@ public class LFTincanManifestActivityClp extends BaseModelImpl<LFTincanManifestA
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(28);
 

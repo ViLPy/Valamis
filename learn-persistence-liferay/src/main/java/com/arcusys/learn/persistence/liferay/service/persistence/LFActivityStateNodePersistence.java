@@ -24,72 +24,6 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
      */
 
     /**
-    * Caches the l f activity state node in the entity cache if it is enabled.
-    *
-    * @param lfActivityStateNode the l f activity state node
-    */
-    public void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFActivityStateNode lfActivityStateNode);
-
-    /**
-    * Caches the l f activity state nodes in the entity cache if it is enabled.
-    *
-    * @param lfActivityStateNodes the l f activity state nodes
-    */
-    public void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityStateNode> lfActivityStateNodes);
-
-    /**
-    * Creates a new l f activity state node with the primary key. Does not add the l f activity state node to the database.
-    *
-    * @param id the primary key for the new l f activity state node
-    * @return the new l f activity state node
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode create(
-        long id);
-
-    /**
-    * Removes the l f activity state node with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f activity state node
-    * @return the l f activity state node that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException if a l f activity state node with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFActivityStateNode lfActivityStateNode,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f activity state node with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException} if it could not be found.
-    *
-    * @param id the primary key of the l f activity state node
-    * @return the l f activity state node
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException if a l f activity state node with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException,
-            com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the l f activity state node with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f activity state node
-    * @return the l f activity state node, or <code>null</code> if a l f activity state node with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Returns all the l f activity state nodes where treeID = &#63;.
     *
     * @param treeID the tree i d
@@ -104,7 +38,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns a range of all the l f activity state nodes where treeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param treeID the tree i d
@@ -121,7 +55,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns an ordered range of all the l f activity state nodes where treeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param treeID the tree i d
@@ -209,6 +143,25 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f activity state nodes where treeID = &#63; from the database.
+    *
+    * @param treeID the tree i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByTreeID(java.lang.Integer treeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f activity state nodes where treeID = &#63;.
+    *
+    * @param treeID the tree i d
+    * @return the number of matching l f activity state nodes
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByTreeID(java.lang.Integer treeID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f activity state nodes where treeID = &#63; and parentID = &#63;.
     *
     * @param treeID the tree i d
@@ -224,7 +177,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns a range of all the l f activity state nodes where treeID = &#63; and parentID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param treeID the tree i d
@@ -242,7 +195,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns an ordered range of all the l f activity state nodes where treeID = &#63; and parentID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param treeID the tree i d
@@ -337,6 +290,94 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
             com.liferay.portal.kernel.exception.SystemException;
 
     /**
+    * Removes all the l f activity state nodes where treeID = &#63; and parentID = &#63; from the database.
+    *
+    * @param treeID the tree i d
+    * @param parentID the parent i d
+    * @throws SystemException if a system exception occurred
+    */
+    public void removeByTreeIDAndParentID(java.lang.Integer treeID,
+        java.lang.Integer parentID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the number of l f activity state nodes where treeID = &#63; and parentID = &#63;.
+    *
+    * @param treeID the tree i d
+    * @param parentID the parent i d
+    * @return the number of matching l f activity state nodes
+    * @throws SystemException if a system exception occurred
+    */
+    public int countByTreeIDAndParentID(java.lang.Integer treeID,
+        java.lang.Integer parentID)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Caches the l f activity state node in the entity cache if it is enabled.
+    *
+    * @param lfActivityStateNode the l f activity state node
+    */
+    public void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFActivityStateNode lfActivityStateNode);
+
+    /**
+    * Caches the l f activity state nodes in the entity cache if it is enabled.
+    *
+    * @param lfActivityStateNodes the l f activity state nodes
+    */
+    public void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityStateNode> lfActivityStateNodes);
+
+    /**
+    * Creates a new l f activity state node with the primary key. Does not add the l f activity state node to the database.
+    *
+    * @param id the primary key for the new l f activity state node
+    * @return the new l f activity state node
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode create(
+        long id);
+
+    /**
+    * Removes the l f activity state node with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f activity state node
+    * @return the l f activity state node that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException if a l f activity state node with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFActivityStateNode lfActivityStateNode)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f activity state node with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException} if it could not be found.
+    *
+    * @param id the primary key of the l f activity state node
+    * @return the l f activity state node
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException if a l f activity state node with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateNodeException,
+            com.liferay.portal.kernel.exception.SystemException;
+
+    /**
+    * Returns the l f activity state node with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f activity state node
+    * @return the l f activity state node, or <code>null</code> if a l f activity state node with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public com.arcusys.learn.persistence.liferay.model.LFActivityStateNode fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException;
+
+    /**
     * Returns all the l f activity state nodes.
     *
     * @return the l f activity state nodes
@@ -349,7 +390,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns a range of all the l f activity state nodes.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f activity state nodes
@@ -365,7 +406,7 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
     * Returns an ordered range of all the l f activity state nodes.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateNodeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f activity state nodes
@@ -380,53 +421,11 @@ public interface LFActivityStateNodePersistence extends BasePersistence<LFActivi
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**
-    * Removes all the l f activity state nodes where treeID = &#63; from the database.
-    *
-    * @param treeID the tree i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByTreeID(java.lang.Integer treeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Removes all the l f activity state nodes where treeID = &#63; and parentID = &#63; from the database.
-    *
-    * @param treeID the tree i d
-    * @param parentID the parent i d
-    * @throws SystemException if a system exception occurred
-    */
-    public void removeByTreeIDAndParentID(java.lang.Integer treeID,
-        java.lang.Integer parentID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
     * Removes all the l f activity state nodes from the database.
     *
     * @throws SystemException if a system exception occurred
     */
     public void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f activity state nodes where treeID = &#63;.
-    *
-    * @param treeID the tree i d
-    * @return the number of matching l f activity state nodes
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByTreeID(java.lang.Integer treeID)
-        throws com.liferay.portal.kernel.exception.SystemException;
-
-    /**
-    * Returns the number of l f activity state nodes where treeID = &#63; and parentID = &#63;.
-    *
-    * @param treeID the tree i d
-    * @param parentID the parent i d
-    * @return the number of matching l f activity state nodes
-    * @throws SystemException if a system exception occurred
-    */
-    public int countByTreeIDAndParentID(java.lang.Integer treeID,
-        java.lang.Integer parentID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

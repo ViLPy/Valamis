@@ -58,6 +58,7 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
 
   def render(renderRequest: RenderRequest, renderResponse: RenderResponse, template: String): String = {
     // Also need hook for asset publisher
+    System.out.println(">>>> Oops! Return NULL")
     null
   }
 
@@ -79,4 +80,7 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
       "&maximized=true"
     } else "")
   }
+
+  def getClassName = SCORMPackageAssetRendererFactory.CLASS_NAME
+
 }

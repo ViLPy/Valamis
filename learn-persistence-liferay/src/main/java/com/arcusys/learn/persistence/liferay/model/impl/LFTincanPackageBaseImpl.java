@@ -24,6 +24,7 @@ public abstract class LFTincanPackageBaseImpl extends LFTincanPackageModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan package model instance should use the {@link LFTincanPackage} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanPackageLocalServiceUtil.addLFTincanPackage(this);

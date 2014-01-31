@@ -24,6 +24,7 @@ public abstract class LFQuestionCategoryBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f question category model instance should use the {@link LFQuestionCategory} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFQuestionCategoryLocalServiceUtil.addLFQuestionCategory(this);

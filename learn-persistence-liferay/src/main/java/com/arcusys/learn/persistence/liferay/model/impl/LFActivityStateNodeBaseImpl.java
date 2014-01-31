@@ -24,6 +24,7 @@ public abstract class LFActivityStateNodeBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f activity state node model instance should use the {@link LFActivityStateNode} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFActivityStateNodeLocalServiceUtil.addLFActivityStateNode(this);

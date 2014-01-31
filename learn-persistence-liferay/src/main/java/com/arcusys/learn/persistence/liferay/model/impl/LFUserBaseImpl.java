@@ -23,6 +23,7 @@ public abstract class LFUserBaseImpl extends LFUserModelImpl implements LFUser {
      *
      * Never modify or reference this class directly. All methods that expect a l f user model instance should use the {@link LFUser} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFUserLocalServiceUtil.addLFUser(this);

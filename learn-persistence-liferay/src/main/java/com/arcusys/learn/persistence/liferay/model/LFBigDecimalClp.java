@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.math.BigDecimal;
 
@@ -28,26 +30,32 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
     public LFBigDecimalClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFBigDecimal.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFBigDecimal.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -84,28 +92,70 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfBigDecimalRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfBigDecimalRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfBigDecimalRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public BigDecimal getDecimal() {
         return _decimal;
     }
 
+    @Override
     public void setDecimal(BigDecimal decimal) {
         _decimal = decimal;
+
+        if (_lfBigDecimalRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfBigDecimalRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDecimal", BigDecimal.class);
+
+                method.invoke(_lfBigDecimalRemoteModel, decimal);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getText() {
         return _text;
     }
 
+    @Override
     public void setText(String text) {
         _text = text;
+
+        if (_lfBigDecimalRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfBigDecimalRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setText", String.class);
+
+                method.invoke(_lfBigDecimalRemoteModel, text);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFBigDecimalRemoteModel() {
@@ -116,6 +166,47 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
         _lfBigDecimalRemoteModel = lfBigDecimalRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfBigDecimalRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfBigDecimalRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFBigDecimalLocalServiceUtil.addLFBigDecimal(this);
@@ -126,7 +217,7 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
 
     @Override
     public LFBigDecimal toEscapedModel() {
-        return (LFBigDecimal) Proxy.newProxyInstance(LFBigDecimal.class.getClassLoader(),
+        return (LFBigDecimal) ProxyUtil.newProxyInstance(LFBigDecimal.class.getClassLoader(),
             new Class[] { LFBigDecimal.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -141,6 +232,7 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
         return clone;
     }
 
+    @Override
     public int compareTo(LFBigDecimal lfBigDecimal) {
         long primaryKey = lfBigDecimal.getPrimaryKey();
 
@@ -155,17 +247,15 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFBigDecimalClp)) {
             return false;
         }
 
-        LFBigDecimalClp lfBigDecimal = null;
-
-        try {
-            lfBigDecimal = (LFBigDecimalClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFBigDecimalClp lfBigDecimal = (LFBigDecimalClp) obj;
 
         long primaryKey = lfBigDecimal.getPrimaryKey();
 
@@ -196,6 +286,7 @@ public class LFBigDecimalClp extends BaseModelImpl<LFBigDecimal>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(13);
 

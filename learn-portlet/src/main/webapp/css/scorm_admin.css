@@ -389,7 +389,7 @@
 }
 
 .invalid{
-    margin-left: 5px;
-    color: red;
-    display: none;
+    margin-left: 5px !important;
+    color: red !important;
+    display: none !important;
 }

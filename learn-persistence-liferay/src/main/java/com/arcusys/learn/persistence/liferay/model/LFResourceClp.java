@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,26 +31,32 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
     public LFResourceClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFResource.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFResource.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -106,52 +114,136 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfResourceRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getPackageID() {
         return _packageID;
     }
 
+    @Override
     public void setPackageID(Integer packageID) {
         _packageID = packageID;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPackageID", Integer.class);
+
+                method.invoke(_lfResourceRemoteModel, packageID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getScormType() {
         return _scormType;
     }
 
+    @Override
     public void setScormType(String scormType) {
         _scormType = scormType;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setScormType", String.class);
+
+                method.invoke(_lfResourceRemoteModel, scormType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getResourceID() {
         return _resourceID;
     }
 
+    @Override
     public void setResourceID(String resourceID) {
         _resourceID = resourceID;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setResourceID", String.class);
+
+                method.invoke(_lfResourceRemoteModel, resourceID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getHref() {
         return _href;
     }
 
+    @Override
     public void setHref(String href) {
         _href = href;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setHref", String.class);
+
+                method.invoke(_lfResourceRemoteModel, href);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getBase() {
         return _base;
     }
 
+    @Override
     public void setBase(String base) {
         _base = base;
+
+        if (_lfResourceRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfResourceRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBase", String.class);
+
+                method.invoke(_lfResourceRemoteModel, base);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFResourceRemoteModel() {
@@ -162,6 +254,47 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
         _lfResourceRemoteModel = lfResourceRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfResourceRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfResourceRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFResourceLocalServiceUtil.addLFResource(this);
@@ -172,7 +305,7 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
 
     @Override
     public LFResource toEscapedModel() {
-        return (LFResource) Proxy.newProxyInstance(LFResource.class.getClassLoader(),
+        return (LFResource) ProxyUtil.newProxyInstance(LFResource.class.getClassLoader(),
             new Class[] { LFResource.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -190,6 +323,7 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
         return clone;
     }
 
+    @Override
     public int compareTo(LFResource lfResource) {
         long primaryKey = lfResource.getPrimaryKey();
 
@@ -204,17 +338,15 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFResourceClp)) {
             return false;
         }
 
-        LFResourceClp lfResource = null;
-
-        try {
-            lfResource = (LFResourceClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFResourceClp lfResource = (LFResourceClp) obj;
 
         long primaryKey = lfResource.getPrimaryKey();
 
@@ -251,6 +383,7 @@ public class LFResourceClp extends BaseModelImpl<LFResource>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(22);
 

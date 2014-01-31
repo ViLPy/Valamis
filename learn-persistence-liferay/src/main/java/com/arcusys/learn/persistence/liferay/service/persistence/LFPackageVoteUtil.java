@@ -49,7 +49,7 @@ public class LFPackageVoteUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFPackageVoteUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFPackageVote update(LFPackageVote lfPackageVote)
+        throws SystemException {
+        return getPersistence().update(lfPackageVote);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFPackageVote update(LFPackageVote lfPackageVote,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfPackageVote, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFPackageVote update(LFPackageVote lfPackageVote,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfPackageVote, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f package vote in the entity cache if it is enabled.
-    *
-    * @param lfPackageVote the l f package vote
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFPackageVote lfPackageVote) {
-        getPersistence().cacheResult(lfPackageVote);
-    }
-
-    /**
-    * Caches the l f package votes in the entity cache if it is enabled.
-    *
-    * @param lfPackageVotes the l f package votes
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageVote> lfPackageVotes) {
-        getPersistence().cacheResult(lfPackageVotes);
-    }
-
-    /**
-    * Creates a new l f package vote with the primary key. Does not add the l f package vote to the database.
-    *
-    * @param id the primary key for the new l f package vote
-    * @return the new l f package vote
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f package vote with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f package vote
-    * @return the l f package vote that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException if a l f package vote with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFPackageVote lfPackageVote,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfPackageVote, merge);
-    }
-
-    /**
-    * Returns the l f package vote with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException} if it could not be found.
-    *
-    * @param id the primary key of the l f package vote
-    * @return the l f package vote
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException if a l f package vote with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f package vote with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f package vote
-    * @return the l f package vote, or <code>null</code> if a l f package vote with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfPackageVote, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFPackageVoteUtil {
     * Returns a range of all the l f package votes where socialPackageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param socialPackageID the social package i d
@@ -215,7 +135,7 @@ public class LFPackageVoteUtil {
     * Returns an ordered range of all the l f package votes where socialPackageID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param socialPackageID the social package i d
@@ -327,6 +247,109 @@ public class LFPackageVoteUtil {
     }
 
     /**
+    * Removes all the l f package votes where socialPackageID = &#63; from the database.
+    *
+    * @param socialPackageID the social package i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeBySocialPackageID(
+        java.lang.Integer socialPackageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeBySocialPackageID(socialPackageID);
+    }
+
+    /**
+    * Returns the number of l f package votes where socialPackageID = &#63;.
+    *
+    * @param socialPackageID the social package i d
+    * @return the number of matching l f package votes
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countBySocialPackageID(java.lang.Integer socialPackageID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countBySocialPackageID(socialPackageID);
+    }
+
+    /**
+    * Caches the l f package vote in the entity cache if it is enabled.
+    *
+    * @param lfPackageVote the l f package vote
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFPackageVote lfPackageVote) {
+        getPersistence().cacheResult(lfPackageVote);
+    }
+
+    /**
+    * Caches the l f package votes in the entity cache if it is enabled.
+    *
+    * @param lfPackageVotes the l f package votes
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackageVote> lfPackageVotes) {
+        getPersistence().cacheResult(lfPackageVotes);
+    }
+
+    /**
+    * Creates a new l f package vote with the primary key. Does not add the l f package vote to the database.
+    *
+    * @param id the primary key for the new l f package vote
+    * @return the new l f package vote
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f package vote with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f package vote
+    * @return the l f package vote that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException if a l f package vote with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFPackageVote lfPackageVote)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfPackageVote);
+    }
+
+    /**
+    * Returns the l f package vote with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException} if it could not be found.
+    *
+    * @param id the primary key of the l f package vote
+    * @return the l f package vote
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException if a l f package vote with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f package vote with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f package vote
+    * @return the l f package vote, or <code>null</code> if a l f package vote with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFPackageVote fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f package votes.
     *
     * @return the l f package votes
@@ -341,7 +364,7 @@ public class LFPackageVoteUtil {
     * Returns a range of all the l f package votes.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f package votes
@@ -359,7 +382,7 @@ public class LFPackageVoteUtil {
     * Returns an ordered range of all the l f package votes.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f package votes
@@ -376,18 +399,6 @@ public class LFPackageVoteUtil {
     }
 
     /**
-    * Removes all the l f package votes where socialPackageID = &#63; from the database.
-    *
-    * @param socialPackageID the social package i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeBySocialPackageID(
-        java.lang.Integer socialPackageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeBySocialPackageID(socialPackageID);
-    }
-
-    /**
     * Removes all the l f package votes from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -395,18 +406,6 @@ public class LFPackageVoteUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f package votes where socialPackageID = &#63;.
-    *
-    * @param socialPackageID the social package i d
-    * @return the number of matching l f package votes
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countBySocialPackageID(java.lang.Integer socialPackageID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countBySocialPackageID(socialPackageID);
     }
 
     /**
@@ -433,7 +432,7 @@ public class LFPackageVoteUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFPackageVotePersistence persistence) {
     }

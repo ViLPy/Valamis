@@ -24,6 +24,7 @@ public abstract class LFSequencingPermissionsBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f sequencing permissions model instance should use the {@link LFSequencingPermissions} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSequencingPermissionsLocalServiceUtil.addLFSequencingPermissions(this);

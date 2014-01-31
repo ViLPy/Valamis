@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* This class is used by SOAP remote services.
-*
-* @author    Brian Wing Shun Chan
-* @generated
-*/
+ * This class is used by SOAP remote services.
+ *
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFActivityStateTreeSoap implements Serializable {
     private long _id;
     private String _currentActivityID;

@@ -24,6 +24,7 @@ public abstract class LFPackageVoteBaseImpl extends LFPackageVoteModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f package vote model instance should use the {@link LFPackageVote} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFPackageVoteLocalServiceUtil.addLFPackageVote(this);

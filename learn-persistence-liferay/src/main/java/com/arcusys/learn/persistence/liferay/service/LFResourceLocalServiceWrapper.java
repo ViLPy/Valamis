@@ -3,12 +3,10 @@ package com.arcusys.learn.persistence.liferay.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link LFResourceLocalService}.
- * </p>
+ * Provides a wrapper for {@link LFResourceLocalService}.
  *
- * @author    Brian Wing Shun Chan
- * @see       LFResourceLocalService
+ * @author Brian Wing Shun Chan
+ * @see LFResourceLocalService
  * @generated
  */
 public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
@@ -27,6 +25,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the l f resource that was added
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource addLFResource(
         com.arcusys.learn.persistence.liferay.model.LFResource lfResource)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -39,6 +38,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @param id the primary key for the new l f resource
     * @return the new l f resource
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource createLFResource(
         long id) {
         return _lfResourceLocalService.createLFResource(id);
@@ -52,6 +52,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @throws PortalException if a l f resource with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource deleteLFResource(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -66,12 +67,14 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the l f resource that was removed
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource deleteLFResource(
         com.arcusys.learn.persistence.liferay.model.LFResource lfResource)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.deleteLFResource(lfResource);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         return _lfResourceLocalService.dynamicQuery();
     }
@@ -83,6 +86,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -94,7 +98,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * Performs a dynamic query on the database and returns a range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -103,6 +107,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -114,7 +119,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -124,6 +129,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the ordered range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -141,12 +147,31 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the number of rows that match the dynamic query
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.dynamicQueryCount(dynamicQuery);
     }
 
+    /**
+    * Returns the number of rows that match the dynamic query.
+    *
+    * @param dynamicQuery the dynamic query
+    * @param projection the projection to apply to the query
+    * @return the number of rows that match the dynamic query
+    * @throws SystemException if a system exception occurred
+    */
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfResourceLocalService.dynamicQueryCount(dynamicQuery,
+            projection);
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource fetchLFResource(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.fetchLFResource(id);
@@ -160,6 +185,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @throws PortalException if a l f resource with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource getLFResource(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -167,6 +193,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
         return _lfResourceLocalService.getLFResource(id);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -178,7 +205,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * Returns a range of all the l f resources.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFResourceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f resources
@@ -186,6 +213,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the range of l f resources
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFResource> getLFResources(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -198,6 +226,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the number of l f resources
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public int getLFResourcesCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.getLFResourcesCount();
@@ -210,6 +239,7 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     * @return the l f resource that was updated
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource updateLFResource(
         com.arcusys.learn.persistence.liferay.model.LFResource lfResource)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -217,25 +247,11 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     }
 
     /**
-    * Updates the l f resource in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-    *
-    * @param lfResource the l f resource
-    * @param merge whether to merge the l f resource with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-    * @return the l f resource that was updated
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFResource updateLFResource(
-        com.arcusys.learn.persistence.liferay.model.LFResource lfResource,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _lfResourceLocalService.updateLFResource(lfResource, merge);
-    }
-
-    /**
     * Returns the Spring bean ID for this bean.
     *
     * @return the Spring bean ID for this bean
     */
+    @Override
     public java.lang.String getBeanIdentifier() {
         return _lfResourceLocalService.getBeanIdentifier();
     }
@@ -245,10 +261,12 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
     *
     * @param beanIdentifier the Spring bean ID for this bean
     */
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         _lfResourceLocalService.setBeanIdentifier(beanIdentifier);
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
@@ -256,17 +274,20 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
             arguments);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFResource createLFResource()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.createLFResource();
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFResource> findByPackageID(
         java.lang.Integer packageID)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfResourceLocalService.findByPackageID(packageID);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFResource> findByPackageIDAndResourceID(
         java.lang.Integer packageID, java.lang.String resourceID, int start,
         int end) throws com.liferay.portal.kernel.exception.SystemException {
@@ -274,30 +295,33 @@ public class LFResourceLocalServiceWrapper implements LFResourceLocalService,
             resourceID, start, end);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfResourceLocalService.removeAll();
     }
 
     /**
-     * @deprecated Renamed to {@link #getWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public LFResourceLocalService getWrappedLFResourceLocalService() {
         return _lfResourceLocalService;
     }
 
     /**
-     * @deprecated Renamed to {@link #setWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
      */
     public void setWrappedLFResourceLocalService(
         LFResourceLocalService lfResourceLocalService) {
         _lfResourceLocalService = lfResourceLocalService;
     }
 
+    @Override
     public LFResourceLocalService getWrappedService() {
         return _lfResourceLocalService;
     }
 
+    @Override
     public void setWrappedService(LFResourceLocalService lfResourceLocalService) {
         _lfResourceLocalService = lfResourceLocalService;
     }

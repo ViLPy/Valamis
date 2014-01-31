@@ -23,6 +23,7 @@ import com.arcusys.learn.scorm.certificating.{CertificateUserStorage, Certificat
 import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.setting.storage.SettingStorage
+import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementRequiredStorage, AchievementActivityStorage, AchievementStorage}
 import com.arcusys.learn.tincan.storage._
 
 object StorageFactory extends StorageFactoryContract {
@@ -68,6 +69,10 @@ object StorageFactory extends StorageFactoryContract {
   lazy val certificateStorage: CertificateStorage = throw new UnsupportedOperationException
   lazy val certificateSiteStorage: CertificateSiteStorage = throw new UnsupportedOperationException
   lazy val certificateUserStorage: CertificateUserStorage = throw new UnsupportedOperationException
+  lazy val achievementStorage: AchievementStorage = throw new UnsupportedOperationException
+  lazy val achievementActivityStorage: AchievementActivityStorage = throw new UnsupportedOperationException
+  lazy val achievementRequiredStorage: AchievementRequiredStorage = throw new UnsupportedOperationException
+  lazy val achievementUserStorage: AchievementUserStorage  = throw new UnsupportedOperationException
   lazy val socialPackageStorage: SocialPackageStorage = throw new UnsupportedOperationException
   lazy val packageCommentStorage: PackageCommentStorage = throw new UnsupportedOperationException
   lazy val packageVoteStorage: PackageVoteStorage = throw new UnsupportedOperationException

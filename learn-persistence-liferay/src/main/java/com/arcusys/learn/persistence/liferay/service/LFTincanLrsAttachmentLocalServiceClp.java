@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFTincanLrsAttachmentLocalServiceClp
     implements LFTincanLrsAttachmentLocalService {
     private InvokableLocalService _invokableLocalService;
@@ -102,37 +105,37 @@ public class LFTincanLrsAttachmentLocalServiceClp
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFTincanLrsAttachment";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFTincanLrsAttachment";
+        _methodName10 = "fetchLFTincanLrsAttachment";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFTincanLrsAttachment";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFTincanLrsAttachments";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFTincanLrsAttachmentsCount";
+        _methodName13 = "getLFTincanLrsAttachments";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFTincanLrsAttachment";
+        _methodName14 = "getLFTincanLrsAttachmentsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFTincanLrsAttachment";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -156,6 +159,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         _methodParameterTypes21 = new String[] { "java.lang.Integer" };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment addLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -185,6 +189,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment createLFTincanLrsAttachment(
         long id) {
         Object returnObj = null;
@@ -206,6 +211,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment deleteLFTincanLrsAttachment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -237,6 +243,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment deleteLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -266,6 +273,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -286,6 +294,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -314,6 +323,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -348,6 +358,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -386,6 +397,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -413,13 +425,47 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment fetchLFTincanLrsAttachment(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -438,6 +484,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment getLFTincanLrsAttachment(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -445,8 +492,8 @@ public class LFTincanLrsAttachmentLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -469,6 +516,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -476,8 +524,8 @@ public class LFTincanLrsAttachmentLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -501,14 +549,15 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment> getLFTincanLrsAttachments(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -527,13 +576,14 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFTincanLrsAttachmentsCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -552,14 +602,15 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment updateLFTincanLrsAttachment(
         com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] {
                         ClpSerializer.translateInput(lfTincanLrsAttachment)
                     });
@@ -581,38 +632,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment updateLFTincanLrsAttachment(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment lfTincanLrsAttachment,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] {
-                        ClpSerializer.translateInput(lfTincanLrsAttachment),
-                        
-                    merge
-                    });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -633,6 +653,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -650,12 +671,14 @@ public class LFTincanLrsAttachmentLocalServiceClp
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
@@ -677,6 +700,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         }
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment createLFTincanLrsAttachment()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -702,6 +726,7 @@ public class LFTincanLrsAttachmentLocalServiceClp
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment> findByParentID(
         java.lang.Integer parentID)
         throws com.liferay.portal.kernel.exception.SystemException {

@@ -30,6 +30,10 @@
         <filter-class>com.arcusys.learn.view.CurriculumUser</filter-class>
     </filter>
     <filter>
+        <filter-name>AchievementUser</filter-name>
+        <filter-class>com.arcusys.learn.view.AchievementUserView</filter-class>
+    </filter>
+    <filter>
         <filter-name>MyAccountView</filter-name>
         <filter-class>com.arcusys.learn.view.MyAccountView</filter-class>
     </filter>
@@ -60,6 +64,10 @@
     <filter-mapping>
         <filter-name>CurriculumUser</filter-name>
         <url-pattern>/CurriculumUser/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AchievementUser</filter-name>
+        <url-pattern>/AchievementUser/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>MyAccountView</filter-name>
@@ -312,6 +320,18 @@
         <servlet-name>CertificateUserService</servlet-name>
         <servlet-class>com.arcusys.learn.certificating.CertificateUserService</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AchievementService</servlet-name>
+        <servlet-class>com.arcusys.learn.achievements.AchievementWebService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequiredActivityService</servlet-name>
+        <servlet-class>com.arcusys.learn.achievements.RequiredActivityService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AchievementUserService</servlet-name>
+        <servlet-class>com.arcusys.learn.achievements.AchievementUserService</servlet-class>
+    </servlet>
 
     <!--<servlet>
         <servlet-name>Upgrade</servlet-name>
@@ -410,7 +430,18 @@
         <servlet-name>CertificateUserService</servlet-name>
         <url-pattern>/services/certificating/users/*</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>AchievementService</servlet-name>
+        <url-pattern>/services/achievement/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequiredActivityService</servlet-name>
+        <url-pattern>/services/requiredActivity/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AchievementUserService</servlet-name>
+        <url-pattern>/services/achievementUser/*</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>TincanApiStatement</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.StatementService</servlet-class>

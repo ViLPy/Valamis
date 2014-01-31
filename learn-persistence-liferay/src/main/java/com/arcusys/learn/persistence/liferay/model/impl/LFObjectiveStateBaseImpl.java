@@ -24,6 +24,7 @@ public abstract class LFObjectiveStateBaseImpl extends LFObjectiveStateModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f objective state model instance should use the {@link LFObjectiveState} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFObjectiveStateLocalServiceUtil.addLFObjectiveState(this);

@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFFileStorage in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFFileStorage
-* @generated
-*/
+ * The cache model class for representing LFFileStorage in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFFileStorage
+ * @generated
+ */
 public class LFFileStorageCacheModel implements CacheModel<LFFileStorage>,
-    Serializable {
+    Externalizable {
     public long id;
     public String filename;
     public String content;
@@ -36,6 +39,7 @@ public class LFFileStorageCacheModel implements CacheModel<LFFileStorage>,
         return sb.toString();
     }
 
+    @Override
     public LFFileStorage toEntityModel() {
         LFFileStorageImpl lfFileStorageImpl = new LFFileStorageImpl();
 
@@ -56,5 +60,30 @@ public class LFFileStorageCacheModel implements CacheModel<LFFileStorage>,
         lfFileStorageImpl.resetOriginalValues();
 
         return lfFileStorageImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        filename = objectInput.readUTF();
+        content = objectInput.readUTF();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (filename == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(filename);
+        }
+
+        if (content == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(content);
+        }
     }
 }

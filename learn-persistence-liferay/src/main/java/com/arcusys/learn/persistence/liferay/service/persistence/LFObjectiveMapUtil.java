@@ -49,7 +49,7 @@ public class LFObjectiveMapUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFObjectiveMapUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFObjectiveMap update(LFObjectiveMap lfObjectiveMap)
+        throws SystemException {
+        return getPersistence().update(lfObjectiveMap);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFObjectiveMap update(LFObjectiveMap lfObjectiveMap,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfObjectiveMap, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFObjectiveMap update(LFObjectiveMap lfObjectiveMap,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfObjectiveMap, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f objective map in the entity cache if it is enabled.
-    *
-    * @param lfObjectiveMap the l f objective map
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFObjectiveMap lfObjectiveMap) {
-        getPersistence().cacheResult(lfObjectiveMap);
-    }
-
-    /**
-    * Caches the l f objective maps in the entity cache if it is enabled.
-    *
-    * @param lfObjectiveMaps the l f objective maps
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjectiveMap> lfObjectiveMaps) {
-        getPersistence().cacheResult(lfObjectiveMaps);
-    }
-
-    /**
-    * Creates a new l f objective map with the primary key. Does not add the l f objective map to the database.
-    *
-    * @param id the primary key for the new l f objective map
-    * @return the new l f objective map
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f objective map with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f objective map
-    * @return the l f objective map that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException if a l f objective map with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFObjectiveMap lfObjectiveMap,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfObjectiveMap, merge);
-    }
-
-    /**
-    * Returns the l f objective map with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException} if it could not be found.
-    *
-    * @param id the primary key of the l f objective map
-    * @return the l f objective map
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException if a l f objective map with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f objective map with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f objective map
-    * @return the l f objective map, or <code>null</code> if a l f objective map with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfObjectiveMap, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFObjectiveMapUtil {
     * Returns a range of all the l f objective maps where objectiveID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objectiveID the objective i d
@@ -214,7 +134,7 @@ public class LFObjectiveMapUtil {
     * Returns an ordered range of all the l f objective maps where objectiveID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param objectiveID the objective i d
@@ -321,6 +241,108 @@ public class LFObjectiveMapUtil {
     }
 
     /**
+    * Removes all the l f objective maps where objectiveID = &#63; from the database.
+    *
+    * @param objectiveID the objective i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByObjectiveID(java.lang.Integer objectiveID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByObjectiveID(objectiveID);
+    }
+
+    /**
+    * Returns the number of l f objective maps where objectiveID = &#63;.
+    *
+    * @param objectiveID the objective i d
+    * @return the number of matching l f objective maps
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByObjectiveID(java.lang.Integer objectiveID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByObjectiveID(objectiveID);
+    }
+
+    /**
+    * Caches the l f objective map in the entity cache if it is enabled.
+    *
+    * @param lfObjectiveMap the l f objective map
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFObjectiveMap lfObjectiveMap) {
+        getPersistence().cacheResult(lfObjectiveMap);
+    }
+
+    /**
+    * Caches the l f objective maps in the entity cache if it is enabled.
+    *
+    * @param lfObjectiveMaps the l f objective maps
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjectiveMap> lfObjectiveMaps) {
+        getPersistence().cacheResult(lfObjectiveMaps);
+    }
+
+    /**
+    * Creates a new l f objective map with the primary key. Does not add the l f objective map to the database.
+    *
+    * @param id the primary key for the new l f objective map
+    * @return the new l f objective map
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f objective map with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f objective map
+    * @return the l f objective map that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException if a l f objective map with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFObjectiveMap lfObjectiveMap)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfObjectiveMap);
+    }
+
+    /**
+    * Returns the l f objective map with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException} if it could not be found.
+    *
+    * @param id the primary key of the l f objective map
+    * @return the l f objective map
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException if a l f objective map with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveMapException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f objective map with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f objective map
+    * @return the l f objective map, or <code>null</code> if a l f objective map with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveMap fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f objective maps.
     *
     * @return the l f objective maps
@@ -335,7 +357,7 @@ public class LFObjectiveMapUtil {
     * Returns a range of all the l f objective maps.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objective maps
@@ -353,7 +375,7 @@ public class LFObjectiveMapUtil {
     * Returns an ordered range of all the l f objective maps.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveMapModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objective maps
@@ -370,17 +392,6 @@ public class LFObjectiveMapUtil {
     }
 
     /**
-    * Removes all the l f objective maps where objectiveID = &#63; from the database.
-    *
-    * @param objectiveID the objective i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByObjectiveID(java.lang.Integer objectiveID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByObjectiveID(objectiveID);
-    }
-
-    /**
     * Removes all the l f objective maps from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -388,18 +399,6 @@ public class LFObjectiveMapUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f objective maps where objectiveID = &#63;.
-    *
-    * @param objectiveID the objective i d
-    * @return the number of matching l f objective maps
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByObjectiveID(java.lang.Integer objectiveID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByObjectiveID(objectiveID);
     }
 
     /**
@@ -426,7 +425,7 @@ public class LFObjectiveMapUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFObjectiveMapPersistence persistence) {
     }

@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException;
 import com.arcusys.learn.persistence.liferay.model.LFRuleCondition;
 import com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -81,15 +22,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -97,6 +37,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f rule condition service.
@@ -122,6 +63,17 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
+            LFRuleConditionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+            "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
+            LFRuleConditionImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ROLLUP = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
             LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
             LFRuleConditionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
@@ -129,8 +81,8 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP =
         new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
@@ -143,6 +95,9 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             LFRuleConditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRollup",
             new String[] { Integer.class.getName() });
+    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL = "lfRuleCondition.rollupRuleID IS NULL";
+    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_2 = "lfRuleCondition.rollupRuleID = ?";
+    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL_2 = "lfRuleCondition.rollupRuleID IS NULL ";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CONDITION =
         new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
             LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
@@ -151,8 +106,8 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION =
         new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
@@ -165,33 +120,22 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             LFRuleConditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCondition",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
-            LFRuleConditionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-            "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED,
-            LFRuleConditionImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_NULL = "lfRuleCondition.conditionRuleID IS NULL";
+    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_2 = "lfRuleCondition.conditionRuleID = ?";
+    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_NULL_2 = "lfRuleCondition.conditionRuleID IS NULL ";
     private static final String _SQL_SELECT_LFRULECONDITION = "SELECT lfRuleCondition FROM LFRuleCondition lfRuleCondition";
     private static final String _SQL_SELECT_LFRULECONDITION_WHERE = "SELECT lfRuleCondition FROM LFRuleCondition lfRuleCondition WHERE ";
     private static final String _SQL_COUNT_LFRULECONDITION = "SELECT COUNT(lfRuleCondition) FROM LFRuleCondition lfRuleCondition";
     private static final String _SQL_COUNT_LFRULECONDITION_WHERE = "SELECT COUNT(lfRuleCondition) FROM LFRuleCondition lfRuleCondition WHERE ";
-    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL = "lfRuleCondition.rollupRuleID IS NULL";
-    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL_2 = "lfRuleCondition.rollupRuleID IS NULL ";
-    private static final String _FINDER_COLUMN_ROLLUP_ROLLUPRULEID_2 = "lfRuleCondition.rollupRuleID = ?";
-    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_NULL = "lfRuleCondition.conditionRuleID IS NULL";
-    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_NULL_2 = "lfRuleCondition.conditionRuleID IS NULL ";
-    private static final String _FINDER_COLUMN_CONDITION_CONDITIONRULEID_2 = "lfRuleCondition.conditionRuleID = ?";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfRuleCondition.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFRuleCondition exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFRuleCondition exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFRuleConditionPersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFRuleCondition _nullLFRuleCondition = new LFRuleConditionImpl() {
             @Override
             public Object clone() {
@@ -205,496 +149,14 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
         };
 
     private static CacheModel<LFRuleCondition> _nullLFRuleConditionCacheModel = new CacheModel<LFRuleCondition>() {
+            @Override
             public LFRuleCondition toEntityModel() {
                 return _nullLFRuleCondition;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f rule condition in the entity cache if it is enabled.
-     *
-     * @param lfRuleCondition the l f rule condition
-     */
-    public void cacheResult(LFRuleCondition lfRuleCondition) {
-        EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey(),
-            lfRuleCondition);
-
-        lfRuleCondition.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f rule conditions in the entity cache if it is enabled.
-     *
-     * @param lfRuleConditions the l f rule conditions
-     */
-    public void cacheResult(List<LFRuleCondition> lfRuleConditions) {
-        for (LFRuleCondition lfRuleCondition : lfRuleConditions) {
-            if (EntityCacheUtil.getResult(
-                        LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-                        LFRuleConditionImpl.class,
-                        lfRuleCondition.getPrimaryKey()) == null) {
-                cacheResult(lfRuleCondition);
-            } else {
-                lfRuleCondition.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f rule conditions.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFRuleConditionImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFRuleConditionImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f rule condition.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFRuleCondition lfRuleCondition) {
-        EntityCacheUtil.removeResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    @Override
-    public void clearCache(List<LFRuleCondition> lfRuleConditions) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFRuleCondition lfRuleCondition : lfRuleConditions) {
-            EntityCacheUtil.removeResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-                LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey());
-        }
-    }
-
-    /**
-     * Creates a new l f rule condition with the primary key. Does not add the l f rule condition to the database.
-     *
-     * @param id the primary key for the new l f rule condition
-     * @return the new l f rule condition
-     */
-    public LFRuleCondition create(long id) {
-        LFRuleCondition lfRuleCondition = new LFRuleConditionImpl();
-
-        lfRuleCondition.setNew(true);
-        lfRuleCondition.setPrimaryKey(id);
-
-        return lfRuleCondition;
-    }
-
-    /**
-     * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param id the primary key of the l f rule condition
-     * @return the l f rule condition that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRuleCondition remove(long id)
-        throws NoSuchLFRuleConditionException, SystemException {
-        return remove(Long.valueOf(id));
-    }
-
-    /**
-     * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f rule condition
-     * @return the l f rule condition that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRuleCondition remove(Serializable primaryKey)
-        throws NoSuchLFRuleConditionException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFRuleCondition lfRuleCondition = (LFRuleCondition) session.get(LFRuleConditionImpl.class,
-                    primaryKey);
-
-            if (lfRuleCondition == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFRuleConditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfRuleCondition);
-        } catch (NoSuchLFRuleConditionException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFRuleCondition removeImpl(LFRuleCondition lfRuleCondition)
-        throws SystemException {
-        lfRuleCondition = toUnwrappedModel(lfRuleCondition);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfRuleCondition);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfRuleCondition);
-
-        return lfRuleCondition;
-    }
-
-    @Override
-    public LFRuleCondition updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition,
-        boolean merge) throws SystemException {
-        lfRuleCondition = toUnwrappedModel(lfRuleCondition);
-
-        boolean isNew = lfRuleCondition.isNew();
-
-        LFRuleConditionModelImpl lfRuleConditionModelImpl = (LFRuleConditionModelImpl) lfRuleCondition;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfRuleCondition, merge);
-
-            lfRuleCondition.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFRuleConditionModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfRuleConditionModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfRuleConditionModelImpl.getOriginalRollupRuleID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ROLLUP, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfRuleConditionModelImpl.getRollupRuleID()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ROLLUP, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP,
-                    args);
-            }
-
-            if ((lfRuleConditionModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfRuleConditionModelImpl.getOriginalConditionRuleID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONDITION,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION,
-                    args);
-
-                args = new Object[] {
-                        /* Integer.valueOf( */
-                        lfRuleConditionModelImpl.getConditionRuleID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONDITION,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey(),
-            lfRuleCondition);
-
-        return lfRuleCondition;
-    }
-
-    protected LFRuleCondition toUnwrappedModel(LFRuleCondition lfRuleCondition) {
-        if (lfRuleCondition instanceof LFRuleConditionImpl) {
-            return lfRuleCondition;
-        }
-
-        LFRuleConditionImpl lfRuleConditionImpl = new LFRuleConditionImpl();
-
-        lfRuleConditionImpl.setNew(lfRuleCondition.isNew());
-        lfRuleConditionImpl.setPrimaryKey(lfRuleCondition.getPrimaryKey());
-
-        lfRuleConditionImpl.setId(lfRuleCondition.getId());
-        lfRuleConditionImpl.setConditionType(lfRuleCondition.getConditionType());
-        lfRuleConditionImpl.setObjectiveId(lfRuleCondition.getObjectiveId());
-        lfRuleConditionImpl.setMeasureThreshold(lfRuleCondition.getMeasureThreshold());
-        lfRuleConditionImpl.setInverse(lfRuleCondition.isInverse());
-        lfRuleConditionImpl.setRollupRuleID(lfRuleCondition.getRollupRuleID());
-        lfRuleConditionImpl.setConditionRuleID(lfRuleCondition.getConditionRuleID());
-
-        return lfRuleConditionImpl;
-    }
-
-    /**
-     * Returns the l f rule condition with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f rule condition
-     * @return the l f rule condition
-     * @throws com.liferay.portal.NoSuchModelException if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRuleCondition findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f rule condition with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException} if it could not be found.
-     *
-     * @param id the primary key of the l f rule condition
-     * @return the l f rule condition
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRuleCondition findByPrimaryKey(long id)
-        throws NoSuchLFRuleConditionException, SystemException {
-        LFRuleCondition lfRuleCondition = fetchByPrimaryKey(id);
-
-        if (lfRuleCondition == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFRuleConditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfRuleCondition;
-    }
-
-    /**
-     * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f rule condition
-     * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFRuleCondition fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param id the primary key of the l f rule condition
-     * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFRuleCondition fetchByPrimaryKey(long id) throws SystemException {
-        LFRuleCondition lfRuleCondition = (LFRuleCondition) EntityCacheUtil.getResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-                LFRuleConditionImpl.class, id);
-
-        if (lfRuleCondition == _nullLFRuleCondition) {
-            return null;
-        }
-
-        if (lfRuleCondition == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfRuleCondition = (LFRuleCondition) session.get(LFRuleConditionImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfRuleCondition != null) {
-                    cacheResult(lfRuleCondition);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
-                        LFRuleConditionImpl.class, id, _nullLFRuleCondition);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfRuleCondition;
+    public LFRuleConditionPersistenceImpl() {
+        setModelClass(LFRuleCondition.class);
     }
 
     /**
@@ -704,6 +166,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByRollup(Integer rollupRuleID)
         throws SystemException {
         return findByRollup(rollupRuleID, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -714,7 +177,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * Returns a range of all the l f rule conditions where rollupRuleID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param rollupRuleID the rollup rule i d
@@ -723,6 +186,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the range of matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByRollup(Integer rollupRuleID, int start,
         int end) throws SystemException {
         return findByRollup(rollupRuleID, start, end, null);
@@ -732,7 +196,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * Returns an ordered range of all the l f rule conditions where rollupRuleID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param rollupRuleID the rollup rule i d
@@ -742,13 +206,16 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the ordered range of matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByRollup(Integer rollupRuleID, int start,
         int end, OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP;
             finderArgs = new Object[] { rollupRuleID };
         } else {
@@ -781,7 +248,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFRULECONDITION_WHERE);
@@ -795,6 +262,9 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFRuleConditionModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -812,19 +282,26 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                     qPos.add(rollupRuleID.intValue());
                 }
 
-                list = (List<LFRuleCondition>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFRuleCondition>(list);
+                } else {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -841,6 +318,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition findByRollup_First(Integer rollupRuleID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -871,6 +349,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the first matching l f rule condition, or <code>null</code> if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition fetchByRollup_First(Integer rollupRuleID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFRuleCondition> list = findByRollup(rollupRuleID, 0, 1,
@@ -892,6 +371,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition findByRollup_Last(Integer rollupRuleID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -922,9 +402,14 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the last matching l f rule condition, or <code>null</code> if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition fetchByRollup_Last(Integer rollupRuleID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByRollup(rollupRuleID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFRuleCondition> list = findByRollup(rollupRuleID, count - 1,
                 count, orderByComparator);
@@ -946,6 +431,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition[] findByRollup_PrevAndNext(long id,
         Integer rollupRuleID, OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -1042,6 +528,8 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                     }
                 }
             }
+        } else {
+            query.append(LFRuleConditionModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1075,12 +563,84 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
     }
 
     /**
+     * Removes all the l f rule conditions where rollupRuleID = &#63; from the database.
+     *
+     * @param rollupRuleID the rollup rule i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByRollup(Integer rollupRuleID) throws SystemException {
+        for (LFRuleCondition lfRuleCondition : findByRollup(rollupRuleID,
+                QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+            remove(lfRuleCondition);
+        }
+    }
+
+    /**
+     * Returns the number of l f rule conditions where rollupRuleID = &#63;.
+     *
+     * @param rollupRuleID the rollup rule i d
+     * @return the number of matching l f rule conditions
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByRollup(Integer rollupRuleID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ROLLUP;
+
+        Object[] finderArgs = new Object[] { rollupRuleID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFRULECONDITION_WHERE);
+
+            if (rollupRuleID == null) {
+                query.append(_FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ROLLUP_ROLLUPRULEID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (rollupRuleID != null) {
+                    qPos.add(rollupRuleID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
      * Returns all the l f rule conditions where conditionRuleID = &#63;.
      *
      * @param conditionRuleID the condition rule i d
      * @return the matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByCondition(Integer conditionRuleID)
         throws SystemException {
         return findByCondition(conditionRuleID, QueryUtil.ALL_POS,
@@ -1091,7 +651,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * Returns a range of all the l f rule conditions where conditionRuleID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param conditionRuleID the condition rule i d
@@ -1100,6 +660,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the range of matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByCondition(Integer conditionRuleID,
         int start, int end) throws SystemException {
         return findByCondition(conditionRuleID, start, end, null);
@@ -1109,7 +670,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * Returns an ordered range of all the l f rule conditions where conditionRuleID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param conditionRuleID the condition rule i d
@@ -1119,14 +680,17 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the ordered range of matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFRuleCondition> findByCondition(Integer conditionRuleID,
         int start, int end, OrderByComparator orderByComparator)
         throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION;
             finderArgs = new Object[] { conditionRuleID };
         } else {
@@ -1159,7 +723,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFRULECONDITION_WHERE);
@@ -1173,6 +737,9 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFRuleConditionModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1190,19 +757,26 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                     qPos.add(conditionRuleID.intValue());
                 }
 
-                list = (List<LFRuleCondition>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFRuleCondition>(list);
+                } else {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1219,6 +793,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition findByCondition_First(Integer conditionRuleID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -1249,6 +824,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the first matching l f rule condition, or <code>null</code> if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition fetchByCondition_First(Integer conditionRuleID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFRuleCondition> list = findByCondition(conditionRuleID, 0, 1,
@@ -1270,6 +846,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition findByCondition_Last(Integer conditionRuleID,
         OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -1300,9 +877,14 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the last matching l f rule condition, or <code>null</code> if a matching l f rule condition could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition fetchByCondition_Last(Integer conditionRuleID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByCondition(conditionRuleID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFRuleCondition> list = findByCondition(conditionRuleID,
                 count - 1, count, orderByComparator);
@@ -1324,6 +906,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFRuleCondition[] findByCondition_PrevAndNext(long id,
         Integer conditionRuleID, OrderByComparator orderByComparator)
         throws NoSuchLFRuleConditionException, SystemException {
@@ -1420,6 +1003,8 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                     }
                 }
             }
+        } else {
+            query.append(LFRuleConditionModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1453,205 +1038,18 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
     }
 
     /**
-     * Returns all the l f rule conditions.
-     *
-     * @return the l f rule conditions
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRuleCondition> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f rule conditions.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f rule conditions
-     * @param end the upper bound of the range of l f rule conditions (not inclusive)
-     * @return the range of l f rule conditions
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRuleCondition> findAll(int start, int end)
-        throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f rule conditions.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f rule conditions
-     * @param end the upper bound of the range of l f rule conditions (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f rule conditions
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFRuleCondition> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFRuleCondition> list = (List<LFRuleCondition>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFRULECONDITION);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFRULECONDITION;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
-                    list = (List<LFRuleCondition>) QueryUtil.list(q,
-                            getDialect(), start, end, false);
-
-                    Collections.sort(list);
-                } else {
-                    list = (List<LFRuleCondition>) QueryUtil.list(q,
-                            getDialect(), start, end);
-                }
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Removes all the l f rule conditions where rollupRuleID = &#63; from the database.
-     *
-     * @param rollupRuleID the rollup rule i d
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeByRollup(Integer rollupRuleID) throws SystemException {
-        for (LFRuleCondition lfRuleCondition : findByRollup(rollupRuleID)) {
-            remove(lfRuleCondition);
-        }
-    }
-
-    /**
      * Removes all the l f rule conditions where conditionRuleID = &#63; from the database.
      *
      * @param conditionRuleID the condition rule i d
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeByCondition(Integer conditionRuleID)
         throws SystemException {
-        for (LFRuleCondition lfRuleCondition : findByCondition(conditionRuleID)) {
+        for (LFRuleCondition lfRuleCondition : findByCondition(
+                conditionRuleID, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
             remove(lfRuleCondition);
         }
-    }
-
-    /**
-     * Removes all the l f rule conditions from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFRuleCondition lfRuleCondition : findAll()) {
-            remove(lfRuleCondition);
-        }
-    }
-
-    /**
-     * Returns the number of l f rule conditions where rollupRuleID = &#63;.
-     *
-     * @param rollupRuleID the rollup rule i d
-     * @return the number of matching l f rule conditions
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByRollup(Integer rollupRuleID) throws SystemException {
-        Object[] finderArgs = new Object[] { rollupRuleID };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ROLLUP,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFRULECONDITION_WHERE);
-
-            if (rollupRuleID == null) {
-                query.append(_FINDER_COLUMN_ROLLUP_ROLLUPRULEID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ROLLUP_ROLLUPRULEID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (rollupRuleID != null) {
-                    qPos.add(rollupRuleID.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ROLLUP,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
     }
 
     /**
@@ -1661,12 +1059,15 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
      * @return the number of matching l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByCondition(Integer conditionRuleID)
         throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_CONDITION;
+
         Object[] finderArgs = new Object[] { conditionRuleID };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_CONDITION,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -1695,16 +1096,13 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CONDITION,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -1713,11 +1111,519 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
     }
 
     /**
+     * Caches the l f rule condition in the entity cache if it is enabled.
+     *
+     * @param lfRuleCondition the l f rule condition
+     */
+    @Override
+    public void cacheResult(LFRuleCondition lfRuleCondition) {
+        EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey(),
+            lfRuleCondition);
+
+        lfRuleCondition.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f rule conditions in the entity cache if it is enabled.
+     *
+     * @param lfRuleConditions the l f rule conditions
+     */
+    @Override
+    public void cacheResult(List<LFRuleCondition> lfRuleConditions) {
+        for (LFRuleCondition lfRuleCondition : lfRuleConditions) {
+            if (EntityCacheUtil.getResult(
+                        LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+                        LFRuleConditionImpl.class,
+                        lfRuleCondition.getPrimaryKey()) == null) {
+                cacheResult(lfRuleCondition);
+            } else {
+                lfRuleCondition.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f rule conditions.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFRuleConditionImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFRuleConditionImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f rule condition.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFRuleCondition lfRuleCondition) {
+        EntityCacheUtil.removeResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    @Override
+    public void clearCache(List<LFRuleCondition> lfRuleConditions) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFRuleCondition lfRuleCondition : lfRuleConditions) {
+            EntityCacheUtil.removeResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+                LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey());
+        }
+    }
+
+    /**
+     * Creates a new l f rule condition with the primary key. Does not add the l f rule condition to the database.
+     *
+     * @param id the primary key for the new l f rule condition
+     * @return the new l f rule condition
+     */
+    @Override
+    public LFRuleCondition create(long id) {
+        LFRuleCondition lfRuleCondition = new LFRuleConditionImpl();
+
+        lfRuleCondition.setNew(true);
+        lfRuleCondition.setPrimaryKey(id);
+
+        return lfRuleCondition;
+    }
+
+    /**
+     * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param id the primary key of the l f rule condition
+     * @return the l f rule condition that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition remove(long id)
+        throws NoSuchLFRuleConditionException, SystemException {
+        return remove((Serializable) id);
+    }
+
+    /**
+     * Removes the l f rule condition with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f rule condition
+     * @return the l f rule condition that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition remove(Serializable primaryKey)
+        throws NoSuchLFRuleConditionException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFRuleCondition lfRuleCondition = (LFRuleCondition) session.get(LFRuleConditionImpl.class,
+                    primaryKey);
+
+            if (lfRuleCondition == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFRuleConditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfRuleCondition);
+        } catch (NoSuchLFRuleConditionException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFRuleCondition removeImpl(LFRuleCondition lfRuleCondition)
+        throws SystemException {
+        lfRuleCondition = toUnwrappedModel(lfRuleCondition);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfRuleCondition)) {
+                lfRuleCondition = (LFRuleCondition) session.get(LFRuleConditionImpl.class,
+                        lfRuleCondition.getPrimaryKeyObj());
+            }
+
+            if (lfRuleCondition != null) {
+                session.delete(lfRuleCondition);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfRuleCondition != null) {
+            clearCache(lfRuleCondition);
+        }
+
+        return lfRuleCondition;
+    }
+
+    @Override
+    public LFRuleCondition updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFRuleCondition lfRuleCondition)
+        throws SystemException {
+        lfRuleCondition = toUnwrappedModel(lfRuleCondition);
+
+        boolean isNew = lfRuleCondition.isNew();
+
+        LFRuleConditionModelImpl lfRuleConditionModelImpl = (LFRuleConditionModelImpl) lfRuleCondition;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfRuleCondition.isNew()) {
+                session.save(lfRuleCondition);
+
+                lfRuleCondition.setNew(false);
+            } else {
+                session.merge(lfRuleCondition);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFRuleConditionModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfRuleConditionModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfRuleConditionModelImpl.getOriginalRollupRuleID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ROLLUP, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP,
+                    args);
+
+                args = new Object[] { lfRuleConditionModelImpl.getRollupRuleID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ROLLUP, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ROLLUP,
+                    args);
+            }
+
+            if ((lfRuleConditionModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfRuleConditionModelImpl.getOriginalConditionRuleID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONDITION,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION,
+                    args);
+
+                args = new Object[] {
+                        lfRuleConditionModelImpl.getConditionRuleID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONDITION,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONDITION,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+            LFRuleConditionImpl.class, lfRuleCondition.getPrimaryKey(),
+            lfRuleCondition);
+
+        return lfRuleCondition;
+    }
+
+    protected LFRuleCondition toUnwrappedModel(LFRuleCondition lfRuleCondition) {
+        if (lfRuleCondition instanceof LFRuleConditionImpl) {
+            return lfRuleCondition;
+        }
+
+        LFRuleConditionImpl lfRuleConditionImpl = new LFRuleConditionImpl();
+
+        lfRuleConditionImpl.setNew(lfRuleCondition.isNew());
+        lfRuleConditionImpl.setPrimaryKey(lfRuleCondition.getPrimaryKey());
+
+        lfRuleConditionImpl.setId(lfRuleCondition.getId());
+        lfRuleConditionImpl.setConditionType(lfRuleCondition.getConditionType());
+        lfRuleConditionImpl.setObjectiveId(lfRuleCondition.getObjectiveId());
+        lfRuleConditionImpl.setMeasureThreshold(lfRuleCondition.getMeasureThreshold());
+        lfRuleConditionImpl.setInverse(lfRuleCondition.isInverse());
+        lfRuleConditionImpl.setRollupRuleID(lfRuleCondition.getRollupRuleID());
+        lfRuleConditionImpl.setConditionRuleID(lfRuleCondition.getConditionRuleID());
+
+        return lfRuleConditionImpl;
+    }
+
+    /**
+     * Returns the l f rule condition with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f rule condition
+     * @return the l f rule condition
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFRuleConditionException, SystemException {
+        LFRuleCondition lfRuleCondition = fetchByPrimaryKey(primaryKey);
+
+        if (lfRuleCondition == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFRuleConditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfRuleCondition;
+    }
+
+    /**
+     * Returns the l f rule condition with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException} if it could not be found.
+     *
+     * @param id the primary key of the l f rule condition
+     * @return the l f rule condition
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFRuleConditionException if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition findByPrimaryKey(long id)
+        throws NoSuchLFRuleConditionException, SystemException {
+        return findByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f rule condition
+     * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFRuleCondition lfRuleCondition = (LFRuleCondition) EntityCacheUtil.getResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+                LFRuleConditionImpl.class, primaryKey);
+
+        if (lfRuleCondition == _nullLFRuleCondition) {
+            return null;
+        }
+
+        if (lfRuleCondition == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfRuleCondition = (LFRuleCondition) session.get(LFRuleConditionImpl.class,
+                        primaryKey);
+
+                if (lfRuleCondition != null) {
+                    cacheResult(lfRuleCondition);
+                } else {
+                    EntityCacheUtil.putResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+                        LFRuleConditionImpl.class, primaryKey,
+                        _nullLFRuleCondition);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFRuleConditionModelImpl.ENTITY_CACHE_ENABLED,
+                    LFRuleConditionImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfRuleCondition;
+    }
+
+    /**
+     * Returns the l f rule condition with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param id the primary key of the l f rule condition
+     * @return the l f rule condition, or <code>null</code> if a l f rule condition with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFRuleCondition fetchByPrimaryKey(long id) throws SystemException {
+        return fetchByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns all the l f rule conditions.
+     *
+     * @return the l f rule conditions
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRuleCondition> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f rule conditions.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f rule conditions
+     * @param end the upper bound of the range of l f rule conditions (not inclusive)
+     * @return the range of l f rule conditions
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRuleCondition> findAll(int start, int end)
+        throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f rule conditions.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFRuleConditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f rule conditions
+     * @param end the upper bound of the range of l f rule conditions (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f rule conditions
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFRuleCondition> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFRuleCondition> list = (List<LFRuleCondition>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFRULECONDITION);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFRULECONDITION;
+
+                if (pagination) {
+                    sql = sql.concat(LFRuleConditionModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFRuleCondition>(list);
+                } else {
+                    list = (List<LFRuleCondition>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f rule conditions from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFRuleCondition lfRuleCondition : findAll()) {
+            remove(lfRuleCondition);
+        }
+    }
+
+    /**
      * Returns the number of l f rule conditions.
      *
      * @return the number of l f rule conditions
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1731,21 +1637,25 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
                 Query q = session.createQuery(_SQL_COUNT_LFRULECONDITION);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1762,7 +1672,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFRuleCondition>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1775,6 +1685,7 @@ public class LFRuleConditionPersistenceImpl extends BasePersistenceImpl<LFRuleCo
     public void destroy() {
         EntityCacheUtil.removeCache(LFRuleConditionImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 }

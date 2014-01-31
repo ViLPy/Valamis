@@ -6,17 +6,20 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFQuizQuestion in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFQuizQuestion
-* @generated
-*/
+ * The cache model class for representing LFQuizQuestion in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFQuizQuestion
+ * @generated
+ */
 public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer quizId;
     public Integer categoryId;
@@ -54,6 +57,7 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         return sb.toString();
     }
 
+    @Override
     public LFQuizQuestion toEntityModel() {
         LFQuizQuestionImpl lfQuizQuestionImpl = new LFQuizQuestionImpl();
 
@@ -68,7 +72,11 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
             lfQuizQuestionImpl.setQuestionType(questionType);
         }
 
-        lfQuizQuestionImpl.setTitle(title);
+        if (title == null) {
+            lfQuizQuestionImpl.setTitle(StringPool.BLANK);
+        } else {
+            lfQuizQuestionImpl.setTitle(title);
+        }
 
         if (url == null) {
             lfQuizQuestionImpl.setUrl(StringPool.BLANK);
@@ -87,5 +95,53 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         lfQuizQuestionImpl.resetOriginalValues();
 
         return lfQuizQuestionImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        quizId = objectInput.readInt();
+        categoryId = objectInput.readInt();
+        questionId = objectInput.readInt();
+        questionType = objectInput.readUTF();
+        title = objectInput.readUTF();
+        url = objectInput.readUTF();
+        plainText = objectInput.readUTF();
+        arrangementIndex = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(quizId);
+        objectOutput.writeInt(categoryId);
+        objectOutput.writeInt(questionId);
+
+        if (questionType == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(questionType);
+        }
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (url == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(url);
+        }
+
+        if (plainText == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(plainText);
+        }
+
+        objectOutput.writeInt(arrangementIndex);
     }
 }

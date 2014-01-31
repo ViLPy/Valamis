@@ -24,6 +24,7 @@ public abstract class LFTincanActorBaseImpl extends LFTincanActorModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan actor model instance should use the {@link LFTincanActor} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanActorLocalServiceUtil.addLFTincanActor(this);

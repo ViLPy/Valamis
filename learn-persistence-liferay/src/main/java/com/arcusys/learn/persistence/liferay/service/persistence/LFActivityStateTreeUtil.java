@@ -49,7 +49,7 @@ public class LFActivityStateTreeUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,22 +83,88 @@ public class LFActivityStateTreeUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFActivityStateTree update(
-        LFActivityStateTree lfActivityStateTree, boolean merge)
-        throws SystemException {
-        return getPersistence().update(lfActivityStateTree, merge);
+        LFActivityStateTree lfActivityStateTree) throws SystemException {
+        return getPersistence().update(lfActivityStateTree);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFActivityStateTree update(
-        LFActivityStateTree lfActivityStateTree, boolean merge,
-        ServiceContext serviceContext) throws SystemException {
-        return getPersistence()
-                   .update(lfActivityStateTree, merge, serviceContext);
+        LFActivityStateTree lfActivityStateTree, ServiceContext serviceContext)
+        throws SystemException {
+        return getPersistence().update(lfActivityStateTree, serviceContext);
+    }
+
+    /**
+    * Returns the l f activity state tree where attemptID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException} if it could not be found.
+    *
+    * @param attemptID the attempt i d
+    * @return the matching l f activity state tree
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a matching l f activity state tree could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree findByAttemptID(
+        java.lang.Integer attemptID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByAttemptID(attemptID);
+    }
+
+    /**
+    * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param attemptID the attempt i d
+    * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree fetchByAttemptID(
+        java.lang.Integer attemptID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByAttemptID(attemptID);
+    }
+
+    /**
+    * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param attemptID the attempt i d
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree fetchByAttemptID(
+        java.lang.Integer attemptID, boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByAttemptID(attemptID, retrieveFromCache);
+    }
+
+    /**
+    * Removes the l f activity state tree where attemptID = &#63; from the database.
+    *
+    * @param attemptID the attempt i d
+    * @return the l f activity state tree that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree removeByAttemptID(
+        java.lang.Integer attemptID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByAttemptID(attemptID);
+    }
+
+    /**
+    * Returns the number of l f activity state trees where attemptID = &#63;.
+    *
+    * @param attemptID the attempt i d
+    * @return the number of matching l f activity state trees
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByAttemptID(java.lang.Integer attemptID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByAttemptID(attemptID);
     }
 
     /**
@@ -148,10 +214,9 @@ public class LFActivityStateTreeUtil {
     }
 
     public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFActivityStateTree lfActivityStateTree,
-        boolean merge)
+        com.arcusys.learn.persistence.liferay.model.LFActivityStateTree lfActivityStateTree)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfActivityStateTree, merge);
+        return getPersistence().updateImpl(lfActivityStateTree);
     }
 
     /**
@@ -182,48 +247,6 @@ public class LFActivityStateTreeUtil {
     }
 
     /**
-    * Returns the l f activity state tree where attemptID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException} if it could not be found.
-    *
-    * @param attemptID the attempt i d
-    * @return the matching l f activity state tree
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException if a matching l f activity state tree could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree findByAttemptID(
-        java.lang.Integer attemptID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByAttemptID(attemptID);
-    }
-
-    /**
-    * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-    *
-    * @param attemptID the attempt i d
-    * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree fetchByAttemptID(
-        java.lang.Integer attemptID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByAttemptID(attemptID);
-    }
-
-    /**
-    * Returns the l f activity state tree where attemptID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-    *
-    * @param attemptID the attempt i d
-    * @param retrieveFromCache whether to use the finder cache
-    * @return the matching l f activity state tree, or <code>null</code> if a matching l f activity state tree could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree fetchByAttemptID(
-        java.lang.Integer attemptID, boolean retrieveFromCache)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByAttemptID(attemptID, retrieveFromCache);
-    }
-
-    /**
     * Returns all the l f activity state trees.
     *
     * @return the l f activity state trees
@@ -238,7 +261,7 @@ public class LFActivityStateTreeUtil {
     * Returns a range of all the l f activity state trees.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f activity state trees
@@ -256,7 +279,7 @@ public class LFActivityStateTreeUtil {
     * Returns an ordered range of all the l f activity state trees.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateTreeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f activity state trees
@@ -273,20 +296,6 @@ public class LFActivityStateTreeUtil {
     }
 
     /**
-    * Removes the l f activity state tree where attemptID = &#63; from the database.
-    *
-    * @param attemptID the attempt i d
-    * @return the l f activity state tree that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityStateTree removeByAttemptID(
-        java.lang.Integer attemptID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByAttemptID(attemptID);
-    }
-
-    /**
     * Removes all the l f activity state trees from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -294,18 +303,6 @@ public class LFActivityStateTreeUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f activity state trees where attemptID = &#63;.
-    *
-    * @param attemptID the attempt i d
-    * @return the number of matching l f activity state trees
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByAttemptID(java.lang.Integer attemptID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByAttemptID(attemptID);
     }
 
     /**
@@ -332,7 +329,7 @@ public class LFActivityStateTreeUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFActivityStateTreePersistence persistence) {
     }

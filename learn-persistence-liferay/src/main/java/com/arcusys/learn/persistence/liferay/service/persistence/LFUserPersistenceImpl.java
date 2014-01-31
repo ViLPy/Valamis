@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFUserException;
 import com.arcusys.learn.persistence.liferay.model.LFUser;
 import com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -82,15 +23,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -98,6 +38,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f user service.
@@ -123,6 +64,15 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_FETCH_BY_USERID = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
             LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
             FINDER_CLASS_NAME_ENTITY, "fetchByUserId",
@@ -132,6 +82,9 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
             LFUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
             new String[] { Integer.class.getName() });
+    private static final String _FINDER_COLUMN_USERID_ID_NULL = "lfUser.id IS NULL";
+    private static final String _FINDER_COLUMN_USERID_ID_2 = "lfUser.id = ?";
+    private static final String _FINDER_COLUMN_USERID_ID_NULL_2 = "lfUser.id IS NULL ";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDCOLLECTION =
         new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
             LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
@@ -139,8 +92,8 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION =
         new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
@@ -157,35 +110,26 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
             LFUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByUserIdCollection",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserModelImpl.FINDER_CACHE_ENABLED, LFUserImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_NULL = "lfUser.id IS NULL";
+    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_2 = "lfUser.id = ?";
+    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_NULL_2 = "lfUser.id IS NULL ";
+    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_USERIDCOLLECTION_ID_2) + ")";
+    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_USERIDCOLLECTION_ID_NULL_2) + ")";
     private static final String _SQL_SELECT_LFUSER = "SELECT lfUser FROM LFUser lfUser";
     private static final String _SQL_SELECT_LFUSER_WHERE = "SELECT lfUser FROM LFUser lfUser WHERE ";
     private static final String _SQL_COUNT_LFUSER = "SELECT COUNT(lfUser) FROM LFUser lfUser";
     private static final String _SQL_COUNT_LFUSER_WHERE = "SELECT COUNT(lfUser) FROM LFUser lfUser WHERE ";
-    private static final String _FINDER_COLUMN_USERID_ID_NULL = "lfUser.id IS NULL";
-    private static final String _FINDER_COLUMN_USERID_ID_NULL_2 = "lfUser.id IS NULL ";
-    private static final String _FINDER_COLUMN_USERID_ID_2 = "lfUser.id = ?";
-    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_NULL = "lfUser.id IS NULL";
-    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_NULL_2 = "lfUser.id IS NULL ";
-    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_2 = "lfUser.id = ?";
-    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_5_NULL = "(" +
-        _removeConjunction(_FINDER_COLUMN_USERIDCOLLECTION_ID_NULL_2) + ")";
-    private static final String _FINDER_COLUMN_USERIDCOLLECTION_ID_5 = "(" +
-        _removeConjunction(_FINDER_COLUMN_USERIDCOLLECTION_ID_2) + ")";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfUser.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFUser exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFUser exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFUserPersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFUser _nullLFUser = new LFUserImpl() {
             @Override
             public Object clone() {
@@ -199,517 +143,14 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
         };
 
     private static CacheModel<LFUser> _nullLFUserCacheModel = new CacheModel<LFUser>() {
+            @Override
             public LFUser toEntityModel() {
                 return _nullLFUser;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f user in the entity cache if it is enabled.
-     *
-     * @param lfUser the l f user
-     */
-    public void cacheResult(LFUser lfUser) {
-        EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserImpl.class, lfUser.getPrimaryKey(), lfUser);
-
-        boolean noNullsInUSERID = true;
-
-        if (lfUser.getId() == null) {
-            noNullsInUSERID = false;
-        }
-
-        if (noNullsInUSERID) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID,
-                new Object[] { Integer.valueOf(lfUser.getId()) }, lfUser);
-        }
-
-        lfUser.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f users in the entity cache if it is enabled.
-     *
-     * @param lfUsers the l f users
-     */
-    public void cacheResult(List<LFUser> lfUsers) {
-        for (LFUser lfUser : lfUsers) {
-            if (EntityCacheUtil.getResult(
-                        LFUserModelImpl.ENTITY_CACHE_ENABLED, LFUserImpl.class,
-                        lfUser.getPrimaryKey()) == null) {
-                cacheResult(lfUser);
-            } else {
-                lfUser.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f users.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFUserImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFUserImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f user.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFUser lfUser) {
-        EntityCacheUtil.removeResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserImpl.class, lfUser.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        clearUniqueFindersCache(lfUser);
-    }
-
-    @Override
-    public void clearCache(List<LFUser> lfUsers) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFUser lfUser : lfUsers) {
-            EntityCacheUtil.removeResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-                LFUserImpl.class, lfUser.getPrimaryKey());
-
-            clearUniqueFindersCache(lfUser);
-        }
-    }
-
-    protected void clearUniqueFindersCache(LFUser lfUser) {
-        boolean noNullsInUSERID = true;
-
-        if (lfUser.getId() == null) {
-            noNullsInUSERID = false;
-        }
-
-        if (noNullsInUSERID) {
-            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID,
-                new Object[] { Integer.valueOf(lfUser.getId()) });
-        }
-    }
-
-    /**
-     * Creates a new l f user with the primary key. Does not add the l f user to the database.
-     *
-     * @param lfid the primary key for the new l f user
-     * @return the new l f user
-     */
-    public LFUser create(long lfid) {
-        LFUser lfUser = new LFUserImpl();
-
-        lfUser.setNew(true);
-        lfUser.setPrimaryKey(lfid);
-
-        return lfUser;
-    }
-
-    /**
-     * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param lfid the primary key of the l f user
-     * @return the l f user that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFUser remove(long lfid)
-        throws NoSuchLFUserException, SystemException {
-        return remove(Long.valueOf(lfid));
-    }
-
-    /**
-     * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f user
-     * @return the l f user that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFUser remove(Serializable primaryKey)
-        throws NoSuchLFUserException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFUser lfUser = (LFUser) session.get(LFUserImpl.class, primaryKey);
-
-            if (lfUser == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfUser);
-        } catch (NoSuchLFUserException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFUser removeImpl(LFUser lfUser) throws SystemException {
-        lfUser = toUnwrappedModel(lfUser);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfUser);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfUser);
-
-        return lfUser;
-    }
-
-    @Override
-    public LFUser updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFUser lfUser, boolean merge)
-        throws SystemException {
-        lfUser = toUnwrappedModel(lfUser);
-
-        boolean isNew = lfUser.isNew();
-
-        LFUserModelImpl lfUserModelImpl = (LFUserModelImpl) lfUser;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfUser, merge);
-
-            lfUser.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFUserModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfUserModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] { /* Integer.valueOf(   */
-                        lfUserModelImpl.getOriginalId()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfUserModelImpl.getId()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFUserImpl.class, lfUser.getPrimaryKey(), lfUser);
-
-        if (isNew) {
-            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID,
-                new Object[] { /*Integer.valueOf( */
-                lfUser.getId()/*) */
-                }, lfUser);
-        } else {
-            if ((lfUserModelImpl.getColumnBitmask() &
-                    FINDER_PATH_FETCH_BY_USERID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] { /*        Integer.valueOf( */
-                        lfUserModelImpl.getOriginalId()/*        ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
-
-                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID, args);
-
-                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID,
-                    new Object[] { /*        Integer.valueOf( */
-                    lfUser.getId()/*        ) */
-                    }, lfUser);
-            }
-        }
-
-        return lfUser;
-    }
-
-    protected LFUser toUnwrappedModel(LFUser lfUser) {
-        if (lfUser instanceof LFUserImpl) {
-            return lfUser;
-        }
-
-        LFUserImpl lfUserImpl = new LFUserImpl();
-
-        lfUserImpl.setNew(lfUser.isNew());
-        lfUserImpl.setPrimaryKey(lfUser.getPrimaryKey());
-
-        lfUserImpl.setLfid(lfUser.getLfid());
-        lfUserImpl.setId(lfUser.getId());
-        lfUserImpl.setName(lfUser.getName());
-        lfUserImpl.setPreferredAudioLevel(lfUser.getPreferredAudioLevel());
-        lfUserImpl.setPreferredLanguage(lfUser.getPreferredLanguage());
-        lfUserImpl.setPreferredDeliverySpeed(lfUser.getPreferredDeliverySpeed());
-        lfUserImpl.setPreferredAudioCaptioning(lfUser.getPreferredAudioCaptioning());
-
-        return lfUserImpl;
-    }
-
-    /**
-     * Returns the l f user with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f user
-     * @return the l f user
-     * @throws com.liferay.portal.NoSuchModelException if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFUser findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f user with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFUserException} if it could not be found.
-     *
-     * @param lfid the primary key of the l f user
-     * @return the l f user
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFUser findByPrimaryKey(long lfid)
-        throws NoSuchLFUserException, SystemException {
-        LFUser lfUser = fetchByPrimaryKey(lfid);
-
-        if (lfUser == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + lfid);
-            }
-
-            throw new NoSuchLFUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                lfid);
-        }
-
-        return lfUser;
-    }
-
-    /**
-     * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f user
-     * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFUser fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param lfid the primary key of the l f user
-     * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFUser fetchByPrimaryKey(long lfid) throws SystemException {
-        LFUser lfUser = (LFUser) EntityCacheUtil.getResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-                LFUserImpl.class, lfid);
-
-        if (lfUser == _nullLFUser) {
-            return null;
-        }
-
-        if (lfUser == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfUser = (LFUser) session.get(LFUserImpl.class,
-                        Long.valueOf(lfid));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfUser != null) {
-                    cacheResult(lfUser);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
-                        LFUserImpl.class, lfid, _nullLFUser);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfUser;
+    public LFUserPersistenceImpl() {
+        setModelClass(LFUser.class);
     }
 
     /**
@@ -720,6 +161,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser findByUserId(Integer id)
         throws NoSuchLFUserException, SystemException {
         LFUser lfUser = fetchByUserId(id);
@@ -751,6 +193,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the matching l f user, or <code>null</code> if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser fetchByUserId(Integer id) throws SystemException {
         return fetchByUserId(id, true);
     }
@@ -763,6 +206,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the matching l f user, or <code>null</code> if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser fetchByUserId(Integer id, boolean retrieveFromCache)
         throws SystemException {
         Object[] finderArgs = new Object[] { id };
@@ -783,7 +227,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
         }
 
         if (result == null) {
-            StringBundler query = new StringBundler(2);
+            StringBundler query = new StringBundler(3);
 
             query.append(_SQL_SELECT_LFUSER_WHERE);
 
@@ -810,15 +254,20 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
 
                 List<LFUser> list = q.list();
 
-                result = list;
-
-                LFUser lfUser = null;
-
                 if (list.isEmpty()) {
                     FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID,
                         finderArgs, list);
                 } else {
-                    lfUser = list.get(0);
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFUserPersistenceImpl.fetchByUserId(Integer, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFUser lfUser = list.get(0);
+
+                    result = lfUser;
 
                     cacheResult(lfUser);
 
@@ -827,25 +276,93 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                             finderArgs, lfUser);
                     }
                 }
-
-                return lfUser;
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID,
+                    finderArgs);
+
                 throw processException(e);
             } finally {
-                if (result == null) {
-                    FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID,
-                        finderArgs);
-                }
-
                 closeSession(session);
             }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
         } else {
-            if (result instanceof List<?>) {
-                return null;
+            return (LFUser) result;
+        }
+    }
+
+    /**
+     * Removes the l f user where id = &#63; from the database.
+     *
+     * @param id the ID
+     * @return the l f user that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser removeByUserId(Integer id)
+        throws NoSuchLFUserException, SystemException {
+        LFUser lfUser = findByUserId(id);
+
+        return remove(lfUser);
+    }
+
+    /**
+     * Returns the number of l f users where id = &#63;.
+     *
+     * @param id the ID
+     * @return the number of matching l f users
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByUserId(Integer id) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_USERID;
+
+        Object[] finderArgs = new Object[] { id };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFUSER_WHERE);
+
+            if (id == null) {
+                query.append(_FINDER_COLUMN_USERID_ID_NULL_2);
             } else {
-                return (LFUser) result;
+                query.append(_FINDER_COLUMN_USERID_ID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (id != null) {
+                    qPos.add(id.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
             }
         }
+
+        return count.intValue();
     }
 
     /**
@@ -855,6 +372,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer id)
         throws SystemException {
         return findByUserIdCollection(id, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -865,7 +383,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * Returns a range of all the l f users where id = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param id the ID
@@ -874,6 +392,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the range of matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer id, int start, int end)
         throws SystemException {
         return findByUserIdCollection(id, start, end, null);
@@ -883,7 +402,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * Returns an ordered range of all the l f users where id = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param id the ID
@@ -893,13 +412,16 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the ordered range of matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer id, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION;
             finderArgs = new Object[] { id };
         } else {
@@ -927,7 +449,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFUSER_WHERE);
@@ -941,6 +463,9 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFUserModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -958,18 +483,26 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                     qPos.add(id.intValue());
                 }
 
-                list = (List<LFUser>) QueryUtil.list(q, getDialect(), start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFUser>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFUser>(list);
+                } else {
+                    list = (List<LFUser>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -986,6 +519,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser findByUserIdCollection_First(Integer id,
         OrderByComparator orderByComparator)
         throws NoSuchLFUserException, SystemException {
@@ -1015,6 +549,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the first matching l f user, or <code>null</code> if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser fetchByUserIdCollection_First(Integer id,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFUser> list = findByUserIdCollection(id, 0, 1, orderByComparator);
@@ -1035,6 +570,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser findByUserIdCollection_Last(Integer id,
         OrderByComparator orderByComparator)
         throws NoSuchLFUserException, SystemException {
@@ -1064,9 +600,14 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the last matching l f user, or <code>null</code> if a matching l f user could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser fetchByUserIdCollection_Last(Integer id,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByUserIdCollection(id);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFUser> list = findByUserIdCollection(id, count - 1, count,
                 orderByComparator);
@@ -1088,6 +629,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFUser[] findByUserIdCollection_PrevAndNext(long lfid, Integer id,
         OrderByComparator orderByComparator)
         throws NoSuchLFUserException, SystemException {
@@ -1184,6 +726,8 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                     }
                 }
             }
+        } else {
+            query.append(LFUserModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1220,13 +764,14 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * Returns all the l f users where id = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param ids the IDs
      * @return the matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer[] ids)
         throws SystemException {
         return findByUserIdCollection(ids, QueryUtil.ALL_POS,
@@ -1237,7 +782,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * Returns a range of all the l f users where id = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param ids the IDs
@@ -1246,6 +791,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the range of matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer[] ids, int start, int end)
         throws SystemException {
         return findByUserIdCollection(ids, start, end, null);
@@ -1255,7 +801,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * Returns an ordered range of all the l f users where id = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param ids the IDs
@@ -1265,13 +811,19 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the ordered range of matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFUser> findByUserIdCollection(Integer[] ids, int start,
         int end, OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDCOLLECTION;
+        if ((ids != null) && (ids.length == 1)) {
+            return findByUserIdCollection(ids[0], start, end, orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] { StringUtil.merge(ids) };
         } else {
             finderArgs = new Object[] {
@@ -1281,7 +833,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                 };
         }
 
-        List<LFUser> list = (List<LFUser>) FinderCacheUtil.getResult(finderPath,
+        List<LFUser> list = (List<LFUser>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDCOLLECTION,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -1328,6 +880,9 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFUserModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1349,145 +904,33 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                     }
                 }
 
-                list = (List<LFUser>) QueryUtil.list(q, getDialect(), start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Returns all the l f users.
-     *
-     * @return the l f users
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFUser> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f users.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f users
-     * @param end the upper bound of the range of l f users (not inclusive)
-     * @return the range of l f users
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFUser> findAll(int start, int end) throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f users.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f users
-     * @param end the upper bound of the range of l f users (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f users
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFUser> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFUser> list = (List<LFUser>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFUSER);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFUSER;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFUser>) QueryUtil.list(q, getDialect(),
                             start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFUser>(list);
                 } else {
                     list = (List<LFUser>) QueryUtil.list(q, getDialect(),
                             start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDCOLLECTION,
+                    finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDCOLLECTION,
+                    finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
 
         return list;
-    }
-
-    /**
-     * Removes the l f user where id = &#63; from the database.
-     *
-     * @param id the ID
-     * @return the l f user that was removed
-     * @throws SystemException if a system exception occurred
-     */
-    public LFUser removeByUserId(Integer id)
-        throws NoSuchLFUserException, SystemException {
-        LFUser lfUser = findByUserId(id);
-
-        return remove(lfUser);
     }
 
     /**
@@ -1496,19 +939,10 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @param id the ID
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeByUserIdCollection(Integer id) throws SystemException {
-        for (LFUser lfUser : findByUserIdCollection(id)) {
-            remove(lfUser);
-        }
-    }
-
-    /**
-     * Removes all the l f users from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFUser lfUser : findAll()) {
+        for (LFUser lfUser : findByUserIdCollection(id, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
             remove(lfUser);
         }
     }
@@ -1520,68 +954,14 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the number of matching l f users
      * @throws SystemException if a system exception occurred
      */
-    public int countByUserId(Integer id) throws SystemException {
-        Object[] finderArgs = new Object[] { id };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_USERID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(2);
-
-            query.append(_SQL_COUNT_LFUSER_WHERE);
-
-            if (id == null) {
-                query.append(_FINDER_COLUMN_USERID_ID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_USERID_ID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (id != null) {
-                    qPos.add(id.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f users where id = &#63;.
-     *
-     * @param id the ID
-     * @return the number of matching l f users
-     * @throws SystemException if a system exception occurred
-     */
+    @Override
     public int countByUserIdCollection(Integer id) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_USERIDCOLLECTION;
+
         Object[] finderArgs = new Object[] { id };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -1610,16 +990,13 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -1634,6 +1011,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
      * @return the number of matching l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByUserIdCollection(Integer[] ids) throws SystemException {
         Object[] finderArgs = new Object[] { StringUtil.merge(ids) };
 
@@ -1691,16 +1069,15 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                 }
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_USERIDCOLLECTION,
                     finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_USERIDCOLLECTION,
+                    finderArgs);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1709,11 +1086,539 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
     }
 
     /**
+     * Caches the l f user in the entity cache if it is enabled.
+     *
+     * @param lfUser the l f user
+     */
+    @Override
+    public void cacheResult(LFUser lfUser) {
+        EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserImpl.class, lfUser.getPrimaryKey(), lfUser);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID,
+            new Object[] { lfUser.getId() }, lfUser);
+
+        lfUser.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f users in the entity cache if it is enabled.
+     *
+     * @param lfUsers the l f users
+     */
+    @Override
+    public void cacheResult(List<LFUser> lfUsers) {
+        for (LFUser lfUser : lfUsers) {
+            if (EntityCacheUtil.getResult(
+                        LFUserModelImpl.ENTITY_CACHE_ENABLED, LFUserImpl.class,
+                        lfUser.getPrimaryKey()) == null) {
+                cacheResult(lfUser);
+            } else {
+                lfUser.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f users.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFUserImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFUserImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f user.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFUser lfUser) {
+        EntityCacheUtil.removeResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserImpl.class, lfUser.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(lfUser);
+    }
+
+    @Override
+    public void clearCache(List<LFUser> lfUsers) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFUser lfUser : lfUsers) {
+            EntityCacheUtil.removeResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+                LFUserImpl.class, lfUser.getPrimaryKey());
+
+            clearUniqueFindersCache(lfUser);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(LFUser lfUser) {
+        if (lfUser.isNew()) {
+            Object[] args = new Object[] { lfUser.getId() };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERID, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID, args, lfUser);
+        } else {
+            LFUserModelImpl lfUserModelImpl = (LFUserModelImpl) lfUser;
+
+            if ((lfUserModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_USERID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { lfUser.getId() };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERID, args,
+                    Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERID, args,
+                    lfUser);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(LFUser lfUser) {
+        LFUserModelImpl lfUserModelImpl = (LFUserModelImpl) lfUser;
+
+        Object[] args = new Object[] { lfUser.getId() };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID, args);
+
+        if ((lfUserModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_USERID.getColumnBitmask()) != 0) {
+            args = new Object[] { lfUserModelImpl.getOriginalId() };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERID, args);
+        }
+    }
+
+    /**
+     * Creates a new l f user with the primary key. Does not add the l f user to the database.
+     *
+     * @param lfid the primary key for the new l f user
+     * @return the new l f user
+     */
+    @Override
+    public LFUser create(long lfid) {
+        LFUser lfUser = new LFUserImpl();
+
+        lfUser.setNew(true);
+        lfUser.setPrimaryKey(lfid);
+
+        return lfUser;
+    }
+
+    /**
+     * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param lfid the primary key of the l f user
+     * @return the l f user that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser remove(long lfid)
+        throws NoSuchLFUserException, SystemException {
+        return remove((Serializable) lfid);
+    }
+
+    /**
+     * Removes the l f user with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f user
+     * @return the l f user that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser remove(Serializable primaryKey)
+        throws NoSuchLFUserException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFUser lfUser = (LFUser) session.get(LFUserImpl.class, primaryKey);
+
+            if (lfUser == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfUser);
+        } catch (NoSuchLFUserException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFUser removeImpl(LFUser lfUser) throws SystemException {
+        lfUser = toUnwrappedModel(lfUser);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfUser)) {
+                lfUser = (LFUser) session.get(LFUserImpl.class,
+                        lfUser.getPrimaryKeyObj());
+            }
+
+            if (lfUser != null) {
+                session.delete(lfUser);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfUser != null) {
+            clearCache(lfUser);
+        }
+
+        return lfUser;
+    }
+
+    @Override
+    public LFUser updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFUser lfUser)
+        throws SystemException {
+        lfUser = toUnwrappedModel(lfUser);
+
+        boolean isNew = lfUser.isNew();
+
+        LFUserModelImpl lfUserModelImpl = (LFUserModelImpl) lfUser;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfUser.isNew()) {
+                session.save(lfUser);
+
+                lfUser.setNew(false);
+            } else {
+                session.merge(lfUser);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFUserModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfUserModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] { lfUserModelImpl.getOriginalId() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION,
+                    args);
+
+                args = new Object[] { lfUserModelImpl.getId() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDCOLLECTION,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDCOLLECTION,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+            LFUserImpl.class, lfUser.getPrimaryKey(), lfUser);
+
+        clearUniqueFindersCache(lfUser);
+        cacheUniqueFindersCache(lfUser);
+
+        return lfUser;
+    }
+
+    protected LFUser toUnwrappedModel(LFUser lfUser) {
+        if (lfUser instanceof LFUserImpl) {
+            return lfUser;
+        }
+
+        LFUserImpl lfUserImpl = new LFUserImpl();
+
+        lfUserImpl.setNew(lfUser.isNew());
+        lfUserImpl.setPrimaryKey(lfUser.getPrimaryKey());
+
+        lfUserImpl.setLfid(lfUser.getLfid());
+        lfUserImpl.setId(lfUser.getId());
+        lfUserImpl.setName(lfUser.getName());
+        lfUserImpl.setPreferredAudioLevel(lfUser.getPreferredAudioLevel());
+        lfUserImpl.setPreferredLanguage(lfUser.getPreferredLanguage());
+        lfUserImpl.setPreferredDeliverySpeed(lfUser.getPreferredDeliverySpeed());
+        lfUserImpl.setPreferredAudioCaptioning(lfUser.getPreferredAudioCaptioning());
+
+        return lfUserImpl;
+    }
+
+    /**
+     * Returns the l f user with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f user
+     * @return the l f user
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFUserException, SystemException {
+        LFUser lfUser = fetchByPrimaryKey(primaryKey);
+
+        if (lfUser == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfUser;
+    }
+
+    /**
+     * Returns the l f user with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFUserException} if it could not be found.
+     *
+     * @param lfid the primary key of the l f user
+     * @return the l f user
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFUserException if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser findByPrimaryKey(long lfid)
+        throws NoSuchLFUserException, SystemException {
+        return findByPrimaryKey((Serializable) lfid);
+    }
+
+    /**
+     * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f user
+     * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFUser lfUser = (LFUser) EntityCacheUtil.getResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+                LFUserImpl.class, primaryKey);
+
+        if (lfUser == _nullLFUser) {
+            return null;
+        }
+
+        if (lfUser == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfUser = (LFUser) session.get(LFUserImpl.class, primaryKey);
+
+                if (lfUser != null) {
+                    cacheResult(lfUser);
+                } else {
+                    EntityCacheUtil.putResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+                        LFUserImpl.class, primaryKey, _nullLFUser);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFUserModelImpl.ENTITY_CACHE_ENABLED,
+                    LFUserImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfUser;
+    }
+
+    /**
+     * Returns the l f user with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param lfid the primary key of the l f user
+     * @return the l f user, or <code>null</code> if a l f user with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFUser fetchByPrimaryKey(long lfid) throws SystemException {
+        return fetchByPrimaryKey((Serializable) lfid);
+    }
+
+    /**
+     * Returns all the l f users.
+     *
+     * @return the l f users
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFUser> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f users.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f users
+     * @param end the upper bound of the range of l f users (not inclusive)
+     * @return the range of l f users
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFUser> findAll(int start, int end) throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f users.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f users
+     * @param end the upper bound of the range of l f users (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f users
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFUser> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFUser> list = (List<LFUser>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFUSER);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFUSER;
+
+                if (pagination) {
+                    sql = sql.concat(LFUserModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFUser>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFUser>(list);
+                } else {
+                    list = (List<LFUser>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f users from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFUser lfUser : findAll()) {
+            remove(lfUser);
+        }
+    }
+
+    /**
      * Returns the number of l f users.
      *
      * @return the number of l f users
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1727,21 +1632,25 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
                 Query q = session.createQuery(_SQL_COUNT_LFUSER);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1758,7 +1667,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFUser>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1771,6 +1680,7 @@ public class LFUserPersistenceImpl extends BasePersistenceImpl<LFUser>
     public void destroy() {
         EntityCacheUtil.removeCache(LFUserImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 

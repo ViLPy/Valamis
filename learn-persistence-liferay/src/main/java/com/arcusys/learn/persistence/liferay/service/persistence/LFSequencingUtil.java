@@ -49,7 +49,7 @@ public class LFSequencingUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFSequencingUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
-    public static LFSequencing update(LFSequencing lfSequencing, boolean merge)
+    public static LFSequencing update(LFSequencing lfSequencing)
         throws SystemException {
-        return getPersistence().update(lfSequencing, merge);
+        return getPersistence().update(lfSequencing);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
-    public static LFSequencing update(LFSequencing lfSequencing, boolean merge,
+    public static LFSequencing update(LFSequencing lfSequencing,
         ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfSequencing, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f sequencing in the entity cache if it is enabled.
-    *
-    * @param lfSequencing the l f sequencing
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFSequencing lfSequencing) {
-        getPersistence().cacheResult(lfSequencing);
-    }
-
-    /**
-    * Caches the l f sequencings in the entity cache if it is enabled.
-    *
-    * @param lfSequencings the l f sequencings
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSequencing> lfSequencings) {
-        getPersistence().cacheResult(lfSequencings);
-    }
-
-    /**
-    * Creates a new l f sequencing with the primary key. Does not add the l f sequencing to the database.
-    *
-    * @param id the primary key for the new l f sequencing
-    * @return the new l f sequencing
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f sequencing with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f sequencing
-    * @return the l f sequencing that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException if a l f sequencing with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFSequencing lfSequencing,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfSequencing, merge);
-    }
-
-    /**
-    * Returns the l f sequencing with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException} if it could not be found.
-    *
-    * @param id the primary key of the l f sequencing
-    * @return the l f sequencing
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException if a l f sequencing with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f sequencing with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f sequencing
-    * @return the l f sequencing, or <code>null</code> if a l f sequencing with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        return getPersistence().update(lfSequencing, serviceContext);
     }
 
     /**
@@ -229,6 +149,116 @@ public class LFSequencingUtil {
     }
 
     /**
+    * Removes the l f sequencing where packageID = &#63; and activityID = &#63; from the database.
+    *
+    * @param packageID the package i d
+    * @param activityID the activity i d
+    * @return the l f sequencing that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing removeByActivityIDAndPackageID(
+        java.lang.Integer packageID, java.lang.String activityID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .removeByActivityIDAndPackageID(packageID, activityID);
+    }
+
+    /**
+    * Returns the number of l f sequencings where packageID = &#63; and activityID = &#63;.
+    *
+    * @param packageID the package i d
+    * @param activityID the activity i d
+    * @return the number of matching l f sequencings
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIDAndPackageID(
+        java.lang.Integer packageID, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityIDAndPackageID(packageID, activityID);
+    }
+
+    /**
+    * Caches the l f sequencing in the entity cache if it is enabled.
+    *
+    * @param lfSequencing the l f sequencing
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFSequencing lfSequencing) {
+        getPersistence().cacheResult(lfSequencing);
+    }
+
+    /**
+    * Caches the l f sequencings in the entity cache if it is enabled.
+    *
+    * @param lfSequencings the l f sequencings
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFSequencing> lfSequencings) {
+        getPersistence().cacheResult(lfSequencings);
+    }
+
+    /**
+    * Creates a new l f sequencing with the primary key. Does not add the l f sequencing to the database.
+    *
+    * @param id the primary key for the new l f sequencing
+    * @return the new l f sequencing
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f sequencing with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f sequencing
+    * @return the l f sequencing that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException if a l f sequencing with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFSequencing lfSequencing)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfSequencing);
+    }
+
+    /**
+    * Returns the l f sequencing with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException} if it could not be found.
+    *
+    * @param id the primary key of the l f sequencing
+    * @return the l f sequencing
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException if a l f sequencing with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f sequencing with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f sequencing
+    * @return the l f sequencing, or <code>null</code> if a l f sequencing with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFSequencing fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f sequencings.
     *
     * @return the l f sequencings
@@ -243,7 +273,7 @@ public class LFSequencingUtil {
     * Returns a range of all the l f sequencings.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f sequencings
@@ -261,7 +291,7 @@ public class LFSequencingUtil {
     * Returns an ordered range of all the l f sequencings.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFSequencingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f sequencings
@@ -278,22 +308,6 @@ public class LFSequencingUtil {
     }
 
     /**
-    * Removes the l f sequencing where packageID = &#63; and activityID = &#63; from the database.
-    *
-    * @param packageID the package i d
-    * @param activityID the activity i d
-    * @return the l f sequencing that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFSequencing removeByActivityIDAndPackageID(
-        java.lang.Integer packageID, java.lang.String activityID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .removeByActivityIDAndPackageID(packageID, activityID);
-    }
-
-    /**
     * Removes all the l f sequencings from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -301,21 +315,6 @@ public class LFSequencingUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f sequencings where packageID = &#63; and activityID = &#63;.
-    *
-    * @param packageID the package i d
-    * @param activityID the activity i d
-    * @return the number of matching l f sequencings
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityIDAndPackageID(
-        java.lang.Integer packageID, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityIDAndPackageID(packageID, activityID);
     }
 
     /**
@@ -342,7 +341,7 @@ public class LFSequencingUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFSequencingPersistence persistence) {
     }

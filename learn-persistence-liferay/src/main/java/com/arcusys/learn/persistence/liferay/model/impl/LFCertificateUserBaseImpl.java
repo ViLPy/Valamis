@@ -24,6 +24,7 @@ public abstract class LFCertificateUserBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f certificate user model instance should use the {@link LFCertificateUser} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCertificateUserLocalServiceUtil.addLFCertificateUser(this);

@@ -4,7 +4,10 @@ import com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalServiceUti
 
 import java.util.Arrays;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFBigDecimalLocalServiceClpInvoker {
     private String _methodName0;
     private String[] _methodParameterTypes0;
@@ -38,10 +41,10 @@ public class LFBigDecimalLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName264;
-    private String[] _methodParameterTypes264;
-    private String _methodName265;
-    private String[] _methodParameterTypes265;
+    private String _methodName276;
+    private String[] _methodParameterTypes276;
+    private String _methodName277;
+    private String[] _methodParameterTypes277;
 
     public LFBigDecimalLocalServiceClpInvoker() {
         _methodName0 = "addLFBigDecimal";
@@ -93,46 +96,46 @@ public class LFBigDecimalLocalServiceClpInvoker {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFBigDecimal";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFBigDecimal";
+        _methodName10 = "fetchLFBigDecimal";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFBigDecimal";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFBigDecimals";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFBigDecimalsCount";
+        _methodName13 = "getLFBigDecimals";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFBigDecimal";
+        _methodName14 = "getLFBigDecimalsCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFBigDecimal"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFBigDecimal";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFBigDecimal",
-                "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFBigDecimal"
             };
 
-        _methodName264 = "getBeanIdentifier";
+        _methodName276 = "getBeanIdentifier";
 
-        _methodParameterTypes264 = new String[] {  };
+        _methodParameterTypes276 = new String[] {  };
 
-        _methodName265 = "setBeanIdentifier";
+        _methodName277 = "setBeanIdentifier";
 
-        _methodParameterTypes265 = new String[] { "java.lang.String" };
+        _methodParameterTypes277 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -189,48 +192,48 @@ public class LFBigDecimalLocalServiceClpInvoker {
 
         if (_methodName9.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.fetchLFBigDecimal(((Long) arguments[0]).longValue());
+            return LFBigDecimalLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery) arguments[0],
+                (com.liferay.portal.kernel.dao.orm.Projection) arguments[1]);
         }
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.getLFBigDecimal(((Long) arguments[0]).longValue());
+            return LFBigDecimalLocalServiceUtil.fetchLFBigDecimal(((Long) arguments[0]).longValue());
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
+            return LFBigDecimalLocalServiceUtil.getLFBigDecimal(((Long) arguments[0]).longValue());
         }
 
         if (_methodName12.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.getLFBigDecimals(((Integer) arguments[0]).intValue(),
-                ((Integer) arguments[1]).intValue());
+            return LFBigDecimalLocalServiceUtil.getPersistedModel((java.io.Serializable) arguments[0]);
         }
 
         if (_methodName13.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.getLFBigDecimalsCount();
+            return LFBigDecimalLocalServiceUtil.getLFBigDecimals(((Integer) arguments[0]).intValue(),
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName14.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.updateLFBigDecimal((com.arcusys.learn.persistence.liferay.model.LFBigDecimal) arguments[0]);
+            return LFBigDecimalLocalServiceUtil.getLFBigDecimalsCount();
         }
 
         if (_methodName15.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-            return LFBigDecimalLocalServiceUtil.updateLFBigDecimal((com.arcusys.learn.persistence.liferay.model.LFBigDecimal) arguments[0],
-                ((Boolean) arguments[1]).booleanValue());
+            return LFBigDecimalLocalServiceUtil.updateLFBigDecimal((com.arcusys.learn.persistence.liferay.model.LFBigDecimal) arguments[0]);
         }
 
-        if (_methodName264.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes264, parameterTypes)) {
+        if (_methodName276.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes276, parameterTypes)) {
             return LFBigDecimalLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName265.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes265, parameterTypes)) {
+        if (_methodName277.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes277, parameterTypes)) {
             LFBigDecimalLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;

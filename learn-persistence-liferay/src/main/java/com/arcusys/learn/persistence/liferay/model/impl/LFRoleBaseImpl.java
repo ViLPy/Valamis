@@ -23,6 +23,7 @@ public abstract class LFRoleBaseImpl extends LFRoleModelImpl implements LFRole {
      *
      * Never modify or reference this class directly. All methods that expect a l f role model instance should use the {@link LFRole} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFRoleLocalServiceUtil.addLFRole(this);

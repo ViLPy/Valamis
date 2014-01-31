@@ -24,6 +24,7 @@ public abstract class LFAnswerBaseImpl extends LFAnswerModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f answer model instance should use the {@link LFAnswer} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFAnswerLocalServiceUtil.addLFAnswer(this);

@@ -5,17 +5,20 @@ import com.arcusys.learn.persistence.liferay.model.LFPackageVote;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFPackageVote in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFPackageVote
-* @generated
-*/
+ * The cache model class for representing LFPackageVote in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFPackageVote
+ * @generated
+ */
 public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
-    Serializable {
+    Externalizable {
     public long id;
     public Integer userID;
     public Integer socialPackageID;
@@ -38,6 +41,7 @@ public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
         return sb.toString();
     }
 
+    @Override
     public LFPackageVote toEntityModel() {
         LFPackageVoteImpl lfPackageVoteImpl = new LFPackageVoteImpl();
 
@@ -49,5 +53,22 @@ public class LFPackageVoteCacheModel implements CacheModel<LFPackageVote>,
         lfPackageVoteImpl.resetOriginalValues();
 
         return lfPackageVoteImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        userID = objectInput.readInt();
+        socialPackageID = objectInput.readInt();
+        voteValue = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+        objectOutput.writeInt(userID);
+        objectOutput.writeInt(socialPackageID);
+        objectOutput.writeInt(voteValue);
     }
 }

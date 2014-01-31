@@ -24,6 +24,7 @@ public abstract class LFAttemptDataBaseImpl extends LFAttemptDataModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f attempt data model instance should use the {@link LFAttemptData} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFAttemptDataLocalServiceUtil.addLFAttemptData(this);

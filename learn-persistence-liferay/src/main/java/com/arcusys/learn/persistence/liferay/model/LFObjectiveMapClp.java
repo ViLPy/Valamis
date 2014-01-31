@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveMapLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,26 +41,32 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
     public LFObjectiveMapClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFObjectiveMap.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFObjectiveMap.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -195,132 +203,376 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getObjectiveID() {
         return _objectiveID;
     }
 
+    @Override
     public void setObjectiveID(Integer objectiveID) {
         _objectiveID = objectiveID;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setObjectiveID", Integer.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, objectiveID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadSatisfiedStatusFrom() {
         return _readSatisfiedStatusFrom;
     }
 
+    @Override
     public void setReadSatisfiedStatusFrom(String readSatisfiedStatusFrom) {
         _readSatisfiedStatusFrom = readSatisfiedStatusFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadSatisfiedStatusFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    readSatisfiedStatusFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadNormalizedMeasureFrom() {
         return _readNormalizedMeasureFrom;
     }
 
+    @Override
     public void setReadNormalizedMeasureFrom(String readNormalizedMeasureFrom) {
         _readNormalizedMeasureFrom = readNormalizedMeasureFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadNormalizedMeasureFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    readNormalizedMeasureFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteSatisfiedStatusTo() {
         return _writeSatisfiedStatusTo;
     }
 
+    @Override
     public void setWriteSatisfiedStatusTo(String writeSatisfiedStatusTo) {
         _writeSatisfiedStatusTo = writeSatisfiedStatusTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteSatisfiedStatusTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, writeSatisfiedStatusTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteNormalizedMeasureTo() {
         return _writeNormalizedMeasureTo;
     }
 
+    @Override
     public void setWriteNormalizedMeasureTo(String writeNormalizedMeasureTo) {
         _writeNormalizedMeasureTo = writeNormalizedMeasureTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteNormalizedMeasureTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    writeNormalizedMeasureTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadRawScoreFrom() {
         return _readRawScoreFrom;
     }
 
+    @Override
     public void setReadRawScoreFrom(String readRawScoreFrom) {
         _readRawScoreFrom = readRawScoreFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadRawScoreFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, readRawScoreFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadMinScoreFrom() {
         return _readMinScoreFrom;
     }
 
+    @Override
     public void setReadMinScoreFrom(String readMinScoreFrom) {
         _readMinScoreFrom = readMinScoreFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadMinScoreFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, readMinScoreFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadMaxScoreFrom() {
         return _readMaxScoreFrom;
     }
 
+    @Override
     public void setReadMaxScoreFrom(String readMaxScoreFrom) {
         _readMaxScoreFrom = readMaxScoreFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadMaxScoreFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, readMaxScoreFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadCompletionStatusFrom() {
         return _readCompletionStatusFrom;
     }
 
+    @Override
     public void setReadCompletionStatusFrom(String readCompletionStatusFrom) {
         _readCompletionStatusFrom = readCompletionStatusFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadCompletionStatusFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    readCompletionStatusFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getReadProgressMeasureFrom() {
         return _readProgressMeasureFrom;
     }
 
+    @Override
     public void setReadProgressMeasureFrom(String readProgressMeasureFrom) {
         _readProgressMeasureFrom = readProgressMeasureFrom;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setReadProgressMeasureFrom",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    readProgressMeasureFrom);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteRawScoreTo() {
         return _writeRawScoreTo;
     }
 
+    @Override
     public void setWriteRawScoreTo(String writeRawScoreTo) {
         _writeRawScoreTo = writeRawScoreTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteRawScoreTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, writeRawScoreTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteMinScoreTo() {
         return _writeMinScoreTo;
     }
 
+    @Override
     public void setWriteMinScoreTo(String writeMinScoreTo) {
         _writeMinScoreTo = writeMinScoreTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteMinScoreTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, writeMinScoreTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteMaxScoreTo() {
         return _writeMaxScoreTo;
     }
 
+    @Override
     public void setWriteMaxScoreTo(String writeMaxScoreTo) {
         _writeMaxScoreTo = writeMaxScoreTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteMaxScoreTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, writeMaxScoreTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteCompletionStatusTo() {
         return _writeCompletionStatusTo;
     }
 
+    @Override
     public void setWriteCompletionStatusTo(String writeCompletionStatusTo) {
         _writeCompletionStatusTo = writeCompletionStatusTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteCompletionStatusTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel,
+                    writeCompletionStatusTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getWriteProgressMeasureTo() {
         return _writeProgressMeasureTo;
     }
 
+    @Override
     public void setWriteProgressMeasureTo(String writeProgressMeasureTo) {
         _writeProgressMeasureTo = writeProgressMeasureTo;
+
+        if (_lfObjectiveMapRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfObjectiveMapRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWriteProgressMeasureTo",
+                        String.class);
+
+                method.invoke(_lfObjectiveMapRemoteModel, writeProgressMeasureTo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFObjectiveMapRemoteModel() {
@@ -332,6 +584,47 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
         _lfObjectiveMapRemoteModel = lfObjectiveMapRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfObjectiveMapRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfObjectiveMapRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFObjectiveMapLocalServiceUtil.addLFObjectiveMap(this);
@@ -342,7 +635,7 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
 
     @Override
     public LFObjectiveMap toEscapedModel() {
-        return (LFObjectiveMap) Proxy.newProxyInstance(LFObjectiveMap.class.getClassLoader(),
+        return (LFObjectiveMap) ProxyUtil.newProxyInstance(LFObjectiveMap.class.getClassLoader(),
             new Class[] { LFObjectiveMap.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -371,6 +664,7 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
         return clone;
     }
 
+    @Override
     public int compareTo(LFObjectiveMap lfObjectiveMap) {
         long primaryKey = lfObjectiveMap.getPrimaryKey();
 
@@ -385,17 +679,15 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFObjectiveMapClp)) {
             return false;
         }
 
-        LFObjectiveMapClp lfObjectiveMap = null;
-
-        try {
-            lfObjectiveMap = (LFObjectiveMapClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFObjectiveMapClp lfObjectiveMap = (LFObjectiveMapClp) obj;
 
         long primaryKey = lfObjectiveMap.getPrimaryKey();
 
@@ -452,6 +744,7 @@ public class LFObjectiveMapClp extends BaseModelImpl<LFObjectiveMap>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(52);
 

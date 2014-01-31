@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFQuizException;
 import com.arcusys.learn.persistence.liferay.model.LFQuiz;
 import com.arcusys.learn.persistence.liferay.model.impl.LFQuizImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -82,15 +23,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -98,6 +38,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f quiz service.
@@ -123,14 +64,23 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizModelImpl.FINDER_CACHE_ENABLED, LFQuizImpl.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizModelImpl.FINDER_CACHE_ENABLED, LFQuizImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
             LFQuizModelImpl.FINDER_CACHE_ENABLED, LFQuizImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCourseId",
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID =
         new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
@@ -147,32 +97,26 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
             LFQuizModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByCourseId",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizModelImpl.FINDER_CACHE_ENABLED, LFQuizImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizModelImpl.FINDER_CACHE_ENABLED, LFQuizImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL = "lfQuiz.courseID IS NULL";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_2 = "lfQuiz.courseID = ?";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL_2 = "lfQuiz.courseID IS NULL ";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_COURSEID_COURSEID_2) + ")";
+    private static final String _FINDER_COLUMN_COURSEID_COURSEID_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_COURSEID_COURSEID_NULL_2) + ")";
     private static final String _SQL_SELECT_LFQUIZ = "SELECT lfQuiz FROM LFQuiz lfQuiz";
     private static final String _SQL_SELECT_LFQUIZ_WHERE = "SELECT lfQuiz FROM LFQuiz lfQuiz WHERE ";
     private static final String _SQL_COUNT_LFQUIZ = "SELECT COUNT(lfQuiz) FROM LFQuiz lfQuiz";
     private static final String _SQL_COUNT_LFQUIZ_WHERE = "SELECT COUNT(lfQuiz) FROM LFQuiz lfQuiz WHERE ";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL = "lfQuiz.courseID IS NULL";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_NULL_2 = "lfQuiz.courseID IS NULL ";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_2 = "lfQuiz.courseID = ?";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_5_NULL = "(" +
-        _removeConjunction(_FINDER_COLUMN_COURSEID_COURSEID_NULL_2) + ")";
-    private static final String _FINDER_COLUMN_COURSEID_COURSEID_5 = "(" +
-        _removeConjunction(_FINDER_COLUMN_COURSEID_COURSEID_2) + ")";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfQuiz.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFQuiz exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFQuiz exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFQuizPersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id"
+            });
     private static LFQuiz _nullLFQuiz = new LFQuizImpl() {
             @Override
             public Object clone() {
@@ -186,463 +130,14 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
         };
 
     private static CacheModel<LFQuiz> _nullLFQuizCacheModel = new CacheModel<LFQuiz>() {
+            @Override
             public LFQuiz toEntityModel() {
                 return _nullLFQuiz;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f quiz in the entity cache if it is enabled.
-     *
-     * @param lfQuiz the l f quiz
-     */
-    public void cacheResult(LFQuiz lfQuiz) {
-        EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizImpl.class, lfQuiz.getPrimaryKey(), lfQuiz);
-
-        lfQuiz.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f quizs in the entity cache if it is enabled.
-     *
-     * @param lfQuizs the l f quizs
-     */
-    public void cacheResult(List<LFQuiz> lfQuizs) {
-        for (LFQuiz lfQuiz : lfQuizs) {
-            if (EntityCacheUtil.getResult(
-                        LFQuizModelImpl.ENTITY_CACHE_ENABLED, LFQuizImpl.class,
-                        lfQuiz.getPrimaryKey()) == null) {
-                cacheResult(lfQuiz);
-            } else {
-                lfQuiz.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f quizs.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFQuizImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFQuizImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f quiz.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFQuiz lfQuiz) {
-        EntityCacheUtil.removeResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizImpl.class, lfQuiz.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    @Override
-    public void clearCache(List<LFQuiz> lfQuizs) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFQuiz lfQuiz : lfQuizs) {
-            EntityCacheUtil.removeResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-                LFQuizImpl.class, lfQuiz.getPrimaryKey());
-        }
-    }
-
-    /**
-     * Creates a new l f quiz with the primary key. Does not add the l f quiz to the database.
-     *
-     * @param id the primary key for the new l f quiz
-     * @return the new l f quiz
-     */
-    public LFQuiz create(long id) {
-        LFQuiz lfQuiz = new LFQuizImpl();
-
-        lfQuiz.setNew(true);
-        lfQuiz.setPrimaryKey(id);
-
-        return lfQuiz;
-    }
-
-    /**
-     * Removes the l f quiz with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param id the primary key of the l f quiz
-     * @return the l f quiz that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFQuiz remove(long id) throws NoSuchLFQuizException, SystemException {
-        return remove(Long.valueOf(id));
-    }
-
-    /**
-     * Removes the l f quiz with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f quiz
-     * @return the l f quiz that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFQuiz remove(Serializable primaryKey)
-        throws NoSuchLFQuizException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFQuiz lfQuiz = (LFQuiz) session.get(LFQuizImpl.class, primaryKey);
-
-            if (lfQuiz == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFQuizException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfQuiz);
-        } catch (NoSuchLFQuizException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFQuiz removeImpl(LFQuiz lfQuiz) throws SystemException {
-        lfQuiz = toUnwrappedModel(lfQuiz);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfQuiz);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfQuiz);
-
-        return lfQuiz;
-    }
-
-    @Override
-    public LFQuiz updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz, boolean merge)
-        throws SystemException {
-        lfQuiz = toUnwrappedModel(lfQuiz);
-
-        boolean isNew = lfQuiz.isNew();
-
-        LFQuizModelImpl lfQuizModelImpl = (LFQuizModelImpl) lfQuiz;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfQuiz, merge);
-
-            lfQuiz.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFQuizModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfQuizModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfQuizModelImpl.getOriginalCourseID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
-                    args);
-
-                args = new Object[] { /* Integer.valueOf( */
-                        lfQuizModelImpl.getCourseID()/* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-            LFQuizImpl.class, lfQuiz.getPrimaryKey(), lfQuiz);
-
-        return lfQuiz;
-    }
-
-    protected LFQuiz toUnwrappedModel(LFQuiz lfQuiz) {
-        if (lfQuiz instanceof LFQuizImpl) {
-            return lfQuiz;
-        }
-
-        LFQuizImpl lfQuizImpl = new LFQuizImpl();
-
-        lfQuizImpl.setNew(lfQuiz.isNew());
-        lfQuizImpl.setPrimaryKey(lfQuiz.getPrimaryKey());
-
-        lfQuizImpl.setId(lfQuiz.getId());
-        lfQuizImpl.setTitle(lfQuiz.getTitle());
-        lfQuizImpl.setDescription(lfQuiz.getDescription());
-        lfQuizImpl.setWelcomePageContent(lfQuiz.getWelcomePageContent());
-        lfQuizImpl.setFinalPageContent(lfQuiz.getFinalPageContent());
-        lfQuizImpl.setCourseID(lfQuiz.getCourseID());
-
-        return lfQuizImpl;
-    }
-
-    /**
-     * Returns the l f quiz with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f quiz
-     * @return the l f quiz
-     * @throws com.liferay.portal.NoSuchModelException if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFQuiz findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f quiz with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuizException} if it could not be found.
-     *
-     * @param id the primary key of the l f quiz
-     * @return the l f quiz
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFQuiz findByPrimaryKey(long id)
-        throws NoSuchLFQuizException, SystemException {
-        LFQuiz lfQuiz = fetchByPrimaryKey(id);
-
-        if (lfQuiz == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFQuizException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfQuiz;
-    }
-
-    /**
-     * Returns the l f quiz with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f quiz
-     * @return the l f quiz, or <code>null</code> if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFQuiz fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f quiz with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param id the primary key of the l f quiz
-     * @return the l f quiz, or <code>null</code> if a l f quiz with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFQuiz fetchByPrimaryKey(long id) throws SystemException {
-        LFQuiz lfQuiz = (LFQuiz) EntityCacheUtil.getResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-                LFQuizImpl.class, id);
-
-        if (lfQuiz == _nullLFQuiz) {
-            return null;
-        }
-
-        if (lfQuiz == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfQuiz = (LFQuiz) session.get(LFQuizImpl.class, Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfQuiz != null) {
-                    cacheResult(lfQuiz);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
-                        LFQuizImpl.class, id, _nullLFQuiz);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfQuiz;
+    public LFQuizPersistenceImpl() {
+        setModelClass(LFQuiz.class);
     }
 
     /**
@@ -652,6 +147,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer courseID)
         throws SystemException {
         return findByCourseId(courseID, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -662,7 +158,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * Returns a range of all the l f quizs where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -671,6 +167,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the range of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer courseID, int start, int end)
         throws SystemException {
         return findByCourseId(courseID, start, end, null);
@@ -680,7 +177,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * Returns an ordered range of all the l f quizs where courseID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseID the course i d
@@ -690,13 +187,16 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the ordered range of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer courseID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID;
             finderArgs = new Object[] { courseID };
         } else {
@@ -724,7 +224,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFQUIZ_WHERE);
@@ -738,6 +238,9 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFQuizModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -755,18 +258,26 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                     qPos.add(courseID.intValue());
                 }
 
-                list = (List<LFQuiz>) QueryUtil.list(q, getDialect(), start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFQuiz>(list);
+                } else {
+                    list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
+                            start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -783,6 +294,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a matching l f quiz could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFQuiz findByCourseId_First(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFQuizException, SystemException {
@@ -812,6 +324,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the first matching l f quiz, or <code>null</code> if a matching l f quiz could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFQuiz fetchByCourseId_First(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFQuiz> list = findByCourseId(courseID, 0, 1, orderByComparator);
@@ -832,6 +345,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a matching l f quiz could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFQuiz findByCourseId_Last(Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFQuizException, SystemException {
@@ -861,9 +375,14 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the last matching l f quiz, or <code>null</code> if a matching l f quiz could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFQuiz fetchByCourseId_Last(Integer courseID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByCourseId(courseID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFQuiz> list = findByCourseId(courseID, count - 1, count,
                 orderByComparator);
@@ -885,6 +404,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFQuiz[] findByCourseId_PrevAndNext(long id, Integer courseID,
         OrderByComparator orderByComparator)
         throws NoSuchLFQuizException, SystemException {
@@ -980,6 +500,8 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                     }
                 }
             }
+        } else {
+            query.append(LFQuizModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1016,13 +538,14 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * Returns all the l f quizs where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
      * @return the matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer[] courseIDs)
         throws SystemException {
         return findByCourseId(courseIDs, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
@@ -1033,7 +556,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * Returns a range of all the l f quizs where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
@@ -1042,6 +565,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the range of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer[] courseIDs, int start, int end)
         throws SystemException {
         return findByCourseId(courseIDs, start, end, null);
@@ -1051,7 +575,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * Returns an ordered range of all the l f quizs where courseID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param courseIDs the course i ds
@@ -1061,13 +585,19 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the ordered range of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFQuiz> findByCourseId(Integer[] courseIDs, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID;
+        if ((courseIDs != null) && (courseIDs.length == 1)) {
+            return findByCourseId(courseIDs[0], start, end, orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] { StringUtil.merge(courseIDs) };
         } else {
             finderArgs = new Object[] {
@@ -1077,7 +607,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                 };
         }
 
-        List<LFQuiz> list = (List<LFQuiz>) FinderCacheUtil.getResult(finderPath,
+        List<LFQuiz> list = (List<LFQuiz>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -1124,6 +654,9 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFQuizModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1145,126 +678,28 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                     }
                 }
 
-                list = (List<LFQuiz>) QueryUtil.list(q, getDialect(), start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Returns all the l f quizs.
-     *
-     * @return the l f quizs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFQuiz> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f quizs.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f quizs
-     * @param end the upper bound of the range of l f quizs (not inclusive)
-     * @return the range of l f quizs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFQuiz> findAll(int start, int end) throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f quizs.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f quizs
-     * @param end the upper bound of the range of l f quizs (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f quizs
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFQuiz> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFQuiz> list = (List<LFQuiz>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFQUIZ);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFQUIZ;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
                             start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFQuiz>(list);
                 } else {
                     list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
                             start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID,
+                    finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_COURSEID,
+                    finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
@@ -1278,19 +713,10 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @param courseID the course i d
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeByCourseId(Integer courseID) throws SystemException {
-        for (LFQuiz lfQuiz : findByCourseId(courseID)) {
-            remove(lfQuiz);
-        }
-    }
-
-    /**
-     * Removes all the l f quizs from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFQuiz lfQuiz : findAll()) {
+        for (LFQuiz lfQuiz : findByCourseId(courseID, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
             remove(lfQuiz);
         }
     }
@@ -1302,11 +728,14 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the number of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByCourseId(Integer courseID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_COURSEID;
+
         Object[] finderArgs = new Object[] { courseID };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_COURSEID,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -1335,16 +764,13 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_COURSEID,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -1359,6 +785,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
      * @return the number of matching l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByCourseId(Integer[] courseIDs) throws SystemException {
         Object[] finderArgs = new Object[] { StringUtil.merge(courseIDs) };
 
@@ -1416,16 +843,15 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                 }
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_COURSEID,
                     finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_COURSEID,
+                    finderArgs);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1434,11 +860,488 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
     }
 
     /**
+     * Caches the l f quiz in the entity cache if it is enabled.
+     *
+     * @param lfQuiz the l f quiz
+     */
+    @Override
+    public void cacheResult(LFQuiz lfQuiz) {
+        EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizImpl.class, lfQuiz.getPrimaryKey(), lfQuiz);
+
+        lfQuiz.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f quizs in the entity cache if it is enabled.
+     *
+     * @param lfQuizs the l f quizs
+     */
+    @Override
+    public void cacheResult(List<LFQuiz> lfQuizs) {
+        for (LFQuiz lfQuiz : lfQuizs) {
+            if (EntityCacheUtil.getResult(
+                        LFQuizModelImpl.ENTITY_CACHE_ENABLED, LFQuizImpl.class,
+                        lfQuiz.getPrimaryKey()) == null) {
+                cacheResult(lfQuiz);
+            } else {
+                lfQuiz.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f quizs.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFQuizImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFQuizImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f quiz.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFQuiz lfQuiz) {
+        EntityCacheUtil.removeResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizImpl.class, lfQuiz.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    @Override
+    public void clearCache(List<LFQuiz> lfQuizs) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFQuiz lfQuiz : lfQuizs) {
+            EntityCacheUtil.removeResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+                LFQuizImpl.class, lfQuiz.getPrimaryKey());
+        }
+    }
+
+    /**
+     * Creates a new l f quiz with the primary key. Does not add the l f quiz to the database.
+     *
+     * @param id the primary key for the new l f quiz
+     * @return the new l f quiz
+     */
+    @Override
+    public LFQuiz create(long id) {
+        LFQuiz lfQuiz = new LFQuizImpl();
+
+        lfQuiz.setNew(true);
+        lfQuiz.setPrimaryKey(id);
+
+        return lfQuiz;
+    }
+
+    /**
+     * Removes the l f quiz with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param id the primary key of the l f quiz
+     * @return the l f quiz that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz remove(long id) throws NoSuchLFQuizException, SystemException {
+        return remove((Serializable) id);
+    }
+
+    /**
+     * Removes the l f quiz with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f quiz
+     * @return the l f quiz that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz remove(Serializable primaryKey)
+        throws NoSuchLFQuizException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFQuiz lfQuiz = (LFQuiz) session.get(LFQuizImpl.class, primaryKey);
+
+            if (lfQuiz == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFQuizException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfQuiz);
+        } catch (NoSuchLFQuizException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFQuiz removeImpl(LFQuiz lfQuiz) throws SystemException {
+        lfQuiz = toUnwrappedModel(lfQuiz);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfQuiz)) {
+                lfQuiz = (LFQuiz) session.get(LFQuizImpl.class,
+                        lfQuiz.getPrimaryKeyObj());
+            }
+
+            if (lfQuiz != null) {
+                session.delete(lfQuiz);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfQuiz != null) {
+            clearCache(lfQuiz);
+        }
+
+        return lfQuiz;
+    }
+
+    @Override
+    public LFQuiz updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFQuiz lfQuiz)
+        throws SystemException {
+        lfQuiz = toUnwrappedModel(lfQuiz);
+
+        boolean isNew = lfQuiz.isNew();
+
+        LFQuizModelImpl lfQuizModelImpl = (LFQuizModelImpl) lfQuiz;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfQuiz.isNew()) {
+                session.save(lfQuiz);
+
+                lfQuiz.setNew(false);
+            } else {
+                session.merge(lfQuiz);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFQuizModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfQuizModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfQuizModelImpl.getOriginalCourseID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
+                    args);
+
+                args = new Object[] { lfQuizModelImpl.getCourseID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COURSEID, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COURSEID,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+            LFQuizImpl.class, lfQuiz.getPrimaryKey(), lfQuiz);
+
+        return lfQuiz;
+    }
+
+    protected LFQuiz toUnwrappedModel(LFQuiz lfQuiz) {
+        if (lfQuiz instanceof LFQuizImpl) {
+            return lfQuiz;
+        }
+
+        LFQuizImpl lfQuizImpl = new LFQuizImpl();
+
+        lfQuizImpl.setNew(lfQuiz.isNew());
+        lfQuizImpl.setPrimaryKey(lfQuiz.getPrimaryKey());
+
+        lfQuizImpl.setId(lfQuiz.getId());
+        lfQuizImpl.setTitle(lfQuiz.getTitle());
+        lfQuizImpl.setDescription(lfQuiz.getDescription());
+        lfQuizImpl.setWelcomePageContent(lfQuiz.getWelcomePageContent());
+        lfQuizImpl.setFinalPageContent(lfQuiz.getFinalPageContent());
+        lfQuizImpl.setCourseID(lfQuiz.getCourseID());
+
+        return lfQuizImpl;
+    }
+
+    /**
+     * Returns the l f quiz with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f quiz
+     * @return the l f quiz
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFQuizException, SystemException {
+        LFQuiz lfQuiz = fetchByPrimaryKey(primaryKey);
+
+        if (lfQuiz == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFQuizException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfQuiz;
+    }
+
+    /**
+     * Returns the l f quiz with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFQuizException} if it could not be found.
+     *
+     * @param id the primary key of the l f quiz
+     * @return the l f quiz
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizException if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz findByPrimaryKey(long id)
+        throws NoSuchLFQuizException, SystemException {
+        return findByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns the l f quiz with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f quiz
+     * @return the l f quiz, or <code>null</code> if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFQuiz lfQuiz = (LFQuiz) EntityCacheUtil.getResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+                LFQuizImpl.class, primaryKey);
+
+        if (lfQuiz == _nullLFQuiz) {
+            return null;
+        }
+
+        if (lfQuiz == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfQuiz = (LFQuiz) session.get(LFQuizImpl.class, primaryKey);
+
+                if (lfQuiz != null) {
+                    cacheResult(lfQuiz);
+                } else {
+                    EntityCacheUtil.putResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+                        LFQuizImpl.class, primaryKey, _nullLFQuiz);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFQuizModelImpl.ENTITY_CACHE_ENABLED,
+                    LFQuizImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfQuiz;
+    }
+
+    /**
+     * Returns the l f quiz with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param id the primary key of the l f quiz
+     * @return the l f quiz, or <code>null</code> if a l f quiz with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFQuiz fetchByPrimaryKey(long id) throws SystemException {
+        return fetchByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns all the l f quizs.
+     *
+     * @return the l f quizs
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFQuiz> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f quizs.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f quizs
+     * @param end the upper bound of the range of l f quizs (not inclusive)
+     * @return the range of l f quizs
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFQuiz> findAll(int start, int end) throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f quizs.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f quizs
+     * @param end the upper bound of the range of l f quizs (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f quizs
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFQuiz> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFQuiz> list = (List<LFQuiz>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFQUIZ);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFQUIZ;
+
+                if (pagination) {
+                    sql = sql.concat(LFQuizModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFQuiz>(list);
+                } else {
+                    list = (List<LFQuiz>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f quizs from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFQuiz lfQuiz : findAll()) {
+            remove(lfQuiz);
+        }
+    }
+
+    /**
      * Returns the number of l f quizs.
      *
      * @return the number of l f quizs
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -1452,21 +1355,25 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
                 Query q = session.createQuery(_SQL_COUNT_LFQUIZ);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -1483,7 +1390,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFQuiz>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -1496,6 +1403,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
     public void destroy() {
         EntityCacheUtil.removeCache(LFQuizImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 

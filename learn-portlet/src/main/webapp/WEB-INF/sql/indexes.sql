@@ -1,3 +1,10 @@
+create index IX_AB18E1CB on Learn_LFAchievementActivity (achievementId);
+create index IX_B6E1B269 on Learn_LFAchievementActivity (userId);
+create index IX_C8B74D51 on Learn_LFAchievementActivity (userId, achievementId);
+
+create index IX_6FE43B8F on Learn_LFAchievementUser (achievementId);
+create index IX_723A0D25 on Learn_LFAchievementUser (userId);
+
 create index IX_EF6F46A7 on Learn_LFActivity (packageID);
 create index IX_64BC258D on Learn_LFActivity (packageID, id_);
 create index IX_A1B5A429 on Learn_LFActivity (packageID, organizationID);
@@ -86,6 +93,8 @@ create index IX_EB6662E7 on Learn_LFQuizQuestion (quizId, categoryId);
 
 create index IX_B1D50698 on Learn_LFQuizQuestionCategory (quizId);
 create index IX_43EB0DB1 on Learn_LFQuizQuestionCategory (quizId, parentId);
+
+create index IX_BEED6D51 on Learn_LFRequiredActivity (achievementId);
 
 create index IX_632D4C08 on Learn_LFResource (packageID);
 create index IX_C88C6DE5 on Learn_LFResource (packageID, resourceID);

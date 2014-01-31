@@ -24,6 +24,7 @@ public abstract class LFTincanLrsContextBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs context model instance should use the {@link LFTincanLrsContext} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsContextLocalServiceUtil.addLFTincanLrsContext(this);

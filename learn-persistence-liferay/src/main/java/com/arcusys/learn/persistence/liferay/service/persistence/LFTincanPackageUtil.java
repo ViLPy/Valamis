@@ -49,7 +49,7 @@ public class LFTincanPackageUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFTincanPackageUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFTincanPackage update(LFTincanPackage lfTincanPackage)
+        throws SystemException {
+        return getPersistence().update(lfTincanPackage);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanPackage update(LFTincanPackage lfTincanPackage,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfTincanPackage, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFTincanPackage update(LFTincanPackage lfTincanPackage,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfTincanPackage, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f tincan package in the entity cache if it is enabled.
-    *
-    * @param lfTincanPackage the l f tincan package
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFTincanPackage lfTincanPackage) {
-        getPersistence().cacheResult(lfTincanPackage);
-    }
-
-    /**
-    * Caches the l f tincan packages in the entity cache if it is enabled.
-    *
-    * @param lfTincanPackages the l f tincan packages
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> lfTincanPackages) {
-        getPersistence().cacheResult(lfTincanPackages);
-    }
-
-    /**
-    * Creates a new l f tincan package with the primary key. Does not add the l f tincan package to the database.
-    *
-    * @param id the primary key for the new l f tincan package
-    * @return the new l f tincan package
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f tincan package with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f tincan package
-    * @return the l f tincan package that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException if a l f tincan package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanPackage lfTincanPackage,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanPackage, merge);
-    }
-
-    /**
-    * Returns the l f tincan package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException} if it could not be found.
-    *
-    * @param id the primary key of the l f tincan package
-    * @return the l f tincan package
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException if a l f tincan package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f tincan package with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f tincan package
-    * @return the l f tincan package, or <code>null</code> if a l f tincan package with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfTincanPackage, serviceContext);
     }
 
     /**
@@ -221,6 +141,32 @@ public class LFTincanPackageUtil {
     }
 
     /**
+    * Removes the l f tincan package where assetRefID = &#63; from the database.
+    *
+    * @param assetRefID the asset ref i d
+    * @return the l f tincan package that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage removeByRefID(
+        java.lang.Long assetRefID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().removeByRefID(assetRefID);
+    }
+
+    /**
+    * Returns the number of l f tincan packages where assetRefID = &#63;.
+    *
+    * @param assetRefID the asset ref i d
+    * @return the number of matching l f tincan packages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByRefID(java.lang.Long assetRefID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByRefID(assetRefID);
+    }
+
+    /**
     * Returns all the l f tincan packages where courseID = &#63;.
     *
     * @param courseID the course i d
@@ -237,7 +183,7 @@ public class LFTincanPackageUtil {
     * Returns a range of all the l f tincan packages where courseID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseID the course i d
@@ -256,7 +202,7 @@ public class LFTincanPackageUtil {
     * Returns an ordered range of all the l f tincan packages where courseID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseID the course i d
@@ -362,7 +308,7 @@ public class LFTincanPackageUtil {
     * Returns all the l f tincan packages where courseID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIDs the course i ds
@@ -379,7 +325,7 @@ public class LFTincanPackageUtil {
     * Returns a range of all the l f tincan packages where courseID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIDs the course i ds
@@ -398,7 +344,7 @@ public class LFTincanPackageUtil {
     * Returns an ordered range of all the l f tincan packages where courseID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseIDs the course i ds
@@ -414,6 +360,41 @@ public class LFTincanPackageUtil {
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
                    .findByInstance(courseIDs, start, end, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f tincan packages where courseID = &#63; from the database.
+    *
+    * @param courseID the course i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByInstance(java.lang.Integer courseID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByInstance(courseID);
+    }
+
+    /**
+    * Returns the number of l f tincan packages where courseID = &#63;.
+    *
+    * @param courseID the course i d
+    * @return the number of matching l f tincan packages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByInstance(java.lang.Integer courseID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByInstance(courseID);
+    }
+
+    /**
+    * Returns the number of l f tincan packages where courseID = any &#63;.
+    *
+    * @param courseIDs the course i ds
+    * @return the number of matching l f tincan packages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByInstance(java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByInstance(courseIDs);
     }
 
     /**
@@ -433,7 +414,7 @@ public class LFTincanPackageUtil {
     * Returns a range of all the l f tincan packages where courseID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseID the course i d
@@ -452,7 +433,7 @@ public class LFTincanPackageUtil {
     * Returns an ordered range of all the l f tincan packages where courseID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param courseID the course i d
@@ -555,6 +536,108 @@ public class LFTincanPackageUtil {
     }
 
     /**
+    * Removes all the l f tincan packages where courseID = &#63; from the database.
+    *
+    * @param courseID the course i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByCourseID(java.lang.Integer courseID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByCourseID(courseID);
+    }
+
+    /**
+    * Returns the number of l f tincan packages where courseID = &#63;.
+    *
+    * @param courseID the course i d
+    * @return the number of matching l f tincan packages
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCourseID(java.lang.Integer courseID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByCourseID(courseID);
+    }
+
+    /**
+    * Caches the l f tincan package in the entity cache if it is enabled.
+    *
+    * @param lfTincanPackage the l f tincan package
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFTincanPackage lfTincanPackage) {
+        getPersistence().cacheResult(lfTincanPackage);
+    }
+
+    /**
+    * Caches the l f tincan packages in the entity cache if it is enabled.
+    *
+    * @param lfTincanPackages the l f tincan packages
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> lfTincanPackages) {
+        getPersistence().cacheResult(lfTincanPackages);
+    }
+
+    /**
+    * Creates a new l f tincan package with the primary key. Does not add the l f tincan package to the database.
+    *
+    * @param id the primary key for the new l f tincan package
+    * @return the new l f tincan package
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f tincan package with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f tincan package
+    * @return the l f tincan package that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException if a l f tincan package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFTincanPackage lfTincanPackage)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfTincanPackage);
+    }
+
+    /**
+    * Returns the l f tincan package with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException} if it could not be found.
+    *
+    * @param id the primary key of the l f tincan package
+    * @return the l f tincan package
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException if a l f tincan package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f tincan package with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f tincan package
+    * @return the l f tincan package, or <code>null</code> if a l f tincan package with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f tincan packages.
     *
     * @return the l f tincan packages
@@ -569,7 +652,7 @@ public class LFTincanPackageUtil {
     * Returns a range of all the l f tincan packages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan packages
@@ -587,7 +670,7 @@ public class LFTincanPackageUtil {
     * Returns an ordered range of all the l f tincan packages.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan packages
@@ -604,42 +687,6 @@ public class LFTincanPackageUtil {
     }
 
     /**
-    * Removes the l f tincan package where assetRefID = &#63; from the database.
-    *
-    * @param assetRefID the asset ref i d
-    * @return the l f tincan package that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFTincanPackage removeByRefID(
-        java.lang.Long assetRefID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().removeByRefID(assetRefID);
-    }
-
-    /**
-    * Removes all the l f tincan packages where courseID = &#63; from the database.
-    *
-    * @param courseID the course i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByInstance(java.lang.Integer courseID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByInstance(courseID);
-    }
-
-    /**
-    * Removes all the l f tincan packages where courseID = &#63; from the database.
-    *
-    * @param courseID the course i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByCourseID(java.lang.Integer courseID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByCourseID(courseID);
-    }
-
-    /**
     * Removes all the l f tincan packages from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -647,54 +694,6 @@ public class LFTincanPackageUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f tincan packages where assetRefID = &#63;.
-    *
-    * @param assetRefID the asset ref i d
-    * @return the number of matching l f tincan packages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByRefID(java.lang.Long assetRefID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByRefID(assetRefID);
-    }
-
-    /**
-    * Returns the number of l f tincan packages where courseID = &#63;.
-    *
-    * @param courseID the course i d
-    * @return the number of matching l f tincan packages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByInstance(java.lang.Integer courseID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByInstance(courseID);
-    }
-
-    /**
-    * Returns the number of l f tincan packages where courseID = any &#63;.
-    *
-    * @param courseIDs the course i ds
-    * @return the number of matching l f tincan packages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByInstance(java.lang.Integer[] courseIDs)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByInstance(courseIDs);
-    }
-
-    /**
-    * Returns the number of l f tincan packages where courseID = &#63;.
-    *
-    * @param courseID the course i d
-    * @return the number of matching l f tincan packages
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByCourseID(java.lang.Integer courseID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByCourseID(courseID);
     }
 
     /**
@@ -721,7 +720,7 @@ public class LFTincanPackageUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanPackagePersistence persistence) {
     }

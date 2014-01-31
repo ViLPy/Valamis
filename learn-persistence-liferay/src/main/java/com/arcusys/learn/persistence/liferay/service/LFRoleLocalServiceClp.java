@@ -2,7 +2,10 @@ package com.arcusys.learn.persistence.liferay.service;
 
 import com.liferay.portal.service.InvokableLocalService;
 
-
+/**
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
 public class LFRoleLocalServiceClp implements LFRoleLocalService {
     private InvokableLocalService _invokableLocalService;
     private String _methodName0;
@@ -106,36 +109,37 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
                 "com.liferay.portal.kernel.dao.orm.DynamicQuery"
             };
 
-        _methodName9 = "fetchLFRole";
+        _methodName9 = "dynamicQueryCount";
 
-        _methodParameterTypes9 = new String[] { "long" };
+        _methodParameterTypes9 = new String[] {
+                "com.liferay.portal.kernel.dao.orm.DynamicQuery",
+                "com.liferay.portal.kernel.dao.orm.Projection"
+            };
 
-        _methodName10 = "getLFRole";
+        _methodName10 = "fetchLFRole";
 
         _methodParameterTypes10 = new String[] { "long" };
 
-        _methodName11 = "getPersistedModel";
+        _methodName11 = "getLFRole";
 
-        _methodParameterTypes11 = new String[] { "java.io.Serializable" };
+        _methodParameterTypes11 = new String[] { "long" };
 
-        _methodName12 = "getLFRoles";
+        _methodName12 = "getPersistedModel";
 
-        _methodParameterTypes12 = new String[] { "int", "int" };
+        _methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-        _methodName13 = "getLFRolesCount";
+        _methodName13 = "getLFRoles";
 
-        _methodParameterTypes13 = new String[] {  };
+        _methodParameterTypes13 = new String[] { "int", "int" };
 
-        _methodName14 = "updateLFRole";
+        _methodName14 = "getLFRolesCount";
 
-        _methodParameterTypes14 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFRole"
-            };
+        _methodParameterTypes14 = new String[] {  };
 
         _methodName15 = "updateLFRole";
 
         _methodParameterTypes15 = new String[] {
-                "com.arcusys.learn.persistence.liferay.model.LFRole", "boolean"
+                "com.arcusys.learn.persistence.liferay.model.LFRole"
             };
 
         _methodName16 = "getBeanIdentifier";
@@ -177,6 +181,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         _methodParameterTypes24 = new String[] {  };
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole addLFRole(
         com.arcusys.learn.persistence.liferay.model.LFRole lfRole)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -204,6 +209,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole createLFRole(
         long id) {
         Object returnObj = null;
@@ -225,6 +231,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole deleteLFRole(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -256,6 +263,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole deleteLFRole(
         com.arcusys.learn.persistence.liferay.model.LFRole lfRole)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -283,6 +291,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         Object returnObj = null;
 
@@ -303,6 +312,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.liferay.portal.kernel.dao.orm.DynamicQuery) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -331,6 +341,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -365,6 +376,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -403,6 +415,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -430,13 +443,47 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return ((Long) returnObj).longValue();
     }
 
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName9,
+                    _methodParameterTypes9,
+                    new Object[] {
+                        ClpSerializer.translateInput(dynamicQuery),
+                        
+                    ClpSerializer.translateInput(projection)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Long) returnObj).longValue();
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole fetchLFRole(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName9,
-                    _methodParameterTypes9, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName10,
+                    _methodParameterTypes10, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -455,14 +502,15 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole getLFRole(long id)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+            returnObj = _invokableLocalService.invokeMethod(_methodName11,
+                    _methodParameterTypes11, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -485,6 +533,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -492,8 +541,8 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11,
+            returnObj = _invokableLocalService.invokeMethod(_methodName12,
+                    _methodParameterTypes12,
                     new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -517,14 +566,15 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.liferay.portal.model.PersistedModel) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> getLFRoles(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName12,
-                    _methodParameterTypes12, new Object[] { start, end });
+            returnObj = _invokableLocalService.invokeMethod(_methodName13,
+                    _methodParameterTypes13, new Object[] { start, end });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -543,13 +593,14 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public int getLFRolesCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName13,
-                    _methodParameterTypes13, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName14,
+                    _methodParameterTypes14, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -568,14 +619,15 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return ((Integer) returnObj).intValue();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole updateLFRole(
         com.arcusys.learn.persistence.liferay.model.LFRole lfRole)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName14,
-                    _methodParameterTypes14,
+            returnObj = _invokableLocalService.invokeMethod(_methodName15,
+                    _methodParameterTypes15,
                     new Object[] { ClpSerializer.translateInput(lfRole) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -595,33 +647,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
-    public com.arcusys.learn.persistence.liferay.model.LFRole updateLFRole(
-        com.arcusys.learn.persistence.liferay.model.LFRole lfRole, boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName15,
-                    _methodParameterTypes15,
-                    new Object[] { ClpSerializer.translateInput(lfRole), merge });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
-    }
-
+    @Override
     public java.lang.String getBeanIdentifier() {
         Object returnObj = null;
 
@@ -642,6 +668,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.lang.String) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         try {
             _invokableLocalService.invokeMethod(_methodName17,
@@ -659,12 +686,14 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         }
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFRole createLFRole()
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
@@ -690,6 +719,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (com.arcusys.learn.persistence.liferay.model.LFRole) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> findByPermission(
         java.lang.String permission)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -717,6 +747,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> findByRoleIDAndPermission(
         java.lang.Integer roleID, java.lang.String permission)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -748,6 +779,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole> findByDefaultAndPermission(
         java.lang.String permission, java.lang.Boolean isDefault)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -779,6 +811,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFRole>) ClpSerializer.translateOutput(returnObj);
     }
 
+    @Override
     public void removeByRoleIDAndPermission(java.lang.Integer liferayRoleID,
         java.lang.String permission)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -806,6 +839,7 @@ public class LFRoleLocalServiceClp implements LFRoleLocalService {
         }
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {

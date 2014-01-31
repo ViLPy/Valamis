@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFCertificateLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,26 +33,32 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
     public LFCertificateClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFCertificate.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFCertificate.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -122,68 +130,181 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfCertificateRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTitle", String.class);
+
+                method.invoke(_lfCertificateRemoteModel, title);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDescription() {
         return _description;
     }
 
+    @Override
     public void setDescription(String description) {
         _description = description;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDescription", String.class);
+
+                method.invoke(_lfCertificateRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getLogo() {
         return _logo;
     }
 
+    @Override
     public void setLogo(String logo) {
         _logo = logo;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLogo", String.class);
+
+                method.invoke(_lfCertificateRemoteModel, logo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getIsPermanent() {
         return _isPermanent;
     }
 
+    @Override
     public void setIsPermanent(Boolean isPermanent) {
         _isPermanent = isPermanent;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setIsPermanent", Boolean.class);
+
+                method.invoke(_lfCertificateRemoteModel, isPermanent);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Boolean getPublishBadge() {
         return _publishBadge;
     }
 
+    @Override
     public void setPublishBadge(Boolean publishBadge) {
         _publishBadge = publishBadge;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setPublishBadge", Boolean.class);
+
+                method.invoke(_lfCertificateRemoteModel, publishBadge);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getShortDescription() {
         return _shortDescription;
     }
 
+    @Override
     public void setShortDescription(String shortDescription) {
         _shortDescription = shortDescription;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setShortDescription",
+                        String.class);
+
+                method.invoke(_lfCertificateRemoteModel, shortDescription);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCompanyID() {
         return _companyID;
     }
 
+    @Override
     public void setCompanyID(Integer companyID) {
         _companyID = companyID;
+
+        if (_lfCertificateRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCompanyID", Integer.class);
+
+                method.invoke(_lfCertificateRemoteModel, companyID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFCertificateRemoteModel() {
@@ -195,6 +316,47 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         _lfCertificateRemoteModel = lfCertificateRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfCertificateRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfCertificateRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFCertificateLocalServiceUtil.addLFCertificate(this);
@@ -205,7 +367,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
     @Override
     public LFCertificate toEscapedModel() {
-        return (LFCertificate) Proxy.newProxyInstance(LFCertificate.class.getClassLoader(),
+        return (LFCertificate) ProxyUtil.newProxyInstance(LFCertificate.class.getClassLoader(),
             new Class[] { LFCertificate.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -225,6 +387,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         return clone;
     }
 
+    @Override
     public int compareTo(LFCertificate lfCertificate) {
         long primaryKey = lfCertificate.getPrimaryKey();
 
@@ -239,17 +402,15 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFCertificateClp)) {
             return false;
         }
 
-        LFCertificateClp lfCertificate = null;
-
-        try {
-            lfCertificate = (LFCertificateClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFCertificateClp lfCertificate = (LFCertificateClp) obj;
 
         long primaryKey = lfCertificate.getPrimaryKey();
 
@@ -290,6 +451,7 @@ public class LFCertificateClp extends BaseModelImpl<LFCertificate>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(28);
 

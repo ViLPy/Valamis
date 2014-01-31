@@ -24,6 +24,7 @@ public abstract class LFSequencingBaseImpl extends LFSequencingModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f sequencing model instance should use the {@link LFSequencing} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFSequencingLocalServiceUtil.addLFSequencing(this);

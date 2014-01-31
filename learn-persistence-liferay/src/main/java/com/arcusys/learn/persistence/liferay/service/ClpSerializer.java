@@ -1,5 +1,8 @@
 package com.arcusys.learn.persistence.liferay.service;
 
+import com.arcusys.learn.persistence.liferay.model.LFAchievementActivityClp;
+import com.arcusys.learn.persistence.liferay.model.LFAchievementClp;
+import com.arcusys.learn.persistence.liferay.model.LFAchievementUserClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityDataMapClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateClp;
@@ -31,6 +34,7 @@ import com.arcusys.learn.persistence.liferay.model.LFQuestionClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionClp;
+import com.arcusys.learn.persistence.liferay.model.LFRequiredActivityClp;
 import com.arcusys.learn.persistence.liferay.model.LFResourceClp;
 import com.arcusys.learn.persistence.liferay.model.LFRoleClp;
 import com.arcusys.learn.persistence.liferay.model.LFRollupContributionClp;
@@ -104,7 +108,7 @@ public class ClpSerializer {
                         new Class<?>[] { String.class });
 
                 String portletPropsServletContextName = (String) getMethod.invoke(null,
-                        "learn-servicebuilder-deployment-context");
+                        "learn-maven-plugin-deployment-context");
 
                 if (Validator.isNotNull(portletPropsServletContextName)) {
                     _servletContextName = portletPropsServletContextName;
@@ -119,7 +123,7 @@ public class ClpSerializer {
             if (Validator.isNull(_servletContextName)) {
                 try {
                     String propsUtilServletContextName = PropsUtil.get(
-                            "learn-servicebuilder-deployment-context");
+                            "learn-maven-plugin-deployment-context");
 
                     if (Validator.isNotNull(propsUtilServletContextName)) {
                         _servletContextName = propsUtilServletContextName;
@@ -133,7 +137,7 @@ public class ClpSerializer {
             }
 
             if (Validator.isNull(_servletContextName)) {
-                _servletContextName = "learn-servicebuilder";
+                _servletContextName = "learn-maven-plugin";
             }
 
             return _servletContextName;
@@ -144,6 +148,18 @@ public class ClpSerializer {
         Class<?> oldModelClass = oldModel.getClass();
 
         String oldModelClassName = oldModelClass.getName();
+
+        if (oldModelClassName.equals(LFAchievementClp.class.getName())) {
+            return translateInputLFAchievement(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFAchievementActivityClp.class.getName())) {
+            return translateInputLFAchievementActivity(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFAchievementUserClp.class.getName())) {
+            return translateInputLFAchievementUser(oldModel);
+        }
 
         if (oldModelClassName.equals(LFActivityClp.class.getName())) {
             return translateInputLFActivity(oldModel);
@@ -267,6 +283,10 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(LFQuizQuestionCategoryClp.class.getName())) {
             return translateInputLFQuizQuestionCategory(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFRequiredActivityClp.class.getName())) {
+            return translateInputLFRequiredActivity(oldModel);
         }
 
         if (oldModelClassName.equals(LFResourceClp.class.getName())) {
@@ -393,6 +413,37 @@ public class ClpSerializer {
         }
 
         return newList;
+    }
+
+    public static Object translateInputLFAchievement(BaseModel<?> oldModel) {
+        LFAchievementClp oldClpModel = (LFAchievementClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFAchievementRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFAchievementActivity(
+        BaseModel<?> oldModel) {
+        LFAchievementActivityClp oldClpModel = (LFAchievementActivityClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFAchievementActivityRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFAchievementUser(BaseModel<?> oldModel) {
+        LFAchievementUserClp oldClpModel = (LFAchievementUserClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFAchievementUserRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
     }
 
     public static Object translateInputLFActivity(BaseModel<?> oldModel) {
@@ -710,6 +761,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFRequiredActivity(BaseModel<?> oldModel) {
+        LFRequiredActivityClp oldClpModel = (LFRequiredActivityClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFRequiredActivityRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFResource(BaseModel<?> oldModel) {
         LFResourceClp oldClpModel = (LFResourceClp) oldModel;
 
@@ -1009,6 +1070,21 @@ public class ClpSerializer {
         String oldModelClassName = oldModelClass.getName();
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementImpl")) {
+            return translateOutputLFAchievement(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementActivityImpl")) {
+            return translateOutputLFAchievementActivity(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementUserImpl")) {
+            return translateOutputLFAchievementUser(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl")) {
             return translateOutputLFActivity(oldModel);
         }
@@ -1161,6 +1237,11 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl")) {
             return translateOutputLFQuizQuestionCategory(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityImpl")) {
+            return translateOutputLFRequiredActivity(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1375,6 +1456,21 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementActivityException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementActivityException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementUserException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementUserException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFActivityException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFActivityException();
         }
@@ -1530,6 +1626,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFRequiredActivityException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFRequiredActivityException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFResourceException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFResourceException();
         }
@@ -1665,6 +1766,37 @@ public class ClpSerializer {
         }
 
         return throwable;
+    }
+
+    public static Object translateOutputLFAchievement(BaseModel<?> oldModel) {
+        LFAchievementClp newModel = new LFAchievementClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFAchievementRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFAchievementActivity(
+        BaseModel<?> oldModel) {
+        LFAchievementActivityClp newModel = new LFAchievementActivityClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFAchievementActivityRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFAchievementUser(BaseModel<?> oldModel) {
+        LFAchievementUserClp newModel = new LFAchievementUserClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFAchievementUserRemoteModel(oldModel);
+
+        return newModel;
     }
 
     public static Object translateOutputLFActivity(BaseModel<?> oldModel) {
@@ -1980,6 +2112,17 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFQuizQuestionCategoryRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFRequiredActivity(
+        BaseModel<?> oldModel) {
+        LFRequiredActivityClp newModel = new LFRequiredActivityClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFRequiredActivityRemoteModel(oldModel);
 
         return newModel;
     }

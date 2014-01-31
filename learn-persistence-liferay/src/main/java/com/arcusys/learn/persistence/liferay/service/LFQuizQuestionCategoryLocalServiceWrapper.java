@@ -3,12 +3,10 @@ package com.arcusys.learn.persistence.liferay.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * <p>
- * This class is a wrapper for {@link LFQuizQuestionCategoryLocalService}.
- * </p>
+ * Provides a wrapper for {@link LFQuizQuestionCategoryLocalService}.
  *
- * @author    Brian Wing Shun Chan
- * @see       LFQuizQuestionCategoryLocalService
+ * @author Brian Wing Shun Chan
+ * @see LFQuizQuestionCategoryLocalService
  * @generated
  */
 public class LFQuizQuestionCategoryLocalServiceWrapper
@@ -28,6 +26,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the l f quiz question category that was added
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory addLFQuizQuestionCategory(
         com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory lfQuizQuestionCategory)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -40,6 +39,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @param id the primary key for the new l f quiz question category
     * @return the new l f quiz question category
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory createLFQuizQuestionCategory(
         long id) {
         return _lfQuizQuestionCategoryLocalService.createLFQuizQuestionCategory(id);
@@ -53,6 +53,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @throws PortalException if a l f quiz question category with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory deleteLFQuizQuestionCategory(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -67,12 +68,14 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the l f quiz question category that was removed
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory deleteLFQuizQuestionCategory(
         com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory lfQuizQuestionCategory)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.deleteLFQuizQuestionCategory(lfQuizQuestionCategory);
     }
 
+    @Override
     public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
         return _lfQuizQuestionCategoryLocalService.dynamicQuery();
     }
@@ -84,6 +87,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
@@ -95,7 +99,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * Performs a dynamic query on the database and returns a range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -104,6 +108,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -116,7 +121,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * Performs a dynamic query on the database and returns an ordered range of the matching rows.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param dynamicQuery the dynamic query
@@ -126,6 +131,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the ordered range of matching rows
     * @throws SystemException if a system exception occurred
     */
+    @Override
     @SuppressWarnings("rawtypes")
     public java.util.List dynamicQuery(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
@@ -143,12 +149,31 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the number of rows that match the dynamic query
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public long dynamicQueryCount(
         com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.dynamicQueryCount(dynamicQuery);
     }
 
+    /**
+    * Returns the number of rows that match the dynamic query.
+    *
+    * @param dynamicQuery the dynamic query
+    * @param projection the projection to apply to the query
+    * @return the number of rows that match the dynamic query
+    * @throws SystemException if a system exception occurred
+    */
+    @Override
+    public long dynamicQueryCount(
+        com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+        com.liferay.portal.kernel.dao.orm.Projection projection)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfQuizQuestionCategoryLocalService.dynamicQueryCount(dynamicQuery,
+            projection);
+    }
+
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory fetchLFQuizQuestionCategory(
         long id) throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.fetchLFQuizQuestionCategory(id);
@@ -162,6 +187,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @throws PortalException if a l f quiz question category with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory getLFQuizQuestionCategory(
         long id)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -169,6 +195,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
         return _lfQuizQuestionCategoryLocalService.getLFQuizQuestionCategory(id);
     }
 
+    @Override
     public com.liferay.portal.model.PersistedModel getPersistedModel(
         java.io.Serializable primaryKeyObj)
         throws com.liferay.portal.kernel.exception.PortalException,
@@ -180,7 +207,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * Returns a range of all the l f quiz question categories.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f quiz question categories
@@ -188,6 +215,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the range of l f quiz question categories
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory> getLFQuizQuestionCategories(
         int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -201,6 +229,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the number of l f quiz question categories
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public int getLFQuizQuestionCategoriesCount()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.getLFQuizQuestionCategoriesCount();
@@ -213,6 +242,7 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     * @return the l f quiz question category that was updated
     * @throws SystemException if a system exception occurred
     */
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory updateLFQuizQuestionCategory(
         com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory lfQuizQuestionCategory)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -220,26 +250,11 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     }
 
     /**
-    * Updates the l f quiz question category in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-    *
-    * @param lfQuizQuestionCategory the l f quiz question category
-    * @param merge whether to merge the l f quiz question category with the current session. See {@link com.liferay.portal.service.persistence.BatchSession#update(com.liferay.portal.kernel.dao.orm.Session, com.liferay.portal.model.BaseModel, boolean)} for an explanation.
-    * @return the l f quiz question category that was updated
-    * @throws SystemException if a system exception occurred
-    */
-    public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory updateLFQuizQuestionCategory(
-        com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory lfQuizQuestionCategory,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return _lfQuizQuestionCategoryLocalService.updateLFQuizQuestionCategory(lfQuizQuestionCategory,
-            merge);
-    }
-
-    /**
     * Returns the Spring bean ID for this bean.
     *
     * @return the Spring bean ID for this bean
     */
+    @Override
     public java.lang.String getBeanIdentifier() {
         return _lfQuizQuestionCategoryLocalService.getBeanIdentifier();
     }
@@ -249,10 +264,12 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
     *
     * @param beanIdentifier the Spring bean ID for this bean
     */
+    @Override
     public void setBeanIdentifier(java.lang.String beanIdentifier) {
         _lfQuizQuestionCategoryLocalService.setBeanIdentifier(beanIdentifier);
     }
 
+    @Override
     public java.lang.Object invokeMethod(java.lang.String name,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable {
@@ -260,11 +277,13 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
             parameterTypes, arguments);
     }
 
+    @Override
     public com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory createLFQuizQuestionCategory()
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.createLFQuizQuestionCategory();
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory> findByQuizIdAndParentId(
         java.lang.Integer quizId, java.lang.Integer parentId)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -272,36 +291,40 @@ public class LFQuizQuestionCategoryLocalServiceWrapper
             parentId);
     }
 
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory> findByQuizId(
         java.lang.Integer quizId)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _lfQuizQuestionCategoryLocalService.findByQuizId(quizId);
     }
 
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfQuizQuestionCategoryLocalService.removeAll();
     }
 
     /**
-     * @deprecated Renamed to {@link #getWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */
     public LFQuizQuestionCategoryLocalService getWrappedLFQuizQuestionCategoryLocalService() {
         return _lfQuizQuestionCategoryLocalService;
     }
 
     /**
-     * @deprecated Renamed to {@link #setWrappedService}
+     * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
      */
     public void setWrappedLFQuizQuestionCategoryLocalService(
         LFQuizQuestionCategoryLocalService lfQuizQuestionCategoryLocalService) {
         _lfQuizQuestionCategoryLocalService = lfQuizQuestionCategoryLocalService;
     }
 
+    @Override
     public LFQuizQuestionCategoryLocalService getWrappedService() {
         return _lfQuizQuestionCategoryLocalService;
     }
 
+    @Override
     public void setWrappedService(
         LFQuizQuestionCategoryLocalService lfQuizQuestionCategoryLocalService) {
         _lfQuizQuestionCategoryLocalService = lfQuizQuestionCategoryLocalService;

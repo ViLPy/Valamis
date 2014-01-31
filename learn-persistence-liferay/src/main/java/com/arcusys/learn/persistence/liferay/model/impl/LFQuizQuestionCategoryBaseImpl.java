@@ -24,6 +24,7 @@ public abstract class LFQuizQuestionCategoryBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f quiz question category model instance should use the {@link LFQuizQuestionCategory} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFQuizQuestionCategoryLocalServiceUtil.addLFQuizQuestionCategory(this);

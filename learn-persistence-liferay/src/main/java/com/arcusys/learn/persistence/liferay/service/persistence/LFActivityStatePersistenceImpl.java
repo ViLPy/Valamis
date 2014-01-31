@@ -4,67 +4,8 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException;
 import com.arcusys.learn.persistence.liferay.model.LFActivityState;
 import com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateImpl;
 import com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateTreePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsActivityProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFUserPersistence;
 
-import com.liferay.portal.NoSuchModelException;
-import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
@@ -82,15 +23,14 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnmodifiableList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
-import com.liferay.portal.service.persistence.BatchSessionUtil;
-import com.liferay.portal.service.persistence.ResourcePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 
 import java.io.Serializable;
@@ -98,6 +38,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the l f activity state service.
@@ -123,6 +64,17 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
         ".List1";
     public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
         ".List2";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
+            LFActivityStateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+            "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
+            LFActivityStateImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
@@ -131,8 +83,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             new String[] {
                 Integer.class.getName(), String.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
@@ -155,6 +107,46 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
             "countByActivityStateNodeIDAndActivityID",
             new String[] { Integer.class.getName(), String.class.getName() });
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL =
+        "lfActivityState.activityStateNodeID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2 =
+        "lfActivityState.activityStateNodeID = ? AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2 =
+        "lfActivityState.activityStateNodeID IS NULL  AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1 =
+        "lfActivityState.activityID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL =
+        "lfActivityState.activityID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2 =
+        "lfActivityState.activityID = ?";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL_2 =
+        "lfActivityState.activityID IS NULL ";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3 =
+        "(lfActivityState.activityID IS NULL OR lfActivityState.activityID = '')";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_4 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_6 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3) +
+        ")";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
@@ -164,8 +156,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 String.class.getName(), Integer.class.getName(),
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
@@ -198,6 +190,60 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 String.class.getName(), Integer.class.getName(),
                 Integer.class.getName()
             });
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1 =
+        "lfActivityState.activityID IS NULL AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL =
+        "lfActivityState.activityID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2 =
+        "lfActivityState.activityID = ? AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL_2 =
+        "lfActivityState.activityID IS NULL  AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3 =
+        "(lfActivityState.activityID IS NULL OR lfActivityState.activityID = '') AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_4 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_6 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL =
+        "lfActivityState.activityStateNodeID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2 =
+        "lfActivityState.activityStateNodeID = ? AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2 =
+        "lfActivityState.activityStateNodeID IS NULL  AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL =
+        "lfActivityState.activityStateTreeID IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2 =
+        "lfActivityState.activityStateTreeID = ?";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2 =
+        "lfActivityState.activityStateTreeID IS NULL ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2) +
+        ")";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5_NULL =
+        "(" +
+        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2) +
+        ")";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
             LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
@@ -206,8 +252,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             new String[] {
                 Integer.class.getName(),
                 
-            "java.lang.Integer", "java.lang.Integer",
-                "com.liferay.portal.kernel.util.OrderByComparator"
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
             });
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID =
         new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
@@ -228,135 +274,33 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
             "countByActivityStateNodeID",
             new String[] { Integer.class.getName() });
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
-            LFActivityStateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-            "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateModelImpl.FINDER_CACHE_ENABLED,
-            LFActivityStateImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-    public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateModelImpl.FINDER_CACHE_ENABLED, Long.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-    private static final String _SQL_SELECT_LFACTIVITYSTATE = "SELECT lfActivityState FROM LFActivityState lfActivityState";
-    private static final String _SQL_SELECT_LFACTIVITYSTATE_WHERE = "SELECT lfActivityState FROM LFActivityState lfActivityState WHERE ";
-    private static final String _SQL_COUNT_LFACTIVITYSTATE = "SELECT COUNT(lfActivityState) FROM LFActivityState lfActivityState";
-    private static final String _SQL_COUNT_LFACTIVITYSTATE_WHERE = "SELECT COUNT(lfActivityState) FROM LFActivityState lfActivityState WHERE ";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL =
-        "lfActivityState.activityStateNodeID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2 =
-        "lfActivityState.activityStateNodeID IS NULL  AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2 =
-        "lfActivityState.activityStateNodeID = ? AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5_NULL =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1 =
-        "lfActivityState.activityID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL =
-        "lfActivityState.activityID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL_2 =
-        "lfActivityState.activityID IS NULL ";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2 =
-        "lfActivityState.activityID = ?";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3 =
-        "(lfActivityState.activityID IS NULL OR lfActivityState.activityID = ?)";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_4 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5_NULL =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_NULL_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_6 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1 =
-        "lfActivityState.activityID IS NULL AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL =
-        "lfActivityState.activityID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL_2 =
-        "lfActivityState.activityID IS NULL  AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2 =
-        "lfActivityState.activityID = ? AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3 =
-        "(lfActivityState.activityID IS NULL OR lfActivityState.activityID = ?) AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_4 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5_NULL =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_NULL_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_6 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL =
-        "lfActivityState.activityStateNodeID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2 =
-        "lfActivityState.activityStateNodeID IS NULL  AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2 =
-        "lfActivityState.activityStateNodeID = ? AND ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5_NULL =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL =
-        "lfActivityState.activityStateTreeID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2 =
-        "lfActivityState.activityStateTreeID IS NULL ";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2 =
-        "lfActivityState.activityStateTreeID = ?";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5_NULL =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2) +
-        ")";
-    private static final String _FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2) +
-        ")";
     private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_NULL =
         "lfActivityState.activityStateNodeID IS NULL";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_NULL_2 =
-        "lfActivityState.activityStateNodeID IS NULL ";
     private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_2 =
         "lfActivityState.activityStateNodeID = ?";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_NULL_2 =
+        "lfActivityState.activityStateNodeID IS NULL ";
+    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_5 =
+        "(" +
+        removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_2) +
+        ")";
     private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_5_NULL =
         "(" +
         _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_NULL_2) +
         ")";
-    private static final String _FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_5 =
-        "(" +
-        _removeConjunction(_FINDER_COLUMN_ACTIVITYSTATENODEID_ACTIVITYSTATENODEID_2) +
-        ")";
+    private static final String _SQL_SELECT_LFACTIVITYSTATE = "SELECT lfActivityState FROM LFActivityState lfActivityState";
+    private static final String _SQL_SELECT_LFACTIVITYSTATE_WHERE = "SELECT lfActivityState FROM LFActivityState lfActivityState WHERE ";
+    private static final String _SQL_COUNT_LFACTIVITYSTATE = "SELECT COUNT(lfActivityState) FROM LFActivityState lfActivityState";
+    private static final String _SQL_COUNT_LFACTIVITYSTATE_WHERE = "SELECT COUNT(lfActivityState) FROM LFActivityState lfActivityState WHERE ";
     private static final String _ORDER_BY_ENTITY_ALIAS = "lfActivityState.";
     private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No LFActivityState exists with the primary key ";
     private static final String _NO_SUCH_ENTITY_WITH_KEY = "No LFActivityState exists with the key {";
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFActivityStatePersistenceImpl.class);
+    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+                "id", "active"
+            });
     private static LFActivityState _nullLFActivityState = new LFActivityStateImpl() {
             @Override
             public Object clone() {
@@ -370,540 +314,14 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
         };
 
     private static CacheModel<LFActivityState> _nullLFActivityStateCacheModel = new CacheModel<LFActivityState>() {
+            @Override
             public LFActivityState toEntityModel() {
                 return _nullLFActivityState;
             }
         };
 
-    @BeanReference(type = LFActivityPersistence.class)
-    protected LFActivityPersistence lfActivityPersistence;
-    @BeanReference(type = LFActivityDataMapPersistence.class)
-    protected LFActivityDataMapPersistence lfActivityDataMapPersistence;
-    @BeanReference(type = LFActivityStatePersistence.class)
-    protected LFActivityStatePersistence lfActivityStatePersistence;
-    @BeanReference(type = LFActivityStateNodePersistence.class)
-    protected LFActivityStateNodePersistence lfActivityStateNodePersistence;
-    @BeanReference(type = LFActivityStateTreePersistence.class)
-    protected LFActivityStateTreePersistence lfActivityStateTreePersistence;
-    @BeanReference(type = LFAnswerPersistence.class)
-    protected LFAnswerPersistence lfAnswerPersistence;
-    @BeanReference(type = LFAttemptPersistence.class)
-    protected LFAttemptPersistence lfAttemptPersistence;
-    @BeanReference(type = LFAttemptDataPersistence.class)
-    protected LFAttemptDataPersistence lfAttemptDataPersistence;
-    @BeanReference(type = LFBigDecimalPersistence.class)
-    protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = LFCertificateSitePersistence.class)
-    protected LFCertificateSitePersistence lfCertificateSitePersistence;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
-    @BeanReference(type = LFChildrenSelectionPersistence.class)
-    protected LFChildrenSelectionPersistence lfChildrenSelectionPersistence;
-    @BeanReference(type = LFConditionRulePersistence.class)
-    protected LFConditionRulePersistence lfConditionRulePersistence;
-    @BeanReference(type = LFConfigPersistence.class)
-    protected LFConfigPersistence lfConfigPersistence;
-    @BeanReference(type = LFCoursePersistence.class)
-    protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
-    @BeanReference(type = LFObjectivePersistence.class)
-    protected LFObjectivePersistence lfObjectivePersistence;
-    @BeanReference(type = LFObjectiveMapPersistence.class)
-    protected LFObjectiveMapPersistence lfObjectiveMapPersistence;
-    @BeanReference(type = LFObjectiveStatePersistence.class)
-    protected LFObjectiveStatePersistence lfObjectiveStatePersistence;
-    @BeanReference(type = LFPackagePersistence.class)
-    protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
-    @BeanReference(type = LFPackageScopeRulePersistence.class)
-    protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
-    @BeanReference(type = LFPlayerScopeRulePersistence.class)
-    protected LFPlayerScopeRulePersistence lfPlayerScopeRulePersistence;
-    @BeanReference(type = LFQuestionPersistence.class)
-    protected LFQuestionPersistence lfQuestionPersistence;
-    @BeanReference(type = LFQuestionCategoryPersistence.class)
-    protected LFQuestionCategoryPersistence lfQuestionCategoryPersistence;
-    @BeanReference(type = LFQuizPersistence.class)
-    protected LFQuizPersistence lfQuizPersistence;
-    @BeanReference(type = LFQuizQuestionPersistence.class)
-    protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
-    @BeanReference(type = LFResourcePersistence.class)
-    protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
-    @BeanReference(type = LFRollupContributionPersistence.class)
-    protected LFRollupContributionPersistence lfRollupContributionPersistence;
-    @BeanReference(type = LFRollupRulePersistence.class)
-    protected LFRollupRulePersistence lfRollupRulePersistence;
-    @BeanReference(type = LFRuleConditionPersistence.class)
-    protected LFRuleConditionPersistence lfRuleConditionPersistence;
-    @BeanReference(type = LFSequencingPersistence.class)
-    protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
-    @BeanReference(type = LFSequencingTrackingPersistence.class)
-    protected LFSequencingTrackingPersistence lfSequencingTrackingPersistence;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = LFTincanLrsActivityProfilePersistence.class)
-    protected LFTincanLrsActivityProfilePersistence lfTincanLrsActivityProfilePersistence;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = LFTincanLrsContextActivitiesPersistence.class)
-    protected LFTincanLrsContextActivitiesPersistence lfTincanLrsContextActivitiesPersistence;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
-    @BeanReference(type = LFTincanLrsEndpointPersistence.class)
-    protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
-    @BeanReference(type = LFTincanManifestActivityPersistence.class)
-    protected LFTincanManifestActivityPersistence lfTincanManifestActivityPersistence;
-    @BeanReference(type = LFTincanPackagePersistence.class)
-    protected LFTincanPackagePersistence lfTincanPackagePersistence;
-    @BeanReference(type = LFUserPersistence.class)
-    protected LFUserPersistence lfUserPersistence;
-    @BeanReference(type = ResourcePersistence.class)
-    protected ResourcePersistence resourcePersistence;
-    @BeanReference(type = UserPersistence.class)
-    protected UserPersistence userPersistence;
-
-    /**
-     * Caches the l f activity state in the entity cache if it is enabled.
-     *
-     * @param lfActivityState the l f activity state
-     */
-    public void cacheResult(LFActivityState lfActivityState) {
-        EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateImpl.class, lfActivityState.getPrimaryKey(),
-            lfActivityState);
-
-        lfActivityState.resetOriginalValues();
-    }
-
-    /**
-     * Caches the l f activity states in the entity cache if it is enabled.
-     *
-     * @param lfActivityStates the l f activity states
-     */
-    public void cacheResult(List<LFActivityState> lfActivityStates) {
-        for (LFActivityState lfActivityState : lfActivityStates) {
-            if (EntityCacheUtil.getResult(
-                        LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-                        LFActivityStateImpl.class,
-                        lfActivityState.getPrimaryKey()) == null) {
-                cacheResult(lfActivityState);
-            } else {
-                lfActivityState.resetOriginalValues();
-            }
-        }
-    }
-
-    /**
-     * Clears the cache for all l f activity states.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache() {
-        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
-            CacheRegistryUtil.clear(LFActivityStateImpl.class.getName());
-        }
-
-        EntityCacheUtil.clearCache(LFActivityStateImpl.class.getName());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    /**
-     * Clears the cache for the l f activity state.
-     *
-     * <p>
-     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
-     * </p>
-     */
-    @Override
-    public void clearCache(LFActivityState lfActivityState) {
-        EntityCacheUtil.removeResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateImpl.class, lfActivityState.getPrimaryKey());
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-    }
-
-    @Override
-    public void clearCache(List<LFActivityState> lfActivityStates) {
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-        for (LFActivityState lfActivityState : lfActivityStates) {
-            EntityCacheUtil.removeResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-                LFActivityStateImpl.class, lfActivityState.getPrimaryKey());
-        }
-    }
-
-    /**
-     * Creates a new l f activity state with the primary key. Does not add the l f activity state to the database.
-     *
-     * @param id the primary key for the new l f activity state
-     * @return the new l f activity state
-     */
-    public LFActivityState create(long id) {
-        LFActivityState lfActivityState = new LFActivityStateImpl();
-
-        lfActivityState.setNew(true);
-        lfActivityState.setPrimaryKey(id);
-
-        return lfActivityState;
-    }
-
-    /**
-     * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param id the primary key of the l f activity state
-     * @return the l f activity state that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityState remove(long id)
-        throws NoSuchLFActivityStateException, SystemException {
-        return remove(Long.valueOf(id));
-    }
-
-    /**
-     * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
-     *
-     * @param primaryKey the primary key of the l f activity state
-     * @return the l f activity state that was removed
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFActivityState remove(Serializable primaryKey)
-        throws NoSuchLFActivityStateException, SystemException {
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFActivityState lfActivityState = (LFActivityState) session.get(LFActivityStateImpl.class,
-                    primaryKey);
-
-            if (lfActivityState == null) {
-                if (_log.isWarnEnabled()) {
-                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
-                }
-
-                throw new NoSuchLFActivityStateException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                    primaryKey);
-            }
-
-            return remove(lfActivityState);
-        } catch (NoSuchLFActivityStateException nsee) {
-            throw nsee;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    @Override
-    protected LFActivityState removeImpl(LFActivityState lfActivityState)
-        throws SystemException {
-        lfActivityState = toUnwrappedModel(lfActivityState);
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.delete(session, lfActivityState);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        clearCache(lfActivityState);
-
-        return lfActivityState;
-    }
-
-    @Override
-    public LFActivityState updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState,
-        boolean merge) throws SystemException {
-        lfActivityState = toUnwrappedModel(lfActivityState);
-
-        boolean isNew = lfActivityState.isNew();
-
-        LFActivityStateModelImpl lfActivityStateModelImpl = (LFActivityStateModelImpl) lfActivityState;
-
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            BatchSessionUtil.update(session, lfActivityState, merge);
-
-            lfActivityState.setNew(false);
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-
-        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-        if (isNew || !LFActivityStateModelImpl.COLUMN_BITMASK_ENABLED) {
-            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-        }
-        else {
-            if ((lfActivityStateModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfActivityStateModelImpl.getOriginalActivityStateNodeID(),
-                        
-                        lfActivityStateModelImpl.getOriginalActivityID()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    args);
-
-                args = new Object[] {
-                        /* Integer.valueOf( */
-                        lfActivityStateModelImpl.getActivityStateNodeID(),
-                        
-                        lfActivityStateModelImpl.getActivityID()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    args);
-            }
-
-            if ((lfActivityStateModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        lfActivityStateModelImpl.getOriginalActivityID(),
-                        /* Integer.valueOf(   */
-                        lfActivityStateModelImpl.getOriginalActivityStateNodeID(),
-                        /* Integer.valueOf(   */
-                        lfActivityStateModelImpl.getOriginalActivityStateTreeID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    args);
-
-                args = new Object[] {
-                        lfActivityStateModelImpl.getActivityID(),
-                        /* Integer.valueOf( */
-                        lfActivityStateModelImpl.getActivityStateNodeID(),
-                        /* Integer.valueOf( */
-                        lfActivityStateModelImpl.getActivityStateTreeID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    args);
-            }
-
-            if ((lfActivityStateModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        /* Integer.valueOf(   */
-                        lfActivityStateModelImpl.getOriginalActivityStateNodeID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
-                    args);
-
-                args = new Object[] {
-                        /* Integer.valueOf( */
-                        lfActivityStateModelImpl.getActivityStateNodeID()
-                    /* ) */
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
-                    args);
-            }
-        }
-
-        EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-            LFActivityStateImpl.class, lfActivityState.getPrimaryKey(),
-            lfActivityState);
-
-        return lfActivityState;
-    }
-
-    protected LFActivityState toUnwrappedModel(LFActivityState lfActivityState) {
-        if (lfActivityState instanceof LFActivityStateImpl) {
-            return lfActivityState;
-        }
-
-        LFActivityStateImpl lfActivityStateImpl = new LFActivityStateImpl();
-
-        lfActivityStateImpl.setNew(lfActivityState.isNew());
-        lfActivityStateImpl.setPrimaryKey(lfActivityState.getPrimaryKey());
-
-        lfActivityStateImpl.setId(lfActivityState.getId());
-        lfActivityStateImpl.setPackageID(lfActivityState.getPackageID());
-        lfActivityStateImpl.setActivityID(lfActivityState.getActivityID());
-        lfActivityStateImpl.setActive(lfActivityState.getActive());
-        lfActivityStateImpl.setSuspended(lfActivityState.getSuspended());
-        lfActivityStateImpl.setAttemptCompleted(lfActivityState.getAttemptCompleted());
-        lfActivityStateImpl.setAttemptCompletionAmount(lfActivityState.getAttemptCompletionAmount());
-        lfActivityStateImpl.setAttemptAbsoluteDuration(lfActivityState.getAttemptAbsoluteDuration());
-        lfActivityStateImpl.setAttemptExperiencedDuration(lfActivityState.getAttemptExperiencedDuration());
-        lfActivityStateImpl.setActivityAbsoluteDuration(lfActivityState.getActivityAbsoluteDuration());
-        lfActivityStateImpl.setActivityExperiencedDuration(lfActivityState.getActivityExperiencedDuration());
-        lfActivityStateImpl.setAttemptCount(lfActivityState.getAttemptCount());
-        lfActivityStateImpl.setActivityStateNodeID(lfActivityState.getActivityStateNodeID());
-        lfActivityStateImpl.setActivityStateTreeID(lfActivityState.getActivityStateTreeID());
-
-        return lfActivityStateImpl;
-    }
-
-    /**
-     * Returns the l f activity state with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f activity state
-     * @return the l f activity state
-     * @throws com.liferay.portal.NoSuchModelException if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFActivityState findByPrimaryKey(Serializable primaryKey)
-        throws NoSuchModelException, SystemException {
-        return findByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f activity state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException} if it could not be found.
-     *
-     * @param id the primary key of the l f activity state
-     * @return the l f activity state
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityState findByPrimaryKey(long id)
-        throws NoSuchLFActivityStateException, SystemException {
-        LFActivityState lfActivityState = fetchByPrimaryKey(id);
-
-        if (lfActivityState == null) {
-            if (_log.isWarnEnabled()) {
-                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + id);
-            }
-
-            throw new NoSuchLFActivityStateException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-                id);
-        }
-
-        return lfActivityState;
-    }
-
-    /**
-     * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param primaryKey the primary key of the l f activity state
-     * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFActivityState fetchByPrimaryKey(Serializable primaryKey)
-        throws SystemException {
-        return fetchByPrimaryKey(((Long) primaryKey).longValue());
-    }
-
-    /**
-     * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
-     *
-     * @param id the primary key of the l f activity state
-     * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    public LFActivityState fetchByPrimaryKey(long id) throws SystemException {
-        LFActivityState lfActivityState = (LFActivityState) EntityCacheUtil.getResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-                LFActivityStateImpl.class, id);
-
-        if (lfActivityState == _nullLFActivityState) {
-            return null;
-        }
-
-        if (lfActivityState == null) {
-            Session session = null;
-
-            boolean hasException = false;
-
-            try {
-                session = openSession();
-
-                lfActivityState = (LFActivityState) session.get(LFActivityStateImpl.class,
-                        Long.valueOf(id));
-            } catch (Exception e) {
-                hasException = true;
-
-                throw processException(e);
-            } finally {
-                if (lfActivityState != null) {
-                    cacheResult(lfActivityState);
-                } else if (!hasException) {
-                    EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
-                        LFActivityStateImpl.class, id, _nullLFActivityState);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return lfActivityState;
+    public LFActivityStatePersistenceImpl() {
+        setModelClass(LFActivityState.class);
     }
 
     /**
@@ -914,6 +332,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer activityStateNodeID, String activityID)
         throws SystemException {
@@ -925,7 +344,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeID the activity state node i d
@@ -935,6 +354,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer activityStateNodeID, String activityID, int start, int end)
         throws SystemException {
@@ -946,7 +366,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeID the activity state node i d
@@ -957,14 +377,17 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer activityStateNodeID, String activityID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID;
             finderArgs = new Object[] { activityStateNodeID, activityID };
         } else {
@@ -999,7 +422,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 query = new StringBundler(4 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(3);
+                query = new StringBundler(4);
             }
 
             query.append(_SQL_SELECT_LFACTIVITYSTATE_WHERE);
@@ -1010,9 +433,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2);
             }
 
+            boolean bindActivityID = false;
+
             if (activityID == null) {
                 query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1);
+            } else if (activityID.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
             } else {
+                bindActivityID = true;
+
                 if (activityID.equals(StringPool.BLANK)) {
                     query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
                 } else {
@@ -1023,6 +452,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1040,23 +472,32 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     qPos.add(activityStateNodeID.intValue());
                 }
 
-                if (activityID != null) {
-                    qPos.add(activityID);
+                if (bindActivityID) {
+                    if (activityID != null) {
+                        qPos.add(activityID);
+                    }
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
@@ -1074,6 +515,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityStateNodeIDAndActivityID_First(
         Integer activityStateNodeID, String activityID,
         OrderByComparator orderByComparator)
@@ -1109,6 +551,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the first matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityStateNodeIDAndActivityID_First(
         Integer activityStateNodeID, String activityID,
         OrderByComparator orderByComparator) throws SystemException {
@@ -1132,6 +575,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityStateNodeIDAndActivityID_Last(
         Integer activityStateNodeID, String activityID,
         OrderByComparator orderByComparator)
@@ -1167,11 +611,16 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the last matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityStateNodeIDAndActivityID_Last(
         Integer activityStateNodeID, String activityID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByActivityStateNodeIDAndActivityID(activityStateNodeID,
                 activityID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFActivityState> list = findByActivityStateNodeIDAndActivityID(activityStateNodeID,
                 activityID, count - 1, count, orderByComparator);
@@ -1194,6 +643,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState[] findByActivityStateNodeIDAndActivityID_PrevAndNext(
         long id, Integer activityStateNodeID, String activityID,
         OrderByComparator orderByComparator)
@@ -1246,9 +696,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2);
         }
 
+        boolean bindActivityID = false;
+
         if (activityID == null) {
             query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1);
+        } else if (activityID.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
         } else {
+            bindActivityID = true;
+
             if (activityID.equals(StringPool.BLANK)) {
                 query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
             } else {
@@ -1304,6 +760,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     }
                 }
             }
+        } else {
+            query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1319,8 +777,10 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             qPos.add(activityStateNodeID.intValue());
         }
 
-        if (activityID != null) {
-            qPos.add(activityID);
+        if (bindActivityID) {
+            if (activityID != null) {
+                qPos.add(activityID);
+            }
         }
 
         if (orderByComparator != null) {
@@ -1344,7 +804,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
@@ -1352,6 +812,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer[] activityStateNodeIDs, String activityID)
         throws SystemException {
@@ -1363,7 +824,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
@@ -1373,6 +834,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer[] activityStateNodeIDs, String activityID, int start, int end)
         throws SystemException {
@@ -1384,7 +846,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
@@ -1395,14 +857,22 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeIDAndActivityID(
         Integer[] activityStateNodeIDs, String activityID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID;
+        if ((activityStateNodeIDs != null) &&
+                (activityStateNodeIDs.length == 1)) {
+            return findByActivityStateNodeIDAndActivityID(activityStateNodeIDs[0],
+                activityID, start, end, orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] {
                     StringUtil.merge(activityStateNodeIDs), activityID
                 };
@@ -1414,7 +884,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 };
         }
 
-        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(finderPath,
+        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -1481,6 +951,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1506,24 +979,240 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     qPos.add(activityID);
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return list;
+    }
+
+    /**
+     * Removes all the l f activity states where activityStateNodeID = &#63; and activityID = &#63; from the database.
+     *
+     * @param activityStateNodeID the activity state node i d
+     * @param activityID the activity i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByActivityStateNodeIDAndActivityID(
+        Integer activityStateNodeID, String activityID)
+        throws SystemException {
+        for (LFActivityState lfActivityState : findByActivityStateNodeIDAndActivityID(
+                activityStateNodeID, activityID, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
+            remove(lfActivityState);
+        }
+    }
+
+    /**
+     * Returns the number of l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
+     *
+     * @param activityStateNodeID the activity state node i d
+     * @param activityID the activity i d
+     * @return the number of matching l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByActivityStateNodeIDAndActivityID(
+        Integer activityStateNodeID, String activityID)
+        throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID;
+
+        Object[] finderArgs = new Object[] { activityStateNodeID, activityID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
+
+            if (activityStateNodeID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2);
+            }
+
+            boolean bindActivityID = false;
+
+            if (activityID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1);
+            } else if (activityID.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
+            } else {
+                bindActivityID = true;
+
+                if (activityID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (activityStateNodeID != null) {
+                    qPos.add(activityStateNodeID.intValue());
+                }
+
+                if (bindActivityID) {
+                    if (activityID != null) {
+                        qPos.add(activityID);
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
+     *
+     * @param activityStateNodeIDs the activity state node i ds
+     * @param activityID the activity i d
+     * @return the number of matching l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByActivityStateNodeIDAndActivityID(
+        Integer[] activityStateNodeIDs, String activityID)
+        throws SystemException {
+        Object[] finderArgs = new Object[] {
+                StringUtil.merge(activityStateNodeIDs), activityID
+            };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((activityStateNodeIDs != null) &&
+                    (activityStateNodeIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < activityStateNodeIDs.length; i++) {
+                    if (activityStateNodeIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5);
+                    }
+
+                    if ((i + 1) < activityStateNodeIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (activityID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_4);
+            } else {
+                if (activityID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_6);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5);
+                }
+            }
+
+            conjunctionable = true;
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (activityStateNodeIDs != null) {
+                    for (Integer activityStateNodeID : activityStateNodeIDs) {
+                        if (activityStateNodeID != null) {
+                            qPos.add(activityStateNodeID);
+                        }
+                    }
+                }
+
+                if (activityID != null) {
+                    qPos.add(activityID);
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
     }
 
     /**
@@ -1535,6 +1224,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID) throws SystemException {
@@ -1547,7 +1237,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityID the activity i d
@@ -1558,6 +1248,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, int start, int end)
@@ -1570,7 +1261,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityID the activity i d
@@ -1582,15 +1273,18 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID;
             finderArgs = new Object[] {
                     activityID, activityStateNodeID, activityStateTreeID
@@ -1629,14 +1323,20 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 query = new StringBundler(5 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(4);
+                query = new StringBundler(5);
             }
 
             query.append(_SQL_SELECT_LFACTIVITYSTATE_WHERE);
 
+            boolean bindActivityID = false;
+
             if (activityID == null) {
                 query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1);
+            } else if (activityID.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
             } else {
+                bindActivityID = true;
+
                 if (activityID.equals(StringPool.BLANK)) {
                     query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
                 } else {
@@ -1659,6 +1359,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -1672,8 +1375,10 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
 
                 QueryPos qPos = QueryPos.getInstance(q);
 
-                if (activityID != null) {
-                    qPos.add(activityID);
+                if (bindActivityID) {
+                    if (activityID != null) {
+                        qPos.add(activityID);
+                    }
                 }
 
                 if (activityStateNodeID != null) {
@@ -1684,19 +1389,26 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     qPos.add(activityStateTreeID.intValue());
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -1715,6 +1427,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID_First(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, OrderByComparator orderByComparator)
@@ -1754,6 +1467,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the first matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityIDAndActivityStateNodeIDAndActivityStateTreeID_First(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, OrderByComparator orderByComparator)
@@ -1780,6 +1494,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID_Last(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, OrderByComparator orderByComparator)
@@ -1819,12 +1534,17 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the last matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityIDAndActivityStateNodeIDAndActivityStateTreeID_Last(
         String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, OrderByComparator orderByComparator)
         throws SystemException {
         int count = countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
                 activityStateNodeID, activityStateTreeID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFActivityState> list = findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
                 activityStateNodeID, activityStateTreeID, count - 1, count,
@@ -1849,6 +1569,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState[] findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID_PrevAndNext(
         long id, String activityID, Integer activityStateNodeID,
         Integer activityStateTreeID, OrderByComparator orderByComparator)
@@ -1895,9 +1616,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
 
         query.append(_SQL_SELECT_LFACTIVITYSTATE_WHERE);
 
+        boolean bindActivityID = false;
+
         if (activityID == null) {
             query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1);
+        } else if (activityID.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
         } else {
+            bindActivityID = true;
+
             if (activityID.equals(StringPool.BLANK)) {
                 query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
             } else {
@@ -1965,6 +1692,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     }
                 }
             }
+        } else {
+            query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -1976,8 +1705,10 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
 
         QueryPos qPos = QueryPos.getInstance(q);
 
-        if (activityID != null) {
-            qPos.add(activityID);
+        if (bindActivityID) {
+            if (activityID != null) {
+                qPos.add(activityID);
+            }
         }
 
         if (activityStateNodeID != null) {
@@ -2009,7 +1740,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityID the activity i d
@@ -2018,6 +1749,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer[] activityStateNodeIDs,
         Integer activityStateTreeID) throws SystemException {
@@ -2030,7 +1762,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityID the activity i d
@@ -2041,6 +1773,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer[] activityStateNodeIDs,
         Integer activityStateTreeID, int start, int end)
@@ -2053,7 +1786,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityID the activity i d
@@ -2065,15 +1798,24 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
         String activityID, Integer[] activityStateNodeIDs,
         Integer activityStateTreeID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID;
+        if ((activityStateNodeIDs != null) &&
+                (activityStateNodeIDs.length == 1)) {
+            return findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
+                activityStateNodeIDs[0], activityStateTreeID, start, end,
+                orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] {
                     activityID, StringUtil.merge(activityStateNodeIDs),
                     activityStateTreeID
@@ -2087,7 +1829,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 };
         }
 
-        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(finderPath,
+        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -2158,7 +1900,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             }
 
             if (activityStateTreeID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5_NULL);
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL);
             } else {
                 query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5);
             }
@@ -2168,6 +1910,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -2197,24 +1942,272 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     qPos.add(activityStateTreeID.intValue());
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return list;
+    }
+
+    /**
+     * Removes all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63; from the database.
+     *
+     * @param activityID the activity i d
+     * @param activityStateNodeID the activity state node i d
+     * @param activityStateTreeID the activity state tree i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        String activityID, Integer activityStateNodeID,
+        Integer activityStateTreeID) throws SystemException {
+        for (LFActivityState lfActivityState : findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+                activityID, activityStateNodeID, activityStateTreeID,
+                QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+            remove(lfActivityState);
+        }
+    }
+
+    /**
+     * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
+     *
+     * @param activityID the activity i d
+     * @param activityStateNodeID the activity state node i d
+     * @param activityStateTreeID the activity state tree i d
+     * @return the number of matching l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        String activityID, Integer activityStateNodeID,
+        Integer activityStateTreeID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID;
+
+        Object[] finderArgs = new Object[] {
+                activityID, activityStateNodeID, activityStateTreeID
+            };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(4);
+
+            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
+
+            boolean bindActivityID = false;
+
+            if (activityID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1);
+            } else if (activityID.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
+            } else {
+                bindActivityID = true;
+
+                if (activityID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2);
+                }
+            }
+
+            if (activityStateNodeID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2);
+            }
+
+            if (activityStateTreeID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindActivityID) {
+                    if (activityID != null) {
+                        qPos.add(activityID);
+                    }
+                }
+
+                if (activityStateNodeID != null) {
+                    qPos.add(activityStateNodeID.intValue());
+                }
+
+                if (activityStateTreeID != null) {
+                    qPos.add(activityStateTreeID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
+     *
+     * @param activityID the activity i d
+     * @param activityStateNodeIDs the activity state node i ds
+     * @param activityStateTreeID the activity state tree i d
+     * @return the number of matching l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        String activityID, Integer[] activityStateNodeIDs,
+        Integer activityStateTreeID) throws SystemException {
+        Object[] finderArgs = new Object[] {
+                activityID, StringUtil.merge(activityStateNodeIDs),
+                activityStateTreeID
+            };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (activityID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_4);
+            } else {
+                if (activityID.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_6);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5);
+                }
+            }
+
+            conjunctionable = true;
+
+            if ((activityStateNodeIDs != null) &&
+                    (activityStateNodeIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < activityStateNodeIDs.length; i++) {
+                    if (activityStateNodeIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5);
+                    }
+
+                    if ((i + 1) < activityStateNodeIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (activityStateTreeID == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5);
+            }
+
+            conjunctionable = true;
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (activityID != null) {
+                    qPos.add(activityID);
+                }
+
+                if (activityStateNodeIDs != null) {
+                    for (Integer activityStateNodeID : activityStateNodeIDs) {
+                        if (activityStateNodeID != null) {
+                            qPos.add(activityStateNodeID);
+                        }
+                    }
+                }
+
+                if (activityStateTreeID != null) {
+                    qPos.add(activityStateTreeID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
     }
 
     /**
@@ -2224,6 +2217,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer activityStateNodeID) throws SystemException {
         return findByActivityStateNodeID(activityStateNodeID,
@@ -2234,7 +2228,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityStateNodeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeID the activity state node i d
@@ -2243,6 +2237,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer activityStateNodeID, int start, int end)
         throws SystemException {
@@ -2253,7 +2248,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityStateNodeID = &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeID the activity state node i d
@@ -2263,14 +2258,17 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer activityStateNodeID, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
         FinderPath finderPath = null;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID;
             finderArgs = new Object[] { activityStateNodeID };
         } else {
@@ -2303,7 +2301,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 query = new StringBundler(3 +
                         (orderByComparator.getOrderByFields().length * 3));
             } else {
-                query = new StringBundler(2);
+                query = new StringBundler(3);
             }
 
             query.append(_SQL_SELECT_LFACTIVITYSTATE_WHERE);
@@ -2317,6 +2315,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -2334,19 +2335,26 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     qPos.add(activityStateNodeID.intValue());
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
 
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
                 }
 
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -2363,6 +2371,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityStateNodeID_First(
         Integer activityStateNodeID, OrderByComparator orderByComparator)
         throws NoSuchLFActivityStateException, SystemException {
@@ -2393,6 +2402,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the first matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityStateNodeID_First(
         Integer activityStateNodeID, OrderByComparator orderByComparator)
         throws SystemException {
@@ -2415,6 +2425,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState findByActivityStateNodeID_Last(
         Integer activityStateNodeID, OrderByComparator orderByComparator)
         throws NoSuchLFActivityStateException, SystemException {
@@ -2445,10 +2456,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the last matching l f activity state, or <code>null</code> if a matching l f activity state could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState fetchByActivityStateNodeID_Last(
         Integer activityStateNodeID, OrderByComparator orderByComparator)
         throws SystemException {
         int count = countByActivityStateNodeID(activityStateNodeID);
+
+        if (count == 0) {
+            return null;
+        }
 
         List<LFActivityState> list = findByActivityStateNodeID(activityStateNodeID,
                 count - 1, count, orderByComparator);
@@ -2470,6 +2486,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public LFActivityState[] findByActivityStateNodeID_PrevAndNext(long id,
         Integer activityStateNodeID, OrderByComparator orderByComparator)
         throws NoSuchLFActivityStateException, SystemException {
@@ -2569,6 +2586,8 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     }
                 }
             }
+        } else {
+            query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
         }
 
         String sql = query.toString();
@@ -2605,13 +2624,14 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns all the l f activity states where activityStateNodeID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
      * @return the matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer[] activityStateNodeIDs) throws SystemException {
         return findByActivityStateNodeID(activityStateNodeIDs,
@@ -2622,7 +2642,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns a range of all the l f activity states where activityStateNodeID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
@@ -2631,6 +2651,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer[] activityStateNodeIDs, int start, int end)
         throws SystemException {
@@ -2641,7 +2662,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * Returns an ordered range of all the l f activity states where activityStateNodeID = any &#63;.
      *
      * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
      * </p>
      *
      * @param activityStateNodeIDs the activity state node i ds
@@ -2651,14 +2672,22 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the ordered range of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public List<LFActivityState> findByActivityStateNodeID(
         Integer[] activityStateNodeIDs, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEID;
+        if ((activityStateNodeIDs != null) &&
+                (activityStateNodeIDs.length == 1)) {
+            return findByActivityStateNodeID(activityStateNodeIDs[0], start,
+                end, orderByComparator);
+        }
+
+        boolean pagination = true;
         Object[] finderArgs = null;
 
         if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
                 (orderByComparator == null)) {
+            pagination = false;
             finderArgs = new Object[] { StringUtil.merge(activityStateNodeIDs) };
         } else {
             finderArgs = new Object[] {
@@ -2668,7 +2697,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 };
         }
 
-        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(finderPath,
+        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
                 finderArgs, this);
 
         if ((list != null) && !list.isEmpty()) {
@@ -2717,6 +2746,9 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
                     orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFActivityStateModelImpl.ORDER_BY_JPQL);
             }
 
             String sql = query.toString();
@@ -2738,166 +2770,33 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                     }
                 }
 
-                list = (List<LFActivityState>) QueryUtil.list(q, getDialect(),
-                        start, end);
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
-                closeSession(session);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Returns all the l f activity states.
-     *
-     * @return the l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFActivityState> findAll() throws SystemException {
-        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-    }
-
-    /**
-     * Returns a range of all the l f activity states.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f activity states
-     * @param end the upper bound of the range of l f activity states (not inclusive)
-     * @return the range of l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFActivityState> findAll(int start, int end)
-        throws SystemException {
-        return findAll(start, end, null);
-    }
-
-    /**
-     * Returns an ordered range of all the l f activity states.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-     * </p>
-     *
-     * @param start the lower bound of the range of l f activity states
-     * @param end the upper bound of the range of l f activity states (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public List<LFActivityState> findAll(int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        FinderPath finderPath = null;
-        Object[] finderArgs = new Object[] { start, end, orderByComparator };
-
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
-            finderArgs = FINDER_ARGS_EMPTY;
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-            finderArgs = new Object[] { start, end, orderByComparator };
-        }
-
-        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
-
-        if (list == null) {
-            StringBundler query = null;
-            String sql = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(2 +
-                        (orderByComparator.getOrderByFields().length * 3));
-
-                query.append(_SQL_SELECT_LFACTIVITYSTATE);
-
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-
-                sql = query.toString();
-            } else {
-                sql = _SQL_SELECT_LFACTIVITYSTATE;
-            }
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                if (orderByComparator == null) {
+                if (!pagination) {
                     list = (List<LFActivityState>) QueryUtil.list(q,
                             getDialect(), start, end, false);
 
                     Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
                 } else {
                     list = (List<LFActivityState>) QueryUtil.list(q,
                             getDialect(), start, end);
                 }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
+                    finderArgs, list);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
+                    finderArgs);
+
                 throw processException(e);
             } finally {
-                if (list == null) {
-                    FinderCacheUtil.removeResult(finderPath, finderArgs);
-                } else {
-                    cacheResult(list);
-
-                    FinderCacheUtil.putResult(finderPath, finderArgs, list);
-                }
-
                 closeSession(session);
             }
         }
 
         return list;
-    }
-
-    /**
-     * Removes all the l f activity states where activityStateNodeID = &#63; and activityID = &#63; from the database.
-     *
-     * @param activityStateNodeID the activity state node i d
-     * @param activityID the activity i d
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeByActivityStateNodeIDAndActivityID(
-        Integer activityStateNodeID, String activityID)
-        throws SystemException {
-        for (LFActivityState lfActivityState : findByActivityStateNodeIDAndActivityID(
-                activityStateNodeID, activityID)) {
-            remove(lfActivityState);
-        }
-    }
-
-    /**
-     * Removes all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63; from the database.
-     *
-     * @param activityID the activity i d
-     * @param activityStateNodeID the activity state node i d
-     * @param activityStateTreeID the activity state tree i d
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        String activityID, Integer activityStateNodeID,
-        Integer activityStateTreeID) throws SystemException {
-        for (LFActivityState lfActivityState : findByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-                activityID, activityStateNodeID, activityStateTreeID)) {
-            remove(lfActivityState);
-        }
     }
 
     /**
@@ -2906,416 +2805,13 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @param activityStateNodeID the activity state node i d
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public void removeByActivityStateNodeID(Integer activityStateNodeID)
         throws SystemException {
         for (LFActivityState lfActivityState : findByActivityStateNodeID(
-                activityStateNodeID)) {
+                activityStateNodeID, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
             remove(lfActivityState);
         }
-    }
-
-    /**
-     * Removes all the l f activity states from the database.
-     *
-     * @throws SystemException if a system exception occurred
-     */
-    public void removeAll() throws SystemException {
-        for (LFActivityState lfActivityState : findAll()) {
-            remove(lfActivityState);
-        }
-    }
-
-    /**
-     * Returns the number of l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
-     *
-     * @param activityStateNodeID the activity state node i d
-     * @param activityID the activity i d
-     * @return the number of matching l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByActivityStateNodeIDAndActivityID(
-        Integer activityStateNodeID, String activityID)
-        throws SystemException {
-        Object[] finderArgs = new Object[] { activityStateNodeID, activityID };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(3);
-
-            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
-
-            if (activityStateNodeID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_2);
-            }
-
-            if (activityID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_1);
-            } else {
-                if (activityID.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_2);
-                }
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (activityStateNodeID != null) {
-                    qPos.add(activityStateNodeID.intValue());
-                }
-
-                if (activityID != null) {
-                    qPos.add(activityID);
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
-     *
-     * @param activityStateNodeIDs the activity state node i ds
-     * @param activityID the activity i d
-     * @return the number of matching l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByActivityStateNodeIDAndActivityID(
-        Integer[] activityStateNodeIDs, String activityID)
-        throws SystemException {
-        Object[] finderArgs = new Object[] {
-                StringUtil.merge(activityStateNodeIDs), activityID
-            };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler();
-
-            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
-
-            boolean conjunctionable = false;
-
-            if ((activityStateNodeIDs != null) &&
-                    (activityStateNodeIDs.length > 0)) {
-                if (conjunctionable) {
-                    query.append(WHERE_AND);
-                }
-
-                query.append(StringPool.OPEN_PARENTHESIS);
-
-                for (int i = 0; i < activityStateNodeIDs.length; i++) {
-                    if (activityStateNodeIDs[i] == null) {
-                        query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_NULL);
-                    } else {
-                        query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYSTATENODEID_5);
-                    }
-
-                    if ((i + 1) < activityStateNodeIDs.length) {
-                        query.append(WHERE_OR);
-                    }
-                }
-
-                query.append(StringPool.CLOSE_PARENTHESIS);
-
-                conjunctionable = true;
-            }
-
-            if (conjunctionable) {
-                query.append(WHERE_AND);
-            }
-
-            if (activityID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_4);
-            } else {
-                if (activityID.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_6);
-                } else {
-                    query.append(_FINDER_COLUMN_ACTIVITYSTATENODEIDANDACTIVITYID_ACTIVITYID_5);
-                }
-            }
-
-            conjunctionable = true;
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (activityStateNodeIDs != null) {
-                    for (Integer activityStateNodeID : activityStateNodeIDs) {
-                        if (activityStateNodeID != null) {
-                            qPos.add(activityStateNodeID);
-                        }
-                    }
-                }
-
-                if (activityID != null) {
-                    qPos.add(activityID);
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
-     *
-     * @param activityID the activity i d
-     * @param activityStateNodeID the activity state node i d
-     * @param activityStateTreeID the activity state tree i d
-     * @return the number of matching l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        String activityID, Integer activityStateNodeID,
-        Integer activityStateTreeID) throws SystemException {
-        Object[] finderArgs = new Object[] {
-                activityID, activityStateNodeID, activityStateTreeID
-            };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler(4);
-
-            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
-
-            if (activityID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_1);
-            } else {
-                if (activityID.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_3);
-                } else {
-                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_2);
-                }
-            }
-
-            if (activityStateNodeID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_2);
-            }
-
-            if (activityStateTreeID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_NULL_2);
-            } else {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_2);
-            }
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (activityID != null) {
-                    qPos.add(activityID);
-                }
-
-                if (activityStateNodeID != null) {
-                    qPos.add(activityStateNodeID.intValue());
-                }
-
-                if (activityStateTreeID != null) {
-                    qPos.add(activityStateTreeID.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
-    }
-
-    /**
-     * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
-     *
-     * @param activityID the activity i d
-     * @param activityStateNodeIDs the activity state node i ds
-     * @param activityStateTreeID the activity state tree i d
-     * @return the number of matching l f activity states
-     * @throws SystemException if a system exception occurred
-     */
-    public int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        String activityID, Integer[] activityStateNodeIDs,
-        Integer activityStateTreeID) throws SystemException {
-        Object[] finderArgs = new Object[] {
-                activityID, StringUtil.merge(activityStateNodeIDs),
-                activityStateTreeID
-            };
-
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                finderArgs, this);
-
-        if (count == null) {
-            StringBundler query = new StringBundler();
-
-            query.append(_SQL_COUNT_LFACTIVITYSTATE_WHERE);
-
-            boolean conjunctionable = false;
-
-            if (conjunctionable) {
-                query.append(WHERE_AND);
-            }
-
-            if (activityID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_4);
-            } else {
-                if (activityID.equals(StringPool.BLANK)) {
-                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_6);
-                } else {
-                    query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYID_5);
-                }
-            }
-
-            conjunctionable = true;
-
-            if ((activityStateNodeIDs != null) &&
-                    (activityStateNodeIDs.length > 0)) {
-                if (conjunctionable) {
-                    query.append(WHERE_AND);
-                }
-
-                query.append(StringPool.OPEN_PARENTHESIS);
-
-                for (int i = 0; i < activityStateNodeIDs.length; i++) {
-                    if (activityStateNodeIDs[i] == null) {
-                        query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_NULL);
-                    } else {
-                        query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATENODEID_5);
-                    }
-
-                    if ((i + 1) < activityStateNodeIDs.length) {
-                        query.append(WHERE_OR);
-                    }
-                }
-
-                query.append(StringPool.CLOSE_PARENTHESIS);
-
-                conjunctionable = true;
-            }
-
-            if (conjunctionable) {
-                query.append(WHERE_AND);
-            }
-
-            if (activityStateTreeID == null) {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5_NULL);
-            } else {
-                query.append(_FINDER_COLUMN_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID_ACTIVITYSTATETREEID_5);
-            }
-
-            conjunctionable = true;
-
-            String sql = query.toString();
-
-            Session session = null;
-
-            try {
-                session = openSession();
-
-                Query q = session.createQuery(sql);
-
-                QueryPos qPos = QueryPos.getInstance(q);
-
-                if (activityID != null) {
-                    qPos.add(activityID);
-                }
-
-                if (activityStateNodeIDs != null) {
-                    for (Integer activityStateNodeID : activityStateNodeIDs) {
-                        if (activityStateNodeID != null) {
-                            qPos.add(activityStateNodeID);
-                        }
-                    }
-                }
-
-                if (activityStateTreeID != null) {
-                    qPos.add(activityStateTreeID.intValue());
-                }
-
-                count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
-                    finderArgs, count);
-
-                closeSession(session);
-            }
-        }
-
-        return count.intValue();
     }
 
     /**
@@ -3325,12 +2821,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the number of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByActivityStateNodeID(Integer activityStateNodeID)
         throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID;
+
         Object[] finderArgs = new Object[] { activityStateNodeID };
 
-        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
-                finderArgs, this);
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
 
         if (count == null) {
             StringBundler query = new StringBundler(2);
@@ -3359,16 +2858,13 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 }
 
                 count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
                 throw processException(e);
             } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
-
-                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
-                    finderArgs, count);
-
                 closeSession(session);
             }
         }
@@ -3383,6 +2879,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
      * @return the number of matching l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countByActivityStateNodeID(Integer[] activityStateNodeIDs)
         throws SystemException {
         Object[] finderArgs = new Object[] {
@@ -3444,16 +2941,15 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 }
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEID,
                     finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_ACTIVITYSTATENODEID,
+                    finderArgs);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
@@ -3462,11 +2958,557 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
     }
 
     /**
+     * Caches the l f activity state in the entity cache if it is enabled.
+     *
+     * @param lfActivityState the l f activity state
+     */
+    @Override
+    public void cacheResult(LFActivityState lfActivityState) {
+        EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateImpl.class, lfActivityState.getPrimaryKey(),
+            lfActivityState);
+
+        lfActivityState.resetOriginalValues();
+    }
+
+    /**
+     * Caches the l f activity states in the entity cache if it is enabled.
+     *
+     * @param lfActivityStates the l f activity states
+     */
+    @Override
+    public void cacheResult(List<LFActivityState> lfActivityStates) {
+        for (LFActivityState lfActivityState : lfActivityStates) {
+            if (EntityCacheUtil.getResult(
+                        LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+                        LFActivityStateImpl.class,
+                        lfActivityState.getPrimaryKey()) == null) {
+                cacheResult(lfActivityState);
+            } else {
+                lfActivityState.resetOriginalValues();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache for all l f activity states.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache() {
+        if (_HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE) {
+            CacheRegistryUtil.clear(LFActivityStateImpl.class.getName());
+        }
+
+        EntityCacheUtil.clearCache(LFActivityStateImpl.class.getName());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    /**
+     * Clears the cache for the l f activity state.
+     *
+     * <p>
+     * The {@link com.liferay.portal.kernel.dao.orm.EntityCache} and {@link com.liferay.portal.kernel.dao.orm.FinderCache} are both cleared by this method.
+     * </p>
+     */
+    @Override
+    public void clearCache(LFActivityState lfActivityState) {
+        EntityCacheUtil.removeResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateImpl.class, lfActivityState.getPrimaryKey());
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    @Override
+    public void clearCache(List<LFActivityState> lfActivityStates) {
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        for (LFActivityState lfActivityState : lfActivityStates) {
+            EntityCacheUtil.removeResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+                LFActivityStateImpl.class, lfActivityState.getPrimaryKey());
+        }
+    }
+
+    /**
+     * Creates a new l f activity state with the primary key. Does not add the l f activity state to the database.
+     *
+     * @param id the primary key for the new l f activity state
+     * @return the new l f activity state
+     */
+    @Override
+    public LFActivityState create(long id) {
+        LFActivityState lfActivityState = new LFActivityStateImpl();
+
+        lfActivityState.setNew(true);
+        lfActivityState.setPrimaryKey(id);
+
+        return lfActivityState;
+    }
+
+    /**
+     * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param id the primary key of the l f activity state
+     * @return the l f activity state that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState remove(long id)
+        throws NoSuchLFActivityStateException, SystemException {
+        return remove((Serializable) id);
+    }
+
+    /**
+     * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
+     *
+     * @param primaryKey the primary key of the l f activity state
+     * @return the l f activity state that was removed
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState remove(Serializable primaryKey)
+        throws NoSuchLFActivityStateException, SystemException {
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFActivityState lfActivityState = (LFActivityState) session.get(LFActivityStateImpl.class,
+                    primaryKey);
+
+            if (lfActivityState == null) {
+                if (_log.isWarnEnabled()) {
+                    _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+                }
+
+                throw new NoSuchLFActivityStateException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                    primaryKey);
+            }
+
+            return remove(lfActivityState);
+        } catch (NoSuchLFActivityStateException nsee) {
+            throw nsee;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    @Override
+    protected LFActivityState removeImpl(LFActivityState lfActivityState)
+        throws SystemException {
+        lfActivityState = toUnwrappedModel(lfActivityState);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (!session.contains(lfActivityState)) {
+                lfActivityState = (LFActivityState) session.get(LFActivityStateImpl.class,
+                        lfActivityState.getPrimaryKeyObj());
+            }
+
+            if (lfActivityState != null) {
+                session.delete(lfActivityState);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        if (lfActivityState != null) {
+            clearCache(lfActivityState);
+        }
+
+        return lfActivityState;
+    }
+
+    @Override
+    public LFActivityState updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState)
+        throws SystemException {
+        lfActivityState = toUnwrappedModel(lfActivityState);
+
+        boolean isNew = lfActivityState.isNew();
+
+        LFActivityStateModelImpl lfActivityStateModelImpl = (LFActivityStateModelImpl) lfActivityState;
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            if (lfActivityState.isNew()) {
+                session.save(lfActivityState);
+
+                lfActivityState.setNew(false);
+            } else {
+                session.merge(lfActivityState);
+            }
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+
+        FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+        if (isNew || !LFActivityStateModelImpl.COLUMN_BITMASK_ENABLED) {
+            FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfActivityStateModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfActivityStateModelImpl.getOriginalActivityStateNodeID(),
+                        lfActivityStateModelImpl.getOriginalActivityID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    args);
+
+                args = new Object[] {
+                        lfActivityStateModelImpl.getActivityStateNodeID(),
+                        lfActivityStateModelImpl.getActivityID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEIDANDACTIVITYID,
+                    args);
+            }
+
+            if ((lfActivityStateModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfActivityStateModelImpl.getOriginalActivityID(),
+                        lfActivityStateModelImpl.getOriginalActivityStateNodeID(),
+                        lfActivityStateModelImpl.getOriginalActivityStateTreeID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    args);
+
+                args = new Object[] {
+                        lfActivityStateModelImpl.getActivityID(),
+                        lfActivityStateModelImpl.getActivityStateNodeID(),
+                        lfActivityStateModelImpl.getActivityStateTreeID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDACTIVITYSTATENODEIDANDACTIVITYSTATETREEID,
+                    args);
+            }
+
+            if ((lfActivityStateModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfActivityStateModelImpl.getOriginalActivityStateNodeID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
+                    args);
+
+                args = new Object[] {
+                        lfActivityStateModelImpl.getActivityStateNodeID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYSTATENODEID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYSTATENODEID,
+                    args);
+            }
+        }
+
+        EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFActivityStateImpl.class, lfActivityState.getPrimaryKey(),
+            lfActivityState);
+
+        return lfActivityState;
+    }
+
+    protected LFActivityState toUnwrappedModel(LFActivityState lfActivityState) {
+        if (lfActivityState instanceof LFActivityStateImpl) {
+            return lfActivityState;
+        }
+
+        LFActivityStateImpl lfActivityStateImpl = new LFActivityStateImpl();
+
+        lfActivityStateImpl.setNew(lfActivityState.isNew());
+        lfActivityStateImpl.setPrimaryKey(lfActivityState.getPrimaryKey());
+
+        lfActivityStateImpl.setId(lfActivityState.getId());
+        lfActivityStateImpl.setPackageID(lfActivityState.getPackageID());
+        lfActivityStateImpl.setActivityID(lfActivityState.getActivityID());
+        lfActivityStateImpl.setActive(lfActivityState.getActive());
+        lfActivityStateImpl.setSuspended(lfActivityState.getSuspended());
+        lfActivityStateImpl.setAttemptCompleted(lfActivityState.getAttemptCompleted());
+        lfActivityStateImpl.setAttemptCompletionAmount(lfActivityState.getAttemptCompletionAmount());
+        lfActivityStateImpl.setAttemptAbsoluteDuration(lfActivityState.getAttemptAbsoluteDuration());
+        lfActivityStateImpl.setAttemptExperiencedDuration(lfActivityState.getAttemptExperiencedDuration());
+        lfActivityStateImpl.setActivityAbsoluteDuration(lfActivityState.getActivityAbsoluteDuration());
+        lfActivityStateImpl.setActivityExperiencedDuration(lfActivityState.getActivityExperiencedDuration());
+        lfActivityStateImpl.setAttemptCount(lfActivityState.getAttemptCount());
+        lfActivityStateImpl.setActivityStateNodeID(lfActivityState.getActivityStateNodeID());
+        lfActivityStateImpl.setActivityStateTreeID(lfActivityState.getActivityStateTreeID());
+
+        return lfActivityStateImpl;
+    }
+
+    /**
+     * Returns the l f activity state with the primary key or throws a {@link com.liferay.portal.NoSuchModelException} if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f activity state
+     * @return the l f activity state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState findByPrimaryKey(Serializable primaryKey)
+        throws NoSuchLFActivityStateException, SystemException {
+        LFActivityState lfActivityState = fetchByPrimaryKey(primaryKey);
+
+        if (lfActivityState == null) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+            }
+
+            throw new NoSuchLFActivityStateException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+                primaryKey);
+        }
+
+        return lfActivityState;
+    }
+
+    /**
+     * Returns the l f activity state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException} if it could not be found.
+     *
+     * @param id the primary key of the l f activity state
+     * @return the l f activity state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState findByPrimaryKey(long id)
+        throws NoSuchLFActivityStateException, SystemException {
+        return findByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param primaryKey the primary key of the l f activity state
+     * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState fetchByPrimaryKey(Serializable primaryKey)
+        throws SystemException {
+        LFActivityState lfActivityState = (LFActivityState) EntityCacheUtil.getResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+                LFActivityStateImpl.class, primaryKey);
+
+        if (lfActivityState == _nullLFActivityState) {
+            return null;
+        }
+
+        if (lfActivityState == null) {
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                lfActivityState = (LFActivityState) session.get(LFActivityStateImpl.class,
+                        primaryKey);
+
+                if (lfActivityState != null) {
+                    cacheResult(lfActivityState);
+                } else {
+                    EntityCacheUtil.putResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+                        LFActivityStateImpl.class, primaryKey,
+                        _nullLFActivityState);
+                }
+            } catch (Exception e) {
+                EntityCacheUtil.removeResult(LFActivityStateModelImpl.ENTITY_CACHE_ENABLED,
+                    LFActivityStateImpl.class, primaryKey);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return lfActivityState;
+    }
+
+    /**
+     * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
+     *
+     * @param id the primary key of the l f activity state
+     * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFActivityState fetchByPrimaryKey(long id) throws SystemException {
+        return fetchByPrimaryKey((Serializable) id);
+    }
+
+    /**
+     * Returns all the l f activity states.
+     *
+     * @return the l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFActivityState> findAll() throws SystemException {
+        return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f activity states.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f activity states
+     * @param end the upper bound of the range of l f activity states (not inclusive)
+     * @return the range of l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFActivityState> findAll(int start, int end)
+        throws SystemException {
+        return findAll(start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f activity states.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param start the lower bound of the range of l f activity states
+     * @param end the upper bound of the range of l f activity states (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of l f activity states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFActivityState> findAll(int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+            finderArgs = FINDER_ARGS_EMPTY;
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+            finderArgs = new Object[] { start, end, orderByComparator };
+        }
+
+        List<LFActivityState> list = (List<LFActivityState>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if (list == null) {
+            StringBundler query = null;
+            String sql = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(2 +
+                        (orderByComparator.getOrderByFields().length * 3));
+
+                query.append(_SQL_SELECT_LFACTIVITYSTATE);
+
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+
+                sql = query.toString();
+            } else {
+                sql = _SQL_SELECT_LFACTIVITYSTATE;
+
+                if (pagination) {
+                    sql = sql.concat(LFActivityStateModelImpl.ORDER_BY_JPQL);
+                }
+            }
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                if (!pagination) {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFActivityState>(list);
+                } else {
+                    list = (List<LFActivityState>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f activity states from the database.
+     *
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeAll() throws SystemException {
+        for (LFActivityState lfActivityState : findAll()) {
+            remove(lfActivityState);
+        }
+    }
+
+    /**
      * Returns the number of l f activity states.
      *
      * @return the number of l f activity states
      * @throws SystemException if a system exception occurred
      */
+    @Override
     public int countAll() throws SystemException {
         Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_COUNT_ALL,
                 FINDER_ARGS_EMPTY, this);
@@ -3480,21 +3522,25 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
                 Query q = session.createQuery(_SQL_COUNT_LFACTIVITYSTATE);
 
                 count = (Long) q.uniqueResult();
-            } catch (Exception e) {
-                throw processException(e);
-            } finally {
-                if (count == null) {
-                    count = Long.valueOf(0);
-                }
 
                 FinderCacheUtil.putResult(FINDER_PATH_COUNT_ALL,
                     FINDER_ARGS_EMPTY, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_ALL,
+                    FINDER_ARGS_EMPTY);
 
+                throw processException(e);
+            } finally {
                 closeSession(session);
             }
         }
 
         return count.intValue();
+    }
+
+    @Override
+    protected Set<String> getBadColumnNames() {
+        return _badColumnNames;
     }
 
     /**
@@ -3511,7 +3557,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
 
                 for (String listenerClassName : listenerClassNames) {
                     listenersList.add((ModelListener<LFActivityState>) InstanceFactory.newInstance(
-                            listenerClassName));
+                            getClassLoader(), listenerClassName));
                 }
 
                 listeners = listenersList.toArray(new ModelListener[listenersList.size()]);
@@ -3524,6 +3570,7 @@ public class LFActivityStatePersistenceImpl extends BasePersistenceImpl<LFActivi
     public void destroy() {
         EntityCacheUtil.removeCache(LFActivityStateImpl.class.getName());
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
+        FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
     }
 

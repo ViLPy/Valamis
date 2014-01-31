@@ -26,6 +26,12 @@ import com.liferay.portlet.polls.service.{PollsChoiceLocalServiceUtil, PollsQues
 import com.arcusys.learn.questionbank.model.{ChoiceAnswer, ChoiceQuestion}
 import com.arcusys.learn.quiz.model.Quiz
 import com.arcusys.liferay.util._
+import com.liferay.portlet.dynamicdatamapping.service.persistence.DDMStructureUtil
+import com.liferay.portlet.dynamicdatamapping.service.DDMStructureLocalServiceUtil
+import com.liferay.portal.kernel.search.IndexerRegistryUtil
+import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil
+import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil
+import com.liferay.portal.search.lucene.LuceneIndexer
 
 object UpgradeProcess {
   val isPublic = false
@@ -98,7 +104,7 @@ trait UserHelpers {
 class UpgradeProcess(val storageFactory: StorageFactoryContract) extends UserHelpers with BlogHelpers
 with MessageBoardSupport with DocumentLibrarySupport
 {
-  final private val demoOrgName = "Valamis eLearning demo site 1.5.6"
+  final private val demoOrgName = "Valamis eLearning demo site 1.6.5"
 
   def doUpgrade() {
     System.out.println("Deploying private demo site")
@@ -148,7 +154,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     val group = organization.getGroup
     group.setTypeSettings("customJspServletContextName=valamis-learn-hook")
     GroupLocalServiceUtil.updateGroup(group)
-    GroupLocalServiceUtil.updateFriendlyURL(group.getGroupId, "/learn-demo-hook-1.4.5")
+    GroupLocalServiceUtil.updateFriendlyURL(group.getGroupId, "/learn-demo-hook-1.6.3")
     serviceContext.setScopeGroupId(group.getGroupId)
 
     // Layout set theme
@@ -196,13 +202,14 @@ with MessageBoardSupport with DocumentLibrarySupport
     setCustomTitle(layoutTheory, playerPortlet, "Check out your latest material")
 
     val assetPublisher = addPortletId(layoutTheory, PortletKeys.ASSET_PUBLISHER, "column-5")
+    LayoutLocalServiceUtil.importPortletInfo(defaultUserId, layoutTheory.getPrimaryKey, group.getGroupId, assetPublisher, Map[String, Array[String]](), Thread.currentThread().getContextClassLoader.getResourceAsStream("demo/settings/AssetPublisher.lar"))
 
-    val topicsData = Map("mbMessage" -> ClassNameLocalServiceUtil.getClassNameId("com.liferay.portlet.messageboards.model.MBMessage").toString,
+    /*val topicsData = Map("mbMessage" -> ClassNameLocalServiceUtil.getClassNameId("com.liferay.portlet.messageboards.model.MBMessage").toString,
       "blogsEntry" -> ClassNameLocalServiceUtil.getClassNameId("com.liferay.portlet.blogs.model.BlogsEntry").toString)
     setPortletPreferences(layoutTheory,
       assetPublisher,
       "demo/settings/latest.topics.xml",
-      topicsData)
+      topicsData)*/
 
     val activities = addPortletId(layoutTheory, PortletKeys.ACTIVITIES, "column-6")
     setPortletPreferences(layoutTheory, activities, "demo/settings/activities.xml")
@@ -262,9 +269,9 @@ with MessageBoardSupport with DocumentLibrarySupport
 
     val question = PollsQuestionLocalServiceUtil.addQuestion(teacherUser.getUserId,
       Map(Locale.US -> "Poll"), Map(Locale.US -> "Do you think we might be on to something?"), 1, 1, 2020, 1, 1, true, null, serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(question.getQuestionId, "a", "Yes definitely.", serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(question.getQuestionId, "b", "Maybe.", serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(question.getQuestionId, "c", "I think you have things to learn still.", serviceContext)
+    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "a", "Yes definitely.", serviceContext)
+    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "b", "Maybe.", serviceContext)
+    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "c", "I think you have things to learn still.", serviceContext)
     val portletPolls = addPortletId(layoutTheory, PortletKeys.POLLS_DISPLAY, "column-7")
     setupPortlet(layoutTheory, portletPolls, "questionId", question.getQuestionId.toString)
 
@@ -281,7 +288,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     removePortletBorder(layoutCollaboration, portletCollaborationAbout)
 
     val blogs = addPortletId(layoutCollaboration, PortletKeys.BLOGS, "column-2")
-    removePortletBorder(layoutCollaboration, blogs)
+    //removePortletBorder(layoutCollaboration, blogs)
 
     addBlogsEntry(teacherUser.getUserId, "Finland and PISA (The Programme for International Student Assessment) survey.",
       "demo/blog/pisa.xml", serviceContext)
@@ -369,6 +376,14 @@ with MessageBoardSupport with DocumentLibrarySupport
     //addAttempts(packageId, studentIds)
     //addActivities(packageId, studentIds)
 
+    /*val mbMessageIDs = MBMessageLocalServiceUtil.getMBMessages(-1, -1).asScala.map(_.getMessageId).asJava
+    val blogIDs = BlogsEntryLocalServiceUtil.getBlogsEntries(-1, -1).asScala.map(_.getEntryId).asJava
+
+    IndexerRegistryUtil.getIndexer(classOf[com.liferay.portlet.messageboards.model.MBMessage]).reindex(mbMessageIDs)
+    IndexerRegistryUtil.getIndexer(classOf[com.liferay.portlet.blogs.model.BlogsEntry]).reindex(blogIDs)*/
+
+    /*val luceneIndexer = new LuceneIndexer(companyId)
+    luceneIndexer.reindex()*/
   }
 
   def addToolsNavigationPortlet(layout: Layout) {
@@ -391,7 +406,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA, Array[String](true.toString))
     parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA_CONTROL_DEFAULT, Array[String](true.toString))
     parameterMap.put(PortletDataHandlerKeys.PORTLET_SETUP, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.USER_PERMISSIONS, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeys.PERMISSIONS, Array[String](true.toString))
 
     LayoutLocalServiceUtil.importLayouts(userId, groupId, privateLayout, parameterMap, larFile)
   }
@@ -592,7 +607,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH)
 
     val journalArticle = JournalArticleLocalServiceUtil.addArticle(userId, groupId,
-      0, 0, //classNameId, classPK,
+      0, 0, 0, //folderId, classNameId, classPK,
       title.replaceAll(" ", "_"), //articleId,
       false, //autoArticleId,
       JournalArticleConstants.VERSION_DEFAULT,
@@ -618,7 +633,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     JournalArticleLocalServiceUtil.updateStatus(
       userId, groupId, journalArticle.getArticleId,
       journalArticle.getVersion, WorkflowConstants.STATUS_APPROVED,
-      StringPool.BLANK, serviceContext)
+      StringPool.BLANK, null, serviceContext)
 
     journalArticle
   }

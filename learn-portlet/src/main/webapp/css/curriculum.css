@@ -1,12 +1,12 @@
 
 /* Tabs restyling */
 
-.portlet-learn-scorm #certificateTabs {
+.portlet-learn-scorm #certificateTabs, #achievementTabs {
     background: transparent;
     border: none;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-widget-header {
+.portlet-learn-scorm #certificateTabs .ui-widget-header, #achievementTabs .ui-widget-header{
     background: transparent;
     border: none;
     -moz-border-radius: 0px;
@@ -15,7 +15,7 @@
     padding-left: 10px;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-state-default {
+.portlet-learn-scorm #certificateTabs .ui-state-default, #achievementTabs .ui-state-default{
     background: #D9DCDD;
     border: none;
     margin-right: 5px;
@@ -24,7 +24,7 @@
     border-right: 1px solid #BBBDBE;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-state-active {
+.portlet-learn-scorm #certificateTabs .ui-state-active, #achievementTabs .ui-state-active {
     background: #edeeef;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
@@ -34,14 +34,14 @@
     border-right: 1px solid #BBBDBE;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-state-default a {
+.portlet-learn-scorm #certificateTabs .ui-state-default a, #achievementTabs .ui-state-default a{
     color: #000;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-state-active a {
+.portlet-learn-scorm #certificateTabs .ui-state-active a, #achievementTabs .ui-state-active a  {
     background: #edeeef;
     color: #000;
     -moz-border-radius: 5px 5px 0 0;
@@ -49,7 +49,7 @@
     border-radius: 5px 5px 0 0;
 }
 
-.portlet-learn-scorm #certificateTabs .ui-tabs-panel {
+.portlet-learn-scorm #certificateTabs .ui-tabs-panel, #achievementTabs .ui-tabs-panel {
     background: #edeeef;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -58,7 +58,7 @@
     border: 1px solid #BBBDBE;
 }
 
-.portlet-learn-scorm #certificateTabs li .ui-icon-close {
+.portlet-learn-scorm #certificateTabs li .ui-icon-close, #achievementTabs li .ui-icon-close {
     float: left;
     margin: 0.4em 0.2em 0 0;
     cursor: pointer;

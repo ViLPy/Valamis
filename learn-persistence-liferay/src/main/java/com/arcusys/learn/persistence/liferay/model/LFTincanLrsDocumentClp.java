@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,26 +31,32 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
     public LFTincanLrsDocumentClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFTincanLrsDocument.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFTincanLrsDocument.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -99,44 +107,114 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfTincanLrsDocumentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsDocumentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfTincanLrsDocumentRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDocumentId() {
         return _documentId;
     }
 
+    @Override
     public void setDocumentId(String documentId) {
         _documentId = documentId;
+
+        if (_lfTincanLrsDocumentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsDocumentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDocumentId", String.class);
+
+                method.invoke(_lfTincanLrsDocumentRemoteModel, documentId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Date getUpdate() {
         return _update;
     }
 
+    @Override
     public void setUpdate(Date update) {
         _update = update;
+
+        if (_lfTincanLrsDocumentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsDocumentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setUpdate", Date.class);
+
+                method.invoke(_lfTincanLrsDocumentRemoteModel, update);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getContent() {
         return _content;
     }
 
+    @Override
     public void setContent(String content) {
         _content = content;
+
+        if (_lfTincanLrsDocumentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsDocumentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setContent", String.class);
+
+                method.invoke(_lfTincanLrsDocumentRemoteModel, content);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getContentType() {
         return _contentType;
     }
 
+    @Override
     public void setContentType(String contentType) {
         _contentType = contentType;
+
+        if (_lfTincanLrsDocumentRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanLrsDocumentRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setContentType", String.class);
+
+                method.invoke(_lfTincanLrsDocumentRemoteModel, contentType);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFTincanLrsDocumentRemoteModel() {
@@ -148,6 +226,47 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
         _lfTincanLrsDocumentRemoteModel = lfTincanLrsDocumentRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfTincanLrsDocumentRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfTincanLrsDocumentRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsDocumentLocalServiceUtil.addLFTincanLrsDocument(this);
@@ -158,7 +277,7 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
 
     @Override
     public LFTincanLrsDocument toEscapedModel() {
-        return (LFTincanLrsDocument) Proxy.newProxyInstance(LFTincanLrsDocument.class.getClassLoader(),
+        return (LFTincanLrsDocument) ProxyUtil.newProxyInstance(LFTincanLrsDocument.class.getClassLoader(),
             new Class[] { LFTincanLrsDocument.class },
             new AutoEscapeBeanHandler(this));
     }
@@ -176,6 +295,7 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
         return clone;
     }
 
+    @Override
     public int compareTo(LFTincanLrsDocument lfTincanLrsDocument) {
         long primaryKey = lfTincanLrsDocument.getPrimaryKey();
 
@@ -190,17 +310,15 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFTincanLrsDocumentClp)) {
             return false;
         }
 
-        LFTincanLrsDocumentClp lfTincanLrsDocument = null;
-
-        try {
-            lfTincanLrsDocument = (LFTincanLrsDocumentClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFTincanLrsDocumentClp lfTincanLrsDocument = (LFTincanLrsDocumentClp) obj;
 
         long primaryKey = lfTincanLrsDocument.getPrimaryKey();
 
@@ -235,6 +353,7 @@ public class LFTincanLrsDocumentClp extends BaseModelImpl<LFTincanLrsDocument>
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(19);
 

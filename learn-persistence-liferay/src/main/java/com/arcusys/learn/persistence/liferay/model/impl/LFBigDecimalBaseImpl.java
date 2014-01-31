@@ -24,6 +24,7 @@ public abstract class LFBigDecimalBaseImpl extends LFBigDecimalModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f big decimal model instance should use the {@link LFBigDecimal} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFBigDecimalLocalServiceUtil.addLFBigDecimal(this);

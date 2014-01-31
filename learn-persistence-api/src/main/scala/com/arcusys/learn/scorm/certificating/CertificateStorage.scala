@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.tracking.model.certificating.{CertificatePage, Ce
  */
 trait CertificateStorage {
   def getAll: Seq[Certificate]
+  def getAll(companyId: Int): Seq[Certificate]
   def getPage(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean): CertificatePage
   def getByID(id: Int): Option[Certificate]
   def createAndGetID(entity: Certificate): Int

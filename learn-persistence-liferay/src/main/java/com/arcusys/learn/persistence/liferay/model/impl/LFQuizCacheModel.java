@@ -6,16 +6,19 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
-* The cache model class for representing LFQuiz in entity cache.
-*
-* @author Brian Wing Shun Chan
-* @see LFQuiz
-* @generated
-*/
-public class LFQuizCacheModel implements CacheModel<LFQuiz>, Serializable {
+ * The cache model class for representing LFQuiz in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see LFQuiz
+ * @generated
+ */
+public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
     public long id;
     public String title;
     public String description;
@@ -44,6 +47,7 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Serializable {
         return sb.toString();
     }
 
+    @Override
     public LFQuiz toEntityModel() {
         LFQuizImpl lfQuizImpl = new LFQuizImpl();
 
@@ -78,5 +82,47 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Serializable {
         lfQuizImpl.resetOriginalValues();
 
         return lfQuizImpl;
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException {
+        id = objectInput.readLong();
+        title = objectInput.readUTF();
+        description = objectInput.readUTF();
+        welcomePageContent = objectInput.readUTF();
+        finalPageContent = objectInput.readUTF();
+        courseID = objectInput.readInt();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput)
+        throws IOException {
+        objectOutput.writeLong(id);
+
+        if (title == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(title);
+        }
+
+        if (description == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(description);
+        }
+
+        if (welcomePageContent == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(welcomePageContent);
+        }
+
+        if (finalPageContent == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(finalPageContent);
+        }
+
+        objectOutput.writeInt(courseID);
     }
 }

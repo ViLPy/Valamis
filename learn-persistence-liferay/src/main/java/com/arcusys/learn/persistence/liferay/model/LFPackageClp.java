@@ -1,16 +1,18 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFPackageLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,26 +32,32 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
     public LFPackageClp() {
     }
 
+    @Override
     public Class<?> getModelClass() {
         return LFPackage.class;
     }
 
+    @Override
     public String getModelClassName() {
         return LFPackage.class.getName();
     }
 
+    @Override
     public long getPrimaryKey() {
         return _id;
     }
 
+    @Override
     public void setPrimaryKey(long primaryKey) {
         setId(primaryKey);
     }
 
+    @Override
     public Serializable getPrimaryKeyObj() {
-        return new Long(_id);
+        return _id;
     }
 
+    @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
         setPrimaryKey(((Long) primaryKeyObj).longValue());
     }
@@ -122,68 +130,181 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         }
     }
 
+    @Override
     public long getId() {
         return _id;
     }
 
+    @Override
     public void setId(long id) {
         _id = id;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setId", long.class);
+
+                method.invoke(_lfPackageRemoteModel, id);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getDefaultOrganizationID() {
         return _defaultOrganizationID;
     }
 
+    @Override
     public void setDefaultOrganizationID(String defaultOrganizationID) {
         _defaultOrganizationID = defaultOrganizationID;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDefaultOrganizationID",
+                        String.class);
+
+                method.invoke(_lfPackageRemoteModel, defaultOrganizationID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getTitle() {
         return _title;
     }
 
+    @Override
     public void setTitle(String title) {
         _title = title;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setTitle", String.class);
+
+                method.invoke(_lfPackageRemoteModel, title);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getBase() {
         return _base;
     }
 
+    @Override
     public void setBase(String base) {
         _base = base;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBase", String.class);
+
+                method.invoke(_lfPackageRemoteModel, base);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getResourcesBase() {
         return _resourcesBase;
     }
 
+    @Override
     public void setResourcesBase(String resourcesBase) {
         _resourcesBase = resourcesBase;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setResourcesBase", String.class);
+
+                method.invoke(_lfPackageRemoteModel, resourcesBase);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public String getSummary() {
         return _summary;
     }
 
+    @Override
     public void setSummary(String summary) {
         _summary = summary;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setSummary", String.class);
+
+                method.invoke(_lfPackageRemoteModel, summary);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Long getAssetRefID() {
         return _assetRefID;
     }
 
+    @Override
     public void setAssetRefID(Long assetRefID) {
         _assetRefID = assetRefID;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAssetRefID", Long.class);
+
+                method.invoke(_lfPackageRemoteModel, assetRefID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
+    @Override
     public Integer getCourseID() {
         return _courseID;
     }
 
+    @Override
     public void setCourseID(Integer courseID) {
         _courseID = courseID;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setCourseID", Integer.class);
+
+                method.invoke(_lfPackageRemoteModel, courseID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
     }
 
     public BaseModel<?> getLFPackageRemoteModel() {
@@ -194,6 +315,47 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         _lfPackageRemoteModel = lfPackageRemoteModel;
     }
 
+    public Object invokeOnRemoteModel(String methodName,
+        Class<?>[] parameterTypes, Object[] parameterValues)
+        throws Exception {
+        Object[] remoteParameterValues = new Object[parameterValues.length];
+
+        for (int i = 0; i < parameterValues.length; i++) {
+            if (parameterValues[i] != null) {
+                remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+            }
+        }
+
+        Class<?> remoteModelClass = _lfPackageRemoteModel.getClass();
+
+        ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+        Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (parameterTypes[i].isPrimitive()) {
+                remoteParameterTypes[i] = parameterTypes[i];
+            } else {
+                String parameterTypeName = parameterTypes[i].getName();
+
+                remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+            }
+        }
+
+        Method method = remoteModelClass.getMethod(methodName,
+                remoteParameterTypes);
+
+        Object returnValue = method.invoke(_lfPackageRemoteModel,
+                remoteParameterValues);
+
+        if (returnValue != null) {
+            returnValue = ClpSerializer.translateOutput(returnValue);
+        }
+
+        return returnValue;
+    }
+
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFPackageLocalServiceUtil.addLFPackage(this);
@@ -204,7 +366,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public LFPackage toEscapedModel() {
-        return (LFPackage) Proxy.newProxyInstance(LFPackage.class.getClassLoader(),
+        return (LFPackage) ProxyUtil.newProxyInstance(LFPackage.class.getClassLoader(),
             new Class[] { LFPackage.class }, new AutoEscapeBeanHandler(this));
     }
 
@@ -224,6 +386,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         return clone;
     }
 
+    @Override
     public int compareTo(LFPackage lfPackage) {
         long primaryKey = lfPackage.getPrimaryKey();
 
@@ -238,17 +401,15 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof LFPackageClp)) {
             return false;
         }
 
-        LFPackageClp lfPackage = null;
-
-        try {
-            lfPackage = (LFPackageClp) obj;
-        } catch (ClassCastException cce) {
-            return false;
-        }
+        LFPackageClp lfPackage = (LFPackageClp) obj;
 
         long primaryKey = lfPackage.getPrimaryKey();
 
@@ -289,6 +450,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         return sb.toString();
     }
 
+    @Override
     public String toXmlString() {
         StringBundler sb = new StringBundler(28);
 

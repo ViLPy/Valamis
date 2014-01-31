@@ -24,6 +24,7 @@ public abstract class LFTincanLrsAttachmentBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f tincan lrs attachment model instance should use the {@link LFTincanLrsAttachment} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFTincanLrsAttachmentLocalServiceUtil.addLFTincanLrsAttachment(this);

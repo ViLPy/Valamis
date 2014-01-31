@@ -100,6 +100,22 @@
     </portlet>
 
     <portlet>
+        <portlet-name>Achievement</portlet-name>
+        <portlet-class>com.arcusys.learn.view.achievement.AchievementAdmin</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Achievement admin</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
         <portlet-name>CurriculumUser</portlet-name>
         <portlet-class>com.arcusys.learn.view.CurriculumUser</portlet-class>
 
@@ -112,6 +128,22 @@
 
         <portlet-info>
             <title>Curriculum user</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>AchievementUser</portlet-name>
+        <portlet-class>com.arcusys.learn.view.AchievementUserView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Achievement user</title>
         </portlet-info>
     </portlet>
 

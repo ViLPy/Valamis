@@ -49,7 +49,7 @@ public class LFActivityStateUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFActivityStateUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFActivityState update(LFActivityState lfActivityState)
+        throws SystemException {
+        return getPersistence().update(lfActivityState);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFActivityState update(LFActivityState lfActivityState,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfActivityState, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFActivityState update(LFActivityState lfActivityState,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfActivityState, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f activity state in the entity cache if it is enabled.
-    *
-    * @param lfActivityState the l f activity state
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState) {
-        getPersistence().cacheResult(lfActivityState);
-    }
-
-    /**
-    * Caches the l f activity states in the entity cache if it is enabled.
-    *
-    * @param lfActivityStates the l f activity states
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> lfActivityStates) {
-        getPersistence().cacheResult(lfActivityStates);
-    }
-
-    /**
-    * Creates a new l f activity state with the primary key. Does not add the l f activity state to the database.
-    *
-    * @param id the primary key for the new l f activity state
-    * @return the new l f activity state
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityState create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f activity state
-    * @return the l f activity state that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityState remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityState updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfActivityState, merge);
-    }
-
-    /**
-    * Returns the l f activity state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException} if it could not be found.
-    *
-    * @param id the primary key of the l f activity state
-    * @return the l f activity state
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityState findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f activity state
-    * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFActivityState fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfActivityState, serviceContext);
     }
 
     /**
@@ -198,7 +118,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeID the activity state node i d
@@ -221,7 +141,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeID the activity state node i d
@@ -344,7 +264,7 @@ public class LFActivityStateUtil {
     * Returns all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -364,7 +284,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -387,7 +307,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -406,6 +326,53 @@ public class LFActivityStateUtil {
         return getPersistence()
                    .findByActivityStateNodeIDAndActivityID(activityStateNodeIDs,
             activityID, start, end, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f activity states where activityStateNodeID = &#63; and activityID = &#63; from the database.
+    *
+    * @param activityStateNodeID the activity state node i d
+    * @param activityID the activity i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityStateNodeIDAndActivityID(
+        java.lang.Integer activityStateNodeID, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence()
+            .removeByActivityStateNodeIDAndActivityID(activityStateNodeID,
+            activityID);
+    }
+
+    /**
+    * Returns the number of l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
+    *
+    * @param activityStateNodeID the activity state node i d
+    * @param activityID the activity i d
+    * @return the number of matching l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityStateNodeIDAndActivityID(
+        java.lang.Integer activityStateNodeID, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityStateNodeIDAndActivityID(activityStateNodeID,
+            activityID);
+    }
+
+    /**
+    * Returns the number of l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
+    *
+    * @param activityStateNodeIDs the activity state node i ds
+    * @param activityID the activity i d
+    * @return the number of matching l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityStateNodeIDAndActivityID(
+        java.lang.Integer[] activityStateNodeIDs, java.lang.String activityID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityStateNodeIDAndActivityID(activityStateNodeIDs,
+            activityID);
     }
 
     /**
@@ -430,7 +397,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityID the activity i d
@@ -454,7 +421,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityID the activity i d
@@ -590,7 +557,7 @@ public class LFActivityStateUtil {
     * Returns all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityID the activity i d
@@ -612,7 +579,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityID the activity i d
@@ -636,7 +603,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityID the activity i d
@@ -660,6 +627,59 @@ public class LFActivityStateUtil {
     }
 
     /**
+    * Removes all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63; from the database.
+    *
+    * @param activityID the activity i d
+    * @param activityStateNodeID the activity state node i d
+    * @param activityStateTreeID the activity state tree i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        java.lang.String activityID, java.lang.Integer activityStateNodeID,
+        java.lang.Integer activityStateTreeID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence()
+            .removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
+            activityStateNodeID, activityStateTreeID);
+    }
+
+    /**
+    * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
+    *
+    * @param activityID the activity i d
+    * @param activityStateNodeID the activity state node i d
+    * @param activityStateTreeID the activity state tree i d
+    * @return the number of matching l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        java.lang.String activityID, java.lang.Integer activityStateNodeID,
+        java.lang.Integer activityStateTreeID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
+            activityStateNodeID, activityStateTreeID);
+    }
+
+    /**
+    * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
+    *
+    * @param activityID the activity i d
+    * @param activityStateNodeIDs the activity state node i ds
+    * @param activityStateTreeID the activity state tree i d
+    * @return the number of matching l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
+        java.lang.String activityID, java.lang.Integer[] activityStateNodeIDs,
+        java.lang.Integer activityStateTreeID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
+            activityStateNodeIDs, activityStateTreeID);
+    }
+
+    /**
     * Returns all the l f activity states where activityStateNodeID = &#63;.
     *
     * @param activityStateNodeID the activity state node i d
@@ -676,7 +696,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityStateNodeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeID the activity state node i d
@@ -696,7 +716,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityStateNodeID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeID the activity state node i d
@@ -811,7 +831,7 @@ public class LFActivityStateUtil {
     * Returns all the l f activity states where activityStateNodeID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -828,7 +848,7 @@ public class LFActivityStateUtil {
     * Returns a range of all the l f activity states where activityStateNodeID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -848,7 +868,7 @@ public class LFActivityStateUtil {
     * Returns an ordered range of all the l f activity states where activityStateNodeID = any &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateNodeIDs the activity state node i ds
@@ -868,87 +888,6 @@ public class LFActivityStateUtil {
     }
 
     /**
-    * Returns all the l f activity states.
-    *
-    * @return the l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll();
-    }
-
-    /**
-    * Returns a range of all the l f activity states.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f activity states
-    * @param end the upper bound of the range of l f activity states (not inclusive)
-    * @return the range of l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll(
-        int start, int end)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end);
-    }
-
-    /**
-    * Returns an ordered range of all the l f activity states.
-    *
-    * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
-    * </p>
-    *
-    * @param start the lower bound of the range of l f activity states
-    * @param end the upper bound of the range of l f activity states (not inclusive)
-    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-    * @return the ordered range of l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll(
-        int start, int end,
-        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findAll(start, end, orderByComparator);
-    }
-
-    /**
-    * Removes all the l f activity states where activityStateNodeID = &#63; and activityID = &#63; from the database.
-    *
-    * @param activityStateNodeID the activity state node i d
-    * @param activityID the activity i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActivityStateNodeIDAndActivityID(
-        java.lang.Integer activityStateNodeID, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence()
-            .removeByActivityStateNodeIDAndActivityID(activityStateNodeID,
-            activityID);
-    }
-
-    /**
-    * Removes all the l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63; from the database.
-    *
-    * @param activityID the activity i d
-    * @param activityStateNodeID the activity state node i d
-    * @param activityStateTreeID the activity state tree i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        java.lang.String activityID, java.lang.Integer activityStateNodeID,
-        java.lang.Integer activityStateTreeID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence()
-            .removeByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
-            activityStateNodeID, activityStateTreeID);
-    }
-
-    /**
     * Removes all the l f activity states where activityStateNodeID = &#63; from the database.
     *
     * @param activityStateNodeID the activity state node i d
@@ -958,84 +897,6 @@ public class LFActivityStateUtil {
         java.lang.Integer activityStateNodeID)
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeByActivityStateNodeID(activityStateNodeID);
-    }
-
-    /**
-    * Removes all the l f activity states from the database.
-    *
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f activity states where activityStateNodeID = &#63; and activityID = &#63;.
-    *
-    * @param activityStateNodeID the activity state node i d
-    * @param activityID the activity i d
-    * @return the number of matching l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityStateNodeIDAndActivityID(
-        java.lang.Integer activityStateNodeID, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityStateNodeIDAndActivityID(activityStateNodeID,
-            activityID);
-    }
-
-    /**
-    * Returns the number of l f activity states where activityStateNodeID = any &#63; and activityID = &#63;.
-    *
-    * @param activityStateNodeIDs the activity state node i ds
-    * @param activityID the activity i d
-    * @return the number of matching l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityStateNodeIDAndActivityID(
-        java.lang.Integer[] activityStateNodeIDs, java.lang.String activityID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityStateNodeIDAndActivityID(activityStateNodeIDs,
-            activityID);
-    }
-
-    /**
-    * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = &#63; and activityStateTreeID = &#63;.
-    *
-    * @param activityID the activity i d
-    * @param activityStateNodeID the activity state node i d
-    * @param activityStateTreeID the activity state tree i d
-    * @return the number of matching l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        java.lang.String activityID, java.lang.Integer activityStateNodeID,
-        java.lang.Integer activityStateTreeID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
-            activityStateNodeID, activityStateTreeID);
-    }
-
-    /**
-    * Returns the number of l f activity states where activityID = &#63; and activityStateNodeID = any &#63; and activityStateTreeID = &#63;.
-    *
-    * @param activityID the activity i d
-    * @param activityStateNodeIDs the activity state node i ds
-    * @param activityStateTreeID the activity state tree i d
-    * @return the number of matching l f activity states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(
-        java.lang.String activityID, java.lang.Integer[] activityStateNodeIDs,
-        java.lang.Integer activityStateTreeID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByActivityIDAndActivityStateNodeIDAndActivityStateTreeID(activityID,
-            activityStateNodeIDs, activityStateTreeID);
     }
 
     /**
@@ -1065,6 +926,144 @@ public class LFActivityStateUtil {
     }
 
     /**
+    * Caches the l f activity state in the entity cache if it is enabled.
+    *
+    * @param lfActivityState the l f activity state
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState) {
+        getPersistence().cacheResult(lfActivityState);
+    }
+
+    /**
+    * Caches the l f activity states in the entity cache if it is enabled.
+    *
+    * @param lfActivityStates the l f activity states
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> lfActivityStates) {
+        getPersistence().cacheResult(lfActivityStates);
+    }
+
+    /**
+    * Creates a new l f activity state with the primary key. Does not add the l f activity state to the database.
+    *
+    * @param id the primary key for the new l f activity state
+    * @return the new l f activity state
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityState create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f activity state with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f activity state
+    * @return the l f activity state that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityState remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityState updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFActivityState lfActivityState)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfActivityState);
+    }
+
+    /**
+    * Returns the l f activity state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException} if it could not be found.
+    *
+    * @param id the primary key of the l f activity state
+    * @return the l f activity state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException if a l f activity state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityState findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f activity state with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f activity state
+    * @return the l f activity state, or <code>null</code> if a l f activity state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFActivityState fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
+    * Returns all the l f activity states.
+    *
+    * @return the l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll();
+    }
+
+    /**
+    * Returns a range of all the l f activity states.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f activity states
+    * @param end the upper bound of the range of l f activity states (not inclusive)
+    * @return the range of l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll(
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f activity states.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFActivityStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param start the lower bound of the range of l f activity states
+    * @param end the upper bound of the range of l f activity states (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of l f activity states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFActivityState> findAll(
+        int start, int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findAll(start, end, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f activity states from the database.
+    *
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeAll()
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeAll();
+    }
+
+    /**
     * Returns the number of l f activity states.
     *
     * @return the number of l f activity states
@@ -1088,7 +1087,7 @@ public class LFActivityStateUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFActivityStatePersistence persistence) {
     }

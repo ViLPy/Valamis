@@ -49,7 +49,7 @@ public class LFObjectiveStateUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFObjectiveStateUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFObjectiveState update(LFObjectiveState lfObjectiveState)
+        throws SystemException {
+        return getPersistence().update(lfObjectiveState);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFObjectiveState update(LFObjectiveState lfObjectiveState,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfObjectiveState, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFObjectiveState update(LFObjectiveState lfObjectiveState,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfObjectiveState, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f objective state in the entity cache if it is enabled.
-    *
-    * @param lfObjectiveState the l f objective state
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFObjectiveState lfObjectiveState) {
-        getPersistence().cacheResult(lfObjectiveState);
-    }
-
-    /**
-    * Caches the l f objective states in the entity cache if it is enabled.
-    *
-    * @param lfObjectiveStates the l f objective states
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjectiveState> lfObjectiveStates) {
-        getPersistence().cacheResult(lfObjectiveStates);
-    }
-
-    /**
-    * Creates a new l f objective state with the primary key. Does not add the l f objective state to the database.
-    *
-    * @param id the primary key for the new l f objective state
-    * @return the new l f objective state
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f objective state with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f objective state
-    * @return the l f objective state that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException if a l f objective state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFObjectiveState lfObjectiveState,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfObjectiveState, merge);
-    }
-
-    /**
-    * Returns the l f objective state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException} if it could not be found.
-    *
-    * @param id the primary key of the l f objective state
-    * @return the l f objective state
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException if a l f objective state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f objective state with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f objective state
-    * @return the l f objective state, or <code>null</code> if a l f objective state with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfObjectiveState, serviceContext);
     }
 
     /**
@@ -229,6 +149,37 @@ public class LFObjectiveStateUtil {
     }
 
     /**
+    * Removes the l f objective state where mapKey = &#63; and activityStateID = &#63; from the database.
+    *
+    * @param mapKey the map key
+    * @param activityStateID the activity state i d
+    * @return the l f objective state that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState removeByMapKeyAndActivityStateID(
+        java.lang.String mapKey, java.lang.Integer activityStateID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .removeByMapKeyAndActivityStateID(mapKey, activityStateID);
+    }
+
+    /**
+    * Returns the number of l f objective states where mapKey = &#63; and activityStateID = &#63;.
+    *
+    * @param mapKey the map key
+    * @param activityStateID the activity state i d
+    * @return the number of matching l f objective states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByMapKeyAndActivityStateID(java.lang.String mapKey,
+        java.lang.Integer activityStateID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByMapKeyAndActivityStateID(mapKey, activityStateID);
+    }
+
+    /**
     * Returns all the l f objective states where activityStateID = &#63;.
     *
     * @param activityStateID the activity state i d
@@ -245,7 +196,7 @@ public class LFObjectiveStateUtil {
     * Returns a range of all the l f objective states where activityStateID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateID the activity state i d
@@ -265,7 +216,7 @@ public class LFObjectiveStateUtil {
     * Returns an ordered range of all the l f objective states where activityStateID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param activityStateID the activity state i d
@@ -377,6 +328,109 @@ public class LFObjectiveStateUtil {
     }
 
     /**
+    * Removes all the l f objective states where activityStateID = &#63; from the database.
+    *
+    * @param activityStateID the activity state i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityStateID(
+        java.lang.Integer activityStateID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByActivityStateID(activityStateID);
+    }
+
+    /**
+    * Returns the number of l f objective states where activityStateID = &#63;.
+    *
+    * @param activityStateID the activity state i d
+    * @return the number of matching l f objective states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityStateID(java.lang.Integer activityStateID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByActivityStateID(activityStateID);
+    }
+
+    /**
+    * Caches the l f objective state in the entity cache if it is enabled.
+    *
+    * @param lfObjectiveState the l f objective state
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFObjectiveState lfObjectiveState) {
+        getPersistence().cacheResult(lfObjectiveState);
+    }
+
+    /**
+    * Caches the l f objective states in the entity cache if it is enabled.
+    *
+    * @param lfObjectiveStates the l f objective states
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFObjectiveState> lfObjectiveStates) {
+        getPersistence().cacheResult(lfObjectiveStates);
+    }
+
+    /**
+    * Creates a new l f objective state with the primary key. Does not add the l f objective state to the database.
+    *
+    * @param id the primary key for the new l f objective state
+    * @return the new l f objective state
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f objective state with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f objective state
+    * @return the l f objective state that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException if a l f objective state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFObjectiveState lfObjectiveState)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfObjectiveState);
+    }
+
+    /**
+    * Returns the l f objective state with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException} if it could not be found.
+    *
+    * @param id the primary key of the l f objective state
+    * @return the l f objective state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException if a l f objective state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f objective state with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f objective state
+    * @return the l f objective state, or <code>null</code> if a l f objective state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f objective states.
     *
     * @return the l f objective states
@@ -391,7 +445,7 @@ public class LFObjectiveStateUtil {
     * Returns a range of all the l f objective states.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objective states
@@ -409,7 +463,7 @@ public class LFObjectiveStateUtil {
     * Returns an ordered range of all the l f objective states.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f objective states
@@ -426,34 +480,6 @@ public class LFObjectiveStateUtil {
     }
 
     /**
-    * Removes the l f objective state where mapKey = &#63; and activityStateID = &#63; from the database.
-    *
-    * @param mapKey the map key
-    * @param activityStateID the activity state i d
-    * @return the l f objective state that was removed
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFObjectiveState removeByMapKeyAndActivityStateID(
-        java.lang.String mapKey, java.lang.Integer activityStateID)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveStateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .removeByMapKeyAndActivityStateID(mapKey, activityStateID);
-    }
-
-    /**
-    * Removes all the l f objective states where activityStateID = &#63; from the database.
-    *
-    * @param activityStateID the activity state i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByActivityStateID(
-        java.lang.Integer activityStateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByActivityStateID(activityStateID);
-    }
-
-    /**
     * Removes all the l f objective states from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -461,33 +487,6 @@ public class LFObjectiveStateUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f objective states where mapKey = &#63; and activityStateID = &#63;.
-    *
-    * @param mapKey the map key
-    * @param activityStateID the activity state i d
-    * @return the number of matching l f objective states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByMapKeyAndActivityStateID(java.lang.String mapKey,
-        java.lang.Integer activityStateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence()
-                   .countByMapKeyAndActivityStateID(mapKey, activityStateID);
-    }
-
-    /**
-    * Returns the number of l f objective states where activityStateID = &#63;.
-    *
-    * @param activityStateID the activity state i d
-    * @return the number of matching l f objective states
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByActivityStateID(java.lang.Integer activityStateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByActivityStateID(activityStateID);
     }
 
     /**
@@ -514,7 +513,7 @@ public class LFObjectiveStateUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFObjectiveStatePersistence persistence) {
     }

@@ -49,7 +49,7 @@ public class LFCertificateUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,99 +83,19 @@ public class LFCertificateUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+     */
+    public static LFCertificate update(LFCertificate lfCertificate)
+        throws SystemException {
+        return getPersistence().update(lfCertificate);
+    }
+
+    /**
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFCertificate update(LFCertificate lfCertificate,
-        boolean merge) throws SystemException {
-        return getPersistence().update(lfCertificate, merge);
-    }
-
-    /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
-     */
-    public static LFCertificate update(LFCertificate lfCertificate,
-        boolean merge, ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfCertificate, merge, serviceContext);
-    }
-
-    /**
-    * Caches the l f certificate in the entity cache if it is enabled.
-    *
-    * @param lfCertificate the l f certificate
-    */
-    public static void cacheResult(
-        com.arcusys.learn.persistence.liferay.model.LFCertificate lfCertificate) {
-        getPersistence().cacheResult(lfCertificate);
-    }
-
-    /**
-    * Caches the l f certificates in the entity cache if it is enabled.
-    *
-    * @param lfCertificates the l f certificates
-    */
-    public static void cacheResult(
-        java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> lfCertificates) {
-        getPersistence().cacheResult(lfCertificates);
-    }
-
-    /**
-    * Creates a new l f certificate with the primary key. Does not add the l f certificate to the database.
-    *
-    * @param id the primary key for the new l f certificate
-    * @return the new l f certificate
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificate create(
-        long id) {
-        return getPersistence().create(id);
-    }
-
-    /**
-    * Removes the l f certificate with the primary key from the database. Also notifies the appropriate model listeners.
-    *
-    * @param id the primary key of the l f certificate
-    * @return the l f certificate that was removed
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a l f certificate with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificate remove(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().remove(id);
-    }
-
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificate updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFCertificate lfCertificate,
-        boolean merge)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfCertificate, merge);
-    }
-
-    /**
-    * Returns the l f certificate with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException} if it could not be found.
-    *
-    * @param id the primary key of the l f certificate
-    * @return the l f certificate
-    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a l f certificate with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificate findByPrimaryKey(
-        long id)
-        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
-            com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().findByPrimaryKey(id);
-    }
-
-    /**
-    * Returns the l f certificate with the primary key or returns <code>null</code> if it could not be found.
-    *
-    * @param id the primary key of the l f certificate
-    * @return the l f certificate, or <code>null</code> if a l f certificate with the primary key could not be found
-    * @throws SystemException if a system exception occurred
-    */
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificate fetchByPrimaryKey(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().fetchByPrimaryKey(id);
+        ServiceContext serviceContext) throws SystemException {
+        return getPersistence().update(lfCertificate, serviceContext);
     }
 
     /**
@@ -195,7 +115,7 @@ public class LFCertificateUtil {
     * Returns a range of all the l f certificates where companyID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param companyID the company i d
@@ -214,7 +134,7 @@ public class LFCertificateUtil {
     * Returns an ordered range of all the l f certificates where companyID = &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param companyID the company i d
@@ -320,6 +240,29 @@ public class LFCertificateUtil {
     }
 
     /**
+    * Removes all the l f certificates where companyID = &#63; from the database.
+    *
+    * @param companyID the company i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByCompanyID(java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByCompanyID(companyID);
+    }
+
+    /**
+    * Returns the number of l f certificates where companyID = &#63;.
+    *
+    * @param companyID the company i d
+    * @return the number of matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByCompanyID(java.lang.Integer companyID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByCompanyID(companyID);
+    }
+
+    /**
     * Returns all the l f certificates where title LIKE &#63;.
     *
     * @param title the title
@@ -336,7 +279,7 @@ public class LFCertificateUtil {
     * Returns a range of all the l f certificates where title LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param title the title
@@ -355,7 +298,7 @@ public class LFCertificateUtil {
     * Returns an ordered range of all the l f certificates where title LIKE &#63;.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param title the title
@@ -456,6 +399,108 @@ public class LFCertificateUtil {
     }
 
     /**
+    * Removes all the l f certificates where title LIKE &#63; from the database.
+    *
+    * @param title the title
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByTitle(java.lang.String title)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByTitle(title);
+    }
+
+    /**
+    * Returns the number of l f certificates where title LIKE &#63;.
+    *
+    * @param title the title
+    * @return the number of matching l f certificates
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByTitle(java.lang.String title)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByTitle(title);
+    }
+
+    /**
+    * Caches the l f certificate in the entity cache if it is enabled.
+    *
+    * @param lfCertificate the l f certificate
+    */
+    public static void cacheResult(
+        com.arcusys.learn.persistence.liferay.model.LFCertificate lfCertificate) {
+        getPersistence().cacheResult(lfCertificate);
+    }
+
+    /**
+    * Caches the l f certificates in the entity cache if it is enabled.
+    *
+    * @param lfCertificates the l f certificates
+    */
+    public static void cacheResult(
+        java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificate> lfCertificates) {
+        getPersistence().cacheResult(lfCertificates);
+    }
+
+    /**
+    * Creates a new l f certificate with the primary key. Does not add the l f certificate to the database.
+    *
+    * @param id the primary key for the new l f certificate
+    * @return the new l f certificate
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificate create(
+        long id) {
+        return getPersistence().create(id);
+    }
+
+    /**
+    * Removes the l f certificate with the primary key from the database. Also notifies the appropriate model listeners.
+    *
+    * @param id the primary key of the l f certificate
+    * @return the l f certificate that was removed
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a l f certificate with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificate remove(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().remove(id);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificate updateImpl(
+        com.arcusys.learn.persistence.liferay.model.LFCertificate lfCertificate)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().updateImpl(lfCertificate);
+    }
+
+    /**
+    * Returns the l f certificate with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException} if it could not be found.
+    *
+    * @param id the primary key of the l f certificate
+    * @return the l f certificate
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException if a l f certificate with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificate findByPrimaryKey(
+        long id)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByPrimaryKey(id);
+    }
+
+    /**
+    * Returns the l f certificate with the primary key or returns <code>null</code> if it could not be found.
+    *
+    * @param id the primary key of the l f certificate
+    * @return the l f certificate, or <code>null</code> if a l f certificate with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificate fetchByPrimaryKey(
+        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().fetchByPrimaryKey(id);
+    }
+
+    /**
     * Returns all the l f certificates.
     *
     * @return the l f certificates
@@ -470,7 +515,7 @@ public class LFCertificateUtil {
     * Returns a range of all the l f certificates.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f certificates
@@ -488,7 +533,7 @@ public class LFCertificateUtil {
     * Returns an ordered range of all the l f certificates.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f certificates
@@ -505,28 +550,6 @@ public class LFCertificateUtil {
     }
 
     /**
-    * Removes all the l f certificates where companyID = &#63; from the database.
-    *
-    * @param companyID the company i d
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByCompanyID(java.lang.Integer companyID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByCompanyID(companyID);
-    }
-
-    /**
-    * Removes all the l f certificates where title LIKE &#63; from the database.
-    *
-    * @param title the title
-    * @throws SystemException if a system exception occurred
-    */
-    public static void removeByTitle(java.lang.String title)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        getPersistence().removeByTitle(title);
-    }
-
-    /**
     * Removes all the l f certificates from the database.
     *
     * @throws SystemException if a system exception occurred
@@ -534,30 +557,6 @@ public class LFCertificateUtil {
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeAll();
-    }
-
-    /**
-    * Returns the number of l f certificates where companyID = &#63;.
-    *
-    * @param companyID the company i d
-    * @return the number of matching l f certificates
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByCompanyID(java.lang.Integer companyID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByCompanyID(companyID);
-    }
-
-    /**
-    * Returns the number of l f certificates where title LIKE &#63;.
-    *
-    * @param title the title
-    * @return the number of matching l f certificates
-    * @throws SystemException if a system exception occurred
-    */
-    public static int countByTitle(java.lang.String title)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().countByTitle(title);
     }
 
     /**
@@ -584,7 +583,7 @@ public class LFCertificateUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFCertificatePersistence persistence) {
     }

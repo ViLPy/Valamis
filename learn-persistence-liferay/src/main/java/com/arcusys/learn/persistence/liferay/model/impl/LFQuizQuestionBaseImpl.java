@@ -24,6 +24,7 @@ public abstract class LFQuizQuestionBaseImpl extends LFQuizQuestionModelImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f quiz question model instance should use the {@link LFQuizQuestion} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFQuizQuestionLocalServiceUtil.addLFQuizQuestion(this);

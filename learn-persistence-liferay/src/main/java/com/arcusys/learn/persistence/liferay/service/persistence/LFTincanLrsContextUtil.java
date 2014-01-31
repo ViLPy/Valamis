@@ -49,7 +49,7 @@ public class LFTincanLrsContextUtil {
     /**
      * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
      */
-    public long countWithDynamicQuery(DynamicQuery dynamicQuery)
+    public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
         throws SystemException {
         return getPersistence().countWithDynamicQuery(dynamicQuery);
     }
@@ -83,21 +83,20 @@ public class LFTincanLrsContextUtil {
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
      */
     public static LFTincanLrsContext update(
-        LFTincanLrsContext lfTincanLrsContext, boolean merge)
-        throws SystemException {
-        return getPersistence().update(lfTincanLrsContext, merge);
+        LFTincanLrsContext lfTincanLrsContext) throws SystemException {
+        return getPersistence().update(lfTincanLrsContext);
     }
 
     /**
-     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, boolean, ServiceContext)
+     * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
      */
     public static LFTincanLrsContext update(
-        LFTincanLrsContext lfTincanLrsContext, boolean merge,
-        ServiceContext serviceContext) throws SystemException {
-        return getPersistence().update(lfTincanLrsContext, merge, serviceContext);
+        LFTincanLrsContext lfTincanLrsContext, ServiceContext serviceContext)
+        throws SystemException {
+        return getPersistence().update(lfTincanLrsContext, serviceContext);
     }
 
     /**
@@ -147,10 +146,9 @@ public class LFTincanLrsContextUtil {
     }
 
     public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsContext updateImpl(
-        com.arcusys.learn.persistence.liferay.model.LFTincanLrsContext lfTincanLrsContext,
-        boolean merge)
+        com.arcusys.learn.persistence.liferay.model.LFTincanLrsContext lfTincanLrsContext)
         throws com.liferay.portal.kernel.exception.SystemException {
-        return getPersistence().updateImpl(lfTincanLrsContext, merge);
+        return getPersistence().updateImpl(lfTincanLrsContext);
     }
 
     /**
@@ -195,7 +193,7 @@ public class LFTincanLrsContextUtil {
     * Returns a range of all the l f tincan lrs contexts.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs contexts
@@ -213,7 +211,7 @@ public class LFTincanLrsContextUtil {
     * Returns an ordered range of all the l f tincan lrs contexts.
     *
     * <p>
-    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
     * </p>
     *
     * @param start the lower bound of the range of l f tincan lrs contexts
@@ -263,7 +261,7 @@ public class LFTincanLrsContextUtil {
     }
 
     /**
-     * @deprecated
+     * @deprecated As of 6.2.0
      */
     public void setPersistence(LFTincanLrsContextPersistence persistence) {
     }

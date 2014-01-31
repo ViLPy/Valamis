@@ -24,6 +24,7 @@ public abstract class LFRollupContributionBaseImpl
      *
      * Never modify or reference this class directly. All methods that expect a l f rollup contribution model instance should use the {@link LFRollupContribution} interface instead.
      */
+    @Override
     public void persist() throws SystemException {
         if (this.isNew()) {
             LFRollupContributionLocalServiceUtil.addLFRollupContribution(this);
