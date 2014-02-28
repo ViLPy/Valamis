@@ -8,4 +8,4 @@ before_script:
   - mysql -e 'create database valamis_test;'
   - psql -c 'create database valamis_test;' -U postgres
 
-script: "mvn test -Ddb.config.names=db,dbH2,dbMySQL"
+script: "mvn test -Ddb.config.names=db,dbH2,dbMySQL -P Liferay6.2"
