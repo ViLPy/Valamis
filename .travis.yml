@@ -8,4 +8,5 @@ before_script:
   - mysql -e 'create database valamis_test;'
   - psql -c 'create database valamis_test;' -U postgres
 
+install: mvn install -DskipTests=true -PLiferay6.2 -B -V
 script: mvn test -Ddb.config.names=db,dbH2,dbMySQL -PLiferay6.2
