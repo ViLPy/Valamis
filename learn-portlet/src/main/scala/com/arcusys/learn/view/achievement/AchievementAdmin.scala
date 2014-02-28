@@ -2,10 +2,6 @@ package com.arcusys.learn.view.achievement
 
 import javax.portlet.{RenderResponse, RenderRequest}
 import com.arcusys.learn.view.{BaseCurriculum}
-import com.arcusys.scorm.lms.{ActivityRepository}
-import com.arcusys.learn.service.util.SessionHandler
-import javax.servlet.http.Cookie
-import com.arcusys.learn.view.liferay.LiferayHelpers
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,25 +12,9 @@ import com.arcusys.learn.view.liferay.LiferayHelpers
  */
 class AchievementAdmin extends BaseCurriculum {
 
-    val activityDataSource = new ActivityRepository()
-
     override def doView(
       request: RenderRequest,
       response: RenderResponse) {
-
-        val userId = Option(request.getRemoteUser).map(_.toInt).getOrElse(0)
-        val language = LiferayHelpers.getLanguage(request)
-        val courseId = LiferayHelpers.getThemeDisplay(request).getScopeGroupId
-
-        val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
-        val cookie = new Cookie("valamisSessionID", sessionID)
-        cookie.setMaxAge(-1)
-        cookie.setPath("/")
-        response.addProperty(cookie)
-        SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
-        SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userId, courseId))
-        SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userId, courseId))
-        SessionHandler.setAttribute(sessionID, "language", language)
 
         super.renderAdminView(
           request,

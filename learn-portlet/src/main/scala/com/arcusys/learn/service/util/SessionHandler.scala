@@ -6,7 +6,7 @@ import javax.servlet.http.Cookie
 /**
  * Because Liferay session management doesn't work properly
  */
-object SessionHandler {
+object SessionHandler extends SessionHandlerContract{
   private val sessions = new MutableMap[String, MutableMap[String, Any]]()
   private val users = new MutableMap[String, String]()
 

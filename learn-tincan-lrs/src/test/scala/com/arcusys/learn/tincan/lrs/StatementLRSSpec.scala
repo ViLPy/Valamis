@@ -241,7 +241,7 @@ object InMemoryStatementStorage extends StatementStorage {
     null,
     None,
     None,
-    new Date(),
+    None,
     None,
     None,
     None,

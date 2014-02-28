@@ -1,9 +1,10 @@
 package com.arcusys.learn.liferay.service.utils
 
-import com.liferay.portal.model.PortletConstants
+import com.arcusys.learn.liferay.constants.PortletConstantsHelper
+
 
 object PortletKeys {
   final val SCORM_PACKAGE: String = "SCORMApplication_WAR_learnportlet"
-  final val SCORM_PACKAGE_ADMIN: String = "SCORMApplicationAdmin_WAR_learnportlet"
-  final val SCORM_PACKAGE_DEFAULT_INSTANCE: String = PortletKeys.SCORM_PACKAGE + PortletConstants.INSTANCE_SEPARATOR + "0000"
+  final val SCORM_PACKAGE_ADMIN: String = "PackageManager_WAR_learnportlet"
+  final val SCORM_PACKAGE_DEFAULT_INSTANCE: String = PortletKeys.SCORM_PACKAGE + PortletConstantsHelper.INSTANCE_SEPARATOR + "0000"
 }

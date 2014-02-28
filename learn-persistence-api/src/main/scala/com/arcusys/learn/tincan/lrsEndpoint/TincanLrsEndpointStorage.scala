@@ -1,6 +1,6 @@
 package com.arcusys.learn.tincan.lrsEndpoint
 
-import com.arcusys.learn.tincan.model.LrsEndpointSettings
+import com.arcusys.learn.tincan.model.lrsClient.LrsEndpointSettings
 
 trait TincanLrsEndpointStorage {
   def get: Option[LrsEndpointSettings]

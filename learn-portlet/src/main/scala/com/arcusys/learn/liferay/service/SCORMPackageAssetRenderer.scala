@@ -1,20 +1,16 @@
 package com.arcusys.learn.liferay.service
 
 import asset.AssetHelper
-import com.liferay.portlet.asset.model.BaseAssetRenderer
 import com.arcusys.learn.scorm.manifest.model._
 import java.util.Locale
-import com.liferay.portal.kernel.util.{StringPool, WebKeys, HtmlUtil}
-import com.liferay.portal.kernel.portlet.{LiferayPortletResponse, LiferayPortletRequest}
-import com.liferay.portal.util.PortalUtil
 import javax.portlet.{RenderRequest, RenderResponse, PortletRequest}
-import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portal.security.permission.PermissionChecker
 import utils.PortletKeys
-import com.arcusys.learn.liferay.SCORMPackageAssetRendererFactory
+import com.arcusys.learn.liferay.util.{HtmlUtilHelper, PortalUtilHelper}
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.{WebKeysHelper, StringPoolHelper}
 
 
-class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
+class SCORMPackageAssetRenderer(pkg: Manifest) extends LBaseAssetRenderer {
   lazy val assetHelper = new AssetHelper()
 
   def getAssetRendererFactoryClassName: String = SCORMPackageAssetRendererFactory.CLASS_NAME
@@ -24,19 +20,19 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
   def getGroupId: Long = assetHelper.getAssetFromManifest(pkg).getGroupId
 
   def getSummary(locale: Locale): String = {
-    HtmlUtil.stripHtml(assetHelper.getAssetFromManifest(pkg).getSummary)
+    HtmlUtilHelper.stripHtml(assetHelper.getAssetFromManifest(pkg).getSummary)
   }
 
   def getTitle(locale: Locale): String = assetHelper.getAssetFromManifest(pkg).getTitle
 
-  override def getURLEdit(liferayPortletRequest: LiferayPortletRequest, liferayPortletResponse: LiferayPortletResponse) = {
+  override def getURLEdit(liferayPortletRequest: LLiferayPortletRequest, liferayPortletResponse: LLiferayPortletResponse) = {
     val portletURL = liferayPortletResponse.createLiferayPortletURL(getControlPanelPlid(liferayPortletRequest), PortletKeys.SCORM_PACKAGE, PortletRequest.RENDER_PHASE)
     portletURL.setParameter("action", "edit")
     portletURL
   }
 
-  override def getURLViewInContext(liferayPortletRequest: LiferayPortletRequest, liferayPortletResponse: LiferayPortletResponse, noSuchEntryRedirect: String): String = {
-    val themeDisplay = liferayPortletRequest.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
+  override def getURLViewInContext(liferayPortletRequest: LLiferayPortletRequest, liferayPortletResponse: LLiferayPortletResponse, noSuchEntryRedirect: String): String = {
+    val themeDisplay = liferayPortletRequest.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
     getPackageURL(themeDisplay.getPlid, assetHelper.getAssetFromManifest(pkg).getPrimaryKey, themeDisplay.getPortalURL, maximized = false)
   }
 
@@ -46,11 +42,11 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
 
   def getUuid: String = ""
 
-  override def hasEditPermission(permissionChecker: PermissionChecker): Boolean = {
+  override def hasEditPermission(permissionChecker: LPermissionChecker): Boolean = {
     false
   }
 
-  override def hasViewPermission(permissionChecker: PermissionChecker): Boolean = {
+  override def hasViewPermission(permissionChecker: LPermissionChecker): Boolean = {
     true
   }
 
@@ -65,15 +61,15 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends BaseAssetRenderer {
   private def getPackageURL(plid: Long, resourcePrimKey: Long, portalURL: String, maximized: Boolean) = {
     val sb: StringBuilder = new StringBuilder(11)
     sb.append(portalURL)
-    sb.append(PortalUtil.getPathMain)
+    sb.append(PortalUtilHelper.getPathMain)
     sb.append("/portal/learn-portlet/open_package")
-    sb.append(StringPool.QUESTION)
+    sb.append(StringPoolHelper.QUESTION)
     sb.append("plid")
-    sb.append(StringPool.EQUAL)
+    sb.append(StringPoolHelper.EQUAL)
     sb.append(String.valueOf(plid))
-    sb.append(StringPool.AMPERSAND)
+    sb.append(StringPoolHelper.AMPERSAND)
     sb.append("resourcePrimKey")
-    sb.append(StringPool.EQUAL)
+    sb.append(StringPoolHelper.EQUAL)
     sb.append(String.valueOf(resourcePrimKey))
 
     sb.toString() + (if (maximized) {

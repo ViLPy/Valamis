@@ -10,7 +10,7 @@ trait StateEntityStorage extends StateStorage with EntityStorage[State] with Ent
     getOne("activityId" -> activityId, "stateId" -> stateId, "agent" -> agent, "registration" -> registration)
   }
 
-  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Date): Seq[String] = {
+  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[Date]): Seq[String] = {
     getAll("activityId" -> activityId, "agent" -> agent, "registration" -> registration, "since" -> since).map(_.stateId)
   }
 

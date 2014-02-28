@@ -3,13 +3,14 @@ package com.arcusys.learn.liferay.service
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.liferay.portal.service.GroupLocalServiceUtil
-import com.liferay.portal.kernel.dao.orm.QueryUtil
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
+import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses.LGroup
 
 class LiferaySiteService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
-  val jsonModel = new JsonModelBuilder[com.liferay.portal.model.Group](site =>
+  val jsonModel = new JsonModelBuilder[LGroup](site =>
     Map(
       "siteID" -> site.getGroupId,
       "title" -> site.getDescriptiveName,
@@ -23,12 +24,12 @@ class LiferaySiteService(configuration: BindingModule) extends ServletBase(confi
   }
 
   private def getSites(companyId: Long) = {
-    GroupLocalServiceUtil.getCompanyGroups(companyId, QueryUtil.ALL_POS,  QueryUtil.ALL_POS).toArray.filter(x => {
-      val site = x.asInstanceOf[com.liferay.portal.model.Group]
+    GroupLocalServiceHelper.getCompanyGroups(companyId, QueryUtilHelper.ALL_POS,  QueryUtilHelper.ALL_POS).toArray.filter(x => {
+      val site = x.asInstanceOf[LGroup]
       val url = site.getFriendlyURL
       site.isSite && site.isActive &&
       //remove control panel
         url != "/control_panel"
-    }).map(i => i.asInstanceOf[com.liferay.portal.model.Group])
+    }).map(i => i.asInstanceOf[LGroup])
   }
 }

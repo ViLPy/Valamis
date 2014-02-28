@@ -8,4 +8,5 @@ trait AchievementRequiredStorage {
     def deleteRequiredActivitiesByAchievementId(achievementId: Int)
     def addRequiredActivity(entity: RequiredActivity): Int
     def updateRequiredActivity(entity: RequiredActivity)
+    def renew()
 }

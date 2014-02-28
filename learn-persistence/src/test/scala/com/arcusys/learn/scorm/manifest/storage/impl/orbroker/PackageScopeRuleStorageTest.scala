@@ -13,4 +13,5 @@ class PackageScopeRuleStorageTest(dbFileName: String) extends ParameterizedUnitT
                                                       with PackageScopeRuleStorageJUnit {
   val packagesScopeRuleStorage = new PackageScopeRuleStorageImpl
   val packagesStorage = new PackagesStorageImpl
+  val tincanPackagesStorage = new TincanPackagesStorageImpl
 }

@@ -1,18 +1,17 @@
 package com.arcusys.learn.achievements
 
 import com.arcusys.learn.scorm.tracking.model.achivements._
-import com.arcusys.learn.web.{ServletBase, Translation}
+import com.arcusys.learn.web.ServletBase
 import org.json4s.DefaultFormats
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.lms.RequiredActivityServiceBL
 import com.arcusys.learn.view.i18nSupport
 import com.arcusys.learn.service.util.SessionHandler
 import com.escalatesoft.subcut.inject.BindingModule
-import com.arcusys.scorm.lms.models.{ActivityModel}
+import com.arcusys.scorm.lms.models.{ActivityModelBL}
 
 
-class RequiredActivityService(configuration: BindingModule) extends ServletBase(configuration) with i18nSupport with Translation{
-  implicit val formats = DefaultFormats
+class RequiredActivityService(configuration: BindingModule) extends BaseWebService(configuration) with i18nSupport{
   def this() = this(Configuration)
 
   val requiredActivityServiceBL = new RequiredActivityServiceBL()
@@ -21,24 +20,6 @@ class RequiredActivityService(configuration: BindingModule) extends ServletBase(
 
   def convertToMap(translations: Map[String,String], activity: String) = {
     Map("activityClassName" -> translations.getOrElse(activity,activity))
-  }
-
-  get("/"){
-//    val activities = requiredActivityServiceBL.getAvailableActivites
-    val activities = List(
-      "com.liferay.portlet.blogs.model.BlogsEntry",
-      "com.liferay.portlet.documentlibrary.model.DLFileEntry",
-      "com.liferay.portlet.wiki.model.WikiPage",
-      "com.liferay.portlet.messageboards.model.MBMessage",
-      "com.liferay.calendar.model.CalendarBooking",
-      "com.liferay.portlet.bookmarks.model.BookmarksEntry"
-    )
-
-
-    val translations = getTranslation
-    val models = activities.map(x => ActivityModel(translations.getOrElse(x, x)))
-
-    json(models)
   }
 
   get("/achievement/:id"){ //Get activities required to complete specified achievement
@@ -101,13 +82,5 @@ class RequiredActivityService(configuration: BindingModule) extends ServletBase(
     val achievementId = parameter("activityId").intRequired
     requiredActivityServiceBL.deleteRequiredActivity(achievementId)
   }
-
-  //TODO Duplicate
-  /*get("/achievement/:id"){ //Get activities required to complete specified achievement
-    val id = parameter("id").intRequired
-    val activities = requiredActivityServiceBL.getRequiredAchievementActivities(id)
-
-    json(activities)
-  }*/
 }
 

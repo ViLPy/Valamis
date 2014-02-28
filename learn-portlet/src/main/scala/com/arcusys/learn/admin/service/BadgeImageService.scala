@@ -18,6 +18,12 @@ class BadgeImageService extends HttpServlet with Injectable {
     response.setContentType("image/png")
     response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
     response.setHeader("Expires", "-1")
-    response.getOutputStream.write(storageFactory.fileStorage.getFile("files/" + directory + "/" + fileName).get.content.get)
+    val file = storageFactory.fileStorage.getFile("files/" + directory + "/" + fileName)
+    val data = if (file.isDefined && file.get.content.isDefined) file.get.content.get
+    else {
+      System.out.println("Badge " + directory + "/" + fileName + " does not exists")
+      Array[Byte]()
+    }
+    response.getOutputStream.write(data)
   }
 }

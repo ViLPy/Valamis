@@ -21,13 +21,17 @@ class CategoryServiceTest extends ScalatraFlatSpec with MockFactory with ProxyMo
   Configuration.modifyBindings {
     testModule =>
       testModule.bind[StorageFactoryContract] toSingle storageFactory
-      addServlet(new CategoryService(testModule), "/*")
+      addServlet(new CategoryService(testModule){
+        override def hasTeacherPermissions = true
+      }, "/*")
   }
 
   "Category service" can "get all categories as JSON" in {
     val dummyCategories = Seq(new QuestionCategory(1, "tit", "desc", None, Some(0)), new QuestionCategory(12, "ti", "des", Some(1),Some(0)))
     storageFactory stubs 'questionCategoryStorage returning questionCategoryStorage
-    questionCategoryStorage expects 'getAll returning dummyCategories once()
+    //questionCategoryStorage expects 'getAll returning dummyCategories once()
+    questionCategoryStorage expects 'getAllByCourseID returning dummyCategories once()
+
 
     get("/") {
       status should equal(200)

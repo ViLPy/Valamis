@@ -51,10 +51,21 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     val rule = storageFactory.playerScopeRuleStorage.get(playerID)
     val scope = if (rule.isEmpty) ScopeType.Site else rule.get.scope
     scope match {
-      case ScopeType.Instance => storageFactory.packageStorage.getInstanceScopeOnlyVisbile(courseIDs)
-      case ScopeType.Site => storageFactory.packageStorage.getOnlyVisbile(scope, courseID.toString)
-      case ScopeType.Page => storageFactory.packageStorage.getOnlyVisbile(scope, pageID)
-      case ScopeType.Player => storageFactory.packageStorage.getOnlyVisbile(scope, playerID)
+      case ScopeType.Instance => storageFactory.packageStorage.getInstanceScopeOnlyVisible(courseIDs)
+      case ScopeType.Site => storageFactory.packageStorage.getOnlyVisible(scope, courseID.toString)
+      case ScopeType.Page => storageFactory.packageStorage.getOnlyVisible(scope, pageID)
+      case ScopeType.Player => storageFactory.packageStorage.getOnlyVisible(scope, playerID) //++ storageFactory.packageStorage.getOnlyVisibile(ScopeType.PlayerPersonal, playerID)
+    }
+  }
+
+  def getVisibleTincanPackages(playerID: String, courseIDs: List[Int], courseID: Int, pageID: String) = {
+    val rule = storageFactory.playerScopeRuleStorage.get(playerID)
+    val scope = if (rule.isEmpty) ScopeType.Site else rule.get.scope
+    scope match {
+      case ScopeType.Instance => storageFactory.tincanPackageStorage.getInstanceScopeOnlyVisible(courseIDs)
+      case ScopeType.Site => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, courseID.toString)
+      case ScopeType.Page => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, pageID)
+      case ScopeType.Player => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, playerID) //++ storageFactory.tincanPackageStorage.getOnlyVisibile(ScopeType.PlayerPersonal, playerID)
     }
   }
 
@@ -87,8 +98,54 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     }
   }
 
-  def getPackageTitle(packageID: Int) = {
-    if (packageID != 0) storageFactory.packageStorage.getByID(packageID).get.title
+  def getPackageTitle(packageID: Int, packageType: String):String = {
+    if (packageID == 0) {
+      return null
+    }
+    packageType match {
+      case "scorm" => {
+        val scormpackage = storageFactory.packageStorage.getByID(packageID)
+        if (scormpackage.isDefined)
+          return scormpackage.get.title
+      }
+      case "tincan" => {
+        val tcpackage = storageFactory.tincanPackageStorage.getByID(packageID)
+        if (tcpackage.isDefined)
+          return tcpackage.get.title
+      }
+    }
+
+    return null
+  }
+
+  def getPackageType(packageID: Int): String = {
+    if (packageID == 0)
+      return null
+
+    val scormpackage = storageFactory.packageStorage.getByID(packageID)
+    if (scormpackage.isDefined)
+      return "scorm"
+
+    val tcpackage = storageFactory.tincanPackageStorage.getByID(packageID)
+    if (tcpackage.isDefined)
+      return "tincan"
+
+    return null
+  }
+
+  def IsPackageExists(packageID: Int): Boolean = {
+    if (packageID == 0)
+      return false
+
+    val scormpackage = storageFactory.packageStorage.getByID(packageID)
+    if (scormpackage.isDefined)
+      return true
+
+    val tcpackage = storageFactory.tincanPackageStorage.getByID(packageID)
+    if (tcpackage.isDefined)
+      return true
+
+    return false
   }
 
 

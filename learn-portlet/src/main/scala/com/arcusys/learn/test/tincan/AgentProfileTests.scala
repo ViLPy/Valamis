@@ -4,7 +4,7 @@ import java.io.PrintWriter
 import com.arcusys.learn.tincan.lrs.state.StateLRS
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.{AgentProfileStorage, StateStorage}
+import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage, StateStorage}
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
 import scala.Some
 import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRS
@@ -18,6 +18,7 @@ class AgentProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
 
   private val agentProfileLrs = new AgentProfileLRS {
     val agentProfileStorage: AgentProfileStorage = storageFactory.tincanLrsAgentProfileStorage
+    val actorStorage: ActorStorage = storageFactory.tincanLrsActorStorage
   }
 
   def renew() {

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.7-SNAPSHOT</version>
+        <version>1.8-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
@@ -25,46 +25,44 @@
                     <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <tasks>
+                                <move file="${project.build.directory}/classes/liferay-plugin-package.properties" tofile="${project.build.directory}/${project.artifactId}/WEB-INF/liferay-plugin-package.properties" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>liferay-plugin-package.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>liferay-plugin-package.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>portal-client</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>portal-service</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>portal-impl</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>util-bridges</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>util-taglib</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.liferay.portal</groupId>
-            <artifactId>util-java</artifactId>
-            <version>${liferay.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -86,12 +84,13 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -101,4 +100,42 @@
             <classifier>classes</classifier>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>Liferay6.2</id>
+            <properties>
+                <persistence.version>620</persistence.version>
+                <supported.liferay.versions>6.2.0</supported.liferay.versions>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>learn-liferay620-services</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.liferay.portal</groupId>
+                    <artifactId>portal-impl</artifactId>
+                    <version>6.2.0-GA1</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.liferay.portal</groupId>
+                    <artifactId>portal-service</artifactId>
+                    <version>6.2.0-GA1</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.arcusys.learn</groupId>
+                    <artifactId>learn-persistence-liferay620</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+    <properties>
+        <!-- Avoid replacement in resources -->
+        <java_io_tmpdir>${java.io.tmpdir</java_io_tmpdir>
+        <user_dir>${user.dir</user_dir>
+    </properties>
 </project>

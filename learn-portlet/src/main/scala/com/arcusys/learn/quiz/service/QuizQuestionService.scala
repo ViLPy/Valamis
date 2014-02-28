@@ -5,9 +5,8 @@ import com.arcusys.scorm.util.QuestionSerializer
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import java.net.URLEncoder
-import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
 
 class QuizQuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -101,7 +100,7 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     val groupID = parameter("groupID").longRequired
     val articleID = parameter("articleID").required
     val articleLanguage = parameter("language").required
-    val article = JournalArticleLocalServiceUtil.getArticle(groupID, articleID)
+    val article = JournalArticleLocalServiceHelper.getArticle(groupID, articleID)
     val title = article.getTitle(articleLanguage)
 
     val text = parameter("text").required

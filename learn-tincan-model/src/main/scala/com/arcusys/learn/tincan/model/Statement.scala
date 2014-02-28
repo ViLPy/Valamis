@@ -25,7 +25,7 @@ case class Statement(
   obj: StatementObject,
   result: Option[Result],
   context: Option[Context],
-  timestamp: Date,
+  timestamp: Option[Date],
   stored: Option[Date],
   authority: Option[Actor],
   version: Option[String],

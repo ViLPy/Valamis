@@ -5,12 +5,12 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
-import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
-import com.liferay.portal.kernel.util.WebKeys
-import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portal.util.PortalUtil
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
+import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.WebKeysHelper
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -22,7 +22,7 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val userUID = request.getRemoteUser
     val userID = themeDisplay.getUser.getUserId
     val courseID = themeDisplay.getLayout.getGroupId
-    val companyId = PortalUtil.getCompanyId(request)
+    val companyId = PortalUtilHelper.getCompanyId(request)
 
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
     val cookie = new Cookie("valamisSessionID", sessionID)
@@ -33,7 +33,7 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
     SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
 
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
     val out = response.getWriter
@@ -68,8 +68,8 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val groupID = request.getParameter("groupID").toLong
     val articleID = request.getParameter("articleID")
     val articleLanguage = request.getParameter("language")
-    val td = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
-    val text = JournalArticleLocalServiceUtil.getArticleContent(groupID, articleID, "view", articleLanguage, td)
+    val td = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
+    val text = JournalArticleLocalServiceHelper.getArticleContent(groupID, articleID, "view", articleLanguage, td)
     response.getWriter.println(text)
   }
 }

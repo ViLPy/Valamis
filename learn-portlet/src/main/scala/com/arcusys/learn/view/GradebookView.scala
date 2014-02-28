@@ -5,9 +5,9 @@ import javax.portlet._
 import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import java.io.FileNotFoundException
-import com.liferay.portal.util.PortalUtil
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 
 class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
@@ -16,7 +16,7 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
   override def doView(request: RenderRequest, response: RenderResponse) {
     val userUID = if (request.getRemoteUser != null) request.getRemoteUser.toInt else null.asInstanceOf[Int]
 
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
     val userName = LiferayHelpers.getUserName(request)

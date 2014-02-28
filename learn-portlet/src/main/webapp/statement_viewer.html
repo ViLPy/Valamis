@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+<div class="container">
+    <div id="searchBox">
+        <table id="versionTable" class="versionTable">
+            <tr>
+                <td>
+                    <!-- Versions other than 1.0 not yet supported
+                    <label>TCAPI Version:</label> -->
+                    <input id="version" type="hidden" value="1.0.0"/>
+                    <!--
+                    <select id="version">
+                        <option value="1.0.0">1.0.0</option>
+                        <option value="0.95 + 0.9">0.95 + 0.9</option>
+                        <option value="0.95">0.95</option>
+                        <option value="0.9">0.9</option>
+                    </select>-->
+                </td>
+            </tr>
+        </table>
+        <table id="searchBoxTable" class="searchBoxTable" style="display: none;">
+            <tr>
+                <td><label>Actor Email</label><input id="actorEmail" type="text" placeholder="Email Address"></td>
+                <td><label>Verb ID</label><input id="verb" type="text" placeholder="Verb"></td>
+                <td><label>Activity ID</label><input id="activityId" type="text" placeholder="Activity ID"></td>
+                <td><label>Use Context Activities</label><input id="context" type="checkbox"></td>
+            </tr>
+        </table>
+        <table id="advancedSearchTable" class="searchBoxTable" style="display: none;">
+            <tr>
+                <td><label>Since</label><input id="since" type="text" placeholder="YYYY-MM-ddTHH:mm:ss.SSSZ"></td>
+                <td><label>Until</label><input id="until" type="text" placeholder="YYYY-MM-ddTHH:mm:ss.SSSZ"></td>
+                <td><label>Registration</label><input id="registration" type="text"
+                                                      placeholder="TinCan Registration ID"></td>
+                <td><label>Authoritative Only</label><input id="authoritative" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td><label>Actor JSON</label><input id="actorJson" type="text" placeholder="Actor JSON"></td>
+                <td><label>Object JSON</label><input id="objectJson" type="text" placeholder="Object JSON"></td>
+                <td><label>Instructor JSON</label><input id="instructorJson" type="text" placeholder="Instructor JSON">
+                </td>
+                <td><label>Sparse</label><input id="sparse" type="checkbox"></td>
+            </tr>
+        </table>
+        <table id="searchBoxTable1" class="searchBoxTable">
+            <tr>
+                <td>
+                    <label>Agent Property</label>
+                    <select id="agentProperty">
+                        <option value="mbox">mbox</option>
+                    </select>
+                </td>
+                <td><label>Agent Value</label><input id="agentValue" type="text" placeholder="Email Address"></td>
+                <td><label>Verb ID</label><input id="verb1" type="text" placeholder="Verb"></td>
+                <td><label>Activity ID</label><input id="activityId1" type="text" placeholder="Activity ID"></td>
+            </tr>
+        </table>
+        <table id="advancedSearchTable1" class="searchBoxTable" style="display: none;">
+            <tr>
+                <td><label>Format </label><select id="format">
+                    <option value="">default</option>
+                    <option value="exact">exact</option>
+                    <option value="ids">ids</option>
+                    <option value="canonical">canonical</option>
+                </select></td>
+                <td><label>Since</label><input id="since1" type="text" placeholder="YYYY-MM-ddTHH:mm:ss.SSSZ"></td>
+                <td><label>Until</label><input id="until1" type="text" placeholder="YYYY-MM-ddTHH:mm:ss.SSSZ"></td>
+                <td><label>Registration</label><input id="registration1" type="text"
+                                                      placeholder="TinCan Registration ID"></td>
+            </tr>
+            <tr>
+                <td><label>Related Agents</label><input id="relatedAgents" type="checkbox"></td>
+                <td><label>Related Activities</label><input id="relatedActivities" type="checkbox"></td>
+                <!--<td><label>Attachments</label><input id="attachments" type="checkbox"></td>-->
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div id="TCAPIQuery" style="display:none"><label for="TCAPIQueryText">TCAPI Query</label>
+            <textarea readonly="true" id="TCAPIQueryText"></textarea>
+        </div>
+
+        <button id="refreshStatements">Refresh</button>
+        <button id="showAdvancedOptions">Show Advanced Options</button>
+        <button id="showQuery">Show TCAPI Query</button>
+    </div>
+    <div id='theStatements'></div>
+    <div id='statementsLoading'>
+        <img src="{{contextPath}}/img/loading.gif" alt="Loading">
+    </div>
+    <button id='showAllStatements'>More...</button>
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</div>
+
+<script type="text/javascript">
+    function Config() {
+        "use strict";
+    }
+    Config.endpoint = document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "/TincanApi/";
+    Config.authUser = "1";
+    Config.authPassword = "nobodycares";
+    Config.actor = { "mbox": ["test@test.com"], "name": ["Test Test"] };
+</script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        TC_VIEWER = new TINCAN.Viewer();
+        TC_VIEWER.pageInitialize();
+        TC_VIEWER.searchStatements();
+    });
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 app.controller('EditAchievementActivitiesController', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     function init() {
-        var url = '{0}/services/requiredActivity/'
+        var url = '{0}/services/activity/'
             .replace('{0}', $window.scormContextPath)
             .replace('{1}', $scope.achievement.id);
 
@@ -9,11 +9,11 @@ app.controller('EditAchievementActivitiesController', ['$scope', '$http', '$wind
             .success(function (response) {
 
                 // TODO: Kill Artyom for it
-                var activities = from(response)
+               /* var activities = from(response)
                     .select(function(item) {
                         return {name: item}
                     })
-                    .toArray();
+                    .toArray();*/
                 $scope.allActivities = activities;
                 $scope.activities = getAvailableActivities();
             });

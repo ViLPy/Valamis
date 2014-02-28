@@ -33,6 +33,7 @@
         <header-portlet-javascript>/js/player/PlayerView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/player/ScopeRuleModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/player/SettingsView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/player/PersonalPackageListView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/lms/validator.js</header-portlet-javascript>
@@ -77,10 +78,49 @@
         <header-portlet-javascript>/js/libs/jquery.form.js</header-portlet-javascript>
         <header-portlet-javascript>/js/libs/blockUI.js</header-portlet-javascript>
         <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
-        <header-portlet-javascript>/js/player/PackageModel.js</header-portlet-javascript>
-        <header-portlet-javascript>/js/player/PackageView.js</header-portlet-javascript>
-        <header-portlet-javascript>/js/player/PlayerView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/Role.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/validator.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/dataModel.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteBase.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteData.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/dataModel12.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteBase12.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/lms/rteData12.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/widgets/LiferayRoleSelectDialog.js</header-portlet-javascript>
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>PackageManager</portlet-name>
+        <indexer-class>com.arcusys.learn.liferay.service.PackageIndexer</indexer-class>
+        <open-search-class>com.arcusys.learn.liferay.service.OpenSearchImpl</open-search-class>
+        <friendly-url-mapping>test-web</friendly-url-mapping>
+        <control-panel-entry-category>content</control-panel-entry-category>
+        <control-panel-entry-weight>17.5</control-panel-entry-weight>
+        <asset-renderer-factory>com.arcusys.learn.liferay.SCORMPackageAssetRendererFactory</asset-renderer-factory>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <show-portlet-access-denied>false</show-portlet-access-denied>
+        <ajaxable>false</ajaxable>
+        <header-portlet-css>/css/scorm_main.css</header-portlet-css>
+        <header-portlet-css>/css/scorm_admin.css</header-portlet-css>
+        <header-portlet-css>/css/player.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-css>/css/ui.jqgrid.css</header-portlet-css>
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.jstree.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/TemplateLoader.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/grid.locale-en.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/list.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.form.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/blockUI.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageModel.js</header-portlet-javascript>
         <header-portlet-javascript>/js/admin/PackageView.js</header-portlet-javascript>
         <header-portlet-javascript>/js/lms/validator.js</header-portlet-javascript>
@@ -336,6 +376,27 @@
     </portlet>
 
     <portlet>
+        <portlet-name>TinCanAPIClientManager</portlet-name>
+        <icon>/img/certificateIcon.png</icon>
+        <!--<social-activity-interpreter-class>com.arcusys.learn.certificating.CertificateActivityInterpreter</social-activity-interpreter-class>-->
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <ajaxable>false</ajaxable>
+
+        <header-portlet-css>/css/scorm_main.css</header-portlet-css>
+        <header-portlet-css>/css/quizmanagement.css</header-portlet-css>
+        <header-portlet-css>/css/curriculum.css</header-portlet-css>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-css>/css/tipsy.css</header-portlet-css>
+        <header-portlet-css>/css/simplePagination.css</header-portlet-css>
+
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <footer-portlet-javascript>/js/tincanclients/index.js</footer-portlet-javascript>
+
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
+
+    <portlet>
         <portlet-name>CurriculumUser</portlet-name>
         <icon>/img/certificateIcon.png</icon>
         <social-activity-interpreter-class>com.arcusys.learn.certificating.CertificateActivityInterpreter</social-activity-interpreter-class>
@@ -425,6 +486,100 @@
         <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
 
 
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanStatementViewer</portlet-name>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <preferences-owned-by-group>false</preferences-owned-by-group>
+        <show-portlet-access-denied>false</show-portlet-access-denied>
+        <instanceable>false</instanceable>
+        <ajaxable>false</ajaxable>
+        <header-portlet-css>/css/TinCanViewerSkeleton.css</header-portlet-css>
+        <header-portlet-css>/css/TinCanViewer.css</header-portlet-css>
+        <header-portlet-css>/css/smoothness/jquery-ui-1.8.17.custom.css</header-portlet-css>
+        <header-portlet-javascript>/js/libs/jquery-1.7.1.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/base64.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/tabs.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/tincan-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/TinCanQueryUtils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/TinCanViewer.js</header-portlet-javascript>
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanReportingView</portlet-name>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <show-portlet-access-denied>false</show-portlet-access-denied>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <ajaxable>false</ajaxable>
+        <header-portlet-javascript>/js/libs/jquery-1.8.2.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.marionette.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/d3.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/d3.layout.cloud.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/ChartStatView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/NumericStatView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/WordCloudStatView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/model/TinCanStatModel.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/model/WordCloudStatModel.js</header-portlet-javascript>
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanReportingByPeriodView</portlet-name>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <show-portlet-access-denied>false</show-portlet-access-denied>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <ajaxable>false</ajaxable>
+        <header-portlet-css>/css/custom-theme/jquery-ui-1.8.16.custom.css</header-portlet-css>
+        <header-portlet-javascript>/js/libs/jquery-1.8.2.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery-ui-1.8.16.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.marionette.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/d3.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/d3.layout.cloud.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/SingleBarChartStatView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/DateFilterView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/model/TinCanAllStatementsModel.js</header-portlet-javascript>
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanLatestStatementsView</portlet-name>
+        <preferences-unique-per-layout>false</preferences-unique-per-layout>
+        <show-portlet-access-denied>false</show-portlet-access-denied>
+        <instanceable>false</instanceable>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <ajaxable>false</ajaxable>
+        <header-portlet-css>/css/simplePagination.css</header-portlet-css>
+        <header-portlet-css>/css/TinCanViewer.css</header-portlet-css>
+        <header-portlet-javascript>/js/libs/jquery-1.8.2.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/underscore-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.service.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/backbone.marionette.min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/mustache.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/helpers/utils.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/model/StatementModel.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/StatementView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/reporting/PaginationView.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/statements/tincan-min.js</header-portlet-javascript>
+        <header-portlet-javascript>/js/libs/jquery.simplePagination.js</header-portlet-javascript>
+        <css-class-wrapper>portlet-learn-scorm</css-class-wrapper>
     </portlet>
 
     <role-mapper>

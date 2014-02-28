@@ -5,37 +5,41 @@ import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.service.asset.AssetHelper
-import com.liferay.portal.service.GroupLocalServiceUtil
-import com.liferay.portal.util._
-import com.liferay.portal.kernel.dao.orm.QueryUtil
 import scala.collection.JavaConversions._
 import com.arcusys.scorm.lms.PackageService
 import com.arcusys.learn._
-import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.arcusys.learn.service.util.AntiSamyHelper
+import scala.collection.JavaConverters._
+import com.arcusys.learn.liferay.services._
+import scala.Some
+import com.arcusys.learn.scorm.manifest.model.Manifest
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 class PackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
+
   private val assetHelper = new AssetHelper()
 
   import storageFactory._
 
-  def serialiseToMap(manifest : Manifest) = Map("id" -> manifest.id,
+  def serializeToMap(manifest: Manifest) = Map("id" -> manifest.id,
     "title" -> manifest.title,
     "summary" -> manifest.summary.map(_.replaceAll("\n", "")),
     "version" -> manifest.version,
-    "visibility" -> manifest.visibility,
+    "visibility" -> manifest.visibility.getOrElse(false),
     "isDefault" -> manifest.isDefault,
     "type" -> "scorm")
 
-  def serialiseToMap(manifest : tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
+  def serializeToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
     "title" -> manifest.title,
     "summary" -> manifest.summary.map(_.replaceAll("\n", "")),
     "version" -> "",
-    "visibility" -> false,
-    "isDefault" -> false,
+    "visibility" -> manifest.visibility.getOrElse(false),
+    "isDefault" -> manifest.isDefault,
     "type" -> "tincan")
 
-  val jsonModel = new JsonModelBuilder[Manifest](serialiseToMap)
+  val jsonModel = new JsonModelBuilder[Manifest](serializeToMap)
 
   private val packageService = new PackageService()
 
@@ -52,7 +56,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
       case n: NumberFormatException => -1
     } // default id is -1, for guests
 
-    def serialiseScormToMap(manifest:Manifest) = {
+    def serializeScormToMap(manifest: Manifest) = {
       val attempt = attemptStorage.getActive(userID, manifest.id)
       Map("id" -> manifest.id,
         "title" -> manifest.title,
@@ -63,7 +67,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
         "type" -> "scorm")
     }
 
-    def serialiseTincanToMap(manifest : tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
+    def serializeTincanToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
       "title" -> manifest.title,
       "summary" -> manifest.summary.map(_.replaceAll("\n", "")),
       "version" -> "",
@@ -77,8 +81,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
 
     // TODO need filter for tincan packages, and implement sorting (M)
     json(
-      packageService.getVisiblePackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID).sortBy(_.title).map(serialiseScormToMap) ++
-        tincanPackageStorage.getAll.map(serialiseTincanToMap)
+      packageService.getVisiblePackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID).sortBy(_.title).map(serializeScormToMap) ++
+        packageService.getVisibleTincanPackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID).sortBy(_.title).map(serializeTincanToMap)
     )
   }
 
@@ -88,18 +92,22 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
   }
 
   private def getInInstance = {
-    json(packageStorage.getAllForInstance(getAllCourseIDs).map(serialiseToMap) ++ tincanPackageStorage.getAll.map(serialiseToMap))
+    val courseIds = getAllCourseIDs
+    val scormPackages = packageStorage.getAllForInstance(courseIds).map(serializeToMap)
+    val tincanPackages = tincanPackageStorage.getAllForInstance(courseIds).map(serializeToMap)
+    val result = json(scormPackages ++ tincanPackages)
+    result
   }
 
   private def getAllCourseIDs = {
-    val groups = GroupLocalServiceUtil.search(PortalUtil.getCompanyId(request), null, null, null, QueryUtil.ALL_POS, QueryUtil.ALL_POS)
+    val groups = GroupLocalServiceHelper.search(PortalUtilHelper.getCompanyId(request), null, null, null, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS)
     groups.map(i => i.getGroupId.toInt).toList
   }
 
   // get packages for Admin Site scope
   get("/allInSite") {
     val courseID = parameter("courseID").intOption(-1)
-    json(packageStorage.getByCourseID(courseID).map(serialiseToMap) ++ tincanPackageStorage.getAll.map(serialiseToMap))
+    json(packageStorage.getByCourseID(courseID).map(serializeToMap) ++ tincanPackageStorage.getByCourseID(courseID).map(serializeToMap))
   }
 
   // get packages, only by current CourseID (liferay siteID), visibility for current Player + Scope
@@ -108,11 +116,51 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     val scope = parameter("scope").required
     val scopeType = ScopeType.withName(scope)
     scopeType match {
-      case ScopeType.Page => json(packageStorage.getByScope(courseID, scopeType, parameter("pageID").required).map(serialiseToMap) ++ tincanPackageStorage.getAll.map(serialiseToMap))
-      case ScopeType.Player => json(packageStorage.getByScope(courseID, scopeType, parameter("playerID").required).map(serialiseToMap) ++ tincanPackageStorage.getAll.map(serialiseToMap))
-      case ScopeType.Site => json(packageStorage.getByCourseID(Option(courseID)).map(serialiseToMap) ++ tincanPackageStorage.getAll.map(serialiseToMap))
+      case ScopeType.Page => {
+        val pagePackages = packageStorage.getByScope(courseID, scopeType, parameter("pageID").required).map(serializeToMap)
+        val tincanPackages = tincanPackageStorage.getByScope(courseID, scopeType, parameter("pageID").required).map(serializeToMap)
+        json(pagePackages ++ tincanPackages)
+      }
+      case ScopeType.Player => {
+        val playerPackages = packageStorage.getByScope(courseID, scopeType, parameter("playerID").required).map(serializeToMap)
+        val tincanPackages = tincanPackageStorage.getByScope(courseID, scopeType, parameter("playerID").required).map(serializeToMap)
+        val courseIds = getAllCourseIDs
+        val personalPackages = packageStorage.getByExactScope(courseIds, scopeType, parameter("playerID").required).map(serializeToMap)
+        val personalTincanPackages = tincanPackageStorage.getByExactScope(courseIds, scopeType, parameter("playerID").required).map(serializeToMap)
+        json(playerPackages ++ tincanPackages ++ personalPackages ++ personalTincanPackages)
+      }
+      case ScopeType.Site => {
+        val sitePackages = packageStorage.getByCourseID(Option(courseID)).map(serializeToMap)
+        val tincanPackages = tincanPackageStorage.getByCourseID(Option(courseID)).map(serializeToMap)
+        json(sitePackages ++ tincanPackages)
+      }
       case ScopeType.Instance => getInInstance
     }
+  }
+
+  get("/getPersonalForPlayer/:playerID") {
+    val playerID = parameter("playerID").required
+    val courseIds = getAllCourseIDs
+    val layouts = LayoutLocalServiceHelper.getLayouts(UserLocalServiceHelper.getUser(getSessionUserID).getGroupId, true)
+
+    val shown = packageStorage.getByExactScope(courseIds, ScopeType.Player, playerID).map(_.id)
+    val personalPackages = packageStorage.getByCourseID(Some(layouts.asScala.last.getGroupId.toInt)).filter(p => !shown.contains(p.id))
+
+    val shownTC = tincanPackageStorage.getByExactScope(courseIds, ScopeType.Player, playerID).map(_.id)
+    val personalTincanPackages = tincanPackageStorage.getByCourseID(Some(layouts.asScala.last.getGroupId.toInt)).filter(p => !shownTC.contains(p.id))
+
+    json(personalPackages.map(serializeToMap) ++ personalTincanPackages.map(serializeToMap))
+  }
+
+  post("/addPackageToPlayer/:playerID") {
+    requireTeacherPermissions()
+
+    val playerID = parameter("playerID").required
+    val packageID = parameter("id").intRequired
+    val isDefault = false
+    val isVisible = true
+    packageService.setPlayerScopeSettings(packageID, playerID, isVisible, isDefault)
+    //updatePackageSettings(packageID, isVisible, isDefault, scope.toString, playerID)
   }
 
   post("/update/:id") {
@@ -145,6 +193,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
       case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
       case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
       case ScopeType.Page => jsonModel(packageStorage.getByID(id, courseID, scopeType, parameter("pageID").required))
+      case ScopeType.Player => jsonModel(packageStorage.getByID(id))
     }
   }
 
@@ -152,20 +201,16 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     scope match {
       case "instanceScope" => {
         packageService.setInstanceScopeSettings(id, visibility, isDefault)
-        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
       }
       case "siteScope" => {
         packageService.setSiteScopeSettings(id, courseID, visibility, isDefault)
-        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
       }
       case "pageScope" => {
         packageService.setPageScopeSettings(id, parameter("pageID").required, visibility, isDefault)
-        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
       }
-      // For future "Player" scope
-      //  case "player" =>{
-      //  PackageService.setPlayerScopeVisibility(id, parameter("playerID").required, visibility)
-      //  packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Player, Option(parameter("playerID").required), isDefault) }
+      case "playerScope" => {
+        packageService.setPlayerScopeSettings(id, parameter("playerID").required, visibility, isDefault)
+      }
     }
   }
 
@@ -177,7 +222,6 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     if (pkg.isDefined) {
       if (pkg.get.assetRefID.isDefined) assetHelper.deletePackage(pkg.get.assetRefID.get)
       packageStorage.delete(id)
-      packageScopeRuleStorage.delete(id)
     }
   }
 

@@ -1,11 +1,11 @@
 <html>
 <head>
-<title>Settings</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="text/javascript">
         var jQuerySettings = jQuery.noConflict();
         var scormPackageScopeRules = new ScopeRuleModelCollection();
+        var scormPersonalPackages = new ScopeRuleModelCollection();
         var scormPlayerSettingsLanguageData = {};
 
         jQuerySettings(function () {
@@ -14,6 +14,12 @@
             var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
             var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
             Utils.i18nLoader(localizedURL, defaultURL, onPlayerSettingsLanguageLoad, onPlayerSettingsLanguageError);
+
+            window.personalPackageListDialog = new AddPersonalPackageDialog({el: jQuerySettings("#personalPackageSelectDialog")});
+
+            jQuerySettings('#PackageAddFromPersonalSiteButton').on('click', function(){
+                window.personalPackageListDialog.show();
+            })
         });
 
         function onPlayerSettingsLanguageLoad(properties) {
@@ -29,19 +35,33 @@
         function initPlayerSettings(){
             var selected = jQuerySettings("#selectedScope").val();
             jQuerySettings("#scopeOptions").val(selected);
+            updatePersonalPackageVisibility();
             var loader = new TemplateLoader(jQuerySettings.proxy(function () {
                 var packageScopeRuleView = new PlayerSettingsListView({el:jQuerySettings("#packageScopeRuleList"), collection:scormPackageScopeRules, language:scormPlayerSettingsLanguageData});
                 jQuerySettings("#playerSettingsSearch").keyup(function () {
                     packageScopeRuleView.filterPackages(jQuerySettings("#playerSettingsSearch").val());
                 });
+
+                var personalPackagesView = new PersonalPackageList({el: jQuerySettings('#personalPackageList'), collection: scormPersonalPackages});
+                personalPackagesView.on('add-package', scormPackageScopeRules.add, scormPackageScopeRules);
+
                 scormPackageScopeRules.fetch({reset: true});
+                scormPersonalPackages.fetch({reset: true, isPersonalOnly: true});
             }, this));
             loader.fetch("templates/player_settings_templates.html");
 
         }
 
+        function updatePersonalPackageVisibility() {
+            if (jQuerySettings("#scopeOptions").val() == "playerScope")
+                jQuerySettings("#PackageAddFromPersonalSiteButton").show();
+            else
+                jQuerySettings("#PackageAddFromPersonalSiteButton").hide();
+        }
 
         function savePlayerScope(){
+            updatePersonalPackageVisibility();
+
             jQuery.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -69,8 +89,13 @@
                 <option value="instanceScope">{{instanceScope}}</option>
                 <option value="siteScope">{{siteScope}}</option>
                 <option value="pageScope">{{pageScope}}</option>
-                <!--<option value="playerScope">{{playerScope}}</option>-->
+                <option value="playerScope">{{playerScope}}</option>
             </select>
+        </div>
+        <div style="float: right">
+            <abbr title="{{packageAddFromPersonalSite}}">
+                <button id="PackageAddFromPersonalSiteButton" class="button32 buttonAddPackage"></button>
+            </abbr>
         </div>
         <br style="clear: both"/>
 
@@ -79,7 +104,9 @@
 
 </div>
 
-
+<div id="personalPackageSelectDialog" title="{{packageAddFromPersonalSite}}">
+    <div id="personalPackageList"></div>
+</div>
 
 <input type="hidden" id="courseID" value="{{courseID}}"/>
 <input type="hidden" id="pageID" value="{{pageID}}"/>

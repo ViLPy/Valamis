@@ -81,7 +81,7 @@ class StateProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
 
     stateLrs.addStateDocument( state )
     stateLrs.addStateDocument( state2 )
-    val actualDocuments = stateLrs.getStateDocumentIds(state.activityId, state.agent, None, dateFrom )
+    val actualDocuments = stateLrs.getStateDocumentIds(state.activityId, state.agent, None, Some(dateFrom) )
 
     if (actualDocuments.size != 2) throw new Exception("Not enough documents in " + actualDocuments)
 

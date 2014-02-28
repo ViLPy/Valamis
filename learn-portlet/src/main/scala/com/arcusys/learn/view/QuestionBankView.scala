@@ -5,9 +5,9 @@ import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
-import com.liferay.portal.util.PortalUtil
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -30,7 +30,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
     SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
     SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
 
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userID)
     httpServletRequest.getSession.setAttribute("teacherPermissions", hasTeacherPermissions)
 

@@ -384,20 +384,49 @@
 
 <script type="text/mustache" id="liferayUserDialogView">
     <div id="liferayUserDialog">
-        <div class="userSearch">
-            <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="userSearch" class="SCORMSearch"/>
-            <abbr title="Sort">
-                <button id="sortUser" class="textButton sortButton">{{sortOrderAscLabel}}</button>
-            </abbr>
+        <div class="userSearch" style="float: left; width: 40%">
+            <div>
+                <label> {{searchByNameLabel}} </label>
+                <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="userSearch" class="SCORMSearch"/>
+            </div>
+            <div>
+                <label> {{sortLabel}} </label>
+                <select id="sortUser" class="userSearchSelect">
+                    <option value="asc">{{sortOrderAscLabel}}</option>
+                    <option value="desc">{{sortOrderDescLabel}}</option>
+                </select>
+            </div>
+            <div>
+                <label> {{selectOrganizationLabel}} </label>
+                <select id="userOrganization" class="userSearchSelect">
+                    <option value="-1"></option>
+                </select>
+            </div>
+            <div>
+                <button id="userSearchButton" class="textButton userSearchButton"> {{searchLabel}} </button>
+            </div>
         </div>
-
-        <ul id="userList" class="userList"></ul>
+        <div id="allUsersList" style="margin-left: 41%"> </div>
     </div>
 </script>
+
+
+<script type="text/mustache" id="liferayUserListView">
+    <div id="liferayUserList">
+        <div id="allUsersPaginator" class="paginator" style="display: none;"/>
+        <ul id="userList" class="userList"></ul>
+        <label id="noUsersLabel" style="display: none;">Available user list is empty.</label>
+        <div class="addUsersButton">
+            <button id="addUsersButton" class="textButton userSearchButton" style="display: none; float: right;"> {{addUsersLabel}} </button>
+        </div>
+
+    </div>
+</script>
+
 <script type="text/mustache" id="liferayUserElementView">
-    <div id="liferayUserElement" class="portlet-learn-scorm">
+    <div id="liferayUserElement" class="portlet-learn-scorm" style="height: 80px">
         <hr>
-        <button id="selectUserButton" class="button28 buttonInstall quizManagementButton"></button>
+        <input type="checkbox" id="selectUserCheckbox" style="float: right">
         <div style="width:60px; float:left;">
             {{#userPublicPageUrl}}
             <a href="{{userPublicPageUrl}}" target="_blank">

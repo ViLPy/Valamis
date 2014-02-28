@@ -57,9 +57,7 @@
                         window.SitesDialog = new LiferaySiteSelectDialog({el:jQuery1816Curriculum("#CurriculumLiferaySiteDialog"), languageID:"{{language}}"});
                     }
                     if (!window.UsersDialog) {
-                        this.userList = new LiferayUserCollection();
-                        window.UsersDialog = new LiferayUserSelectDialog({collection:this.userList, el:jQuery1816Curriculum("#CurriculumLiferayUserDialog"), language:scormLanguageDataCurriculum});
-                        this.userList.fetch({reset:true});
+                        window.UsersDialog = new LiferayUserSelectDialog({el:jQuery1816Curriculum("#CurriculumLiferayUserDialog"), language:scormLanguageDataCurriculum});
                     }
                     if (!window.CourseGradeDialog) {
                         window.CourseGradeDialog = new UserCourseGradeDialog({el:jQuery1816Curriculum("#CurriculumUserCourseGradeDialog"), language:scormLanguageDataCurriculum});

@@ -8,7 +8,7 @@ import java.util.Date
 trait AgentProfileEntityStorage extends AgentProfileStorage with KeyedEntityStorage[AgentProfile] {
   def get(profileId: String, agent: Agent): Option[AgentProfile] = getOne("profileId" -> profileId, "agent" -> agent)
 
-  def getIds(agent: Agent, since: Date): Seq[String] = getAll("agent" -> agent, "since" -> since).map(_.profileId)
+  def getIds(agent: Agent, since: Option[Date]): Seq[String] = getAll("agent" -> agent, "since" -> since).map(_.profileId)
 
   def create(entity: AgentProfile) {
     create(entity, Nil: _*)

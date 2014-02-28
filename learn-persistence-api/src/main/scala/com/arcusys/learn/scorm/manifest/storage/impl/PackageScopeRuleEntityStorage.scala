@@ -9,9 +9,6 @@ import com.arcusys.learn.scorm.manifest.model.{ScopeType, PackageScopeRule}
  * Date: 3.4.2013
  */
 trait PackageScopeRuleEntityStorage extends PackageScopeRuleStorage with EntityStorageExt[PackageScopeRule] {
-  def get(packageID: Int) = {
-    getOne("packageID" -> packageID)
-  }
 
   def getAll(packageID: Int, scope: ScopeType.Value, scopeID: Option[String]) = {
     getAll("packageID" -> packageID, "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
@@ -40,13 +37,6 @@ trait PackageScopeRuleEntityStorage extends PackageScopeRuleStorage with EntityS
   private def cleanIsDefault(isDefault: Boolean, scope: ScopeType.Value, scopeID: Option[String]){
     if (isDefault) modify("_cleanIsDefault", "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
   }
-
-  //def updateIsDefaultProperty(packageID: Int, scope: ScopeType.Value, scopeID: Option[String], isDefault: Boolean) {
-  //  if (isDefault){
-  //    modify("_cleanIsDefault", "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
-  //    modify("_setAsDefault", "packageID" -> packageID, "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
-  //  }
-  // }
 
   def getDefaultPackageID(scope: ScopeType.Value, scopeID: Option[String]) = {
     val rule = getOne("_getDefaultPackage", "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))

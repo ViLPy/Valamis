@@ -3,7 +3,7 @@ package com.arcusys.scorm.lms
 import scala.util.Random
 import org.junit.runner.RunWith
 import com.arcusys.scorm.lms.exceptions.AchievementNotFoundException
-import com.arcusys.scorm.lms.models.{UserModel, AchievementRequiredActivityModel, AchievementModel}
+import com.arcusys.scorm.lms.models.{UserModel, AchievementRequiredActivityModel, AchievementModelBL}
 import com.arcusys.learn.scorm.tracking.model.achivements.Achievement
 
 /**

@@ -6,10 +6,10 @@ import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.scorm.tracking.model.User
 import java.io.FileNotFoundException
-import com.liferay.portal.util.PortalUtil
 import com.arcusys.learn.scorm.manifest.model.ScopeType
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -31,32 +31,55 @@ class UserView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userUID, courseID))
     SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userUID, courseID))
 
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
     val out = response.getWriter
     val language = LiferayHelpers.getLanguage(request)
 
-    val sessionPackageId = if (httpServletRequest.getSession.getAttribute("playerID") == request.getWindowID) httpServletRequest.getSession.getAttribute("packageId") else null
+    var sessionPackageId = if (httpServletRequest.getSession.getAttribute("playerID") == request.getWindowID)
+      httpServletRequest.getSession.getAttribute("packageId")
+    else null
     var isComplete = false
 
-    val packageToStart = if (sessionPackageId != null) sessionPackageId
+    if (sessionPackageId != null && !packageService.IsPackageExists(sessionPackageId match {
+      case e: Object => e.toString.toInt
+      case _ => 0
+    })) {
+      sessionPackageId = null
+      httpServletRequest.getSession.removeAttribute("packageId")
+    }
+    //storageFactory.packageStorage.getByID()
+
+    val packageToStart = if (sessionPackageId != null)
+    {
+      sessionPackageId match {
+        case e: Object => Option(e.toString.toInt)
+        case _ => None
+      }
+    }
     else {
       val packID = packageService.getDefaultPackageID(themeDisplay.getLayout.getGroupId.toString, themeDisplay.getLayout.getPrimaryKey.toString, request.getWindowID)
-      isComplete = packageService.checkIfCompleteByUser(packID, userUID)
-      if (!isComplete) packID else None
+      if (!packID.isDefined || !packageService.IsPackageExists(packID.get)) None
+      else {
+        isComplete = packageService.checkIfCompleteByUser(packID, userUID)
+        if (!isComplete) packID else None
+      }
     }
-    val defaultPackageID = if (sessionPackageId != null) None else packageToStart
+
+    var defaultPackageID = if (sessionPackageId != null) None else packageToStart
+
 
     val sessionPackageTitle = httpServletRequest.getSession.getAttribute("packageTitle")
-    val packageTitle = if (sessionPackageId != null) sessionPackageTitle
-    else packageService.getPackageTitle(packageToStart match {
-      case e: Option[Int] => e.getOrElse(0)
-      case _ => 0
-    })
-
     val sessionPackageType = httpServletRequest.getSession.getAttribute("packageType")
-    val packageType = sessionPackageType
+
+    val packageType = if (sessionPackageType != null) sessionPackageType.toString
+    else packageService.getPackageType(packageToStart.getOrElse(0))
+
+    val packageTitle = if (sessionPackageId != null) sessionPackageTitle
+    else packageService.getPackageTitle(packageToStart.getOrElse(0), packageType)
+
+
 
     val data = Map("contextPath" -> request.getContextPath,
       "entryID" -> request.getParameter("entryID"),

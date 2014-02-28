@@ -1,3 +1,7 @@
+create index IX_F3B04195 on Learn_ClientApiStorage (code_);
+create index IX_5E996BE7 on Learn_ClientApiStorage (id_);
+create index IX_775D0DBC on Learn_ClientApiStorage (token);
+
 create index IX_AB18E1CB on Learn_LFAchievementActivity (achievementId);
 create index IX_B6E1B269 on Learn_LFAchievementActivity (userId);
 create index IX_C8B74D51 on Learn_LFAchievementActivity (userId, achievementId);
@@ -121,6 +125,9 @@ create index IX_90D71444 on Learn_LFSocialPackage (authorID);
 create index IX_CF234D5B on Learn_LFSocialPackageTag (name);
 create index IX_C54C6408 on Learn_LFSocialPackageTag (socialPackageID);
 
+create index IX_B4AAC647 on Learn_LFTincanActProfile (activityId);
+create index IX_2BA132AD on Learn_LFTincanActProfile (activityId, profileId);
+
 create index IX_D904A10 on Learn_LFTincanActivity (packageID);
 create index IX_961ECBC7 on Learn_LFTincanActivity (tincanID);
 
@@ -128,8 +135,13 @@ create index IX_38F9C274 on Learn_LFTincanActor (memberOf);
 create index IX_91905B9F on Learn_LFTincanActor (objectType, name, mbox, mbox_sha1sum, openid);
 create index IX_CDC60415 on Learn_LFTincanActor (tincanID);
 
-create index IX_D2D0DBF7 on Learn_LFTincanLrsActivityProfile (activityId, profileId);
+create index IX_8EDF4704 on Learn_LFTincanClientApiStorage (code_);
+create index IX_2B590116 on Learn_LFTincanClientApiStorage (id_);
+create index IX_128C132B on Learn_LFTincanClientApiStorage (token);
 
+create index IX_3368073D on Learn_LFTincanLrsActivityProfile (activityId);
+
+create index IX_C8DCDCE5 on Learn_LFTincanLrsAgentProfile (agentId);
 create index IX_E8096D4F on Learn_LFTincanLrsAgentProfile (agentId, profileId);
 create index IX_BF3CD0C9 on Learn_LFTincanLrsAgentProfile (profileId);
 
@@ -145,8 +157,8 @@ create index IX_FE381CB5 on Learn_LFTincanLrsStatement (objType, objID);
 create index IX_2DF2F67A on Learn_LFTincanLrsStatement (tincanID);
 create index IX_B9F1D082 on Learn_LFTincanLrsStatement (verbID);
 
-create index IX_5C883B21 on Learn_LFTincanManifestActivity (packageID);
-create index IX_1CCBF496 on Learn_LFTincanManifestActivity (tincanID);
+create index IX_ACEF0F54 on Learn_LFTincanManifestAct (packageID);
+create index IX_50F04E03 on Learn_LFTincanManifestAct (tincanID);
 
 create index IX_7A257452 on Learn_LFTincanPackage (assetRefID);
 create index IX_F334E16A on Learn_LFTincanPackage (courseID);

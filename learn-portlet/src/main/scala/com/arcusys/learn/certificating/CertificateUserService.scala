@@ -3,13 +3,10 @@ package com.arcusys.learn.certificating
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.liferay.portal.service._
-import com.arcusys.scorm.lms._
 import com.arcusys.learn.scorm.tracking.model.{PermissionType, Course}
 import com.arcusys.learn.scorm.tracking.model.certificating.CertificateUser
-import com.arcusys.learn.service.util.SessionHandler
-import com.liferay.portal.model.Group
-import com.liferay.portal.NoSuchGroupException
+import com.arcusys.learn.liferay.services.{LayoutLocalServiceHelper, GroupLocalServiceHelper, UserGroupRoleLocalServiceHelper, UserLocalServiceHelper}
+import com.arcusys.learn.liferay.LiferayClasses._
 
 /**
  * User: Yulia.Glushonkova
@@ -51,7 +48,7 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
     jsonModel(
       certificateUserStorage.getByCertificate(certificateID).
         map(user => {
-        val lfUser = UserLocalServiceUtil.getUser(user.userID)
+        val lfUser = UserLocalServiceHelper.getUser(user.userID)
         new LiferayUser(user.id, certificateID, user.userID, lfUser.getFullName, lfUser.getPortraitId)
       }).
         sortBy(user => user.name))
@@ -70,17 +67,17 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
 
     certificateSiteStorage.getByCertificate(certificateID).foreach(site => {
       try {
-        UserLocalServiceUtil.addGroupUsers(site.siteID, Array(userID.toLong))
-        UserGroupRoleLocalServiceUtil.addUserGroupRoles(userID, site.siteID, studentRoleIDs)
+        UserLocalServiceHelper.addGroupUsers(site.siteID, Array(userID.toLong))
+        UserGroupRoleLocalServiceHelper.addUserGroupRoles(userID, site.siteID, studentRoleIDs)
       }
       catch {
-        case e: NoSuchGroupException => {
+        case e: LNoSuchGroupException => {
           System.out.println("Liferay site " + site.siteID + " does not exists")
         }
       }
     })
 
-    val lfUser = UserLocalServiceUtil.getUser(userID)
+    val lfUser = UserLocalServiceHelper.getUser(userID)
     jsonModel(new LiferayUser(id, certificateID, userID, lfUser.getFullName, lfUser.getPortraitId))
   }
 
@@ -115,10 +112,10 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
       val data =
         try {
           Map("course" -> (if (course.isDefined) course.get else new Course(item.siteID, userID, "", "", None)),
-            "lfGroup" -> GroupLocalServiceUtil.getGroup(item.siteID))
+            "lfGroup" -> GroupLocalServiceHelper.getGroup(item.siteID))
         }
         catch {
-          case e: NoSuchGroupException => {
+          case e: LNoSuchGroupException => {
             System.out.println("Liferay site " + item.siteID + " does not exists")
             null
           }
@@ -126,8 +123,8 @@ class CertificateUserService(configuration: BindingModule) extends ServletBase(c
       data
     }).filter(i => i != null).map(i => {
       val course = i("course").asInstanceOf[Course]
-      val group = i("lfGroup").asInstanceOf[Group]
-      val publCount = LayoutLocalServiceUtil.getLayoutsCount(group,false)
+      val group = i("lfGroup").asInstanceOf[LGroup]
+      val publCount = LayoutLocalServiceHelper.getLayoutsCount(group,false)
       Map("siteID" -> course.courseID,
         "title" -> group.getDescriptiveName,
         "userID" -> course.userID,

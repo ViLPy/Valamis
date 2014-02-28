@@ -1,30 +1,26 @@
 package com.arcusys.learn.liferay.service
 
 import asset.AssetHelper
-import com.liferay.portal.kernel.struts.{StrutsAction, BaseStrutsAction}
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
-import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portal.kernel.util._
 import javax.portlet.{WindowState, PortletMode, PortletRequest, PortletURL}
-import com.liferay.portal.service.LayoutLocalServiceUtil
-import com.liferay.portal.NoSuchLayoutException
-import com.liferay.portal.model.{LayoutTypePortlet, LayoutConstants, PortletConstants}
-import com.liferay.portlet.{PortletPreferencesFactoryUtil, PortletURLFactoryUtil}
-import com.arcusys.learn.scorm.manifest.model._
 import utils.PortletKeys
-import com.liferay.portal.security.auth.AuthTokenUtil
 import com.arcusys.learn.ioc.InjectableFactory
+import com.arcusys.learn.liferay.services.LayoutLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.util._
+import com.arcusys.learn.liferay.constants._
+import com.arcusys.learn.scorm.manifest.model.Manifest
 
-class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
+class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
   lazy val packageStorage = storageFactory.packageStorage
   lazy val assetHelper = new AssetHelper()
 
-  override def execute(originalStrutsAction: StrutsAction, request: HttpServletRequest, response: HttpServletResponse): String = {
-    val themeDisplay = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
-    val resourcePrimKey: Long = ParamUtil.getLong(request, "resourcePrimKey")
-    val maximized: Boolean = ParamUtil.getBoolean(request, "maximized")
-    val plid = if (isValidPlid(ParamUtil.getLong(request, "plid"))) {
-      ParamUtil.getLong(request, "plid")
+  override def execute(originalStrutsAction: LStrutsAction, request: HttpServletRequest, response: HttpServletResponse): String = {
+    val themeDisplay = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
+    val resourcePrimKey: Long = ParamUtilHelper.getLong(request, "resourcePrimKey")
+    val maximized: Boolean = ParamUtilHelper.getBoolean(request, "maximized")
+    val plid = if (isValidPlid(ParamUtilHelper.getLong(request, "plid"))) {
+      ParamUtilHelper.getLong(request, "plid")
     } else themeDisplay.getPlid
 
     var portletURL: PortletURL = null
@@ -55,7 +51,7 @@ class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
     val portletId = PortletKeys.SCORM_PACKAGE_DEFAULT_INSTANCE
     val portletURL = getPackageURL(plid, portletId, request)
     if (_PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED) {
-      val token: String = AuthTokenUtil.getToken(request, plid, portletId)
+      val token: String = AuthTokenUtilHelper.getToken(request, plid, portletId)
       portletURL.setParameter("p_p_auth", token)
     }
     portletURL.setPortletMode(PortletMode.VIEW)
@@ -67,40 +63,38 @@ class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
     try {
       packageStorage.getByRefID(resourcePrimKey).get
     } catch {
-      case e => null
+      case e: Exception => null
     }
   }
 
   protected def getPackageURL(plid: Long, privateLayout: Boolean, pkg: Manifest, request: HttpServletRequest): PortletURL = {
-    var layouts = LayoutLocalServiceUtil.getLayouts(assetHelper.getAssetFromManifest(pkg).getGroupId, privateLayout, LayoutConstants.TYPE_PORTLET)
-    val selLayout = LayoutLocalServiceUtil.getLayout(plid)
+    var layouts = LayoutLocalServiceHelper.getLayouts(assetHelper.getAssetFromManifest(pkg).getGroupId, privateLayout, LayoutConstantsHelper.TYPE_PORTLET)
+    val selLayout = LayoutLocalServiceHelper.getLayout(plid)
     if ((selLayout.getGroupId == assetHelper.getAssetFromManifest(pkg).getGroupId) && selLayout.isTypePortlet) {
-      layouts = ListUtil.copy(layouts)
+      layouts = ListUtilHelper.copy(layouts)
       layouts.remove(selLayout)
       layouts.add(0, selLayout)
     }
     import scala.collection.JavaConversions._
     for (layout <- layouts) {
-      val layoutTypePortlet = layout.getLayoutType.asInstanceOf[LayoutTypePortlet]
+      val layoutTypePortlet = layout.getLayoutType.asInstanceOf[LLayoutTypePortlet]
       val portlets = layoutTypePortlet.getAllPortlets
       val portlet = portlets.find(portlet => {
-        val rootPortletId = PortletConstants.getRootPortletId(portlet.getPortletId)
+        val rootPortletId = PortletConstantsHelper.getRootPortletId(portlet.getPortletId)
         if (rootPortletId == PortletKeys.SCORM_PACKAGE) {
-          val preferences = PortletPreferencesFactoryUtil.getPortletSetup(layout, portlet.getPortletId, StringPool.BLANK)
-          val resourcePrimKey: Long = GetterUtil.getLong(preferences.getValue("resourcePrimKey", null))
+          val preferences = PortletPreferencesFactoryUtilHelper.getPortletSetup(layout, portlet.getPortletId, StringPoolHelper.BLANK)
+          val resourcePrimKey: Long = GetterUtilHelper.getLong(preferences.getValue("resourcePrimKey", null))
           try {
             packageStorage.getByRefID(resourcePrimKey).get
             true
           } catch {
-            case e => {
-              false
-            }
+            case _: Exception => false
           }
         } else false
       })
       if (portlet.isDefined) {
-        val preferences = PortletPreferencesFactoryUtil.getPortletSetup(layout, portlet.get.getPortletId, StringPool.BLANK)
-        val resourcePrimKey: Long = GetterUtil.getLong(preferences.getValue("resourcePrimKey", null))
+        val preferences = PortletPreferencesFactoryUtilHelper.getPortletSetup(layout, portlet.get.getPortletId, StringPoolHelper.BLANK)
+        val resourcePrimKey: Long = GetterUtilHelper.getLong(preferences.getValue("resourcePrimKey", null))
         val selPkg = packageStorage.getByRefID(resourcePrimKey).get
         val rootResourcePrimKey: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
         val selRootResourcePrimKey: Long = assetHelper.getAssetFromManifest(selPkg).getPrimaryKey
@@ -113,8 +107,8 @@ class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
   }
 
   protected def getPackageURL(plid: Long, portletId: String, request: HttpServletRequest): PortletURL = {
-    val resourcePrimKey: Long = ParamUtil.getLong(request, "resourcePrimKey")
-    val portletURL = PortletURLFactoryUtil.create(request, portletId, plid, PortletRequest.RENDER_PHASE)
+    val resourcePrimKey: Long = ParamUtilHelper.getLong(request, "resourcePrimKey")
+    val portletURL = PortletURLFactoryUtilHelper.create(request, portletId, plid, PortletRequest.RENDER_PHASE)
     portletURL.setParameter("resourcePrimKey", String.valueOf(resourcePrimKey))
     portletURL.setPortletMode(PortletMode.VIEW)
     portletURL.setWindowState(WindowState.NORMAL)
@@ -124,12 +118,12 @@ class OpenPackageAction extends BaseStrutsAction with InjectableFactory {
 
   protected def isValidPlid(plid: Long): Boolean = {
     try {
-      LayoutLocalServiceUtil.getLayout(plid)
+      LayoutLocalServiceHelper.getLayout(plid)
     } catch {
-      case e: NoSuchLayoutException => false
+      case e: LNoSuchLayoutException => false
     }
     true
   }
 
-  private final val _PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED: Boolean = GetterUtil.getBoolean(PropsUtil.get(PropsKeys.PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED))
+  private final val _PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED: Boolean = GetterUtilHelper.getBoolean(PropsUtilHelper.get(PropsKeysHelper.PORTLET_ADD_DEFAULT_RESOURCE_CHECK_ENABLED))
 }

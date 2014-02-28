@@ -10,4 +10,5 @@ trait AchievementStorage {
   def deleteById(id: Int)
   def saveLogo(id: Int, logo: String)
   def modify(entity: Achievement)
+  def renew()
 }

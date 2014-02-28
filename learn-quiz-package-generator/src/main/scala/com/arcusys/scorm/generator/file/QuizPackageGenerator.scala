@@ -27,7 +27,7 @@ class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule
     "jquery-ui-1.8.20.custom.css", "player_content.css", "scorm_main.css")
   private val questionViewGenerator = new QuestionViewGenerator(isPreview = false)
 
-  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath
+  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath.replaceAll("%20", " ")
 
   private def decode(source: String) = URLDecoder.decode(source, "UTF-8")
 
