@@ -7,11 +7,10 @@ import com.arcusys.learn.view.liferay.LiferayHelpers
 import org.json4s.jackson.JsonMethods
 import org.json4s.JsonDSL._
 import java.io.FileNotFoundException
-import com.liferay.portal.util.PortalUtil
-import com.arcusys.scorm.lms.AchievementUserServiceBL
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 
 class AchievementUserView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   val configuration = Configuration
@@ -31,7 +30,7 @@ class AchievementUserView extends GenericPortlet with ScalatraFilter with Mustac
     val language = LiferayHelpers.getLanguage(request)
     val translations = getTranslation("curriculum", language)
     val courseID = LiferayHelpers.getThemeDisplay(request).getScopeGroupId
-    val companyId = PortalUtil.getCompanyId(request)
+    val companyId = PortalUtilHelper.getCompanyId(request)
 
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
     val cookie = new Cookie("valamisSessionID", sessionID)

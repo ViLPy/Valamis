@@ -27,7 +27,7 @@ package activityprofile {
       activityProfileStorage.get(activityId, profileId).map(_.document)
     }
 
-    def getActivityDocumentIds(activityId: String, since: Date): Seq[String] = {
+    def getActivityDocumentIds(activityId: String, since: Option[Date]): Seq[String] = {
       require(activityId != null && !activityId.isEmpty,
         "Incorrect parameters were passed into 'ActivityProfileLRS.getActivityDocumentIds'")
       activityProfileStorage.getIds(activityId, since)

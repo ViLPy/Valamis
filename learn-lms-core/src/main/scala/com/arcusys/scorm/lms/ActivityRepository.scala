@@ -1,9 +1,9 @@
 package com.arcusys.scorm.lms
 
-import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
-import com.liferay.portal.kernel.dao.orm.QueryUtil._
+import com.arcusys.learn.liferay.constants.QueryUtilHelper._
 import scala.collection.JavaConverters._
 import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,12 +17,12 @@ class ActivityRepository(implicit val bindingModule: BindingModule) extends Acti
 
     def get(): scala.collection.mutable.Buffer[String] = {
       var set = Set[String]()
-      SocialActivityLocalServiceUtil.getSocialActivities(ALL_POS,ALL_POS)
+      SocialActivityLocalServiceHelper.getSocialActivities(ALL_POS,ALL_POS)
         .asScala
         .map(_.getClassName)
         .filterNot({ (obj: String) =>
-          val b = set(obj);
-          set += obj;
+          val b = set(obj)
+          set += obj
           b })
     }
 }

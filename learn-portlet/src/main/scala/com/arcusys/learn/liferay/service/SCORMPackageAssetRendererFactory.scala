@@ -1,22 +1,19 @@
 package com.arcusys.learn.liferay.service
 
-import com.liferay.portlet.asset.model.BaseAssetRendererFactory
 import com.arcusys.learn.scorm.manifest.model._
-import com.liferay.portal.kernel.util.WebKeys
-import com.liferay.portal.kernel.portlet.{LiferayPortletResponse, LiferayPortletRequest}
-import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portlet.PortletURLFactoryUtil
 import javax.portlet.PortletRequest
 import utils.PortletKeys
-import com.liferay.portal.security.permission.PermissionChecker
 import com.arcusys.learn.ioc.InjectableFactory
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.WebKeysHelper
+import com.arcusys.learn.liferay.util.PortletURLFactoryUtilHelper
 
 object SCORMPackageAssetRendererFactory {
   final val CLASS_NAME: String = classOf[Manifest].getName
   final val TYPE: String = "package"
 }
 
-class SCORMPackageAssetRendererFactory extends BaseAssetRendererFactory with InjectableFactory {
+class SCORMPackageAssetRendererFactory extends LBaseAssetRendererFactory with InjectableFactory {
   def getAssetRenderer(classPK: Long, assetType: Int) = {
     val pkg = storageFactory.packageStorage.getByRefID(classPK).getOrElse(throw new Exception("Can't find package with refID " + classPK))
     new SCORMPackageAssetRenderer(pkg)
@@ -26,13 +23,13 @@ class SCORMPackageAssetRendererFactory extends BaseAssetRendererFactory with Inj
 
   def getType: String = SCORMPackageAssetRendererFactory.TYPE
 
-  override def getURLAdd(liferayPortletRequest: LiferayPortletRequest, liferayPortletResponse: LiferayPortletResponse) = {
+  override def getURLAdd(liferayPortletRequest: LLiferayPortletRequest, liferayPortletResponse: LLiferayPortletResponse) = {
     val request = liferayPortletRequest.getHttpServletRequest
-    val themeDisplay = request.getAttribute(WebKeys.THEME_DISPLAY).asInstanceOf[ThemeDisplay]
-    val portletURL = PortletURLFactoryUtil.create(request, PortletKeys.SCORM_PACKAGE_ADMIN, getControlPanelPlid(themeDisplay), PortletRequest.RENDER_PHASE)
+    val themeDisplay = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
+    val portletURL = PortletURLFactoryUtilHelper.create(request, PortletKeys.SCORM_PACKAGE_ADMIN, getControlPanelPlid(themeDisplay), PortletRequest.RENDER_PHASE)
     portletURL.setParameter("action", "add-new")
     portletURL
   }
 
-  override def hasPermission(permissionChecker: PermissionChecker, classPK: Long, actionId: String): Boolean = true
+  override def hasPermission(permissionChecker: LPermissionChecker, classPK: Long, actionId: String): Boolean = true
 }

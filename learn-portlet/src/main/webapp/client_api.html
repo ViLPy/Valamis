@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>TinCan Clients</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<script type="text/javascript">
+    var clients = {{{ clients }}};
+</script>
+<div class="projectLearnGeneric">
+    <h1>TinCan Clients</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <button type="button" class="btn btn-success" id="addingClientBtn">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add new client
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>Client ID</th>
+                <th>Client Secret</th>
+                <th>Client Name</th>
+                <!--<th>Issued At</th>
+                <th>expired In</th>-->
+            </tr>
+        </thead>
+        <tbody id="clients">
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="addClientModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close closable" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Adding new client</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="newClientFrm">
+                        <input type="hidden" value="push" name="type"/>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Application Title</label>
+                            <input type="text" class="form-control span12" id="exampleInputEmail1" name="client_name" placeholder="Enter your application title..." required>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="radio" name="scope" value="StatementsWrite"/> statements/write
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="StatementsReadMine"/> statements/read/mine
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="StatementsRead"/> statements/read
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="State"/> state
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="Define"/> define
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="Profile"/> profile
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="AllRead"/> all/read
+                            </label>
+                            <label>
+                                <input type="radio" name="scope" value="All"/> all
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="addClientBtn" type="button" class="btn btn-primary cloasble">Add</button>
+                    <button type="button" class="btn btn-default closable" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@
     <category name="e-Learning">
         <portlet id="SCORMApplication">SCORMApplication</portlet>
         <portlet id="SCORMApplicationAdmin">SCORMApplicationAdmin</portlet>
+        <portlet id="PackageManager">PackageManager</portlet>
         <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
         <portlet id="Gradebook">Gradebook</portlet>
@@ -12,5 +13,10 @@
         <portlet id="Achievement">Achievement</portlet>
         <portlet id="AchievementUser">Achievement user</portlet>
         <portlet id="SCORMUserAccount">My Account</portlet>
+        <portlet id="TinCanStatementViewer">Valamis TinCan Statement Viewer</portlet>
+        <portlet id="TinCanReportingView">Valamis TinCan Statement Reports</portlet>
+        <portlet id="TinCanReportingByPeriodView">Valamis TinCan Statement Reports by period</portlet>
+        <portlet id="TinCanAPIClientManager">Valamis TinCan API Client Manager</portlet>
+        <portlet id="TinCanLatestStatementsView">Valamis TinCan My Latest statements</portlet>
     </category>
 </display>

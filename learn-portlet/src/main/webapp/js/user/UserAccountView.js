@@ -1,8 +1,4 @@
 UserAccountView = Backbone.View.extend({
-    events:{
-
-    },
-
     initialize:function () {
         this.render();
     },
@@ -16,6 +12,15 @@ UserAccountView = Backbone.View.extend({
 
         var id = "#userCertificatesList";
         this.$(id).append(template);
+
+    },
+
+    addAchievement: function(achievement) {
+        var language = this.options.language;
+        var template = Mustache.to_html(jQuery("#userAchievementItemView").html(), achievement);
+
+        var achievementContainer = jQuery(".achievementsUserContainer", this.$el);
+        achievementContainer.append(template);
     },
 
     render:function () {
@@ -30,6 +35,10 @@ UserAccountView = Backbone.View.extend({
             for(var i=0; i<this.model.get('certificates').length; i++){
                 this.addOne(this.model.get('certificates')[i]);
             }
+            for(var i=0; i<this.model.get('achievements').length; i++){
+                this.addAchievement(this.model.get('achievements')[i]);
+            }
+
         }
 
         return this;

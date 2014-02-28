@@ -66,17 +66,17 @@ class ActivityProfileLRSSpec extends Specification { sequential
 
     "return ids of those profiles that have been stored or updated since specified timestamp" in {
       val since = System.currentTimeMillis() - 14000l
-      val result = service.getActivityDocumentIds("activityId-666", new Date(since))
+      val result = service.getActivityDocumentIds("activityId-666", Some(new Date(since)))
       result must have size 1
       result.contains("profileId-888")
     }
 
     "throw 'ActivityProfileArgumentException' if activity id is null" in {
-      service.getActivityDocumentIds(null, new Date) must throwA[ActivityProfileLRSArgumentException]
+      service.getActivityDocumentIds(null, None) must throwA[ActivityProfileLRSArgumentException]
     }
 
     "throw 'ActivityProfileArgumentException' if activity id is an empty string" in {
-      service.getActivityDocumentIds("", new Date) must throwA[ActivityProfileLRSArgumentException]
+      service.getActivityDocumentIds("", None) must throwA[ActivityProfileLRSArgumentException]
     }
 
   }
@@ -157,7 +157,7 @@ class ActivityProfileLRSSpec extends Specification { sequential
   "The 'modifyActivityDocument' method" should {
     val document = Document("documentId-222", new Date(), new String(Array[Byte](9)), OtherContent)
 
-    "merge given document with the existing one" in pending
+   // "merge given document with the existing one" in pending
 
     "modify existing document content if both the existing document and the given one have binary content type" in {
       service.modifyActivityDocument("activityId-666", "profileId-666",
@@ -298,8 +298,9 @@ object InMemoryActivityProfileStorage extends ActivityProfileStorage {
   def get(activityId: String, profileId: String): Option[ActivityProfile] =
     all.find(d => d.activityId == activityId && d.profileId == profileId)
 
-  def getIds(activityId: String, since: Date): Seq[String] =
-      all.filter(p => p.activityId == activityId && p.document.updated.getTime >= since.getTime).map(_.profileId)
+  def getIds(activityId: String, since: Option[Date]): Seq[String] =
+      all.filter(p => p.activityId == activityId &&
+        (!since.isDefined || p.document.updated.getTime >= since.get.getTime)).map(_.profileId)
 
 
   def create(entity: ActivityProfile): Unit = lock.synchronized {

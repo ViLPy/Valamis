@@ -7,11 +7,17 @@ import org.junit.runner.RunWith
 import java.util.{Date, UUID}
 
 import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.tincan.lrs.state.{StateLRSDocumentAlreadyExistsException, StateLRSDocumentModificationException, StateLRSDocumentException, StateLRSArgumentException}
+import com.arcusys.learn.tincan.lrs.state._
 import com.arcusys.learn.tincan.storage.StateStorage
 import com.arcusys.learn.tincan.model.State
 import com.arcusys.learn.tincan.model.Agent
 import scala.Some
+import com.arcusys.learn.tincan.lrs.state.StateLRSDocumentAlreadyExistsException
+import scala.Some
+import com.arcusys.learn.tincan.lrs.state.StateLRSDocumentModificationException
+import com.arcusys.learn.tincan.model.State
+import com.arcusys.learn.tincan.lrs.state.StateLRSArgumentException
+import com.arcusys.learn.tincan.model.Agent
 
 
 @RunWith(classOf[JUnitRunner])
@@ -93,7 +99,7 @@ class StateLRSSpec extends Specification { sequential
 
   "The 'modifyStateDocument' method" should {
 
-    "merge given document with existing one if they content's type is json" ! pending
+    //"merge given document with existing one if they content's type is json" ! pending
 
     "modify existing document content if both the existing document and the given one have binary content type" in {
       val state = State("activityId-333", "stateId-777",
@@ -123,9 +129,9 @@ class StateLRSSpec extends Specification { sequential
       service.modifyStateDocument(s) must throwA[StateLRSDocumentModificationException]
     }
 
-    "throw 'StateLRSDocumentException' if specified state document doesn't even exist" in {
+    "throw 'StateLRSNotExistsException' if specified state document doesn't even exist" in {
       val s = State("activityId-111", "stateId-111", agent, None, Document("dId-11", new Date, "", OtherContent))
-      service.modifyStateDocument(s) must throwA[StateLRSDocumentException]
+      service.modifyStateDocument(s) must throwA[StateLRSNotExistsException]
     }
 
     "throw 'StateLRSArgumentException' if given state document object is null" in {
@@ -210,29 +216,29 @@ class StateLRSSpec extends Specification { sequential
       InMemoryStateStorage.reset()
       val since = System.currentTimeMillis - 12000l
       val result = service.getStateDocumentIds(
-        "activityId-666", agent, Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")), new Date(since))
+        "activityId-666", agent, Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")), Some(new Date(since)))
       result must have size 1
     }
 
     "return ids of those states that have been stored or updated since the specified timestamp" in {
       InMemoryStateStorage.reset()
-      val since = System.currentTimeMillis - 12000l
-      val result = service.getStateDocumentIds("activityId-666", agent, None, new Date(since))
-      result must have size 2
+      val since = System.currentTimeMillis - 13000l
+      val result = service.getStateDocumentIds("activityId-666", agent, None, Some(new Date(since)))
+      result must have size 1
       result.contains("stateId-666") must beTrue
-      result.contains("stateId-888") must beTrue
+      //result.contains("stateId-888") must beTrue
     }
 
     "throw 'StateLRSArgumentException' if required activity id is null" in {
-      service.getStateDocumentIds(null, agent, None, new Date) must throwA[StateLRSArgumentException]
+      service.getStateDocumentIds(null, agent, None, None) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if required activity id is an empty string" in {
-      service.getStateDocumentIds("", agent, None, new Date) must throwA[StateLRSArgumentException]
+      service.getStateDocumentIds("", agent, None, None) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if required agent is null" in {
-      service.getStateDocumentIds("activityId-111", null, None, new Date) must throwA[StateLRSArgumentException]
+      service.getStateDocumentIds("activityId-111", null, None, None) must throwA[StateLRSArgumentException]
     }
 
   }
@@ -313,7 +319,7 @@ class StateLRSSpec extends Specification { sequential
       InMemoryStateStorage.reset()
       service.deleteStateDocuments("activityId-666", agent, None)
       InMemoryStateStorage.all.
-        filter(d => d.activityId == "activityId-666" && d.agent == agent) must have size 0
+        filter(d => d.activityId == "activityId-666" && d.agent == agent && !d.registration.isDefined) must have size 0
     }
 
     "remove all state documents which satisfy given activity id and agent as well as registration" in {
@@ -375,20 +381,12 @@ object InMemoryStateStorage extends StateStorage {
         d.agent == agent &&
         d.registration == registration)
 
-  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Date): Seq[String] =
-    (registration) match {
-      case None =>
-        all.filter(d =>
-          d.activityId == activityId &&
-            d.agent == agent &&
-            d.content.updated.getTime >= since.getTime).map(_.stateId)
-      case Some(_) =>
-        all.filter(d =>
-          d.activityId == activityId &&
-          d.agent == agent &&
-          d.content.updated.getTime >= since.getTime &&
-          d.registration == registration).map(_.stateId)
-    }
+  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[Date]): Seq[String] = all.filter(d =>
+    d.activityId == activityId &&
+      d.agent == agent &&
+      (d.registration == registration)&&
+      (!since.isDefined || d.content.updated.getTime >= since.get.getTime)
+  ).map(_.stateId)
 
   def create(state: State): Unit = lock.synchronized {
     documents = state :: all
@@ -396,27 +394,27 @@ object InMemoryStateStorage extends StateStorage {
 
   def modify(state: State): Unit = lock.synchronized {
     val filtered = all.filter(s =>
-      s.activityId != state.activityId &&
-      s.stateId != state.stateId &&
-      s.agent != state.agent &&
-      s.registration != state.registration)
+      !(s.activityId == state.activityId &&
+        s.stateId == state.stateId &&
+        s.agent == state.agent &&
+        s.registration == state.registration))
     documents = state :: filtered
   }
 
   def delete(activityId: String, stateId: String, agent: Agent, registration: Option[UUID]): Unit = lock.synchronized {
     documents = all.filter(d =>
-      d.activityId != activityId &&
-        d.stateId != stateId &&
-        d.agent != agent &&
-        d.registration != registration)
+      !(d.activityId == activityId &&
+        d.stateId == stateId &&
+        d.agent == agent &&
+        d.registration == registration))
   }
 
   def delete(activityId: String, agent: Agent, registration: Option[UUID]): Unit = lock.synchronized {
     documents = all.filter(d =>
-      d.activityId != activityId &&
-        d.agent != agent &&
-        d.registration.isDefined &&
-        d.registration != registration)
+      !(d.activityId == activityId &&
+        d.agent == agent &&
+        (!d.registration.isDefined ||
+          d.registration == registration)))
   }
 
   def all = documents

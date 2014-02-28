@@ -1,4 +1,12 @@
 ScopeRuleService = new Backbone.Service({ url: Utils.getContextPath,
+    targets: {
+        'addToPlayer': {
+            'path': function(){
+                return "services/packages/addPackageToPlayer/" + jQuery("#playerID").val()
+            },
+            'method': 'post'
+        }
+    },
     sync: {
         'update': {
             'path': function (model) {
@@ -21,8 +29,12 @@ ScopeRuleModel = Backbone.Model.extend({
 
 ScopeRuleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
-        'read': function () {
-            return "/services/packages/getByScope?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val();
+        'read': function (collection, options) {
+            if (options.isPersonalOnly)
+                return "/services/packages/getPersonalForPlayer/" + jQuery("#playerID").val();
+            else
+                return "/services/packages/getByScope?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val();
+
         }
     }
 });

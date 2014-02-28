@@ -3,9 +3,9 @@ package com.arcusys.learn.admin.service
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.liferay.portal.service.RoleLocalServiceUtil
 import com.arcusys.learn.scorm.tracking.model.{PermissionType, Role}
-import com.arcusys.learn.service.util.SessionHandler
+import com.arcusys.learn.liferay.services.RoleLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses.LNoSuchRoleException
 
 
 class RoleService (configuration: BindingModule) extends ServletBase(configuration) {
@@ -16,7 +16,7 @@ class RoleService (configuration: BindingModule) extends ServletBase(configurati
   }
 
   val jsonModel = new JsonModelBuilder[Role](role =>{
-    val liferayRole = RoleLocalServiceUtil.getRole(role.liferayRoleID)
+    val liferayRole = RoleLocalServiceHelper.getRole(role.liferayRoleID)
     Map(
       "id" -> role.id,
       "roleName" -> liferayRole.getName,
@@ -30,7 +30,19 @@ class RoleService (configuration: BindingModule) extends ServletBase(configurati
   get("/:permission"){
     val permission = parameter("permission").required
     val roles = storageFactory.roleStorage.getForPermission(PermissionType.withName(permission))
-    jsonModel(roles)
+
+    //Filter if an error occurs => role was removed from liferay database => remove from valamis database.
+    val existingRoles = roles.filter(role =>
+      try {
+        RoleLocalServiceHelper.getRole(role.liferayRoleID)
+        true  // Role stays
+      } catch {
+        case e:LNoSuchRoleException => {
+          storageFactory.roleStorage.delete(role.liferayRoleID, PermissionType.withName(parameter("permission").required))
+          false // remove role from collection
+        }
+      })
+    jsonModel(existingRoles)
   }
 
   post("/add/:roleID/:permission"){

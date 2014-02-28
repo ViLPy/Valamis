@@ -7,7 +7,7 @@ import com.arcusys.learn.storage.impl.KeyedEntityStorage
 trait AchievementActivityEntityStorage extends AchievementActivityStorage with KeyedEntityStorage[AchievementActivity] {
   def getByID(id: Int): Option[AchievementActivity] = getByID(id, Nil: _*)
   def getByAchievementId(achievementId: Int): Seq[AchievementActivity] = getAll("achievementId" -> achievementId)
-  def getByUserId(userId: Long): Seq[AchievementActivity] = getAll("userId" -> userId)
+  def getByUserId(userId: Int): Seq[AchievementActivity] = getAll("userId" -> userId)
   def getByAchievementAndUserIds(achievementId: Int, userId: Int) = getAll("userId" -> userId, "achievementId" -> achievementId)
 
   def createAndGetID(entity: AchievementActivity): Int = createAndGetID(entity, Nil: _*)

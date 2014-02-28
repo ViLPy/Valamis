@@ -33,6 +33,7 @@ object StorageFactory extends StorageFactoryContract {
 
   lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
   lazy val tincanPackageStorage: TincanPackageStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
+  lazy val tincanClientApiStorage: TincanClientApiStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
   lazy val tincanActivityStorage: TincanManifestActivityStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
   lazy val tincanLrsStatementRefStorage: StatementRefStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")
   lazy val tincanLrsContextActivitiesStorage: ContextActivitiesStorage = throw new UnsupportedOperationException("Storage not implemented for orbroker storage")

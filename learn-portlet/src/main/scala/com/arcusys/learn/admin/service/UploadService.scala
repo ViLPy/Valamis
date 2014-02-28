@@ -11,9 +11,9 @@ import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
 import com.arcusys.scala.json.Json
-import com.arcusys.learn.service.util.{AntiSamyHelper}
-import com.liferay.portal.kernel.util.Base64
+import com.arcusys.learn.service.util.AntiSamyHelper
 import com.arcusys.learn.admin.service.deployer.PackageProcessor
+import com.arcusys.learn.liferay.util.Base64Helper
 
 class UploadService(configuration: BindingModule) extends ServletBase(configuration) with JsonSupport with FileUploadSupport {
   private val packageProcessor = new PackageProcessor()
@@ -106,7 +106,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val inputBase64 = parameter("inputBase64").required.replace("data:image/png;base64,", "")
     val position = inputBase64.indexOf(";")
     val base64 = if (position == -1) inputBase64 else inputBase64.substring(0, position)
-    val outputData = Base64.decode(base64)
+    val outputData = Base64Helper.decode(base64)
 
     saveLogo(directory, "icon.png", outputData)
   }
@@ -134,7 +134,7 @@ class UploadService(configuration: BindingModule) extends ServletBase(configurat
     val inputBase64 = parameter("inputBase64").required.replace("data:image/png;base64,", "")
     val position = inputBase64.indexOf(";")
     val base64 = if (position == -1) inputBase64 else inputBase64.substring(0, position)
-    val outputData = Base64.decode(base64)
+    val outputData = Base64Helper.decode(base64)
 
     saveAchievementLogo(directory, "icon.png", outputData)
   }

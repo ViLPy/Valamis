@@ -176,11 +176,25 @@ PlayerView = Backbone.View.extend({
         return this.packageType == "tincan";
     },
 
-    openTincanPackage:function(launchUrl, endpoint, auth) {
-        jQuery('#SCORMDataOutput').attr("src", Utils.getContextPath() + "/SCORMData/" + launchUrl
-            + "?endpoint=" + encodeURIComponent(endpoint)
-            + "&auth=" + encodeURIComponent(auth)
-            + "&actor=" + encodeURIComponent(JSON.stringify({mbox:["mailto:"+jQuery("#userEmail").val()],name:[jQuery("#userName").val()]})))
+    openTincanPackage:function(launchUrl, endpoint, auth, secret) {
+        var actor = {
+            mbox:["mailto:"+jQuery("#userEmail").val()],
+            name:[jQuery("#userName").val()]
+        };
+
+        var src = "{0}/SCORMData/{1}?endpoint={2}&auth={3}&actor={4}"
+            .replace("{0}", Utils.getContextPath())
+            .replace("{1}", launchUrl)
+            .replace("{2}", encodeURIComponent(endpoint))
+            .replace("{3}", encodeURIComponent(auth))
+            .replace("{4}", encodeURIComponent(JSON.stringify(actor)));
+
+        if(secret){
+            var sign = "asdasd"
+            src += "&oauth_signature={0}&oauth_signature_method=HMAC-SHA1".replace("{0}", sign)
+        }
+
+        jQuery('#SCORMDataOutput').attr("src", src)
     },
 
     loadTincanPackage:function() {
@@ -198,21 +212,34 @@ PlayerView = Backbone.View.extend({
 
         var player = this;
         jQuery.ajax({
-            type: 'POST', dataType: 'json', url: Utils.getContextPath() + "/services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
+            type: 'POST',
+            dataType: 'json',
+            url: Utils.getContextPath() + "/services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
+
             success: function(data) {
-                if (data.internal == true) {
-                    //alert(jQuery("#tincanLrsNotConfiguredMessage").val())
+                if (data.internal) {
                     var endpoint = document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "/TincanApi/";
                     player.openTincanPackage(data.launchURL, endpoint, data.auth);
                 }
-                else if (data.authType == "Basic") {
-                    if (data.auth) {
-                        player.openTincanPackage(data.launchURL, data.endpoint, data.auth);
-                    }
-                    else {
-                        jQuery("#tincanLaunchUrlCredentialsDialog").val(data.launchURL);
-                        jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
-                        jQuery('#tincanLrsUserCredentials').dialog('open');
+                else {
+                    if (data.authType == "Basic") {
+                        if (data.auth) {
+                            player.openTincanPackage(data.launchURL, data.endpoint, data.auth);
+                        }
+                        else {
+                            jQuery("#tincanLaunchUrlCredentialsDialog").val(data.launchURL);
+                            jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
+                            jQuery('#tincanLrsUserCredentials').dialog('open');
+                        }
+                    } else if (data.authType === "OAuth") {
+                        if(data.auth) {
+                           /* var endpoint = "{0}//{1}{2}TincanApi/"
+                                .replace("{0}", document.location.protocol)
+                                .replace("{1}", document.location.host)
+                                .replace("{2}", Utils.getContextPath());
+*/
+                            player.openTincanPackage(data.launchURL,  data.endpoint + "TincanApi/", data.auth, data.clientSecret);
+                        }
                     }
                 }
             }
@@ -243,7 +270,6 @@ PlayerView = Backbone.View.extend({
     },
 
     getNavigationRequestURL:function (requestType) {
-        //return window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/sequencing/NavigationRequest/" + this.packageID + "/" + this.organizationID + "/" + requestType, "post");
         return Utils.getContextPath() + "/services/sequencing/NavigationRequest/" + this.packageID + "/" + this.organizationID + "/" + requestType + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID");
     },
 

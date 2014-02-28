@@ -29,16 +29,6 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
         $scope.availableAchievements = {records: []};
         $scope.achievementSortLabel = $scope.sortOrderAscLabel;
 
-        // on changed values save to cookies
-        $scope.$watch('achievementPage', function () {
-            $scope.getAchievements();
-        });
-        $scope.$watch('achievementSortAZ', function () {
-            $scope.achievementSortLabel = $scope.achievementSortAZ
-                ? $scope.sortOrderAscLabel
-                : $scope.sortOrderDescLabel;
-        });
-
         // set default values if cookies empty
         if (!$scope.achievementPage)
             $scope.achievementPage = 1;
@@ -48,6 +38,16 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
             $scope.companyId = companyID;
         if (!$scope.achievementSortAZ)
             $scope.achievementSortAZ = true;
+
+        // on changed values save to cookies
+        $scope.$watch('achievementPage', function () {
+            $scope.getAchievements();
+        });
+        $scope.$watch('achievementSortAZ', function () {
+            $scope.achievementSortLabel = $scope.achievementSortAZ
+                ? $scope.sortOrderAscLabel
+                : $scope.sortOrderDescLabel;
+        });
     }
 
     $scope.unescape = $window.decodeURIComponent;
@@ -75,6 +75,7 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
         $http
             .get(url, {
                 params: {
+                    action: "all",
                     companyID: $scope.companyId,
                     page: $scope.achievementPage,
                     count: $scope.count,
@@ -95,7 +96,7 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
             .replace('{1}', $scope.companyId);
 
         $http
-            .post(url)
+            .post(url, {action: "add"})
             .success(function (response) {
 
                 $scope.getAchievements(function () {
@@ -122,17 +123,15 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
     }
 
     $scope.deleteAchievement = function (achievement) {
-        var url = '{0}/services/achievement/delete/{1}'
+        var url = '{0}/services/achievement/{1}'
             .replace('{0}', scormContextPath)
             .replace('{1}', achievement.id);
 
         $http
-            .post(url)
+            .post(url, {action: "delete"})
             .success(function () {
                 $scope.getAchievements();
                 $scope.$emit('achievementDeleted', achievement);
-
-
             });
     }
 
@@ -171,6 +170,4 @@ app.controller('AchievementListController', ['$scope', '$http', '$window', funct
     }
 
     init();
-
-    $scope.getAchievements();
 }]);

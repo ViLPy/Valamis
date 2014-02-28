@@ -10,6 +10,16 @@
     font-family: sans-serif !important;
 }
 
+.portlet-learn-scorm .UserAchievementsTitle {
+    color: #000 !important;
+    height: 22px !important;
+    margin-bottom: 5px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-family: sans-serif !important;
+}
+
 .myCertificateHeader{
     float: left;
     font-size: 13px;

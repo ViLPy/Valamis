@@ -167,19 +167,30 @@
 }
 
 .userList{
-    margin: 0px;
+    margin: 0px !important;
 }
 
 .userSearch{
     margin-bottom: 5px;
 }
 
-#userSearch{
+.userSearch .SCORMSearch{
     width: 84%;
 }
 
+.userSearch .userSearchSelect{
+    width: 87.5%;
+}
 
+.addUsersButton {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
 
+.addUsersButton .userSearchButton {
+    padding: .4em 1em;
+}
 
 .siteSortableList ul { width: 300px; list-style: none; margin: 0; padding: 0; }
 .siteSortableList li { background: white; position:relative;margin: 1em 0; padding: 1em; border: 2px solid gray; list-style: none; padding-left: 42px; }

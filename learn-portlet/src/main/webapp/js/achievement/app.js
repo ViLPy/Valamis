@@ -1,5 +1,6 @@
-if (typeof(jQuery1816Curriculum) == "undefined" && typeof($) != "undefined")
-    jQuery1816Curriculum = $.noConflict();
+try {
+  jQuery1816Curriculum = $.noConflict();
+} catch(e) {}
 
 var app = angular.module('curriculum', ['ngCookies', 'angularFileUpload', 'ngSanitize']);
 

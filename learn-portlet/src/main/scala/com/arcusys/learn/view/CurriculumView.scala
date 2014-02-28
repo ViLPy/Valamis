@@ -5,16 +5,15 @@ import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
-import com.liferay.portal.util.{LayoutTypePortletFactoryUtil, PortalUtil}
-import com.liferay.portal.service.{UserLocalServiceUtil, GroupLocalServiceUtil, LayoutLocalServiceUtil}
-import com.liferay.portlet.PortletURLUtil
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
 
 import org.json4s.jackson.JsonMethods
 import org.json4s.JsonDSL._
-import com.liferay.portal.kernel.dao.orm.QueryUtil
-import com.liferay.portal.model.User
+import com.arcusys.learn.liferay.services._
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
+import com.arcusys.learn.liferay.util.{PortalUtilHelper, PortletURLUtilHelper}
 
 /**
  * User: Yulia.Glushonkova
@@ -31,7 +30,7 @@ abstract class CurriculumAbstract extends GenericPortlet with ScalatraFilter wit
     val path = request.getContextPath
 
     val courseID = themeDisplay.getScopeGroupId
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     val url = getRootUrl(request, response)
 
     // Session management
@@ -47,7 +46,7 @@ abstract class CurriculumAbstract extends GenericPortlet with ScalatraFilter wit
     httpServletRequest.getSession.setAttribute("userID", userID)
 
     val translations = getTranslation("curriculum", language)
-    val companyId = PortalUtil.getCompanyId(request)
+    val companyId = PortalUtilHelper.getCompanyId(request)
 
     val courses_ = getSites(companyId)
 
@@ -60,44 +59,44 @@ abstract class CurriculumAbstract extends GenericPortlet with ScalatraFilter wit
   }
 
   private def getSites(companyId: Long) = {
-    def createMap(site: com.liferay.portal.model.Group): Map[String, String] = Map(
+    def createMap(site: LGroup): Map[String, String] = Map(
       "siteID" -> site.getGroupId.toString,
       "title" -> site.getDescriptiveName,
       "url" -> site.getFriendlyURL,
       "description" -> site.getDescription.replace("\n", " ")
     )
-    GroupLocalServiceUtil.getCompanyGroups(companyId, QueryUtil.ALL_POS,  QueryUtil.ALL_POS).toArray.filter(x => {
-      val site = x.asInstanceOf[com.liferay.portal.model.Group]
+    GroupLocalServiceHelper.getCompanyGroups(companyId, QueryUtilHelper.ALL_POS,  QueryUtilHelper.ALL_POS).toArray.filter(x => {
+      val site = x.asInstanceOf[LGroup]
       val url = site.getFriendlyURL
       site.isSite && site.isActive &&
         //remove control panel
         url != "/control_panel"
-    }).map(i => i.asInstanceOf[com.liferay.portal.model.Group]).map(createMap).toList
+    }).map(i => i.asInstanceOf[LGroup]).map(createMap).toList
   }
 
   private def getUsers(companyID: Long) = {
-    def convert(user: User): Map[String, String] = Map(
+    def convert(user: LUser): Map[String, String] = Map(
       "userID" -> user.getUserId.toString,
       "name" -> user.getFullName,
       "email" -> user.getEmailAddress,
       "portrait" -> getPortrait(user),
       "userPublicPageUrl" -> getPublicUrl(user)
     )
-    UserLocalServiceUtil.getCompanyUsers(companyID, QueryUtil.ALL_POS, QueryUtil.ALL_POS).toArray
-      .map(x => x.asInstanceOf[com.liferay.portal.model.User])
+    UserLocalServiceHelper.getCompanyUsers(companyID, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS).toArray
+      .map(x => x.asInstanceOf[LUser])
       .sortBy(x => x.getFullName).filter(x => x.getFullName != "").map(convert).toList
   }
 
-  def getPortrait(user: User) = {
+  def getPortrait(user: LUser) = {
     "/image/user_male_portrait?img_id=" + user.getPortraitId
   }
 
-  def getPublicUrl(user: User) = {
-    if (user.getGroup().getPublicLayoutsPageCount() > 0) "/web/" + user.getScreenName else ""
+  def getPublicUrl(user: LUser) = {
+    if (user.getGroup.getPublicLayoutsPageCount > 0) "/web/" + user.getScreenName else ""
   }
 
   private def getRootUrl(request: RenderRequest, response: RenderResponse) = {
-    val url = PortletURLUtil.getCurrent(request, response)
+    val url = PortletURLUtilHelper.getCurrent(request, response)
     val parts = url.toString.split("/")
     if (parts.length > 2) parts.tail.tail.head else ""
   }

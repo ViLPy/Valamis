@@ -8,6 +8,7 @@ import com.arcusys.learn.storage.StorageFactoryContract
 import scala.xml.XML
 import com.arcusys.tincan.manifest.parser.ActivitiesParser
 import com.arcusys.learn.tincan.manifest.model.Manifest
+import com.arcusys.learn.scorm.manifest.model.ScopeType
 
 object PackageProcessor {
   def manifestFileName = "tincan.xml"
@@ -39,8 +40,8 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
 
     val packageID = packageStorage.createAndGetID(manifest, courseID)
 
-//    storageFactory.packageScopeRuleStorage.create(tincanPackage.id, ScopeType.Instance, None, visibility = true, isDefault = false)
-//    storageFactory.packageScopeRuleStorage.create(tincanPackage.id, ScopeType.Site, courseID.map(_.toString), visibility = true, isDefault = false)
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, visibility = true, isDefault = false)
+    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), visibility = true, isDefault = false)
 
     activities.map(_.copy(packageId = packageID)).foreach(activityStorage.createAndGetID)
 

@@ -5,11 +5,13 @@ import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.service.asset.AssetHelper
-import com.liferay.portal.service.GroupLocalServiceUtil
-import com.liferay.portal.util._
-import com.liferay.portal.kernel.dao.orm.QueryUtil
 import scala.collection.JavaConversions._
 import com.arcusys.learn._
+import com.arcusys.learn.liferay.services.{GroupLocalServiceHelper}
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
+import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.scorm.lms.PackageService
+import com.arcusys.learn.scorm.manifest.model.ScopeType
 
 class TincanPackagesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -18,13 +20,15 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
 
   import storageFactory._
 
-  def serialiseToMap(manifest: Manifest) = Map("id" -> manifest.id,
+  def serializeToMap(manifest: Manifest) = Map("id" -> manifest.id,
     "title" -> manifest.title,
     "summary" -> manifest.summary.map(_.replaceAll("\n", "")),
     "version" -> "",
-    "visibility" -> false,
-    "isDefault" -> false,
+    "visibility" -> manifest.visibility.getOrElse(false),
+    "isDefault" -> manifest.isDefault,
     "type" -> "tincan")
+
+  private val packageService = new PackageService()
 
 
   before() {
@@ -40,7 +44,7 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
       case n: NumberFormatException => -1
     } // default id is -1, for guests
 
-    def serialiseTincanToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
+    def serializeTincanToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
       "title" -> manifest.title,
       "summary" -> manifest.summary.map(_.replaceAll("\n", "")),
       "version" -> "",
@@ -49,13 +53,14 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
       "type" -> "tincan")
 
 
+
     val courseID = parameter("courseID").intRequired
     val pageID = parameter("pageID").required
 
     // TODO need filter for tincan packages (M)
     json(
       //packageService.getVisiblePackages( parameter("playerID").required, getAllCourseIDs, courseID, pageID).map(serialiseScormToMap) ++
-      tincanPackageStorage.getAll.map(serialiseTincanToMap)
+      tincanPackageStorage.getAll.map(serializeTincanToMap)
     )
   }
 
@@ -65,20 +70,20 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
   }
 
   private def getInInstance = {
-    json(//packageStorage.getAllForInstance(getAllCourseIDs).map(serialiseToMap) ++
-      tincanPackageStorage.getAll.map(serialiseToMap))
+    json(//packageStorage.getAllForInstance(getAllCourseIDs).map(serializeToMap) ++
+      tincanPackageStorage.getAll.map(serializeToMap))
   }
 
   private def getAllCourseIDs = {
-    val groups = GroupLocalServiceUtil.search(PortalUtil.getCompanyId(request), null, null, null, QueryUtil.ALL_POS, QueryUtil.ALL_POS)
+    val groups = GroupLocalServiceHelper.search(PortalUtilHelper.getCompanyId(request), null, null, null, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS)
     groups.map(i => i.getGroupId.toInt).toList
   }
 
   // get packages for Admin Site scope
   get("/allInSite") {
     val courseID = parameter("courseID").intOption(-1)
-    json(//packageStorage.getByCourseID(courseID).map(serialiseToMap) ++
-      tincanPackageStorage.getAll.map(serialiseToMap))
+    json(//packageStorage.getByCourseID(courseID).map(serializeToMap) ++
+      tincanPackageStorage.getAll.map(serializeToMap))
   }
 
   // get packages, only by current CourseID (liferay siteID), visibility for current Player + Scope
@@ -90,14 +95,14 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
     val id = parameter("id").intRequired
     val courseID = parameter("courseID").intRequired
     val scope = parameter("scopeType").required
-    //val scopeType = ScopeType.withName(scope)
-    //updatePackageSettings(id, parameter("visibility").booleanRequired, parameter("isDefault").booleanRequired, scope, courseID)
+    val scopeType = ScopeType.withName(scope)
+    updatePackageSettings(id, parameter("visibility").booleanRequired, parameter("isDefault").booleanRequired, scope, courseID)
     tincanPackageStorage.setDescriptions(id, parameter("title").required, parameter("summary").required)
 
-    //    scopeType match {
-    //      case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
-    //      case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
-    //    }
+        scopeType match {
+          case ScopeType.Site => json(tincanPackageStorage.getByID(id))
+          case ScopeType.Instance => json(tincanPackageStorage.getByID(id))
+        }
   }
 
   post("/updatePackageScopeVisibility/:id") {
@@ -118,24 +123,24 @@ class TincanPackagesService(configuration: BindingModule) extends ServletBase(co
   }
 
   private def updatePackageSettings(id: Int, visibility: Boolean, isDefault: Boolean, scope: String, courseID: Int) {
-    //    scope match {
-    //      case "instanceScope" => {
-    //        packageService.setInstanceScopeSettings(id, visibility, isDefault)
-    //        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
-    //      }
-    //      case "siteScope" => {
-    //        packageService.setSiteScopeSettings(id, courseID, visibility, isDefault)
-    //        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
-    //      }
-    //      case "pageScope" => {
-    //        packageService.setPageScopeSettings(id, parameter("pageID").required, visibility, isDefault)
-    //        //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
-    //      }
-    //      // For future "Player" scope
-    //      //  case "player" =>{
-    //      //  PackageService.setPlayerScopeVisibility(id, parameter("playerID").required, visibility)
-    //      //  packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Player, Option(parameter("playerID").required), isDefault) }
-    //    }
+        scope match {
+          case "instanceScope" => {
+            packageService.setInstanceScopeSettings(id, visibility, isDefault)
+            //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Instance, None, isDefault)
+          }
+          case "siteScope" => {
+            packageService.setSiteScopeSettings(id, courseID, visibility, isDefault)
+            //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Site, Option(courseID.toString), isDefault)
+          }
+          case "pageScope" => {
+            packageService.setPageScopeSettings(id, parameter("pageID").required, visibility, isDefault)
+            //packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Page, Option(parameter("pageID").required), isDefault)
+          }
+          // For future "Player" scope
+          //  case "player" =>{
+          //  PackageService.setPlayerScopeVisibility(id, parameter("playerID").required, visibility)
+          //  packageScopeRuleStorage.updateIsDefaultProperty(id, ScopeType.Player, Option(parameter("playerID").required), isDefault) }
+        }
   }
 
   post("/delete") {

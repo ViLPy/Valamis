@@ -17,6 +17,11 @@
         </div>
     </div>
 
+    <div class="valamisAchievements SCORMAddNewButton">    <!-- SCORMAddNewButton needed for black color of text in userAchievementItemView-->
+        <div class="UserAchievementsTitle">{{MyAchievementsLabel}}</div>
+        <div class="achievementsUserContainer"> </div>
+    </div>
+
 </script>
 
 <script type="text/mustache" id="userCertificateItemView" class="availableQuizItem">
@@ -33,8 +38,16 @@
             <p class="issuer">{{title}}</p>
         </div>
     </div>
+</script>
 
+<script type="text/mustache" id="userAchievementItemView" class="availableQuizItem">
+    <div class="badge-item">
+        <div class="openbadge">
+            <img src="{{logo}}" width="100"/>
 
+            <p class="issuer">{{title}}</p>
+        </div>
+    </div>
 </script>
 
 

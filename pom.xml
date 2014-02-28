@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.arcusys.learn</groupId>
     <artifactId>learn</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.8-SNAPSHOT</version>
     <name>Learn</name>
     <url>http://maven.apache.org</url>
 
@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.version>2.9.1</scala.version>
         <liferay.version>6.2.0-GA1</liferay.version>
+        <liferay.version6.1>6.1.1</liferay.version6.1>
         <!-- NOTE: Apparently in Liferay's repo version numbers ARE CASE-SENSITIVE, beware -->
         <liferay.maven.plugin.version>6.2.0-ga1</liferay.maven.plugin.version>
         <portlet-api.version>2.0</portlet-api.version>
@@ -46,6 +47,7 @@
     </scm>
 
     <modules>
+        <module>learn-liferay620-services</module>
         <module>learn-scorm-package-model</module>
         <module>learn-scorm-package-parser</module>
         <module>learn-scorm-package-serializer</module>
@@ -56,24 +58,20 @@
         <module>learn-persistence-api</module>
         <module>learn-persistence-api-test</module>
         <module>learn-persistence</module>
-        <module>learn-persistence-liferay</module>
+        <module>learn-persistence-liferay620</module>
+        <module>learn-persistence-liferay-wrapper</module>
         <module>learn-scorm-package-deployer</module>
         <module>learn-lms-core</module>
-        <!--<module>learn-puppet</module>-->
-        <module>learn-portlet</module>
-        <module>learn-servicebuilder</module>
-        <module>learn-ui-test</module>
-        <module>learn-assembly</module>
+        <module>learn-tincan-lrs</module>
         <module>learn-social-model</module>
         <module>learn-tincan-package</module>
         <module>learn-tincan-model</module>
         <module>learn-settings-model</module>
-        <module>learn-liferay611-hook</module>
-        <module>learn-liferay612-hook</module>
+        <module>learn-portlet</module>
+        <module>learn-servicebuilder620</module>
+        <module>learn-assembly</module>
         <module>learn-liferay620-hook</module>
         <module>learn-demo-hook</module>
-        <!--<module>learn-site-templates-hook</module>-->
-        <module>learn-tincan-lrs</module>
     </modules>
 
     <dependencyManagement>

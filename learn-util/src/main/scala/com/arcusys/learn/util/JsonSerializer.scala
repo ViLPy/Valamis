@@ -140,7 +140,7 @@ object JsonSerializer {
   }
 
   def deserializeScore(raw: String):Score = {
-    implicit val jsonFormats: Formats = DefaultFormats
+    implicit val jsonFormats: Formats = DefaultFormats.withBigDecimal
     parse(raw, useBigDecimalForDouble = true).extract[Score]
   }
 

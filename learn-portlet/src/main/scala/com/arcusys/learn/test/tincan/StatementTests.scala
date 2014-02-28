@@ -4,10 +4,16 @@ import com.arcusys.learn.tincan.lrs.statement._
 import java.util.{Calendar, Date, UUID}
 import java.net.URI
 import java.io.PrintWriter
-import com.arcusys.learn.tincan.model.{Verb, Agent, Statement, Activity}
+import com.arcusys.learn.tincan.model._
+import com.arcusys.learn.tincan.lrs.statement.StatementFilter
 import scala.Some
-import com.arcusys.learn.tincan.lrs.statement.StatementLRSArgumentException
+import com.arcusys.learn.tincan.lrs.statement.StatementLRSException
 import com.arcusys.learn.tincan.lrs.statement.StatementLRSAlreadyExistsException
+import com.arcusys.learn.tincan.model.Activity
+import com.arcusys.learn.tincan.model.Statement
+import com.arcusys.learn.tincan.model.Agent
+import com.arcusys.learn.tincan.model.Verb
+import com.arcusys.learn.tincan.lrs.statement.StatementLRSArgumentException
 
 class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
@@ -31,8 +37,8 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     new Agent("Agent", Some("agent1"), None, None, None, None),
     None,
     None,
-    new Date(),
-    None,
+    Some(new Date()),
+    Some(future),
     None,
     None,
     Seq()
@@ -40,13 +46,36 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
   val statement1 = Statement(
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc1111"),
-    Agent("Agent", Some("agent_test1"), None, None, None, None),
+    Agent("Agent", Some("agent_test1"), Some("mailto:test@test.com"), None, None, None),
     Verb("verbId_test1", Map.empty[String, String]),
     new Activity("Activity", "activityId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
     None,
     None,
-    future,
+    Some(future),
+    Some(future),
     None,
+    None,
+    Seq()
+  )
+
+  val statementWithSubStatement = Statement(
+    UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc3123"),
+    Agent("Agent", Some("agent1"), None, None, None, None),
+    Verb("verbId_test1", Map.empty[String, String]),
+    new SubStatement(
+      Agent("Agent", Some("agent_sub"), None, None, None, None),
+      Verb("verbId_test1", Map.empty[String, String]),
+      new Activity("Activity", "activitySubId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
+      "SubStatement", None),
+    None,
+    Some(new Context(Some(UUID.fromString("fdf01666-25c0-4c15-b481-74ba0fbc3123")),
+      Some(Agent("Agent", Some("agent_instructor"), None, None, None, None)),
+      Some(new Group("Group", Some("Team1"),
+        Some(Seq(Agent("Agent", Some("agent_team"), None, None, None, None))),
+        None, None, None, None)),
+      new ContextActivities(Set(), Set(), Set(), Set(), None), None, None, None, None, Seq())),
+    Some(future),
+    Some(future),
     None,
     None,
     Seq()
@@ -56,7 +85,9 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     id = UUID.fromString("40d10a63-2c37-4071-9595-793af98e89b0"),
     actor = Agent("Agent", Some("agent2"), None, None, None, None),
     verb = Verb("verbId2", Map.empty[String, String]),
-    timestamp = past)
+    timestamp = Some(past),
+    stored = Some(past)
+  )
 
   var statements = List(statement, statement)
 
@@ -207,10 +238,36 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     writer.write("get all statements: success <br>")
   }
 
+  def testGetLimitCount() {
+    val result = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, Some(3))).statements
+    if (result.size != 3) throw new Exception()
+
+    val result1 = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, Some(1))).statements
+    if (result1.size != 1) throw new Exception()
+
+    val result2 = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, Some(0))).statements
+    if (result2.size != 8) throw new Exception()
+
+    writer.write("get limit count statements: success <br>")
+  }
+
+  def testGetSortByAscending() {
+    val result = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, None, None, None, Some(true))).statements
+    if (result.size != 8) throw new Exception()
+    if (result.head.stored.get != past) throw new Exception()
+
+
+    val result1 = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, None, None, None, Some(false))).statements
+    if (result1.size != 8) throw new Exception()
+    if (result.head.stored.get != future) throw new Exception()
+
+    writer.write("get limit with sort by ascending: success <br>")
+  }
+
   def testGetById() {
     val result = statementLRS.getStatements(StatementFilter(Some(statement.id.toString), None, None, None, None, None, None, None)).statements
     if (result.size != 1) throw new Exception()
-    if (!result.head.equals(statement)) throw new Exception()
+    if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     writer.write("get only one statement by Id: success <br>")
   }
@@ -244,9 +301,21 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
   }
 
   def testGetByAgent() {
-    val result = statementLRS.getStatements(StatementFilter(None, None, Some(statement1.actor), None, None, None, None, None)).statements
+    var result = statementLRS.getStatements(StatementFilter(None, None, Some(statement1.actor), None, None, None, None, None)).statements
     if (result.size != 1) throw new Exception()
     if (!result.head.id.equals(statement1.id)) throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(None, None,
+      Some(Agent("Agent",None,Some("mailto:test@test.com"),None,None,None)),
+      None, None, None, None, None)).statements
+      if (result.size != 1) throw new Exception()
+      if (!result.head.id.equals(statement1.id)) throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(None, None,
+      Some(Agent("Agent",None,Some("mailto:test1@test.com"),None,None,None)),
+      None, None, None, None, None)).statements
+    if (result.size != 0) throw new Exception()
+
 
     writer.write("get one statement by agent id: success <br>")
   }
@@ -328,7 +397,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     writer.write("get statements by activity and date until they were created: success <br>")
   }
 
-  val statement1past = statement1.copy(id = UUID.randomUUID(), verb = Verb("verbId_test2", Map.empty[String, String]), timestamp = past)
+  val statement1past = statement1.copy(id = UUID.randomUUID(), verb = Verb("verbId_test2", Map.empty[String, String]), timestamp = Some(past))
   val statement2verb1 = statement2.copy(id = UUID.randomUUID(), verb = Verb("verbId_test1", Map.empty[String, String]), obj = statement1.obj)
 
   def testGetByAgentAndVerb() {
@@ -358,13 +427,13 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     writer.write("get statements by agent and date until they were created: success <br>")
   }
 
-def testGetByVerbAndSinceDate() {
-  val result = statementLRS.getStatements(StatementFilter(None, None, None, Some("verbId_test1"), None, None, Some(new Date()), None)).statements
-  if (result.size != 1) throw new Exception()
-  if (!result.head.id.equals(statement1.id)) throw new Exception()
+  def testGetByVerbAndSinceDate() {
+    val result = statementLRS.getStatements(StatementFilter(None, None, None, Some("verbId_test1"), None, None, Some(new Date()), None)).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.equals(statement1.id)) throw new Exception()
 
-  writer.write("get statements by verb and date since they were created: success <br>")
-}
+    writer.write("get statements by verb and date since they were created: success <br>")
+  }
 
   def testGetByVerbAndUntilDate() {
     val result = statementLRS.getStatements(StatementFilter(None, None, None, Some("verbId_test1"), None, None, None, Some(new Date()))).statements
@@ -585,6 +654,76 @@ def testGetByVerbAndSinceDate() {
         writer.write("throw 'StatementLRSException' if specified voided id and date until it is created: success <br>")
       }
     }
+  }
+
+
+  def addStatementWithSubStatement() {
+    statementLRS.addStatement(statementWithSubStatement)
+  }
+
+  def testGetWithRelativeActivity() {
+    var result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      None, None, Some("activitySubId"), None, None,
+      None, Some(false))).statements
+    if (result.size != 0) throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      None, None, Some("activitySubId"), None, None,
+      None, Some(true))).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
+      throw new Exception()
+
+    writer.write("filter by relative_activity -- success")
+  }
+
+  def testGetWithRelativeAgent() {
+    var result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      Some(Agent("Agent", Some("agent_sub"), None, None, None, None)), None, None, None, None,
+      None, None, Some(false))).statements
+    if (result.size != 0) throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      Some(Agent("Agent", Some("agent_sub"), None, None, None, None)), None, None, None, None,
+      None, None, Some(true))).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
+      throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      Some(Agent("Agent", Some("agent_instructor"), None, None, None, None)), None, None, None, None,
+      None, None, Some(true))).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
+      throw new Exception()
+
+    result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      Some(Agent("Agent", Some("agent_team"), None, None, None, None)), None, None, None, None,
+      None, None, Some(true))).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
+      throw new Exception()
+
+    writer.write("filter by relative_agent -- success")
+
+  }
+
+  def testGetWithRegistration() {
+    var result = statementLRS.getStatements(StatementFilter(
+      None, None,
+      None, None, None, Some(UUID.fromString("fdf01666-25c0-4c15-b481-74ba0fbc3123")))).statements
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
+      throw new Exception()
+
+    writer.write("filter by registration -- success")
+
   }
 
   // renew base

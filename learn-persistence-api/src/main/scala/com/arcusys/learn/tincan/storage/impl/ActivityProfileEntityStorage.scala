@@ -12,8 +12,8 @@ trait ActivityProfileEntityStorage extends ActivityProfileStorage with EntitySto
   def get(activityId: String, profileId: String): Option[ActivityProfile] =
     getOne("activityId" -> activityId, "profileId" -> profileId)
 
-  def getIds(activityId: String, since: Date): Seq[String] =
-    throw new UnsupportedOperationException()
+  def getIds(activityId: String, since: Option[Date]): Seq[String] =
+    getAll("activityId" -> activityId, "since" -> since).map(_.profileId)
 
   def create(entity: ActivityProfile): Unit =
     create("activityId" -> entity.activityId, "profileId" -> entity.profileId, "document" -> entity.document)

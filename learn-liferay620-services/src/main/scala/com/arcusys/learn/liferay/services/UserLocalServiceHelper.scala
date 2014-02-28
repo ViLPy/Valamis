@@ -1,0 +1,55 @@
+package com.arcusys.learn.liferay.services
+
+import com.liferay.portal.model.User
+import com.liferay.portal.service.{ServiceContext, UserLocalServiceUtil}
+import java.util.Locale
+
+object UserLocalServiceHelper {
+  def getCompanyUsers(companyId: Long, start: Int, end: Int): java.util.List[User] =
+    UserLocalServiceUtil.getCompanyUsers(companyId, start, end)
+
+  def getOrganizationUsers(organizationId: Long): java.util.List[User] =
+    UserLocalServiceUtil.getOrganizationUsers(organizationId)
+
+  def getUsers(start: Int, end: Int): java.util.List[User] = UserLocalServiceUtil.getUsers(start, end)
+
+  def getUser(userId: Long): User = UserLocalServiceUtil.getUser(userId)
+
+  def getUserById(companyId: Long, userId: Long): User = UserLocalServiceUtil.getUserById(companyId, userId)
+
+  def getRoleUsersCount(roleId: Long): Int = UserLocalServiceUtil.getRoleUsersCount(roleId)
+
+  def addGroupUsers(groupId: Long, userIds: Array[Long]) {
+    UserLocalServiceUtil.addGroupUsers(groupId, userIds)
+  }
+
+  def getGroupUsers(groupId: Long): java.util.List[User] =
+    UserLocalServiceUtil.getGroupUsers(groupId)
+
+  def getDefaultUserId(companyId: Long): Long = UserLocalServiceUtil.getDefaultUserId(companyId)
+
+  def unsetOrganizationUsers(organizationId: Long, userIds: Array[Long]) {
+    UserLocalServiceUtil.unsetOrganizationUsers(organizationId, userIds)
+  }
+
+  def addUser(creatorUserId: Long, companyId: Long, autoPassword: Boolean,
+              password1: String, password2: String,
+              autoScreenName: Boolean, screenName: String, emailAddress: String,
+              facebookId: Long, openId: String, locale: Locale,
+              firstName: String, middleName: String, lastName: String,
+              prefixId: Int, suffixId: Int, male: Boolean,
+              birthdayMonth: Int, birthdayDay: Int, birthdayYear: Int,
+              jobTitle: String, groupIds: Array[Long], organizationIds: Array[Long],
+              roleIds: Array[Long], userGroupIds: Array[Long], sendEmail: Boolean,
+              serviceContext: ServiceContext): User =
+    UserLocalServiceUtil.addUser(creatorUserId, companyId, autoPassword, password1, password2,
+      autoScreenName, screenName, emailAddress, facebookId, openId, locale,
+      firstName, middleName, lastName, prefixId, suffixId, male,
+      birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds, organizationIds,
+      roleIds, userGroupIds, sendEmail, serviceContext)
+
+  def updatePortrait(userId: Long, bytes: Array[Byte]): User = UserLocalServiceUtil.updatePortrait(userId, bytes)
+
+  def updateReminderQuery(userId: Long, question: String, answer: String): User =
+    UserLocalServiceUtil.updateReminderQuery(userId, question, answer)
+}

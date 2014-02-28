@@ -31,7 +31,23 @@
         </supports>
 
         <portlet-info>
-            <title>Admin Application</title>
+            <title>Valamis Administration</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>PackageManager</portlet-name>
+        <portlet-class>com.arcusys.learn.view.PackageManagerView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Package manager</title>
         </portlet-info>
     </portlet>
 
@@ -160,6 +176,86 @@
 
         <portlet-info>
             <title>Valamis User</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanStatementViewer</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanStatementViewerView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Statement Viewer</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanAPIClientManager</portlet-name>
+        <portlet-class>com.arcusys.learn.view.tincan.ClientApiView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan API Client Manager</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanReportingView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanReportingView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Reporting Viewer</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanReportingByPeriodView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanReportingByPeriodView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Reporting by Period</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanLatestStatementsView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanLatestStatementsView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Latest statements</title>
         </portlet-info>
     </portlet>
 

@@ -87,6 +87,12 @@ class AboutService(configuration: BindingModule) extends ServletBase(configurati
       statementTests.testGetWithVoidedIdAndDateSince()
       statementTests.testGetWithVoidedIdAndDateUntil()
 
+      writer.write("*** The 'getStatements' method with filters relative_activity, relative_agent")
+      statementTests.addStatementWithSubStatement()
+      statementTests.testGetWithRelativeActivity()
+      statementTests.testGetWithRelativeAgent()
+      statementTests.testGetWithRegistration()
+
       writer.write("*** Renew base <br>")
       statementTests.testRenewBase()
 

@@ -4,10 +4,13 @@ import org.junit.Test
 import org.junit.Assert._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.{DefaultFormats, Formats}
-import com.arcusys.learn.tincan.api.serializer.JsonDeserializer
 import com.arcusys.learn.tincan.model._
 import org.joda.time.DateTime
 import java.util.UUID
+import com.arcusys.learn.tincan.model.ContextActivities
+import com.arcusys.learn.tincan.model.Agent
+import scala.Some
+import com.arcusys.learn.tincan.model.Activity
 
 class JsonDeserializerTest {
   implicit val jsonFormats: Formats = DefaultFormats
@@ -73,7 +76,7 @@ class JsonDeserializerTest {
 
     val statement = JsonDeserializer.deserializeStatement(raw)
     assertEquals("a4996174-0908-4971-80c6-4e541d18ac3f", statement.id.toString)
-    assertEquals(new DateTime("2013-09-20T10:45:50.162Z").toDate, statement.timestamp)
+    assertEquals(new DateTime("2013-09-20T10:45:50.162Z").toDate, statement.timestamp.get)
 
     assertTrue(statement.actor.isInstanceOf[Agent])
     assertEquals("Agent", statement.actor.asInstanceOf[Agent].objectType)
@@ -203,5 +206,50 @@ class JsonDeserializerTest {
               """
 
     val statements = JsonDeserializer.deserializeStatements(raw)
+  } 
+  
+  @Test
+  def StatementWithSubstatementTest() {
+    val rawJson = """{
+      |    "actor": {
+      |        "objectType": "Agent",
+      |        "mbox":"mailto:test@example.com"
+      |    },
+      |    "verb" : {
+      |        "id":"http://example.com/planned",
+      |        "display":{
+      |            "en-US":"planned"
+      |        }
+      |    },
+      |    "object": {
+      |        "objectType": "SubStatement",
+      |        "actor" : {
+      |            "objectType": "Agent",
+      |            "mbox":"mailto:test@example.com"
+      |        },
+      |        "verb" : {
+      |            "id":"http://example.com/visited",
+      |            "display":{
+      |                "en-US":"will visit"
+      |            }
+      |        },
+      |        "object": {
+      |            "id":"http://example.com/website",
+      |            "definition": {
+      |                "name" : {
+      |                    "en-US":"Some Awesome Website"
+      |                }
+      |            }
+      |        }
+      |    }
+      |}""".stripMargin
+
+
+    val statement = JsonDeserializer.deserializeStatement(rawJson)
+
+    assertEquals(statement.obj.objectType,"SubStatement")
+    assert(statement.obj.asInstanceOf[SubStatement].obj.isInstanceOf[Activity])
   }
+
+
 }

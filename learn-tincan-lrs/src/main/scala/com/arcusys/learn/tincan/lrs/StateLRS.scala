@@ -32,7 +32,7 @@ trait StateLRS {
 
     val stored = stateStorage.get(state.activityId, state.stateId, state.agent, state.registration)
     stored match {
-      case None => throw StateLRSDocumentException("There is now document for activity {%s}, state {%s}, agent {%s} that can be modified".format(state.activityId, state.stateId, state.agent))
+      case None => throw StateLRSNotExistsException("There is no document for activity {%s}, state {%s}, agent {%s} that can be modified".format(state.activityId, state.stateId, state.agent))
       case Some(s:State) if s.content.cType == JSONContent && state.content.cType == JSONContent =>
         val newContent =
           try {
@@ -55,7 +55,7 @@ trait StateLRS {
     stored.map(_.content)
   }
 
-  def getStateDocumentIds(activityId: String, agent: Agent, registration: Option[UUID], since: Date): Seq[String] = {
+  def getStateDocumentIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[Date]): Seq[String] = {
     require(
       activityId != null && !activityId.isEmpty && agent != null,
       "Incorrect arguments were passed in the 'StateLRS.getStateDocumentIds' method")
@@ -102,6 +102,8 @@ case class StateLRSArgumentException(message: String) extends Exception(message)
 case class StateLRSDocumentAlreadyExistsException(message: String) extends Exception(message)
 
 case class StateLRSDocumentException(message: String) extends Exception(message)
+
+case class StateLRSNotExistsException(message: String) extends Exception(message)
 
 case class StateLRSDocumentModificationException(message: String, cause: Throwable) extends Exception(message, cause) {
   def this(message: String) = this(message, null)

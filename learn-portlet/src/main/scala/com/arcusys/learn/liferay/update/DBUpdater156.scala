@@ -1,8 +1,8 @@
 package com.arcusys.learn.liferay.update
 
-import com.liferay.portal.kernel.upgrade.UpgradeProcess
+import com.arcusys.learn.liferay.LiferayClasses.LUpgradeProcess
 
-class DBUpdater156 extends UpgradeProcess with SQLRunner {
+class DBUpdater156 extends LUpgradeProcess with SQLRunner {
   override def getThreshold = 156
 
   override def doUpgrade() {

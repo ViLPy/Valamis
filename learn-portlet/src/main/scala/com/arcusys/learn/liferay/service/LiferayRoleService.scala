@@ -3,7 +3,8 @@ package com.arcusys.learn.liferay.service
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.liferay.portal.service.{UserLocalServiceUtil, RoleLocalServiceUtil}
+import com.arcusys.learn.liferay.services.{RoleLocalServiceHelper, UserLocalServiceHelper}
+import com.arcusys.learn.liferay.LiferayClasses._
 
 /**
  * User: Yulia.Glushonkova
@@ -12,17 +13,17 @@ import com.liferay.portal.service.{UserLocalServiceUtil, RoleLocalServiceUtil}
 class LiferayRoleService (configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
-  val jsonModel = new JsonModelBuilder[com.liferay.portal.model.Role](role =>
+  val jsonModel = new JsonModelBuilder[LRole](role =>
     Map(
       "roleID" -> role.getRoleId,
       "roleName" -> role.getName,
       "roleDescription" -> role.getDescription,
-      "usersCount" -> UserLocalServiceUtil.getRoleUsersCount(role.getRoleId)
+      "usersCount" -> UserLocalServiceHelper.getRoleUsersCount(role.getRoleId)
     ))
 
   get("/") {
     val companyId = parameter("companyID").longRequired
-    jsonModel(RoleLocalServiceUtil.getRoles(companyId).toArray.map(i => i.asInstanceOf[com.liferay.portal.model.Role]))
+    jsonModel(RoleLocalServiceHelper.getRoles(companyId).toArray.map(i => i.asInstanceOf[LRole]))
   }
 
 }

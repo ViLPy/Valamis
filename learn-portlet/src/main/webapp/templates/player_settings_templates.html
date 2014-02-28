@@ -3,8 +3,9 @@
     <td>{{id}}</td>
     <td>{{{title}}}</td>
     <td>{{{summary}}}</td>
-    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
-    <td><input {{#isTincan}}disabled="disabled"{{/isTincan}} type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}} /></td>
+    <td><input type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
+    <td><input type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}} /></td>
+
 </script>
 
 <!--Package list view-->
@@ -23,4 +24,13 @@
 
         </tbody>
     </table>
+
+</script>
+
+<script type="text/html" id="personalPackageListItemTemplate">
+    <div id="liferaySiteElement" class="portlet-learn-scorm">
+        <button id="selectPackageButton" data-package-id="{{id}}" class="button28 buttonInstall quizManagementButton"></button>
+        <div style="line-height: 35px;"><b>{{title}}</b></div>
+        <hr style="clear: both">
+    </div>
 </script>

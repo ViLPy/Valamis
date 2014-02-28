@@ -3,13 +3,23 @@ package com.arcusys.learn.web
 import org.scalatra.ScalatraServlet
 import com.arcusys.scala.scalatra.json.JsonSupport
 import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
-import com.arcusys.learn.service.util.SessionHandler
+import com.arcusys.learn.service.util.{SessionHandlerContract}
+import org.joda.time.DateTime
+import java.util.Date
 
 //import org.slf4j.LoggerFactory
 
 import com.arcusys.learn.storage.StorageFactoryContract
 
 abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet with JsonSupport with Injectable {
+  before() {
+    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
+    response.setHeader("Expires", "-1")
+  }
+
+  implicit val bindingModule = configuration
+  val storageFactory = inject[StorageFactoryContract]
+  val sessionHandler = inject[SessionHandlerContract]
 
   class JsonModelBuilder[T](transform: T => Map[String, Any]) {
     def apply(entity: T): String = json(transform(entity))
@@ -26,11 +36,8 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
     def map(entities: Seq[T]): Seq[Map[String, Any]] = entities.map(transform(_))
   }
 
-  implicit val bindingModule = configuration
-  val storageFactory = inject[StorageFactoryContract]
-
   class ParameterBase(name: String) {
-    def required = params.getOrElse(name, halt(405, "Required parameter '" + name + "' is not specified"))
+    def required = params.getOrElse(name, halt(400, "Required parameter '" + name + "' is not specified"))
 
     def withDefault(default: String) = params.getOrElse(name, default)
 
@@ -86,21 +93,33 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
       })
     }
 
+    def dateOption(none: String): Option[Date] = {
+      val value = params.getOrElse(name, none)
+      if (value == none) None
+      else Some(try {
+        new DateTime(value).toDate
+      } catch {
+        case _ => halt(405, "Integer parameter '" + name + "' could not be parsed")
+      })
+    }
+
     def multiRequired()={
       multiParams.get(name)
     }
+
+    def contains() = params.contains(name)
   }
 
   def parameter(name: String) = new ParameterBase(name)
 
   def isAdmin = try {
-    SessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
+    sessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
   } catch {
     case e: Exception => false
   }
 
   def hasTeacherPermissions = try {
-    SessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
+    sessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
   } catch {
     case e: Exception => false
   }
@@ -109,19 +128,9 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
     val company = request.cookies.get("COMPANY_ID")
     company.getOrElse("-1").toInt
   }
-   /*
-    company match {
-      case Some(value) => value.toInt
-      case None => -1
-    }
-
-    //SessionHandler.getAttribute(request.getCookies, "COMPANY_ID").asInstanceOf[String].toInt
-  } catch {
-    case e: Exception => -1
-  }*/
 
   def getSessionUserID = try {
-    SessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
+    sessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
   } catch {
     case e:Exception => -1 // guest
   }
@@ -133,6 +142,4 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
   def requireTeacherPermissions() {
     if (!hasTeacherPermissions) halt(401)
   }
-
-  //def requiredParam(name: String, errorMessage: String) = params.getOrElse(name, halt(405, errorMessage))
 }

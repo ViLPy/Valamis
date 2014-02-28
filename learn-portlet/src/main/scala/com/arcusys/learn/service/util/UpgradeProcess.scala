@@ -1,37 +1,24 @@
 package com.arcusys.learn.service.util
 
-import com.liferay.portal.service._
-import permission.PortletPermissionUtil
 import scala.collection.JavaConversions._
-import com.liferay.portal.model._
-import com.liferay.portal.kernel.util._
-import com.liferay.portal.util.{PortletKeys, PortalUtil}
-import com.liferay.portlet.journal.service.{JournalTemplateLocalServiceUtil, JournalStructureLocalServiceUtil, JournalArticleLocalServiceUtil}
-import com.liferay.portal.kernel.workflow.WorkflowConstants
-import com.liferay.portlet.journal.model.{JournalArticle, JournalArticleConstants}
 import java.util.{Calendar, Locale}
-import com.liferay.portlet.PortletPreferencesFactoryUtil
-import com.liferay.portal.security.auth.PrincipalThreadLocal
-import com.liferay.portal.security.permission.{PermissionThreadLocal, PermissionCheckerFactoryUtil}
 import java.util
 import com.arcusys.learn.admin.service.UploadService
-import com.arcusys.learn.scorm.tracking.model.{User, PermissionType, Role}
-import scala.Array
+import com.arcusys.learn.scorm.tracking.model.PermissionType
 import scala.util.Random
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.liferay.portal.kernel.lar.PortletDataHandlerKeys
 import scala.xml.XML
 import scala.collection.JavaConverters._
-import com.liferay.portlet.polls.service.{PollsChoiceLocalServiceUtil, PollsQuestionLocalServiceUtil}
-import com.arcusys.learn.questionbank.model.{ChoiceAnswer, ChoiceQuestion}
+import com.arcusys.learn.liferay.services._
+import com.arcusys.learn.liferay.helpers.{HookHelpers, MessageBoardSupport, DocumentLibrarySupport, BlogHelpers}
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.util._
+import com.arcusys.learn.liferay.constants._
+import com.arcusys.learn.questionbank.model.ChoiceQuestion
 import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.liferay.util._
-import com.liferay.portlet.dynamicdatamapping.service.persistence.DDMStructureUtil
-import com.liferay.portlet.dynamicdatamapping.service.DDMStructureLocalServiceUtil
-import com.liferay.portal.kernel.search.IndexerRegistryUtil
-import com.liferay.portlet.messageboards.service.MBMessageLocalServiceUtil
-import com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil
-import com.liferay.portal.search.lucene.LuceneIndexer
+import com.arcusys.learn.questionbank.model.ChoiceAnswer
+import com.arcusys.learn.scorm.tracking.model.User
+import com.arcusys.learn.scorm.tracking.model.Role
 
 object UpgradeProcess {
   val isPublic = false
@@ -51,22 +38,22 @@ trait UserHelpers {
     val autoScreenName = false
     val emailAddress = screenName + "@learn.fi"
     val facebookId = 0
-    val openId = StringPool.BLANK
+    val openId = StringPoolHelper.BLANK
     val locale = Locale.US
-    val middleName = StringPool.BLANK
+    val middleName = StringPoolHelper.BLANK
     val prefixId = 0
     val suffixId = 0
     val birthdayMonth = Calendar.JANUARY
     val birthdayDay = 1
     val birthdayYear = 1970
 
-    val sevenCogsOrganization = OrganizationLocalServiceUtil.getOrganization(organizationID)
+    val sevenCogsOrganization = OrganizationLocalServiceHelper.getOrganization(organizationID)
 
     val sendEmail = false
 
-    val serviceContext = new ServiceContext()
+    val serviceContext = new LServiceContext()
 
-    val createdUser = UserLocalServiceUtil.getUsers(-1, -1).find(_.getScreenName == screenName)
+    val createdUser = UserLocalServiceHelper.getUsers(-1, -1).find(_.getScreenName == screenName)
     val user = if (createdUser != None) {
       val foundUser = createdUser.get
       if (storageFactory.userStorage.getByID(foundUser.getUserId.toInt).isDefined) {
@@ -74,7 +61,7 @@ trait UserHelpers {
       }
       foundUser
     } else {
-      UserLocalServiceUtil.addUser(
+      UserLocalServiceHelper.addUser(
         creatorUserId, companyId, autoPassword, password1, password2,
         autoScreenName, screenName, emailAddress, facebookId, openId,
         locale, firstName, middleName, lastName, prefixId, suffixId, male,
@@ -82,17 +69,17 @@ trait UserHelpers {
         Array[Long](), Array[Long](), Array[Long](), sendEmail, serviceContext)
     }
 
-    UserLocalServiceUtil.addGroupUsers(sevenCogsOrganization.getGroupId, Array(user.getUserId))
+    UserLocalServiceHelper.addGroupUsers(sevenCogsOrganization.getGroupId, Array(user.getUserId))
 
     val portrait = HookHelpers.getBytes("demo/profile/" + screenName + ".jpg")
 
-    UserLocalServiceUtil.updatePortrait(user.getUserId, portrait)
+    UserLocalServiceHelper.updatePortrait(user.getUserId, portrait)
 
-    val questions = StringUtil.split(PropsUtil.get("users.reminder.queries.questions"))
+    val questions = StringUtilHelper.split(PropsUtilHelper.get("users.reminder.queries.questions"))
 
     val question = questions(0)
     val answer = "123"
-    UserLocalServiceUtil.updateReminderQuery(user.getUserId, question, answer)
+    UserLocalServiceHelper.updateReminderQuery(user.getUserId, question, answer)
     val userUID = user.getUserId
     if (storageFactory.userStorage.getByID(userUID.toInt).isEmpty) {
       storageFactory.userStorage.createAndGetID(User(userUID.toInt, user.getFullName))
@@ -104,26 +91,26 @@ trait UserHelpers {
 class UpgradeProcess(val storageFactory: StorageFactoryContract) extends UserHelpers with BlogHelpers
 with MessageBoardSupport with DocumentLibrarySupport
 {
-  final private val demoOrgName = "Valamis eLearning demo site 1.6.5"
+  final private val demoOrgName = "Valamis eLearning demo site"
 
   def doUpgrade() {
     System.out.println("Deploying private demo site")
-    val companyId = PortalUtil.getDefaultCompanyId
-    val defaultUserId = UserLocalServiceUtil.getDefaultUserId(companyId)
+    val companyId = PortalUtilHelper.getDefaultCompanyId
+    val defaultUserId = UserLocalServiceHelper.getDefaultUserId(companyId)
 
-    val companies = CompanyLocalServiceUtil.getCompanies
+    val companies = CompanyLocalServiceHelper.getCompanies
     for (company <- companies) {
       val companyID = company.getCompanyId
-      val userID = UserLocalServiceUtil.getDefaultUserId(companyID)
-      if (!RoleLocalServiceUtil.getRoles(companyID).exists(_.getName.equalsIgnoreCase("teacher"))) RoleLocalServiceUtil.addRole(userID, companyID, "Teacher", null, null, RoleConstants.TYPE_SITE)
-      if (!RoleLocalServiceUtil.getRoles(companyID).exists(_.getName.equalsIgnoreCase("student"))) RoleLocalServiceUtil.addRole(userID, companyID, "Student", null, null, RoleConstants.TYPE_SITE)
+      val userID = UserLocalServiceHelper.getDefaultUserId(companyID)
+      if (!RoleLocalServiceHelper.getRoles(companyID).exists(_.getName.equalsIgnoreCase("teacher"))) RoleLocalServiceHelper.addRole(userID, companyID, "Teacher", null, null, RoleConstantsHelper.TYPE_SITE)
+      if (!RoleLocalServiceHelper.getRoles(companyID).exists(_.getName.equalsIgnoreCase("student"))) RoleLocalServiceHelper.addRole(userID, companyID, "Student", null, null, RoleConstantsHelper.TYPE_SITE)
     }
 
     try {
-      val orgToDelete = OrganizationLocalServiceUtil.getOrganizations(-1, -1).asScala.filter(_.getName.equalsIgnoreCase(demoOrgName)) //.getOrganizationId(companyId, demoOrgName)
+      val orgToDelete = OrganizationLocalServiceHelper.getOrganizations(-1, -1).asScala.filter(_.getName.equalsIgnoreCase(demoOrgName)) //.getOrganizationId(companyId, demoOrgName)
       orgToDelete.foreach(organization => {
-        UserLocalServiceUtil.unsetOrganizationUsers(organization.getOrganizationId, UserLocalServiceUtil.getOrganizationUsers(organization.getOrganizationId).map(_.getUserId).toArray)
-        OrganizationLocalServiceUtil.deleteOrganization(organization)
+        UserLocalServiceHelper.unsetOrganizationUsers(organization.getOrganizationId, UserLocalServiceHelper.getOrganizationUsers(organization.getOrganizationId).map(_.getUserId).toArray)
+        OrganizationLocalServiceHelper.deleteOrganization(organization)
       })
     } catch {
       case e: Exception => {
@@ -134,33 +121,33 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   def setupOrganizations(companyId: Long, defaultUserId: Long) {
-    val parentOrganizationId = OrganizationConstants.DEFAULT_PARENT_ORGANIZATION_ID
+    val parentOrganizationId = OrganizationConstantsHelper.DEFAULT_PARENT_ORGANIZATION_ID
     val name = demoOrgName
-    val organizationType = OrganizationConstants.TYPE_REGULAR_ORGANIZATION
+    val organizationType = OrganizationConstantsHelper.TYPE_REGULAR_ORGANIZATION
     val recursable = true
     val regionId = 0
     val countryId = 0
-    val statusId = GetterUtil.getInteger(PropsUtil.get("sql.data.com.liferay.portal.model.ListType.organization.status"))
+    val statusId = GetterUtilHelper.getInteger(PropsUtilHelper.get("sql.data.com.liferay.portal.model.ListType.organization.status"))
     val comments = null
 
-    val serviceContext: ServiceContext = new ServiceContext
+    val serviceContext: LServiceContext = new LServiceContext
 
     serviceContext.setAddGroupPermissions(true)
     serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
 
-    val organization = OrganizationLocalServiceUtil.addOrganization(defaultUserId, parentOrganizationId, name, organizationType, recursable, regionId, countryId, statusId, comments, true, serviceContext)
+    val organization = OrganizationLocalServiceHelper.addOrganization(defaultUserId, parentOrganizationId, name, organizationType, recursable, regionId, countryId, statusId, comments, true, serviceContext)
 
     // Group
     val group = organization.getGroup
     group.setTypeSettings("customJspServletContextName=valamis-learn-hook")
-    GroupLocalServiceUtil.updateGroup(group)
-    GroupLocalServiceUtil.updateFriendlyURL(group.getGroupId, "/learn-demo-hook-1.6.3")
+    GroupLocalServiceHelper.updateGroup(group)
+    GroupLocalServiceHelper.updateFriendlyURL(group.getGroupId, "/learn-demo-hook-1.7")
     serviceContext.setScopeGroupId(group.getGroupId)
 
     // Layout set theme
     try {
-      LayoutSetLocalServiceUtil.updateLookAndFeel(group.getGroupId, false, "valamislearntheme_WAR_valamislearntheme", "", "", false)
-      LayoutSetLocalServiceUtil.updateLookAndFeel(group.getGroupId, true, "valamislearntheme_WAR_valamislearntheme", "", "", false)
+      LayoutSetLocalServiceHelper.updateLookAndFeel(group.getGroupId, false, "valamislearntheme_WAR_valamislearntheme", "", "", false)
+      LayoutSetLocalServiceHelper.updateLookAndFeel(group.getGroupId, true, "valamislearntheme_WAR_valamislearntheme", "", "", false)
     } catch {
       case e: Exception => {
         // well, looks like we don't have theme installed, skip then
@@ -180,7 +167,7 @@ with MessageBoardSupport with DocumentLibrarySupport
 
     val layoutTheory = addLayout(group, "Home", UpgradeProcess.isPublic, "/home", "frontpage")
 
-    val portletLanding1 = addPortletId(layoutTheory, PortletKeys.JOURNAL_CONTENT, "column-1")
+    val portletLanding1 = addPortletId(layoutTheory, PortletKeysHelper.JOURNAL_CONTENT, "column-1")
     val journalArticle1 = addJournalArticle(defaultUserId, group.getGroupId,
       "WELCOME INFO", "demo/articles/landing1.xml",
       welcomeBoxStructure.getStructureId, welcomeBoxTemplate.getTemplateId,
@@ -189,7 +176,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     removePortletBorder(layoutTheory, portletLanding1)
 
     // ------------
-    val portletLanding3 = addPortletId(layoutTheory, PortletKeys.JOURNAL_CONTENT, "column-3")
+    val portletLanding3 = addPortletId(layoutTheory, PortletKeysHelper.JOURNAL_CONTENT, "column-3")
 
     val journalArticle3 = addJournalArticle(defaultUserId, group.getGroupId,
       "E-LEARNING TOOLS LINK", "demo/articles/landing3.xml",
@@ -201,8 +188,8 @@ with MessageBoardSupport with DocumentLibrarySupport
     val playerPortlet = addPortletId(layoutTheory, "SCORMApplication_WAR_learnportlet", "column-4")
     setCustomTitle(layoutTheory, playerPortlet, "Check out your latest material")
 
-    val assetPublisher = addPortletId(layoutTheory, PortletKeys.ASSET_PUBLISHER, "column-5")
-    LayoutLocalServiceUtil.importPortletInfo(defaultUserId, layoutTheory.getPrimaryKey, group.getGroupId, assetPublisher, Map[String, Array[String]](), Thread.currentThread().getContextClassLoader.getResourceAsStream("demo/settings/AssetPublisher.lar"))
+    val assetPublisher = addPortletId(layoutTheory, PortletKeysHelper.ASSET_PUBLISHER, "column-5")
+    //LayoutLocalServiceHelper.importPortletInfo(defaultUserId, layoutTheory.getPrimaryKey, group.getGroupId, assetPublisher, Map[String, Array[String]](), Thread.currentThread().getContextClassLoader.getResourceAsStream("demo/settings/AssetPublisher.lar"))
 
     /*val topicsData = Map("mbMessage" -> ClassNameLocalServiceUtil.getClassNameId("com.liferay.portlet.messageboards.model.MBMessage").toString,
       "blogsEntry" -> ClassNameLocalServiceUtil.getClassNameId("com.liferay.portlet.blogs.model.BlogsEntry").toString)
@@ -211,12 +198,12 @@ with MessageBoardSupport with DocumentLibrarySupport
       "demo/settings/latest.topics.xml",
       topicsData)*/
 
-    val activities = addPortletId(layoutTheory, PortletKeys.ACTIVITIES, "column-6")
+    val activities = addPortletId(layoutTheory, PortletKeysHelper.ACTIVITIES, "column-6")
     setPortletPreferences(layoutTheory, activities, "demo/settings/activities.xml")
 
 
-    val teacherID = RoleLocalServiceUtil.getRole(companyId, "Teacher").getRoleId
-    val studentID = RoleLocalServiceUtil.getRole(companyId, "Student").getRoleId
+    val teacherID = RoleLocalServiceHelper.getRole(companyId, "Teacher").getRoleId
+    val studentID = RoleLocalServiceHelper.getRole(companyId, "Student").getRoleId
     val teacherRoleIDs = Array(teacherID)
     val studentRoleIDs = Array(studentID)
 
@@ -224,21 +211,21 @@ with MessageBoardSupport with DocumentLibrarySupport
     val studentOskuUser = addUser(organization.getOrganizationId, organization.getCompanyId, "osku.opiskelija", "Osku", "Opiskelija", true, "Student", studentRoleIDs)
     val teacherUser = addUser(organization.getOrganizationId, organization.getCompanyId, "olli.opettaja", "Olli", "Opettaja", true, "Teacher", teacherRoleIDs)
 
-    UserGroupRoleLocalServiceUtil.addUserGroupRoles(studentMillaUser.getUserId, group.getGroupId, studentRoleIDs)
-    UserGroupRoleLocalServiceUtil.addUserGroupRoles(studentOskuUser.getUserId, group.getGroupId, studentRoleIDs)
-    UserGroupRoleLocalServiceUtil.addUserGroupRoles(teacherUser.getUserId, group.getGroupId, teacherRoleIDs)
+    UserGroupRoleLocalServiceHelper.addUserGroupRoles(studentMillaUser.getUserId, group.getGroupId, studentRoleIDs)
+    UserGroupRoleLocalServiceHelper.addUserGroupRoles(studentOskuUser.getUserId, group.getGroupId, studentRoleIDs)
+    UserGroupRoleLocalServiceHelper.addUserGroupRoles(teacherUser.getUserId, group.getGroupId, teacherRoleIDs)
 
 
     if (storageFactory.roleStorage.getForPermission(PermissionType.Student).find(_.liferayRoleID == studentID.toInt).isEmpty) {
-      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceUtil.getRole(companyId, "Student").getRoleId.toInt, PermissionType.Student, false))
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Student").getRoleId.toInt, PermissionType.Student, false))
     }
     if (storageFactory.roleStorage.getForPermission(PermissionType.Teacher).find(_.liferayRoleID == teacherID.toInt).isEmpty) {
-      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceUtil.getRole(companyId, "Teacher").getRoleId.toInt, PermissionType.Teacher, false))
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Teacher").getRoleId.toInt, PermissionType.Teacher, false))
     }
 
-    PrincipalThreadLocal.setName(teacherUser.getUserId)
-    val permissionChecker = PermissionCheckerFactoryUtil.create(teacherUser)
-    PermissionThreadLocal.setPermissionChecker(permissionChecker)
+    PrincipalThreadLocalHelper.setName(teacherUser.getUserId)
+    val permissionChecker = PermissionCheckerFactoryUtilHelper.create(teacherUser)
+    PermissionThreadLocalHelper.setPermissionChecker(permissionChecker)
 
     val dlFolder = addDLFolder(teacherUser.getUserId, group.getGroupId,
       "Picures", "Picture related with the Learn Project", UpgradeProcess.isPublic)
@@ -246,7 +233,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     val discussion = addDLFileEntry(teacherUser.getUserId, dlFolder.getGroupId, dlFolder.getFolderId, "demo/documents/guys-discussion.1.jpg",
       "guys-discussion.1.jpg", "Discussion", "", serviceContext, UpgradeProcess.isPublic)
 
-    val portletLanding2 = addPortletId(layoutTheory, PortletKeys.JOURNAL_CONTENT, "column-2")
+    val portletLanding2 = addPortletId(layoutTheory, PortletKeysHelper.JOURNAL_CONTENT, "column-2")
 
     val url = "/documents/" + discussion.getGroupId + "/" + discussion.getFolderId + "/" + discussion.getTitle
 
@@ -267,18 +254,18 @@ with MessageBoardSupport with DocumentLibrarySupport
     removePortletBorder(layoutTheory, portletLanding2)
 
 
-    val question = PollsQuestionLocalServiceUtil.addQuestion(teacherUser.getUserId,
+    val question = PollsQuestionLocalServiceHelper.addQuestion(teacherUser.getUserId,
       Map(Locale.US -> "Poll"), Map(Locale.US -> "Do you think we might be on to something?"), 1, 1, 2020, 1, 1, true, null, serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "a", "Yes definitely.", serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "b", "Maybe.", serviceContext)
-    PollsChoiceLocalServiceUtil.addChoice(teacherUser.getUserId, question.getQuestionId, "c", "I think you have things to learn still.", serviceContext)
-    val portletPolls = addPortletId(layoutTheory, PortletKeys.POLLS_DISPLAY, "column-7")
+    PollsChoiceLocalServiceHelper.addChoice(teacherUser.getUserId, question.getQuestionId, "a", "Yes definitely.", serviceContext)
+    PollsChoiceLocalServiceHelper.addChoice(teacherUser.getUserId, question.getQuestionId, "b", "Maybe.", serviceContext)
+    PollsChoiceLocalServiceHelper.addChoice(teacherUser.getUserId, question.getQuestionId, "c", "I think you have things to learn still.", serviceContext)
+    val portletPolls = addPortletId(layoutTheory, PortletKeysHelper.POLLS_DISPLAY, "column-7")
     setupPortlet(layoutTheory, portletPolls, "questionId", question.getQuestionId.toString)
 
     // collaboration =================================
     val layoutCollaboration = addLayout(group, "Collaboration", UpgradeProcess.isPublic, "/collaboration", "2_columns_ii")
 
-    val portletCollaborationAbout = addPortletId(layoutCollaboration, PortletKeys.JOURNAL_CONTENT, "column-1")
+    val portletCollaborationAbout = addPortletId(layoutCollaboration, PortletKeysHelper.JOURNAL_CONTENT, "column-1")
 
     val articleCollaborationAbout = addJournalArticle(defaultUserId, group.getGroupId,
       "BLOG INFO", "demo/articles/blog.info.xml",
@@ -287,7 +274,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     configureJournalContent(layoutCollaboration, group, portletCollaborationAbout, articleCollaborationAbout.getArticleId)
     removePortletBorder(layoutCollaboration, portletCollaborationAbout)
 
-    val blogs = addPortletId(layoutCollaboration, PortletKeys.BLOGS, "column-2")
+    val blogs = addPortletId(layoutCollaboration, PortletKeysHelper.BLOGS, "column-2")
     //removePortletBorder(layoutCollaboration, blogs)
 
     addBlogsEntry(teacherUser.getUserId, "Finland and PISA (The Programme for International Student Assessment) survey.",
@@ -302,7 +289,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     // discuss =================================
     val layoutDiscussion = addLayout(group, "Discuss", UpgradeProcess.isPublic, "/discuss", "2_columns_ii")
 
-    val portletDiscussAbout = addPortletId(layoutDiscussion, PortletKeys.JOURNAL_CONTENT, "column-1")
+    val portletDiscussAbout = addPortletId(layoutDiscussion, PortletKeysHelper.JOURNAL_CONTENT, "column-1")
 
     val articleDiscussAbout = addJournalArticle(defaultUserId, group.getGroupId,
       "DISCUSS INFO", "demo/articles/discuss.info.xml",
@@ -311,7 +298,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     configureJournalContent(layoutDiscussion, group, portletDiscussAbout, articleDiscussAbout.getArticleId)
     removePortletBorder(layoutDiscussion, portletDiscussAbout)
 
-    val mBoards = addPortletId(layoutDiscussion, PortletKeys.MESSAGE_BOARDS, "column-2")
+    val mBoards = addPortletId(layoutDiscussion, PortletKeysHelper.MESSAGE_BOARDS, "column-2")
     removePortletBorder(layoutDiscussion, mBoards)
 
     val rootMsg = addMBMessage(teacherUser.getUserId, teacherUser.getFullName, group.getGroupId, 0, 0, 0,
@@ -344,7 +331,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     val layoutToolsAdmin = addLayout(group, "Admin tools", UpgradeProcess.isPublic, "/tools/admin-tools", "2_columns_ii", layoutTools.getLayoutId)
     addToolsNavigationPortlet(layoutToolsAdmin)
     addSimpleJournalArticle(defaultUserId, group, layoutToolsAdmin, "Admin tools", "demo/articles/admin.xml", "column-1", serviceContext)
-    addPortletId(layoutToolsAdmin, "SCORMApplicationAdmin_WAR_learnportlet", "column-2")
+    addPortletId(layoutToolsAdmin, "PackageManager_WAR_learnportlet", "column-2")
 
     val layoutToolsGradebook = addLayout(group, "Gradebook", UpgradeProcess.isPublic, "/tools/gradebook", "2_columns_ii", layoutTools.getLayoutId)
     addToolsNavigationPortlet(layoutToolsGradebook)
@@ -386,15 +373,15 @@ with MessageBoardSupport with DocumentLibrarySupport
     luceneIndexer.reindex()*/
   }
 
-  def addToolsNavigationPortlet(layout: Layout) {
+  def addToolsNavigationPortlet(layout: LLayout) {
     val portlet = addPortletId(layout, "71", "column-1") // 71 - navigation portlet
     setPortletPreferences(layout, portlet, "demo/settings/navigation.xml")
   }
 
-  def addSimpleJournalArticle(userID: Long, group: Group,
-                              layout: Layout, title: String, file: String, destination: String,
-                              serviceContext: ServiceContext) {
-    val portlet = addPortletId(layout, PortletKeys.JOURNAL_CONTENT, destination)
+  def addSimpleJournalArticle(userID: Long, group: LGroup,
+                              layout: LLayout, title: String, file: String, destination: String,
+                              serviceContext: LServiceContext) {
+    val portlet = addPortletId(layout, PortletKeysHelper.JOURNAL_CONTENT, destination)
     val article = addJournalArticle(userID, group.getGroupId, title, file, serviceContext)
     configureJournalContent(layout, group, portlet, article.getArticleId)
   }
@@ -402,13 +389,13 @@ with MessageBoardSupport with DocumentLibrarySupport
   def addDefaultLayoutsByLAR(userId: Long, groupId: Long, privateLayout: Boolean, larFile: java.io.File) {
     val parameterMap = new util.HashMap[String, Array[String]]()
 
-    parameterMap.put(PortletDataHandlerKeys.PERMISSIONS, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.PORTLET_DATA_CONTROL_DEFAULT, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.PORTLET_SETUP, Array[String](true.toString))
-    parameterMap.put(PortletDataHandlerKeys.PERMISSIONS, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeysHelper.PERMISSIONS, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeysHelper.PORTLET_DATA, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeysHelper.PORTLET_DATA_CONTROL_DEFAULT, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeysHelper.PORTLET_SETUP, Array[String](true.toString))
+    parameterMap.put(PortletDataHandlerKeysHelper.PERMISSIONS, Array[String](true.toString))
 
-    LayoutLocalServiceUtil.importLayouts(userId, groupId, privateLayout, parameterMap, larFile)
+    LayoutLocalServiceHelper.importLayouts(userId, groupId, privateLayout, parameterMap, larFile)
   }
 
   private def addActivities(packageId: Int, studentIds: List[Long]) {
@@ -476,15 +463,15 @@ with MessageBoardSupport with DocumentLibrarySupport
     storageFactory.quizQuestionStorage.createFromQuestionBankAndGetID(quizID, None, choice3ID)
   }
 
-  protected def setupPortlet(layout: Layout, portletId: String, key: String, value: String) {
-    val portletSetup = PortletPreferencesFactoryUtil.getLayoutPortletSetup(layout, portletId)
+  protected def setupPortlet(layout: LLayout, portletId: String, key: String, value: String) {
+    val portletSetup = PortletPreferencesFactoryUtilHelper.getLayoutPortletSetup(layout, portletId)
     portletSetup.setValue(key, value)
     portletSetup.store()
   }
 
-  protected def configureJournalContent(layout: Layout, group: Group, portletId: String, articleId: String) {
+  protected def configureJournalContent(layout: LLayout, group: LGroup, portletId: String, articleId: String) {
 
-    val portletSetup = PortletPreferencesFactoryUtil.getLayoutPortletSetup(layout, portletId)
+    val portletSetup = PortletPreferencesFactoryUtilHelper.getLayoutPortletSetup(layout, portletId)
 
     if (group == null) {
       portletSetup.setValue("groupId", String.valueOf(layout.getGroupId))
@@ -496,19 +483,19 @@ with MessageBoardSupport with DocumentLibrarySupport
     portletSetup.store()
   }
 
-  protected def removePortletBorder(layout: Layout, portletId: String) {
+  protected def removePortletBorder(layout: LLayout, portletId: String) {
     setupPortlet(layout, portletId, "portletSetupShowBorders", "false")
   }
 
-  protected def setCustomTitle(layout: Layout, portletId: String, title: String) {
-    val portletSetup = PortletPreferencesFactoryUtil.getLayoutPortletSetup(layout, portletId)
+  protected def setCustomTitle(layout: LLayout, portletId: String, title: String) {
+    val portletSetup = PortletPreferencesFactoryUtilHelper.getLayoutPortletSetup(layout, portletId)
     portletSetup.setValue("portletSetupUseCustomTitle", "true")
     portletSetup.setValue("portletSetupTitle_en_US", title)
     portletSetup.store()
   }
 
-  def setPortletPreferences(layout: Layout, portletId: String, filename: String, data: Map[String, String] = Map()) {
-    val portletSetup = PortletPreferencesFactoryUtil.getLayoutPortletSetup(layout, portletId)
+  def setPortletPreferences(layout: LLayout, portletId: String, filename: String, data: Map[String, String] = Map()) {
+    val portletSetup = PortletPreferencesFactoryUtilHelper.getLayoutPortletSetup(layout, portletId)
     val definitions = XML.loadString(HookHelpers.getString(filename))
     (definitions \ "preference").foreach(defNode => {
       val word = (defNode \ "name").text.toString
@@ -532,48 +519,48 @@ with MessageBoardSupport with DocumentLibrarySupport
 
   }
 
-  protected def addLayout(group: Group, name: String,
+  protected def addLayout(group: LGroup, name: String,
                           isPublic: Boolean, friendlyURL: String, layoutTemplateId: String,
-                          parent: Long = LayoutConstants.DEFAULT_PARENT_LAYOUT_ID) = {
-    val serviceContext: ServiceContext = new ServiceContext
-    val layout = LayoutLocalServiceUtil.addLayout(group.getCreatorUserId, group.getGroupId,
+                          parent: Long = LayoutConstantsHelper.DEFAULT_PARENT_LAYOUT_ID) = {
+    val serviceContext: LServiceContext = new LServiceContext
+    val layout = LayoutLocalServiceHelper.addLayout(group.getCreatorUserId, group.getGroupId,
       !isPublic, parent,
-      name, StringPool.BLANK, StringPool.BLANK, LayoutConstants.TYPE_PORTLET,
+      name, StringPoolHelper.BLANK, StringPoolHelper.BLANK, LayoutConstantsHelper.TYPE_PORTLET,
       false, friendlyURL, serviceContext)
-    val layoutTypePortlet = layout.getLayoutType.asInstanceOf[LayoutTypePortlet]
+    val layoutTypePortlet = layout.getLayoutType.asInstanceOf[LLayoutTypePortlet]
     layoutTypePortlet.setLayoutTemplateId(0, layoutTemplateId, false)
-    addResources(layout, PortletKeys.DOCKBAR)
+    addResources(layout, PortletKeysHelper.DOCKBAR)
     layout
   }
 
-  protected def addResources(layout: Layout, portletId: String) {
-    val rootPortletId = PortletConstants.getRootPortletId(portletId)
-    val portletPrimaryKey = PortletPermissionUtil.getPrimaryKey(layout.getPlid, portletId)
-    ResourceLocalServiceUtil.addResources(layout.getCompanyId, layout.getGroupId, 0, rootPortletId, portletPrimaryKey, true, true, true)
+  protected def addResources(layout: LLayout, portletId: String) {
+    val rootPortletId = PortletConstantsHelper.getRootPortletId(portletId)
+    val portletPrimaryKey = PortletPermissionUtilHelper.getPrimaryKey(layout.getPlid, portletId)
+    ResourceLocalServiceHelper.addResources(layout.getCompanyId, layout.getGroupId, 0, rootPortletId, portletPrimaryKey, true, true, true)
   }
 
-  protected def addPortletId(layout: Layout, portletId: String, columnId: String) = {
-    val layoutTypePortlet: LayoutTypePortlet = layout.getLayoutType.asInstanceOf[LayoutTypePortlet]
+  protected def addPortletId(layout: LLayout, portletId: String, columnId: String) = {
+    val layoutTypePortlet: LLayoutTypePortlet = layout.getLayoutType.asInstanceOf[LLayoutTypePortlet]
     val newPortletID = layoutTypePortlet.addPortletId(0, portletId, columnId, -1, false)
     addResources(layout, newPortletID)
     updateLayout(layout)
     newPortletID
   }
 
-  protected def updateLayout(layout: Layout) {
-    LayoutLocalServiceUtil.updateLayout(layout.getGroupId, layout.isPrivateLayout, layout.getLayoutId, layout.getTypeSettings)
+  protected def updateLayout(layout: LLayout) {
+    LayoutLocalServiceHelper.updateLayout(layout.getGroupId, layout.isPrivateLayout, layout.getLayoutId, layout.getTypeSettings)
   }
 
-  protected def addJournalArticle(userId: Long, groupId: Long, title: String, fileName: String, serviceContext: ServiceContext): JournalArticle = {
-    addJournalArticle(userId, groupId, title, fileName, StringPool.BLANK, StringPool.BLANK, serviceContext)
+  protected def addJournalArticle(userId: Long, groupId: Long, title: String, fileName: String, serviceContext: LServiceContext): LJournalArticle = {
+    addJournalArticle(userId, groupId, title, fileName, StringPoolHelper.BLANK, StringPoolHelper.BLANK, serviceContext)
   }
 
   protected def addJournalStructure(userId: Long, groupId: Long,
-                                    title: String, filename: String, serviceContext: ServiceContext) = {
+                                    title: String, filename: String, serviceContext: LServiceContext) = {
     val xsd = HookHelpers.getString(filename)
 
-    JournalStructureLocalServiceUtil.addStructure(userId, groupId,
-      title, true, StringPool.BLANK, Map(Locale.US -> title), null,
+    JournalStructureLocalServiceHelper.addStructure(userId, groupId,
+      title, true, StringPoolHelper.BLANK, Map(Locale.US -> title), null,
       xsd,
       serviceContext)
   }
@@ -581,17 +568,17 @@ with MessageBoardSupport with DocumentLibrarySupport
   protected def addJournalTemplate(userId: Long, groupId: Long,
                                    title: String, filename: String, structureID: String,
                                    langType: String,
-                                   serviceContext: ServiceContext) = {
+                                   serviceContext: LServiceContext) = {
     val xsl = HookHelpers.getString(filename)
 
-    JournalTemplateLocalServiceUtil.addTemplate(userId, groupId,
+    JournalTemplateLocalServiceHelper.addTemplate(userId, groupId,
       title, true, structureID, Map(Locale.US -> title), null,
-      xsl, false, langType, true, false, StringPool.BLANK, null, serviceContext)
+      xsl, false, langType, true, false, StringPoolHelper.BLANK, null, serviceContext)
   }
 
   protected def addJournalArticle(userId: Long, groupId: Long,
                                   title: String, filename: String,
-                                  structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
+                                  structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
 
     val content = HookHelpers.getString(filename)
 
@@ -600,24 +587,24 @@ with MessageBoardSupport with DocumentLibrarySupport
 
   protected def addJournalArticleWithContent(userId: Long, groupId: Long,
                                              title: String, content: String,
-                                             structureId: String, templateId: String, serviceContext: ServiceContext): JournalArticle = {
+                                             structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
 
     serviceContext.setAddGroupPermissions(true)
     serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)
-    serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH)
+    serviceContext.setWorkflowAction(WorkflowConstantsHelper.ACTION_PUBLISH)
 
-    val journalArticle = JournalArticleLocalServiceUtil.addArticle(userId, groupId,
+    val journalArticle = JournalArticleLocalServiceHelper.addArticle(userId, groupId,
       0, 0, 0, //folderId, classNameId, classPK,
       title.replaceAll(" ", "_"), //articleId,
       false, //autoArticleId,
-      JournalArticleConstants.VERSION_DEFAULT,
+      JournalArticleConstantsHelper.VERSION_DEFAULT,
       Map(Locale.US -> title),
       null, //descriptionMap,
       content,
       "general", // type,
       structureId,
       templateId, // templateId,
-      StringPool.BLANK, //layoutUuid,
+      StringPoolHelper.BLANK, //layoutUuid,
       1, 1, 2013, 0, 0, // displayDateMonth, displayDateDay, displayDateYear,
       // displayDateHour, displayDateMinute,
       0, 0, 0, 0, 0, true, // expirationDateMonth, expirationDateDay,
@@ -626,14 +613,14 @@ with MessageBoardSupport with DocumentLibrarySupport
       0, 0, 0, 0, 0, true, // reviewDateMonth, reviewDateDay, reviewDateYear,
       //reviewDateHour, reviewDateMinute, neverReview,
       true, // indexable
-      false, StringPool.BLANK, null, // smallImage, smallImageURL, smallImageFile,
-      null, StringPool.BLANK, // images, articleURL,
+      false, StringPoolHelper.BLANK, null, // smallImage, smallImageURL, smallImageFile,
+      null, StringPoolHelper.BLANK, // images, articleURL,
       serviceContext)
 
-    JournalArticleLocalServiceUtil.updateStatus(
+    JournalArticleLocalServiceHelper.updateStatus(
       userId, groupId, journalArticle.getArticleId,
-      journalArticle.getVersion, WorkflowConstants.STATUS_APPROVED,
-      StringPool.BLANK, null, serviceContext)
+      journalArticle.getVersion, WorkflowConstantsHelper.STATUS_APPROVED,
+      StringPoolHelper.BLANK, null, serviceContext)
 
     journalArticle
   }

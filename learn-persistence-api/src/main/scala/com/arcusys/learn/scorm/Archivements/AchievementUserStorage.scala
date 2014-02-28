@@ -9,4 +9,5 @@ trait AchievementUserStorage {
   def update(entity: AchievementUser)
   def deleteById(id: Int)
   def deleteByAchievementId(id: Int)
+  def renew()
 }

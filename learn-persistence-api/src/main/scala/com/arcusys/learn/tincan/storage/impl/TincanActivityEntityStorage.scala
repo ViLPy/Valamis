@@ -7,7 +7,11 @@ import com.arcusys.learn.storage.impl.{KeyedEntityStorage, EntityStorageExt, Ent
 
 trait TincanActivityEntityStorage extends TincanActivityStorage with KeyedEntityStorage[Activity] {
   def createAndGetID(entity: Activity) = {
-    createAndGetID(entity, Nil:_*)
+    val a = getById(entity.id)
+    if(a.isDefined && a.get.storedId.isDefined)
+      a.get.storedId.get
+    else
+      createAndGetID(entity, Nil:_*)
   }
 
   def getById(id: Int): Option[Activity] = {

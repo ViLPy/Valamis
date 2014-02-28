@@ -1,45 +1,40 @@
 package com.arcusys.learn.view
 
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
-import javax.portlet._
-import org.scalatra.ScalatraFilter
+import javax.portlet.{GenericPortlet, RenderResponse, RenderRequest}
 import com.arcusys.learn.view.liferay.LiferayHelpers
+import com.arcusys.learn.settings.model.{SettingType, Setting}
+import org.scalatra.ScalatraFilter
+import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
-import com.liferay.portal.util.PortalUtil
-import com.arcusys.learn.service.util.SessionHandler
-import javax.servlet.http.Cookie
-import com.arcusys.learn.settings.model.{Setting, SettingType}
-import com.arcusys.learn.tincan.model.{OAuthAuthorization, CommonBasicAuthorization, UserBasicAuthorization, LrsEndpointSettings}
-import javax.xml.bind.DatatypeConverter
+import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.tincan.model.lrsClient.{CommonBasicAuthorization, LrsEndpointSettings, OAuthAuthorization, UserBasicAuthorization}
 
-class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
+class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with SessionSupport{
   override def destroy() {}
 
-  override def doView(request: RenderRequest, response: RenderResponse) {
-    val userUID = request.getRemoteUser
-    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
-    val userID = themeDisplay.getUser.getUserId
-    val courseID = themeDisplay.getScopeGroupId //theme.getLayout.getGroupId
-
-    val httpServletRequest = PortalUtil.getHttpServletRequest(request)
-    httpServletRequest.getSession.setAttribute("userID", userUID)
-
-    // Session management
-    val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
-    val cookie = new Cookie("valamisSessionID", sessionID)
-    cookie.setMaxAge(-1)
-    cookie.setPath("/")
-    response.addProperty(cookie)
-    SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
-    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
-    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
-
+  override def doView(request: RenderRequest, response: RenderResponse){
+    setupSession(request: RenderRequest, response: RenderResponse)
     val out = response.getWriter
+
+    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val userId = themeDisplay.getUser.getUserId
+    val courseId = themeDisplay.getScopeGroupId
     val language = LiferayHelpers.getLanguage(request)
-    if (userManagement.isAdmin(userID, courseID)) {
+
+    val hasPermissions = userManagement.isAdmin(userId, courseId)
+    if(!hasPermissions){
+      val translations = getTranslation("error", language)
+      out.println(mustache(translations, "scorm_nopermissions.html"))
+    } else {
+
+      val userUID = request.getRemoteUser
+
+      val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
+      httpServletRequest.getSession.setAttribute("userID", userUID)
+
       val groupID = themeDisplay.getScopeGroupId
       val translations = getTranslation("admin", language)
-      val companyId = PortalUtil.getCompanyId(request)
+      val companyId = PortalUtilHelper.getCompanyId(request)
 
       val allSettings = storageFactory.settingStorage.getAll
       val emptySetting = new Setting(0, SettingType.IssuerName, "")
@@ -48,9 +43,8 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
       val issuerOrganization = allSettings.find(i => i.key == SettingType.IssuerOrganization).getOrElse(emptySetting).value
       val issuerURL = allSettings.find(i => i.key == SettingType.IssuerURL).getOrElse(emptySetting).value
 
-
       val data = Map("contextPath" -> request.getContextPath, "userID" -> userUID, "groupID" -> groupID, "isAdmin" -> true,
-        "language" -> language, "courseID" -> courseID, "isPortlet" -> true, "companyID" -> companyId, "issuerName" -> issuerName,
+        "language" -> language, "courseID" -> courseId, "isPortlet" -> true, "companyID" -> companyId, "issuerName" -> issuerName,
         "issuerURL"-> issuerURL, "issuerOrganization"-> issuerOrganization) ++ translations
 
       val tincanEndpointData = storageFactory.tincanLrsEndpointStorage.get match {
@@ -77,7 +71,7 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
           "tincanLrsEndpoint" -> endpoint,
           "tincanLrsIsBasicAuth" -> false,
           "tincanLrsIsOAuth" -> true,
-          "commonCredentials" -> true,
+          "commonCredentials" -> false,
           "tincanLrsLoginName" -> key,
           "tincanLrsPassword" -> secret
         )
@@ -92,17 +86,8 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
         )
       }
 
-      out.println(generateResponse(data ++ tincanEndpointData, "scorm_admin.html"))
+      out.println(mustache(data ++ tincanEndpointData, "scorm_admin.html"))
     }
-    else {
-      val translations = getTranslation("error", language)
-      val data = Map("contextPath" -> request.getContextPath, "language" -> language) ++ translations
-      out.println(generateResponse(data, "scorm_nopermissions.html"))
-    }
-  }
-
-  def generateResponse(data: Map[String, Any], templateName: String) = {
-    mustache(data, templateName)
   }
 
   private def getTranslation(view: String, language: String): Map[String, String] = {

@@ -4,12 +4,24 @@ import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import java.net.URLDecoder
+import java.net.{HttpURLConnection, URL, URLEncoder, URLDecoder}
 import com.arcusys.learn.scorm.manifest.model.{ResourceUrl, LeafActivity}
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.learn.scorm.tracking.model.sequencing._
-import com.arcusys.learn.tincan.model.{CommonBasicAuthorization, UserBasicAuthorization, LrsEndpointSettings}
 import javax.xml.bind.DatatypeConverter
+import com.arcusys.learn.tincan.model.lrsClient.{OAuthAuthorization, LrsEndpointSettings, CommonBasicAuthorization, UserBasicAuthorization}
+import org.apache.oltu.oauth2.common.{OAuth}
+import org.apache.oltu.oauth2.client.{URLConnectionClient, OAuthClient}
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest
+import org.apache.oltu.oauth2.common.message.types.{GrantType, ResponseType}
+import com.arcusys.learn.oauth.utils.HMACSHA1Generator
+import org.apache.oltu.oauth2.client.response.{OAuthClientResponse, OAuthJSONAccessTokenResponse}
+import scala.collection.JavaConverters._
+import com.arcusys.learn.models.TincanOAuthResponse
+import org.apache.oltu.oauth2.common.utils.OAuthUtils
+import java.io.{IOException, InputStream, PrintWriter, OutputStream}
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException
+import com.arcusys.scala.json.Json
 
 class SequencingService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -37,17 +49,40 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
     } // default id is -1, for guests
     val packageID = parameter("packageID").intRequired
 
-    val tincanPackage = tincanPackageStorage.getByID(packageID).get
+    val tincanPackage = tincanPackageStorage.getByID(packageID)
+    if(!tincanPackage.isDefined)
+      throw new UnsupportedOperationException()
     val activities = tincanActivityStorage.getByPackageID(packageID)
     val firstActivity = activities.find(a => a.launch != null && !a.launch.isEmpty).getOrElse(throw new UnsupportedOperationException("tincan package without launch not supported"))
 
-    val mainFileName = "data/" + tincanPackage.id + "/" + firstActivity.launch.get
+    val mainFileName = "data/" + tincanPackage.get.id + "/" + firstActivity.launch.get
 
     tincanLrsEndpointStorage.get match {
+      case Some(LrsEndpointSettings(null, _ )) => {
+        json(Map("" +
+          "internal" -> true,
+          "launchURL" -> mainFileName,
+          "authType" -> "Basic",
+          "auth" -> ("Basic " + DatatypeConverter.printBase64Binary(("loginName" + ":" + "password").toCharArray.map(_.toByte)))
+        ))
+      }
+      case Some(LrsEndpointSettings(endpoint, OAuthAuthorization(clientId, clientSecret))) => {
+
+        val requestToken = getRequestToken(endpoint + "oauth/", clientId, clientSecret)
+        val token = getAccessToke(endpoint + "oauth/", clientId, clientSecret, requestToken)
+
+        json(Map(
+          "launchURL" -> mainFileName,
+          "authType" -> "OAuth",
+          "clientSecret" -> clientSecret,
+          "endpoint" -> (if(endpoint==null) "" else endpoint.trim),
+          "auth" -> ("%s %s".format(OAuth.OAUTH_HEADER_NAME, token))
+        ))
+      }
       case Some(LrsEndpointSettings(endpoint, CommonBasicAuthorization(loginName, password))) => {
         json(Map(
           "launchURL" -> mainFileName,
-          "endpoint" -> endpoint.trim,
+          "endpoint" -> (if(endpoint==null) "" else endpoint.trim),
           "authType" -> "Basic",
           "auth" -> ("Basic " + DatatypeConverter.printBase64Binary((loginName + ":" + password).toCharArray.map(_.toByte)))
         ))
@@ -55,7 +90,7 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
       case Some(LrsEndpointSettings(endpoint, UserBasicAuthorization)) => {
         json(Map(
           "launchURL" -> mainFileName,
-          "endpoint" -> endpoint.trim,
+          "endpoint" -> (if(endpoint==null) "" else endpoint.trim),
           "authType" -> "Basic"
         ))
       }
@@ -69,20 +104,6 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
       }
       case _ => throw new UnsupportedOperationException()
     }
-
-//    val lrsSettings = tincanLrsEndpointStorage.get
-//
-//    if (lrsSettings.isEmpty) {
-//      throw new UnsupportedOperationException()
-//    }
-//
-//    json(Map(
-//      "launchURL" -> mainFileName,
-//      "endpoint" -> lrsSettings.get.endpoint,
-//      "authType" -> lrsSettings.get.authType,
-//      "auth" -> (if (lrsSettings.get.loginName.isEmpty || lrsSettings.get.password.isEmpty) "None"
-//      else "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary((lrsSettings.get.loginName.get + ":" + lrsSettings.get.password.get).toCharArray.map(_.toByte)))
-//    ))
   }
 
   get("/NavigationRequest/:currentScormPackageID/:currentOrganizationID/:sequencingRequest") {
@@ -195,5 +216,156 @@ class SequencingService(configuration: BindingModule) extends ServletBase(config
     request.getSession.removeAttribute("packageType")
     request.getSession.removeAttribute("packageTitle")
     request.getSession.removeAttribute("playerID")
+  }
+
+  private def connectTo(request: OAuthClientRequest,
+                        headers: Map[String, String],
+                        requestMethod: String): String = {
+    try {
+      val url: URL = new URL(request.getLocationUri)
+      val c = url.openConnection
+
+      if (c.isInstanceOf[HttpURLConnection]) {
+        val httpURLConnection: HttpURLConnection = c.asInstanceOf[HttpURLConnection]
+        if (headers != null && !headers.isEmpty) {
+          import scala.collection.JavaConversions._
+          for (header <- headers.entrySet) {
+            httpURLConnection.addRequestProperty(header.getKey, header.getValue)
+          }
+        }
+        if (request.getHeaders != null) {
+          import scala.collection.JavaConversions._
+          for (header <- request.getHeaders.entrySet) {
+            httpURLConnection.addRequestProperty(header.getKey, header.getValue)
+          }
+        }
+        if (!OAuthUtils.isEmpty(requestMethod)) {
+          httpURLConnection.setRequestMethod(requestMethod)
+          if (requestMethod == OAuth.HttpMethod.POST) {
+            httpURLConnection.setDoOutput(true)
+            val ost: OutputStream = httpURLConnection.getOutputStream
+            val pw: PrintWriter = new PrintWriter(ost)
+            pw.print(request.getBody)
+            pw.flush
+            pw.close
+          }
+        }
+        else {
+          httpURLConnection.setRequestMethod(OAuth.HttpMethod.GET)
+        }
+        httpURLConnection.connect
+        var inputStream: InputStream = null
+        val responseCode = httpURLConnection.getResponseCode
+        if (responseCode == 400 || responseCode == 401) {
+          inputStream = httpURLConnection.getErrorStream
+        }
+        else {
+          inputStream = httpURLConnection.getInputStream
+        }
+        OAuthUtils.saveStreamAsString(inputStream)
+      } else {
+        ""
+      }
+    }
+    catch {
+      case e: IOException => {
+        throw new OAuthSystemException(e)
+      }
+    }
+  }
+
+
+  private def getRequestToken(endpoint: String,
+                              clientId: String,
+                              clientSecret: String): String = {
+
+    val initiateEndpoint = endpoint + "initiate"
+    val oAuthRequest = OAuthClientRequest
+      .authorizationLocation(initiateEndpoint)
+      .setClientId(clientId)
+      .setResponseType(ResponseType.CODE.toString)
+      .setParameter(OAuth.OAUTH_VERSION_DIFFER, "HMAC-SHA1")
+
+    val params = Map[String, String](
+      OAuth.OAUTH_CLIENT_ID -> clientId.toString,
+      OAuth.OAUTH_RESPONSE_TYPE -> ResponseType.CODE.toString(),
+      OAuth.OAUTH_VERSION_DIFFER -> "HMAC-SHA1")
+
+    val p = params
+      .map({
+      case (key, value) => "%s=%s".format (key, value)
+    })
+      .toSeq
+      .sortBy((k) => k)
+      .mkString("", "&", "")
+
+    val baseString = "%s&%s&%s".format(
+      "POST".toUpperCase(),
+      URLEncoder.encode(initiateEndpoint.toLowerCase(), "UTF-8"),
+      URLEncoder.encode(p, "UTF-8"))
+
+    val generator = new HMACSHA1Generator()
+    val signature = generator.generateValue(baseString, clientSecret)
+
+    oAuthRequest.setParameter("oauth_signature", signature)
+
+    val result = connectTo(oAuthRequest.buildBodyMessage(), Map[String, String](), "POST")
+
+    val resp = Json.toObject(result)
+
+    val token: String = if(resp.isInstanceOf[Map[String, Any]])
+      resp.asInstanceOf[Map[String, Any]]("code").toString
+    else ""
+
+    return token
+  }
+
+  private def getAccessToke(endpoint: String,
+                            clientId: String,
+                            clientSecret: String,
+                            requestToken: String): String = {
+
+    val tokenEndpoint = endpoint + "token"
+    val oAuthRequest = OAuthClientRequest
+      .authorizationLocation(tokenEndpoint)
+      .setClientId(clientId)
+      .setParameter(OAuth.OAUTH_VERSION_DIFFER, "HMAC-SHA1")
+      .setParameter(OAuth.OAUTH_GRANT_TYPE, GrantType.AUTHORIZATION_CODE.toString())
+      .setParameter(OAuth.OAUTH_CODE, requestToken)
+
+
+    val params = Map[String, String](
+      OAuth.OAUTH_CLIENT_ID -> clientId.toString,
+      OAuth.OAUTH_CODE -> requestToken,
+      OAuth.OAUTH_GRANT_TYPE -> GrantType.AUTHORIZATION_CODE.toString(),
+      OAuth.OAUTH_VERSION_DIFFER -> "HMAC-SHA1")
+
+    val p = params
+      .map({
+      case (key, value) => "%s=%s".format (key, value)
+    })
+      .toSeq
+      .sortBy((k) => k)
+      .mkString("", "&", "")
+
+    val baseString = "%s&%s&%s".format(
+      "POST".toUpperCase(),
+      URLEncoder.encode(tokenEndpoint.toLowerCase(), "UTF-8"),
+      URLEncoder.encode(p, "UTF-8"))
+
+    val generator = new HMACSHA1Generator()
+    val signature = generator.generateValue(baseString, clientSecret)
+
+    oAuthRequest.setParameter("oauth_signature", signature)
+
+    val result = connectTo(oAuthRequest.buildBodyMessage(), Map[String, String](), "POST")
+
+    val resp = Json.toObject(result)
+
+    val token: String = if(resp.isInstanceOf[Map[String, Any]])
+      resp.asInstanceOf[Map[String, Any]](OAuth.OAUTH_ACCESS_TOKEN).toString
+    else ""
+
+    return token
   }
 }

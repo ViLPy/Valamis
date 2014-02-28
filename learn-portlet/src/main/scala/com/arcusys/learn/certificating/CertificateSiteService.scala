@@ -3,10 +3,9 @@ package com.arcusys.learn.certificating
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.scorm.tracking.model.certificating.{CertificateSite, Certificate}
-import com.liferay.portal.service.GroupLocalServiceUtil
-import com.arcusys.learn.service.util.SessionHandler
-import com.liferay.portal.NoSuchGroupException
+import com.arcusys.learn.scorm.tracking.model.certificating.CertificateSite
+import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses.LNoSuchGroupException
 
 /**
  * User: Yulia.Glushonkova
@@ -48,11 +47,11 @@ class CertificateSiteService(configuration: BindingModule) extends ServletBase(c
     jsonModel(certificateSiteStorage.getByCertificate(certificateID).map(site => {
       val item =
         try {
-          val group = GroupLocalServiceUtil.getGroup(site.siteID)
+          val group = GroupLocalServiceHelper.getGroup(site.siteID)
           new LiferaySite(site.id, certificateID, group.getGroupId, group.getFriendlyURL, group.getDescriptiveName, group.getDescription)
         }
         catch {
-          case e: NoSuchGroupException => {
+          case e: LNoSuchGroupException => {
             System.out.println("Liferay site " + site.siteID + " not found")
             null
           }

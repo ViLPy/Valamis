@@ -4,8 +4,8 @@ import org.scalatest.FlatSpec
 import org.scalamock.scalatest.MockFactory
 import org.junit.runner.RunWith
 import org.scalamock.ProxyMockFactory
-import com.liferay.portlet.social.model.SocialActivity
 import com.arcusys.learn.scorm.tracking.model.achivements.RequiredActivity
+import com.arcusys.learn.liferay.LiferayClasses.LSocialActivity
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFactory {
@@ -19,7 +19,7 @@ class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFacto
     val ra1 = RequiredActivity(-1,1,"activity.class.name",1)
     val requiredActivities = List(ra1)
 
-    val sa1 = mock[SocialActivity]
+    val sa1 = mock[LSocialActivity]
     val socialActivities = List(sa1)
     sa1.expects('getClassName).returning("activity.class.name")
 
@@ -30,8 +30,8 @@ class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFacto
     val ra1 = RequiredActivity(-1,1,"activity.class.name",2)
     val requiredActivities = List(ra1)
 
-    val sa1 = mock[SocialActivity]
-    val sa2 = mock[SocialActivity]
+    val sa1 = mock[LSocialActivity]
+    val sa2 = mock[LSocialActivity]
     val socialActivities = List(sa1, sa2)
     sa1.expects('getClassName).returning("activity.class.name")
     sa2.expects('getClassName).returning("activity.class.name")
@@ -43,7 +43,7 @@ class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFacto
     val ra1 = RequiredActivity(-1,1,"activity.class.name",2)
     val requiredActivities = List(ra1)
 
-    val sa1 = mock[SocialActivity]
+    val sa1 = mock[LSocialActivity]
     val socialActivities = List(sa1)
     sa1.expects('getClassName).returning("activity.class.name")
 
@@ -55,8 +55,8 @@ class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFacto
     val ra2 = RequiredActivity(-1,1,"new.activity.class.name",1)
     val requiredActivities = List(ra1,ra2)
 
-    val sa1 = mock[SocialActivity]
-    val sa2 = mock[SocialActivity]
+    val sa1 = mock[LSocialActivity]
+    val sa2 = mock[LSocialActivity]
     val socialActivities = List(sa1, sa2)
     sa1.expects('getClassName).returning("activity.class.name")
     sa2.expects('getClassName).returning("new.activity.class.name")
@@ -69,9 +69,9 @@ class ActivityListenerTest extends FlatSpec with MockFactory with ProxyMockFacto
     val ra2 = RequiredActivity(-1,1,"new.activity.class.name",1)
     val requiredActivities = List(ra1,ra2)
 
-    val sa1 = mock[SocialActivity]
-    val sa2 = mock[SocialActivity]
-    val sa3 = mock[SocialActivity]
+    val sa1 = mock[LSocialActivity]
+    val sa2 = mock[LSocialActivity]
+    val sa3 = mock[LSocialActivity]
     val socialActivities = List(sa1, sa2, sa3)
     sa1.expects('getClassName).returning("activity.class.name")
     sa2.expects('getClassName).returning("new.activity.class.name")

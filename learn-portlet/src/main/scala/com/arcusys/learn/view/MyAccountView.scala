@@ -5,7 +5,7 @@ import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
 import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
-import com.liferay.portal.service.GroupLocalServiceUtil
+import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
 
 
 class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
@@ -19,7 +19,7 @@ class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupp
     val courseID = themeDisplay.getScopeGroupId
     val translations = getTranslation("curriculum", language)
 
-    val group = GroupLocalServiceUtil.getGroup(courseID)
+    val group = GroupLocalServiceHelper.getGroup(courseID)
     if (group.isUser) {
       val data = Map("contextPath" -> path, "userID" -> group.getClassPK,
         "language" -> language, "openBadgesUserID" -> 1) ++ translations

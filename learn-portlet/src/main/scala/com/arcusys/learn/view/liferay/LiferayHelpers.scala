@@ -1,13 +1,12 @@
 package com.arcusys.learn.view.liferay
 
 import javax.portlet.RenderRequest
-import com.liferay.portal.model.User
-import com.liferay.portal.kernel.util.WebKeys
-import com.liferay.portal.theme.ThemeDisplay
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.WebKeysHelper
 
 object LiferayHelpers {
   def getUser(request: RenderRequest) = {
-    (request.getAttribute(WebKeys.USER)).asInstanceOf[User]
+    request.getAttribute(WebKeysHelper.USER).asInstanceOf[LUser]
   }
 
   def getUserName(request: RenderRequest) = {
@@ -23,23 +22,23 @@ object LiferayHelpers {
   }
 
   def getCompanyID(request: RenderRequest) = {
-    val theme = (request.getAttribute(WebKeys.THEME_DISPLAY)).asInstanceOf[ThemeDisplay]
+    val theme = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
     if (theme != null) theme.getLayout.getCompanyId
     else 0L
   }
 
   def getThemeDisplay(request: RenderRequest) = {
-    (request.getAttribute(WebKeys.THEME_DISPLAY)).asInstanceOf[ThemeDisplay]
+    request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
   }
 
   def getLanguage(request: RenderRequest) = {
-    val theme = (request.getAttribute(WebKeys.THEME_DISPLAY)).asInstanceOf[ThemeDisplay]
+    val theme = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
     if (theme != null) theme.getLocale.getLanguage
     else "en"
   }
 
   def getPortletID(request: RenderRequest) = {
-    (request.getAttribute(WebKeys.PORTLET_ID)).asInstanceOf[String]
+    request.getAttribute(WebKeysHelper.PORTLET_ID).asInstanceOf[String]
   }
 
 }

@@ -2,7 +2,7 @@ UserAccountService = new Backbone.Service({ url:Utils.getContextPath,
     sync:{
         'read':{
             'path':function (model) {
-                return "/services/liferay/user/" + jQuery("#userID").val();
+                return "/services/liferay/user/account/" + jQuery("#userID").val();
             }
         }
     }

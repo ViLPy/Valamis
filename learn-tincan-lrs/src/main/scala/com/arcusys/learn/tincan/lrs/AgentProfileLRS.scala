@@ -3,18 +3,19 @@ package com.arcusys.learn.tincan.lrs
 package agentprofile {
 
   import com.arcusys.learn.tincan.model._
-  import com.arcusys.learn.tincan.storage.AgentProfileStorage
+  import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage}
   import com.arcusys.learn.tincan.model.{Agent, AgentProfile}
 import java.util.Date
 import com.arcusys.learn.tincan.lrs.utils.JsonCombiner
 
 trait AgentProfileLRS {
-    val agentProfileStorage: AgentProfileStorage
+  val agentProfileStorage: AgentProfileStorage
+  val actorStorage: ActorStorage
 
-    // TODO: complete the method when it becomes clear about Person stuff...
-    def getPerson(agent: Agent): Option[Person] = {
+    def getPerson(agent: Agent): Person = {
       require(agent != null, "Incorrect parameters were passed in AgentProfileLRS.getPerson")
-      None
+      //agentProfileStorage.getPerson(agent)
+      actorStorage.getPerson(agent)
     }
 
     def getAgentDocument(profileId: String, agent: Agent): Option[Document] = {
@@ -24,7 +25,7 @@ trait AgentProfileLRS {
       agentProfileStorage.get(profileId, agent).map(_.content)
     }
 
-    def getAgentDocumentIds(agent: Agent, since: Date): Seq[String] = {
+    def getAgentDocumentIds(agent: Agent, since: Option[Date]): Seq[String] = {
       require(agent != null, "Incorrect parameter was passed into 'AgentProfileLRS.getArgumentDocumentIds'")
       agentProfileStorage.getIds(agent, since)
     }

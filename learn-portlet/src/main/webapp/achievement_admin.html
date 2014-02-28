@@ -9,15 +9,9 @@
 <div ng-app="curriculum" class="projectLearnGeneric">
 <script type="text/javascript">
     var scormContextPath = '{{contextPath}}';
-    var courseID = {{ courseID }}
-    ;
-    var companyID = {{ companyID }}
-    ;
-    var rootUrl = '{{root}}';
+    var companyID = {{ companyID }};
     var localizedResources = {{{ translations }}};
-    var courses = {{{ courses }}};
     var users = {{{ users }}};
-    //var activities = '{{{activities}}}';
 </script>
 <div id="certificateTabs" ng-controller="CurriculumController" jui-tabs="tabs">
     <ul>
@@ -146,7 +140,7 @@
                 <div>
                     <div class="availableQuizItem">
                         <div class="certificateItemHeader">
-                            <div class="quizItemTitle">[[user.login]]</div>
+                            <div class="quizItemTitle">[[user.name]]</div>
                             <abbr>
                                 <button id="memberDelete" class="button28 removeQuizButton buttonRemove"
                                         style="margin-top: 2px;" ng-click="removeUser(user)"></button>
@@ -170,7 +164,7 @@
 
                         <div class="itemBody certificateItemBody" ng-show="user.isShowDetail">
                             <div style="float:left; width: 14% ">
-                                <img src="/image/user_male_portrait?img_id=[[user.portrait]]" alt="" width="85px">
+                                <img ng-src="[[user.portrait]]" alt="" width="85px">
                             </div>
                             <div style="float: right; width: 84%">
                                 <div class="itemBody">
@@ -186,20 +180,50 @@
         </div>
 
         <div id="usersDialog_[[achievement.id]]" title="Users" style="display: none">
-            <div class="userSearch">
-                <input type="text" class="SCORMSearch" ng-model="userSearchFilter" ng-change="search()">
-                <abbr title="Sort">
-                    <button id="sortUser" class="textButton sortButton" ng-click="sort()">[[sortLabel]]</button>
-                </abbr>
+            <div class="userSearch" style="float: left; width: 40%">
+                <!--<input type="text" class="SCORMSearch" ng-model="userSearchFilter" ng-change="search()">-->
+                <!--<abbr title="Sort">-->
+                    <!--<button id="sortUser" class="textButton sortButton" ng-click="sort()">[[sortLabel]]</button>-->
+                <!--</abbr>-->
+
+                <div>
+                    <label> [[searchByNameLabel]] </label>
+                    <input placeholder="[[certificateSearchPlaceholderLabel]]" type="text" ng-model="userSearchName" class="SCORMSearch"/>
+                </div>
+                <div>
+                    <label> [[sortLabel]] </label>
+                    <select class="userSearchSelect" ng-model="sortType">
+                        <option value="asc">[[sortOrderAscLabel]]</option>
+                        <option value="desc">[[sortOrderDescLabel]]</option>
+                    </select>
+                </div>
+                <div>
+                    <label> {{selectOrganizationLabel}} </label>
+                    <select class="userSearchSelect" ng-model="selectedOrganization" ng-options="org.orgID as org.name for org in organizations" >
+                    </select>
+                </div>
+                <div>
+                    <button id="userSearchButton" class="textButton userSearchButton" ng-click="searchUsers()"> [[searchLabel]] </button>
+                </div>
             </div>
 
-            <div id="siteList">
-                <div ng-repeat="user in users" ng-show="hasUsers()">
+            <div id="userList" style="margin-left: 41%">   <!-- siteList-->
+
+                <div class="paginator light-theme simple-pagination" ng-show="isShowPager()">
+                    <ul>
+                        <li><a href="#"  ng-class="{current: isFirstPage()}" class="page-link next" ng-click="previousUserPage()">Prev</a></li>
+                        <li ng-repeat="n in [1, totalPages()] | range"><a ng-click="toPage(n)" ng-class="{current: n == userPage}">[[n]]</a></li>
+                        <li><a href="#" ng-class="{current: isLastPage()}" class="page-link next" ng-click="nextUserPage()">Next</a></li>
+                    </ul>
+                </div>
+
+                <div ng-repeat="user in filteredUsers" ng-show="hasUsers()">
                     <div style="display: block;">
-                        <div id="liferayUserElement" class="portlet-learn-scorm">
+                        <div id="liferayUserElement" class="portlet-learn-scorm" style="height: 80px;">
                             <hr>
-                            <button class="button28 buttonInstall quizManagementButton"
-                                    ng-click="addUser(user)"></button>
+                            <!--<button class="button28 buttonInstall quizManagementButton"-->
+                                    <!--ng-click="addUser(user)"></button>-->
+                            <input type="checkbox" id="selectUserCheckbox" ng-model="user.selected" style="float: right">
                             <div style="width:60px; float:left;">
                                 <a href="[[name.userPublicPageUrl]]" target="_blank">
 
@@ -306,7 +330,7 @@
                                         ng-confirm-click="This will be deleted activity from this achievement. Are you sure?"
                                         ng-click="removeActivity(activity)"></button>
                                 <div>
-                                    <b>[[activity.name]]</b>
+                                    <b>[[activity.translate]]</b>
                                     <input ng-model="activity.requiredCount" type="number" jq-spinner
                                            ng-change="requiredActivityNumberChanged(activity)" min="0"
                                            style="width: 50px; float: right"/>
@@ -334,7 +358,7 @@
                     <div class="portlet-learn-scorm">
                         <button class="button28 buttonInstall quizManagementButton" ng-click="addActivity(activity)"></button>
                         <div>
-                            <b>[[activity.name]]</b>
+                            <b>[[activity.translate]]</b>
                         </div>
                         <div style="margin-top:5px; margin-left: 20px"></div>
                         <br>

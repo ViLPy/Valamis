@@ -22,7 +22,11 @@ AchievementService = new Backbone.Service({
     sync: {
         read: {
             'path': function (model) {
-                return "/services/achievement/all?page=" + model.page + "&sortAZ=" + model.sortAZ + "&filter=" + model.filterString + "&count=" + count; //TODO: change passing argument + model.page
+                return "/services/achievement/?action=all&page={0}&sortAZ={1}&filter={2}&count={3}"
+                .replace('{0}', model.page)
+                .replace('{1}', model.sortAZ)
+                .replace('{2}', model.filterString)
+                .replace('{3}', count);  //TODO: change passing arguments?
             },
             method: "get"
         }
@@ -30,13 +34,17 @@ AchievementService = new Backbone.Service({
     targets:{
         joinAchievement: {
             'path': function (model) {
-                return "/services/achievementUser/?userId=" + userId + "&achievementId=" + model.id; //TODO: change passing argument
+                return "/services/achievementUser/?userId={0}&achievementId={1}"
+                .replace('{0}', userId)
+                .replace('{1}', model.id); //TODO: change passing arguments?
             },
             method: "post"
         },
         leaveAchievement: {
             'path': function (model) {
-                return "/services/achievementUser/delete/?userId=" + userId + "&achievementId=" + model.id; //TODO: change, string concatenation -  bad solution
+                return "/services/achievementUser/delete/?userId={0}&achievementId={1}"
+                .replace('{0}', userId)
+                .replace('{1}', model.id); //TODO: change passing arguments?
             },
             method: "post"
         }
@@ -186,7 +194,8 @@ ChosenAchievementService = new Backbone.Service({
     sync: {
         read: {
             'path': function (model) {
-                return "/services/achievement/user";
+                return "/services/achievement/?action=user&userId={0}"
+                .replace('{0}', userId);
             },
             method: "get"
         }
@@ -203,7 +212,12 @@ var ChosenAchievementList = Backbone.Collection.extend({
     model: ChosenAchievement,
 	initialize: function(properties){
 		this.on('sync', this.onFetch,this);
-		this.fetch();
+		// If fetch from available&ChosenAchievements occurs at the same time, as allAchievements => ServiceBuilder collision on delete user
+        setTimeout(
+            _.bind(
+                function(){this.fetch();},
+                this),
+            100)
 	},
 	onFetch: function(){
 	    this.each(function(achievement){

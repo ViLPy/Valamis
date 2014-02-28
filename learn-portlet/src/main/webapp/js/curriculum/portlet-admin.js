@@ -57,7 +57,6 @@ function initCurriculumView() {
                     el:jQuery1816Curriculum("#CurriculumLiferayUserDialog"),
                     language:scormLanguageDataCurriculum
                 });
-                this.userList.fetch({reset:true});
             }
             if (!window.CourseGradeDialog) {
                 window.CourseGradeDialog = new UserCourseGradeDialog({

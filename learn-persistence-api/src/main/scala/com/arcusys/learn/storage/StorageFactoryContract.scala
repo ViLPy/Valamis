@@ -19,6 +19,7 @@ trait StorageFactoryContract {
   def tincanLrsEndpointStorage: TincanLrsEndpointStorage
   def tincanPackageStorage: TincanPackageStorage
   def tincanActivityStorage: TincanManifestActivityStorage
+  def tincanClientApiStorage: TincanClientApiStorage
 
   def tincanLrsStatementRefStorage: StatementRefStorage
   def tincanLrsContextActivitiesStorage: ContextActivitiesStorage
@@ -38,7 +39,6 @@ trait StorageFactoryContract {
 
   def activityStorage: ActivitiesStorage
 
-  //def organizationStorage: OrganizationsStorage
   def resourceStorage: ResourcesStorage
 
   def questionCategoryStorage: QuestionCategoryStorage
@@ -113,10 +113,15 @@ trait StorageFactoryContract {
     certificateUserStorage.renew()
     roleStorage.renew()
     settingStorage.renew()
+    achievementStorage.renew()
+    achievementActivityStorage.renew()
+    achievementRequiredStorage.renew()
+    achievementUserStorage.renew()
 
     tincanLrsEndpointStorage.renew()
     tincanPackageStorage.renew()
     tincanActivityStorage.renew()
+    //tincanClientApiStorage.renew()
     tincanLrsStatementRefStorage.renew()
     tincanLrsContextActivitiesStorage.renew()
     tincanLrsStatementStorage.renew()

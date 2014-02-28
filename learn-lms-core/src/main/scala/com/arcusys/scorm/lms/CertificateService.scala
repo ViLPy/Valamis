@@ -1,16 +1,15 @@
 package com.arcusys.scorm.lms
 
-import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
 import com.arcusys.learn.scorm.tracking.model.certificating._
-import com.liferay.portal.kernel.util.{UnicodeProperties, StringPool}
 import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.liferay.portlet.social.model.SocialActivity
-import com.liferay.portal.service.{GroupLocalServiceUtil, UserLocalServiceUtil}
 import org.joda.time._
-import org.joda.time.format.DateTimeFormat
 import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
 import scala.Some
+import com.arcusys.learn.liferay.services.{UserLocalServiceHelper, SocialActivityLocalServiceHelper}
+import com.arcusys.learn.liferay.LiferayClasses.LSocialActivity
+import com.arcusys.learn.liferay.constants.StringPoolHelper
+import com.arcusys.learn.liferay.LiferayClasses.LUnicodeProperties
 
 
 class CertificateService(implicit val bindingModule: BindingModule) extends Injectable {
@@ -20,17 +19,17 @@ class CertificateService(implicit val bindingModule: BindingModule) extends Inje
     val existedActivities = checkIfActivityExists(CertificateActionType.NewCertificate, certificateID, None)
     if (existedActivities) return
 
-    SocialActivityLocalServiceUtil.addActivity(userID, 0, classOf[Certificate].getName,
-      certificateID, CertificateActionType.NewCertificate.id, StringPool.BLANK, 0)
+    SocialActivityLocalServiceHelper.addActivity(userID, 0, classOf[Certificate].getName,
+      certificateID, CertificateActionType.NewCertificate.id, StringPoolHelper.BLANK, 0)
 
   }
 
   def checkIfActivityExists(action: CertificateActionType.Value, certificateID: Int, userID: Option[Int]) = {
-    val curriculumActivities = SocialActivityLocalServiceUtil.getActivities(classOf[Certificate].getName, 0, Int.MaxValue)
+    val curriculumActivities = SocialActivityLocalServiceHelper.getActivities(classOf[Certificate].getName, 0, Int.MaxValue)
     curriculumActivities.toArray.
-      exists(x => x.asInstanceOf[SocialActivity].getType == action.id &&
-      x.asInstanceOf[SocialActivity].getClassPK == certificateID &&
-      (if (userID.isDefined) x.asInstanceOf[SocialActivity].getUserId == userID.get else true))
+      exists(x => x.asInstanceOf[LSocialActivity].getType == action.id &&
+      x.asInstanceOf[LSocialActivity].getClassPK == certificateID &&
+      (if (userID.isDefined) x.asInstanceOf[LSocialActivity].getUserId == userID.get else true))
   }
 
   def addCertificatePassedActivity(courseID: Int, userID: Int, groupID: Int) {
@@ -45,17 +44,17 @@ class CertificateService(implicit val bindingModule: BindingModule) extends Inje
 
         if (!existedActivities) {
 
-          SocialActivityLocalServiceUtil.getActivities(classOf[Certificate].getName, 0, Int.MaxValue)
+          SocialActivityLocalServiceHelper.getActivities(classOf[Certificate].getName, 0, Int.MaxValue)
 
-          SocialActivityLocalServiceUtil.addActivity(userID, 0, classOf[Certificate].getName,
-            certificateSite.certificateID, CertificateActionType.PassedCertificate.id, StringPool.BLANK, 0)
+          SocialActivityLocalServiceHelper.addActivity(userID, 0, classOf[Certificate].getName,
+            certificateSite.certificateID, CertificateActionType.PassedCertificate.id, StringPoolHelper.BLANK, 0)
 
           // Add expando data
           val attribute = "MyCertificate"
-          val lfUser = UserLocalServiceUtil.getUser(userID)
-          if (!lfUser.getExpandoBridge().hasAttribute(attribute)) {
+          val lfUser = UserLocalServiceHelper.getUser(userID)
+          if (!lfUser.getExpandoBridge.hasAttribute(attribute)) {
             lfUser.getExpandoBridge.addAttribute(attribute, false)
-            val property = new UnicodeProperties()
+            val property = new LUnicodeProperties()
             property.setProperty("height", "105")
             property.setProperty("width", "450")
             lfUser.getExpandoBridge.setAttributeProperties(attribute, property, false)
@@ -89,7 +88,7 @@ class CertificateService(implicit val bindingModule: BindingModule) extends Inje
           status = CertificateValidStatus.Expired
       }
     })
-    return new CertificateValidation(status, (if (!expireDate.isDefined) None else Option(expireDate.get.plusYears(1))))
+    new CertificateValidation(status, if (!expireDate.isDefined) None else Option(expireDate.get.plusYears(1)))
   }
 
   def passedCertificateHelper(certificateID: Int, userID: Int): CertificateValidation = {

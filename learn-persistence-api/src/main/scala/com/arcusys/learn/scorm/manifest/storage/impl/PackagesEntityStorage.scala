@@ -43,11 +43,26 @@ trait PackagesEntityStorage extends PackagesStorage with KeyedEntityStorageExt[M
     getAll("courseID" -> courseID).flatMap(fillManifestWithScopeValues(scope, Option(scopeID)))
   }
 
+  def getByExactScope(courseIDs: List[Int], scope: ScopeType.Value, scopeID: String) = {
+    getAll("ids" -> courseIDs).flatMap(fillManifestWithScopeValuesWithFilter(scope, Option(scopeID)))
+  }
+
   private def fillManifestWithScopeValues(scope: ScopeType.Value = ScopeType.Instance, scopeID: Option[String] = None): (Manifest) => Seq[Manifest] = {
     manifest => {
       val scopeRules = packageScopeRuleStorage.getAll(manifest.id, scope, scopeID)
       if (scopeRules.isEmpty) {
         Seq(manifest)
+      } else {
+        scopeRules.map(fillByScopeRule(manifest))
+      }
+    }
+  }
+
+  private def fillManifestWithScopeValuesWithFilter(scope: ScopeType.Value = ScopeType.Instance, scopeID: Option[String] = None): (Manifest) => Seq[Manifest] = {
+    manifest => {
+      val scopeRules = packageScopeRuleStorage.getAll(manifest.id, scope, scopeID)
+      if (scopeRules.isEmpty) {
+        Seq()
       } else {
         scopeRules.map(fillByScopeRule(manifest))
       }
@@ -61,14 +76,14 @@ trait PackagesEntityStorage extends PackagesStorage with KeyedEntityStorageExt[M
         isDefault = scopeRule.isDefault)
   }
 
-  def getOnlyVisbile(scope: ScopeType.Value, scopeID: String) = {
+  def getOnlyVisible(scope: ScopeType.Value, scopeID: String) = {
     packageScopeRuleStorage.getAllVisible(scope, Option(scopeID)).flatMap{
       scopeRule =>
         getOne("packageId" -> scopeRule.packageID).map(fillByScopeRule(_)(scopeRule))
     }
   }
 
-  def getInstanceScopeOnlyVisbile(courseIDs: List[Int]) = {
+  def getInstanceScopeOnlyVisible(courseIDs: List[Int]) = {
     getAllForInstance(courseIDs).filter(_.visibility.getOrElse(false))
   }
 
@@ -88,5 +103,11 @@ trait PackagesEntityStorage extends PackagesStorage with KeyedEntityStorageExt[M
   //TODO: review the query for effectiveness (DISTINCT detected)
   def getPackagesWithUserAttempts(userID: Int):Seq[Manifest] = {
     getAll("_packages", "userID" -> userID)
+  }
+
+
+  override  def delete(id: Int){
+    super.delete(id)
+    packageScopeRuleStorage.delete(id)
   }
 }

@@ -1,11 +1,11 @@
 package com.arcusys.learn.liferay.update
 
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil
+import com.arcusys.learn.liferay.util.DBFactoryUtilHelper
 
 trait SQLRunner {
   def runSQLScript(sql: String) {
     try {
-      DBFactoryUtil.getDB.runSQL(sql)
+      DBFactoryUtilHelper.getDB.runSQL(sql)
     } catch {
       case _ => {}
     }

@@ -1,19 +1,18 @@
 package com.arcusys.learn.certificating
 
-import com.arcusys.learn.scorm.tracking.model.certificating.{CertificateValidStatus, Certificate}
+import com.arcusys.learn.scorm.tracking.model.certificating.CertificateValidStatus
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.scorm.tracking.model.Course
-import com.liferay.portal.service.{UserLocalServiceUtil, LayoutLocalServiceUtil, GroupLocalServiceUtil}
-import com.liferay.portal.util.{LayoutTypePortletFactoryUtil, PortalUtil}
-import com.arcusys.learn.service.util.SessionHandler
 import org.scalatra.fileupload.FileUploadSupport
 import org.joda.time.DateTime
-import com.liferay.portal.NoSuchGroupException
 import java.security.MessageDigest
-import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
 import com.arcusys.learn.settings.model.SettingType
+import com.arcusys.learn.liferay.services._
+import com.arcusys.learn.scorm.tracking.model.Course
+import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.util.{LayoutTypePortletFactoryUtilHelper, PortalUtilHelper}
 
 class ExtendedCertificate(
                            val userID: Int,
@@ -42,8 +41,8 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
   }
 
   def getLogo(certificate: Certificate) = {
-    (if (certificate.logo == "") "/learn-portlet/img/certificate-default.png"
-    else "/learn-portlet/services/openbadges?directory=" + certificate.id + "&fileName=" + certificate.logo)
+    if (certificate.logo == "") "/learn-portlet/img/certificate-default.png"
+    else "/learn-portlet/services/openbadges?directory=" + certificate.id + "&fileName=" + certificate.logo
   }
 
   def jsonExtendedModel(i: ExtendedCertificate)={
@@ -69,25 +68,25 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
       val course = item("course").asInstanceOf[Course]
       val result =
         try {
-          val group = GroupLocalServiceUtil.getGroup(course.courseID)
+          val group = GroupLocalServiceHelper.getGroup(course.courseID)
           val groupID = group.getGroupId
 
           def getUrlHelper: String = {
 
-            LayoutLocalServiceUtil.getLayouts(group.getGroupId, false).toArray.foreach(layout => {
+            LayoutLocalServiceHelper.getLayouts(group.getGroupId, false).toArray.foreach(layout => {
 
-              val layoutTypePortlet = LayoutTypePortletFactoryUtil.create(
-                LayoutLocalServiceUtil.getFriendlyURLLayout(groupID, false, layout.asInstanceOf[com.liferay.portal.model.Layout].getFriendlyURL))
-              val player = layoutTypePortlet.getPortletIds().toArray.find(portlet => portlet.asInstanceOf[String].startsWith("SCORMApplication"))
+              val layoutTypePortlet = LayoutTypePortletFactoryUtilHelper.create(
+                LayoutLocalServiceHelper.getFriendlyURLLayout(groupID, false, layout.asInstanceOf[LLayout].getFriendlyURL))
+              val player = layoutTypePortlet.getPortletIds.toArray.find(portlet => portlet.asInstanceOf[String].startsWith("SCORMApplication"))
 
               if (player.isDefined) {
-                val fullUrl = PortalUtil.getLayoutFullURL(groupID, player.get.toString)
+                val fullUrl = PortalUtilHelper.getLayoutFullURL(groupID, player.get.toString)
                 val parts = fullUrl.split("/")
                 val result = if (parts.length > 2) fullUrl.replace(parts.tail.tail.head, rootUrl) else fullUrl
                 return result
               }
             })
-            val publCount = LayoutLocalServiceUtil.getLayoutsCount(group,false)
+            val publCount = LayoutLocalServiceHelper.getLayoutsCount(group,false)
             if(publCount == 0) return "http://" + rootUrl + "/group" + group.getFriendlyURL
             return "http://" + rootUrl + "/web" + group.getFriendlyURL
           }
@@ -103,7 +102,7 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
           )
         }
         catch {
-          case e: NoSuchGroupException => {
+          case e: LNoSuchGroupException => {
             System.out.println("Liferay site " + course.courseID + " does not exists")
             null
           }
@@ -126,7 +125,7 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
 
 
   val jsonBadgeModel = new JsonModelBuilder[ExtendedCertificate](i => {
-    val recipient = hashEmail(UserLocalServiceUtil.getUser(i.userID).getEmailAddress)
+    val recipient = hashEmail(UserLocalServiceHelper.getUser(i.userID).getEmailAddress)
     val issuerName = settingStorage.getByKey(SettingType.IssuerName)
     val issuerOrganization = settingStorage.getByKey(SettingType.IssuerOrganization)
     val issuerUrl = settingStorage.getByKey(SettingType.IssuerURL)
@@ -140,11 +139,11 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
         "name" -> i.certificate.title,
         "image" ->
           (if (i.certificate.logo == "") "http://" + rootUrl + "/learn-portlet/img/certificate-default.png"
-          else ("http://" + rootUrl + "/learn-portlet/services/openbadges?directory=" + i.certificate.id + "&fileName=" + i.certificate.logo)),
+          else "http://" + rootUrl + "/learn-portlet/services/openbadges?directory=" + i.certificate.id + "&fileName=" + i.certificate.logo),
         "description" -> i.certificate.shortDescription.replaceAll("%20", " "),
         "criteria" -> ("http://" + rootUrl),
         "issuer" -> Map(
-          "origin" -> (if (issuerUrl.isDefined) issuerUrl.get.value else ("http://" + rootUrl) ),
+          "origin" -> (if (issuerUrl.isDefined) issuerUrl.get.value else "http://" + rootUrl ),
           "name" -> (if (issuerName.isDefined) issuerName.get.value else "" ),
           "org" -> (if (issuerOrganization.isDefined) issuerOrganization.get.value else "" ),
           "contact" -> "test@valamis.fi"
@@ -153,14 +152,14 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
 
   def hashEmail(email: String) = {
     val md = MessageDigest.getInstance("SHA-256")
-    md.update(email.getBytes())
+    md.update(email.getBytes)
     bytesToHex(md.digest())
   }
 
   def bytesToHex(bytes: Array[Byte]) = {
     val result = new StringBuffer()
     bytes.foreach(byte => result.append(Integer.toString((byte & 0xff) + 0x100, 16).substring(1)))
-    result.toString()
+    result.toString
   }
 
   before() {
@@ -236,7 +235,7 @@ class CertificateService(configuration: BindingModule) extends ServletBase(confi
     val id = parameter("id").intRequired
     certificateStorage.delete(id)
 
-    SocialActivityLocalServiceUtil.deleteActivities(classOf[Certificate].getName, id)
+    SocialActivityLocalServiceHelper.deleteActivities(classOf[Certificate].getName, id)
   }
 
 

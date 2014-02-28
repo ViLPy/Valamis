@@ -4,7 +4,9 @@ package com.arcusys.learn.tincan.model
 /**
  * A mandatory Agent or Group Object
  */
-sealed trait Actor extends StatementObject
+sealed trait Actor extends StatementObject{
+  def getStoredId:Option[Int]
+}
 
 /**
  * An Agent (an individual) is a persona or system.
@@ -24,15 +26,34 @@ case class Agent(
   mbox: Option[String],
   mbox_sha1sum: Option[String],
   openid: Option[String], // URI, IRI, IRL figure it out later!!!
-  account: Option[Account]
-  ) extends Actor
+  account: Option[Account],
+  storedId: Option[Int] = None
+  ) extends Actor{
+  def FilterCompare(agent:Agent):Boolean = {
+    ((!agent.name.isDefined || name.isDefined && name.get.contains(agent.name.get)) &&
+      (!agent.mbox.isDefined || mbox.isDefined && mbox.get.contains(agent.mbox.get)) &&
+      (!agent.mbox_sha1sum.isDefined || mbox_sha1sum.isDefined && mbox_sha1sum.get.contains(agent.mbox_sha1sum.get)) &&
+      (!agent.openid.isDefined || openid.isDefined && openid.get.contains(agent.openid.get)) &&
+      (!agent.account.isDefined || account == agent.account))
+  }
+
+  def FilterCompareExact(agent:Agent):Boolean = {
+    ((!agent.name.isDefined || name.isDefined && name.get.equalsIgnoreCase(agent.name.get)) &&
+      (!agent.mbox.isDefined || mbox.isDefined && mbox.get.equalsIgnoreCase(agent.mbox.get)) &&
+      (!agent.mbox_sha1sum.isDefined || mbox_sha1sum.isDefined && mbox_sha1sum.get.equalsIgnoreCase(agent.mbox_sha1sum.get)) &&
+      (!agent.openid.isDefined || openid.isDefined && openid.get.equalsIgnoreCase(agent.openid.get)) &&
+      (!agent.account.isDefined || account == agent.account))
+  }
+
+  def getStoredId = storedId
+}
 
 /**
  * A Group represents a collection of Agents and can be used in most of the same situations an Agent can be used.
  * There are two types of Groups, anonymous and identified.
  * @param objectType "Group".
  * @param name Name of the group.
- * @param memeber The members of this Group.
+ * @param member The members of this Group.
  * @param mbox he required format is "mailto:email address".
  *             Only email addresses that have only ever been and will ever be assigned to this Agent,
  *             but no others, should be used for this property and mbox_sha1sum.
@@ -44,21 +65,35 @@ case class Agent(
 case class Group(
   objectType: String,
   name: Option[String],
-  memeber: Option[Seq[Agent]],
+  member: Option[Seq[Agent]],
   mbox: Option[String],
   mbox_sha1sum: Option[String],
   openid: Option[String], // URI, IRI, IRL figure it out later!!!
-  account: Option[Account]
-  ) extends Actor
+  account: Option[Account],
+  storedId: Option[Int] = None
+  ) extends Actor{
+  def isAnonymous = !mbox.isDefined && !mbox_sha1sum.isDefined && !openid.isDefined && !account.isDefined
+  def getStoredId = storedId
+}
 
 case class Person(
-  names: Seq[String],
-  mboxes: Seq[String],
-  mbox_sha1sumes: Seq[String],
-  openids: Seq[String],
-  accounts: Seq[Account],
+  var names: Seq[String],
+  var mboxes: Seq[String],
+  var mbox_sha1sumes: Seq[String],
+  var openids: Seq[String],
+  var accounts: Seq[Account],
   objectType: String = StatementObjectType.Person.toString
-  ) extends Actor
+  ) extends Actor{
+  def AddAgent(agent:Agent){
+    if(agent.name.isDefined) names = names ++ Seq(agent.name.get)
+    if(agent.mbox.isDefined) mboxes = mboxes ++ Seq(agent.mbox.get)
+    if(agent.mbox_sha1sum.isDefined) mbox_sha1sumes = mbox_sha1sumes ++ Seq(agent.mbox_sha1sum.get)
+    if(agent.openid.isDefined) openids = openids ++ Seq(agent.openid.get)
+    if(agent.account.isDefined) accounts = accounts ++ Seq(agent.account.get)
+  }
+
+  def getStoredId = None
+}
 
 /**
  * A user account on an existing system e.g. an LMS or intranet.

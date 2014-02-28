@@ -1,46 +1,33 @@
 package com.arcusys.learn.admin.service
 
 import java.io._
-import java.util.Properties
-import com.arcusys.scorm.util.PropertyUtil
 import com.arcusys.scorm.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.BindingModule
-import com.arcusys.learn.web.{DemoService, ServletBase}
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.settings.model.SettingType
-import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
+import com.arcusys.learn.service.util.{TemplateUpgradeProcess}
+import com.arcusys.learn.scorm.tracking.model.achivements.AchievementActivity
+import scala.collection.JavaConverters._
+import com.arcusys.learn.achievements.BaseWebService
+import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
+import QueryUtilHelper._
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.tincan.model.lrsClient._
 import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
-import com.liferay.portlet.social.model.SocialActivity
-import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.tincan.model.UserBasicAuthorization
-import com.arcusys.learn.tincan.model.LrsEndpointSettings
-import com.arcusys.learn.service.util.TemplateUpgradeProcess
+import com.arcusys.learn.tincan.model.lrsClient.CommonBasicAuthorization
+import scala.Some
+import com.arcusys.learn.tincan.model.lrsClient.LrsEndpointSettings
+import com.arcusys.learn.models.LrsSettingsRequest
+import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 
-class AdminService(configuration: BindingModule) extends ServletBase(configuration) {
+class AdminService(configuration: BindingModule) extends BaseWebService(configuration) {
   def this() = this(Configuration)
+  val tincanLrsEndpointStorage: TincanLrsEndpointStorage = inject[TincanLrsEndpointStorage]
 
   before() {
     response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
     response.setHeader("Expires", "-1")
-  }
-
-  post("/UpdateSettings") {
-    /*requireAdmin()
-
-    val serverName = parameter("ServerName").required
-    val dbName = parameter("DBName").required
-    val login = parameter("Login") withDefault ""
-    val passwd = parameter("Password") withDefault ""
-    val dbManagementSystem = parameter("dbManagementSystem") withDefault "h2"
-
-    val properties = new Properties
-    properties.setProperty("server", serverName)
-    properties.setProperty("database", dbName)
-    properties.setProperty("login", login)
-    properties.setProperty("password", passwd)
-    properties.setProperty("dbManagementSystem", dbManagementSystem)
-    PropertyUtil.store("db", properties)
-    BrokerFactory.init(PropertyUtil.load("db"))*/
   }
 
   post("/demo/templates") {
@@ -49,55 +36,49 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     templates.doUpgrade()
   }
 
-  post("/TincanLrsSettings") {
+  post("/TincanLrsSettings") (action {
     requireAdmin()
 
-    parameter("isExternalLrs").option match {
-      case Some("on") => {
-        val endpoint = parameter("endpoint").required.trim
-        val endpointFixed = if (endpoint.endsWith("/")) endpoint else endpoint + "/"
-        //    parameter("authType").required match {
-        //      case "Basic" =>
-        if (parameter("commonCredentials").option.exists(_ == "on"))
-          storageFactory.tincanLrsEndpointStorage.set(Some(LrsEndpointSettings(
-            endpointFixed,
-            CommonBasicAuthorization(parameter("loginName").required, parameter("password").required)
-          )))
-        else
-          storageFactory.tincanLrsEndpointStorage.set(Some(LrsEndpointSettings(
-            endpointFixed,
-            UserBasicAuthorization
-          )))
-        //      case "OAuth" =>
-        //        storageFactory.tincanLrsEndpointStorage.set(LrsEndpointSettings(
-        //          parameter("endpoint").required,
-        //          OAuthAuthorization(parameter("loginName").required, parameter("password").required)
-        //        ))
-        //    }
+    val lrsSettingsRequest = new LrsSettingsRequest(request)
+    if(!lrsSettingsRequest.isExternalLrs) {
+      tincanLrsEndpointStorage.set(None)
+    } else {
+      val settings = lrsSettingsRequest.authType match {
+
+        case AuthorizationType.BASIC => if(lrsSettingsRequest.isCommonCredentials)
+          CommonBasicAuthorization(
+            lrsSettingsRequest.login,
+            lrsSettingsRequest.password)
+          else
+          UserBasicAuthorization
+
+        case AuthorizationType.OAUTH => OAuthAuthorization(
+          lrsSettingsRequest.clientId,
+          lrsSettingsRequest.clientSecret)
       }
-      case _ => storageFactory.tincanLrsEndpointStorage.set(None)
+
+      tincanLrsEndpointStorage.set(Some(
+        LrsEndpointSettings(lrsSettingsRequest.endPoint, settings)))
+
+      true
     }
-  }
-
-  get("/GetSettings") {
-    /*requireAdmin()
-
-    val properties = PropertyUtil.load("db")
-    json(Map("server" -> properties.getProperty("server", ""),
-      "database" -> properties.getProperty("database", ""),
-      "login" -> properties.getProperty("login", ""),
-      "password" -> properties.getProperty("password", ""),
-      "dbManagementSystem" -> properties.getProperty("dbManagementSystem", "h2")))*/
-  }
+  })
 
   post("/RenewDatabase") {
     requireAdmin()
 
     contentType = "text/plain"
     storageFactory.renewWholeStorage()
-    SocialActivityLocalServiceUtil.getActivities(classOf[Certificate].getName, 0, Int.MaxValue).toArray.foreach(i => {
-      SocialActivityLocalServiceUtil.deleteActivity(i.asInstanceOf[SocialActivity].getActivityId)
+    SocialActivityLocalServiceHelper.getActivities(classOf[Certificate].getName, 0, Int.MaxValue).toArray.foreach(i => {
+      SocialActivityLocalServiceHelper.deleteActivity(i.asInstanceOf[LSocialActivity].getActivityId)
     })
+
+    //Also remove all achievement activities
+    SocialActivityLocalServiceHelper
+      .getActivities(classOf[AchievementActivity].getName, ALL_POS, ALL_POS)
+      .asScala
+      .foreach(socialActivity => SocialActivityLocalServiceHelper.deleteActivity(socialActivity.getActivityId))
+
     if (emptyDir(new File(FileSystemUtil.getRealPath("/SCORMData/tmp"))))
       "yep"
     else
@@ -112,7 +93,6 @@ class AdminService(configuration: BindingModule) extends ServletBase(configurati
     storageFactory.settingStorage.modify(SettingType.IssuerURL, parameter("issuerUrl").required)
   }
 
-  //-----
   private def emptyDir(dir: File): Boolean = {
     if (dir.isDirectory)
       for (item <- dir.list())

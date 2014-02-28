@@ -2,13 +2,13 @@ package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model.achivements._
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.liferay.portlet.social.service.SocialActivityLocalServiceUtil
-import com.liferay.portal.kernel.dao.orm.QueryUtil._
 import scala.collection.JavaConverters._
 import com.arcusys.learn.scorm.tracking.model.achivements.AchievementUser
 import com.arcusys.learn.scorm.tracking.model.achivements.RequiredActivity
 import com.arcusys.learn.scorm.tracking.model.achivements.Achievement
 import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
+import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
+import com.arcusys.learn.liferay.constants.QueryUtilHelper._
 
 
 class AchievementServiceBL(implicit val bindingModule: BindingModule) extends Injectable {
@@ -49,8 +49,8 @@ class AchievementServiceBL(implicit val bindingModule: BindingModule) extends In
     achievementUserStorage.deleteByAchievementId(achievementId)
     val t = achievementActivityStorage.getByAchievementId(achievementId)
     t.foreach(achievementActivity => {
-      val activities = SocialActivityLocalServiceUtil.getActivities(classOf[AchievementActivity].toString,ALL_POS,ALL_POS).asScala.filter(_.getClassPK == achievementActivity.id)
-      activities.foreach(activity => SocialActivityLocalServiceUtil.deleteActivity(activity.getActivityId))
+      val activities = SocialActivityLocalServiceHelper.getActivities(classOf[AchievementActivity].toString,ALL_POS,ALL_POS).asScala.filter(_.getClassPK == achievementActivity.id)
+      activities.foreach(activity => SocialActivityLocalServiceHelper.deleteActivity(activity.getActivityId))
     })
   }
 
@@ -114,7 +114,7 @@ class RequiredActivityServiceBL(implicit val bindingModule: BindingModule) exten
   def getQuantityRequiredActivities(id: Int) = getRequiredAchievementActivities(id).size
 
   def getQuantityCompletedRequiredActivities(userId: Int, activityClassName: String, id: Int) = {
-    val userActivities = SocialActivityLocalServiceUtil.getUserActivities(userId, ALL_POS, ALL_POS).asScala
+    val userActivities = SocialActivityLocalServiceHelper.getUserActivities(userId, ALL_POS, ALL_POS).asScala
     val achievementStartDate = achievementStorage.getByID(id).get.startDate
     val userActivitiesAfterStartOfAchievement = userActivities.filter(_.getCreateDate > achievementStartDate.getTime)
     userActivitiesAfterStartOfAchievement.count(_.getClassName == activityClassName)
@@ -123,7 +123,7 @@ class RequiredActivityServiceBL(implicit val bindingModule: BindingModule) exten
   //Get all activity names. Remove duplicates
   def getAvailableActivites = {
     var set = Set[String]()
-    SocialActivityLocalServiceUtil.getSocialActivities(ALL_POS,ALL_POS).asScala.map(_.getClassName).filterNot{obj => val b = set(obj); set += obj; b }
+    SocialActivityLocalServiceHelper.getSocialActivities(ALL_POS,ALL_POS).asScala.map(_.getClassName).filterNot{obj => val b = set(obj); set += obj; b }
   }
 }
 

@@ -46,14 +46,14 @@ app.controller('EditAchievementController', ['$scope', '$http', '$fileUploader',
         $scope.achievement = currentTab.achievement;
         $scope.isEditingTitle = false;
 
-        var url = '{0}/services/requiredActivity/'
+        var url = '{0}/services/activity/'
             .replace('{0}', $window.scormContextPath)
             .replace('{1}', $scope.achievement.id);
 
         $http.
             get(url)
             .success(function (response) {
-                $scope.allActivities = response;
+                $scope.allActivities = response.data;
                 $scope.activities = getAvailableActivities();
             });
 
@@ -84,11 +84,12 @@ app.controller('EditAchievementController', ['$scope', '$http', '$fileUploader',
     }
 
     function saveAchievement(onSuccess) {
-        var url = '{0}/services/achievement/update/{1}'
+        var url = '{0}/services/achievement/{1}'
             .replace('{0}', $window.scormContextPath)
             .replace('{1}', $scope.achievement.id);
 
         var data = {
+            action: "update",
             id: $scope.achievement.id,
             title: $scope.achievement.title,
             description: $scope.achievement.description,
@@ -109,16 +110,17 @@ app.controller('EditAchievementController', ['$scope', '$http', '$fileUploader',
     }
 
     $scope.addActivity = function (activity) {
-        var url = '{0}/services/requiredActivity/'
+        var url = '{0}/services/achievement/activity/'
             .replace('{0}', scormContextPath);
 
         $http
             .post(url, {
+                action: "add",
                 achievementId: $scope.achievement.id,
                 activityClassName: activity.name
             })
             .success(function (response) {
-                $scope.achievement.activities.push({id: response.id, name: activity.name, requiredCount: response.removeActivity});
+                $scope.achievement.activities.push(response.data);
 
                 var index = $scope.activities.indexOf(activity);
                 $scope.activities.splice(index, 1);
@@ -148,16 +150,16 @@ app.controller('EditAchievementController', ['$scope', '$http', '$fileUploader',
     }
 
     $scope.removeActivity = function (activity) {
-        var url = '{0}/services/requiredActivity/delete/{1}'
+        var url = '{0}/services/achievement/activity/{1}'
             .replace('{0}', $window.scormContextPath)
             .replace('{1}', activity.id);
 
         $http
-            .post(url)
+            .post(url, { action: "delete" })
             .success(function () {
                 var index = $scope.achievement.activities.indexOf(activity);
                 $scope.achievement.activities.splice(index, 1);
-                getAvailableActivities();
+                $scope.activities = getAvailableActivities();
             })
     }
 
@@ -165,12 +167,13 @@ app.controller('EditAchievementController', ['$scope', '$http', '$fileUploader',
         if (!activity.numberActivitiesRequired && activity.numberActivitiesRequired > 0)
             return;
 
-        var url = '{0}/services/requiredActivity/update/{1}'
+        var url = '{0}/services/achievement/activity/{1}'
             .replace('{0}', $window.scormContextPath)
             .replace('{1}', activity.id);
 
         var data = {
-            activityId: activity.id,
+            action: "update",
+            //activityId: activity.id,
             achievementId: $scope.achievement.id,
             numberActivitiesRequired: activity.requiredCount
         };

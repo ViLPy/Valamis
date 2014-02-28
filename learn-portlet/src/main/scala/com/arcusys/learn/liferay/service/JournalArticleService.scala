@@ -1,21 +1,18 @@
 package com.arcusys.learn.liferay.service
 
-import com.liferay.portal.kernel.dao.orm._
-import com.liferay.portlet.journal.model.JournalArticle
-import com.liferay.portal.kernel.util.PortalClassLoaderUtil
-import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil
 import scala.collection.JavaConverters._
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.util.Locale
-import com.liferay.portal.util.PortalUtil
-import com.liferay.portal.kernel.workflow.WorkflowConstants
+import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
+import com.arcusys.learn.liferay.LiferayClasses._
+import com.arcusys.learn.liferay.constants.{QueryUtilHelper, WorkflowConstantsHelper}
 
 class JournalArticleService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
-  val jsonModel = new JsonModelBuilder[JournalArticle](article =>
+  val jsonModel = new JsonModelBuilder[LJournalArticle](article =>
     Map("articleID" -> article.getArticleId,
       "groupID" -> article.getGroupId.toString,
       "version"->article.getVersion.toString,
@@ -33,8 +30,8 @@ class JournalArticleService(configuration: BindingModule) extends ServletBase(co
 
   private def getJournalArticles = {
     val companyID = parameter("companyID").longRequired
-    JournalArticleLocalServiceUtil.getCompanyArticles(companyID,
-      WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS, QueryUtil.ALL_POS).asScala
+    JournalArticleLocalServiceHelper.getCompanyArticles(companyID,
+      WorkflowConstantsHelper.STATUS_APPROVED, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS).asScala
       // get last approved version
       .groupBy{
       article => (article.getArticleId, article.getGroupId)

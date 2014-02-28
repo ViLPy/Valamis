@@ -325,6 +325,10 @@
         <servlet-class>com.arcusys.learn.achievements.AchievementWebService</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ActivityWebService</servlet-name>
+        <servlet-class>com.arcusys.learn.achievements.ActivityWebService</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RequiredActivityService</servlet-name>
         <servlet-class>com.arcusys.learn.achievements.RequiredActivityService</servlet-class>
     </servlet>
@@ -332,15 +336,6 @@
         <servlet-name>AchievementUserService</servlet-name>
         <servlet-class>com.arcusys.learn.achievements.AchievementUserService</servlet-class>
     </servlet>
-
-    <!--<servlet>
-        <servlet-name>Upgrade</servlet-name>
-        <servlet-class>com.arcusys.learn.web.DemoService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Upgrade</servlet-name>
-        <url-pattern>/upgrade/*</url-pattern>
-    </servlet-mapping>-->
 
     <servlet-mapping>
         <servlet-name>OrganizationsService</servlet-name>
@@ -435,6 +430,10 @@
         <url-pattern>/services/achievement/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ActivityWebService</servlet-name>
+        <url-pattern>/services/activity/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>RequiredActivityService</servlet-name>
         <url-pattern>/services/requiredActivity/*</url-pattern>
     </servlet-mapping>
@@ -442,6 +441,34 @@
         <servlet-name>AchievementUserService</servlet-name>
         <url-pattern>/services/achievementUser/*</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>InitializeController</servlet-name>
+        <servlet-class>com.arcusys.learn.oauth.InitializeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitializeController</servlet-name>
+        <url-pattern>/oauth/initiate/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TokenController</servlet-name>
+        <servlet-class>com.arcusys.learn.oauth.TokenController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TokenController</servlet-name>
+        <url-pattern>/oauth/token/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RegistrationController</servlet-name>
+        <servlet-class>com.arcusys.learn.oauth.RegistrationController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrationController</servlet-name>
+        <url-pattern>/oauth/registration/*</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
         <servlet-name>TincanApiStatement</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.StatementService</servlet-class>
@@ -450,7 +477,6 @@
         <servlet-name>TincanApiStatement</servlet-name>
         <url-pattern>/TincanApi/statements/*</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>TincanApiActivities</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.ActivitiesService</servlet-class>
@@ -459,7 +485,6 @@
         <servlet-name>TincanApiActivities</servlet-name>
         <url-pattern>/TincanApi/activities/*</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>TincanApiAgent</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.AgentService</servlet-class>
@@ -468,7 +493,6 @@
         <servlet-name>TincanApiAgent</servlet-name>
         <url-pattern>/TincanApi/agents/*</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>TincanApiState</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.StateService</servlet-class>
@@ -477,7 +501,6 @@
         <servlet-name>TincanApiState</servlet-name>
         <url-pattern>/TincanApi/activities/state/*</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>TincanApiAbout</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.AboutService</servlet-class>
@@ -486,6 +509,17 @@
         <servlet-name>TincanApiAbout</servlet-name>
         <url-pattern>/TincanApi/about/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TincanReporting</servlet-name>
+        <servlet-class>com.arcusys.learn.reporting.service.TinCanReportingService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TincanReporting</servlet-name>
+        <url-pattern>/services/reporting/*</url-pattern>
+    </servlet-mapping>
+
+
+
 
     <session-config>
         <session-timeout>30</session-timeout>
