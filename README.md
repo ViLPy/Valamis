@@ -26,6 +26,8 @@ Internal LRS endpoint is: `<your-domain>/learn-portlet/TincanApi`
 
 If you need to customize it, settings can be found in admin portlet on settings tab.
 
+TinCan LRS OAuth endpoint is: `<your-domain>/learn-portlet/oauth`
+
 ### Download 
 Github has deprecated the Download section. You can download the latest distributable from Liferay Marketplace
 
