@@ -1,5 +1,6 @@
 package com.arcusys.learn.persistence.liferay.service.impl;
 
+import com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException;
 import com.arcusys.learn.persistence.liferay.model.LFCertificateUser;
 import com.arcusys.learn.persistence.liferay.service.base.LFCertificateUserLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -26,26 +27,26 @@ public class LFCertificateUserLocalServiceImpl
      * Never reference this interface directly. Always use {@link com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalServiceUtil} to access the l f certificate user local service.
      */
 
-    public LFCertificateUser createLFCertificateUser() throws SystemException {
-        return createLFCertificateUser(counterLocalService.increment(LFCertificateUser.class.getName()));
-    }
+//    public LFCertificateUser createLFCertificateUser() throws SystemException {
+//        return createLFCertificateUser(counterLocalService.increment(LFCertificateUser.class.getName()));
+//    }
 
-    public List<LFCertificateUser> findByCertificateID(Integer certificateID)
+    public List<LFCertificateUser> findByCertificateID(Long certificateID)
             throws SystemException {
         return lfCertificateUserPersistence.findByCertificateID(certificateID);
     }
 
-    public List<LFCertificateUser> findByUserID(Integer userID)
+    public List<LFCertificateUser> findByUserID(Long userID)
             throws SystemException {
         return lfCertificateUserPersistence.findByUserID(userID);
     }
 
-    public List<LFCertificateUser> findByUserIDAndCertificateID(Integer userID, Integer certificateID)
-            throws SystemException {
+    public LFCertificateUser findByUserIDAndCertificateID(Long userID, Long certificateID)
+            throws SystemException, com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException {
         return lfCertificateUserPersistence.findByUserIDAndCertificateID(userID, certificateID);
     }
 
-    public void removeByUserIDAndCertificateID(Integer userID, Integer certificateID) throws SystemException{
+    public void removeByUserIDAndCertificateID(Long userID, Long certificateID) throws SystemException, com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException{
         lfCertificateUserPersistence.removeByUserIDAndCertificateID(userID,  certificateID);
     }
 

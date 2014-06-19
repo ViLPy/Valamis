@@ -8,7 +8,7 @@ import scala.xml.XML
 class Customer1Test {
   val root = XML.load(getClass.getResource("/test1/imsmanifest.xml"))
   val doc = new ManifestParser(root, "title", "summary").parse
-   val manifest = doc.manifest
+  val manifest = doc.manifest
 
   @Test
   def testManifest() {

@@ -9,6 +9,6 @@ package com.arcusys.learn.social.model
  * @param value - voting value, e.g. -1, 1
  */
 case class PackageVote(id: Int,
-                       userID: Int,
-                       socialPackageID: Int,
-                       value: Int)
+  userID: Int,
+  socialPackageID: Int,
+  value: Int)

@@ -6,26 +6,29 @@
         <groupId>com.arcusys.learn</groupId>
         <version>1.8-SNAPSHOT</version>
     </parent>
+
     <artifactId>learn-quiz-package-generator</artifactId>
     <name>learn-quiz-package-generator</name>
+
+    <properties>
+        <scalastyle.config.path>${project.basedir}/..</scalastyle.config.path>
+    </properties>
+
     <dependencies>
+        <!-- VALAMIS project-related dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-quiz-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-scorm-package-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>learn-util</artifactId>
+            <artifactId>learn-scorm-tracking-model</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -39,30 +42,54 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.arcusys.scala-mustache</groupId>
-            <artifactId>scala-mustache</artifactId>
-            <version>1.0.0</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-web-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- SCALA dependencies -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.escalatesoft.subcut</groupId>
+            <artifactId>subcut_${scala.bin.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_${scala.bin.version}</artifactId>
+        </dependency>
+
+        <!-- OTHER dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.arcusys.scala-json</groupId>
-            <artifactId>scala-json</artifactId>
-            <version>1.1.0</version>
         </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
+                <groupId>org.scalariform</groupId>
+                <artifactId>scalariform-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

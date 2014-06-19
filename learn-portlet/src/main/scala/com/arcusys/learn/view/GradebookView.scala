@@ -1,14 +1,14 @@
 package com.arcusys.learn.view
 
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
-import javax.portlet._
-import org.scalatra.ScalatraFilter
-import com.arcusys.learn.view.liferay.LiferayHelpers
 import java.io.FileNotFoundException
-import com.arcusys.learn.service.util.SessionHandler
+import javax.portlet._
 import javax.servlet.http.Cookie
-import com.arcusys.learn.liferay.util.PortalUtilHelper
 
+import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.service.util.SessionHandler
+import com.arcusys.learn.util.MustacheSupport
+import com.arcusys.learn.view.liferay.LiferayHelpers
+import org.scalatra.ScalatraFilter
 
 class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -19,12 +19,13 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
     httpServletRequest.getSession.setAttribute("userID", userUID)
 
-    val userName = LiferayHelpers.getUserName(request)
+    // get data from liferay
     val lang = LiferayHelpers.getLanguage(request)
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
     val contextPath = request.getContextPath
 
+    // Cookies
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
     val cookie = new Cookie("valamisSessionID", sessionID)
     cookie.setMaxAge(-1)
@@ -34,34 +35,47 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userUID, courseID))
     SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userUID, courseID))
 
+    // for poller auth we encrypt company key + userID
+    val company = themeDisplay.getCompany();
+    val encryptedUserId = com.liferay.util.Encryptor.encrypt(company.getKeyObj(), "" + userUID);
+
     if (userManagement.isLearnUser(userUID, courseID)) {
-      response.getWriter.println(generateResponse(userUID, userName, lang, request.getContextPath, isPortlet = true,
-        //isAdmin = request.isUserInRole("administrator"),
-        isAdmin = userManagement.hasTeacherPermissions(userUID, courseID), courseID = courseID))
-    }
-    else {
+      response.getWriter.println(generateResponse(userUID,
+        encryptedUserId,
+        themeDisplay.getPortletDisplay.getRootPortletId,
+        lang,
+        request.getContextPath,
+        isAdmin = userManagement.hasTeacherPermissions(userUID, courseID), courseID = courseID)
+      )
+    } else {
       response.getWriter.println(generateErrorResponse(contextPath, "scorm_nopermissions.html", lang))
     }
   }
 
-  def generateResponse(userID: Int, userName: String, language: String, contextPath: String, isPortlet: Boolean, isAdmin: Boolean, courseID: Long) = {
+  def generateResponse(userID: Int,
+    encryptUserID: String,
+    portletID: String,
+    language: String,
+    contextPath: String,
+    isAdmin: Boolean,
+    courseID: Long) = {
+
     val translations = try {
       getTranslation("/i18n/gradebook_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/gradebook_en")
-      case _ => Map[String, String]()
+      case _: Throwable             => Map[String, String]()
     }
 
-    val users = userManagement.getStudentsWithAttemptsByCourseID(courseID)
-    val packages = packageService.getPackagesWithAttemptsByCourseID(courseID, if (isAdmin) 0 else userID)
+    val packages = packageFacade.getPackagesByCourse(courseID.toInt)
+    //packageService.getPackagesWithAttemptsByCourseID(courseID, if (isAdmin) 0 else userID)
 
     val data = Map(
       "userID" -> userID,
-      "userName" -> userName,
+      "encryptUserID" -> encryptUserID,
+      "portletID" -> portletID,
       "contextPath" -> contextPath,
       "isAdmin" -> isAdmin,
-      "isPortlet" -> isPortlet,
-      "users" -> users,
       "packages" -> packages,
       "language" -> language,
       "courseID" -> courseID
@@ -74,7 +88,7 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
       getTranslation("/i18n/error_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/error_en")
-      case _ => Map[String, String]()
+      case _: Throwable             => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language) ++ translations
     mustache(data, templateName)

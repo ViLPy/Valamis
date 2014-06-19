@@ -7,8 +7,7 @@ import com.arcusys.learn.scorm.tracking.storage.impl.AttemptEntityStorage
 import com.arcusys.learn.scorm.manifest.model.Organization
 
 import org.junit.Assert._
-import org.junit.{Test, Before}
-
+import org.junit.{ Test, Before }
 
 trait AttemptStorageJUnit {
   val packagesStorage: PackagesStorage

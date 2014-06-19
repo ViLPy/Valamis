@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.scorm.manifest.model.ObjectiveMap
-import com.arcusys.learn.persistence.liferay.service.{LFSequencingPermissionsLocalServiceUtil, LFObjectiveMapLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFSequencingPermissionsLocalServiceUtil, LFObjectiveMapLocalServiceUtil }
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMap
 
@@ -11,7 +11,7 @@ import com.arcusys.learn.persistence.liferay.model.LFObjectiveMap
  * Date: 29.03.13
  */
 trait LFObjectiveMapStorageImpl extends EntityStorage[ObjectiveMap] {
-  protected def doRenew() { LFObjectiveMapLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFObjectiveMapLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     parameters match {
@@ -22,8 +22,8 @@ trait LFObjectiveMapStorageImpl extends EntityStorage[ObjectiveMap] {
     }
   }
 
-  def extract(lfEntity: Option[LFObjectiveMap]) ={
-  import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
+  def extract(lfEntity: Option[LFObjectiveMap]) = {
+    import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
     lfEntity.map(lfEntity => new ObjectiveMap(
       lfEntity.getReadSatisfiedStatusFrom.toOption,
       lfEntity.getReadNormalizedMeasureFrom.toOption,

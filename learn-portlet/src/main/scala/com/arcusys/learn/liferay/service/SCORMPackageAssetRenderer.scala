@@ -3,12 +3,11 @@ package com.arcusys.learn.liferay.service
 import asset.AssetHelper
 import com.arcusys.learn.scorm.manifest.model._
 import java.util.Locale
-import javax.portlet.{RenderRequest, RenderResponse, PortletRequest}
+import javax.portlet.{ RenderRequest, RenderResponse, PortletRequest }
 import utils.PortletKeys
-import com.arcusys.learn.liferay.util.{HtmlUtilHelper, PortalUtilHelper}
+import com.arcusys.learn.liferay.util.{ HtmlUtilHelper, PortalUtilHelper }
 import com.arcusys.learn.liferay.LiferayClasses._
-import com.arcusys.learn.liferay.constants.{WebKeysHelper, StringPoolHelper}
-
+import com.arcusys.learn.liferay.constants.{ WebKeysHelper, StringPoolHelper }
 
 class SCORMPackageAssetRenderer(pkg: Manifest) extends LBaseAssetRenderer {
   lazy val assetHelper = new AssetHelper()

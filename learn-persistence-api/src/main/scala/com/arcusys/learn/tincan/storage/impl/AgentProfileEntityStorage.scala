@@ -2,13 +2,13 @@ package com.arcusys.learn.tincan.storage.impl
 
 import com.arcusys.learn.tincan.storage.AgentProfileStorage
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.model.{Agent, AgentProfile}
-import java.util.Date
+import com.arcusys.learn.tincan.model.{ Agent, AgentProfile }
+import org.joda.time.DateTime
 
 trait AgentProfileEntityStorage extends AgentProfileStorage with KeyedEntityStorage[AgentProfile] {
   def get(profileId: String, agent: Agent): Option[AgentProfile] = getOne("profileId" -> profileId, "agent" -> agent)
 
-  def getIds(agent: Agent, since: Option[Date]): Seq[String] = getAll("agent" -> agent, "since" -> since).map(_.profileId)
+  def getIds(agent: Agent, since: Option[DateTime]): Seq[String] = getAll("agent" -> agent, "since" -> since).map(_.profileId)
 
   def create(entity: AgentProfile) {
     create(entity, Nil: _*)

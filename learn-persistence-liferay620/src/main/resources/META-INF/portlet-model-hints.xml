@@ -176,17 +176,39 @@
 		<field name="publishBadge" type="Boolean" />
 		<field name="shortDescription" type="String" />
 		<field name="companyID" type="Integer" />
+		<field name="state" type="String" />
+		<field name="emails" type="String" />
+		<field name="validPeriodType" type="String" />
+		<field name="validPeriod" type="Integer" />
+		<field name="createdDate" type="Date" />
+		<field name="isPublished" type="Boolean" />
+		<field name="scope" type="Long" />
 	</model>
-	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateSite">
-		<field name="id" type="long" />
-		<field name="certificateID" type="Integer" />
-		<field name="siteID" type="Integer" />
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateActivity">
+		<field name="certificateID" type="Long" />
+		<field name="activityName" type="String" />
+		<field name="datacount" type="Integer" />
+		<field name="periodType" type="String" />
+		<field name="period" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateCourse">
+		<field name="certificateID" type="Long" />
+		<field name="courseID" type="Long" />
 		<field name="arrangementIndex" type="Integer" />
+		<field name="periodType" type="String" />
+		<field name="period" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateTincanStatement">
+		<field name="certificateID" type="Long" />
+		<field name="verb" type="String" />
+		<field name="object" type="String" />
+		<field name="periodType" type="String" />
+		<field name="period" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFCertificateUser">
-		<field name="id" type="long" />
-		<field name="certificateID" type="Integer" />
-		<field name="userID" type="Integer" />
+		<field name="certificateID" type="Long" />
+		<field name="userID" type="Long" />
+		<field name="attachedDate" type="Date" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFChildrenSelection">
 		<field name="id" type="long" />
@@ -337,6 +359,9 @@
 		</field>
 		<field name="assetRefID" type="Long" />
 		<field name="courseID" type="Integer" />
+		<field name="logo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageComment">
 		<field name="id" type="long" />
@@ -344,6 +369,12 @@
 		<field name="authorID" type="Integer" />
 		<field name="comment" type="String" />
 		<field name="publishDate" type="Date" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageGradeStorage">
+		<field name="userId" type="Long" />
+		<field name="packageId" type="Long" />
+		<field name="grade" type="String" />
+		<field name="comment" type="String" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule">
 		<field name="id" type="long" />
@@ -410,6 +441,7 @@
 		<field name="description" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
+		<field name="logo" type="String" />
 		<field name="welcomePageContent" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
@@ -447,6 +479,14 @@
 		</field>
 		<field name="quizId" type="Integer" />
 		<field name="parentId" type="Integer" />
+		<field name="arrangementIndex" type="Integer" />
+	</model>
+	<model name="com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement">
+		<field name="id" type="long" />
+		<field name="quizID" type="Integer" />
+		<field name="elementID" type="String" />
+		<field name="isCategory" type="Boolean" />
+		<field name="parentID" type="String" />
 		<field name="arrangementIndex" type="Integer" />
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFRequiredActivity">
@@ -764,7 +804,7 @@
 		<field name="response" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
-		<field name="duration" type="Double" />
+		<field name="duration" type="String" />
 		<field name="extension" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
@@ -774,7 +814,6 @@
 		<field name="stateId" type="String" />
 		<field name="documentId" type="String" />
 		<field name="activityId" type="String" />
-		<field name="profileId" type="String" />
 		<field name="registration" type="String">
 			<hint name="max-length">2000000</hint>
 		</field>
@@ -841,6 +880,9 @@
 		</field>
 		<field name="assetRefID" type="Long" />
 		<field name="courseID" type="Integer" />
+		<field name="logo" type="String">
+			<hint name="max-length">2000000</hint>
+		</field>
 	</model>
 	<model name="com.arcusys.learn.persistence.liferay.model.LFUser">
 		<field name="lfid" type="long" />

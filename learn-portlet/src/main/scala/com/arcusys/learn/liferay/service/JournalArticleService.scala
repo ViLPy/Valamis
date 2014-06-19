@@ -7,7 +7,7 @@ import com.arcusys.learn.ioc.Configuration
 import java.util.Locale
 import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
 import com.arcusys.learn.liferay.LiferayClasses._
-import com.arcusys.learn.liferay.constants.{QueryUtilHelper, WorkflowConstantsHelper}
+import com.arcusys.learn.liferay.constants.{ QueryUtilHelper, WorkflowConstantsHelper }
 
 class JournalArticleService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -15,7 +15,7 @@ class JournalArticleService(configuration: BindingModule) extends ServletBase(co
   val jsonModel = new JsonModelBuilder[LJournalArticle](article =>
     Map("articleID" -> article.getArticleId,
       "groupID" -> article.getGroupId.toString,
-      "version"->article.getVersion.toString,
+      "version" -> article.getVersion.toString,
       "availableLocales" -> article.getAvailableLocales.map(localeStr => {
         val localeSplit = localeStr.split('_')
         val locale = if (localeSplit.size > 1) new Locale(localeSplit(0), localeSplit(1)) else new Locale(localeSplit.head)
@@ -33,11 +33,11 @@ class JournalArticleService(configuration: BindingModule) extends ServletBase(co
     JournalArticleLocalServiceHelper.getCompanyArticles(companyID,
       WorkflowConstantsHelper.STATUS_APPROVED, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS).asScala
       // get last approved version
-      .groupBy{
-      article => (article.getArticleId, article.getGroupId)
-      }.values.map {_.maxBy(_.getVersion)}.toSeq
+      .groupBy {
+        article => (article.getArticleId, article.getGroupId)
+      }.values.map { _.maxBy(_.getVersion) }.toSeq
 
-/*
+    /*
     // will get only last version of article, ignore previous edits
     val subQuery = DynamicQueryFactoryUtil.forClass(classOf[JournalArticle], "articleSub", PortalClassLoaderUtil.getClassLoader)
       .add(PropertyFactoryUtil.forName("articleId").eqProperty("articleParent.articleId"))

@@ -160,6 +160,21 @@ public interface LFPackageModel extends BaseModel<LFPackage> {
      */
     public void setCourseID(Integer courseID);
 
+    /**
+     * Returns the logo of this l f package.
+     *
+     * @return the logo of this l f package
+     */
+    @AutoEscape
+    public String getLogo();
+
+    /**
+     * Sets the logo of this l f package.
+     *
+     * @param logo the logo of this l f package
+     */
+    public void setLogo(String logo);
+
     @Override
     public boolean isNew();
 

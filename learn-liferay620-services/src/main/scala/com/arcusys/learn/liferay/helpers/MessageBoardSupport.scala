@@ -2,7 +2,7 @@ package com.arcusys.learn.liferay.helpers
 
 import com.liferay.portal.kernel.util._
 import com.liferay.portal.service.ServiceContext
-import com.liferay.portlet.messageboards.service.{MBThreadLocalServiceUtil, MBDiscussionLocalServiceUtil, MBMessageLocalServiceUtil, MBCategoryLocalServiceUtil}
+import com.liferay.portlet.messageboards.service.{ MBThreadLocalServiceUtil, MBDiscussionLocalServiceUtil, MBMessageLocalServiceUtil, MBCategoryLocalServiceUtil }
 import java.util
 import java.io.InputStream
 
@@ -16,7 +16,7 @@ trait MessageBoardSupport {
   }
 
   def addMBMessage(userId: Long, userName: String, groupId: Long, categoryId: Long,
-                   threadId: Long, parentMessageId: Long, subject: String, fileName: String, serviceContext: ServiceContext) = {
+    threadId: Long, parentMessageId: Long, subject: String, fileName: String, serviceContext: ServiceContext) = {
 
     val body = HookHelpers.getString(fileName)
 
@@ -27,8 +27,8 @@ trait MessageBoardSupport {
   }
 
   def addMBDiscussionMessage(userId: Long, userName: String, groupId: Long, className: String, classPK: Long,
-                             threadId: Long, parentMessageId: Long, subject: String, fileName: String,
-                             serviceContext: ServiceContext) = {
+    threadId: Long, parentMessageId: Long, subject: String, fileName: String,
+    serviceContext: ServiceContext) = {
 
     val body = HookHelpers.getString(fileName)
     val threadID = MBDiscussionLocalServiceUtil.getDiscussion(className, classPK).getThreadId

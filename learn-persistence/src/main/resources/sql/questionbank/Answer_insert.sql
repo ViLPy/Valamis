@@ -1,2 +1,0 @@
-INSERT INTO Answer(description, isCorrect, questionID, rangeFrom, rangeTo, matchingText, answerPosition, answerType)
-VALUES (:description, :isCorrect, :questionID, :rangeFrom, :rangeTo, :matchingText, :answerPosition, :answerType)

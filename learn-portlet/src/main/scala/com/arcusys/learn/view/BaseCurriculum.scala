@@ -1,15 +1,13 @@
 package com.arcusys.learn.view
 
-import javax.portlet.{RenderResponse, RenderRequest, GenericPortlet}
+import javax.portlet.{ RenderResponse, RenderRequest, GenericPortlet }
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
 import scala.collection.JavaConverters._
 
-import com.arcusys.scala.json.Json
 import com.arcusys.learn.models.UserModel
 
 import com.arcusys.learn.models.Lms2PortletConverters._
@@ -17,12 +15,14 @@ import com.arcusys.learn.liferay.services.UserLocalServiceHelper
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.QueryUtilHelper
 import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.liferay.portlet.PortletURLUtil
+import com.arcusys.learn.util.{ JsonSupport, MustacheSupport }
 
 class BaseCurriculum extends GenericPortlet
-  with ScalatraFilter
-  with MustacheSupport
-  with i18nSupport
-  with ConfigurableView {
+    with ScalatraFilter
+    with MustacheSupport
+    with i18nSupport
+    with ConfigurableView {
 
   implicit val formats = org.json4s.DefaultFormats
   override def destroy() {}
@@ -31,7 +31,7 @@ class BaseCurriculum extends GenericPortlet
   protected def doViewHelper(
     request: RenderRequest,
     response: RenderResponse,
-    dataMap: Map[String,Any]): Map[String, Any] =  {
+    dataMap: Map[String, Any]): Map[String, Any] = {
 
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val userID = getUserId(request)
@@ -44,6 +44,7 @@ class BaseCurriculum extends GenericPortlet
     val users = getUsers(companyId)
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
     val cookie = new Cookie("valamisSessionID", sessionID)
+    val url = getRootUrl(request, response)
 
     cookie.setMaxAge(-1)
     cookie.setPath("/")
@@ -57,24 +58,34 @@ class BaseCurriculum extends GenericPortlet
     httpServletRequest.getSession.setAttribute("userID", userID)
 
     val data = Map(
+      "rootUrl" -> url,
       "contextPath" -> path,
-      "isAdmin" -> userManagement.isAdmin(userID, courseID),
+      "isAdmin" -> userManagement.hasTeacherPermissions(userID, courseID), //isAdmin(userID, courseID), TODO: change isAdmin to hasTeacherPermissions in template
       "companyID" -> companyId,
-      "translations" -> Json.toJson(translations),
-      "users" -> Json.toJson(users)
+      "translations" -> JsonSupport.json(translations).get,
+      "users" -> JsonSupport.json(users).get
     ) ++ translations ++ dataMap
     data
   }
 
-
   protected def getUsers(companyID: Long): List[UserModel] = {
-    UserLocalServiceHelper
+    UserLocalServiceHelper()
       .getCompanyUsers(companyID, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS)
       .asScala
       .filter(x => x.getFullName != "")
       .toList
   }
 
+  private def getRootUrl(
+    request: RenderRequest,
+    response: RenderResponse) = {
+    val url = PortletURLUtil.getCurrent(request, response)
+    val parts = url.toString.split("/")
+    if (parts.length > 2)
+      parts.tail.tail.head
+    else
+      ""
+  }
 
   def getPublicUrl(user: LUser) = {
     if (user.getGroup.getPublicLayoutsPageCount > 0)
@@ -86,18 +97,18 @@ class BaseCurriculum extends GenericPortlet
   def generateResponse(
     data: Map[String, Any],
     templateName: String) = {
-      mustache(data, templateName)
+    mustache(data, templateName)
   }
 
   protected def getTranslation(
     view: String,
     language: String): Map[String, String] = {
-      try {
-        getTranslation("/i18n/" + view + "_" + language)
-      } catch {
-        case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-        case _ => Map[String, String]()
-      }
+    try {
+      getTranslation("/i18n/" + view + "_" + language)
+    } catch {
+      case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
+      case _                        => Map[String, String]()
+    }
   }
 
   protected def getUserId(request: RenderRequest) =
@@ -107,10 +118,10 @@ class BaseCurriculum extends GenericPortlet
       null.asInstanceOf[Int]
 
   protected def renderAdminView(
-      request: RenderRequest,
-      response: RenderResponse,
-      viewTemplateName: String,
-      dataMap: Map[String, Any]) = {
+    request: RenderRequest,
+    response: RenderResponse,
+    viewTemplateName: String,
+    dataMap: Map[String, Any]) = {
 
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val userID = getUserId(request)
@@ -122,8 +133,7 @@ class BaseCurriculum extends GenericPortlet
           request: RenderRequest,
           response: RenderResponse,
           dataMap))
-    }
-    else {
+    } else {
       val path = request.getContextPath
       val language = LiferayHelpers.getLanguage(request)
       val translations = getTranslation("error", language)
@@ -131,7 +141,7 @@ class BaseCurriculum extends GenericPortlet
         "contextPath" -> path,
         "language" -> language) ++ translations ++ dataMap
 
-      ("scorm_nopermissions.html",data)
+      ("scorm_nopermissions.html", data)
     }
     response.getWriter.println(generateResponse(data, html))
   }

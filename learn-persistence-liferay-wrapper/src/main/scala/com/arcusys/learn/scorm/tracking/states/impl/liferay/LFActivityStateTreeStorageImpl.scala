@@ -8,7 +8,7 @@ import com.arcusys.learn.persistence.liferay.service.LFActivityStateTreeLocalSer
 import com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException
 
 trait LFActivityStateTreeStorageImpl extends KeyedEntityStorage[ActivityStateTree] {
-  protected def doRenew() { LFActivityStateTreeLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFActivityStateTreeLocalServiceUtil.removeAll() }
 
   def extract(entity: LFActivityStateTree) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
@@ -26,11 +26,12 @@ trait LFActivityStateTreeStorageImpl extends KeyedEntityStorage[ActivityStateTre
   def createAndGetID(entity: ActivityStateTree, parameters: (String, Any)*): Int = {
     val newEntity = LFActivityStateTreeLocalServiceUtil.createLFActivityStateTree()
     parameters.foreach {
-      param => param match {
-        case ("attemptID", value: Int) => newEntity.setAttemptID(value)
-        case ("currentActivityID", value: Option[String]) => newEntity.setCurrentActivityID(value.getOrElse(null))
-        case ("suspendedActivityID", value: Option[String]) => newEntity.setSuspendedActivityID(value.getOrElse(null))
-      }
+      param =>
+        param match {
+          case ("attemptID", value: Int)                      => newEntity.setAttemptID(value)
+          case ("currentActivityID", value: Option[String])   => newEntity.setCurrentActivityID(value.getOrElse(null))
+          case ("suspendedActivityID", value: Option[String]) => newEntity.setSuspendedActivityID(value.getOrElse(null))
+        }
     }
     LFActivityStateTreeLocalServiceUtil.addLFActivityStateTree(newEntity).getId.toInt
   }
@@ -50,10 +51,9 @@ trait LFActivityStateTreeStorageImpl extends KeyedEntityStorage[ActivityStateTre
 
   def getOne(parameters: (String, Any)*): Option[ActivityStateTree] = parameters match {
     case Seq(("attemptID", attemptID: Int)) =>
-      try{
-      Option(LFActivityStateTreeLocalServiceUtil.findByAttemptID(attemptID)).map(extract)
-      }
-      catch {
+      try {
+        Option(LFActivityStateTreeLocalServiceUtil.findByAttemptID(attemptID)).map(extract)
+      } catch {
         case ex: NoSuchLFActivityStateTreeException => None
       }
   }
@@ -90,5 +90,5 @@ trait LFActivityStateTreeStorageImpl extends KeyedEntityStorage[ActivityStateTre
 
   def getOne(sqlKey: String, parameters: (String, Any)*): Option[ActivityStateTree] = throw new UnsupportedOperationException("Not implemented")
 
-  def modify(sqlKey: String, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def modify(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 }

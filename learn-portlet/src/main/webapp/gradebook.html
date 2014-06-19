@@ -1,597 +1,307 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
-<title></title>
-<script type="text/javascript">
-var jQuery1816Gradebook = jQuery.noConflict();
-var previewData = [];
-var currentActivityID;
-var language;
+<meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
-jQuery1816Gradebook(function () {
-    Backbone.emulateJSON = true;
-    Backbone.ajax = window.LearnAjax.ajax;
-    jQuery1816Gradebook("#noGradebookContent").hide();
-    jQuery1816Gradebook("#dialog-form").dialog({
-        autoOpen:false,
-        width:350,
-        modal:true
+</head>
+<body>
+<div class="overflow-hidden gradebookBody">
+    <div id="packageView">
+
+    </div>
+
+    <div class="clearfix content-wrapper">
+
+        <!-- Page content -->
+        <div class="page-content-wrapper">
+            <div class="pull-left button-upload-area">
+                <button class="filter-toggler button valamis big grey menu-toggle val-icon-search">
+                </button>
+            </div>
+
+
+            <!-- Sidebar -->
+            <div class="sidebar-wrapper">
+                <div class="menu-toggle hidden-xs modal-close-div">
+                </div>
+                <div class="pull-right">
+                </div>
+            </div>
+            <div class="page-content">
+                <div id="toolbarWrapper" style="padding: 10px;">
+                    <div class="clearfix">
+                        <div class="paginator pull-right"></div>
+                    </div>
+                </div>
+
+                <div class="student-grades clearfix">
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<input type="hidden" id="portletID" value="{{portletID}}"/>
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="userID" value="{{userID}}"/>
+<input type="hidden" id="encryptUserID" value="{{encryptUserID}}"/>
+<input type="hidden" id="isAdmin" value="{{isAdmin}}"/>
+
+
+<!-- Region container -->
+<script type="text/template" id="modals-template">
+    <div class="modals-container"></div>
+</script>
+
+<!-- Modal templates  -->
+<script type="text/template" id="studentView">
+    <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
+        <h3 class="bbm-modal__title" style="margin-top: 0px;">{{studentViewLabel}}</h3>
+
+        <div class="modal-close"
+             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        </div>
+    </div>
+    <div class="bbm-modal__section student-view-dialog" style="position: relative;">
+
+
+    </div>
+</script>
+
+<script type="text/template" id="editGradeView">
+    <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
+        <h3 class="bbm-modal__title" style="margin-top: 0px;">{{editTotalGradeLabel}}</h3>
+
+        <div class="modal-close"
+             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        </div>
+    </div>
+    <div class="bbm-modal__section edit-grade-view-dialog" style="position: relative;">
+
+    </div>
+</script>
+
+<script type="text/template" id="editPackageGradeView">
+    <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
+        <h3 class="bbm-modal__title" style="margin-top: 0px;">{{editPackageGradeLabel}}</h3>
+
+        <div class="modal-close"
+             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        </div>
+    </div>
+    <div class="bbm-modal__section edit-package-grade-view-dialog" style="position: relative;">
+
+    </div>
+</script>
+
+<script type="text/html" id="gradebookSearch">
+    <h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>
+    <form>
+        <div class="show-mode-group form-group valamis-select valamis-row">
+            <label class="form-label h4label valamis">{{showAs}}</label>
+            <select class="show-mode form-control">
+                <option value="simpleView">{{simpleViewLabel}}</option>
+                <option value="detailedView">{{detailedViewLabel}}</option>
+            </select>
+        </div>
+        <div class="form-group valamis-row">
+            <label class="form-label h4label valamis">{{searchByNameLabel}}</label>
+            <input type="text" class="search-by-name form-control text-input" placeholder="{{studentNameLabel}}">
+        </div>
+        <div class="form-group valamis-row">
+            <label class="form-label h4label valamis">{{searchByOrganizationLabel}}</label>
+            <input type="text" class="search-by-org form-control text-input" placeholder="{{organizationNameLabel}}">
+        </div>
+        <!-- TODO Sorting LFSCORM-753
+        <div class="form-group valamis-select valamis-row">-->
+        <!--<label class="form-label h4label valamis">{{sortBy}}</label>-->
+        <!--<select class="sorting form-control">-->
+        <!--<option value="nameAsc">{{nameAsc}}</option>-->
+        <!--<option value="nameDesc">{{nameDesc}}</option>-->
+        <!--<option value="orgAsc">{{orgAsc}}</option>-->
+        <!--<option value="orgDesc">{{orgDesc}}</option>-->
+        <!--</select>-->
+        <!--</div>-->
+
+        <div class="form-group package-panel valamis-row">
+            <label class="form-label h4label valamis">{{displayPackagesLabel}}</label>
+
+            <div id="package-multiselect" class="multiselect-container">
+                {{#packages}}
+                <input type="checkbox" class="checkbox-group check-package" value="{{getId}}" checked="checked">{{getTitle}}</input>
+                <br/>
+                {{/packages}}
+            </div>
+        </div>
+
+
+        <button type="button" class="button valamis medium grey text-center hidden-lg hidden-md">{{searchLabel}}</button>
+    </form>
+</script>
+
+<script>
+    var jQuery1816Gradebook = jQuery.noConflict();
+    var previewData = [];
+    var currentActivityID;
+    var language;
+    var gradebookView;
+    var myLayout;
+    var StudentViewModal;
+
+    moment.lang('{{language}}');
+
+    jQuery1816Gradebook(function () {
+        var loader = new TemplateLoader(function () {});
+        loader.fetch("templates/2.0/gradebook_templates.html");
+        loader.fetch("templates/2.0/paginator.html");
+
+        // upload translations
+        var defaultURL = Utils.getContextPath() + '/i18n/gradebook_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/gradebook_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onGradebookLanguageLoad, onGradebookLanguageError);
+
+
+        // Create a layout class
+        var Layout = Backbone.Marionette.Layout.extend({
+            template: _.template(jQuery1816Gradebook('#modals-template').html()),
+            regions: {
+                modals: {
+                    selector: '.modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
+            }
+        });
+
+// Create a modal view class
+        StudentViewModal = Backbone.Modal.extend({
+            template: _.template(jQuery1816Gradebook('#studentView').html()),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            onRender: function () {
+                this.$('.student-view-dialog').append(this.args[0].view.render());
+            }
+        });
+
+        // Create a modal view class
+        EditGradeViewModal = Backbone.Modal.extend({
+            template: _.template(jQuery1816Gradebook('#editGradeView').html()),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            onRender: function () {
+                this.$('.edit-grade-view-dialog').append(this.args[0].view.render());
+                this.$('.bbm-modal').addClass('review');
+            }
+        });
+
+// Create a modal view class
+        EditPackageGradeViewModal = Backbone.Modal.extend({
+            template: _.template(jQuery1816Gradebook('#editPackageGradeView').html()),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            onRender: function () {
+                this.$('.edit-package-grade-view-dialog').append(this.args[0].view.render());
+                this.$('.bbm-modal').addClass('review');
+            }
+        });
+
+// Create a modal view class
+        ReviewModal = Backbone.Modal.extend({
+            template: _.template(jQuery1816Gradebook('#reviewView').html()),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            onRender: function () {
+                this.$('.review-view-dialog').append(this.args[0].view.render());
+                this.$('.bbm-modal').addClass('review');
+            }
+        });
+
+
+// Render the layout
+        myLayout = new Layout();
+        jQuery1816Gradebook('body').append(myLayout.render().el);
+//        jQuery('.student-click').click(function(){
+//            myLayout.modals.show(new Modal1());
+//        });
+
+        /**
+         * Mobile IE10 hack
+         */
+        if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+            var msViewportStyle = document.createElement("style");
+            msViewportStyle.appendChild(
+                    document.createTextNode("@-ms-viewport{width:auto!important}")
+            );
+            document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+        }
+        /** Mobile IE10 hack */
+
+        jQuery1816Gradebook(".menu-toggle").click(function (e) {
+            e.preventDefault();
+            jQuery1816Gradebook(".content-wrapper").toggleClass("active");
+        });
+
+
+
     });
 
-    jQuery1816Gradebook("#courseGrade-dialog-form").dialog({
-        autoOpen:false,
-        width:350,
-        modal:true
-    });
+    function initView() {
 
-    jQuery1816Gradebook("#answer-dialog-form").dialog({
-        autoOpen:false,
-        width:350,
-        modal:true
-    });
+//        {{#isAdmin}}
+        var isAdmin = "{{isAdmin}}";
+        gradebookView = new GradebookView({language: _.extend(language, {isAdmin: isAdmin})});
+//        {{/isAdmin}}
 
-    var loader = new TemplateLoader(function () {
-    });
-    loader.fetch("templates/gradebook_templates.html");
-    var defaultURL = Utils.getContextPath() + '/i18n/gradebook_en.properties';
-    var localizedURL = Utils.getContextPath() + '/i18n/gradebook_{{language}}.properties';
-    Utils.i18nLoader(localizedURL, defaultURL, onQuizLanguageLoad, onQuizLanguageError);
-    function onQuizLanguageLoad(properties) {
-        language = properties;
+//        {{^isAdmin}}
+        this.model=new GradebookStudentModel({id:jQuery1816Gradebook("#userID").val()});
+        var view = new StudentView({
+            model: this.model,
+            language: language
+        });
+        jQuery1816Gradebook('.gradebookBody').html(view.render());
+//        {{/isAdmin}}
+
+        Backbone.history.start();
+
     }
 
-    function onQuizLanguageError() {
+    function onGradebookLanguageLoad(properties) {
+        language = properties;
+        initView();
+    }
+
+    function onGradebookLanguageError() {
         alert('Translation resource loading failed!');
     }
-});
 
-function drawTree(jsonData) {
-    if (jsonData.length <= 0) {
-        jQuery1816Gradebook("#jsTreeGradebook").empty().html("{{emptyDataSetLabel}}");
-    } else {
-        jQuery1816Gradebook("#jsTreeGradebook").empty().jstree({
-            plugins:["themes", "json_data", "grid", "types"],
-            json_data:{data:jsonData},
-            "themes":{
-                "url":Utils.getContextPath() + "/css/jstree/style.css",
-                "dots":true,
-                "icons":true
-            },
-            "types":{
-                "valid_children":[ "folder" ],
-                "types":{
-                    "entity":{
-                        "icon":{
-                            "image":Utils.getContextPath() + "/img/icons/book.png"
-                        },
-                        "valid_children":"none"
-                    },
-                    "folder":{
-                        "icon":{
-                            "image":Utils.getContextPath() + "/img/icons/folder.png"
-                        },
-                        "valid_children":[ "folder", "entity"]
-                    }
-                }
-            },
-            grid:{
-                columns:[
-                    {width:250, header:"{{gridActivitiesHeaderLabel}}", title:"_DATA_"},
-                    {cellClass:"col0", value:"viewedState", width:60, header:"{{gridViewedHeaderLabel}}", title:"viewedState"},
-                    {cellClass:"col1", value:"correctShare", width:150, header:"{{gridShareHeaderLabel}}", title:"correctShare"},
-                    {cellClass:"col2", value:"userResponse", width:150, header:"{{gridResponseHeaderLabel}}", title:"userResponse"}
-                ],
-                resizable:true
-            }
-        }).bind("open_node.jstree",function (event, data) {
-                    jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                    jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
-                }).bind("close_node.jstree", function (event, data) {
-                    jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf").removeClass("altRow");
-                    jQuery1816Gradebook("#jsTreeGradebook .jstree-leaf:even").addClass("altRow");
-                });
-
-        var jsTreeRef = jQuery1816Gradebook.jstree._reference("#jsTreeGradebook");
-
-        var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
-        if (packageID != 0) {
-            jsTreeRef.open_all();
-        }
-        else {
-            jsTreeRef.close_all();
-        }
-
-        jQuery1816Gradebook("#jsTreeGradebook").delegate("a", "click", function (e) {
-            jQuery1816Gradebook("#jsTreeGradebook").jstree("toggle_node", this);
-        });
-    }
-}
-
-function formatJsonEntitiesToJSTree(entities) {
-    var formattedItems = [];
-    for (var i in  entities) {
-        formattedItems.push(formatEntityToJSTree(entities[i]));
-    }
-    return formattedItems;
-}
-function formatEntityToJSTree(entity) {
-    var correctShare;
-    if (entity.share === null || entity.share === undefined) {
-        correctShare = "{{unknownCorrectShareLabel}}";
-    } else {
-        correctShare = (Math.round((parseFloat(entity.share) * 100) * 100) / 100) + "%";
-    }
-// branch
-    if (entity.children && entity.children.length > 0) {
-        var formattedChildren = [];
-        for (var i = 0; i < entity.children.length; i++) {
-            formattedChildren.push(formatEntityToJSTree(entity.children[i]));
-        }
-        return {
-            data:entity.title,
-            attr:{rel:"folder", viewedState:"&nbsp;", correctShare:correctShare},
-            children:formattedChildren
-        };
-    } else { // leaf
-        return {
-            data:entity.title,
-            attr:{rel:"entity", viewedState:(entity.viewedState) ? "+" : "-", correctShare:correctShare, userResponse:generatePreviewButton(entity)}
-        };
-    }
-}
-
-function generatePreviewButton(data) {
-    var response = "";
-    if (data.userResponse && data.userResponse != "") {
-        if (data.questioinType == "long_fill_in")  response = "<button class='smallTextbutton' onclick='review(\"" + data.id + "\"," + data.currentPackageID + ")'>{{reviewButtonLabel}}</button>";
-        else if (data.questioinType == "numeric" || data.questioinType == "fill_in") response = data.userResponse;
-        else if (data.questioinType == "sequencing" || data.questioinType == "matching" || data.questioinType == "choice")
-            response = "<button class='smallTextbutton' onclick='notEssayReview(\"" + data.id + "\"," + data.currentPackageID + ")'>{{reviewButtonLabel}}</button>";
-        previewData[data.id] = data;
-    }
-    return response;
-}
-
-function notEssayReview(id, packageID) {
-    currentActivityID = id;
-
-    jQuery1816Gradebook("#reviewQuestion").html(decodeURIComponent(previewData[id].questionText));
-    jQuery1816Gradebook("#reviewAnswer").html(decodeURIComponent(previewData[id].userResponse));
-
-    jQuery1816Gradebook("#answer-dialog-form").dialog('open');
-}
-
-function review(id, packageID) {
-    currentActivityID = id;
-    jQuery1816Gradebook("#reviewContent").html(decodeURIComponent(previewData[id].userResponse));
-    jQuery1816Gradebook("#reviewContentQuestionText").html(decodeURIComponent(previewData[id].questionText));
-    var grade = decodeURIComponent(previewData[id].share);
-    if (grade == null) {
-        jQuery1816Gradebook('input:radio[name="grade"]').attr('checked', false);
-    }
-    jQuery1816Gradebook('input:radio[name="grade"]').filter('[value="' + grade + '"]').attr('checked', 'checked');
-    jQuery1816Gradebook("#essayComment").val(decodeURIComponent(previewData[id].essayComment));
-    jQuery1816Gradebook("#currentPackageID").val(packageID);
-    jQuery1816Gradebook("#dialog-form").dialog('open');
-}
-
-function drawTable(data) {
-    _.each(data.users, function (user) {
-        var array = [];
-        _.each(data.packages, function (pkg) {
-            var internal = undefined;
-            _.each(user.grades, function (grade) {
-                if (pkg.id == grade.packageID) {
-                    internal = grade.userGrade
-                }
-            });
-            if (!isNaN(internal)) internal = (Math.round((parseFloat(internal) * 100) * 100) / 100) + "%";
-            array.push({packageID:pkg.id,
-                packageName:pkg.title,
-                userGrade:internal})
-        });
-        user.grades = array;
-        var persentTotalGrade;
-        if (user.totalGrade && user.totalGrade != "unknown") {
-            persentTotalGrade = (Math.round((parseFloat(user.totalGrade) * 100) * 100) / 100) + "%";
-            user.totalGrade = persentTotalGrade;
-        }
-    });
-    jQuery1816Gradebook("#studentsOverview").html(Mustache.to_html(jQuery("#experimental").html(), _.extend(data, language)))
-}
-
-function courseGradeFunc(userID) {
-    window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetCourseInfo/" + courseID.value + "/user/" + userID,
-                    jQuery1816Gradebook.proxy(function (data) {
-                        jQuery1816Gradebook("#gradeCourseTextarea").val(data.comment);
-
-                        if (data.grade != null) {
-                            jQuery1816Gradebook('input:radio[name="gradeCourse"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
-                        }
-
-                        /*{{^isAdmin}}*/
-                        if (data.comment == '')
-                            jQuery1816Gradebook("#courseCommentPlaceholder").hide();
-                        if (data.grade == null)
-                            jQuery1816Gradebook("#courseGradePlaceholder").hide();
-                        /*{{/isAdmin}}*/
-                        jQuery1816Gradebook("#courseGrade-dialog-form").dialog('open');
-                        jQuery("#userID").attr("value", userID);
-                    }, this)
-            ).fail(function () {
-                /*{{^isAdmin}}*/
-                jQuery1816Gradebook("#courseGradeWrapper").hide();
-                /*{{/isAdmin}}*/
-                jQuery1816Gradebook('input:radio[name="gradeCourse"]').prop('checked', false);
-                jQuery1816Gradebook("#gradeCourseTextarea").val("");
-                jQuery1816Gradebook("#courseGrade-dialog-form").dialog('open');
-                jQuery("#userID").attr("value", userID);
-            });
-}
-
-function saveCourseGradeFunc() {
-    jQuery.ajax({
-        type:'POST',
-        dataType:'json',
-        url:Utils.getContextPath() + "/services/gradebook/SaveCourseGradeAndComment",
-        data:{courseID:jQuery1816Gradebook("#courseID").val(),
-            userID:jQuery1816Gradebook("#userID").attr("value"),
-            grade:jQuery("input:radio[name=gradeCourse]:checked").val(),
-            comment:jQuery("#gradeCourseTextarea").val()},
-        success:function () {
-            printReport();
-            jQuery1816Gradebook("#courseGrade-dialog-form").dialog('close');
-
-        },
-        fail:function () {
-            alert("{{courseDataFail}}");
-        }
-    });
-}
-
-function printReport() {
-    var packageID = jQuery1816Gradebook("#gradebookPackageChoice").val();
-    var userID = jQuery1816Gradebook("#gradebookUserChoice").val();
-    var courseID = jQuery1816Gradebook("#courseID").val();
-    if (!userID) {
-        jQuery1816Gradebook("#gradebookWrapper").hide();
-        jQuery1816Gradebook("#noGradebookContent").show();
-        jQuery1816Gradebook("#courseGradeWrapper").hide();
-        jQuery1816Gradebook("#gradebookPackageChoice").hide();
-        return;
+    function onGradeListChanged() {
+        if (gradebookView != null && jQuery("#detailed").val() != 'true')
+            gradebookView.reloadGradeList(); //uncomment to reactive
     }
 
-    //Allstudents option in student select is chosen
-    if (userID == 0) {
-        window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + "user/" + userID + "/" + packageID + "/" + courseID,
-                        jQuery1816Gradebook.proxy(function (data) {
-                            jQuery1816Gradebook("#noGradebookContent").hide();
-                            jQuery1816Gradebook("#gradebookWrapper").show();
-                            jQuery1816Gradebook("#courseGradeWrapper").hide();
-                            jQuery1816Gradebook("#studentsOverview").show()
-                            jQuery(".jstree-grid-wrapper").hide()
-                            jQuery1816Gradebook("#gradebookPackageChoice").hide();
-                            drawTable(data);
-                        }, this)
-                ).fail(function () {
-                    jQuery1816Gradebook("#noGradebookContent").show();
-                    jQuery1816Gradebook("#gradebookWrapper").hide();
-                    jQuery1816Gradebook("#courseGradeWrapper").hide();
-                    jQuery1816Gradebook("#studentsOverview").hide()
-                });
+    function getCheckedPackages(all){
+        var listPackages = jQuery1816Gradebook('#package-multiselect input'+(all?'':':checked')).map(function(){
+            return this.value;
+        }).get();
+
+        return listPackages;
+
+//        var listPackages = [];
+//        jQuery1816Gradebook("#package-multiselect input").each(function (i) {
+//            if(all || this.checked)
+//                listPackages.push({selectedPackages:this.value});
+//        });
+//        return listPackages;
     }
-    else {
-        jQuery1816Gradebook("#gradebookPackageChoice").show();
-        jQuery1816Gradebook("#studentsOverview").hide();
-        window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetResultsForPackage/" + "user/" + userID + "/" + packageID + "/" + courseID,
-                        jQuery1816Gradebook.proxy(function (data) {
-                            jQuery1816Gradebook("#noGradebookContent").hide();
-                            jQuery1816Gradebook("#gradebookWrapper").show();
-                            drawTree(formatJsonEntitiesToJSTree(data));
-                        }, this)
-                ).fail(function () {
-                    jQuery1816Gradebook("#gradebookWrapper").hide();
-                    jQuery1816Gradebook("#noGradebookContent").show();
-                    jQuery1816Gradebook("#courseGradeWrapper").hide();
-                });
-
-
-        if (packageID != 0) {
-            jQuery1816Gradebook("#courseGradeWrapper").hide();
-        }
-        else {
-            jQuery1816Gradebook("#courseComment").val('');
-            jQuery1816Gradebook('input:radio[name="courseGrade"]').attr('checked', false);
-
-            jQuery1816Gradebook("#courseGradeWrapper").show();
-            window.LearnAjax.get(Utils.getContextPath() + "/services/gradebook/GetCourseInfo/" + courseID + "/user/" + userID,
-                            jQuery1816Gradebook.proxy(function (data) {
-                                jQuery1816Gradebook("#courseComment").val(data.comment);
-                                if (data.grade != null) {
-                                    jQuery1816Gradebook('input:radio[name="courseGrade"]').filter('[value="' + data.grade + '"]').attr('checked', 'checked');
-                                }
-
-                                /*{{^isAdmin}}*/
-                                if (data.comment == '')
-                                    jQuery1816Gradebook("#courseCommentPlaceholder").hide();
-                                if (data.grade == null)
-                                    jQuery1816Gradebook("#courseGradePlaceholder").hide();
-                                /*{{/isAdmin}}*/
-
-                            }, this)
-                    ).fail(function () {
-                        /*{{^isAdmin}}*/
-                        jQuery1816Gradebook("#courseGradeWrapper").hide();
-                        /*{{/isAdmin}}*/
-                    });
-        }
-    }
-
-}
-
-/*{{#isAdmin}}*/
-function saveEssayGrade() {
-    window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/gradebook/UpdateScoreAndStatus", "post", {
-        packageID:jQuery1816Gradebook("#currentPackageID").val(),
-        userID:jQuery1816Gradebook("#gradebookUserChoice").val(),
-        activityID:currentActivityID,
-        score:jQuery("input:radio[name=grade]:checked").val(),
-        essayComment:jQuery("#essayComment").val()
-    });
-    closeReviewDialog();
-    printReport();
-}
-
-function saveCourseGrade() {
-    jQuery.ajax({
-        type:'POST',
-        dataType:'json',
-        url:Utils.getContextPath() + "/services/gradebook/SaveCourseGradeAndComment",
-        data:{courseID:jQuery1816Gradebook("#courseID").val(),
-            userID:jQuery1816Gradebook("#gradebookUserChoice").val(),
-            grade:jQuery("input:radio[name=courseGrade]:checked").val(),
-            comment:jQuery("#courseComment").val()},
-        success:function () {
-            alert("{{courseDataSavedSuccessfully}}");
-        },
-        fail:function () {
-            alert("{{courseDataFail}}");
-        }
-    });
-}
-/*{{/isAdmin}}*/
-function closeReviewDialog() {
-    jQuery1816Gradebook('input:radio[name="grade"]').attr('checked', false);
-    jQuery1816Gradebook("#dialog-form").dialog('close');
-}
-
-function closeReviewDialogFunc() {
-    jQuery1816Gradebook('input:radio[name="grade"]').attr('checked', false);
-    jQuery1816Gradebook("#courseGrade-dialog-form").dialog('close');
-}
-
-function closeReviewAnswerDialog() {
-    jQuery1816Gradebook("#answer-dialog-form").dialog('close');
-}
 
 </script>
-</head>
-<body onload="printReport()">
-<div class="projectLearnGeneric">
-<div class="SCORMTitle">{{pageSubTitleLabel}}</div>
-<br clear="all"/>
 
-<div id="gradebookSettings" class="gradebookSettings">
-    <div class="SCORMGradebookUserChoice">
-        <!--{{#isAdmin}}-->
-        <select id="gradebookUserChoice" onchange="printReport()">
-            <option value="">{{gradebookSelectStudentMessage}}</option>
-            <option value="0">{{selectAllStudents}}</option>
-            {{#users}}
-            <option value="{{id}}">{{name}}</option>
-            {{/users}}
-        </select>
-        <!--{{/isAdmin}}-->
-        <!--{{^isAdmin}}-->
-        <b>{{userName}}</b>
-        <input type="hidden" id="gradebookUserChoice" value="{{userID}}"/>
-        <!--{{/isAdmin}}-->
-    </div>
-    <div class="SCORMGradebookPackageChoice">
-        <select id="gradebookPackageChoice" onchange="printReport()">
-            <option value="0">{{selectAll}}</option>
-            {{#packages}}
-            <option value="{{id}}">{{name}}</option>
-            {{/packages}}
-        </select>
-    </div>
-</div>
-<div id="gradebookWrapper">
-    <div id="gradebookTable" class="gradebookTable">
-        <div id="jsTreeGradebook"></div>
-        <div id="studentsOverview"></div>
-    </div>
-</div>
-<div id="noGradebookContent">
-    <b>{{noContentLabel}}</b>
-</div>
 
-<div id="courseGradeWrapper">
-    <div id="courseCommentPlaceholder">
-        <label for="courseComment">{{courseCommentLabel}}</label>
-
-        <textarea rows="10" style="width: 100%" id="courseComment"
-        {{^isAdmin}}readonly="readonly"{{/isAdmin}}></textarea>
-    </div>
-    <div id="courseGradePlaceholder">
-        <label>{{gradeLabel}}</label>
-        <table class="gradeTable">
-            <tr>
-                <td><input type="radio" value="0" title="0" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.1" title="1" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.2" title="2" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.3" title="3" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.4" title="4" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.5" title="5" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.6" title="6" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.7" title="7" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="0.8" title="8" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}} />
-                </td>
-                <td><input type="radio" value="0.9" title="9" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-                <td><input type="radio" value="1" title="10" name="courseGrade" {{^isAdmin}}disabled{{/isAdmin}}/>
-                </td>
-            </tr>
-            <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-            </tr>
-        </table>
-    </div>
-    <!--{{#isAdmin}}-->
-    <input type="button" class="textbutton" onclick="saveCourseGrade()" value="{{saveButtonLabel}}"/>
-    <!--{{/isAdmin}}-->
-</div>
-
-<div id="courseGrade-dialog-form" title="{{reviewDialogTitleLabel}}">
-    <div class="SCORMGradebookDialogButtons">
-        <label>{{GradeCourseLabel}}</label>
-        <textarea rows="5" style="width: 100%" id="gradeCourseTextarea"
-        {{^isAdmin}}readonly="readonly"{{/isAdmin}}></textarea>
-
-        <!--{{#isAdmin}}-->
-        <div>
-            <label>{{gradeLabel}}</label>
-            <table class="gradeTable">
-                <tr>
-                    <td><input type="radio" value="0" title="0" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.1" title="1" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.2" title="2" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.3" title="3" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.4" title="4" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.5" title="5" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.6" title="6" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.7" title="7" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.8" title="8" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="0.9" title="9" name="gradeCourse" align="left"/></td>
-                    <td><input type="radio" value="1" title="10" name="gradeCourse" align="left"/></td>
-                </tr>
-                <tr>
-                    <td>0</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                </tr>
-            </table>
-        </div>
-        <!--{{/isAdmin}}-->
-        <div class="float-right" style="float: right;">
-            <!--{{#isAdmin}}-->
-            <input type="button" class="textbutton" onclick="saveCourseGradeFunc()"
-                   value="{{saveButtonLabel}}"/>
-            <!--{{/isAdmin}}-->
-            <input type="button" class="textbutton" onclick="closeReviewDialogFunc()"
-                   value="{{reviewDialogCloseButtonLabel}}"/>
-        </div>
-
-        <div class="clear"></div>
-        <input type="hidden" value="" id="currPackageID"/>
-        <input type="hidden" id="userID"/>
-    </div>
-</div>
-
-<div id="answer-dialog-form" title="{{userAnswer}}">
-    <div id="reviewAnswer"></div>
-    <div class="float-right" style="float: right;">
-        <input type="button" class="textbutton" onclick="closeReviewAnswerDialog()"
-               value="{{reviewDialogCloseButtonLabel}}"/>
-    </div>
-</div>
-
-<div id="dialog-form" title="{{reviewDialogTitleLabel}}">
-    <div id="reviewContentQuestionText"></div>
-    <hr>
-    <pre id="reviewContent"></pre>
-    <br>
-
-    <div class="SCORMGradebookDialogButtons">
-        <label for="essayComment">{{essayCommentLabel}}</label>
-
-        <textarea rows="5" style="width: 100%" id="essayComment"
-        {{^isAdmin}}readonly="readonly"{{/isAdmin}}></textarea>
-
-        <!--{{#isAdmin}}-->
-        <div>
-            <label>{{gradeLabel}}</label>
-            <table class="gradeTable">
-                <tr>
-                    <td><input type="radio" value="0" title="0" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.1" title="1" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.2" title="2" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.3" title="3" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.4" title="4" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.5" title="5" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.6" title="6" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.7" title="7" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.8" title="8" name="grade" align="left"/></td>
-                    <td><input type="radio" value="0.9" title="9" name="grade" align="left"/></td>
-                    <td><input type="radio" value="1" title="10" name="grade" align="left"/></td>
-                </tr>
-                <tr>
-                    <td>0</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                </tr>
-            </table>
-        </div>
-        <!--{{/isAdmin}}-->
-        <div class="float-right" style="float: right;">
-            <!--{{#isAdmin}}-->
-            <input type="button" class="textbutton" onclick="saveEssayGrade()"
-                   value="{{saveButtonLabel}}"/>
-            <!--{{/isAdmin}}-->
-            <input type="button" class="textbutton" onclick="closeReviewDialog()"
-                   value="{{reviewDialogCloseButtonLabel}}"/>
-        </div>
-
-        <div class="clear"></div>
-        <input type="hidden" value="" id="currentPackageID"/>
-    </div>
-</div>
-<br>
-<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-<input type="hidden" id="courseID" value="{{courseID}}"/>
-</div>
 </body>
+
 </html>

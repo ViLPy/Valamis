@@ -1,3 +1,3 @@
 package com.arcusys.tincan.manifest.parser
 
-class TinCanParserException(message:String) extends RuntimeException(message){}
+class TinCanParserException(message: String) extends RuntimeException(message) {}

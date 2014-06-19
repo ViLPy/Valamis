@@ -1,6 +1,5 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-
 // Navigation request response model for handling navigation request result
 // taken from Navigation Request Process [NB.2.1] (SN SCORM book)
 sealed abstract class NavigationResponse {}

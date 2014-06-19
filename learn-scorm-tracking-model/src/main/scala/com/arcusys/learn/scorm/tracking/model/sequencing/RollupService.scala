@@ -20,7 +20,7 @@ class RollupService extends RollupServiceContract {
         activity.averageChildWeightedMeasure match {
           case Some(measure) => activity.item.objectiveStates(None).setNormalizedMeasure(measure)
           //One of the children does not have a primary objective. Don't roll up
-          case None => {}
+          case None          => {}
         }
       }
     }
@@ -132,8 +132,8 @@ class RollupService extends RollupServiceContract {
         return false
       } else {
         rule.childActivitySet match {
-          case ChildActivitySetAll => return contributingChildrenBag.find(item => !item).isEmpty
-          case ChildActivitySetAny => return contributingChildrenBag.find(item => item).isDefined
+          case ChildActivitySetAll  => return contributingChildrenBag.find(item => !item).isEmpty
+          case ChildActivitySetAny  => return contributingChildrenBag.find(item => item).isDefined
           case ChildActivitySetNone => return contributingChildrenBag.find(item => item).isEmpty
           case ChildActivitySetAtLeastCount(count) => {
             return contributingChildrenBag.filter(item => item).size >= count

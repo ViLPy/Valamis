@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.{ScopeType, PackageScopeRule}
+import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PackageScopeRule }
 import com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule
@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
  * Date: 12.04.13
  */
 trait LFPackageScopeRuleStorageImpl extends EntityStorage[PackageScopeRule] {
-  protected def doRenew() { LFPackageScopeRuleLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFPackageScopeRuleLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val lfRule = parameters match {
@@ -59,7 +59,7 @@ trait LFPackageScopeRuleStorageImpl extends EntityStorage[PackageScopeRule] {
   }
 
   def delete(parameters: (String, Any)*) {
-    LFPackageScopeRuleLocalServiceUtil.findByPackageID(LiferayCommon.getParameter("packageID", parameters: _*).get).asScala.foreach(i=>{
+    LFPackageScopeRuleLocalServiceUtil.findByPackageID(LiferayCommon.getParameter("packageID", parameters: _*).get).asScala.foreach(i => {
       LFPackageScopeRuleLocalServiceUtil.deleteLFPackageScopeRule(i.getId)
     })
   }
@@ -86,10 +86,9 @@ trait LFPackageScopeRuleStorageImpl extends EntityStorage[PackageScopeRule] {
     if (sqlKey.equalsIgnoreCase("_getDefaultPackage")) {
       parameters match {
         case Seq(("scope", scope: String), ("scopeID", scopeID: String)) => {
-          try{
-          Option(LFPackageScopeRuleLocalServiceUtil.findByScopeAndIsDefault(scope, if (scopeID == "-1") null else scopeID, true)).map(extract)
-          }
-          catch {
+          try {
+            Option(LFPackageScopeRuleLocalServiceUtil.findByScopeAndIsDefault(scope, if (scopeID == "-1") null else scopeID, true)).map(extract)
+          } catch {
             case _ => None
           }
         }

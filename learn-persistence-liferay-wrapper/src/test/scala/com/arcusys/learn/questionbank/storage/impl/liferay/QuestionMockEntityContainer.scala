@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
  * Date: 20.3.2013
  */
 
-object QuestionMockEntityContainer extends MockKeyedEntityContainer[LFQuestionLocalService, LFQuestion]{
+object QuestionMockEntityContainer extends MockKeyedEntityContainer[LFQuestionLocalService, LFQuestion] {
   lazy val mockServiceBeanName = classOf[LFQuestionLocalService].getName
   lazy val mockLocalService = mock[LFQuestionLocalService]
 
@@ -61,8 +61,8 @@ object QuestionMockEntityContainer extends MockKeyedEntityContainer[LFQuestionLo
     internalStorage.values.filter(entity => courseIds.contains(
       Option(entity.getCourseId).getOrElse(nullInteger)
     ) && categoryIds.contains(
-      Option(entity.getCategoryId).getOrElse(nullInteger)
-    )).toList.sortBy(_.getArrangementIndex).asJava
+        Option(entity.getCategoryId).getOrElse(nullInteger)
+      )).toList.sortBy(_.getArrangementIndex).asJava
   }
 
 }

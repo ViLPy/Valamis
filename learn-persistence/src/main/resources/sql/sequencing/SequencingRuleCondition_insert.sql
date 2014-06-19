@@ -1,2 +1,0 @@
-INSERT INTO SequencingRuleCondition(conditionRuleID, conditionType, inverseCondition, objectiveID, measureThreshold)
-VALUES (:conditionRuleID, :e.conditionType, :e.inverseCondition, :e.objectiveID, :e.measureThreshold)

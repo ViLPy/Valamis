@@ -7,7 +7,7 @@ import com.arcusys.learn.persistence.liferay.model.LFActivityDataMap
 import scala.collection.JavaConverters._
 
 trait LFActivityDataMapStorageImpl extends EntityStorage[ActivityDataMap] {
-  protected def doRenew() { LFActivityDataMapLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFActivityDataMapLocalServiceUtil.removeAll() }
 
   def extract(entity: LFActivityDataMap) =
     new ActivityDataMap(entity.getTargetId, entity.getReadSharedData, entity.getWriteSharedData)
@@ -28,10 +28,11 @@ trait LFActivityDataMapStorageImpl extends EntityStorage[ActivityDataMap] {
     newEntity.setWriteSharedData(entity.writeSharedData)
 
     parameters.foreach {
-      param => param match {
-        case ("packageID", value: Int) => newEntity.setPackageID(value)
-        case ("activityID", value: String) => newEntity.setActivityID(value)
-      }
+      param =>
+        param match {
+          case ("packageID", value: Int)     => newEntity.setPackageID(value)
+          case ("activityID", value: String) => newEntity.setActivityID(value)
+        }
     }
     LFActivityDataMapLocalServiceUtil.addLFActivityDataMap(newEntity)
   }

@@ -1,9 +1,9 @@
 package com.arcusys.learn.social.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.persistence.liferay.service.{LFPackageVoteLocalServiceUtil, LFPackageCommentLocalServiceUtil}
-import com.arcusys.learn.social.model.{PackageVote, PackageComment}
-import com.arcusys.learn.persistence.liferay.model.{LFPackageVote, LFPackageComment}
+import com.arcusys.learn.persistence.liferay.service.{ LFPackageVoteLocalServiceUtil, LFPackageCommentLocalServiceUtil }
+import com.arcusys.learn.social.model.{ PackageVote, PackageComment }
+import com.arcusys.learn.persistence.liferay.model.{ LFPackageVote, LFPackageComment }
 import scala.collection.JavaConverters._
 
 trait LFPackageVoteStorageImpl extends KeyedEntityStorage[PackageVote] {
@@ -19,7 +19,7 @@ trait LFPackageVoteStorageImpl extends KeyedEntityStorage[PackageVote] {
 
   def getAll(parameters: (String, Any)*): Seq[PackageVote] = parameters match {
     case Seq(("packageID", packageID: Int)) => LFPackageVoteLocalServiceUtil.findBySocialPackageID(packageID).asScala.map(extract)
-    case _ => Nil
+    case _                                  => Nil
   }
 
   def createAndGetID(entity: PackageVote, parameters: (String, Any)*): Int = {

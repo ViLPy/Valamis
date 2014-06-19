@@ -13,13 +13,13 @@ object FileSystemUtil {
     else sourceLocationUrl.getFile.replaceAll("%20", " ")
   }
   // extract path to SCORM packages data directory
-  private lazy val outputRealDir : String = try {
+  private lazy val outputRealDir: String = try {
     if (sourceLocation.contains("/WEB-INF"))
       sourceLocation.substring(0, sourceLocation.lastIndexOf("/WEB-INF"))
     else
       "/tmp"
   } catch {
-    case _ => sourceLocation
+    case _: Throwable => sourceLocation
   }
 
   def getTmpDir = "/SCORMData/tmp/"

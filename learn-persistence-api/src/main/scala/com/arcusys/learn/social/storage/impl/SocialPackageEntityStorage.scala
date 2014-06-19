@@ -1,6 +1,6 @@
 package com.arcusys.learn.social.storage.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.social.model.SocialPackage
 import com.arcusys.learn.social.storage.SocialPackageStorage
 

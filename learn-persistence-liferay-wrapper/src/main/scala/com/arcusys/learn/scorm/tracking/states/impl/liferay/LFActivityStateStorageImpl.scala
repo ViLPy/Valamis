@@ -2,14 +2,14 @@ package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorageExt
 import com.arcusys.learn.scorm.tracking.model.ActivityState
-import com.arcusys.learn.persistence.liferay.service.{LFAttemptLocalServiceUtil, LFActivityStateNodeLocalServiceUtil, LFActivityStateTreeLocalServiceUtil, LFActivityStateLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFAttemptLocalServiceUtil, LFActivityStateNodeLocalServiceUtil, LFActivityStateTreeLocalServiceUtil, LFActivityStateLocalServiceUtil }
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFActivityState
 import com.arcusys.learn.scorm.tracking.states.storage.impl.ActivityStateFieldsMapper
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
 trait LFActivityStateStorageImpl extends KeyedEntityStorageExt[ActivityState] {
-  protected def doRenew() { LFActivityStateLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFActivityStateLocalServiceUtil.removeAll() }
 
   def extract(entity: LFActivityState) = {
     val mapper = new ActivityStateFieldsMapper {
@@ -62,29 +62,30 @@ trait LFActivityStateStorageImpl extends KeyedEntityStorageExt[ActivityState] {
   def createAndGetID(entity: ActivityState, parameters: (String, Any)*): Int = {
     val newEntity = LFActivityStateLocalServiceUtil.createLFActivityState()
     parameters.foreach {
-      param => param match {
-        case ("activityStateNodeID", value: Int) => {
-          newEntity.setActivityStateNodeID(value)
-          newEntity.setActivityID(entity.activity.id)
-          newEntity.setActive(entity.active)
-          newEntity.setSuspended(entity.suspended)
-          newEntity.setAttemptCompleted(entity.attemptCompleted.getOrElse(null).asInstanceOf[java.lang.Boolean])
-          newEntity.setAttemptCompletionAmount(entity.attemptCompletionAmount.getOrElse(null))
-          newEntity.setAttemptAbsoluteDuration(entity.attemptAbsoluteDuration)
-          newEntity.setAttemptExperiencedDuration(entity.attemptExperiencedDuration)
-          newEntity.setActivityAbsoluteDuration(entity.activityAbsoluteDuration)
-          newEntity.setActivityExperiencedDuration(entity.activityExperiencedDuration)
-          newEntity.setAttemptCount(entity.attemptCount)
-          newEntity.setActivityStateTreeID(null)
-          val activityState = LFActivityStateNodeLocalServiceUtil.getLFActivityStateNode(value)
-          require(activityState != null, throw new UnsupportedOperationException("Activity state node should exists"))
-          val stateTree = LFActivityStateTreeLocalServiceUtil.getLFActivityStateTree(activityState.getTreeID.toLong)
-          require(stateTree != null, throw new UnsupportedOperationException("Activity state tree should exists"))
-          val attempt = LFAttemptLocalServiceUtil.getLFAttempt(stateTree.getAttemptID.toLong)
-          require(attempt != null, throw new UnsupportedOperationException("Attempt should exists"))
-          newEntity.setPackageID(attempt.getPackageID)
+      param =>
+        param match {
+          case ("activityStateNodeID", value: Int) => {
+            newEntity.setActivityStateNodeID(value)
+            newEntity.setActivityID(entity.activity.id)
+            newEntity.setActive(entity.active)
+            newEntity.setSuspended(entity.suspended)
+            newEntity.setAttemptCompleted(entity.attemptCompleted.getOrElse(null).asInstanceOf[java.lang.Boolean])
+            newEntity.setAttemptCompletionAmount(entity.attemptCompletionAmount.getOrElse(null))
+            newEntity.setAttemptAbsoluteDuration(entity.attemptAbsoluteDuration)
+            newEntity.setAttemptExperiencedDuration(entity.attemptExperiencedDuration)
+            newEntity.setActivityAbsoluteDuration(entity.activityAbsoluteDuration)
+            newEntity.setActivityExperiencedDuration(entity.activityExperiencedDuration)
+            newEntity.setAttemptCount(entity.attemptCount)
+            newEntity.setActivityStateTreeID(null)
+            val activityState = LFActivityStateNodeLocalServiceUtil.getLFActivityStateNode(value)
+            require(activityState != null, throw new UnsupportedOperationException("Activity state node should exists"))
+            val stateTree = LFActivityStateTreeLocalServiceUtil.getLFActivityStateTree(activityState.getTreeID.toLong)
+            require(stateTree != null, throw new UnsupportedOperationException("Activity state tree should exists"))
+            val attempt = LFAttemptLocalServiceUtil.getLFAttempt(stateTree.getAttemptID.toLong)
+            require(attempt != null, throw new UnsupportedOperationException("Attempt should exists"))
+            newEntity.setPackageID(attempt.getPackageID)
+          }
         }
-      }
     }
     LFActivityStateLocalServiceUtil.addLFActivityState(newEntity).getId.toInt
   }
@@ -142,5 +143,5 @@ trait LFActivityStateStorageImpl extends KeyedEntityStorageExt[ActivityState] {
 
   def getOne(sqlKey: String, parameters: (String, Any)*): Option[ActivityState] = throw new UnsupportedOperationException("Not implemented")
 
-  def modify(sqlKey: String, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def modify(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 }

@@ -1,0 +1,59 @@
+@charset "UTF-8";
+/* CSS Document */
+
+select {
+	-webkit-appearance: none;
+	border: 1px solid;
+	line-height: 32px;
+	font-size: 13px;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-family: Ubuntu;
+	letter-spacing: 0.03em;
+	border-radius: 2px;
+	padding: 0px 14px;
+	padding-right: 34px;
+	cursor: pointer;
+	margin: 0px;
+	background-repeat: no-repeat!important;
+	transition: 0.05s all linear;
+	-webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.03);
+}
+
+select:focus {
+	outline: none;
+}
+
+select.grey {
+	background-color: #fbfbfb;
+	background-image: url(../images/select.png);
+	background-position: right center;
+	border-color: #d3d4d5;
+	color: #777777;
+}
+
+select.grey:hover {
+	background-color: #f0f0f0;
+	color: #555555;
+}
+
+select.fluid {
+	width: 100%;
+}
+
+select.fixed {
+	width: 260px;
+}
+
+.select {
+	margin-bottom: 20px;
+}
+
+.select-title {
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	line-height: 14px;
+	margin-bottom: 8px;
+}

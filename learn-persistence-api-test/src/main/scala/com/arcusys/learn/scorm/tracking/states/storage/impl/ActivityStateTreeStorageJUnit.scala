@@ -1,17 +1,16 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.manifest.storage.{PackagesStorage, ActivitiesStorage}
+import com.arcusys.learn.scorm.manifest.storage.{ PackagesStorage, ActivitiesStorage }
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.tracking.storage.UserStorage
-import com.arcusys.learn.scorm.tracking.states.storage.{ActivityStateStorage, ActivityStateTreeStorage}
+import com.arcusys.learn.scorm.tracking.states.storage.{ ActivityStateStorage, ActivityStateTreeStorage }
 
 import org.junit.Assert._
-import org.junit.{Test, Before}
+import org.junit.{ Test, Before }
 
 import scala.collection.mutable
 import com.arcusys.learn.scorm.tracking.storage.impl.AttemptEntityStorage
-
 
 trait ActivityStateTreeStorageJUnit {
   def packagesStorage: PackagesStorage
@@ -32,7 +31,7 @@ trait ActivityStateTreeStorageJUnit {
 
   @Test
   def canStoreAndModify() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ), Some(0))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title", courseID = Some(0), isDefault = false), Some(0))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))
@@ -156,7 +155,7 @@ trait ActivityStateTreeStorageJUnit {
 
   @Test
   def canAutoDeleteWithAttempt() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ), Some(0))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title", courseID = Some(0), isDefault = false), Some(0))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))
@@ -216,7 +215,7 @@ trait ActivityStateTreeStorageJUnit {
 
   @Test
   def canStoreAndModifyGlobalObjectives() {
-    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ), Some(0))
+    val testPackageId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title", courseID = Some(0), isDefault = false), Some(0))
     val organization = new Organization("Organization1", "Test organization 1")
     val container = new ContainerActivity("container1", "Test container", "Organization1", "Organization1")
     val leaf1 = new LeafActivity("leaf1", "test leaf1", "container1", "Organization1", "sco", Some("param"))

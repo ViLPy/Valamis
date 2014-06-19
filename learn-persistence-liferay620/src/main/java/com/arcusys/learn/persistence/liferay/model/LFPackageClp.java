@@ -27,6 +27,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
     private String _summary;
     private Long _assetRefID;
     private Integer _courseID;
+    private String _logo;
     private BaseModel<?> _lfPackageRemoteModel;
 
     public LFPackageClp() {
@@ -74,6 +75,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         attributes.put("summary", getSummary());
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
+        attributes.put("logo", getLogo());
 
         return attributes;
     }
@@ -127,6 +129,12 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
     }
 
@@ -307,6 +315,28 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         }
     }
 
+    @Override
+    public String getLogo() {
+        return _logo;
+    }
+
+    @Override
+    public void setLogo(String logo) {
+        _logo = logo;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLogo", String.class);
+
+                method.invoke(_lfPackageRemoteModel, logo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFPackageRemoteModel() {
         return _lfPackageRemoteModel;
     }
@@ -382,6 +412,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         clone.setSummary(getSummary());
         clone.setAssetRefID(getAssetRefID());
         clone.setCourseID(getCourseID());
+        clone.setLogo(getLogo());
 
         return clone;
     }
@@ -427,7 +458,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{id=");
         sb.append(getId());
@@ -445,6 +476,8 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         sb.append(getAssetRefID());
         sb.append(", courseID=");
         sb.append(getCourseID());
+        sb.append(", logo=");
+        sb.append(getLogo());
         sb.append("}");
 
         return sb.toString();
@@ -452,7 +485,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFPackage");
@@ -489,6 +522,10 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         sb.append(
             "<column><column-name>courseID</column-name><column-value><![CDATA[");
         sb.append(getCourseID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

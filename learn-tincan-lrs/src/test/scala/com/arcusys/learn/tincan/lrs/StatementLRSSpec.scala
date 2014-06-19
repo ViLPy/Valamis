@@ -4,22 +4,21 @@ import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
 import org.junit.runner.RunWith
 
-import java.util.{Date, UUID}
+import java.util.{ Date, UUID }
 import java.net.URI
 
 import com.arcusys.learn.tincan.storage.StatementStorage
-import com.arcusys.learn.tincan.model.{Verb, Agent, Statement}
-import com.arcusys.learn.tincan.lrs.statement.{StatementLRSAlreadyExistsException, StatementLRSException, StatementLRSArgumentException}
-
+import com.arcusys.learn.tincan.model.{ Verb, Agent, Statement }
+import com.arcusys.learn.tincan.lrs.statement.{ StatementLRSAlreadyExistsException, StatementLRSException, StatementLRSArgumentException }
 
 @RunWith(classOf[JUnitRunner])
-class StatementLRSSpec extends Specification { sequential
+class StatementLRSSpec extends Specification {
+  sequential
   private val storage = InMemoryStatementStorage
 
   private val service = new statement.StatementLRS {
     val statementStorage = InMemoryStatementStorage
   }
-
 
   "The 'addStatement' method" should {
 
@@ -47,7 +46,6 @@ class StatementLRSSpec extends Specification { sequential
     }
 
   }
-
 
   "The 'addStatements' method" should {
 
@@ -93,7 +91,6 @@ class StatementLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'getStatement' method" should {
 
     "return a statement by given id if exists" in {
@@ -113,7 +110,6 @@ class StatementLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'getStatements' method" should {
 
     "throw 'StatementLRSException' if both statementId and voidedStatementId are specified" in {
@@ -124,7 +120,7 @@ class StatementLRSSpec extends Specification { sequential
       service.getStatements(filter) must throwA[StatementLRSException]
     }
 
-    "throw 'StatementLRSException' if specified statementId and agent"  in {
+    "throw 'StatementLRSException' if specified statementId and agent" in {
       val filter = statement.StatementFilter(
         Some("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"), None,
         Some(Agent("Agent", None, None, None, None, None)),
@@ -176,7 +172,7 @@ class StatementLRSSpec extends Specification { sequential
       service.getStatements(filter) must throwA[StatementLRSException]
     }
 
-    "throw 'StatementLRSException' if specified voidedId and agent"  in {
+    "throw 'StatementLRSException' if specified voidedId and agent" in {
       val filter = statement.StatementFilter(
         None, Some("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"),
         Some(Agent("Agent", None, None, None, None, None)),
@@ -232,7 +228,6 @@ class StatementLRSSpec extends Specification { sequential
 
 }
 
-
 object InMemoryStatementStorage extends StatementStorage {
   val statement = Statement(
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"),
@@ -255,7 +250,7 @@ object InMemoryStatementStorage extends StatementStorage {
       id = UUID.fromString("40d10a63-2c37-4071-9595-793af98e89b0"),
       verb = Verb("verbId2", Map.empty[String, String]))
   )
-  private[this] val  lock = new AnyRef
+  private[this] val lock = new AnyRef
 
   def all = statements
 

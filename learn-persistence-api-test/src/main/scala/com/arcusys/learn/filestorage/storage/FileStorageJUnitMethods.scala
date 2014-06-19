@@ -1,6 +1,6 @@
 package com.arcusys.learn.filestorage.storage
 
-import org.junit.{Before, Test}
+import org.junit.{ Before, Test }
 import org.junit.Assert._
 
 /**

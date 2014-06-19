@@ -1,7 +1,7 @@
 package com.arcusys.learn.questionbank.storage.impl
 
-import com.arcusys.learn.questionbank.storage.{AnswerStorage, QuestionStorage}
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.questionbank.storage.{ AnswerStorage, QuestionStorage }
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.questionbank.model._
 
 /**
@@ -126,15 +126,14 @@ trait QuestionEntityStorage extends QuestionStorage with KeyedEntityStorageExt[Q
       createAndGetID(entity,
         "categoryID" -> entity.categoryID,
         "forceCorrectCount" -> (entity match {
-          case e: ChoiceQuestion => Some(e.forceCorrectCount)
+          case e: ChoiceQuestion      => Some(e.forceCorrectCount)
           case e: PositioningQuestion => Some(e.forceCorrectCount)
-          case _ => None
+          case _                      => None
         }),
         "isCaseSensitive" -> (entity match {
           case e: TextQuestion => Some(e.isCaseSensitive)
-          case _ => None
-        })
-        ,
+          case _               => None
+        }),
         "arrangementIndex" -> (maxArrangementIndex(getByCategory(entity.categoryID, entity.courseID)) + 1)
       )
     answerStorage.createForQuestion(questionId, entity.answers)
@@ -145,20 +144,20 @@ trait QuestionEntityStorage extends QuestionStorage with KeyedEntityStorageExt[Q
     modify(entity,
       "categoryID" -> entity.categoryID,
       "forceCorrectCount" -> (entity match {
-        case e: ChoiceQuestion => Some(e.forceCorrectCount)
+        case e: ChoiceQuestion      => Some(e.forceCorrectCount)
         case e: PositioningQuestion => Some(e.forceCorrectCount)
-        case _ => None
+        case _                      => None
       }),
       "isCaseSensitive" -> (entity match {
         case e: TextQuestion => Some(e.isCaseSensitive)
-        case _ => None
+        case _               => None
       })
     )
     answerStorage.deleteByQuestion(entity.id)
     answerStorage.createForQuestion(entity.id, entity.answers)
   }
 
-  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean) {
+  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean) {
     val questionForUpdate = getByID(id).get
     val oldChildren: Seq[Question[Answer]] = getByCategory(parentID, questionForUpdate.courseID)
 
@@ -185,7 +184,7 @@ trait QuestionEntityStorage extends QuestionStorage with KeyedEntityStorageExt[Q
           doMove(forUpdate, forIndex)
         } else {
           val forIndex = spannedChildren._1 ++ spannedChildren._2.headOption
-          val forUpdate = if (spannedChildren._2.isEmpty)  Nil else spannedChildren._2.tail
+          val forUpdate = if (spannedChildren._2.isEmpty) Nil else spannedChildren._2.tail
           doMove(forUpdate, forIndex)
         }
       }

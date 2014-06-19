@@ -1,8 +1,10 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
+import com.arcusys.learn.liferay.constants.QueryUtilHelper
 
 class PackageService(implicit val bindingModule: BindingModule) extends Injectable {
   val storageFactory = inject[StorageFactoryContract]
@@ -43,28 +45,38 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     val instanceScope = storageFactory.packageScopeRuleStorage.get(packageID, scope, scopeID)
     if (instanceScope != None) {
       storageFactory.packageScopeRuleStorage.update(packageID, scope, scopeID, visibility, isDefault)
-    }
-    else storageFactory.packageScopeRuleStorage.create(packageID, scope, scopeID, visibility, isDefault)
+    } else storageFactory.packageScopeRuleStorage.create(packageID, scope, scopeID, visibility, isDefault)
   }
 
-  def getVisiblePackages(playerID: String, courseIDs: List[Int], courseID: Int, pageID: String) = {
+  def getVisiblePackages(playerID: String, companyID: Long, courseID: Int, pageID: String) = {
     val rule = storageFactory.playerScopeRuleStorage.get(playerID)
     val scope = if (rule.isEmpty) ScopeType.Site else rule.get.scope
     scope match {
-      case ScopeType.Instance => storageFactory.packageStorage.getInstanceScopeOnlyVisible(courseIDs)
-      case ScopeType.Site => storageFactory.packageStorage.getOnlyVisible(scope, courseID.toString)
-      case ScopeType.Page => storageFactory.packageStorage.getOnlyVisible(scope, pageID)
+      case ScopeType.Instance => {
+        val courseIDs = getAllCourseIDs(companyID)
+        storageFactory.packageStorage.getInstanceScopeOnlyVisible(courseIDs)
+      }
+      case ScopeType.Site   => storageFactory.packageStorage.getOnlyVisible(scope, courseID.toString)
+      case ScopeType.Page   => storageFactory.packageStorage.getOnlyVisible(scope, pageID)
       case ScopeType.Player => storageFactory.packageStorage.getOnlyVisible(scope, playerID) //++ storageFactory.packageStorage.getOnlyVisibile(ScopeType.PlayerPersonal, playerID)
     }
   }
 
-  def getVisibleTincanPackages(playerID: String, courseIDs: List[Int], courseID: Int, pageID: String) = {
+  def getAllCourseIDs(companyID: Long) = {
+    val groups = GroupLocalServiceHelper.searchExceptPrivateSites(companyID, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS)
+    groups.map(i => i.getGroupId.toInt).toList
+  }
+
+  def getVisibleTincanPackages(playerID: String, companyID: Long, courseID: Int, pageID: String) = {
     val rule = storageFactory.playerScopeRuleStorage.get(playerID)
     val scope = if (rule.isEmpty) ScopeType.Site else rule.get.scope
     scope match {
-      case ScopeType.Instance => storageFactory.tincanPackageStorage.getInstanceScopeOnlyVisible(courseIDs)
-      case ScopeType.Site => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, courseID.toString)
-      case ScopeType.Page => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, pageID)
+      case ScopeType.Instance => {
+        val courseIDs = getAllCourseIDs(companyID)
+        storageFactory.tincanPackageStorage.getInstanceScopeOnlyVisible(courseIDs)
+      }
+      case ScopeType.Site   => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, courseID.toString)
+      case ScopeType.Page   => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, pageID)
       case ScopeType.Player => storageFactory.tincanPackageStorage.getOnlyVisibile(scope, playerID) //++ storageFactory.tincanPackageStorage.getOnlyVisibile(ScopeType.PlayerPersonal, playerID)
     }
   }
@@ -81,9 +93,9 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     val scope = if (playerScope.isEmpty) ScopeType.Site else playerScope.get.scope
     val scopeID = scope match {
       case ScopeType.Instance => None
-      case ScopeType.Site => Option(siteID)
-      case ScopeType.Page => Option(pageID)
-      case ScopeType.Player => Option(playerID)
+      case ScopeType.Site     => Option(siteID)
+      case ScopeType.Page     => Option(pageID)
+      case ScopeType.Player   => Option(playerID)
     }
     storageFactory.packageScopeRuleStorage.getDefaultPackageID(scope, scopeID)
   }
@@ -98,7 +110,7 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
     }
   }
 
-  def getPackageTitle(packageID: Int, packageType: String):String = {
+  def getPackageTitle(packageID: Int, packageType: String): String = {
     if (packageID == 0) {
       return null
     }
@@ -147,6 +159,5 @@ class PackageService(implicit val bindingModule: BindingModule) extends Injectab
 
     return false
   }
-
 
 }

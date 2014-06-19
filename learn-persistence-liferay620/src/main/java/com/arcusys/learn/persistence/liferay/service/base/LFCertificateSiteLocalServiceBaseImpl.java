@@ -14,6 +14,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersist
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateCoursePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
@@ -27,6 +28,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapP
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
@@ -156,6 +158,10 @@ public abstract class LFCertificateSiteLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService lfCertificateLocalService;
     @BeanReference(type = LFCertificatePersistence.class)
     protected LFCertificatePersistence lfCertificatePersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService lfCertificateCourseLocalService;
+    @BeanReference(type = LFCertificateCoursePersistence.class)
+    protected LFCertificateCoursePersistence lfCertificateCoursePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalService lfCertificateSiteLocalService;
     @BeanReference(type = LFCertificateSitePersistence.class)
@@ -208,6 +214,10 @@ public abstract class LFCertificateSiteLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService lfPackageCommentLocalService;
     @BeanReference(type = LFPackageCommentPersistence.class)
     protected LFPackageCommentPersistence lfPackageCommentPersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService lfPackageGradeStorageLocalService;
+    @BeanReference(type = LFPackageGradeStoragePersistence.class)
+    protected LFPackageGradeStoragePersistence lfPackageGradeStoragePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService lfPackageScopeRuleLocalService;
     @BeanReference(type = LFPackageScopeRulePersistence.class)
@@ -1088,6 +1098,44 @@ public abstract class LFCertificateSiteLocalServiceBaseImpl
     }
 
     /**
+     * Returns the l f certificate course local service.
+     *
+     * @return the l f certificate course local service
+     */
+    public com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService getLFCertificateCourseLocalService() {
+        return lfCertificateCourseLocalService;
+    }
+
+    /**
+     * Sets the l f certificate course local service.
+     *
+     * @param lfCertificateCourseLocalService the l f certificate course local service
+     */
+    public void setLFCertificateCourseLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService lfCertificateCourseLocalService) {
+        this.lfCertificateCourseLocalService = lfCertificateCourseLocalService;
+    }
+
+    /**
+     * Returns the l f certificate course persistence.
+     *
+     * @return the l f certificate course persistence
+     */
+    public LFCertificateCoursePersistence getLFCertificateCoursePersistence() {
+        return lfCertificateCoursePersistence;
+    }
+
+    /**
+     * Sets the l f certificate course persistence.
+     *
+     * @param lfCertificateCoursePersistence the l f certificate course persistence
+     */
+    public void setLFCertificateCoursePersistence(
+        LFCertificateCoursePersistence lfCertificateCoursePersistence) {
+        this.lfCertificateCoursePersistence = lfCertificateCoursePersistence;
+    }
+
+    /**
      * Returns the l f certificate site local service.
      *
      * @return the l f certificate site local service
@@ -1577,6 +1625,44 @@ public abstract class LFCertificateSiteLocalServiceBaseImpl
     public void setLFPackageCommentPersistence(
         LFPackageCommentPersistence lfPackageCommentPersistence) {
         this.lfPackageCommentPersistence = lfPackageCommentPersistence;
+    }
+
+    /**
+     * Returns the l f package grade storage local service.
+     *
+     * @return the l f package grade storage local service
+     */
+    public com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService getLFPackageGradeStorageLocalService() {
+        return lfPackageGradeStorageLocalService;
+    }
+
+    /**
+     * Sets the l f package grade storage local service.
+     *
+     * @param lfPackageGradeStorageLocalService the l f package grade storage local service
+     */
+    public void setLFPackageGradeStorageLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService lfPackageGradeStorageLocalService) {
+        this.lfPackageGradeStorageLocalService = lfPackageGradeStorageLocalService;
+    }
+
+    /**
+     * Returns the l f package grade storage persistence.
+     *
+     * @return the l f package grade storage persistence
+     */
+    public LFPackageGradeStoragePersistence getLFPackageGradeStoragePersistence() {
+        return lfPackageGradeStoragePersistence;
+    }
+
+    /**
+     * Sets the l f package grade storage persistence.
+     *
+     * @param lfPackageGradeStoragePersistence the l f package grade storage persistence
+     */
+    public void setLFPackageGradeStoragePersistence(
+        LFPackageGradeStoragePersistence lfPackageGradeStoragePersistence) {
+        this.lfPackageGradeStoragePersistence = lfPackageGradeStoragePersistence;
     }
 
     /**

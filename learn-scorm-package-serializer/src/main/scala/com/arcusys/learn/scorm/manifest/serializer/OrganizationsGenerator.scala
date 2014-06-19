@@ -9,14 +9,14 @@ object OrganizationsGenerator {
 
   def toXML(organizations: Seq[TreeNode[Activity]], defaultOrganization: Option[String]) = (
     <organizations>
-      {for (organization <- organizations) yield serializeSingleOrganization(organization)}
+      { for (organization <- organizations) yield serializeSingleOrganization(organization) }
     </organizations>
-    ) % ("default" -> defaultOrganization)
+  ) % ("default" -> defaultOrganization)
 
   def serializeSingleOrganization(organization: TreeNode[Activity]) =
-    <organization identifier={organization.item.id} structure="hierarchical">
-      <title>{organization.item.title}</title>
-      {ActivitiesGenerator.toXML(organization.children)}
+    <organization identifier={ organization.item.id } structure="hierarchical">
+      <title>{ organization.item.title }</title>
+      { ActivitiesGenerator.toXML(organization.children) }
       <imsss:sequencing>
         <imsss:controlMode flow="true"/>
       </imsss:sequencing>

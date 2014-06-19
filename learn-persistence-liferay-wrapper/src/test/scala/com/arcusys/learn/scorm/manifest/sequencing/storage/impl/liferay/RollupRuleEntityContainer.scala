@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
  * Date: 08.04.13
  */
 
-object RollupRuleEntityContainer  extends MockEntityContainer[LFRollupRuleLocalService, LFRollupRule] {
+object RollupRuleEntityContainer extends MockEntityContainer[LFRollupRuleLocalService, LFRollupRule] {
   lazy val mockServiceBeanName = classOf[LFRollupRuleLocalService].getName
   lazy val mockLocalService = mock[LFRollupRuleLocalService]
 
@@ -21,7 +21,7 @@ object RollupRuleEntityContainer  extends MockEntityContainer[LFRollupRuleLocalS
   def deleteFunction = _.deleteLFRollupRule(_)
   def updateFunction = _.updateLFRollupRule(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFRollupRules(_,_)
+  def getAllFunction = _.getLFRollupRules(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -43,11 +43,11 @@ object RollupRuleEntityContainer  extends MockEntityContainer[LFRollupRuleLocalS
     internalStorage --= filterBySequencingID(id).map(_.getId)
     ()
   }
-  private def filterBySequencingID(idRaw: Any) ={
+  private def filterBySequencingID(idRaw: Any) = {
     internalStorage.values.filter(obj => obj.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

@@ -1,15 +1,17 @@
 package com.arcusys.learn.tincan.api
 
+import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.test.tincan.{ ActivityProfileTests, AgentProfileTests, StateProfileTests, StatementTests }
 import com.arcusys.learn.tincan.api.utils.TincanMethodOverride
 import com.arcusys.learn.tincan.lrs.statement.StatementLRS
 import com.arcusys.learn.web.ServletBase
-import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.test.tincan.{ActivityProfileTests, AgentProfileTests, StateProfileTests, StatementTests}
 import com.escalatesoft.subcut.inject.BindingModule
 
 // http://example.com/xAPI/about
 class AboutService(configuration: BindingModule) extends ServletBase(configuration) with TincanMethodOverride {
   def this() = this(Configuration)
+
+  val tincanActivityStorage = storageFactory.tincanLrsActivityStorage
 
   val statementLRS = new StatementLRS() {
     val statementStorage = storageFactory.tincanLrsStatementStorage
@@ -39,6 +41,7 @@ class AboutService(configuration: BindingModule) extends ServletBase(configurati
 
       writer.write("*** The 'addStatements' method <br>")
       statementTests.testCreateStatements()
+      statementTests.testFindActivity(tincanActivityStorage)
       statementTests.testCreateNotExistedStatements()
       statementTests.testCreateUniqueStatements()
       statementTests.testCreateWithNullList()
@@ -96,7 +99,6 @@ class AboutService(configuration: BindingModule) extends ServletBase(configurati
       writer.write("*** Renew base <br>")
       statementTests.testRenewBase()
 
-
       writer.write("*** STATE Tests <br>")
       val stateTests = new StateProfileTests(writer, storageFactory)
 
@@ -105,7 +107,6 @@ class AboutService(configuration: BindingModule) extends ServletBase(configurati
       stateTests.createAndReadWithEmptyAgentTest2()
       stateTests.createAndReadWithEmptyAgentTestMultiple()
 
-
       writer.write("*** Agent profile Tests <br>")
       val agentTests = new AgentProfileTests(writer, storageFactory)
       agentTests.createAndReadTest()
@@ -113,11 +114,9 @@ class AboutService(configuration: BindingModule) extends ServletBase(configurati
       agentTests.createAndReadWithEmptyAgentTest2()
       agentTests.createMany()
 
-
       writer.write("*** Activity profile Tests <br>")
       val activityTests = new ActivityProfileTests(writer, storageFactory)
       activityTests.createAndReadTest()
-
 
       storageFactory.tincanLrsDocumentStorage.renew()
       storageFactory.tincanLrsStatementStorage.renew()

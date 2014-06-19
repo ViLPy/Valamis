@@ -7,12 +7,12 @@ import scala.xml.XML
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
 import com.arcusys.learn.util.TreeNode
-import java.util.zip.{ZipEntry, ZipFile}
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import java.util.zip.{ ZipEntry, ZipFile }
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
 
 object PackageProcessor {
-  def  isValidPackage(packageTmpUUID: String) = {
+  def isValidPackage(packageTmpUUID: String) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     FileProcessing.zipContains("imsmanifest.xml", packageZipName)
   }
@@ -25,17 +25,20 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
   val activityStorage = storageFactory.activityStorage
   val fileStorage = storageFactory.fileStorage
 
-  def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String, courseID: Option[Int]) = {
+  def processPackageAndGetID(packageTitle: String,
+    packageSummary: String,
+    packageTmpUUID: String,
+    courseID: Option[Int],
+    logo: Option[String] = None) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     val packageTempDirectory = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + "/" + packageTmpUUID + "/")
     FileProcessing.unzipFile("imsmanifest.xml", packageTempDirectory, packageZipName)
 
     val root = XML.loadFile(new File(packageTempDirectory + "imsmanifest.xml"))
     val doc = new ManifestParser(root, packageTitle, packageSummary).parse
-    val packageID = packageStorage.createAndGetID(doc.manifest, courseID)
+    val packageID = packageStorage.createAndGetID(doc.manifest.copy(logo = logo), courseID)
     storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true, false)
     storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), true, false)
-
 
     for (organizationNode <- doc.organizations) {
       activityStorage.create(packageID, organizationNode.item)

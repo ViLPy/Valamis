@@ -303,6 +303,23 @@ public class LFTincanLrsStateLocalServiceWrapper
             stateId);
     }
 
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfTincanLrsStateLocalService.findByActivityIdAndAgentId(activityId,
+            agentId);
+    }
+
+    @Override
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfTincanLrsStateLocalService.findByStateDocument(activityId,
+            stateId, agentId, registration);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

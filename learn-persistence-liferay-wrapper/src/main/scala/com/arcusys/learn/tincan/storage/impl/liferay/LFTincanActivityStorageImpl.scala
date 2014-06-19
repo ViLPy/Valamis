@@ -1,13 +1,20 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
-import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.model.{InteractionType, Activity}
-import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil
-import com.arcusys.learn.persistence.liferay.model.LFTincanActivity
+import java.util
+
 import com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException
+import com.arcusys.learn.persistence.liferay.model.LFTincanActivity
+import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil
+import com.arcusys.learn.storage.impl.KeyedEntityStorage
+import com.arcusys.learn.tincan.model.{ Activity, InteractionType }
+import com.arcusys.util.JsonSerializer
+import com.liferay.portal.kernel.dao.orm.{ DynamicQuery, DynamicQueryFactoryUtil, PropertyFactoryUtil }
+
+import scala.collection.JavaConverters._
 
 trait LFTincanActivityStorageImpl extends KeyedEntityStorage[Activity] {
-  import com.arcusys.learn.util.JsonSerializer._
+
+  import com.arcusys.util.JsonSerializer._
 
   def renew() {
     LFTincanActivityLocalServiceUtil.removeAll()
@@ -67,7 +74,10 @@ trait LFTincanActivityStorageImpl extends KeyedEntityStorage[Activity] {
     case _ => None
   }
 
-  def getAll(parameters: (String, Any)*): Seq[Activity] = throw new UnsupportedOperationException()
+  def getAll(parameters: (String, Any)*): Seq[Activity] = (parameters match {
+    case Seq(("filterName", filterName: String)) => findBy(filterName)
+    case _                                       => LFTincanActivityLocalServiceUtil.getLFTincanActivities(-1, -1)
+  }).asScala.map(act => mapper(act.asInstanceOf[LFTincanActivity])).toSeq
 
   def create(parameters: (String, Any)*): Unit = throw new UnsupportedOperationException()
 
@@ -96,4 +106,12 @@ trait LFTincanActivityStorageImpl extends KeyedEntityStorage[Activity] {
   def getByID(id: Int, parameters: (String, Any)*): Option[Activity] = null
 
   def createAndGetID(parameters: (String, Any)*): Int = 0
+
+  private def findBy(filterName: String): util.List[_] = {
+    val query: DynamicQuery = DynamicQueryFactoryUtil.forClass(classOf[LFTincanActivity], "activity")
+      .add(PropertyFactoryUtil.forName("activity.name").like(":\"" + filterName + "%"))
+
+    val requestList = LFTincanActivityLocalServiceUtil.dynamicQuery(query)
+    return requestList
+  }
 }

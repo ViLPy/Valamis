@@ -2,7 +2,7 @@ package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import org.joda.time._
 import org.joda.time.format.DateTimeFormat
 
@@ -34,13 +34,13 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
         lmsBehavior.getSuccessStatus(scaledPassingScore, scaledScore, currentSuccessStatus)
       }
     ) ++ Seq("cmi.learner_id", "cmi.learner_name", "cmi.learner_preference.audio_level", "cmi.learner_preference.language",
-      "cmi.learner_preference.delivery_speed", "cmi.learner_preference.audio_captioning", "cmi.core.student_id",
-      "cmi.core.student_name", "cmi.core.credit", "cmi.core.entry", "cmi.core.lesson_mode", "cmi.student_data.mastery_score",
-      "cmi.student_data.max_time_allowed", "cmi.student_data.time_limit_action").map(key=> key->getSingle(key))
+        "cmi.learner_preference.delivery_speed", "cmi.learner_preference.audio_captioning", "cmi.core.student_id",
+        "cmi.core.student_name", "cmi.core.credit", "cmi.core.entry", "cmi.core.lesson_mode", "cmi.student_data.mastery_score",
+        "cmi.student_data.max_time_allowed", "cmi.student_data.time_limit_action").map(key => key -> getSingle(key))
   }
 
   def getValue(key: String) = {
-    val preParsedKey = """\.\d+\.""".r replaceAllIn(key, ".n.")
+    val preParsedKey = """\.\d+\.""".r replaceAllIn (key, ".n.")
     val parsedKey = if (preParsedKey.indexOf(".n.") > 0) preParsedKey.substring(0, preParsedKey.indexOf(".n.")) else preParsedKey
 
     if (key.startsWith("cmi.interactions.")
@@ -55,53 +55,53 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
   }
 
   def setValue(key: String, value: String) {
-    val normalizedKey = """(?<=.)\d(?=.)""".r replaceFirstIn(key, "n")
+    val normalizedKey = """(?<=.)\d(?=.)""".r replaceFirstIn (key, "n")
     normalizedKey match {
       /*read-only*/
       case "cmi.comments_from_learner._children" |
-           "cmi.comments_from_learner._count" |
-           "cmi.comments_from_lms._children" |
-           "cmi.comments_from_lms._count" |
-           "cmi.comments_from_lms.n.comment" |
-           "cmi.comments_from_lms.n.location" |
-           "cmi.comments_from_lms.n.timestamp" |
-           "cmi.interactions._children" |
-           "cmi.interactions._count" |
-           "cmi.interactions.n.objectives._count" |
-           "cmi.interactions.n.correct_responses._count" |
-           "cmi.objectives._children" |
-           "cmi.objectives._count" |
-           "cmi.objectives.n.score._children" |
-           "cmi.score._children" |
-           "adl.data._children" |
-           "adl.data._count" |
-           "adl.data.n.id" |
-           "cmi._version" |
-           "cmi.completion_threshold" |
-           "cmi.credit" |
-           "cmi.entry" |
-           "cmi.launch_data" |
-           "cmi.learner_id" |
-           "cmi.learner_name" |
-           "cmi.learner_preference._children" |
-           "cmi.max_time_allowed" |
-           "cmi.mode" |
-           "cmi.scaled_passing_score" |
-           "cmi.time_limit_action" |
-           "cmi.core._children" |
-           "cmi.core.student_id" |
-           "cmi.core.student_name" |
-           "cmi.core.credit" |
-           "cmi.core.entry" |
-           "cmi.core.score._children" |
-           "cmi.core.total_time" |
-           "cmi.core.lesson_mode" |
-           "cmi.comments_from_lms" |
-           "cmi.student_data._children" |
-           "cmi.student_data.mastery_score" |
-           "cmi.student_data.max_time_allowed" |
-           "cmi.student_data.time_limit_action" |
-           "cmi.student_preferences._children" => {
+        "cmi.comments_from_learner._count" |
+        "cmi.comments_from_lms._children" |
+        "cmi.comments_from_lms._count" |
+        "cmi.comments_from_lms.n.comment" |
+        "cmi.comments_from_lms.n.location" |
+        "cmi.comments_from_lms.n.timestamp" |
+        "cmi.interactions._children" |
+        "cmi.interactions._count" |
+        "cmi.interactions.n.objectives._count" |
+        "cmi.interactions.n.correct_responses._count" |
+        "cmi.objectives._children" |
+        "cmi.objectives._count" |
+        "cmi.objectives.n.score._children" |
+        "cmi.score._children" |
+        "adl.data._children" |
+        "adl.data._count" |
+        "adl.data.n.id" |
+        "cmi._version" |
+        "cmi.completion_threshold" |
+        "cmi.credit" |
+        "cmi.entry" |
+        "cmi.launch_data" |
+        "cmi.learner_id" |
+        "cmi.learner_name" |
+        "cmi.learner_preference._children" |
+        "cmi.max_time_allowed" |
+        "cmi.mode" |
+        "cmi.scaled_passing_score" |
+        "cmi.time_limit_action" |
+        "cmi.core._children" |
+        "cmi.core.student_id" |
+        "cmi.core.student_name" |
+        "cmi.core.credit" |
+        "cmi.core.entry" |
+        "cmi.core.score._children" |
+        "cmi.core.total_time" |
+        "cmi.core.lesson_mode" |
+        "cmi.comments_from_lms" |
+        "cmi.student_data._children" |
+        "cmi.student_data.mastery_score" |
+        "cmi.student_data.max_time_allowed" |
+        "cmi.student_data.time_limit_action" |
+        "cmi.student_preferences._children" => {
         /*read-only*/
       }
       case "cmi.exit" => {
@@ -139,12 +139,12 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
 
   private def getSingle(key: String): Option[String] = {
     key match {
-      case "cmi.exit" => None
-      case "cmi.session_time" => None
+      case "cmi.exit"                 => None
+      case "cmi.session_time"         => None
       // this can be used as is,  support is not required for SCORM conformance
-      case "cmi._version" => Some("1.0")
-      case "cmi.credit" => Some("credit")
-      case "cmi.mode" => Some("normal")
+      case "cmi._version"             => Some("1.0")
+      case "cmi.credit"               => Some("credit")
+      case "cmi.mode"                 => Some("normal")
       // "LMS based" for single values
       case "cmi.completion_threshold" => lmsBehavior.getCompletionThreshold
       case "cmi.completion_status" => {
@@ -152,9 +152,9 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
         val currentCompletionStatus = dataModelStorage.getValue(attempt.id, activityID, "cmi.completion_status")
         lmsBehavior.evaluateCompletionStatus(progressMeasure, currentCompletionStatus)
       }
-      case "cmi.entry" => lmsBehavior.getEntry
-      case "cmi.launch_data" => lmsBehavior.getLaunchData
-      case "cmi.max_time_allowed" => lmsBehavior.getMaxTimeAllowed
+      case "cmi.entry"                => lmsBehavior.getEntry
+      case "cmi.launch_data"          => lmsBehavior.getLaunchData
+      case "cmi.max_time_allowed"     => lmsBehavior.getMaxTimeAllowed
       case "cmi.scaled_passing_score" => lmsBehavior.getScaledPassingScore
       case "cmi.success_status" => {
         val scaledPassingScore = lmsBehavior.getScaledPassingScore
@@ -162,23 +162,23 @@ class DataModelService(attempt: Attempt, activityID: String)(implicit val bindin
         val currentSuccessStatus = dataModelStorage.getValue(attempt.id, activityID, "cmi.success_status")
         lmsBehavior.getSuccessStatus(scaledPassingScore, scaledScore, currentSuccessStatus)
       }
-      case "cmi.time_limit_action" => lmsBehavior.getTimeLimitAction
+      case "cmi.time_limit_action"                   => lmsBehavior.getTimeLimitAction
       // learner data can be taken from attempt
-      case "cmi.learner_id" => Some(attempt.user.id.toString)
-      case "cmi.learner_name" => Some(attempt.user.name)
-      case "cmi.learner_preference.audio_level" => Some(attempt.user.preferredAudioLevel.toString)
-      case "cmi.learner_preference.language" => Some(attempt.user.preferredLanguage.toString)
-      case "cmi.learner_preference.delivery_speed" => Some(attempt.user.preferredDeliverySpeed.toString)
+      case "cmi.learner_id"                          => Some(attempt.user.id.toString)
+      case "cmi.learner_name"                        => Some(attempt.user.name)
+      case "cmi.learner_preference.audio_level"      => Some(attempt.user.preferredAudioLevel.toString)
+      case "cmi.learner_preference.language"         => Some(attempt.user.preferredLanguage.toString)
+      case "cmi.learner_preference.delivery_speed"   => Some(attempt.user.preferredDeliverySpeed.toString)
       case "cmi.learner_preference.audio_captioning" => Some(attempt.user.preferredAudioCaptioning.toString)
       // SCORM 1.2
-      case "cmi.core.student_id" => Some(attempt.user.id.toString)
-      case "cmi.core.student_name" => Some(attempt.user.name)
-      case "cmi.core.credit" => Some("credit")
-      case "cmi.core.entry" => lmsBehavior.getEntry
-      case "cmi.core.lesson_mode" => Some("normal")
-      case "cmi.student_data.mastery_score" => lmsBehavior.getMasteryScore
-      case "cmi.student_data.max_time_allowed" => lmsBehavior.getMaxTimeAllowed12
-      case "cmi.student_data.time_limit_action" => lmsBehavior.getTimeLimitAction
+      case "cmi.core.student_id"                     => Some(attempt.user.id.toString)
+      case "cmi.core.student_name"                   => Some(attempt.user.name)
+      case "cmi.core.credit"                         => Some("credit")
+      case "cmi.core.entry"                          => lmsBehavior.getEntry
+      case "cmi.core.lesson_mode"                    => Some("normal")
+      case "cmi.student_data.mastery_score"          => lmsBehavior.getMasteryScore
+      case "cmi.student_data.max_time_allowed"       => lmsBehavior.getMaxTimeAllowed12
+      case "cmi.student_data.time_limit_action"      => lmsBehavior.getTimeLimitAction
       // for other variables just fetch from DB
       case _ => {
         dataModelStorage.getValue(attempt.id, activityID, key)

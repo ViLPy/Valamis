@@ -7,5 +7,4 @@ package com.arcusys.learn.scorm.manifest.model
  */
 class PlayerScopeRule(
   val playerID: String,
-  val scope: ScopeType.Value
-)
+  val scope: ScopeType.Value)

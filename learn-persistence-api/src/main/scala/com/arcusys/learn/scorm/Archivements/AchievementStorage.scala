@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.Archivements
 
-import com.arcusys.learn.scorm.tracking.model.achivements.{RequiredActivity, AchievementActivity, Achievement}
+import com.arcusys.learn.scorm.tracking.model.achivements.Achievement
 
 trait AchievementStorage {
   def getAllAchievements: Seq[Achievement]

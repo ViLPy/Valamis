@@ -1,6 +1,5 @@
 package com.arcusys.learn.view
 
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
@@ -11,8 +10,9 @@ import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.WebKeysHelper
 import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.util.{ JsonSupport, MustacheSupport }
 
-class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
+class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport with JsonSupport with i18nSupport with ConfigurableView with TemplateCoupler {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) = {
@@ -43,12 +43,28 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     if (hasPermissions) {
       val groupID = themeDisplay.getScopeGroupId
       val translations = getTranslation("quiz", language)
-      val map = Map("contextPath" -> path, "isAdmin" -> hasPermissions, "isPortlet" -> true, "language" -> language,
-        "courseID" -> courseID, "actionURL" -> response.createResourceURL(), "companyID" -> companyId) ++ Map("userID" -> userUID, "groupID" -> groupID.toString) ++ translations
-      val data = mustache(map, "scorm_quiz.html")
-      out.println(data)
-    }
-    else {
+      val map = Map(
+        "contextPath" -> path,
+        "isAdmin" -> hasPermissions,
+        "isPortlet" -> true,
+        "language" -> language,
+        "courseID" -> courseID,
+        "actionURL" -> response.createResourceURL(),
+        "companyID" -> companyId) ++ Map(
+          "userID" -> userUID,
+          "groupID" -> groupID.toString) ++
+          translations ++ Map(
+            "translations" -> JsonSupport.json(translations).get
+          )
+
+      out.println(mustache(map, "/js2.0/content_manager/globalVariables.html") +
+        getTemplate("/templates/2.0/question_tree_templates.html") +
+        getTemplate("/templates/2.0/content_manager_templates.html") +
+        getTemplate("/templates/2.0/file-uploader.html") +
+        getTemplate("templates/2.0/paginator.html") +
+        mustache(map, "content_manager.html")
+      )
+    } else {
       val translations = getTranslation("error", language)
       val data = mustache(Map("contextPath" -> path, "language" -> language) ++ translations, "scorm_nopermissions.html")
       out.println(data)
@@ -60,7 +76,7 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
       getTranslation("/i18n/" + view + "_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
   }
 
@@ -70,6 +86,7 @@ class QuizView extends GenericPortlet with ScalatraFilter with MustacheSupport w
     val articleLanguage = request.getParameter("language")
     val td = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
     val text = JournalArticleLocalServiceHelper.getArticleContent(groupID, articleID, "view", articleLanguage, td)
-    response.getWriter.println(text)
+
+    response.getWriter.println(json(Map("text" -> text)).get)
   }
 }

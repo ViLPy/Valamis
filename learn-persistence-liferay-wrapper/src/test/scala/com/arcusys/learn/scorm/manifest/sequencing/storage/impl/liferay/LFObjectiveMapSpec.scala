@@ -27,12 +27,12 @@ class LFObjectiveMapSpec extends SpecificationWithJUnit with Mockito with Thrown
       mapStorage.create(new ObjectiveMap()) must not(throwA[Exception])
     }
     "execute 'create with objectiveID' without errors" in new Context {
-      mapStorage.create(new ObjectiveMap(Some("1"),Some("2"),Some("3"),Some("4"),Some("5"),Some("6"),Some("7"),Some("8"),
-        Some("9"),Some("10"),Some("11"),Some("12"),Some("13"),Some("14")), "objectiveID" -> 333) must not(throwA[Exception])
+      mapStorage.create(new ObjectiveMap(Some("1"), Some("2"), Some("3"), Some("4"), Some("5"), Some("6"), Some("7"), Some("8"),
+        Some("9"), Some("10"), Some("11"), Some("12"), Some("13"), Some("14")), "objectiveID" -> 333) must not(throwA[Exception])
     }
     "execute 'get' without errors" in new Context {
-      mapStorage.create(new ObjectiveMap(Some("1"),Some("2"),Some("3"),Some("4"),Some("5"),Some("6"),Some("7"),Some("8"),
-        Some("9"),Some("10"),Some("11"),Some("12"),Some("13"),Some("14")), "objectiveID" -> 666) must not(throwA[Exception])
+      mapStorage.create(new ObjectiveMap(Some("1"), Some("2"), Some("3"), Some("4"), Some("5"), Some("6"), Some("7"), Some("8"),
+        Some("9"), Some("10"), Some("11"), Some("12"), Some("13"), Some("14")), "objectiveID" -> 666) must not(throwA[Exception])
       val map = mapStorage.getOne("objectiveID" -> 666)
       map must beSome
       map.get.readSatisfiedStatusFrom must beEqualTo(Some("1"))
@@ -68,6 +68,5 @@ class LFObjectiveMapSpec extends SpecificationWithJUnit with Mockito with Thrown
     val mapService = ObjectiveMapEntityContainer.mockLocalService
     val mapStorage: EntityStorage[ObjectiveMap] = new LFObjectiveMapStorageImpl() {}
   }
-
 
 }

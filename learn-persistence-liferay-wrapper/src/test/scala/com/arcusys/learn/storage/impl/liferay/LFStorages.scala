@@ -1,6 +1,6 @@
 package com.arcusys.learn.storage.impl.liferay
 
-import com.arcusys.learn.quiz.storage.impl.{QuizQuestionCreator, QuizQuestionEntityStorage, QuizQuestionCategoryEntityStorage, QuizEntityStorage}
+import com.arcusys.learn.quiz.storage.impl.{ QuizQuestionCreator, QuizQuestionEntityStorage, QuizQuestionCategoryEntityStorage, QuizEntityStorage }
 import com.arcusys.learn.quiz.storage.impl.liferay._
 import com.arcusys.learn.questionbank.storage.impl._
 import com.arcusys.learn.questionbank.storage.impl.liferay._
@@ -10,20 +10,20 @@ import com.arcusys.learn.scorm.manifest.storage.impl.ActivityDataEntityStorage
 import com.arcusys.learn.scorm.manifest.storage.impl.liferay._
 import com.arcusys.learn.scorm.tracking.states.storage.impl.ObjectiveStateEntityStorage
 import com.arcusys.learn.scorm.tracking.states.impl.liferay._
-import com.arcusys.learn.questionbank.storage.{QuestionCategoryStorage, AnswerStorage, QuestionStorage}
-import com.arcusys.learn.quiz.storage.{QuizStorage, QuizQuestionCategoryStorage}
+import com.arcusys.learn.questionbank.storage.{ QuestionCategoryStorage, AnswerStorage, QuestionStorage }
+import com.arcusys.learn.quiz.storage.{ QuizTreeStorage, QuizStorage, QuizQuestionCategoryStorage }
 import com.arcusys.learn.filestorage.storage.impl.FileRecordEntityStorage
-import com.arcusys.learn.filestorage.storage.impl.liferay.{FileStorageEntityContainer, LFFileRecordStorageImpl}
+import com.arcusys.learn.filestorage.storage.impl.liferay.{ FileStorageEntityContainer, LFFileRecordStorageImpl }
 import com.arcusys.learn.filestorage.storage.FileStorage
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{SequencingPermissionsStorage, RuleConditionStorage}
+import com.arcusys.learn.scorm.manifest.sequencing.storage.{ SequencingPermissionsStorage, RuleConditionStorage }
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.liferay._
-import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{LFAttemptDataStorageImpl, LFAttemptStorageImpl, UserEntityContainer, AttemptDataEntityContainer}
+import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{ LFAttemptDataStorageImpl, LFAttemptStorageImpl, UserEntityContainer, AttemptDataEntityContainer }
 import com.arcusys.learn.scorm.course.impl.liferay.CourseEntityContainer
-import com.arcusys.learn.scorm.tracking.storage.impl.{DataModelEntityStorage, AttemptCreator, AttemptEntityStorage}
+import com.arcusys.learn.scorm.tracking.storage.impl.{ DataModelEntityStorage, AttemptCreator, AttemptEntityStorage }
 import com.arcusys.learn.scorm.tracking.storage.UserStorage
 import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
-import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
+import com.arcusys.learn.tincan.manifest.storage.{ TincanManifestActivityStorage, TincanPackageStorage }
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.tincan.storage._
 
@@ -74,8 +74,8 @@ object LFStorages extends StorageFactoryContract {
   lazy val tincanClientApiStorage: TincanClientApiStorage = throw new UnsupportedOperationException("TincanActivitiesStorage not implemented for LFStorages")
   lazy val tincanLrsStatemntStorage: StatementStorage = throw new UnsupportedOperationException("Tincan StatementStorage not implemented for LFStorages")
   lazy val tincanLrsStateStorage: StateStorage = throw new UnsupportedOperationException("Tincan StateStorage not implemented for LFStorages")
-  lazy val tincanLrsActivityStorage : TincanActivityStorage = throw new UnsupportedOperationException("Tincan ActivityStorage not implemented for LFStorages")
-  lazy val tincanLrsActivityProfileStorage : ActivityProfileStorage = throw new UnsupportedOperationException("Tincan ActivityProfileStorage not implemented for LFStorages")
+  lazy val tincanLrsActivityStorage: TincanActivityStorage = throw new UnsupportedOperationException("Tincan ActivityStorage not implemented for LFStorages")
+  lazy val tincanLrsActivityProfileStorage: ActivityProfileStorage = throw new UnsupportedOperationException("Tincan ActivityProfileStorage not implemented for LFStorages")
   lazy val tincanLrsStatementStorage: StatementStorage = throw new UnsupportedOperationException("Tincan LrsStatementStorage not implemented for LFStorages")
   lazy val tincanLrsAgentProfileStorage: AgentProfileStorage = throw new UnsupportedOperationException("Tincan LrsStatementStorage not implemented for LFStorages")
 
@@ -100,25 +100,25 @@ object LFStorages extends StorageFactoryContract {
   val sequencingPermissionsStorage: SequencingPermissionsStorage = new SequencingPermissionsEntityStorage with LFSequencingPermissionsStorageImpl
   val rollupContributionStorage = new RollupContributionEntityStorage with LFRollupContributionStorageImpl
   val objectiveMapStorage = new ObjectiveMapEntityStorage with LFObjectiveMapStorageImpl
-  val objectiveStorage = new ObjectiveEntityStorage with LFObjectiveStorageImpl with ObjectiveEntityCreator{
+  val objectiveStorage = new ObjectiveEntityStorage with LFObjectiveStorageImpl with ObjectiveEntityCreator {
     val mapStorage = LFStorages.this.objectiveMapStorage
   }
   val childrenSelectionStorage = new ChildrenSelectionEntityStorage with LFChildrenSelectionStorageImpl
   val sequencingTrackingStorage = new SequencingTrackingEntityStorage with LFSequencingTrackingStorageImpl
-  val rollupRuleStorage = new RollupRuleEntityStorage with LFRollupRuleStorageImpl with RollupRuleCreator{
+  val rollupRuleStorage = new RollupRuleEntityStorage with LFRollupRuleStorageImpl with RollupRuleCreator {
     val ruleConditionStorage = LFStorages.this.ruleConditionStorage
   }
-  val exitConditionRuleStorage = new ExitConditionRuleEntityStorage with LFExitConditionRuleStorageImpl with ExitConditionRuleCreator{
+  val exitConditionRuleStorage = new ExitConditionRuleEntityStorage with LFExitConditionRuleStorageImpl with ExitConditionRuleCreator {
     val ruleConditionStorage = LFStorages.this.ruleConditionStorage
   }
-  val preConditionRuleStorage = new PreConditionRuleEntityStorage with LFPreConditionRuleStorageImpl with PreConditionRuleCreator{
+  val preConditionRuleStorage = new PreConditionRuleEntityStorage with LFPreConditionRuleStorageImpl with PreConditionRuleCreator {
     val ruleConditionStorage = LFStorages.this.ruleConditionStorage
   }
-  val postConditionRuleStorage = new PostConditionRuleEntityStorage with LFPostConditionRuleStorageImpl with PostConditionRuleCreator{
+  val postConditionRuleStorage = new PostConditionRuleEntityStorage with LFPostConditionRuleStorageImpl with PostConditionRuleCreator {
     val ruleConditionStorage = LFStorages.this.ruleConditionStorage
   }
 
-  val sequencingStorage = new SequencingEntityStorage with LFSequencingStorageImpl with SequencingCreator{
+  val sequencingStorage = new SequencingEntityStorage with LFSequencingStorageImpl with SequencingCreator {
     val sequencingPermissionsStorage = LFStorages.this.sequencingPermissionsStorage
     val rollupContributionStorage = LFStorages.this.rollupContributionStorage
     val objectiveStorageStorage = LFStorages.this.objectiveStorage
@@ -169,9 +169,9 @@ object LFStorages extends StorageFactoryContract {
 
   def playerScopeRuleStorage = LFStorageFactory.playerScopeRuleStorage
 
-  def certificateStorage = LFStorageFactory.certificateStorage
-  def certificateSiteStorage = LFStorageFactory.certificateSiteStorage
-  def certificateUserStorage = LFStorageFactory.certificateUserStorage
+  //  def certificateStorage = LFStorageFactory.certificateStorage
+  //def certificateSiteStorage = LFStorageFactory.certificateSiteStorage
+  //  def certificateUserStorage = LFStorageFactory.certificateUserStorage
 
   def achievementStorage = LFStorageFactory.achievementStorage
   def achievementActivityStorage = LFStorageFactory.achievementActivityStorage
@@ -194,4 +194,6 @@ object LFStorages extends StorageFactoryContract {
   def tincanLrsContextStorage: ContextStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
   def tincanLrsActorStorage: ActorStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
   def tincanLrsDocumentStorage: DocumentStorage = throw new UnsupportedOperationException("TincanLrsEndpointStorage not implemented for LFStorages")
+
+  def quizTreeStorage: QuizTreeStorage = throw new UnsupportedOperationException("Not implemented for LFStorages")
 }

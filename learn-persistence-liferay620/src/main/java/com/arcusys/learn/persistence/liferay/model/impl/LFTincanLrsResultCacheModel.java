@@ -25,7 +25,7 @@ public class LFTincanLrsResultCacheModel implements CacheModel<LFTincanLrsResult
     public Boolean success;
     public Boolean completion;
     public String response;
-    public Double duration;
+    public String duration;
     public String extension;
 
     @Override
@@ -72,7 +72,11 @@ public class LFTincanLrsResultCacheModel implements CacheModel<LFTincanLrsResult
             lfTincanLrsResultImpl.setResponse(response);
         }
 
-        lfTincanLrsResultImpl.setDuration(duration);
+        if (duration == null) {
+            lfTincanLrsResultImpl.setDuration(StringPool.BLANK);
+        } else {
+            lfTincanLrsResultImpl.setDuration(duration);
+        }
 
         if (extension == null) {
             lfTincanLrsResultImpl.setExtension(StringPool.BLANK);
@@ -92,7 +96,7 @@ public class LFTincanLrsResultCacheModel implements CacheModel<LFTincanLrsResult
         success = objectInput.readBoolean();
         completion = objectInput.readBoolean();
         response = objectInput.readUTF();
-        duration = objectInput.readDouble();
+        duration = objectInput.readUTF();
         extension = objectInput.readUTF();
     }
 
@@ -116,7 +120,11 @@ public class LFTincanLrsResultCacheModel implements CacheModel<LFTincanLrsResult
             objectOutput.writeUTF(response);
         }
 
-        objectOutput.writeDouble(duration);
+        if (duration == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(duration);
+        }
 
         if (extension == null) {
             objectOutput.writeUTF(StringPool.BLANK);

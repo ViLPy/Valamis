@@ -19,7 +19,7 @@ object SequencingEntityContainer extends MockEntityContainer[LFSequencingLocalSe
   def deleteFunction = _.deleteLFSequencing(_)
   def updateFunction = _.updateLFSequencing(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFSequencings(_,_)
+  def getAllFunction = _.getLFSequencings(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -39,7 +39,6 @@ object SequencingEntityContainer extends MockEntityContainer[LFSequencingLocalSe
   }
   def getIdFunction = _.getId
 
-
   mockLocalService.findByActivityIDAndPackageID(any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any) = paramsRaw match {
       case Array(a, b) if a.isInstanceOf[Int] && b.isInstanceOf[String] => (a, b)
@@ -48,7 +47,7 @@ object SequencingEntityContainer extends MockEntityContainer[LFSequencingLocalSe
     val activityID = paramsTuple._2 match { case x: String => x }
 
     val result = internalStorage.values.filter(entity => entity.getPackageID == packageID
-      &&  entity.getActivityID == activityID).headOption
+      && entity.getActivityID == activityID).headOption
     if (result.isEmpty) null else result.get
   }
 

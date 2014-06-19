@@ -41,7 +41,6 @@ public class LFTincanLrsStateWrapper implements LFTincanLrsState,
         attributes.put("stateId", getStateId());
         attributes.put("documentId", getDocumentId());
         attributes.put("activityId", getActivityId());
-        attributes.put("profileId", getProfileId());
         attributes.put("registration", getRegistration());
         attributes.put("agentId", getAgentId());
 
@@ -72,12 +71,6 @@ public class LFTincanLrsStateWrapper implements LFTincanLrsState,
 
         if (activityId != null) {
             setActivityId(activityId);
-        }
-
-        String profileId = (String) attributes.get("profileId");
-
-        if (profileId != null) {
-            setProfileId(profileId);
         }
 
         String registration = (String) attributes.get("registration");
@@ -191,26 +184,6 @@ public class LFTincanLrsStateWrapper implements LFTincanLrsState,
     @Override
     public void setActivityId(java.lang.String activityId) {
         _lfTincanLrsState.setActivityId(activityId);
-    }
-
-    /**
-    * Returns the profile ID of this l f tincan lrs state.
-    *
-    * @return the profile ID of this l f tincan lrs state
-    */
-    @Override
-    public java.lang.String getProfileId() {
-        return _lfTincanLrsState.getProfileId();
-    }
-
-    /**
-    * Sets the profile ID of this l f tincan lrs state.
-    *
-    * @param profileId the profile ID of this l f tincan lrs state
-    */
-    @Override
-    public void setProfileId(java.lang.String profileId) {
-        _lfTincanLrsState.setProfileId(profileId);
     }
 
     /**

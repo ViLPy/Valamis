@@ -41,22 +41,20 @@ public class LFCertificateUserLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
-    private String _methodName289;
-    private String[] _methodParameterTypes289;
-    private String _methodName290;
-    private String[] _methodParameterTypes290;
-    private String _methodName291;
-    private String[] _methodParameterTypes291;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
+    private String _methodName305;
+    private String[] _methodParameterTypes305;
+    private String _methodName306;
+    private String[] _methodParameterTypes306;
 
     public LFCertificateUserLocalServiceClpInvoker() {
         _methodName0 = "addLFCertificateUser";
@@ -67,11 +65,15 @@ public class LFCertificateUserLocalServiceClpInvoker {
 
         _methodName1 = "createLFCertificateUser";
 
-        _methodParameterTypes1 = new String[] { "long" };
+        _methodParameterTypes1 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName2 = "deleteLFCertificateUser";
 
-        _methodParameterTypes2 = new String[] { "long" };
+        _methodParameterTypes2 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName3 = "deleteLFCertificateUser";
 
@@ -117,11 +119,15 @@ public class LFCertificateUserLocalServiceClpInvoker {
 
         _methodName10 = "fetchLFCertificateUser";
 
-        _methodParameterTypes10 = new String[] { "long" };
+        _methodParameterTypes10 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName11 = "getLFCertificateUser";
 
-        _methodParameterTypes11 = new String[] { "long" };
+        _methodParameterTypes11 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName12 = "getPersistedModel";
 
@@ -141,41 +147,37 @@ public class LFCertificateUserLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFCertificateUser"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "createLFCertificateUser";
+        _methodName302 = "findByCertificateID";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] { "java.lang.Long" };
 
-        _methodName287 = "findByCertificateID";
+        _methodName303 = "findByUserID";
 
-        _methodParameterTypes287 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes303 = new String[] { "java.lang.Long" };
 
-        _methodName288 = "findByUserID";
+        _methodName304 = "findByUserIDAndCertificateID";
 
-        _methodParameterTypes288 = new String[] { "java.lang.Integer" };
-
-        _methodName289 = "findByUserIDAndCertificateID";
-
-        _methodParameterTypes289 = new String[] {
-                "java.lang.Integer", "java.lang.Integer"
+        _methodParameterTypes304 = new String[] {
+                "java.lang.Long", "java.lang.Long"
             };
 
-        _methodName290 = "removeByUserIDAndCertificateID";
+        _methodName305 = "removeByUserIDAndCertificateID";
 
-        _methodParameterTypes290 = new String[] {
-                "java.lang.Integer", "java.lang.Integer"
+        _methodParameterTypes305 = new String[] {
+                "java.lang.Long", "java.lang.Long"
             };
 
-        _methodName291 = "removeAll";
+        _methodName306 = "removeAll";
 
-        _methodParameterTypes291 = new String[] {  };
+        _methodParameterTypes306 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -187,12 +189,12 @@ public class LFCertificateUserLocalServiceClpInvoker {
 
         if (_methodName1.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.createLFCertificateUser(((Long) arguments[0]).longValue());
+            return LFCertificateUserLocalServiceUtil.createLFCertificateUser((com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK) arguments[0]);
         }
 
         if (_methodName2.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.deleteLFCertificateUser(((Long) arguments[0]).longValue());
+            return LFCertificateUserLocalServiceUtil.deleteLFCertificateUser((com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK) arguments[0]);
         }
 
         if (_methodName3.equals(name) &&
@@ -238,12 +240,12 @@ public class LFCertificateUserLocalServiceClpInvoker {
 
         if (_methodName10.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.fetchLFCertificateUser(((Long) arguments[0]).longValue());
+            return LFCertificateUserLocalServiceUtil.fetchLFCertificateUser((com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK) arguments[0]);
         }
 
         if (_methodName11.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.getLFCertificateUser(((Long) arguments[0]).longValue());
+            return LFCertificateUserLocalServiceUtil.getLFCertificateUser((com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK) arguments[0]);
         }
 
         if (_methodName12.equals(name) &&
@@ -267,49 +269,44 @@ public class LFCertificateUserLocalServiceClpInvoker {
             return LFCertificateUserLocalServiceUtil.updateLFCertificateUser((com.arcusys.learn.persistence.liferay.model.LFCertificateUser) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFCertificateUserLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFCertificateUserLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.createLFCertificateUser();
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+            return LFCertificateUserLocalServiceUtil.findByCertificateID((java.lang.Long) arguments[0]);
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.findByCertificateID((java.lang.Integer) arguments[0]);
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+            return LFCertificateUserLocalServiceUtil.findByUserID((java.lang.Long) arguments[0]);
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.findByUserID((java.lang.Integer) arguments[0]);
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
+            return LFCertificateUserLocalServiceUtil.findByUserIDAndCertificateID((java.lang.Long) arguments[0],
+                (java.lang.Long) arguments[1]);
         }
 
-        if (_methodName289.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
-            return LFCertificateUserLocalServiceUtil.findByUserIDAndCertificateID((java.lang.Integer) arguments[0],
-                (java.lang.Integer) arguments[1]);
-        }
-
-        if (_methodName290.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes290, parameterTypes)) {
-            LFCertificateUserLocalServiceUtil.removeByUserIDAndCertificateID((java.lang.Integer) arguments[0],
-                (java.lang.Integer) arguments[1]);
+        if (_methodName305.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
+            LFCertificateUserLocalServiceUtil.removeByUserIDAndCertificateID((java.lang.Long) arguments[0],
+                (java.lang.Long) arguments[1]);
 
             return null;
         }
 
-        if (_methodName291.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes291, parameterTypes)) {
+        if (_methodName306.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
             LFCertificateUserLocalServiceUtil.removeAll();
 
             return null;

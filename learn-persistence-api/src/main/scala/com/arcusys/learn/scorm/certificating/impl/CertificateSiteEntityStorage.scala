@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.certificating.impl
 
 import com.arcusys.learn.scorm.certificating.CertificateSiteStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.scorm.tracking.model.certificating.CertificateSite
 
 /**
@@ -14,7 +14,7 @@ trait CertificateSiteEntityStorage extends CertificateSiteStorage with KeyedEnti
   def getByCertificate(certificateID: Int) =
     getAll("certificateID" -> certificateID)
 
-  def getByCertificateAndSite(certificates: Seq[Int], siteID: Int)=
+  def getByCertificateAndSite(certificates: Seq[Int], siteID: Int) =
     getAll("certificateIDs" -> certificates, "siteID" -> siteID)
 
   def move(certificateID: Int, siteID: Int, position: Int) =

@@ -3,12 +3,7 @@ package com.arcusys.learn.test.tincan
 import java.io.PrintWriter
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.{ActivityProfileStorage, TincanActivityStorage, AgentProfileStorage}
-import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
-import com.arcusys.learn.tincan.model.Agent
-import com.arcusys.learn.tincan.model.Account
-import scala.Some
-import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRS
+import com.arcusys.learn.tincan.storage.{ ActivityProfileStorage, TincanActivityStorage }
 import com.arcusys.learn.tincan.lrs.activityprofile.ActivityProfileLRS
 
 class ActivityProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContract) {

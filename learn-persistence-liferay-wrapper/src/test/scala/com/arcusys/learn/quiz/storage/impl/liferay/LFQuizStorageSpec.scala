@@ -4,7 +4,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.learn.persistence.liferay.service.{LFQuizQuestionCategoryLocalService, LFQuizLocalService, LFQuizLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLocalService, LFQuizLocalService, LFQuizLocalServiceUtil }
 
 /**
  * User: dkudinov
@@ -62,10 +62,9 @@ class LFQuizStorageSpec extends SpecificationWithJUnit with Mockito {
       val idsInTest = idsCourse ++: idsNone
 
       storage.getAll("courseID" -> courseId).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsCourse ++: idsNone)
-      storage.getAll("courseID" -> -1).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsNone )
+      storage.getAll("courseID" -> -1).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsNone)
     }
   }
-
 
   def createQuiz(title: String = "title", courseID: Option[Int] = Some(2)) = {
     val quizPattern: Quiz = createQuizPattern(title = title, courseID = courseID)
@@ -73,6 +72,6 @@ class LFQuizStorageSpec extends SpecificationWithJUnit with Mockito {
   }
 
   def createQuizPattern(title: String = "title", courseID: Option[Int] = Some(1)): Quiz = {
-    Quiz(0, title, "description", "welcome", "final", courseID)
+    Quiz(0, title, "description", "welcome", "final", courseID, "")
   }
 }

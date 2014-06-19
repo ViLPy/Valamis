@@ -10,7 +10,7 @@ trait AchievementUserEntityStorage extends AchievementUserStorage with KeyedEnti
   def getByAchievementId(achievementId: Int): Seq[AchievementUser] = getAll(("achievementId", achievementId))
   def update(entity: AchievementUser) = modify(entity, Nil: _*)
   def deleteById(id: Int) = delete(("id", id))
-  def deleteByAchievementId(achievementId: Int){
+  def deleteByAchievementId(achievementId: Int) {
     val achievementUsersToBeDeleted = getByAchievementId(achievementId)
     achievementUsersToBeDeleted.foreach(achievementUser => deleteById(achievementUser.id))
   }

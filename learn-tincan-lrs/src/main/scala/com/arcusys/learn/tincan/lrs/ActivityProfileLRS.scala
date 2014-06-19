@@ -2,12 +2,10 @@ package com.arcusys.learn.tincan.lrs
 
 package activityprofile {
 
-  import java.util.Date
-
-  import com.arcusys.learn.tincan.storage.{TincanActivityStorage, ActivityProfileStorage}
-  import com.arcusys.learn.tincan.model.{ActivityProfile, Activity, Document, JSONContent, OtherContent}
+  import com.arcusys.learn.tincan.storage.{ TincanActivityStorage, ActivityProfileStorage }
+  import com.arcusys.learn.tincan.model.{ ActivityProfile, Activity, Document, JSONContent, OtherContent }
   import com.arcusys.learn.tincan.lrs.utils.JsonCombiner
-
+  import org.joda.time.DateTime
 
   trait ActivityProfileLRS {
     val activityStorage: TincanActivityStorage
@@ -27,7 +25,7 @@ package activityprofile {
       activityProfileStorage.get(activityId, profileId).map(_.document)
     }
 
-    def getActivityDocumentIds(activityId: String, since: Option[Date]): Seq[String] = {
+    def getActivityDocumentIds(activityId: String, since: Option[DateTime]): Seq[String] = {
       require(activityId != null && !activityId.isEmpty,
         "Incorrect parameters were passed into 'ActivityProfileLRS.getActivityDocumentIds'")
       activityProfileStorage.getIds(activityId, since)
@@ -60,8 +58,7 @@ package activityprofile {
         case Some(s) if s.document.cType == JSONContent && document.cType == JSONContent =>
           val newContent = try {
             JsonCombiner.combine(s.document.contents, document.contents)
-          }
-          catch {
+          } catch {
             case exception: Throwable =>
               throw ActivityProfileLRSContentModificationException("Json Content type of given document can`t be compared with content type of existing document", exception)
           }
@@ -77,7 +74,7 @@ package activityprofile {
 
     def deleteActivityDocument(activityId: String, profileId: String) {
       checkArguments(activityId, profileId, "Incorrect parameters were passed to ActivityProfileLRS.deleteActivityDocument")
-       activityProfileStorage.delete(activityId, profileId)
+      activityProfileStorage.delete(activityId, profileId)
     }
 
     private def checkArguments(activityId: String, profileId: String, message: String = "") = {

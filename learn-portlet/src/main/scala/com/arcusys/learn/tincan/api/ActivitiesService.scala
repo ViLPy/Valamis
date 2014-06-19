@@ -2,16 +2,16 @@ package com.arcusys.learn.tincan.api
 
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
-import com.arcusys.learn.tincan.model.{OtherContent, JSONContent, Document}
+import com.arcusys.learn.tincan.model.{ OtherContent, JSONContent, Document }
 import org.joda.time.DateTime
 import com.arcusys.learn.tincan.lrs.activityprofile._
-import com.arcusys.learn.tincan.storage.{TincanActivityStorage, ActivityProfileStorage}
-import com.arcusys.learn.tincan.lrs.{ActivityProfileLRSArgumentException, ActivityProfileLRSAlreadyExistsException, ActivityProfileLRSContentModificationException, ActivityProfileLRSNotExistsException}
+import com.arcusys.learn.tincan.storage.{ TincanActivityStorage, ActivityProfileStorage }
+import com.arcusys.learn.tincan.lrs.{ ActivityProfileLRSArgumentException, ActivityProfileLRSAlreadyExistsException, ActivityProfileLRSContentModificationException, ActivityProfileLRSNotExistsException }
 import com.arcusys.learn.tincan.api.utils.TincanMethodOverride
 import com.escalatesoft.subcut.inject.BindingModule
-import com.arcusys.learn.oauth.BaseLrsClientApiController
+import com.arcusys.learn.controllers.oauth.BaseLrsClientApiApiController
 
-class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiController(configuration) with TincanMethodOverride {
+class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiApiController(configuration) with TincanMethodOverride {
   def this() = this(Configuration)
 
   val activityProfileLRS = new ActivityProfileLRS() {
@@ -19,7 +19,7 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
     val activityProfileStorage: ActivityProfileStorage = storageFactory.tincanLrsActivityProfileStorage
   }
 
-  def isJsonContent = request.getContentType.startsWith( """application/json""")
+  def isJsonContent = request.getContentType.startsWith("""application/json""")
 
   after() {
     response.addHeader("Cache-control", "must-revalidate,no-cache,no-store")
@@ -41,8 +41,7 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
     if (activity.isDefined)
       try {
         halt(200, serializeActivity(activity.get), reason = "OK")
-      }
-      catch {
+      } catch {
         case e: JSONSerializerException => halt(404, e.message, reason = "Not Found")
       }
     else
@@ -57,18 +56,16 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
     val activityId = parameter("activityId").required
 
     try {
-      if (parameter("profileId").contains()) {
+      if (parameter("profileId").contains) {
         activityProfileLRS.getActivityDocument(activityId, parameter("profileId").required) match {
           case Some(document) => halt(200, new String(document.contents), reason = "OK")
-          case None => halt(404, reason = "No Content")
+          case None           => halt(404, reason = "No Content")
         }
-      }
-      else {
-        val since = parameter("since").option.map(new DateTime(_).toDate)
+      } else {
+        val since = parameter("since").option.map(new DateTime(_))
         halt(200, serializeIds(activityProfileLRS.getActivityDocumentIds(activityId, since)), reason = "OK")
       }
-    }
-    catch {
+    } catch {
       case e: JSONSerializerException => halt(404, e.message, reason = "Not Found")
 
       case exception: Exception => {
@@ -86,8 +83,7 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
 
     try {
       activityProfileLRS.modifyActivityDocument(activityId, profileId, document)
-    }
-    catch {
+    } catch {
       case exception: ActivityProfileLRSNotExistsException => activityProfileLRS.addActivityDocument(activityId, profileId, document)
       case exception: ActivityProfileLRSContentModificationException => {
         exception.printStackTrace()
@@ -106,8 +102,7 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
 
     try {
       activityProfileLRS.addActivityDocument(activityId, profileId, document)
-    }
-    catch {
+    } catch {
       case exception: ActivityProfileLRSAlreadyExistsException => {
         activityProfileLRS.deleteActivityDocument(activityId, profileId)
         activityProfileLRS.addActivityDocument(activityId, profileId, document)
@@ -123,8 +118,7 @@ class ActivitiesService(configuration: BindingModule) extends BaseLrsClientApiCo
     try {
       activityProfileLRS.deleteActivityDocument(activityId, profileId)
       halt(204, reason = "No Content")
-    }
-    catch {
+    } catch {
       case exception: ActivityProfileLRSArgumentException => {
         halt(400, exception.message, reason = "Bad Request")
       }

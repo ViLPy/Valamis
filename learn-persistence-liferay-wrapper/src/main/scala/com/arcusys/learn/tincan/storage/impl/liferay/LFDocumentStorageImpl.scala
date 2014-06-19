@@ -12,7 +12,7 @@ trait LFDocumentStorageImpl extends EntityStorage[Document] {
       try {
         Option(LFTincanLrsDocumentLocalServiceUtil.findByDocumentId(documentId)).map(DocumentMapper.map)
       } catch {
-        case e:NoSuchLFTincanLrsDocumentException => None
+        case e: NoSuchLFTincanLrsDocumentException => None
       }
     }
     case _ => None
@@ -23,17 +23,17 @@ trait LFDocumentStorageImpl extends EntityStorage[Document] {
   }
 
   def create(entity: Document, parameters: (String, Any)*): Unit = {
-    createAndGetID(entity, parameters :_*)
+    createAndGetID(entity, parameters: _*)
   }
   def createAndGetID(entity: Document, parameters: (String, Any)*): Int = {
     val lfEntity = LFTincanLrsDocumentLocalServiceUtil.createLFTincanLrsDocument()
     lfEntity.setDocumentId(entity.id)
-    lfEntity.setUpdate(entity.updated)
+    lfEntity.setUpdate(entity.updated.toDate)
     lfEntity.setContent(entity.contents)
     lfEntity.setContentType(entity.cType match {
-      case JSONContent => JSONContent.name
+      case JSONContent  => JSONContent.name
       case OtherContent => OtherContent.name
-      case _ => ""
+      case _            => ""
     })
 
     LFTincanLrsDocumentLocalServiceUtil.addLFTincanLrsDocument(lfEntity).getId.toInt

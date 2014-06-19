@@ -2,11 +2,11 @@ package com.arcusys.learn.liferay.helpers
 
 import com.liferay.portal.kernel.util._
 import com.liferay.portal.service.ServiceContext
-import com.liferay.portlet.documentlibrary.service.{DLFolderLocalServiceUtil, DLAppServiceUtil}
+import com.liferay.portlet.documentlibrary.service.{ DLFolderLocalServiceUtil, DLAppServiceUtil }
 
 trait DocumentLibrarySupport {
   protected def addDLFileEntry(userId: Long, groupId: Long, folderId: Long, fileName: String,
-                               name: String, title: String, description: String, serviceContext: ServiceContext , isPublic: Boolean) = {
+    name: String, title: String, description: String, serviceContext: ServiceContext, isPublic: Boolean) = {
 
     val bytes = HookHelpers.getBytes(fileName)
 

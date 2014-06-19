@@ -1,0 +1,130 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.popup {
+	width: 100%;
+	min-height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: -1;
+	background: #000000;
+	opacity: 0.75;
+}
+
+.popup-container {
+	width: 100%;
+	max-width: 1000px;
+	background: #FFFFFF;
+	box-sizing: border-box;
+	margin: 100px auto;
+	z-index: 1;
+	position: relative;
+}
+
+.popup-header {
+	height: 60px;
+	width: 100%;
+	background: #f4f4f4 url(../images/popup-header-bg.jpg) top left repeat-x;
+	border-bottom: 1px solid #d3d4d5;
+}
+
+.popup-header-title {
+	line-height: 20px;
+	padding-top: 20px;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: 500!important;
+    /*font-weight: bold;*/
+
+}
+
+.popup-close {
+	width: 60px;
+	height: 60px;
+	background: url(../images/popup-close.png) center no-repeat;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.popup-content-container {
+	height: 663px;
+	position: relative;
+}
+
+.popup-sidebar {
+	background: #f4f4f4;
+	width: 259px;
+	padding: 20px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	border-right: 1px solid #d3d4d5;
+}
+
+.popup-content {
+	position: absolute;
+	top: 0;
+	left: 300px;
+	right: 0;
+	bottom: 0;
+	background: white;
+}
+
+.popup-content-header {
+	padding: 5px;
+}
+
+.popup-content-header h4 {
+	line-height: 40px;
+	float: left;
+	margin: 0;
+}
+
+.popup-content .table {
+	border: none;
+}
+
+.popup-footer {
+	padding: 20px;
+}
+
+.popup-footer .button {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+#edit-courses {
+	z-index: 50;
+}
+
+#add-courses {
+	display: none;
+	z-index: 100;
+}
+
+#add-courses.visible {
+	display: block;
+}
+
+#add-courses .popup-container {
+	max-width: 920px;
+	margin-top: 140px;
+}
+
+#add-courses .popup-content-container {
+	height: 446px;
+}

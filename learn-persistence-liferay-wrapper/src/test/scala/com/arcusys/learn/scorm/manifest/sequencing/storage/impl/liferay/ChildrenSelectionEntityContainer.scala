@@ -19,7 +19,7 @@ object ChildrenSelectionEntityContainer extends MockEntityContainer[LFChildrenSe
   def deleteFunction = _.deleteLFChildrenSelection(_)
   def updateFunction = _.updateLFChildrenSelection(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFChildrenSelections(_,_)
+  def getAllFunction = _.getLFChildrenSelections(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -41,11 +41,11 @@ object ChildrenSelectionEntityContainer extends MockEntityContainer[LFChildrenSe
     internalStorage --= filterBySequencingID(id).map(_.getId)
     ()
   }
-  private def filterBySequencingID(idRaw: Any): Seq[LFChildrenSelection] ={
+  private def filterBySequencingID(idRaw: Any): Seq[LFChildrenSelection] = {
     internalStorage.values.filter(obj => obj.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

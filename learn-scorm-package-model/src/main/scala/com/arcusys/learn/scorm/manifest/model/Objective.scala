@@ -9,12 +9,10 @@ import com.arcusys.learn.util.Extensions._
  * @param minNormalizedMeasure  Minimum satisfaction measure for objective
  * @param globalObjectiveMap    Describes mapping from this objective to a global objective
  */
-class Objective
-(
-  val id: Option[String],
-  val satisfiedByMeasure: Boolean,
-  val minNormalizedMeasure: BigDecimal,
-  val globalObjectiveMap: ObjectiveMap = ObjectiveMap.Empty
-  ) {
-  require(minNormalizedMeasure between(-1, 1), "min normalized measure should be between -1 and 1, but was " + minNormalizedMeasure)
+class Objective(
+    val id: Option[String],
+    val satisfiedByMeasure: Boolean,
+    val minNormalizedMeasure: BigDecimal,
+    val globalObjectiveMap: ObjectiveMap = ObjectiveMap.Empty) {
+  require(minNormalizedMeasure between (-1, 1), "min normalized measure should be between -1 and 1, but was " + minNormalizedMeasure)
 }

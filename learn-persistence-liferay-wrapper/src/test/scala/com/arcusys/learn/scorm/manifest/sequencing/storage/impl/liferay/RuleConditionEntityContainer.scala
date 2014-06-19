@@ -21,7 +21,7 @@ object RuleConditionEntityContainer extends MockEntityContainer[LFRuleConditionL
   def deleteFunction = _.deleteLFRuleCondition(_)
   def updateFunction = _.updateLFRuleCondition(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFRuleConditions(_,_)
+  def getAllFunction = _.getLFRuleConditions(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -53,14 +53,14 @@ object RuleConditionEntityContainer extends MockEntityContainer[LFRuleConditionL
     ()
   }
 
-  private def filterByRollup(idRaw: Any): Seq[LFRuleCondition] ={
+  private def filterByRollup(idRaw: Any): Seq[LFRuleCondition] = {
     internalStorage.values.filter(obj => obj.getRollupRuleID == unwrapId(idRaw)).toSeq
   }
-  private def filterByConditionRule(idRaw: Any): Seq[LFRuleCondition] ={
+  private def filterByConditionRule(idRaw: Any): Seq[LFRuleCondition] = {
     internalStorage.values.filter(obj => obj.getConditionRuleID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

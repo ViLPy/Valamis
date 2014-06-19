@@ -8,10 +8,9 @@ class ObjectiveParser(objectiveElement: Elem, extendedMap: Map[String, Seq[Elem]
   def parse(primary: Boolean) = {
     val satisfiedByMeasure = objectiveElement attr "satisfiedByMeasure" withDefault false
     val objectiveID = objectiveElement attr "objectiveID" optional string
-    val objectiveMapElements = objectiveElement children("imsss", "mapInfo")
-    val minNormalizedMeasure = objectiveElement childElem("imsss", "minNormalizedMeasure") withDefault BigDecimal(1)
-    var readSatisfiedStatusFrom, readNormalizedMeasureFrom,
-    writeSatisfiedStatusTo, writeNormalizedMeasureTo: Option[String] = None
+    val objectiveMapElements = objectiveElement children ("imsss", "mapInfo")
+    val minNormalizedMeasure = objectiveElement childElem ("imsss", "minNormalizedMeasure") withDefault BigDecimal(1)
+    var readSatisfiedStatusFrom, readNormalizedMeasureFrom, writeSatisfiedStatusTo, writeNormalizedMeasureTo: Option[String] = None
     objectiveMapElements.foreach(objectiveMapElement => {
       val globalObjectiveIdentifier = objectiveMapElement attr "targetObjectiveID" required string
       if (objectiveMapElement attr "readSatisfiedStatus" withDefault true)
@@ -27,8 +26,7 @@ class ObjectiveParser(objectiveElement: Elem, extendedMap: Map[String, Seq[Elem]
         if (writeNormalizedMeasureTo.isDefined) throw new SCORMParserException("Only one global objective map per local objective may have `writeNormalizedMeasure` attribute set to true")
         else writeNormalizedMeasureTo = Some(globalObjectiveIdentifier)
     })
-    var readRawScoreFrom, readMinScoreFrom, readMaxScoreFrom, readCompletionStatusFrom, readProgressMeasureFrom,
-    writeRawScoreTo, writeMinScoreTo, writeMaxScoreTo, writeCompletionStatusTo, writeProgressMeasureTo: Option[String] = None
+    var readRawScoreFrom, readMinScoreFrom, readMaxScoreFrom, readCompletionStatusFrom, readProgressMeasureFrom, writeRawScoreTo, writeMinScoreTo, writeMaxScoreTo, writeCompletionStatusTo, writeProgressMeasureTo: Option[String] = None
     if (objectiveID.isDefined && extendedMap.contains(objectiveID.get)) {
       extendedMap(objectiveID.get).foreach(extendedMappingElement => {
         val globalObjectiveIdentifier = extendedMappingElement attr "targetObjectiveID" required string
@@ -66,7 +64,7 @@ class ObjectiveParser(objectiveElement: Elem, extendedMap: Map[String, Seq[Elem]
     }
     if (objectiveID.isEmpty && (!primary ||
       (readSatisfiedStatusFrom.isDefined || readNormalizedMeasureFrom.isDefined || writeSatisfiedStatusTo.isDefined || writeNormalizedMeasureTo.isDefined)
-      )) throw new SCORMParserException("`ObjectiveID` attribute not defined for objective")
+    )) throw new SCORMParserException("`ObjectiveID` attribute not defined for objective")
     new Objective(objectiveID, satisfiedByMeasure, minNormalizedMeasure,
       new ObjectiveMap(
         readSatisfiedStatusFrom,

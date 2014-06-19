@@ -36,8 +36,26 @@ create index IX_637C536E on Learn_LFBigDecimal (decimal_);
 create index IX_936CDEE0 on Learn_LFCertificate (companyID);
 create index IX_23A101E0 on Learn_LFCertificate (title);
 
+create index IX_54983B05 on Learn_LFCertificateActivity (activityName);
+create index IX_81BEFAAB on Learn_LFCertificateActivity (certificateID);
+create index IX_7A8DF919 on Learn_LFCertificateActivity (certificateID, activityName);
+
+create index IX_1D257E9F on Learn_LFCertificateCourse (certificateID);
+create index IX_B452A7C9 on Learn_LFCertificateCourse (certificateID, courseID);
+create index IX_ECD5704D on Learn_LFCertificateCourse (courseID);
+
 create index IX_FE9A5473 on Learn_LFCertificateSite (certificateID);
 create index IX_35A1E709 on Learn_LFCertificateSite (certificateID, siteID);
+
+create index IX_6B35B606 on Learn_LFCertificateTincanStatement (certificateID);
+create index IX_9ADBD0CC on Learn_LFCertificateTincanStatement (certificateID, verb, object);
+create index IX_59F13A8F on Learn_LFCertificateTincanStatement (object);
+create index IX_64A8ABEF on Learn_LFCertificateTincanStatement (verb);
+create index IX_9DBABFE2 on Learn_LFCertificateTincanStatement (verb, object);
+
+create index IX_1B0AF534 on Learn_LFCertificateToUser (certificateID);
+create index IX_CD480048 on Learn_LFCertificateToUser (userID);
+create index IX_5BA26BDA on Learn_LFCertificateToUser (userID, certificateID);
 
 create index IX_128B606F on Learn_LFCertificateUser (certificateID);
 create index IX_2471F16D on Learn_LFCertificateUser (userID);
@@ -71,6 +89,9 @@ create index IX_FD0817C1 on Learn_LFPackage (courseID);
 
 create index IX_1C6A5550 on Learn_LFPackageComment (socialPackageID);
 
+create index IX_12D73E15 on Learn_LFPackageGradeStorage (userId);
+create index IX_6A5D823C on Learn_LFPackageGradeStorage (userId, packageId);
+
 create index IX_5E072CCC on Learn_LFPackageScopeRule (packageID);
 create index IX_B73E9B27 on Learn_LFPackageScopeRule (packageID, scope, scopeID);
 create index IX_BED05C0 on Learn_LFPackageScopeRule (scope, scopeID);
@@ -93,6 +114,9 @@ create index IX_EB6662E7 on Learn_LFQuizQuestion (quizId, categoryId);
 
 create index IX_B1D50698 on Learn_LFQuizQuestionCategory (quizId);
 create index IX_43EB0DB1 on Learn_LFQuizQuestionCategory (quizId, parentId);
+
+create index IX_5328A41E on Learn_LFQuizTreeElement (quizID);
+create index IX_7C8C5429 on Learn_LFQuizTreeElement (quizID, elementID);
 
 create index IX_BEED6D51 on Learn_LFRequiredActivity (achievementId);
 
@@ -143,7 +167,9 @@ create index IX_68D244E3 on Learn_LFTincanLrsAttachment (parentID);
 create index IX_2A760C2C on Learn_LFTincanLrsDocument (documentId);
 
 create index IX_538EDAB4 on Learn_LFTincanLrsState (activityId);
+create index IX_AFAFFDFC on Learn_LFTincanLrsState (activityId, agentId);
 create index IX_98BFD988 on Learn_LFTincanLrsState (activityId, stateId);
+create index IX_88077015 on Learn_LFTincanLrsState (activityId, stateId, agentId, registration);
 
 create index IX_D28AE6C on Learn_LFTincanLrsStatement (actorID);
 create index IX_FE381CB5 on Learn_LFTincanLrsStatement (objType, objID);

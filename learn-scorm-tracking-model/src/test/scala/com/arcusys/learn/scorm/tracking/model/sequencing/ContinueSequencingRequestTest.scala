@@ -1,6 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model.SequencingPermissions
+import com.escalatesoft.subcut.inject.NewBindingModule
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class ContinueSequencingRequestTest extends SequencingRequestServiceTestBase(SequencingRequestType.Continue) {
@@ -20,17 +21,26 @@ class ContinueSequencingRequestTest extends SequencingRequestServiceTestBase(Seq
     )
   }
 
-  it should "succeed with end session if current activity is last leaf (ending sessions on curret's ancestors except for root)" in {
-    val parentPermissions = new SequencingPermissions(choiceForChildren = false, choiceForNonDescendants = false, flowForChildren = true, forwardOnlyForChildren = true)
+  it should "succeed with end session if current activity is last leaf (ending sessions on current ancestors except for root)" in {
+    val parentPermissions = new SequencingPermissions(
+      choiceForChildren = false,
+      choiceForNonDescendants = false,
+      flowForChildren = true,
+      forwardOnlyForChildren = true
+    )
     val tree = twoLevelTree(rootPermissions = parentPermissions)
     tree.currentActivity = Some(tree.children(1))
-
     expectResult(SequencingResponseEndSession, tree)
-    val anotherTree = threeLevelTree(rightPermissions = parentPermissions)
 
-    anotherTree.currentActivity = Some(anotherTree.children(1).children(1))
-    endAttemptService expects 'apply withArgs (anotherTree.children(1)) once()
-    expectResult(SequencingResponseEndSession, anotherTree)
+    val anotherTree = threeLevelTree(rightPermissions = parentPermissions)
+    val anotherTreeChild = anotherTree.children(1)
+    anotherTree.currentActivity = Some(anotherTreeChild.children(1))
+
+    val mockEndAttemptService = mock[EndAttemptServiceContract]
+    (mockEndAttemptService.apply _) expects (anotherTree.children(1)) once ()
+
+    val sequencingRequestService = createService(mockEndAttemptService)
+    sequencingRequestService(anotherTree, requestType) should equal(SequencingResponseEndSession)
   }
 
   it should "succeed with end session if current activity is root" in {

@@ -1905,6 +1905,7 @@ public class LFTincanPackagePersistenceImpl extends BasePersistenceImpl<LFTincan
         lfTincanPackageImpl.setSummary(lfTincanPackage.getSummary());
         lfTincanPackageImpl.setAssetRefID(lfTincanPackage.getAssetRefID());
         lfTincanPackageImpl.setCourseID(lfTincanPackage.getCourseID());
+        lfTincanPackageImpl.setLogo(lfTincanPackage.getLogo());
 
         return lfTincanPackageImpl;
     }

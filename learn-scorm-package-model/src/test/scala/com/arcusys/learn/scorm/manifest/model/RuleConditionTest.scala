@@ -42,17 +42,17 @@ class RuleConditionTest extends FlatSpec with ShouldMatchers {
 
   it should "accept threshold == 1" in {
     val condition = new RuleCondition(ConditionType.ObjectiveMeasureGreaterThan, Some("OBJECTIVE_ID"), Some(BigDecimal("1")))
-    condition.measureThreshold should equal (Some(BigDecimal("1")))
+    condition.measureThreshold should equal(Some(BigDecimal("1")))
   }
 
   it should "accept threshold == 0" in {
     val condition = new RuleCondition(ConditionType.ObjectiveMeasureGreaterThan, Some("OBJECTIVE_ID"), Some(BigDecimal("0")))
-    condition.measureThreshold should equal (Some(BigDecimal("0")))
+    condition.measureThreshold should equal(Some(BigDecimal("0")))
   }
 
   it should "accept threshold == -1" in {
     val condition = new RuleCondition(ConditionType.ObjectiveMeasureGreaterThan, Some("OBJECTIVE_ID"), Some(BigDecimal("-1")))
-    condition.measureThreshold should equal (Some(BigDecimal("-1")))
+    condition.measureThreshold should equal(Some(BigDecimal("-1")))
   }
 
   it should "not accept threshold < -1" in {

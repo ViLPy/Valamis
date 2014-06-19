@@ -1,17 +1,16 @@
 package com.arcusys.learn.view
 
-
-import javax.portlet.{GenericPortlet, RenderResponse, RenderRequest}
+import javax.portlet.{ GenericPortlet, RenderResponse, RenderRequest }
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
 import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.util.MustacheSupport
 
-class PackageManagerView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with SessionSupport{
+class PackageManagerView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with SessionSupport with TemplateCoupler {
   override def destroy() {}
 
-  override def doView(request: RenderRequest, response: RenderResponse){
+  override def doView(request: RenderRequest, response: RenderResponse) {
     setupSession(request: RenderRequest, response: RenderResponse)
     val out = response.getWriter
 
@@ -21,7 +20,7 @@ class PackageManagerView extends GenericPortlet with ScalatraFilter with Mustach
     val language = LiferayHelpers.getLanguage(request)
 
     val hasPermissions = userManagement.hasTeacherPermissions(userId, courseId)
-    if(!hasPermissions){
+    if (!hasPermissions) {
       val translations = getTranslation("error", language)
       out.println(mustache(translations, "scorm_nopermissions.html"))
     } else {
@@ -40,7 +39,10 @@ class PackageManagerView extends GenericPortlet with ScalatraFilter with Mustach
       val data = Map("contextPath" -> request.getContextPath, "userID" -> userUID, "groupID" -> groupID, "isAdmin" -> true,
         "language" -> language, "courseID" -> courseId, "isPortlet" -> true, "companyID" -> companyId) ++ translations
 
-      out.println(mustache(data, "scorm_package_management.html"))
+      out.println(getTemplate("/templates/2.0/package-manager.html") +
+        getTemplate("/templates/2.0/file-uploader.html") +
+        getTemplate("templates/2.0/paginator.html") +
+        mustache(data, "package_manager.html"))
     }
   }
 
@@ -49,7 +51,7 @@ class PackageManagerView extends GenericPortlet with ScalatraFilter with Mustach
       getTranslation("/i18n/" + view + "_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
   }
 }

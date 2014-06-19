@@ -4,24 +4,23 @@ import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
 import org.junit.runner.RunWith
 
-import java.util.{Date, UUID}
+import java.util.{ Date, UUID }
 
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.tincan.lrs.state._
 import com.arcusys.learn.tincan.storage.StateStorage
 import com.arcusys.learn.tincan.model.State
 import com.arcusys.learn.tincan.model.Agent
-import scala.Some
 import com.arcusys.learn.tincan.lrs.state.StateLRSDocumentAlreadyExistsException
-import scala.Some
 import com.arcusys.learn.tincan.lrs.state.StateLRSDocumentModificationException
 import com.arcusys.learn.tincan.model.State
 import com.arcusys.learn.tincan.lrs.state.StateLRSArgumentException
 import com.arcusys.learn.tincan.model.Agent
-
+import org.joda.time.DateTime
 
 @RunWith(classOf[JUnitRunner])
-class StateLRSSpec extends Specification { sequential
+class StateLRSSpec extends Specification {
+  sequential
 
   private val service = new state.StateLRS {
     val stateStorage: StateStorage = InMemoryStateStorage
@@ -34,30 +33,30 @@ class StateLRSSpec extends Specification { sequential
   "The 'addStateDocument' method" should {
 
     "add state document" in {
-      val s = State("activityId-1000", "stateId-0001", agent, None, Document("dId-1", new Date, "1", OtherContent))
+      val s = State("activityId-1000", "stateId-0001", agent, None, Document("dId-1", new DateTime(), "1", OtherContent))
       InMemoryStateStorage.all.find(d =>
         d.activityId == s.activityId &&
-        d.stateId == s.stateId &&
-        d.agent == s.agent &&
-        d.registration == s.registration) must beNone
+          d.stateId == s.stateId &&
+          d.agent == s.agent &&
+          d.registration == s.registration) must beNone
 
       service.addStateDocument(s)
 
       InMemoryStateStorage.all.filter(d =>
         d.activityId == s.activityId &&
-        d.stateId == s.stateId &&
-        d.agent == s.agent &&
-        d.registration == s.registration) must have size 1
+          d.stateId == s.stateId &&
+          d.agent == s.agent &&
+          d.registration == s.registration) must have size 1
     }
 
     "throw 'StateLRSDocumentAlreadyExistsException' if given document already exists" in {
-      val s = State("activityId-666", "stateId-999", agent, None, Document("dId-111", new Date, "1", OtherContent))
+      val s = State("activityId-666", "stateId-999", agent, None, Document("dId-111", new DateTime, "1", OtherContent))
       service.addStateDocument(s) must throwA[StateLRSDocumentAlreadyExistsException]
       InMemoryStateStorage.all.filter(d =>
         d.activityId == s.activityId &&
-        d.stateId == s.stateId &&
-        d.agent == s.agent &&
-        d.registration == s.registration) must have size 1
+          d.stateId == s.stateId &&
+          d.agent == s.agent &&
+          d.registration == s.registration) must have size 1
     }
 
     "throw 'StateLRSArgumentException' if given state document object is null" in {
@@ -65,27 +64,27 @@ class StateLRSSpec extends Specification { sequential
     }
 
     "throw 'StateLRSArgumentException' if given activityId is null" in {
-      val state = State(null, "stateId-111", agent, None, Document("id-111", new Date, "", OtherContent))
+      val state = State(null, "stateId-111", agent, None, Document("id-111", new DateTime, "", OtherContent))
       service.addStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given activityId is an empty string" in {
-      val state = State("", "stateId-111", agent, None, Document("id-111", new Date, "", OtherContent))
+      val state = State("", "stateId-111", agent, None, Document("id-111", new DateTime, "", OtherContent))
       service.addStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given state id is null" in {
-      val state = State("aId-111", null, agent, None, Document("id-111", new Date, "", OtherContent))
+      val state = State("aId-111", null, agent, None, Document("id-111", new DateTime, "", OtherContent))
       service.addStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given state id is an empty string" in {
-      val state = State("aId-11", "", agent, None, Document("id-111", new Date, "", OtherContent))
+      val state = State("aId-11", "", agent, None, Document("id-111", new DateTime, "", OtherContent))
       service.addStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given agent is null" in {
-      val state = State("aId-11", "stateId-111", null, None, Document("id-111", new Date, "", OtherContent))
+      val state = State("aId-11", "stateId-111", null, None, Document("id-111", new DateTime, "", OtherContent))
       service.addStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
@@ -96,7 +95,6 @@ class StateLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'modifyStateDocument' method" should {
 
     //"merge given document with existing one if they content's type is json" ! pending
@@ -104,33 +102,33 @@ class StateLRSSpec extends Specification { sequential
     "modify existing document content if both the existing document and the given one have binary content type" in {
       val state = State("activityId-333", "stateId-777",
         agent, Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")),
-        Document("dId-111", new Date(), "10", OtherContent))
+        Document("dId-111", new DateTime(), "10", OtherContent))
       service.modifyStateDocument(state)
 
       val updated = InMemoryStateStorage.all.find(s =>
         s.activityId == state.activityId &&
-        s.stateId == state.stateId &&
-        s.agent == state.agent &&
-        s.registration == state.registration)
+          s.stateId == state.stateId &&
+          s.agent == state.agent &&
+          s.registration == state.registration)
       updated must beSome
       updated.get.content.contents === "10"
     }
 
     "throw 'StateLRSDocumentModificationException' if given document content's type is not json but existing one's is" in {
       InMemoryStateStorage.reset()
-      val s = State("activityId-666", "stateId-666", agent, None, Document("dId-11", new Date, "1", OtherContent))
+      val s = State("activityId-666", "stateId-666", agent, None, Document("dId-11", new DateTime, "1", OtherContent))
       service.modifyStateDocument(s) must throwA[StateLRSDocumentModificationException]
 
     }
 
     "throw 'StateLRSDocumentModificationException' if existing one content's type is not json but given one's is" in {
       InMemoryStateStorage.reset()
-      val s = State("activityId-666", "stateId-999", agent, None, Document("dId-11", new Date, "{x: 1}", JSONContent))
+      val s = State("activityId-666", "stateId-999", agent, None, Document("dId-11", new DateTime, "{x: 1}", JSONContent))
       service.modifyStateDocument(s) must throwA[StateLRSDocumentModificationException]
     }
 
     "throw 'StateLRSNotExistsException' if specified state document doesn't even exist" in {
-      val s = State("activityId-111", "stateId-111", agent, None, Document("dId-11", new Date, "", OtherContent))
+      val s = State("activityId-111", "stateId-111", agent, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(s) must throwA[StateLRSNotExistsException]
     }
 
@@ -139,27 +137,27 @@ class StateLRSSpec extends Specification { sequential
     }
 
     "throw 'StateLRSArgumentException' if given activityId is null" in {
-      val state = State(null, "stateId-111", agent, None, Document("dId-11", new Date, "", OtherContent))
+      val state = State(null, "stateId-111", agent, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given activityId is an empty string" in {
-      val state = State("", "stateId-111", agent, None, Document("dId-11", new Date, "", OtherContent))
+      val state = State("", "stateId-111", agent, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given state id is null" in {
-      val state = State("activityId-111", null, agent, None, Document("dId-11", new Date, "", OtherContent))
+      val state = State("activityId-111", null, agent, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given state id is an empty string" in {
-      val state = State("activityId-111", "", agent, None, Document("dId-11", new Date, "", OtherContent))
+      val state = State("activityId-111", "", agent, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
     "throw 'StateLRSArgumentException' if given agent is null" in {
-      val state = State("activityId-111", "stateId-111", null, None, Document("dId-11", new Date, "", OtherContent))
+      val state = State("activityId-111", "stateId-111", null, None, Document("dId-11", new DateTime, "", OtherContent))
       service.modifyStateDocument(state) must throwA[StateLRSArgumentException]
     }
 
@@ -169,7 +167,6 @@ class StateLRSSpec extends Specification { sequential
     }
 
   }
-
 
   "The 'getStateDocument' method" should {
 
@@ -209,21 +206,20 @@ class StateLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'getStateDocumentIds' method" should {
 
     "return state ids for given activity id, agent and specified registration" in {
       InMemoryStateStorage.reset()
       val since = System.currentTimeMillis - 12000l
       val result = service.getStateDocumentIds(
-        "activityId-666", agent, Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")), Some(new Date(since)))
+        "activityId-666", agent, Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")), Some(new DateTime(since)))
       result must have size 1
     }
 
     "return ids of those states that have been stored or updated since the specified timestamp" in {
       InMemoryStateStorage.reset()
       val since = System.currentTimeMillis - 13000l
-      val result = service.getStateDocumentIds("activityId-666", agent, None, Some(new Date(since)))
+      val result = service.getStateDocumentIds("activityId-666", agent, None, Some(new DateTime(since)))
       result must have size 1
       result.contains("stateId-666") must beTrue
       //result.contains("stateId-888") must beTrue
@@ -242,7 +238,6 @@ class StateLRSSpec extends Specification { sequential
     }
 
   }
-
 
   "The 'deleteStateDocument' method" should {
 
@@ -285,9 +280,9 @@ class StateLRSSpec extends Specification { sequential
       service.deleteStateDocument("activityId-1", "stateId-1", agent, None)
       InMemoryStateStorage.all.find(s =>
         s.activityId == "activityId-1" &&
-        s.stateId == "stateId-1" &&
-        s.agent == agent &&
-        s.registration == None) must beNone
+          s.stateId == "stateId-1" &&
+          s.agent == agent &&
+          s.registration == None) must beNone
     }
 
     "throw 'StateArgumentException' if required activity id is null" in {
@@ -312,7 +307,6 @@ class StateLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'deleteStateDocuments' method" should {
 
     "remove all state documents which satisfy given activity id and agent" in {
@@ -328,8 +322,8 @@ class StateLRSSpec extends Specification { sequential
       InMemoryStateStorage.all.
         filter(d =>
           d.activityId == "activityId-666" &&
-          d.agent == agent &&
-          d.registration == Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd"))) must have size 0
+            d.agent == agent &&
+            d.registration == Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd"))) must have size 0
     }
 
     "throw 'StateLRSArgumentException' if required activity id is null" in {
@@ -354,19 +348,19 @@ object InMemoryStateStorage extends StateStorage {
   private val defaults = List(
     State("activityId-666", "stateId-999",
       Agent("Agent", None, None, None, None, None), None,
-      Document("dId-111", new Date(currentTime - 20000l), "a", OtherContent)
+      Document("dId-111", new DateTime(currentTime - 20000l), "a", OtherContent)
     ),
     State("activityId-333", "stateId-777",
       Agent("Agent", None, None, None, None, None), Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")),
-      Document("dId-111", new Date(currentTime - 15000l), "5", OtherContent)
+      Document("dId-111", new DateTime(currentTime - 15000l), "5", OtherContent)
     ),
     State("activityId-666", "stateId-666",
       Agent("Agent", None, None, None, None, None), None,
-      Document("dId-222", new Date(currentTime - 10000l), "{x: 1}", JSONContent)
+      Document("dId-222", new DateTime(currentTime - 10000l), "{x: 1}", JSONContent)
     ),
     State("activityId-666", "stateId-888",
       Agent("Agent", None, None, None, None, None), Some(UUID.fromString("e093cd74-f691-4cd6-9667-17480c7f0bfd")),
-      Document("dId-333", new Date(currentTime - 5000l), "c", OtherContent)
+      Document("dId-333", new DateTime(currentTime - 5000l), "c", OtherContent)
     )
   )
 
@@ -381,11 +375,11 @@ object InMemoryStateStorage extends StateStorage {
         d.agent == agent &&
         d.registration == registration)
 
-  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[Date]): Seq[String] = all.filter(d =>
+  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[DateTime]): Seq[String] = all.filter(d =>
     d.activityId == activityId &&
       d.agent == agent &&
-      (d.registration == registration)&&
-      (!since.isDefined || d.content.updated.getTime >= since.get.getTime)
+      (d.registration == registration) &&
+      (!since.isDefined || d.content.updated.getMillis >= since.get.getMillis)
   ).map(_.stateId)
 
   def create(state: State): Unit = lock.synchronized {
@@ -423,5 +417,5 @@ object InMemoryStateStorage extends StateStorage {
     documents = defaults
   }
 
-  def renew() {reset()}
+  def renew() { reset() }
 }

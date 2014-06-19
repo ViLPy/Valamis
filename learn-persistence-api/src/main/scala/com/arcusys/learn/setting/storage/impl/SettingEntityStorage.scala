@@ -1,8 +1,8 @@
 package com.arcusys.learn.setting.storage.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.setting.storage.SettingStorage
-import com.arcusys.learn.settings.model.{SettingType, Setting}
+import com.arcusys.learn.settings.model.{ SettingType, Setting }
 
 /**
  * User: Yulia.Glushonkova
@@ -13,9 +13,9 @@ trait SettingEntityStorage extends SettingStorage with KeyedEntityStorageExt[Set
     getOne("key" -> key.toString)
   }
 
-  def modify(key: SettingType.Value, value: String){
+  def modify(key: SettingType.Value, value: String) {
     val item = getByKey(key)
-    if (item.isDefined) modify("key"-> key.toString, "value"-> value)
-    else createAndGetID("key"-> key.toString, "value"-> value)
+    if (item.isDefined) modify("key" -> key.toString, "value" -> value)
+    else createAndGetID("key" -> key.toString, "value" -> value)
   }
 }

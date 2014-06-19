@@ -1,7 +1,6 @@
 package com.arcusys.learn.scorm.tracking.model
 
-case class Attempt
-(
+case class Attempt(
   id: Int,
   user: User,
   packageID: Int,

@@ -14,19 +14,19 @@ import com.arcusys.learn.quiz.storage.impl.QuizQuestionFieldsMapper
  * Date: 15.3.2013
  */
 trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
-  protected def doRenew() { LFQuizQuestionLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFQuizQuestionLocalServiceUtil.removeAll() }
 
   def questionStorage: QuestionStorage
 
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
 
-  def getAll(parameters: (String, Any)*) ={
+  def getAll(parameters: (String, Any)*) = {
     val lfResult = parameters match {
       case Seq(("quizID", quizID: Int)) =>
         LFQuizQuestionLocalServiceUtil.findByQuizID(quizID)
       case Seq(("quizID", quizID: Int), ("categoryID", categoryID: Int)) =>
-        LFQuizQuestionLocalServiceUtil.findByQuizAndCategory(quizID, if (categoryID == -1)  null else categoryID)
-      case _ => LFQuizQuestionLocalServiceUtil.getLFQuizQuestions(-1,-1)
+        LFQuizQuestionLocalServiceUtil.findByQuizAndCategory(quizID, if (categoryID == -1) null else categoryID)
+      case _ => LFQuizQuestionLocalServiceUtil.getLFQuizQuestions(-1, -1)
     }
     lfResult.asScala.map { extract }.sortBy(_.arrangementIndex)
   }
@@ -43,7 +43,7 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
     throw new UnsupportedOperationException
   }
 
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
   def delete(parameters: (String, Any)*) {
     idParam(parameters: _*) foreach { LFQuizQuestionLocalServiceUtil.deleteLFQuizQuestion(_) }
@@ -77,18 +77,19 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
     (entity, parameters) match {
       case (null, _: Seq[(String, Any)]) => {
         parameters.foreach {
-          param => param match {
-            case ("id", id: Int) => lfEntity.setId(id)
-            // quizID: Int, categoryID: Option[Int], questionID: Int
-            case ("quizID", quizID: Int) => lfEntity.setQuizId(quizID)
-            case ("categoryID", categoryID: Option[Int]) => lfEntity.setCategoryId(categoryID)
-            case ("questionID", questionID: Int) => lfEntity.setQuestionId(questionID)
-            case ("title", title: String) => lfEntity.setTitle(title)
-            case ("url", url: String) => lfEntity.setUrl(url)
-            case ("questionType", questionType: String) => lfEntity.setQuestionType(questionType)
-            case ("text", text: String) => lfEntity.setPlainText(text)
-            case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
-          }
+          param =>
+            param match {
+              case ("id", id: Int)                             => lfEntity.setId(id)
+              // quizID: Int, categoryID: Option[Int], questionID: Int
+              case ("quizID", quizID: Int)                     => lfEntity.setQuizId(quizID)
+              case ("categoryID", categoryID: Option[Int])     => lfEntity.setCategoryId(categoryID)
+              case ("questionID", questionID: Int)             => lfEntity.setQuestionId(questionID)
+              case ("title", title: String)                    => lfEntity.setTitle(title)
+              case ("url", url: String)                        => lfEntity.setUrl(url)
+              case ("questionType", questionType: String)      => lfEntity.setQuestionType(questionType)
+              case ("text", text: String)                      => lfEntity.setPlainText(text)
+              case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
+            }
         }
         update(lfEntity)
       }
@@ -112,11 +113,23 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
 
   def createQuizQuestion(mapper: QuizQuestionFieldsMapper): QuizQuestion
 
-  def modify(entity: QuizQuestion, parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def modify(entity: QuizQuestion, parameters: (String, Any)*) {
+    parameters match {
+      case Seq(("parentID", parentID: Option[Int])) => {
+        val lfEntity = LFQuizQuestionLocalServiceUtil.getLFQuizQuestion(entity.id)
+        if (parentID.isDefined)
+          lfEntity.setCategoryId(parentID.get)
+        else
+          lfEntity.setCategoryId(null)
+        LFQuizQuestionLocalServiceUtil.updateLFQuizQuestion(lfEntity)
+      }
+      case _ => None
+    }
+  }
 
   def idParam(parameters: (String, Any)*): Option[Int] = {
     parameters find {
       _._1 == "id"
-    } map {_._2.asInstanceOf[Int]}
+    } map { _._2.asInstanceOf[Int] }
   }
 }

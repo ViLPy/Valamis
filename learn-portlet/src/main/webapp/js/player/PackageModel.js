@@ -11,7 +11,7 @@ PlayerPackageModel = Backbone.Model.extend({
 PlayerPackageCollectionService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
         'read': function () {
-            return "/services/packages?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val();
+            return "services/packages?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val();
         }
     }
 });

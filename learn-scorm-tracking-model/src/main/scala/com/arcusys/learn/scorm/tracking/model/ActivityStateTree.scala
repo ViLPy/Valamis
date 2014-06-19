@@ -3,7 +3,7 @@ package com.arcusys.learn.scorm.tracking.model
 import com.arcusys.learn.util.TreeNode
 import scala.collection.mutable
 import com.arcusys.learn.scorm.manifest.model._
-import sequencing.{SequencingRulesResponse, TerminationRequestType, SequencingRequestType}
+import sequencing.{ SequencingRulesResponse, TerminationRequestType, SequencingRequestType }
 
 /**
  * The whole activity state tree
@@ -11,15 +11,13 @@ import sequencing.{SequencingRulesResponse, TerminationRequestType, SequencingRe
  * @param children          Activity state nodes under organization
  * @param currentActivityID ID of current activity, if any
  */
-class ActivityStateTree
-(
+class ActivityStateTree(
   organizationState: ActivityState,
   children: Seq[ActivityStateNode],
   currentActivityID: Option[String],
   suspendedActivityID: Option[String],
-  val globalObjectiveData: mutable.Map[String, GlobalObjectiveState]
-  )
-  extends ActivityStateNode(organizationState, children) {
+  val globalObjectiveData: mutable.Map[String, GlobalObjectiveState])
+    extends ActivityStateNode(organizationState, children) {
   private val allActivities = mutable.Map[String, ActivityStateNode]()
 
   private def traverse(node: ActivityStateNode) {
@@ -60,13 +58,13 @@ class ActivityStateTree
       case None => SequencingRulesResponse()
       case Some(sequencingRulesCheckResponse: PostConditionAction.Value) => sequencingRulesCheckResponse match {
         case PostConditionAction.ExitParent => SequencingRulesResponse.termination(TerminationRequestType.ExitParent)
-        case PostConditionAction.ExitAll => SequencingRulesResponse.termination(TerminationRequestType.ExitAll)
-        case PostConditionAction.Retry => SequencingRulesResponse.sequencing(SequencingRequestType.Retry)
-        case PostConditionAction.Continue => SequencingRulesResponse.sequencing(SequencingRequestType.Continue)
-        case PostConditionAction.Previous => SequencingRulesResponse.sequencing(SequencingRequestType.Previous)
+        case PostConditionAction.ExitAll    => SequencingRulesResponse.termination(TerminationRequestType.ExitAll)
+        case PostConditionAction.Retry      => SequencingRulesResponse.sequencing(SequencingRequestType.Retry)
+        case PostConditionAction.Continue   => SequencingRulesResponse.sequencing(SequencingRequestType.Continue)
+        case PostConditionAction.Previous   => SequencingRulesResponse.sequencing(SequencingRequestType.Previous)
         //TODO: calling code ignores sequencing request in this case. Study other implementations
-        case PostConditionAction.RetryAll => SequencingRulesResponse(TerminationRequestType.ExitAll, SequencingRequestType.Retry)
-        case _ => SequencingRulesResponse()
+        case PostConditionAction.RetryAll   => SequencingRulesResponse(TerminationRequestType.ExitAll, SequencingRequestType.Retry)
+        case _                              => SequencingRulesResponse()
       }
     }
   }
@@ -74,9 +72,10 @@ class ActivityStateTree
   def flatPreOrderedActivityList: Seq[ActivityStateNode] = {
     def traverse(nodes: Seq[ActivityStateNode]): Seq[ActivityStateNode] = {
       nodes.foldLeft(Seq[ActivityStateNode]()) {
-        (resultedList, nodeActivity) => {
-          (resultedList :+ nodeActivity) ++ traverse(nodeActivity.availableChildren)
-        }
+        (resultedList, nodeActivity) =>
+          {
+            (resultedList :+ nodeActivity) ++ traverse(nodeActivity.availableChildren)
+          }
       }
     }
 
@@ -92,7 +91,7 @@ object ActivityStateTree {
     def parse(activityNode: TreeNode[Activity]): ActivityStateNode = {
       val objectiveMap: Map[Option[String], ObjectiveState] = activityNode.item.sequencing.nonPrimaryObjectives.map(objective => Some(objective.id.get) -> objectiveState(activityNode.item, Some(objective.id.get), objective.globalObjectiveMap)).toMap ++
         (activityNode.item.sequencing.primaryObjective match {
-          case None => Map[Option[String], ObjectiveState]()
+          case None                   => Map[Option[String], ObjectiveState]()
           case Some(primaryObjective) => Map[Option[String], ObjectiveState](None -> objectiveState(activityNode.item, primaryObjective.id, primaryObjective.globalObjectiveMap))
         })
       val activityState = new ActivityState(activityNode.item, active = false, suspended = false, attemptCompleted = None, attemptCompletionAmount = None,
@@ -101,8 +100,7 @@ object ActivityStateTree {
         objectiveStates = objectiveMap)
       val result = new ActivityStateNode(activityState, activityNode.children map parse)
       if ((Some(activityNode.item.id) == currentActivityID && currentActive) ||
-        (result.children.exists(a => a.item.active || Some(a.item.activity.id) == currentActivityID))
-      ) activityState.active = true
+        (result.children.exists(a => a.item.active || Some(a.item.activity.id) == currentActivityID))) activityState.active = true
       if ((Some(activityNode.item.id) == suspendedActivityID) || (result.children.exists(a => a.item.suspended))) activityState.suspended = true
       result
     }

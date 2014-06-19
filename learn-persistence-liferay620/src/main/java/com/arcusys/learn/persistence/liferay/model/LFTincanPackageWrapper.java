@@ -42,6 +42,7 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
         attributes.put("summary", getSummary());
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
+        attributes.put("logo", getLogo());
 
         return attributes;
     }
@@ -76,6 +77,12 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
     }
 
@@ -197,6 +204,26 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
     @Override
     public void setCourseID(java.lang.Integer courseID) {
         _lfTincanPackage.setCourseID(courseID);
+    }
+
+    /**
+    * Returns the logo of this l f tincan package.
+    *
+    * @return the logo of this l f tincan package
+    */
+    @Override
+    public java.lang.String getLogo() {
+        return _lfTincanPackage.getLogo();
+    }
+
+    /**
+    * Sets the logo of this l f tincan package.
+    *
+    * @param logo the logo of this l f tincan package
+    */
+    @Override
+    public void setLogo(java.lang.String logo) {
+        _lfTincanPackage.setLogo(logo);
     }
 
     @Override

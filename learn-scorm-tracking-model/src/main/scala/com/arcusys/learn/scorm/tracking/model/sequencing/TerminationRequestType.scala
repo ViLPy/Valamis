@@ -7,11 +7,11 @@ object TerminationRequestType extends Enumeration {
   def forNavigationRequest(navigationRequest: NavigationRequestType.Value): TerminationRequestType.Value =
     navigationRequest match {
       case NavigationRequestType.Start | NavigationRequestType.ResumeAll |
-           NavigationRequestType.Continue | NavigationRequestType.Previous |
-           NavigationRequestType.Choice | NavigationRequestType.Jump | NavigationRequestType.Exit => Exit
-      case NavigationRequestType.ExitAll => ExitAll
+        NavigationRequestType.Continue | NavigationRequestType.Previous |
+        NavigationRequestType.Choice | NavigationRequestType.Jump | NavigationRequestType.Exit => Exit
+      case NavigationRequestType.ExitAll    => ExitAll
       case NavigationRequestType.SuspendAll => SuspendAll
-      case NavigationRequestType.Abandon => Abandon
+      case NavigationRequestType.Abandon    => Abandon
       case NavigationRequestType.AbandonAll => AbandonAll
     }
 }

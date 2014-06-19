@@ -3,7 +3,7 @@ package com.arcusys.learn.scorm.tracking.storage.impl.liferay
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalService
 import com.arcusys.learn.persistence.liferay.model.LFUser
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
-import java.lang.{Integer => JavaInt}
+import java.lang.{ Integer => JavaInt }
 import scala.collection.JavaConverters._
 
 /**
@@ -45,14 +45,16 @@ object UserEntityContainer extends MockEntityContainer[LFUserLocalService, LFUse
   def getIdFunction = _.getLfid
 
   mockLocalService.findByUserId(any) answers {
-    id => {
-      val entity = internalStorage.values.filter(entity => entity.getId == id).headOption
-      if (entity.isEmpty) null
-      else entity.get
-    }
+    id =>
+      {
+        val entity = internalStorage.values.filter(entity => entity.getId == id).headOption
+        if (entity.isEmpty) null
+        else entity.get
+      }
   }
 
-  mockLocalService.findByUserIds(any) answers { ids => {
+  mockLocalService.findByUserIds(any) answers { ids =>
+    {
       val id: Array[JavaInt] = ids match {
         case x: Array[JavaInt] => x
       }
@@ -69,7 +71,7 @@ object UserEntityContainer extends MockEntityContainer[LFUserLocalService, LFUse
   private def filterByUserId(idRaw: Any): Seq[LFUser] = internalStorage.values.filter(user => user.getId == unwrapId(idRaw)).toSeq
 
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

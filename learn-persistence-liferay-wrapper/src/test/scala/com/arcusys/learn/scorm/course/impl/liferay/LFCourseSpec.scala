@@ -25,33 +25,33 @@ class LFCourseSpec extends SpecificationWithJUnit with Mockito with ThrownExpect
   "LFCourseStorageImpl" should {
 
     "execute 'create' without errors" in new Context {
-      courseStorage.create(new Course(100, 1, "","")) must not(throwA[Exception])
+      courseStorage.create(new Course(100, 1, "", "")) must not(throwA[Exception])
     }
 
     "execute 'getByCourseIdAndUserId' without errors" in new Context {
-      courseStorage.create(new Course(200, 423, "","")) must not(throwA[Exception])
-      var fetched = courseStorage.getOne("courseID" -> 200, "userID"->423)
+      courseStorage.create(new Course(200, 423, "", "")) must not(throwA[Exception])
+      var fetched = courseStorage.getOne("courseID" -> 200, "userID" -> 423)
       fetched must beSome
-      fetched.get.courseID must beEqualTo (200)
+      fetched.get.courseID must beEqualTo(200)
     }
 
     "execute 'get not existed' without errors" in new Context {
-      var fetched = courseStorage.getOne("courseID" -> 9, "userID"->1)
+      var fetched = courseStorage.getOne("courseID" -> 9, "userID" -> 1)
       fetched must beNone
     }
 
     "execute 'modify' without errors" in new Context {
-      courseStorage.create(new Course(300, 1, "","")) must not(throwA[Exception])
-      courseStorage.modify(new Course(300,1,"grade1","comment1")) must not(throwA[Exception])
-      val updated = courseStorage.getOne("courseID" -> 300, "userID"->1)
+      courseStorage.create(new Course(300, 1, "", "")) must not(throwA[Exception])
+      courseStorage.modify(new Course(300, 1, "grade1", "comment1")) must not(throwA[Exception])
+      val updated = courseStorage.getOne("courseID" -> 300, "userID" -> 1)
       updated must beSome
-      updated.get.courseID must beEqualTo (300)
-      updated.get.comment must beEqualTo ("comment1")
+      updated.get.courseID must beEqualTo(300)
+      updated.get.comment must beEqualTo("comment1")
     }
 
   }
 
-    trait Context extends Scope {
+  trait Context extends Scope {
     // do initialize mock services
     val courseService = CourseEntityContainer.mockLocalService
     val courseStorage: EntityStorage[Course] = new LFCourseStorageImpl {}

@@ -1,17 +1,16 @@
 package com.arcusys.scorm.lms
 
-import com.arcusys.learn.scorm.tracking.model.achivements.{AchievementUser, RequiredActivity, AchievementActivity, Achievement}
-import com.arcusys.scorm.lms.models.{AchievementRequiredActivityModel, AchievementModelBL}
-import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementActivityStorage, AchievementRequiredStorage, AchievementStorage}
-import com.arcusys.scorm.lms.exceptions.AchievementNotFoundException
-import java.util.Date
+import com.arcusys.learn.scorm.tracking.model.achivements.{ AchievementUser, RequiredActivity, AchievementActivity, Achievement }
 import com.arcusys.learn.liferay.constants.QueryUtilHelper.ALL_POS
-import scala.collection.JavaConverters._
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
-import com.arcusys.learn.liferay.services.{UserLocalServiceHelper, SocialActivityLocalServiceHelper}
+import com.arcusys.learn.scorm.Archivements.{ AchievementUserStorage, AchievementActivityStorage, AchievementRequiredStorage, AchievementStorage }
+import com.arcusys.learn.liferay.services.{ UserLocalServiceHelper, SocialActivityLocalServiceHelper }
 import com.arcusys.learn.liferay.LiferayClasses.LUser
-import com.liferay.portal.model.User
+import com.arcusys.scorm.lms.models.{ AchievementRequiredActivityModel, AchievementModelBL }
+import com.arcusys.scorm.lms.exceptions.AchievementNotFoundException
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.liferay.portal.NoSuchUserException
+import org.joda.time.DateTime
+import scala.collection.JavaConverters._
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,30 +36,26 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
       achievement.title,
       achievement.description,
       achievement.logo,
-      achievement.startDate.getTime,
+      achievement.startDate.getMillis,
       false,
       List.empty[AchievementRequiredActivityModel],
       List.empty[LUser])
   }
 
   def get(page: Int,
-          filter: Option[String],
-          sortDirection: Boolean,
-          countOnPage: Int,
-          companyId: Int): List[AchievementModelBL] = {
-
+    filter: Option[String],
+    sortDirection: Boolean,
+    countOnPage: Int,
+    companyId: Int): List[AchievementModelBL] = {
 
     var achievements = achievementStorage.getAllAchievements
 
     achievements = achievements.filter(x => x.title.toLowerCase.contains(filter.getOrElse("").toLowerCase))
 
     achievements = if (sortDirection)
-      achievements
-        .sortBy(_.title.toLowerCase)
+      achievements.sortBy(_.title.toLowerCase)
     else
-      achievements
-        .sortBy(_.title.toLowerCase)
-        .reverse
+      achievements.sortBy(_.title.toLowerCase).reverse
 
     achievements
       .drop((page - 1) * countOnPage)
@@ -70,7 +65,7 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
         a.title,
         a.description,
         a.logo,
-        a.startDate.getTime,
+        a.startDate.getMillis,
         false,
         this.getActivities(a.id),
         this.getUsers(a.id, companyId)))
@@ -87,11 +82,12 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
     achievementStorage.modify(achievement)
   }
 
-  def modify(id: Int,
-             title: String,
-             description: String,
-             logo: String,
-             startDate: Date): Boolean = {
+  def modify(
+    id: Int,
+    title: String,
+    description: String,
+    logo: String,
+    startDate: DateTime): Boolean = {
     val achievement = achievementStorage.getByID(id)
 
     if (achievement.isDefined) {
@@ -115,7 +111,7 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
     val achievementActivities = achievementActivityStorage.getByAchievementId(id)
     achievementActivities.foreach(achievementActivity => {
       // Remove activities
-      val activities = SocialActivityLocalServiceHelper.getSocialActivities(ALL_POS,ALL_POS).asScala
+      val activities = SocialActivityLocalServiceHelper.getSocialActivities(ALL_POS, ALL_POS).asScala
         .filter(x => (x.getClassName == classOf[AchievementActivity].getCanonicalName) && (x.getClassPK == achievementActivity.id))
       activities.foreach(activity => SocialActivityLocalServiceHelper.deleteActivity(activity.getActivityId))
 
@@ -137,17 +133,17 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
   }
 
   def getForUser(userId: Int,
-                 companyId: Int): List[AchievementModelBL] = {
+    companyId: Int): List[AchievementModelBL] = {
     achievementUserStorage
       .getUserSubscribedAchievements(userId)
       .map(achievementUser => achievementStorage.getByID(achievementUser.achievementId)
-         .getOrElse(throw new IllegalStateException("InconsistentDB")))
+        .getOrElse(throw new IllegalStateException("InconsistentDB")))
       .map(a => AchievementModelBL(
         a.id,
         a.title,
         a.description,
         a.logo,
-        a.startDate.getTime,
+        a.startDate.getMillis,
         this.getIfCompleted(a.id, userId),
         this.getActivities(a.id),
         this.getUsers(a.id, companyId)))
@@ -155,13 +151,13 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
   }
 
   def getIfCompleted(achievementId: Int,
-                     userId: Int): Boolean =
+    userId: Int): Boolean =
     achievementActivityStorage
       .getByAchievementAndUserIds(achievementId, userId)
       .size == 1
 
   def addActivity(achievementId: Int,
-                  className: String):AchievementRequiredActivityModel = {
+    className: String): AchievementRequiredActivityModel = {
 
     val activity: RequiredActivity = RequiredActivity(
       achievementId = achievementId,
@@ -180,8 +176,8 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
     achievementRequiredStorage.deleteRequiredActivity(activityId)
 
   def updateActivity(activityId: Int,
-                     achievementId: Int,
-                     achievementCount: Int) = {
+    achievementId: Int,
+    achievementCount: Int) = {
     val activity = achievementRequiredStorage
       .getRequiredAchievementActivities(achievementId)
       .filter(activity => activity.id == activityId)
@@ -193,17 +189,16 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
   }
 
   def getUsers(achievementId: Int,
-               companyId: Int):
-  List[LUser] = {
+    companyId: Int): List[LUser] = {
     achievementUserStorage
       .getByAchievementId(achievementId)
 
       //Filter if an error occurs => user was removed from liferay database => remove from valamis database.
       .filter(user => try {
-      UserLocalServiceHelper.getUserById(companyId,user.userId)
+        UserLocalServiceHelper().getUserById(companyId, user.userId)
         true
       } catch {
-        case e:NoSuchUserException => {
+        case e: NoSuchUserException => {
           achievementUserStorage.deleteById(user.id)
           false
         }
@@ -211,8 +206,8 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
       .map(u => u.userId)
       .distinct
       .map(userId =>
-        UserLocalServiceHelper
-          .getUserById(companyId,userId)
+        UserLocalServiceHelper()
+          .getUserById(companyId, userId)
       ).toList
   }
 
@@ -229,7 +224,7 @@ class AchievementRepository(implicit val bindingModule: BindingModule) extends A
     val achievementUsers = achievementUserStorage.getUserSubscribedAchievements(userId)
 
     achievementUsers.foreach(achievementUser => {
-      if(achievementUser.achievementId == achievementId)
+      if (achievementUser.achievementId == achievementId)
         achievementUserStorage.deleteById(achievementUser.id)
     })
   }

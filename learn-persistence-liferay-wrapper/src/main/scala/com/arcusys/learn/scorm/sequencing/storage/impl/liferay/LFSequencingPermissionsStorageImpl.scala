@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
  * Date: 29.03.13
  */
 trait LFSequencingPermissionsStorageImpl extends EntityStorage[SequencingPermissions] {
-  protected def doRenew() { LFSequencingPermissionsLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFSequencingPermissionsLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     parameters match {
@@ -30,27 +30,29 @@ trait LFSequencingPermissionsStorageImpl extends EntityStorage[SequencingPermiss
       lfEntity.get.getForwardOnlyForChildren)
 
   def getAll(parameters: (String, Any)*) = throw new UnsupportedOperationException("Not implemented")
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
   def create(entity: SequencingPermissions, parameters: (String, Any)*) {
     val sequencingID = if (parameters.isEmpty) None
     else parameters match { case Seq(("sequencingID", value: Int)) => Some(value) }
     doUpdate(entity, sequencingID, LFSequencingPermissionsLocalServiceUtil.createLFSequencingPermissions(), LFSequencingPermissionsLocalServiceUtil.addLFSequencingPermissions(_))
   }
 
-  def delete(parameters: (String, Any)*) {parameters match {
-    case Seq(("sequencingID", value: Int)) => { LFSequencingPermissionsLocalServiceUtil.removeBySequencingID(value) }}
-  }
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(entity: SequencingPermissions, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-
-  def doUpdate(entity: SequencingPermissions, sequencingId: Option[Int], newEntity: LFSequencingPermissions, updateFunction: (LFSequencingPermissions) => LFSequencingPermissions): LFSequencingPermissions= {
-      if (!sequencingId.isEmpty) newEntity.setSequencingID(sequencingId.get)
-      newEntity.setChoiceForChildren(entity.choiceForChildren)
-      newEntity.setChoiceForNonDescendants(entity.choiceForNonDescendants)
-      newEntity.setFlowForChildren(entity.flowForChildren)
-      newEntity.setForwardOnlyForChildren(entity.forwardOnlyForChildren)
-      updateFunction(newEntity)
+  def delete(parameters: (String, Any)*) {
+    parameters match {
+      case Seq(("sequencingID", value: Int)) => { LFSequencingPermissionsLocalServiceUtil.removeBySequencingID(value) }
     }
+  }
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(entity: SequencingPermissions, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+
+  def doUpdate(entity: SequencingPermissions, sequencingId: Option[Int], newEntity: LFSequencingPermissions, updateFunction: (LFSequencingPermissions) => LFSequencingPermissions): LFSequencingPermissions = {
+    if (!sequencingId.isEmpty) newEntity.setSequencingID(sequencingId.get)
+    newEntity.setChoiceForChildren(entity.choiceForChildren)
+    newEntity.setChoiceForNonDescendants(entity.choiceForNonDescendants)
+    newEntity.setFlowForChildren(entity.flowForChildren)
+    newEntity.setForwardOnlyForChildren(entity.forwardOnlyForChildren)
+    updateFunction(newEntity)
+  }
 
   def execute(sqlKey: String, parameters: (String, Any)*) {
     throw new UnsupportedOperationException

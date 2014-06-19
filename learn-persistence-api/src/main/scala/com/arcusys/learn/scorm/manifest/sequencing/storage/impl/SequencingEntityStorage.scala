@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
 import com.arcusys.learn.scorm.manifest.sequencing.storage._
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
-import com.arcusys.learn.scorm.manifest.model.{PostConditionRule, PreConditionRule, ExitConditionRule, Sequencing}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
+import com.arcusys.learn.scorm.manifest.model.{ PostConditionRule, PreConditionRule, ExitConditionRule, Sequencing }
 
 /**
  * User: Yulia.Glushonkova
@@ -39,7 +39,7 @@ trait SequencingEntityStorage extends SequencingStorage with KeyedEntityStorageE
   }
 
   def create(packageID: Int, activityID: String, sequencing: Sequencing) {
-    val id = createAndGetID(sequencing, "packageID"->packageID, "activityID"->activityID)
+    val id = createAndGetID(sequencing, "packageID" -> packageID, "activityID" -> activityID)
 
     sequencingPermissionsStorage.create(id, sequencing.permissions)
     rollupContributionStorage.create(id, sequencing.rollupContribution)
@@ -56,12 +56,12 @@ trait SequencingEntityStorage extends SequencingStorage with KeyedEntityStorageE
   }
 
   def get(packageID: Int, activityID: String): Option[Sequencing] = {
-    getOne("packageID"->packageID, "activityID"->activityID)
+    getOne("packageID" -> packageID, "activityID" -> activityID)
   }
 
-  def delete(packageID: Int, activityID: String) { delete("packageID"->packageID, "activityID"->activityID) }
+  def delete(packageID: Int, activityID: String) { delete("packageID" -> packageID, "activityID" -> activityID) }
 
-/*
+  /*
   override def renew() {
     super.renew()
     sequencingPermissionsStorage.renew()
@@ -79,7 +79,6 @@ trait SequencingEntityStorage extends SequencingStorage with KeyedEntityStorageE
 */
 }
 
-
 trait SequencingFieldsMapper {
   def sharedId: Option[String]
   def sharedSequencingIdReference: Option[String]
@@ -92,7 +91,7 @@ trait SequencingFieldsMapper {
   def constrainChoice: Boolean
 }
 
-trait SequencingCreator{
+trait SequencingCreator {
   val sequencingPermissionsStorage: SequencingPermissionsStorage
   val rollupContributionStorage: RollupContributionStorage
   val objectiveStorageStorage: ObjectiveStorage
@@ -103,7 +102,7 @@ trait SequencingCreator{
   val preConditionRuleStorageImpl: ConditionRuleStorage[PreConditionRule]
   val postConditionRuleStorageImpl: ConditionRuleStorage[PostConditionRule]
   def createSequencing(mapper: SequencingFieldsMapper) = {
-  import mapper._
+    import mapper._
     new Sequencing(
       sharedId,
       sharedSequencingIdReference,

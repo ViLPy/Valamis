@@ -6,18 +6,18 @@ import com.arcusys.learn.storage.impl.KeyedEntityStorage
 
 trait TincanResultEntityStorage extends TincanResultStorage with KeyedEntityStorage[Result] {
   def createAndGetID(entity: Result) = {
-    createAndGetID(entity, Nil:_*)
+    createAndGetID(entity, Nil: _*)
   }
 
   def getByID(id: Int) = {
-    getByID(id, Nil:_*)
+    getByID(id, Nil: _*)
   }
 
   def delete(id: Int) = {
-    delete("id"->id)
+    delete("id" -> id)
   }
 
   def modify(entity: Result) = {
-    modify(entity, Nil:_*)
+    modify(entity, Nil: _*)
   }
 }

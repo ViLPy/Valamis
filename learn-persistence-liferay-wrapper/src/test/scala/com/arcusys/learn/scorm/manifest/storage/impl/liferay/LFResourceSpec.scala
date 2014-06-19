@@ -6,7 +6,7 @@ import org.specs2.matcher.ThrownExpectations
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil
-import com.arcusys.learn.scorm.manifest.model.{ScoResource, Resource}
+import com.arcusys.learn.scorm.manifest.model.{ ScoResource, Resource }
 
 class LFResourceSpec extends SpecificationWithJUnit with Mockito with ThrownExpectations {
   "Mockito" should {

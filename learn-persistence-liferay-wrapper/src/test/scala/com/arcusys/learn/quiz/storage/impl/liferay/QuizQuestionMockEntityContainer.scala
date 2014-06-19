@@ -46,7 +46,7 @@ object QuizQuestionMockEntityContainer extends MockKeyedEntityContainer[LFQuizQu
 
   mockLocalService.findByQuizAndCategory(any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any) = paramsRaw match {
-      case Array(a, b)  => (a, b)
+      case Array(a, b) => (a, b)
     }
 
     val quizId = unwrapNullableInteger(paramsTuple._1)

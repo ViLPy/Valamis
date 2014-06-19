@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+<div class="overflow-hidden reportBody">
+    <div class="clearfix content-wrapper">
+
+        <!-- Page content -->
+        <div class="page-content-wrapper">
+            <div class="content-header clearfix">
+                <div class="pull-left button-upload-area">
+                    <button class="filter-toggler button valamis big grey menu-toggle">
+                    </button>
+                </div>
+
+
+
+                <!-- Sidebar -->
+                <div class="sidebar-wrapper">
+                    <div class="menu-toggle hidden-xs modal-close-div">
+                    </div>
+                    <div class="pull-right">
+                    </div>
+                </div>
+            </div>
+            <div class="page-content">
+                <div class="hidden-xs clearfix">
+
+                    <div class="paginator pull-right"> </div>
+
+                </div>
+
+                <div class="report-content clearfix">
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+
+<script>
+    var jQuery1816Report = jQuery.noConflict();
+    var language;
+    var reportView;
+    var myLayout;
+
+
+    jQuery1816Report(function () {
+        // upload translations
+        var defaultURL = Utils.getContextPath() + '/i18n/courseReporting_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/courseReporting_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onLanguageLoad, onLanguageError);
+
+        jQuery1816Report(".menu-toggle").click(function (e) {
+            e.preventDefault();
+            jQuery1816Report(".content-wrapper").toggleClass("active");
+        });
+
+
+
+    });
+
+    function initView() {
+
+        this.model=new CourseReportModel();
+        var view = new CourseReportView({
+            model: this.model,
+            language: language
+        });
+        //view.render();
+
+        Backbone.history.start();
+
+    }
+
+    function onLanguageLoad(properties) {
+        language = properties;
+        initView();
+    }
+
+    function onLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+</script>
+
+
+</body>
+
+</html>

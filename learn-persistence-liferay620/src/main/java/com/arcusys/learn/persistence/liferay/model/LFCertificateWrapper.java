@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +46,13 @@ public class LFCertificateWrapper implements LFCertificate,
         attributes.put("publishBadge", getPublishBadge());
         attributes.put("shortDescription", getShortDescription());
         attributes.put("companyID", getCompanyID());
+        attributes.put("state", getState());
+        attributes.put("emails", getEmails());
+        attributes.put("validPeriodType", getValidPeriodType());
+        attributes.put("validPeriod", getValidPeriod());
+        attributes.put("createdDate", getCreatedDate());
+        attributes.put("isPublished", getIsPublished());
+        attributes.put("scope", getScope());
 
         return attributes;
     }
@@ -97,6 +105,48 @@ public class LFCertificateWrapper implements LFCertificate,
 
         if (companyID != null) {
             setCompanyID(companyID);
+        }
+
+        String state = (String) attributes.get("state");
+
+        if (state != null) {
+            setState(state);
+        }
+
+        String emails = (String) attributes.get("emails");
+
+        if (emails != null) {
+            setEmails(emails);
+        }
+
+        String validPeriodType = (String) attributes.get("validPeriodType");
+
+        if (validPeriodType != null) {
+            setValidPeriodType(validPeriodType);
+        }
+
+        Integer validPeriod = (Integer) attributes.get("validPeriod");
+
+        if (validPeriod != null) {
+            setValidPeriod(validPeriod);
+        }
+
+        Date createdDate = (Date) attributes.get("createdDate");
+
+        if (createdDate != null) {
+            setCreatedDate(createdDate);
+        }
+
+        Boolean isPublished = (Boolean) attributes.get("isPublished");
+
+        if (isPublished != null) {
+            setIsPublished(isPublished);
+        }
+
+        Long scope = (Long) attributes.get("scope");
+
+        if (scope != null) {
+            setScope(scope);
         }
     }
 
@@ -278,6 +328,146 @@ public class LFCertificateWrapper implements LFCertificate,
     @Override
     public void setCompanyID(java.lang.Integer companyID) {
         _lfCertificate.setCompanyID(companyID);
+    }
+
+    /**
+    * Returns the state of this l f certificate.
+    *
+    * @return the state of this l f certificate
+    */
+    @Override
+    public java.lang.String getState() {
+        return _lfCertificate.getState();
+    }
+
+    /**
+    * Sets the state of this l f certificate.
+    *
+    * @param state the state of this l f certificate
+    */
+    @Override
+    public void setState(java.lang.String state) {
+        _lfCertificate.setState(state);
+    }
+
+    /**
+    * Returns the emails of this l f certificate.
+    *
+    * @return the emails of this l f certificate
+    */
+    @Override
+    public java.lang.String getEmails() {
+        return _lfCertificate.getEmails();
+    }
+
+    /**
+    * Sets the emails of this l f certificate.
+    *
+    * @param emails the emails of this l f certificate
+    */
+    @Override
+    public void setEmails(java.lang.String emails) {
+        _lfCertificate.setEmails(emails);
+    }
+
+    /**
+    * Returns the valid period type of this l f certificate.
+    *
+    * @return the valid period type of this l f certificate
+    */
+    @Override
+    public java.lang.String getValidPeriodType() {
+        return _lfCertificate.getValidPeriodType();
+    }
+
+    /**
+    * Sets the valid period type of this l f certificate.
+    *
+    * @param validPeriodType the valid period type of this l f certificate
+    */
+    @Override
+    public void setValidPeriodType(java.lang.String validPeriodType) {
+        _lfCertificate.setValidPeriodType(validPeriodType);
+    }
+
+    /**
+    * Returns the valid period of this l f certificate.
+    *
+    * @return the valid period of this l f certificate
+    */
+    @Override
+    public java.lang.Integer getValidPeriod() {
+        return _lfCertificate.getValidPeriod();
+    }
+
+    /**
+    * Sets the valid period of this l f certificate.
+    *
+    * @param validPeriod the valid period of this l f certificate
+    */
+    @Override
+    public void setValidPeriod(java.lang.Integer validPeriod) {
+        _lfCertificate.setValidPeriod(validPeriod);
+    }
+
+    /**
+    * Returns the created date of this l f certificate.
+    *
+    * @return the created date of this l f certificate
+    */
+    @Override
+    public java.util.Date getCreatedDate() {
+        return _lfCertificate.getCreatedDate();
+    }
+
+    /**
+    * Sets the created date of this l f certificate.
+    *
+    * @param createdDate the created date of this l f certificate
+    */
+    @Override
+    public void setCreatedDate(java.util.Date createdDate) {
+        _lfCertificate.setCreatedDate(createdDate);
+    }
+
+    /**
+    * Returns the is published of this l f certificate.
+    *
+    * @return the is published of this l f certificate
+    */
+    @Override
+    public java.lang.Boolean getIsPublished() {
+        return _lfCertificate.getIsPublished();
+    }
+
+    /**
+    * Sets the is published of this l f certificate.
+    *
+    * @param isPublished the is published of this l f certificate
+    */
+    @Override
+    public void setIsPublished(java.lang.Boolean isPublished) {
+        _lfCertificate.setIsPublished(isPublished);
+    }
+
+    /**
+    * Returns the scope of this l f certificate.
+    *
+    * @return the scope of this l f certificate
+    */
+    @Override
+    public java.lang.Long getScope() {
+        return _lfCertificate.getScope();
+    }
+
+    /**
+    * Sets the scope of this l f certificate.
+    *
+    * @param scope the scope of this l f certificate
+    */
+    @Override
+    public void setScope(java.lang.Long scope) {
+        _lfCertificate.setScope(scope);
     }
 
     @Override

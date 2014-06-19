@@ -7,18 +7,17 @@ import scala._
 import com.arcusys.learn.scorm.tracking.model.Course
 import org.joda.time.DateTime
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: Yulia.Glushonkova
  * Date: 26.03.13
  */
 trait LFCourseStorageImpl extends EntityStorage[Course] {
-  protected def doRenew() { LFCourseLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFCourseLocalServiceUtil.removeAll() }
 
   def modify(entity: Course, parameters: (String, Any)*) {
     val lfEntity = LFCourseLocalServiceUtil.findByCourseIdAndUserId(entity.courseID, entity.userID)
-     doUpdate(entity, lfEntity, LFCourseLocalServiceUtil.updateLFCourse(_))
+    doUpdate(entity, lfEntity, LFCourseLocalServiceUtil.updateLFCourse(_))
   }
 
   def create(entity: Course, parameters: (String, Any)*) {
@@ -48,7 +47,7 @@ trait LFCourseStorageImpl extends EntityStorage[Course] {
   def delete(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
   def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
-  def doUpdate(entity: Course, newEntity: LFCourse, updateFunction: (LFCourse) => LFCourse): LFCourse= {
+  def doUpdate(entity: Course, newEntity: LFCourse, updateFunction: (LFCourse) => LFCourse): LFCourse = {
     newEntity.setCourseID(entity.courseID)
     newEntity.setUserID(entity.userID)
     newEntity.setGrade(entity.grade)

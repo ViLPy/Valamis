@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.manifest.storage.impl
 
 import com.arcusys.learn.scorm.manifest.storage.PackageScopeRuleStorage
 import com.arcusys.learn.storage.impl.EntityStorageExt
-import com.arcusys.learn.scorm.manifest.model.{ScopeType, PackageScopeRule}
+import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PackageScopeRule }
 
 /**
  * User: dkudinov
@@ -34,7 +34,7 @@ trait PackageScopeRuleEntityStorage extends PackageScopeRuleStorage with EntityS
     modify(newEntity, "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
   }
 
-  private def cleanIsDefault(isDefault: Boolean, scope: ScopeType.Value, scopeID: Option[String]){
+  private def cleanIsDefault(isDefault: Boolean, scope: ScopeType.Value, scopeID: Option[String]) {
     if (isDefault) modify("_cleanIsDefault", "scope" -> scope.toString, "scopeID" -> scopeID.getOrElse("-1"))
   }
 

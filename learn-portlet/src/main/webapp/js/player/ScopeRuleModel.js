@@ -31,9 +31,9 @@ ScopeRuleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
     sync: {
         'read': function (collection, options) {
             if (options.isPersonalOnly)
-                return "/services/packages/getPersonalForPlayer/" + jQuery("#playerID").val();
+                return "services/packages/getPersonalForPlayer/" + jQuery("#playerID").val();
             else
-                return "/services/packages/getByScope?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val();
+                return "services/packages/getByScope?courseID=" + Utils.getCourseID() + "&pageID=" + jQuery("#pageID").val() + "&playerID=" + jQuery("#playerID").val() + "&scope=" + jQuery("#scopeOptions").val();
 
         }
     }

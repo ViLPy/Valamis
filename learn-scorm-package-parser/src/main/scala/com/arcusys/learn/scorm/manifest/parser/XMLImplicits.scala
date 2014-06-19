@@ -12,7 +12,7 @@ class BigDecimalValue
 
 class Attribute(elem: Option[Elem], namespace: Option[String], name: String) {
   private val qualifiedName = namespace match {
-    case None => name.trim
+    case None     => name.trim
     case Some(ns) => "{" + ns + "}" + name
   }
 
@@ -54,23 +54,23 @@ class Child(elem: Elem, namespace: Option[String], name: String) {
 
   def optionalEnum[T <: Enumeration](enumeration: T): Option[T#Value] = optional(XMLImplicits.string) map (enumeration.withName(_).asInstanceOf[T#Value])
 
-  def optional(ignore: StringValue): Option[String] = optional(XMLImplicits.element) map(_.text.trim)
+  def optional(ignore: StringValue): Option[String] = optional(XMLImplicits.element) map (_.text.trim)
 
-  def optional(ignore: BigDecimalValue): Option[BigDecimal] = optional (XMLImplicits.string) map(BigDecimal(_))
+  def optional(ignore: BigDecimalValue): Option[BigDecimal] = optional(XMLImplicits.string) map (BigDecimal(_))
 
-  def optional(ignore: IntValue): Option[Int] = optional (XMLImplicits.int) map(_.toInt)
+  def optional(ignore: IntValue): Option[Int] = optional(XMLImplicits.int) map (_.toInt)
 
-  def optional[T](transform: Elem=>T): Option[T] = optional (XMLImplicits.element) map transform
+  def optional[T](transform: Elem => T): Option[T] = optional(XMLImplicits.element) map transform
 
   def optional(ignore: ElemValue): Option[Elem] = {
     val allChildElements = elem \ name
     val childElements = namespace match {
-      case None => allChildElements
+      case None     => allChildElements
       case Some(ns) => allChildElements.filter(n => n.prefix == ns)
     }
     //if (childElements.length == 0) throw new SCORMParserException("<" + parentElementName + "> element does not contain <" + name + "> element")
     if (childElements.size > 1) throw new SCORMParserException("<" + elem.label + "> element contains more than one <" + name + "> element")
-    childElements.headOption map(_.asInstanceOf[Elem])
+    childElements.headOption map (_.asInstanceOf[Elem])
   }
 }
 
@@ -99,13 +99,13 @@ object XMLImplicits {
 
     def attr(namespace: String, name: String) = new Attribute(elem, Some(namespace), name)
 
-    def children(name: String) = elem match{
-      case None=>Nil
+    def children(name: String) = elem match {
+      case None    => Nil
       case Some(e) => (e \ name).toSeq.map(_.asInstanceOf[Elem])
     }
 
-    def children(name: (String, String)) = elem match{
-      case None => Nil
+    def children(name: (String, String)) = elem match {
+      case None    => Nil
       case Some(e) => (e \ name._2).filter(n => n.prefix == name._1).toSeq.map(_.asInstanceOf[Elem])
     }
   }

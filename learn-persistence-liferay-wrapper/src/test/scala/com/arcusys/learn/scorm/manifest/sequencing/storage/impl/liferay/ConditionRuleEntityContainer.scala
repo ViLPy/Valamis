@@ -21,7 +21,7 @@ object ConditionRuleEntityContainer extends MockEntityContainer[LFConditionRuleL
   def deleteFunction = _.deleteLFConditionRule(_)
   def updateFunction = _.updateLFConditionRule(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFConditionRules(_,_)
+  def getAllFunction = _.getLFConditionRules(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -41,15 +41,15 @@ object ConditionRuleEntityContainer extends MockEntityContainer[LFConditionRuleL
     internalStorage --= filterBySequencingID(id).map(_.getId)
     ()
   }
-  private def filterBySequencingID(idRaw: Any) ={
+  private def filterBySequencingID(idRaw: Any) = {
     internalStorage.values.filter(obj => obj.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 
-  private def filterBySequencingIDAndRuleType(param: Any, data: Any): Seq[LFConditionRule] ={
+  private def filterBySequencingIDAndRuleType(param: Any, data: Any): Seq[LFConditionRule] = {
     val paramsTuple: (Any, Any) = param match {
       case Array(a, b) => (a, b)
     }

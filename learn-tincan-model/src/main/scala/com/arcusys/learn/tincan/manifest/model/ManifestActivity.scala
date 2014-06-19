@@ -1,7 +1,6 @@
 package com.arcusys.learn.tincan.manifest.model
 
-case class ManifestActivity
-(
+case class ManifestActivity(
   id: Int,
   tincanId: String, // activity Id from tincan.xml
   packageId: Int,
@@ -9,5 +8,4 @@ case class ManifestActivity
   name: String,
   description: String,
   launch: Option[String],
-  resource: Option[String]
-  )
+  resource: Option[String])

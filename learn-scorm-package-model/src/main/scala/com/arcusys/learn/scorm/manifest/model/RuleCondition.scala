@@ -10,21 +10,19 @@ import com.arcusys.learn.util.Extensions._
  * @param measureThreshold  Measure threshold value if condition is measure-based
  * @param inverse           True if condition should be treated as opposite
  */
-class RuleCondition
-(
-  val conditionType: ConditionType.Value,
-  val objectiveId: Option[String] = None,
-  val measureThreshold: Option[BigDecimal] = None,
-  val inverse: Boolean = false
-  ) {
+class RuleCondition(
+    val conditionType: ConditionType.Value,
+    val objectiveId: Option[String] = None,
+    val measureThreshold: Option[BigDecimal] = None,
+    val inverse: Boolean = false) {
   import ConditionType._
   measureThreshold match {
     case Some(value) => {
-      require(value between(-1, 1), "Measure threshold should be between -1 and 1")
+      require(value between (-1, 1), "Measure threshold should be between -1 and 1")
       require(conditionType oneOf (ObjectiveMeasureGreaterThan, ObjectiveMeasureLessThan), "Measure threshold is meaningless for this condition type")
     }
     case None => {
-      require (conditionType noneOf (ObjectiveMeasureGreaterThan, ObjectiveMeasureLessThan), "Measure threshold needed for this condition type")
+      require(conditionType noneOf (ObjectiveMeasureGreaterThan, ObjectiveMeasureLessThan), "Measure threshold needed for this condition type")
     }
   }
   /*if (objectiveId.isDefined)

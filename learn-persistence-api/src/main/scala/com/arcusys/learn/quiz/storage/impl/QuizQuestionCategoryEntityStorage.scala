@@ -2,7 +2,7 @@ package com.arcusys.learn.quiz.storage.impl
 
 import com.arcusys.learn.quiz.model.QuizQuestionCategory
 import com.arcusys.learn.quiz.storage.QuizQuestionCategoryStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 
 /**
  * User: dkudinov
@@ -20,9 +20,9 @@ trait QuizQuestionCategoryEntityStorage extends QuizQuestionCategoryStorage with
     modify("id" -> id, "title" -> title, "description" -> description)
   }
 
-  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestionCategory = {
+  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestionCategory = {
     val questionCategoryForUpdate = getByID(id).get
-    val oldChildren: Seq[QuizQuestionCategory] = getAll("quizID"->questionCategoryForUpdate.quizID, "parentID" -> parentID.getOrElse(-1))
+    val oldChildren: Seq[QuizQuestionCategory] = getAll("quizID" -> questionCategoryForUpdate.quizID, "parentID" -> parentID.getOrElse(-1))
 
     def doMove(forUpdate: Seq[QuizQuestionCategory], forIndex: Seq[QuizQuestionCategory]) {
       forUpdate.foreach {
@@ -50,7 +50,7 @@ trait QuizQuestionCategoryEntityStorage extends QuizQuestionCategoryStorage with
           doMove(forUpdate, forIndex)
         } else {
           val forIndex = spannedChildren._1 ++ spannedChildren._2.headOption
-          val forUpdate = if (spannedChildren._2.isEmpty)  Nil else spannedChildren._2.tail
+          val forUpdate = if (spannedChildren._2.isEmpty) Nil else spannedChildren._2.tail
           doMove(forUpdate, forIndex)
         }
       }
@@ -60,5 +60,9 @@ trait QuizQuestionCategoryEntityStorage extends QuizQuestionCategoryStorage with
 
   def maxArrangementIndex(oldChildren: Seq[QuizQuestionCategory]): Int = {
     oldChildren.foldLeft(0)(_ max _.arrangementIndex)
+  }
+
+  def updateParent(id: Int, parentID: Option[Int]) {
+    getByID(id).foreach(e => modify(e, "parentID" -> parentID))
   }
 }

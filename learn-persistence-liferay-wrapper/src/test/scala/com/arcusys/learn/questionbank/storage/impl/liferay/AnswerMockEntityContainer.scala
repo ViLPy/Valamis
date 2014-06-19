@@ -53,7 +53,6 @@ object AnswerMockEntityContainer extends MockKeyedEntityContainer[LFAnswerLocalS
     findByQuestionId(questionIdRaw).toList.asJava
   }
 
-
   def findByQuestionId(questionIdRaw: Any): Iterable[LFAnswer] = {
     internalStorage.values.filter(_.getQuestionId == unwrapNullableInteger(questionIdRaw))
   }

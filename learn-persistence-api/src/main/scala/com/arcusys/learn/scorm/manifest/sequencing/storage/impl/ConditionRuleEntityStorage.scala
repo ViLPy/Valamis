@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{RuleConditionStorage, ConditionRuleStorage}
-import com.arcusys.learn.storage.impl.{KeyedEntityStorageExt, EntityStorageExt}
+import com.arcusys.learn.scorm.manifest.sequencing.storage.{ RuleConditionStorage, ConditionRuleStorage }
+import com.arcusys.learn.storage.impl.{ KeyedEntityStorageExt, EntityStorageExt }
 import com.arcusys.learn.scorm.manifest.model._
 
 /**
@@ -12,7 +12,7 @@ import com.arcusys.learn.scorm.manifest.model._
 trait ExitConditionRuleCreator {
   def ruleConditionStorage: RuleConditionStorage
 
-  def createConditionRule(combination: String, ruleID: Int ): ExitConditionRule = {
+  def createConditionRule(combination: String, ruleID: Int): ExitConditionRule = {
     val combinationType = ConditionCombination.withName(combination)
     val conditionSet = new RuleConditionSet(ruleConditionStorage.getCondition(ruleID), combinationType)
     new ExitConditionRule(conditionSet)
@@ -21,59 +21,59 @@ trait ExitConditionRuleCreator {
 
 trait ExitConditionRuleEntityStorage extends ConditionRuleStorage[ExitConditionRule] with KeyedEntityStorageExt[ExitConditionRule] with EntityStorageExt[ExitConditionRule] {
 
-    def ruleConditionStorage: RuleConditionStorage
+  def ruleConditionStorage: RuleConditionStorage
 
-    def create(sequencingID: Int, entity: ExitConditionRule) {
-      val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType"->"exit")
-      entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
-    }
+  def create(sequencingID: Int, entity: ExitConditionRule) {
+    val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType" -> "exit")
+    entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
+  }
 
-    def getRules(sequencingID: Int) = getAll("sequencingID"->sequencingID, "ruleType"->"exit")
+  def getRules(sequencingID: Int) = getAll("sequencingID" -> sequencingID, "ruleType" -> "exit")
 
 }
 
 trait PreConditionRuleCreator {
   def ruleConditionStorage: RuleConditionStorage
 
-  def createConditionRule(combination: String, ruleID: Int, action: String ): PreConditionRule = {
+  def createConditionRule(combination: String, ruleID: Int, action: String): PreConditionRule = {
     val combinationType = ConditionCombination.withName(combination)
     val conditionSet = new RuleConditionSet(ruleConditionStorage.getCondition(ruleID), combinationType)
     new PreConditionRule(conditionSet, PreConditionAction.withName(action))
   }
 }
 
-trait PreConditionRuleEntityStorage extends ConditionRuleStorage[PreConditionRule] with KeyedEntityStorageExt[PreConditionRule]  with EntityStorageExt[PreConditionRule] {
+trait PreConditionRuleEntityStorage extends ConditionRuleStorage[PreConditionRule] with KeyedEntityStorageExt[PreConditionRule] with EntityStorageExt[PreConditionRule] {
 
-    def ruleConditionStorage: RuleConditionStorage
+  def ruleConditionStorage: RuleConditionStorage
 
-    def create(sequencingID: Int, entity: PreConditionRule) {
-      val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType"->"pre")
-      entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
-    }
+  def create(sequencingID: Int, entity: PreConditionRule) {
+    val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType" -> "pre")
+    entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
+  }
 
-    def getRules(sequencingID: Int) = getAll("sequencingID"->sequencingID, "ruleType"->"pre")
+  def getRules(sequencingID: Int) = getAll("sequencingID" -> sequencingID, "ruleType" -> "pre")
 
 }
 
 trait PostConditionRuleCreator {
   def ruleConditionStorage: RuleConditionStorage
 
-  def createConditionRule(combination: String, ruleID: Int, action: String ): PostConditionRule = {
+  def createConditionRule(combination: String, ruleID: Int, action: String): PostConditionRule = {
     val combinationType = ConditionCombination.withName(combination)
     val conditionSet = new RuleConditionSet(ruleConditionStorage.getCondition(ruleID), combinationType)
     new PostConditionRule(conditionSet, PostConditionAction.withName(action))
   }
 }
 
-trait PostConditionRuleEntityStorage extends ConditionRuleStorage[PostConditionRule] with KeyedEntityStorageExt[PostConditionRule]  with EntityStorageExt[PostConditionRule] {
+trait PostConditionRuleEntityStorage extends ConditionRuleStorage[PostConditionRule] with KeyedEntityStorageExt[PostConditionRule] with EntityStorageExt[PostConditionRule] {
 
-    def ruleConditionStorage: RuleConditionStorage
+  def ruleConditionStorage: RuleConditionStorage
 
-    def create(sequencingID: Int, entity: PostConditionRule) {
-      val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType"->"post")
-      entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
-    }
+  def create(sequencingID: Int, entity: PostConditionRule) {
+    val id = createAndGetID(entity, "sequencingID" -> sequencingID, "combination" -> entity.conditions.combination, "ruleType" -> "post")
+    entity.conditions.conditions.foreach(ruleConditionStorage.createCondition(id, _))
+  }
 
-    def getRules(sequencingID: Int) = getAll("sequencingID"->sequencingID, "ruleType"->"post")
+  def getRules(sequencingID: Int) = getAll("sequencingID" -> sequencingID, "ruleType" -> "post")
 }
 

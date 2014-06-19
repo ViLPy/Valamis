@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing LFCertificateUser in entity cache.
  *
@@ -19,20 +21,20 @@ import java.io.ObjectOutput;
  */
 public class LFCertificateUserCacheModel implements CacheModel<LFCertificateUser>,
     Externalizable {
-    public long id;
-    public Integer certificateID;
-    public Integer userID;
+    public Long certificateID;
+    public Long userID;
+    public long attachedDate;
 
     @Override
     public String toString() {
         StringBundler sb = new StringBundler(7);
 
-        sb.append("{id=");
-        sb.append(id);
-        sb.append(", certificateID=");
+        sb.append("{certificateID=");
         sb.append(certificateID);
         sb.append(", userID=");
         sb.append(userID);
+        sb.append(", attachedDate=");
+        sb.append(attachedDate);
         sb.append("}");
 
         return sb.toString();
@@ -42,9 +44,14 @@ public class LFCertificateUserCacheModel implements CacheModel<LFCertificateUser
     public LFCertificateUser toEntityModel() {
         LFCertificateUserImpl lfCertificateUserImpl = new LFCertificateUserImpl();
 
-        lfCertificateUserImpl.setId(id);
         lfCertificateUserImpl.setCertificateID(certificateID);
         lfCertificateUserImpl.setUserID(userID);
+
+        if (attachedDate == Long.MIN_VALUE) {
+            lfCertificateUserImpl.setAttachedDate(null);
+        } else {
+            lfCertificateUserImpl.setAttachedDate(new Date(attachedDate));
+        }
 
         lfCertificateUserImpl.resetOriginalValues();
 
@@ -53,16 +60,16 @@ public class LFCertificateUserCacheModel implements CacheModel<LFCertificateUser
 
     @Override
     public void readExternal(ObjectInput objectInput) throws IOException {
-        id = objectInput.readLong();
-        certificateID = objectInput.readInt();
-        userID = objectInput.readInt();
+        certificateID = objectInput.readLong();
+        userID = objectInput.readLong();
+        attachedDate = objectInput.readLong();
     }
 
     @Override
     public void writeExternal(ObjectOutput objectOutput)
         throws IOException {
-        objectOutput.writeLong(id);
-        objectOutput.writeInt(certificateID);
-        objectOutput.writeInt(userID);
+        objectOutput.writeLong(certificateID);
+        objectOutput.writeLong(userID);
+        objectOutput.writeLong(attachedDate);
     }
 }

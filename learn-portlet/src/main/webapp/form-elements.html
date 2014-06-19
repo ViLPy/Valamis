@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+</head>
+
+<body>
+<section id="navbar">
+    <div class="wrapper">
+        <div class="valamis-logo"></div>
+        <ul class="main-navigation inline">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Collaboration</a></li>
+            <li><a href="#">Discuss</a></li>
+            <li><a href="#">Tools</a></li>
+        </ul>
+    </div>
+</section>
+
+<section id="content">
+    <div class="wrapper">
+        <h2 class="valamis margined">Form Elements</h2>
+        <div class="valamis-row margined">
+            <label class="form-label valamis">Text Input</label>
+            <input type="text" class="text-input valamis">
+        </div>
+        <div class="valamis-row margined">
+            <label class="form-label valamis">Textarea</label>
+            <textarea class="textarea valamis"></textarea>
+        </div>
+        <div class="valamis-row margined">
+            <div class="checkbox valamis"></div>
+            <label class="form-label valamis checkbox-label">Checkbox</label>
+        </div>
+        <div class="valamis-row margined">
+            <div class="dropdown-container">
+                <button class="button valamis medium grey dropdown-button">Dropdown Menu / Select</button>
+                <ul class="dropdown-button-menu unstyled wide">
+                    <li>10</li>
+                    <li>25</li>
+                    <li>50</li>
+                    <li>100</li>
+                </ul>
+            </div>
+        </div>
+        <div class="valamis-row margined">
+            <button class="button valamis big green val-icon-continue">Continue</button>
+        </div>
+    </div>
+</section>
+</div>
+
+
+
+<script type="text/javascript">
+    jQuery( ".button.icon-list-view" ).click(function() {
+        jQuery(".button.icon-grid-view").removeClass("active");
+        jQuery(this).addClass( "active" );
+    });
+
+    jQuery( ".button.icon-grid-view" ).click(function() {
+        jQuery(".button.icon-list-view").removeClass("active");
+        jQuery(this).addClass( "active" );
+    });
+
+    var containers = jQuery(".dropdown-container");
+
+    containers.each(function (index, container) {
+        var button = jQuery(".dropdown-button", container),
+                dd = jQuery(".dropdown-button-menu", container);
+
+        button.on('click', function () {
+            dd.toggleClass('dropdown-visible');
+        });
+    });
+
+    jQuery( ".checkbox" ).click(function() {
+        jQuery(this).toggleClass( "checked" );
+    });
+</script>
+
+</body>
+</html>

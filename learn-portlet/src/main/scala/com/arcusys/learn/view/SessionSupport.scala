@@ -1,13 +1,13 @@
 package com.arcusys.learn.view
 
-import javax.portlet.{RenderResponse, RenderRequest}
+import javax.portlet.{ RenderResponse, RenderRequest }
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
 import com.arcusys.scorm.lms.UserManagement
 
 trait SessionSupport {
-  val userManagement:UserManagement
+  val userManagement: UserManagement
 
   def setupSession(request: RenderRequest, response: RenderResponse) {
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
@@ -23,6 +23,6 @@ trait SessionSupport {
     SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
     SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
     SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
-    SessionHandler.setAttribute(sessionID, "language", language)  // TODO: Get language from HTTP header?
+    SessionHandler.setAttribute(sessionID, "language", language) // TODO: Get language from HTTP header?
   }
 }

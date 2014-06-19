@@ -1,0 +1,314 @@
+<html>
+<head>
+
+    <script type="text/javascript" language="javascript">
+
+        var jQuery1816Admin = jQuery.noConflict();
+        var scormAdminLanguageData = {};
+
+        jQuery1816Admin(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
+            var defaultURL = Utils.getContextPath() + '/i18n/admin_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/admin_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onAdminLanguageLoad, onAdminLanguageError);
+        });
+
+        function onAdminLanguageLoad(properties) {
+            scormAdminLanguageData = properties;
+            initAdminView();
+        }
+
+        function onAdminLanguageError() {
+            toastr.error('Translation resource loading failed!');
+        }
+
+        function initAdminView() {
+
+            // Create a layout class
+            var Layout = Backbone.Marionette.Layout.extend({
+                template: _.template(jQuery('#modals-template').html()),
+                regions: {
+                    modals: {
+                        selector: '.modals-container',
+                        regionType: Backbone.Marionette.Modals
+                    }
+                }
+            });
+
+            var modalLayout = new Layout();
+            jQuery('body').append(modalLayout.render().el);
+
+            // Create a modal view class
+            var roleModal = Backbone.Modal.extend({
+                template: _.template(jQuery('#modal-template-roles').html()),
+                submitEl: '.bbm-button',
+                cancelEl: '.modal-close',
+                onRender: function () {
+                    this.$('.select-role-dialog').html(window.RolesDialog.render().$el);
+                }
+            });
+
+            this.rolesView = new ManageRolesDialog({el: jQuery1816Admin('#rolesManagement'), language: scormAdminLanguageData});
+
+            this.rolesView.on('clickAddTeacher', function () {
+                modalLayout.modals.show(new roleModal())
+            }, this);
+            this.rolesView.on('clickAddStudent', function () {
+                modalLayout.modals.show(new roleModal())
+            }, this);
+            this.rolesView.on('modalClose', function () {
+                modalLayout.modals.close()
+            }, this);
+
+            if (!window.RolesDialog) {
+                window.RolesDialog = new LiferayRoleSelectDialog({languageID: '{{language}}'});
+            }
+
+            tincanLrsCommonCredentialsChanged();
+            tincanLrsIsExternalChanged();
+
+        }
+
+        function tincanLrsIsExternalChanged() {
+            if (jQuery1816Admin('#tincanLrsIsExternalCheckbox').is(':checked')) {
+                jQuery1816Admin('#tincanLrsExernalPanel').show();
+            }
+            else {
+                jQuery1816Admin('#tincanLrsExernalPanel').hide();
+            }
+        }
+
+        function tincanLrsCommonCredentialsChanged() {
+            if (jQuery1816Admin('#tincanLrsCommonCredentialsCheckbox').is(':checked')) {
+                jQuery1816Admin('#tincanLrsCommonCredentialsPanel').show();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsAuthType').val('BASIC');
+            }
+            else {
+                jQuery1816Admin('#tincanLrsCommonCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').show();
+                jQuery1816Admin('#tincanLrsAuthType').val('OAUTH');
+            }
+        }
+
+        function saveTincanLrsSettings() {
+
+            if (jQuery('#tincanLrsCommonCredentialsCheckbox').is(':checked')) {
+                var loginNameValue = jQuery('#tincanLrsCommonCredentialsLoginName').val();
+                var passwordValue = jQuery('#tincanLrsCommonCredentialsPassword').val();
+            }
+            else {
+                var loginNameValue = jQuery('#tincanLrsOAuthCredentialsLoginName').val();
+                var passwordValue = jQuery('#tincanLrsOAuthCredentialsPassword').val();
+            }
+
+            window.LearnAjax.post(Utils.getContextPath() + 'services/administering/TincanLrsSettings',
+                    {
+                        'isExternalLrs': jQuery('#tincanLrsIsExternalCheckbox').is(':checked'),
+                        'endpoint': jQuery('#tincanEndpoint').val(),
+                        'authType': jQuery('#tincanLrsAuthType').val(),
+                        'commonCredentials': jQuery('#tincanLrsCommonCredentialsCheckbox').is(':checked'),
+                        'loginName': loginNameValue,
+                        'password': passwordValue,
+                        'client_id': loginNameValue,
+                        'client_secret': passwordValue
+                    },
+                    jQuery.proxy(function () {
+                    }, this)
+            ).done(function () {
+                        toastr.success('{{overlayCompleteMessageLabel}}');
+                    });
+        }
+
+        function renewDatabase() {
+            var confirmView = new DeleteConfirmationView({language: scormAdminLanguageData});
+            confirmView.on('deleteConfirmed', function(){
+                window.LearnAjax.post(Utils.getContextPath() + 'services/administering/', {'action': 'RENEWDATABASE'}).done(function () {
+                    toastr.success('{{renewDatabaseCompleteLabel}}');
+                }).fail(function () {
+                            toastr.error('{{overlayFailedMessageLabel}}');
+                });
+            });
+            toastr.info(confirmView.render().$el, '{{deleteConfirmationTitle}}',
+                    {
+                        "positionClass": "toast-center",
+                        "timeOut": "0",
+                        "showDuration": "0",
+                        "hideDuration": "0",
+                        "extendedTimeOut": "0"
+                    });
+        }
+
+        function saveIssuerSettings() {
+            if (validateURL(jQuery('#issuerUrl').val())) {
+
+                window.LearnAjax.post(Utils.getContextPath() + 'services/administering/',
+                        {   'action': 'UPDATEISSUERSETTINGS',
+                            'issuerName': jQuery('#issuerName').val(),
+                            'issuerUrl': jQuery('#issuerUrl').val(),
+                            'issuerOrganization': jQuery('#issuerOrganization').val()
+                        },
+                        jQuery.proxy(function () {
+                        }, this)
+                ).done(function () {
+                            toastr.success('{{overlayCompleteMessageLabel}}');
+                }).fail(function () {
+                            toastr.error('{{overlayFailedMessageLabel}}');
+                });
+            }
+            else {
+                jQuery('#issuerUrlError').show();
+            }
+        }
+
+        function createSiteTemplates() {
+            window.LearnAjax.post(Utils.getContextPath() + 'services/administering/demo/templates').done(function () {
+                toastr.success('{{overlayCompleteMessageLabel}}');
+            }).fail(function () {
+                        toastr.error('{{overlayFailedMessageLabel}}');
+                    });
+        }
+
+        function validateURL(textval) {
+            var urlregex = new RegExp(
+                    '^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$');
+            return urlregex.test(textval);
+        }
+
+        function onUrlChanged() {
+            if (validateURL(jQuery('#issuerUrl').val())) jQuery('#issuerUrlError').hide();
+            else jQuery('#issuerUrlError').show();
+        }
+    </script>
+
+</head>
+<body>
+<div class="projectLearnGeneric" id="projectLearnGeneric">
+
+    <div id="adminTabs" class="valamis-tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#rolesTabMenu" data-toggle="tab">{{rolesDialogTitleLabel}}</a></li>
+            <li><a href="#badgesTabMenu" data-toggle="tab">{{openBadgesTooltipLabel}}</a></li>
+            <li><a href="#tincanTabMenu" data-toggle="tab">{{tincanTooltipLabel}}</a></li>
+            <li><a href="#settingsTabMenu" data-toggle="tab">{{optionalTooltipLabel}}</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="rolesTabMenu">
+                <div id="rolesManagement" class="SCORMPackageList"></div>
+            </div>
+
+            <div class="tab-pane" id="badgesTabMenu">
+                <h4 id="issuerSettingsTitle" class="valamis">{{issuerSettingsHeaderLabel}}</h4>
+
+                <div class="issuerSettingLine">
+                    <label class="form-label valamis issuerSettingLabel">{{issuerNameLabel}}</label>
+                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerName"
+                           value="{{issuerName}}"/>
+                </div>
+                <div class="issuerSettingLine">
+                    <label class="form-label valamis issuerSettingLabel">{{issuerUrlLabel}}</label>
+                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerUrl"
+                           value="{{{issuerURL}}}" onblur="onUrlChanged()"/>
+                    <label id="issuerUrlError" class="invalid" style="display: none;">!{{invalidUrl}}</label>
+                </div>
+                <div class="issuerSettingLine">
+                    <label class="form-label valamis issuerSettingLabel">{{issuerOrganizationLabel}}</label>
+                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerOrganization"
+                           value="{{issuerOrganization}}"/>
+                </div>
+
+                <div>
+                    <button onclick="saveIssuerSettings()" class="button valamis big green val-icon-check">
+                        {{adminDialogSaveButtonLabel}}
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="tab-pane" id="tincanTabMenu">
+
+                <h4 class="valamis">{{adminSettingsTincanLrsEndpointSectionLabel}}</h4>
+                <form id="tincanLrsSettingsForm" method="post">
+                    <div class="issuerSettingLine">
+                        <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanExternalEndpointLabel}}</label>
+                        <input class="issuerSettingValue" id="tincanLrsIsExternalCheckbox" type="checkbox"
+                               name="isExternalLrs" onchange="tincanLrsIsExternalChanged()"
+                        {{#tincanExternalLrs}}checked{{/tincanExternalLrs}}/>
+                    </div>
+                    <br>
+
+                    <div id="tincanLrsExternalPanel" class="issuerSettingLine">
+                        <div class="issuerSettingLine">
+                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanEndpointLabel}}</label>
+                            <input class="text-input valamis issuerSettingValue" id="tincanEndpoint" type="text"
+                                   name="endpoint"
+                                   value="{{tincanLrsEndpoint}}"/><br/>
+                        </div>
+
+                        <div class="issuerSettingLine">
+                            <label class="form-label valamis issuerSettingLabel"
+                                   for="tincanLrsCommonCredentialsCheckbox">{{adminSettingsTincanCommonCredentialsLabel}}</label>
+                            <input class="issuerSettingValue" id="tincanLrsCommonCredentialsCheckbox" type="checkbox"
+                                   name="commonCredentials" onchange="tincanLrsCommonCredentialsChanged()"
+                            {{#commonCredentials}}checked{{/commonCredentials}} /> <br/>
+                            <input type="hidden" name="authType" id="tincanLrsAuthType"/>
+                        </div>
+                        <br>
+
+                        <div class="clear"></div>
+                        <div id="tincanLrsCommonCredentialsPanel" class="issuerSettingLine">
+                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanLoginLabel}}</label>
+                            <input class="text-input valamis issuerSettingValue"
+                                   id="tincanLrsCommonCredentialsLoginName" type="text"
+                                   name="loginName"
+                                   value="{{tincanLrsLoginName}}"/><br/>
+                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanPasswordLabel}}</label>
+                            <input class="text-input valamis issuerSettingValue" id="tincanLrsCommonCredentialsPassword"
+                                   type="text"
+                                   name="password"
+                                   value="{{tincanLrsPassword}}"/><br/>
+                        </div>
+                        <div id="tincanLrsOAuthCredentialsPanel" class="issuerSettingLine">
+                            <label class="form-label valamis issuerSettingLabel">Client ID</label>
+                            <input class="text-input valamis issuerSettingValue" id="tincanLrsOAuthCredentialsLoginName"
+                                   type="text"
+                                   name="client_id"
+                                   value="{{tincanLrsLoginName}}"/><br/>
+                            <label class="form-label valamis issuerSettingLabel">Client Secret</label>
+                            <input class="text-input valamis issuerSettingValue" id="tincanLrsOAuthCredentialsPassword"
+                                   type="text"
+                                   name="client_secret"
+                                   value="{{tincanLrsPassword}}"/><br/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input type="button" id="TincanSaveLrsSettings" class="button valamis big green val-icon-check"
+                               onclick="saveTincanLrsSettings()" value="{{adminSettingsTincanSaveButtonLabel}}"/>
+
+                        <div class="clear"></div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="tab-pane" id="settingsTabMenu">
+                <div class="SCORMAddNewButton">
+                    <button onclick="renewDatabase()" class="button valamis big red">{{reinitDatabaseLabel}}</button>
+                    <hr>
+                    <button onclick="createSiteTemplates()" class="button valamis big green">
+                        {{adminDialogSiteTemplatesCreateLabel}}
+                    </button>
+                </div>
+            </div>
+
+            <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+            <input type="hidden" id="courseID" value="{{courseID}}"/>
+            <input type="hidden" id="companyID" value="{{companyID}}">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

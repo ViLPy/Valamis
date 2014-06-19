@@ -60,7 +60,7 @@ class SequencingTest extends FlatSpec with ShouldMatchers {
     sequencing.attemptLimit should equal(None)
     sequencing.durationLimitInMilliseconds should equal(None)
     sequencing.rollupContribution should equal(RollupContribution.Default)
-    sequencing.primaryObjective should not equal(None)
+    sequencing.primaryObjective should not equal (None)
     sequencing.nonPrimaryObjectives should equal(Nil)
     sequencing.childrenSelection.take should equal(None)
     sequencing.childrenSelection.reorder should equal(None)

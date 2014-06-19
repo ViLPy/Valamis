@@ -1,6 +1,6 @@
 package com.arcusys.learn.tincan.model
 
-import java.util.{UUID, Date}
+import java.util.{ UUID, Date }
 
 /**
  * The Statement is the core of the xAPI.
@@ -43,8 +43,7 @@ case class SubStatement(
   verb: Verb,
   obj: StatementObject,
   objectType: String,
-  storedId: Option[Int] = None
-  ) extends StatementObject
+  storedId: Option[Int] = None) extends StatementObject
 
 /**
  * An optional field that provides a place to add contextual information to a Statement. All properties are optional.
@@ -65,13 +64,12 @@ case class Context(
   registration: Option[UUID],
   instructor: Option[Actor],
   team: Option[Group],
-  contextActivities: ContextActivities,
+  contextActivities: Option[ContextActivities],
   revision: Option[String],
   platform: Option[String],
   language: Option[String],
   statement: Option[StatementReference],
-  extensions: Seq[Extension]
-  )
+  extensions: Seq[Extension])
 
 /**
  * A Statement Reference is a pointer to another pre-existing Statement.
@@ -86,7 +84,7 @@ case class StatementReference(id: UUID, objectType: String, storedId: Option[Int
  * @param success Indicates whether or not the attempt on the Activity was successful.
  * @param completion Indicates whether or not the Activity was completed.
  * @param response A response appropriately formatted for the given Activity.
- * @param duration Period of time over which the Statement occurred.
+ * @param duration Period of time over which the Statement occurred. Formatted according to ISO 8601 with a precision of 0.01 seconds
  * @param extensions A map of other properties as needed.
  */
 case class Result(
@@ -94,9 +92,8 @@ case class Result(
   success: Option[Boolean],
   completion: Option[Boolean],
   response: Option[String],
-  duration: Option[Double],
-  extensions: Seq[Extension]
-)
+  duration: Option[String],
+  extensions: Seq[Extension])
 
 /**
  *  An optional field that represents the outcome of a graded Activity achieved by an Agent.

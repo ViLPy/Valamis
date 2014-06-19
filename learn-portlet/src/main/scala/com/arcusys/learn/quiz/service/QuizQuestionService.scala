@@ -18,26 +18,32 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
       "id" -> question.id,
       "categoryID" -> question.categoryID.getOrElse("-1")
     ) ++ (question match {
-      case questionBankQuestion: QuestionBankQuizQuestion =>
-        Map(
-          "question" -> QuestionSerializer.buildItemMap(questionBankQuestion.question),
-          "title" -> questionBankQuestion.question.title,
-          "questionType" -> QuizQuestionType.QuestionBank.toString
-        )
-      case external: ExternalQuizQuestion =>
-        Map(
-          "url" -> external.url,
-          "title" -> question.title,
-          "questionType" -> QuizQuestionType.External.toString
-        )
-      case plain: PlainTextQuizQuestion =>
-        Map(
-          "text" -> plain.text,
-          "title" -> question.title,
-          "questionType" -> QuizQuestionType.PlainText.toString
-        )
-      case _ => Map()
-    })
+        case questionBankQuestion: QuestionBankQuizQuestion =>
+          Map(
+            "question" -> QuestionSerializer.buildItemMap(questionBankQuestion.question),
+            "title" -> questionBankQuestion.question.title,
+            "questionType" -> QuizQuestionType.QuestionBank.toString
+          )
+        case external: ExternalQuizQuestion =>
+          Map(
+            "url" -> external.url,
+            "title" -> question.title,
+            "questionType" -> QuizQuestionType.External.toString
+          )
+        case plain: PlainTextQuizQuestion =>
+          Map(
+            "text" -> plain.text,
+            "title" -> question.title,
+            "questionType" -> QuizQuestionType.PlainText.toString
+          )
+        case reveal: RevealJSQuizQuestion =>
+          Map(
+            "text" -> reveal.content,
+            "title" -> question.title,
+            "questionType" -> QuizQuestionType.RevealJS.toString
+          )
+        case _ => Map()
+      })
   )
 
   before() {
@@ -104,7 +110,7 @@ class QuizQuestionService(configuration: BindingModule) extends ServletBase(conf
     val title = article.getTitle(articleLanguage)
 
     val text = parameter("text").required
-    val preparedText = URLEncoder.encode(text.replaceAll("\\+", "%2B"), "UTF-8").replaceAll("\\+", "%20")//.replaceAll("\n","").replaceAll("\t","")).replaceAll("\\\\\"","\\\\\\\"")
+    val preparedText = URLEncoder.encode(text.replaceAll("\\+", "%2B"), "UTF-8").replaceAll("\\+", "%20") //.replaceAll("\n","").replaceAll("\t","")).replaceAll("\\\\\"","\\\\\\\"")
     jsonModel(quizQuestionStorage.getByID(quizQuestionStorage.createPlainAndGetID(quizID, parentID, title, preparedText)).get)
   }
 

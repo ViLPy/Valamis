@@ -1,6 +1,6 @@
 package com.arcusys.learn.setting.storage
 
-import com.arcusys.learn.settings.model.{SettingType, Setting}
+import com.arcusys.learn.settings.model.{ SettingType, Setting }
 
 /**
  * User: Yulia.Glushonkova

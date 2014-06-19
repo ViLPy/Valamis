@@ -319,6 +319,21 @@ public class LFTincanLrsStatementLocalServiceWrapper
         return _lfTincanLrsStatementLocalService.findByTincanID(tincanID);
     }
 
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement> findBy(
+        java.lang.String statementID, java.lang.String voidedStatementID,
+        java.lang.Integer actorID, java.lang.String verbID,
+        java.lang.Integer objID, java.lang.String registration,
+        java.util.Date since, java.util.Date until,
+        java.lang.Boolean related_activities, java.lang.Boolean related_agents,
+        java.lang.Boolean ascending, java.lang.Integer limit)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return _lfTincanLrsStatementLocalService.findBy(statementID,
+            voidedStatementID, actorID, verbID, objID, registration, since,
+            until, related_activities, related_agents, ascending, limit);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

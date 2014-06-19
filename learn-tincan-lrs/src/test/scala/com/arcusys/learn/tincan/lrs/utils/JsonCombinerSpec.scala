@@ -8,7 +8,6 @@ import org.json4s.DefaultFormats
 import com.fasterxml.jackson.core.JsonParseException
 import org.json4s.jackson.JsonMethods._
 
-
 @RunWith(classOf[JUnitRunner])
 class JsonCombinerSpec extends Specification {
   implicit val format = DefaultFormats
@@ -20,26 +19,26 @@ class JsonCombinerSpec extends Specification {
     "merge posted document with the existing one with only top-level properties" in {
       val targetJson = """{"x":"foo","y":"bar"}"""
       val postedJSON = """{"x":"bash"}"""
-      
-      val merged = JsonCombiner.combine(targetJson, postedJSON)
-      val parsed = parse(merged) 
-      
-      (parsed \ "x").extract[String] mustEqual "bash"
-      (parsed \ "y").extract[String] mustEqual "bar"
-    }
-
-    "merge posted document with the existing one with only top-level properties " +
-      "even if top-level property is an Object" in {
-      val targetJson = """{"x":"foo","y":"bar","z":{"a":1,"b":2}}"""
-      val postedJSON = """{"x":"bash","z":"faz"}"""
 
       val merged = JsonCombiner.combine(targetJson, postedJSON)
       val parsed = parse(merged)
 
       (parsed \ "x").extract[String] mustEqual "bash"
       (parsed \ "y").extract[String] mustEqual "bar"
-      (parsed \ "z").extract[String] mustEqual "faz"
     }
+
+    "merge posted document with the existing one with only top-level properties " +
+      "even if top-level property is an Object" in {
+        val targetJson = """{"x":"foo","y":"bar","z":{"a":1,"b":2}}"""
+        val postedJSON = """{"x":"bash","z":"faz"}"""
+
+        val merged = JsonCombiner.combine(targetJson, postedJSON)
+        val parsed = parse(merged)
+
+        (parsed \ "x").extract[String] mustEqual "bash"
+        (parsed \ "y").extract[String] mustEqual "bar"
+        (parsed \ "z").extract[String] mustEqual "faz"
+      }
 
     "merge posted document with existing one while adding new property" in {
       val targetJson = """{"x":"foo"}"""

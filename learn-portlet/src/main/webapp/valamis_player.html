@@ -1,0 +1,303 @@
+<html>
+<head>
+
+</head>
+<body>
+<div id="projectLearnCourseIsCompleted">{{courseIsCompleted}}</div>
+<div class="projectLearnGeneric" id="projectLearnGenericPlaceholder">
+    <div id="SCORMPlayerContainer">
+        <div id="packagePlayerList" class="SCORMPackageList"></div>
+    </div>
+    <div id="SCORMPlayerView"></div>
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<input type="hidden" id="packageId" value="{{packageId}}"/>
+<input type="hidden" id="packageTitle" value="{{packageTitle}}"/>
+<input type="hidden" id="packageType" value="{{packageType}}"/>
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="pageID" value="{{pageID}}"/>
+<input type="hidden" id="playerID" value="{{playerID}}"/>
+<input type="hidden" id="isCompleteByUser" value="{{isCompleteByUser}}">
+<input type="hidden" id="defaultPackageID" value="{{defaultPackageID}}">
+<input type="hidden" id="userName" value="{{userName}}">
+<input type="hidden" id="userEmail" value="{{userEmail}}">
+<input type="hidden" id="tincanActor" value="{{tincanActor}}">
+<input type="hidden" id="tincanLrsNotConfiguredMessage" value="{{tincanLrsNotConfigured}}">
+
+</body>
+<script type="text/template" id="player-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title valamis">{{pageSubTitleLabel}}</h3>
+
+        <div class="modal-close">
+        </div>
+    </div>
+
+    <div class="bbm-modal__section player-dialog">
+    </div>
+
+</script>
+<!--tincanLrsUserCredentials-->
+<script type="text/template" id="tincan-credentials-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title valamis">{{tincanLrsCredentialsDialogLabel}}</h3>
+
+        <div class="modal-close">
+         </div>
+    </div>
+
+    <div class="bbm-modal__section">
+        {{tincanLrsCredentialsDialogMessage}}<br/>
+        <input id="tincanLaunchUrlCredentialsDialog" type="hidden"/>
+        <input id="tincanEndpointCredentialsDialog" type="hidden"/>
+
+        <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogLoginLabel}}</lable>
+        <input class="issuerSettingValue" id="tincanLoginCredentialsDialog" type="text"/><br/>
+
+        <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogPasswordLabel}}</lable>
+        <input class="issuerSettingValue" id="tincanPasswordCredentialsDialog" type="password"/><br/>
+
+        <input type="button" value="{{tincanLrsCredentialsDialogButtonLable}}"
+               onclick="openTincanPackageFromCredentialsDialog()"/>
+    </div>
+
+</script>
+<script type="text/javascript" language="javascript">
+    var jQuery1816Player = jQuery.noConflict();
+    var scormPlayerPackages = new PlayerPackageModelCollection();
+    var scormPlayer;
+    var scormPlayerPackagesView;
+    var scormPlayerLanguageData = {};
+
+    var playerSettings = new SettingsHelper({url: window.location.href, portlet: 'player'});
+    playerSettings.fetch();
+
+    document.addEventListener("fullscreenchange", function () {
+        scormPlayer.cancelFullscreenEscape(document.fullscreen);
+    }, false);
+    document.addEventListener("mozfullscreenchange", function () {
+        scormPlayer.cancelFullscreenEscape(document.mozFullScreen);
+    }, false);
+    document.addEventListener("webkitfullscreenchange", function () {
+        scormPlayer.cancelFullscreenEscape(document.webkitIsFullScreen);
+    }, false);
+
+    jQuery1816Player(function () {
+        Backbone.emulateJSON = true;
+        Backbone.ajax = window.LearnAjax.ajax;
+        jQuery1816Player("#packageId").val("{{packageId}}");
+        jQuery("#projectLearnCourseIsCompleted").hide();
+        jQuery("#projectLearnGenericPlaceholder").hide();
+        window.LearnAjax.setHeader("scormUserID", "{{userID}}");
+        window.LearnAjax.setHeader("scormUserName", "{{userName}}");
+        window.API_1484_11 = new SCORM2004_4API();
+        window.API = new SCORM12API();
+
+        // upload translations
+        var defaultURL = Utils.getContextPath() + '/i18n/player_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/player_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onPlayerLanguageLoad, onPlayerLanguageError);
+    });
+
+    function onPlayerLanguageLoad(properties) {
+        scormPlayerLanguageData = properties;
+        initPlayerView();
+    }
+
+    function onPlayerLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+    function initPlayerView() {
+        if (!checkIfNeedToHidePlayer()) {
+            scormPlayer = new PlayerView({el: jQuery1816Player("#SCORMPlayerView"), language: scormPlayerLanguageData});
+            jQuery1816Player("#SCORMPlayerView").hide();
+            scormPlayer.on('exit', exit);
+            scormPlayer.on('suspend', suspend);
+            scormPlayer.on('endSession', endSession);
+            window.scormPlayerView = scormPlayer;
+
+            scormPlayerPackagesView = new PlayerPackageListView({el: jQuery1816Player("#packagePlayerList"), collection: scormPlayerPackages, language: scormPlayerLanguageData});
+            scormPlayerPackagesView.on('start', startPackage);
+            scormPlayerPackagesView.on('resume', resumePackage);
+            scormPlayerPackages.fetch({success: jQuery1816Player.proxy(function () {
+                var packageToOpen = parseInt("{{entryID}}");
+                if (packageToOpen) {
+                    startPackage(scormPlayerPackages.get(packageToOpen));
+                }
+            }, this)});
+
+            packageStart(jQuery("#packageId").val(), jQuery("#packageTitle").val(), jQuery("#packageType").val());
+
+        }
+
+        window.playerLayout = new PlayerLayout();
+        jQuery('body').append(playerLayout.render().el);
+        window.tincanModal = new TincanModal();
+    }
+
+    function suspend() {
+        clearSessionParameters();
+        scormPlayerPackagesView.reloadPackageList();
+        togglePlayer();
+    }
+
+    function exit() {
+        clearSessionParameters();
+        if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()) {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+        } else scormPlayerPackagesView.reloadPackageList();
+    }
+
+    function openTincanPackageFromCredentialsDialog() {
+        var login = jQuery("#tincanLoginCredentialsDialog").val();
+        var password = jQuery("#tincanPasswordCredentialsDialog").val();
+        var endpoint = jQuery("#tincanEndpointCredentialsDialog").val();
+        var launchUrl = jQuery("#tincanLaunchUrlCredentialsDialog").val();
+
+        //jQuery1816Player('#tincanLrsUserCredentials').dialog('close');
+        window.tincanModal.close();
+        scormPlayer.openTincanPackage(launchUrl, endpoint, "Basic " + btoa(login + ":" + password))
+    }
+
+    function setLRSFromCredentialsDialog() {
+        var login = jQuery("#tincanLoginCredentialsDialog").val();
+        var password = jQuery("#tincanPasswordCredentialsDialog").val();
+        var endpoint = jQuery("#tincanEndpointCredentialsDialog").val();
+
+        //jQuery1816Player('#tincanLrsUserCredentials').dialog('close');
+        window.tincanModal.close();
+        SetLRS(endpoint, "Basic " + btoa(login + ":" + password))
+    }
+
+    function startPackage(data) {
+        var mode = jQuery('#playerShowMode').val()
+
+        var packageTitle = data.get('title');
+        var packageId = data.id;
+        var packageType = data.get('type');
+        jQuery("#packageId").val(packageId);
+        saveSessionParameters(packageId, packageTitle, packageType);
+
+        /*if (mode == "popup") {
+            if (packageId) {
+                var modal = new PlayerModal(data);
+                playerLayout.modals.show(modal);
+            }
+        }
+        else*/
+        if (mode == "newWindow"){
+            window.open(window.location.href, '_blank');
+        }
+        else {
+            packageStart(packageId, packageTitle, packageType);
+        }
+    }
+
+    function packageStart(packageId, packageTitle, packageType) {
+        if (packageId) {
+            scormPlayer.setName(packageTitle);
+            scormPlayer.load(packageId, packageType);
+            togglePlayer();
+        }
+    }
+    function checkIfNeedToHidePlayer() {
+        if (jQuery("#isCompleteByUser").val() == 'true') {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+            return true;
+        }
+        else {
+            jQuery("#projectLearnCourseIsCompleted").hide();
+            jQuery("#projectLearnGenericPlaceholder").show();
+            return false;
+        }
+    }
+
+    function saveSessionParameters(id, title, type) {
+        jQuery.ajax({
+            type: 'POST',
+            url: jQuery("#SCORMContextPath").val() + "/services/sequencing/setSession",
+            data: {id: id, type: type, title: title, playerID: jQuery("#playerID").val()},
+            dataType: "json"
+        });
+    }
+    function clearSessionParameters() {
+        jQuery.ajax({
+            type: 'POST',
+            url: jQuery("#SCORMContextPath").val() + "/services/sequencing/clearSession"
+        });
+    }
+
+    function resumePackage(data) {
+        var packageTitle = data.get('title');
+        var packageType = data.get('type');
+        var packageId = data.id;
+
+        saveSessionParameters(packageId, packageTitle, packageType);
+        scormPlayer.setName(packageTitle);
+        scormPlayer.loadAndResume(packageId, packageType);
+
+        togglePlayer();
+    }
+
+    function scormGetNext() {
+        scormPlayer.doContinue();
+    }
+    function scormGetPrev() {
+        scormPlayer.doPrevious();
+    }
+    function scormJump(target) {
+        scormPlayer.doJump(target);
+    }
+
+    function endSession() {
+        togglePlayer();
+        clearSessionParameters();
+        if (jQuery("#packageId").val() == jQuery("#defaultPackageID").val()) {
+            jQuery("#projectLearnCourseIsCompleted").show();
+            jQuery("#projectLearnGenericPlaceholder").hide();
+        }
+    }
+
+    function togglePlayer() {
+        jQuery1816Player("#SCORMPlayerContainer").toggle();
+        jQuery1816Player("#SCORMPlayerView").toggle();
+    }
+
+
+    var PlayerLayout = Backbone.Marionette.Layout.extend({
+        template: _.template(Mustache.to_html(jQuery('#player-modals-template').html(), scormPlayerLanguageData)),
+        regions: {
+            modals: {
+                selector: '.player-modals-container',
+                regionType: Backbone.Marionette.Modals
+            }
+        }
+    });
+
+
+   /* var PlayerModal = Backbone.Modal.extend({
+        template: _.template(Mustache.to_html(jQuery('#player-modal-template').html(), scormPlayerLanguageData)),
+        submitEl: '.bbm-button',
+        cancelEl: '.modal-close',
+        initialize: function (options) {
+            this.data = options;
+        },
+        onRender: function () {
+            scormPlayer.updateContainer(jQuery('.player-dialog'));
+
+            scormPlayer.setName(this.data.get('title'));
+            scormPlayer.load(this.data.id,  this.data.get('type'));
+        }
+    });*/
+    var TincanModal = Backbone.Modal.extend({
+        template: _.template(Mustache.to_html(jQuery('#tincan-credentials-modal-template').html(), scormPlayerLanguageData)),
+        submitEl: '.bbm-button',
+        cancelEl: '.modal-close',
+        initialize: function (options) {
+        }
+    });
+</script>
+</html>

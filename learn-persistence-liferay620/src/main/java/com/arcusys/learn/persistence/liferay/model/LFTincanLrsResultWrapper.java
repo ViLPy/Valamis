@@ -80,7 +80,7 @@ public class LFTincanLrsResultWrapper implements LFTincanLrsResult,
             setResponse(response);
         }
 
-        Double duration = (Double) attributes.get("duration");
+        String duration = (String) attributes.get("duration");
 
         if (duration != null) {
             setDuration(duration);
@@ -219,7 +219,7 @@ public class LFTincanLrsResultWrapper implements LFTincanLrsResult,
     * @return the duration of this l f tincan lrs result
     */
     @Override
-    public java.lang.Double getDuration() {
+    public java.lang.String getDuration() {
         return _lfTincanLrsResult.getDuration();
     }
 
@@ -229,7 +229,7 @@ public class LFTincanLrsResultWrapper implements LFTincanLrsResult,
     * @param duration the duration of this l f tincan lrs result
     */
     @Override
-    public void setDuration(java.lang.Double duration) {
+    public void setDuration(java.lang.String duration) {
         _lfTincanLrsResult.setDuration(duration);
     }
 

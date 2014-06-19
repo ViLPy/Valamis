@@ -2,9 +2,10 @@ package com.arcusys.learn.social.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalServiceUtil
-import com.arcusys.learn.social.model.{SocialPackage, PackageComment}
-import com.arcusys.learn.persistence.liferay.model.{LFPackageComment, LFSocialPackage}
+import com.arcusys.learn.social.model.{ SocialPackage, PackageComment }
+import com.arcusys.learn.persistence.liferay.model.{ LFPackageComment, LFSocialPackage }
 import scala.collection.JavaConverters._
+import org.joda.time.DateTime
 
 trait LFPackageCommentStorageImpl extends KeyedEntityStorage[PackageComment] {
   protected def doRenew() {
@@ -16,11 +17,11 @@ trait LFPackageCommentStorageImpl extends KeyedEntityStorage[PackageComment] {
     entity.getSocialPackageID,
     entity.getAuthorID,
     entity.getComment,
-    entity.getPublishDate)
+    new DateTime(entity.getPublishDate))
 
   def getAll(parameters: (String, Any)*): Seq[PackageComment] = parameters match {
     case Seq(("packageID", packageID: Int)) => LFPackageCommentLocalServiceUtil.findBySocialPackageID(packageID).asScala.map(extract)
-    case _ => Nil
+    case _                                  => Nil
   }
 
   def createAndGetID(entity: PackageComment, parameters: (String, Any)*): Int = {
@@ -28,7 +29,7 @@ trait LFPackageCommentStorageImpl extends KeyedEntityStorage[PackageComment] {
     newEntity.setSocialPackageID(entity.socialPackageID)
     newEntity.setAuthorID(entity.authorID)
     newEntity.setComment(entity.comment)
-    newEntity.setPublishDate(entity.publishDate)
+    newEntity.setPublishDate(entity.publishDate.toDate)
     LFPackageCommentLocalServiceUtil.addLFPackageComment(newEntity).getId.toInt
   }
 

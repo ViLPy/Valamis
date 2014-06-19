@@ -27,8 +27,12 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistenceImpl" parent="basePersistence" />
-	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateSiteLocalServiceImpl" />
-	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateSitePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateActivityLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateActivityPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateCourseLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateCoursePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateCoursePersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateTincanStatementLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateTincanStatementPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateTincanStatementPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFCertificateUserLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFChildrenSelectionLocalServiceImpl" />
@@ -53,6 +57,8 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageCommentLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageGradeStorageLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeStoragePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeStoragePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageScopeRuleLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFPackageVoteLocalServiceImpl" />
@@ -69,6 +75,8 @@
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFQuizQuestionCategoryLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistenceImpl" parent="basePersistence" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.LFQuizTreeElementLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFQuizTreeElementLocalServiceImpl" />
+	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizTreeElementPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFQuizTreeElementPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFRequiredActivityLocalServiceImpl" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.persistence.LFRequiredActivityPersistence" class="com.arcusys.learn.persistence.liferay.service.persistence.LFRequiredActivityPersistenceImpl" parent="basePersistence" />
 	<bean id="com.arcusys.learn.persistence.liferay.service.LFResourceLocalService" class="com.arcusys.learn.persistence.liferay.service.impl.LFResourceLocalServiceImpl" />

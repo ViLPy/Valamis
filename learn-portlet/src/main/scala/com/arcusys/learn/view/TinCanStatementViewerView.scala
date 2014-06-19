@@ -1,19 +1,18 @@
 package com.arcusys.learn.view
 
-import javax.portlet.{RenderResponse, RenderRequest, GenericPortlet}
+import javax.portlet.{ RenderResponse, RenderRequest, GenericPortlet }
 import org.scalatra.ScalatraFilter
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
 import com.arcusys.learn.view.liferay.LiferayHelpers
+import com.arcusys.learn.util.MustacheSupport
 
 class TinCanStatementViewerView
-  extends GenericPortlet
-  with ScalatraFilter
-  with MustacheSupport
-  with i18nSupport
-  with ConfigurableView
-  with SessionSupport
-{
+    extends GenericPortlet
+    with ScalatraFilter
+    with MustacheSupport
+    with i18nSupport
+    with ConfigurableView
+    with SessionSupport {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
@@ -38,7 +37,7 @@ class TinCanStatementViewerView
       getTranslation("/i18n/error_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/error_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language) ++ translations
     mustache(data, templateName)
@@ -49,7 +48,7 @@ class TinCanStatementViewerView
       getTranslation("/i18n/statementViewer_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/statementViewer_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language, "courseID" -> courseID) ++ translations
     mustache(data, templateName)

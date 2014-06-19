@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.tracking.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.scorm.tracking.model.Attempt
-import com.arcusys.learn.persistence.liferay.service.{LFActivityStateTreeLocalServiceUtil, LFAttemptLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFActivityStateTreeLocalServiceUtil, LFAttemptLocalServiceUtil }
 import com.arcusys.learn.scorm.tracking.storage.impl.AttemptFieldsMapper
 import com.arcusys.learn.persistence.liferay.model.LFAttempt
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
@@ -49,7 +49,6 @@ trait LFAttemptStorageImpl extends KeyedEntityStorage[Attempt] {
 
     LFAttemptLocalServiceUtil.addLFAttempt(newEntity).getId.toInt
   }
-
 
   def getAll(parameters: (String, Any)*): Seq[Attempt] = parameters match {
     case Seq(("userID", userID: Int), ("packageID", packageID: Int), ("isComplete", isComplete: Boolean)) =>

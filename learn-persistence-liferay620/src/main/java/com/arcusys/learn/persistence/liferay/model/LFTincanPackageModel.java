@@ -115,6 +115,21 @@ public interface LFTincanPackageModel extends BaseModel<LFTincanPackage> {
      */
     public void setCourseID(Integer courseID);
 
+    /**
+     * Returns the logo of this l f tincan package.
+     *
+     * @return the logo of this l f tincan package
+     */
+    @AutoEscape
+    public String getLogo();
+
+    /**
+     * Sets the logo of this l f tincan package.
+     *
+     * @param logo the logo of this l f tincan package
+     */
+    public void setLogo(String logo);
+
     @Override
     public boolean isNew();
 

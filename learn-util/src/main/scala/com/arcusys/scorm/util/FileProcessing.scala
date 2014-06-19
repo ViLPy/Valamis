@@ -10,21 +10,21 @@ import java.util.zip.ZipFile
 
 object FileProcessing {
 
-  def zipContains(filename: String, zipFilename: String) : Boolean = {
+  def zipContains(filename: String, zipFilename: String): Boolean = {
     try {
       val zipFile = new ZipFile(zipFilename)
       val entries = zipFile.entries
 
       while (entries.hasMoreElements) {
-          val entry = entries.nextElement
-          if (entry.getName.endsWith(filename)) {
-            return true
-          }
+        val entry = entries.nextElement
+        if (entry.getName.endsWith(filename)) {
+          return true
+        }
       }
       zipFile.close()
       false
     } catch {
-      case e:Exception => throw new Exception(e.toString)
+      case e: Exception => throw new Exception(e.toString)
     }
   }
 
@@ -34,7 +34,6 @@ object FileProcessing {
       val zipFile = new ZipFile(zipFilename)
       val entries = zipFile.entries
 
-
       while (entries.hasMoreElements) {
         val entry = entries.nextElement.asInstanceOf[ZipEntry]
         if (entry.getName.endsWith(filename)) {
@@ -43,10 +42,9 @@ object FileProcessing {
       }
       zipFile.close()
     } catch {
-      case e:Exception => throw new Exception(e.toString)
+      case e: Exception => throw new Exception(e.toString)
     }
   }
-
 
   def unzip(directory: String, filename: String) {
     try {
@@ -70,7 +68,7 @@ object FileProcessing {
       }
       zipFile.close()
     } catch {
-      case _ => //throw new Exception("Can't unzip")
+      case _: Throwable => //throw new Exception("Can't unzip")
     }
   }
 
@@ -86,7 +84,7 @@ object FileProcessing {
       in.close()
       out.close()
     } catch {
-      case _ =>
+      case _: Throwable =>
     }
   }
 

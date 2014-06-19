@@ -1,12 +1,11 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
-import com.arcusys.learn.scorm.manifest.storage.{PackagesStorage, PackageScopeRuleStorage}
+import com.arcusys.learn.scorm.manifest.storage.{ PackagesStorage, PackageScopeRuleStorage }
 import com.arcusys.learn.scorm.manifest.model._
 
 import org.junit.Assert._
-import org.junit.{Ignore, Test, Before}
+import org.junit.{ Ignore, Test, Before }
 import com.arcusys.learn.tincan.manifest.storage.TincanPackageStorage
-
 
 trait PackageScopeRuleStorageJUnit {
   def packagesScopeRuleStorage: PackageScopeRuleStorage
@@ -130,13 +129,12 @@ trait PackageScopeRuleStorageJUnit {
     packagesScopeRuleStorage.create(testPackageId3, ScopeType.Instance, None, false, false)
     packagesScopeRuleStorage.create(testPackageId3, ScopeType.Site, Option("2"), false, false)
 
-
     packagesScopeRuleStorage.update(testPackageId, ScopeType.Site, Option("2"), false, true)
 
     val rule1 = packagesScopeRuleStorage.get(testPackageId, ScopeType.Site, Option("2"))
     assertEquals(true, rule1.get.isDefault)
 
-    packagesScopeRuleStorage.update(testPackageId3, ScopeType.Site, Option("2"),false, true)
+    packagesScopeRuleStorage.update(testPackageId3, ScopeType.Site, Option("2"), false, true)
 
     val rule2 = packagesScopeRuleStorage.get(testPackageId, ScopeType.Site, Option("2"))
     val rule3 = packagesScopeRuleStorage.get(testPackageId3, ScopeType.Site, Option("2"))
@@ -152,8 +150,8 @@ trait PackageScopeRuleStorageJUnit {
     assertEquals(true, packages(1).isDefault)
 
     packagesScopeRuleStorage.update(testPackageId, ScopeType.Instance, None, false, true)
-    packagesScopeRuleStorage.update(testPackageId2, ScopeType.Instance, None,false, true)
-    packagesScopeRuleStorage.update(testPackageId3, ScopeType.Instance, None,false, true)
+    packagesScopeRuleStorage.update(testPackageId2, ScopeType.Instance, None, false, true)
+    packagesScopeRuleStorage.update(testPackageId3, ScopeType.Instance, None, false, true)
 
     packagesScopeRuleStorage.update(testPackageId, ScopeType.Instance, None, true, false)
     packagesScopeRuleStorage.update(testPackageId2, ScopeType.Instance, None, true, false)
@@ -169,29 +167,29 @@ trait PackageScopeRuleStorageJUnit {
 
   }
 
-//  @Test
-//  @Ignore
-//  def setVisibilityTincan() {
-//    val manifest = new com.arcusys.learn.tincan.manifest.model.Manifest(12, "tincan", None, Some(0), None, Some(false), isDefault = false)
-//    val testPackageId = tincanPackagesStorage.createAndGetID(manifest, manifest.courseID)
-//    packagesScopeRuleStorage.create(testPackageId, ScopeType.Instance, None, false, false)
-//    packagesScopeRuleStorage.create(testPackageId, ScopeType.Site, Option("test"), false, false)
-//    val rule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Instance, None)
-//    assertEquals(rule.get.visibility, false)
-//    assertEquals(rule.get.isDefault, false)
-//    assertEquals(rule.get.packageID, testPackageId)
-//
-//    packagesScopeRuleStorage.update(testPackageId, ScopeType.Instance, None, true, false)
-//    packagesScopeRuleStorage.update(testPackageId, ScopeType.Site, Option("test"), true, false)
-//
-//    val updatedRule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Instance, None)
-//    assertEquals(updatedRule.get.visibility, true)
-//    assertEquals(updatedRule.get.isDefault, false)
-//    assertEquals(updatedRule.get.packageID, testPackageId)
-//
-//    val siteRule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Site, Option("test"))
-//    assertEquals(siteRule.get.visibility, true)
-//    assertEquals(siteRule.get.isDefault, false)
-//    assertEquals(siteRule.get.packageID, testPackageId)
-//  }
+  //  @Test
+  //  @Ignore
+  //  def setVisibilityTincan() {
+  //    val manifest = new com.arcusys.learn.tincan.manifest.model.Manifest(12, "tincan", None, Some(0), None, Some(false), isDefault = false)
+  //    val testPackageId = tincanPackagesStorage.createAndGetID(manifest, manifest.courseID)
+  //    packagesScopeRuleStorage.create(testPackageId, ScopeType.Instance, None, false, false)
+  //    packagesScopeRuleStorage.create(testPackageId, ScopeType.Site, Option("test"), false, false)
+  //    val rule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Instance, None)
+  //    assertEquals(rule.get.visibility, false)
+  //    assertEquals(rule.get.isDefault, false)
+  //    assertEquals(rule.get.packageID, testPackageId)
+  //
+  //    packagesScopeRuleStorage.update(testPackageId, ScopeType.Instance, None, true, false)
+  //    packagesScopeRuleStorage.update(testPackageId, ScopeType.Site, Option("test"), true, false)
+  //
+  //    val updatedRule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Instance, None)
+  //    assertEquals(updatedRule.get.visibility, true)
+  //    assertEquals(updatedRule.get.isDefault, false)
+  //    assertEquals(updatedRule.get.packageID, testPackageId)
+  //
+  //    val siteRule = packagesScopeRuleStorage.get(testPackageId, ScopeType.Site, Option("test"))
+  //    assertEquals(siteRule.get.visibility, true)
+  //    assertEquals(siteRule.get.isDefault, false)
+  //    assertEquals(siteRule.get.packageID, testPackageId)
+  //  }
 }

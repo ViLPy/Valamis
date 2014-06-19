@@ -17,7 +17,7 @@ public class LFTincanLrsResultSoap implements Serializable {
     private Boolean _success;
     private Boolean _completion;
     private String _response;
-    private Double _duration;
+    private String _duration;
     private String _extension;
 
     public LFTincanLrsResultSoap() {
@@ -124,11 +124,11 @@ public class LFTincanLrsResultSoap implements Serializable {
         _response = response;
     }
 
-    public Double getDuration() {
+    public String getDuration() {
         return _duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(String duration) {
         _duration = duration;
     }
 

@@ -31,7 +31,7 @@ class OrganizationTest extends FlatSpec with ShouldMatchers {
 
   "Organization" can "be constructed" in {
     val organization = new Organization("O1", "Organization 1", objectivesGlobalToSystem = false, sharedDataGlobalToSystem = false,
-    sequencing = someSequencing, completionThreshold = someThreshold, metadata = Some(someMetadata))
+      sequencing = someSequencing, completionThreshold = someThreshold, metadata = Some(someMetadata))
     organization.id should equal("O1")
     organization.title should equal("Organization 1")
     organization.parentID should equal(None)

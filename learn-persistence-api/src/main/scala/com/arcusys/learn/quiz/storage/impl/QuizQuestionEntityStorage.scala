@@ -1,7 +1,7 @@
 package com.arcusys.learn.quiz.storage.impl
 
 import com.arcusys.learn.quiz.storage.QuizQuestionStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.quiz.model._
 import com.arcusys.learn.questionbank.storage.QuestionStorage
 
@@ -52,6 +52,15 @@ trait QuizQuestionCreator {
             throw new IllegalArgumentException("Can't get real question from DB")),
           arrangementIndex
         )
+      case QuizQuestionType.RevealJS =>
+        new RevealJSQuizQuestion(
+          id,
+          quizId,
+          categoryId,
+          title,
+          text,
+          arrangementIndex
+        )
       case _ => throw new IllegalArgumentException("Illegal quiz question type in quiz question extractor")
     }
   }
@@ -65,6 +74,14 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
 
   def modifyExternal(id: Int, title: String, url: String) {
     modify("id" -> id, "title" -> title, "url" -> url)
+  }
+
+  def modifyRevealJS(id: Int, title: String, content: String) {
+    modify("id" -> id, "title" -> title, "text" -> content)
+  }
+
+  def modify(id: Int, title: String) {
+    modify("id" -> id, "title" -> title)
   }
 
   def createFromQuestionBankAndGetID(quizID: Int, categoryID: Option[Int], questionID: Int): Int =
@@ -82,6 +99,14 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
       "questionType" -> QuizQuestionType.External.toString,
       "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
 
+  def createRevealAndGetID(quizID: Int, categoryID: Option[Int], title: String, content: String): Int =
+    createAndGetID("quizID" -> quizID,
+      "categoryID" -> categoryID,
+      "title" -> title,
+      "text" -> content,
+      "questionType" -> QuizQuestionType.RevealJS.toString,
+      "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
+
   def createPlainAndGetID(quizID: Int, categoryID: Option[Int], title: String, text: String): Int =
     createAndGetID("quizID" -> quizID,
       "categoryID" -> categoryID,
@@ -90,7 +115,7 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
       "questionType" -> QuizQuestionType.PlainText.toString,
       "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
 
-  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestion = {
+  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestion = {
     val questionForUpdate = getByID(id).get
     val oldChildren: Seq[QuizQuestion] = getByCategory(questionForUpdate.quizID, parentID)
 
@@ -117,7 +142,7 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
           doMove(forUpdate, forIndex)
         } else {
           val forIndex = spannedChildren._1 ++ spannedChildren._2.headOption
-          val forUpdate = if (spannedChildren._2.isEmpty)  Nil else spannedChildren._2.tail
+          val forUpdate = if (spannedChildren._2.isEmpty) Nil else spannedChildren._2.tail
           doMove(forUpdate, forIndex)
         }
       }
@@ -125,9 +150,12 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
     getByID(id).getOrElse(throw new Exception("Some errors occured while move"))
   }
 
+  def updateParent(id: Int, parentID: Option[Int]) {
+    getByID(id).foreach(e => modify(e, "parentID" -> parentID))
+  }
+
   private def maxArrangementIndex(oldChildren: Seq[QuizQuestion]): Int = {
     oldChildren.foldLeft(0)(_ max _.arrangementIndex)
   }
 }
-
 

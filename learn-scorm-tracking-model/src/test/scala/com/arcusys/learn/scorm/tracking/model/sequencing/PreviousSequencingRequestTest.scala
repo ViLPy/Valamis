@@ -49,7 +49,6 @@ class PreviousSequencingRequestTest extends SequencingRequestServiceTestBase(Seq
     expectResult(SequencingResponseInvalid, threeLevelTree(currentLevel = Some(1), rootPermissions = parentPermissions))
   }
 
-
   it should "succeed with delivery of previous sibling leaf if current activity is last leaf in parent" in {
     val parentPermissions = new SequencingPermissions(choiceForChildren = false, choiceForNonDescendants = false, flowForChildren = true, forwardOnlyForChildren = false)
     val tree = threeLevelTree(leftPermissions = parentPermissions)

@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE display PUBLIC "-//Liferay//DTD Display 6.1.0//EN" "http://www.liferay.com/dtd/liferay-display_6_1_0.dtd">
 <display>
-    <category name="e-Learning">
-        <portlet id="SCORMApplication">SCORMApplication</portlet>
-        <portlet id="SCORMApplicationAdmin">SCORMApplicationAdmin</portlet>
-        <portlet id="PackageManager">PackageManager</portlet>
-        <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
-        <portlet id="SCORMQuizes">SCORMQuizes</portlet>
-        <portlet id="Gradebook">Gradebook</portlet>
-        <portlet id="Curriculum">Curriculum</portlet>
-        <portlet id="CurriculumUser">Curriculum user</portlet>
-        <portlet id="Achievement">Achievement</portlet>
-        <portlet id="AchievementUser">Achievement user</portlet>
-        <portlet id="SCORMUserAccount">My Account</portlet>
+    <category name="Valamis Analytics">
         <portlet id="TinCanStatementViewer">Valamis TinCan Statement Viewer</portlet>
         <portlet id="TinCanReportingView">Valamis TinCan Statement Reports</portlet>
         <portlet id="TinCanReportingByPeriodView">Valamis TinCan Statement Reports by period</portlet>
-        <portlet id="TinCanAPIClientManager">Valamis TinCan API Client Manager</portlet>
         <portlet id="TinCanLatestStatementsView">Valamis TinCan My Latest statements</portlet>
+        <portlet id="TinCanStudentsLatestStatementsView">Valamis TinCan Students Latest statements</portlet>
+        <portlet id="TinCanMostActiveStudentsView">Valamis TinCan Teacher's most active students</portlet>
+        <portlet id="TinCanStudentsLeaderboardView">Valamis TinCan Students Leaderboard</portlet>
+        <portlet id="TinCanCourseReportView">Valamis TinCan Course Report</portlet>
+        <portlet id="CourseEventReportView">Course Event Report</portlet>
+        <portlet id="ParticipantReportView">Participant Report</portlet>
+    </category>
+
+    <category name="Valamis Curriculum tools">
+        <portlet id="Curriculum">Curriculum</portlet>
+        <portlet id="CurriculumUser">Curriculum user</portlet>
+        <portlet id="SCORMUserAccount">My Account</portlet>
+    </category>
+
+    <category name="Valamis Lesson tools">
+        <portlet id="SCORMApplication">SCORMApplication</portlet>
+        <portlet id="Gradebook">Gradebook</portlet>
+        <portlet id="SCORMQuizes">SCORMQuizes</portlet>
+        <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
+        <portlet id="PackageManager">PackageManager</portlet>
+    </category>
+
+    <category name="Valamis Administration">
+        <portlet id="SCORMApplicationAdmin">SCORMApplicationAdmin</portlet>
+        <portlet id="TinCanAPIClientManager">Valamis TinCan API Client Manager</portlet>
     </category>
 </display>

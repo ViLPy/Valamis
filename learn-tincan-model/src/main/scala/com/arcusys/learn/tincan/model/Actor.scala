@@ -1,11 +1,18 @@
 package com.arcusys.learn.tincan.model
 
-
 /**
  * A mandatory Agent or Group Object
  */
-sealed trait Actor extends StatementObject{
-  def getStoredId:Option[Int]
+sealed trait Actor extends StatementObject {
+  def getObjectType: String
+  def getName: Option[String]
+  def getMbox: Option[String]
+  def getMbox_sha1sum: Option[String]
+  def getOpenid: Option[String]
+  def getAccount: Option[Account]
+
+  def getStoredId: Option[Int]
+  def isAgent: Boolean
 }
 
 /**
@@ -21,15 +28,14 @@ sealed trait Actor extends StatementObject{
  * @param account An openID that uniquely identifies the Agent.
  */
 case class Agent(
-  objectType: String,
-  name: Option[String],
-  mbox: Option[String],
-  mbox_sha1sum: Option[String],
-  openid: Option[String], // URI, IRI, IRL figure it out later!!!
-  account: Option[Account],
-  storedId: Option[Int] = None
-  ) extends Actor{
-  def FilterCompare(agent:Agent):Boolean = {
+    objectType: String,
+    name: Option[String],
+    mbox: Option[String],
+    mbox_sha1sum: Option[String],
+    openid: Option[String], // URI, IRI, IRL figure it out later!!!
+    account: Option[Account],
+    storedId: Option[Int] = None) extends Actor {
+  def FilterCompare(agent: Agent): Boolean = {
     ((!agent.name.isDefined || name.isDefined && name.get.contains(agent.name.get)) &&
       (!agent.mbox.isDefined || mbox.isDefined && mbox.get.contains(agent.mbox.get)) &&
       (!agent.mbox_sha1sum.isDefined || mbox_sha1sum.isDefined && mbox_sha1sum.get.contains(agent.mbox_sha1sum.get)) &&
@@ -37,7 +43,7 @@ case class Agent(
       (!agent.account.isDefined || account == agent.account))
   }
 
-  def FilterCompareExact(agent:Agent):Boolean = {
+  def FilterCompareExact(agent: Agent): Boolean = {
     ((!agent.name.isDefined || name.isDefined && name.get.equalsIgnoreCase(agent.name.get)) &&
       (!agent.mbox.isDefined || mbox.isDefined && mbox.get.equalsIgnoreCase(agent.mbox.get)) &&
       (!agent.mbox_sha1sum.isDefined || mbox_sha1sum.isDefined && mbox_sha1sum.get.equalsIgnoreCase(agent.mbox_sha1sum.get)) &&
@@ -46,6 +52,14 @@ case class Agent(
   }
 
   def getStoredId = storedId
+  def isAgent: Boolean = true
+
+  def getObjectType = objectType
+  def getName: Option[String] = name
+  def getMbox: Option[String] = mbox
+  def getMbox_sha1sum: Option[String] = mbox_sha1sum
+  def getOpenid: Option[String] = openid
+  def getAccount: Option[Account] = account
 }
 
 /**
@@ -63,36 +77,41 @@ case class Agent(
  * @param account An openID that uniquely identifies the Agent.
  */
 case class Group(
-  objectType: String,
-  name: Option[String],
-  member: Option[Seq[Agent]],
-  mbox: Option[String],
-  mbox_sha1sum: Option[String],
-  openid: Option[String], // URI, IRI, IRL figure it out later!!!
-  account: Option[Account],
-  storedId: Option[Int] = None
-  ) extends Actor{
+    objectType: String,
+    name: Option[String],
+    member: Option[Seq[Agent]],
+    mbox: Option[String],
+    mbox_sha1sum: Option[String],
+    openid: Option[String], // URI, IRI, IRL figure it out later!!!
+    account: Option[Account],
+    storedId: Option[Int] = None) extends Actor {
   def isAnonymous = !mbox.isDefined && !mbox_sha1sum.isDefined && !openid.isDefined && !account.isDefined
   def getStoredId = storedId
+  def isAgent: Boolean = false
+
+  def getObjectType = objectType
+  def getName: Option[String] = name
+  def getMbox: Option[String] = mbox
+  def getMbox_sha1sum: Option[String] = mbox_sha1sum
+  def getOpenid: Option[String] = openid
+  def getAccount: Option[Account] = account
 }
 
 case class Person(
-  var names: Seq[String],
-  var mboxes: Seq[String],
-  var mbox_sha1sumes: Seq[String],
-  var openids: Seq[String],
-  var accounts: Seq[Account],
-  objectType: String = StatementObjectType.Person.toString
-  ) extends Actor{
-  def AddAgent(agent:Agent){
-    if(agent.name.isDefined) names = names ++ Seq(agent.name.get)
-    if(agent.mbox.isDefined) mboxes = mboxes ++ Seq(agent.mbox.get)
-    if(agent.mbox_sha1sum.isDefined) mbox_sha1sumes = mbox_sha1sumes ++ Seq(agent.mbox_sha1sum.get)
-    if(agent.openid.isDefined) openids = openids ++ Seq(agent.openid.get)
-    if(agent.account.isDefined) accounts = accounts ++ Seq(agent.account.get)
+    var names: Seq[String],
+    var mboxes: Seq[String],
+    var mbox_sha1sumes: Seq[String],
+    var openids: Seq[String],
+    var accounts: Seq[Account],
+    objectType: String = StatementObjectType.Person.toString) /*extends Actor*/ {
+  def AddAgent(agent: Agent) {
+    if (agent.name.isDefined) names = names ++ Seq(agent.name.get)
+    if (agent.mbox.isDefined) mboxes = mboxes ++ Seq(agent.mbox.get)
+    if (agent.mbox_sha1sum.isDefined) mbox_sha1sumes = mbox_sha1sumes ++ Seq(agent.mbox_sha1sum.get)
+    if (agent.openid.isDefined) openids = openids ++ Seq(agent.openid.get)
+    if (agent.account.isDefined) accounts = accounts ++ Seq(agent.account.get)
   }
 
-  def getStoredId = None
 }
 
 /**

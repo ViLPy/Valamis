@@ -75,7 +75,6 @@ class LFPackageSpec extends SpecificationWithJUnit with Mockito with ThrownExpec
       val items2 = packageStorage.getAll("courseID" -> 30)
       items2.length must beEqualTo(2)
 
-
     }
 
     "execute 'modify' without errors" in new Context {

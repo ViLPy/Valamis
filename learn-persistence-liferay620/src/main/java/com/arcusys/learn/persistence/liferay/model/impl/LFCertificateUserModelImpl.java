@@ -2,6 +2,7 @@ package com.arcusys.learn.persistence.liferay.model.impl;
 
 import com.arcusys.learn.persistence.liferay.model.LFCertificateUser;
 import com.arcusys.learn.persistence.liferay.model.LFCertificateUserModel;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -9,15 +10,12 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.service.ServiceContext;
-
-import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,14 +41,14 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
      */
     public static final String TABLE_NAME = "Learn_LFCertificateUser";
     public static final Object[][] TABLE_COLUMNS = {
-            { "id_", Types.BIGINT },
-            { "certificateID", Types.INTEGER },
-            { "userID", Types.INTEGER }
+            { "certificateID", Types.BIGINT },
+            { "userID", Types.BIGINT },
+            { "attachedDate", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateUser (id_ LONG not null primary key,certificateID INTEGER null,userID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificateUser (certificateID LONG not null,userID LONG not null,attachedDate DATE null,primary key (certificateID, userID))";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificateUser";
-    public static final String ORDER_BY_JPQL = " ORDER BY lfCertificateUser.id ASC";
-    public static final String ORDER_BY_SQL = " ORDER BY Learn_LFCertificateUser.id_ ASC";
+    public static final String ORDER_BY_JPQL = " ORDER BY lfCertificateUser.id.certificateID ASC, lfCertificateUser.id.userID ASC";
+    public static final String ORDER_BY_SQL = " ORDER BY Learn_LFCertificateUser.certificateID ASC, Learn_LFCertificateUser.userID ASC";
     public static final String DATA_SOURCE = "liferayDataSource";
     public static final String SESSION_FACTORY = "liferaySessionFactory";
     public static final String TX_MANAGER = "liferayTransactionManager";
@@ -65,20 +63,19 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
             true);
     public static long CERTIFICATEID_COLUMN_BITMASK = 1L;
     public static long USERID_COLUMN_BITMASK = 2L;
-    public static long ID_COLUMN_BITMASK = 4L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFCertificateUser"));
     private static ClassLoader _classLoader = LFCertificateUser.class.getClassLoader();
     private static Class<?>[] _escapedModelInterfaces = new Class[] {
             LFCertificateUser.class
         };
-    private long _id;
-    private Integer _certificateID;
-    private Integer _originalCertificateID;
+    private Long _certificateID;
+    private Long _originalCertificateID;
     private boolean _setOriginalCertificateID;
-    private Integer _userID;
-    private Integer _originalUserID;
+    private Long _userID;
+    private Long _originalUserID;
     private boolean _setOriginalUserID;
+    private Date _attachedDate;
     private long _columnBitmask;
     private LFCertificateUser _escapedModel;
 
@@ -86,23 +83,24 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
     }
 
     @Override
-    public long getPrimaryKey() {
-        return _id;
+    public LFCertificateUserPK getPrimaryKey() {
+        return new LFCertificateUserPK(_certificateID, _userID);
     }
 
     @Override
-    public void setPrimaryKey(long primaryKey) {
-        setId(primaryKey);
+    public void setPrimaryKey(LFCertificateUserPK primaryKey) {
+        setCertificateID(primaryKey.certificateID);
+        setUserID(primaryKey.userID);
     }
 
     @Override
     public Serializable getPrimaryKeyObj() {
-        return _id;
+        return new LFCertificateUserPK(_certificateID, _userID);
     }
 
     @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-        setPrimaryKey(((Long) primaryKeyObj).longValue());
+        setPrimaryKey((LFCertificateUserPK) primaryKeyObj);
     }
 
     @Override
@@ -119,51 +117,41 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("id", getId());
         attributes.put("certificateID", getCertificateID());
         attributes.put("userID", getUserID());
+        attributes.put("attachedDate", getAttachedDate());
 
         return attributes;
     }
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        Long id = (Long) attributes.get("id");
-
-        if (id != null) {
-            setId(id);
-        }
-
-        Integer certificateID = (Integer) attributes.get("certificateID");
+        Long certificateID = (Long) attributes.get("certificateID");
 
         if (certificateID != null) {
             setCertificateID(certificateID);
         }
 
-        Integer userID = (Integer) attributes.get("userID");
+        Long userID = (Long) attributes.get("userID");
 
         if (userID != null) {
             setUserID(userID);
         }
+
+        Date attachedDate = (Date) attributes.get("attachedDate");
+
+        if (attachedDate != null) {
+            setAttachedDate(attachedDate);
+        }
     }
 
     @Override
-    public long getId() {
-        return _id;
-    }
-
-    @Override
-    public void setId(long id) {
-        _id = id;
-    }
-
-    @Override
-    public Integer getCertificateID() {
+    public Long getCertificateID() {
         return _certificateID;
     }
 
     @Override
-    public void setCertificateID(Integer certificateID) {
+    public void setCertificateID(Long certificateID) {
         _columnBitmask |= CERTIFICATEID_COLUMN_BITMASK;
 
         if (!_setOriginalCertificateID) {
@@ -175,17 +163,17 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
         _certificateID = certificateID;
     }
 
-    public Integer getOriginalCertificateID() {
+    public Long getOriginalCertificateID() {
         return _originalCertificateID;
     }
 
     @Override
-    public Integer getUserID() {
+    public Long getUserID() {
         return _userID;
     }
 
     @Override
-    public void setUserID(Integer userID) {
+    public void setUserID(Long userID) {
         _columnBitmask |= USERID_COLUMN_BITMASK;
 
         if (!_setOriginalUserID) {
@@ -197,25 +185,22 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
         _userID = userID;
     }
 
-    public Integer getOriginalUserID() {
+    public Long getOriginalUserID() {
         return _originalUserID;
+    }
+
+    @Override
+    public Date getAttachedDate() {
+        return _attachedDate;
+    }
+
+    @Override
+    public void setAttachedDate(Date attachedDate) {
+        _attachedDate = attachedDate;
     }
 
     public long getColumnBitmask() {
         return _columnBitmask;
-    }
-
-    @Override
-    public ExpandoBridge getExpandoBridge() {
-        return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
-            LFCertificateUser.class.getName(), getPrimaryKey());
-    }
-
-    @Override
-    public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-        ExpandoBridge expandoBridge = getExpandoBridge();
-
-        expandoBridge.setAttributes(serviceContext);
     }
 
     @Override
@@ -232,9 +217,9 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
     public Object clone() {
         LFCertificateUserImpl lfCertificateUserImpl = new LFCertificateUserImpl();
 
-        lfCertificateUserImpl.setId(getId());
         lfCertificateUserImpl.setCertificateID(getCertificateID());
         lfCertificateUserImpl.setUserID(getUserID());
+        lfCertificateUserImpl.setAttachedDate(getAttachedDate());
 
         lfCertificateUserImpl.resetOriginalValues();
 
@@ -243,15 +228,9 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
 
     @Override
     public int compareTo(LFCertificateUser lfCertificateUser) {
-        long primaryKey = lfCertificateUser.getPrimaryKey();
+        LFCertificateUserPK primaryKey = lfCertificateUser.getPrimaryKey();
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return getPrimaryKey().compareTo(primaryKey);
     }
 
     @Override
@@ -266,9 +245,9 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
 
         LFCertificateUser lfCertificateUser = (LFCertificateUser) obj;
 
-        long primaryKey = lfCertificateUser.getPrimaryKey();
+        LFCertificateUserPK primaryKey = lfCertificateUser.getPrimaryKey();
 
-        if (getPrimaryKey() == primaryKey) {
+        if (getPrimaryKey().equals(primaryKey)) {
             return true;
         } else {
             return false;
@@ -277,7 +256,7 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
 
     @Override
     public int hashCode() {
-        return (int) getPrimaryKey();
+        return getPrimaryKey().hashCode();
     }
 
     @Override
@@ -299,11 +278,17 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
     public CacheModel<LFCertificateUser> toCacheModel() {
         LFCertificateUserCacheModel lfCertificateUserCacheModel = new LFCertificateUserCacheModel();
 
-        lfCertificateUserCacheModel.id = getId();
-
         lfCertificateUserCacheModel.certificateID = getCertificateID();
 
         lfCertificateUserCacheModel.userID = getUserID();
+
+        Date attachedDate = getAttachedDate();
+
+        if (attachedDate != null) {
+            lfCertificateUserCacheModel.attachedDate = attachedDate.getTime();
+        } else {
+            lfCertificateUserCacheModel.attachedDate = Long.MIN_VALUE;
+        }
 
         return lfCertificateUserCacheModel;
     }
@@ -312,12 +297,12 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
     public String toString() {
         StringBundler sb = new StringBundler(7);
 
-        sb.append("{id=");
-        sb.append(getId());
-        sb.append(", certificateID=");
+        sb.append("{certificateID=");
         sb.append(getCertificateID());
         sb.append(", userID=");
         sb.append(getUserID());
+        sb.append(", attachedDate=");
+        sb.append(getAttachedDate());
         sb.append("}");
 
         return sb.toString();
@@ -333,16 +318,16 @@ public class LFCertificateUserModelImpl extends BaseModelImpl<LFCertificateUser>
         sb.append("</model-name>");
 
         sb.append(
-            "<column><column-name>id</column-name><column-value><![CDATA[");
-        sb.append(getId());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>certificateID</column-name><column-value><![CDATA[");
         sb.append(getCertificateID());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>userID</column-name><column-value><![CDATA[");
         sb.append(getUserID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>attachedDate</column-name><column-value><![CDATA[");
+        sb.append(getAttachedDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

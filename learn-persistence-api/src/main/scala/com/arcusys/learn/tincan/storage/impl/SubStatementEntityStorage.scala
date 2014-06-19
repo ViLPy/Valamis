@@ -6,14 +6,14 @@ import com.arcusys.learn.tincan.model.SubStatement
 
 trait SubStatementEntityStorage extends SubStatementStorage with KeyedEntityStorage[SubStatement] {
   def createAndGetID(entity: SubStatement) = {
-    createAndGetID(entity, Nil:_*)
+    createAndGetID(entity, Nil: _*)
   }
 
   def getByID(id: Int) = {
-    getByID(id, Nil:_*)
+    getByID(id, Nil: _*)
   }
 
   def delete(id: Int) = {
-    delete("id"->id)
+    delete("id" -> id)
   }
 }

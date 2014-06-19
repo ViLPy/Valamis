@@ -3,10 +3,9 @@ package com.arcusys.scorm.lms
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.util.TreeNode
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.questionbank.model.{ChoiceAnswer, ChoiceQuestion}
-import com.arcusys.learn.quiz.model.QuestionBankQuizQuestion
+import com.arcusys.learn.questionbank.model.ChoiceAnswer
 
 class GradeReportGenerator(implicit val bindingModule: BindingModule) extends Injectable {
   val storageFactory = inject[StorageFactoryContract]
@@ -43,33 +42,32 @@ class GradeReportGenerator(implicit val bindingModule: BindingModule) extends In
           val raw = scoreRaw.get(leaf.id).get.get.toDouble
           val min = scoreMin.get(leaf.id).get.get.toDouble
           val max = scoreMax.get(leaf.id).get.get.toDouble
-          Some((raw-min)/(max-min))
+          Some((raw - min) / (max - min))
         } else {
           None
         },
         texts.get(leaf.id).getOrElse(None),
         responseTypes.get(leaf.id).getOrElse(None) match {
           case Some("long_fill_in") => responses.get(leaf.id).getOrElse(Some(""))
-          case Some("numeric") => responses.get(leaf.id).getOrElse(Some(""))
-          case Some("choice") => responses.get(leaf.id).getOrElse(Some("")).map(_.replace("[,]",""))
+          case Some("numeric")      => responses.get(leaf.id).getOrElse(Some(""))
+          case Some("choice")       => responses.get(leaf.id).getOrElse(Some("")).map(_.replace("[,]", ""))
           case Some("matching") => {
             if (responses.get(leaf.id).getOrElse(Some("")).getOrElse("").length > 0) {
               val twoArrays = responses.get(leaf.id).getOrElse(Some("")).get.replaceAll("</*p>", "").split("\\[,\\]").map(x => x.split("\\[.\\]"))
               val grouped = twoArrays.groupBy(_(0))
               val convertedHtmlString = grouped.map(g => "<p>" + g._1 + ": " + g._2.map(g => if (g.length > 1) g(1) else "").mkString(", ") + "</p>").mkString("")
               Option(convertedHtmlString)
-            }
-            else Option("")
+            } else Option("")
           }
-          case Some("fill_in") => responses.get(leaf.id).getOrElse(Some(""))
+          case Some("fill_in")    => responses.get(leaf.id).getOrElse(Some(""))
           case Some("sequencing") => Option(responses.get(leaf.id).getOrElse(Some("")).getOrElse("").replace("[,]", ""))
 
-          case _ => None
+          case _                  => None
         }, attemptCompleted = {
           tree match {
             case Some(e) => e.apply(leaf.id) match {
               case Some(n) => n.item.attemptCompleted.getOrElse(false)
-              case _ => false
+              case _       => false
             }
             case _ => false
           }

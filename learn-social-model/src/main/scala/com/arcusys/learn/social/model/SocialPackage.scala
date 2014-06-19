@@ -1,6 +1,6 @@
 package com.arcusys.learn.social.model
 
-import java.util.Date
+import org.joda.time.DateTime
 
 /**
  * Represents package model for Valamis Social Dashboard
@@ -13,8 +13,8 @@ import java.util.Date
  * @param tags - list of tags associated to package
  */
 case class SocialPackage(id: Int,
-                        packageID: Int,
-                        aboutPackage: String,
-                        publishDate: Date,
-                        authorID: Int,
-                        tags: Seq[String])
+  packageID: Int,
+  aboutPackage: String,
+  publishDate: DateTime,
+  authorID: Int,
+  tags: Seq[String])

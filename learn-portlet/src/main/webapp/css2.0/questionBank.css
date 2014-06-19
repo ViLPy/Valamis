@@ -1,0 +1,28 @@
+.isCorrectColumn {
+    width: 15% !important;
+}
+
+.questionTextColumn {
+    width: 70% !important;
+}
+
+.bbm-modal {
+    max-width: 800px;
+}
+
+.bank-edit-dialog .list-table {
+    border-left: 1px solid #DEDEDE;
+}
+
+.textOntheTop{
+    vertical-align: top !important;
+}
+
+.qbEntityRowSelect {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.SCORMAnswerText{
+    width: 100%;
+}

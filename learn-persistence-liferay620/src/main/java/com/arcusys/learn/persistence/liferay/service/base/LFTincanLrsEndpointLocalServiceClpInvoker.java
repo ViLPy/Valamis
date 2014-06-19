@@ -41,16 +41,16 @@ public class LFTincanLrsEndpointLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
 
     public LFTincanLrsEndpointLocalServiceClpInvoker() {
         _methodName0 = "addLFTincanLrsEndpoint";
@@ -135,25 +135,25 @@ public class LFTincanLrsEndpointLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "removeAll";
+        _methodName302 = "removeAll";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "getEndpoint";
+        _methodName303 = "getEndpoint";
 
-        _methodParameterTypes287 = new String[] {  };
+        _methodParameterTypes303 = new String[] {  };
 
-        _methodName288 = "setEndpoint";
+        _methodName304 = "setEndpoint";
 
-        _methodParameterTypes288 = new String[] {
+        _methodParameterTypes304 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.String",
                 "java.lang.String"
             };
@@ -248,32 +248,32 @@ public class LFTincanLrsEndpointLocalServiceClpInvoker {
             return LFTincanLrsEndpointLocalServiceUtil.updateLFTincanLrsEndpoint((com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFTincanLrsEndpointLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFTincanLrsEndpointLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             LFTincanLrsEndpointLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFTincanLrsEndpointLocalServiceUtil.getEndpoint();
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
             LFTincanLrsEndpointLocalServiceUtil.setEndpoint((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2], (java.lang.String) arguments[3]);

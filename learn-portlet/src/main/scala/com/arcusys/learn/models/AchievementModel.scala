@@ -1,7 +1,7 @@
 package com.arcusys.learn.models
 
-case class AchievementModel
-(
+@deprecated
+case class AchievementModel(
   id: Int,
   title: String,
   description: String,
@@ -9,5 +9,4 @@ case class AchievementModel
   startDate: Long,
   completed: Boolean,
   activities: List[AchievementActivityModel],
-  users: List[UserModel]
-)
+  users: List[UserModel])

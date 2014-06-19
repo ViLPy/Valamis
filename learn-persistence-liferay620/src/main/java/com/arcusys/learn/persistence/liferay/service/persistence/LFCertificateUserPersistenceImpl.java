@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -37,7 +36,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * The persistence implementation for the l f certificate user service.
@@ -80,7 +78,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
             LFCertificateUserImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCertificateID",
             new String[] {
-                Integer.class.getName(),
+                Long.class.getName(),
                 
             Integer.class.getName(), Integer.class.getName(),
                 OrderByComparator.class.getName()
@@ -90,14 +88,14 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED,
             LFCertificateUserImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCertificateID",
-            new String[] { Integer.class.getName() },
+            new String[] { Long.class.getName() },
             LFCertificateUserModelImpl.CERTIFICATEID_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_CERTIFICATEID = new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCertificateID",
-            new String[] { Integer.class.getName() });
+            new String[] { Long.class.getName() });
     private static final String _FINDER_COLUMN_CERTIFICATEID_CERTIFICATEID_NULL = "lfCertificateUser.certificateID IS NULL";
-    private static final String _FINDER_COLUMN_CERTIFICATEID_CERTIFICATEID_2 = "lfCertificateUser.certificateID = ?";
+    private static final String _FINDER_COLUMN_CERTIFICATEID_CERTIFICATEID_2 = "lfCertificateUser.id.certificateID = ?";
     private static final String _FINDER_COLUMN_CERTIFICATEID_CERTIFICATEID_NULL_2 =
         "lfCertificateUser.certificateID IS NULL ";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERID = new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
@@ -105,7 +103,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
             LFCertificateUserImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserID",
             new String[] {
-                Integer.class.getName(),
+                Long.class.getName(),
                 
             Integer.class.getName(), Integer.class.getName(),
                 OrderByComparator.class.getName()
@@ -115,50 +113,36 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED,
             LFCertificateUserImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserID",
-            new String[] { Integer.class.getName() },
+            new String[] { Long.class.getName() },
             LFCertificateUserModelImpl.USERID_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_USERID = new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserID",
-            new String[] { Integer.class.getName() });
+            new String[] { Long.class.getName() });
     private static final String _FINDER_COLUMN_USERID_USERID_NULL = "lfCertificateUser.userID IS NULL";
-    private static final String _FINDER_COLUMN_USERID_USERID_2 = "lfCertificateUser.userID = ?";
+    private static final String _FINDER_COLUMN_USERID_USERID_2 = "lfCertificateUser.id.userID = ?";
     private static final String _FINDER_COLUMN_USERID_USERID_NULL_2 = "lfCertificateUser.userID IS NULL ";
-    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID =
-        new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
+    public static final FinderPath FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID = new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED,
-            LFCertificateUserImpl.class,
-            FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-            "findByUserIDAndCertificateID",
-            new String[] {
-                Integer.class.getName(), Integer.class.getName(),
-                
-            Integer.class.getName(), Integer.class.getName(),
-                OrderByComparator.class.getName()
-            });
-    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID =
-        new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
-            LFCertificateUserModelImpl.FINDER_CACHE_ENABLED,
-            LFCertificateUserImpl.class,
-            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-            "findByUserIDAndCertificateID",
-            new String[] { Integer.class.getName(), Integer.class.getName() },
+            LFCertificateUserImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByUserIDAndCertificateID",
+            new String[] { Long.class.getName(), Long.class.getName() },
             LFCertificateUserModelImpl.USERID_COLUMN_BITMASK |
             LFCertificateUserModelImpl.CERTIFICATEID_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID = new FinderPath(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
             "countByUserIDAndCertificateID",
-            new String[] { Integer.class.getName(), Integer.class.getName() });
+            new String[] { Long.class.getName(), Long.class.getName() });
     private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_NULL =
         "lfCertificateUser.userID IS NULL";
-    private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_2 = "lfCertificateUser.userID = ? AND ";
+    private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_2 = "lfCertificateUser.id.userID = ? AND ";
     private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_NULL_2 =
         "lfCertificateUser.userID IS NULL  AND ";
     private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_NULL =
         "lfCertificateUser.certificateID IS NULL";
     private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_2 =
-        "lfCertificateUser.certificateID = ?";
+        "lfCertificateUser.id.certificateID = ?";
     private static final String _FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_NULL_2 =
         "lfCertificateUser.certificateID IS NULL ";
     private static final String _SQL_SELECT_LFCERTIFICATEUSER = "SELECT lfCertificateUser FROM LFCertificateUser lfCertificateUser";
@@ -171,9 +155,6 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFCertificateUserPersistenceImpl.class);
-    private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "id"
-            });
     private static LFCertificateUser _nullLFCertificateUser = new LFCertificateUserImpl() {
             @Override
             public Object clone() {
@@ -206,7 +187,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByCertificateID(Integer certificateID)
+    public List<LFCertificateUser> findByCertificateID(Long certificateID)
         throws SystemException {
         return findByCertificateID(certificateID, QueryUtil.ALL_POS,
             QueryUtil.ALL_POS, null);
@@ -226,7 +207,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByCertificateID(Integer certificateID,
+    public List<LFCertificateUser> findByCertificateID(Long certificateID,
         int start, int end) throws SystemException {
         return findByCertificateID(certificateID, start, end, null);
     }
@@ -246,7 +227,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByCertificateID(Integer certificateID,
+    public List<LFCertificateUser> findByCertificateID(Long certificateID,
         int start, int end, OrderByComparator orderByComparator)
         throws SystemException {
         boolean pagination = true;
@@ -319,7 +300,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (certificateID != null) {
-                    qPos.add(certificateID.intValue());
+                    qPos.add(certificateID.longValue());
                 }
 
                 if (!pagination) {
@@ -359,7 +340,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser findByCertificateID_First(Integer certificateID,
+    public LFCertificateUser findByCertificateID_First(Long certificateID,
         OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
         LFCertificateUser lfCertificateUser = fetchByCertificateID_First(certificateID,
@@ -390,7 +371,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser fetchByCertificateID_First(Integer certificateID,
+    public LFCertificateUser fetchByCertificateID_First(Long certificateID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFCertificateUser> list = findByCertificateID(certificateID, 0, 1,
                 orderByComparator);
@@ -412,7 +393,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser findByCertificateID_Last(Integer certificateID,
+    public LFCertificateUser findByCertificateID_Last(Long certificateID,
         OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
         LFCertificateUser lfCertificateUser = fetchByCertificateID_Last(certificateID,
@@ -443,7 +424,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser fetchByCertificateID_Last(Integer certificateID,
+    public LFCertificateUser fetchByCertificateID_Last(Long certificateID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByCertificateID(certificateID);
 
@@ -464,7 +445,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     /**
      * Returns the l f certificate users before and after the current l f certificate user in the ordered set where certificateID = &#63;.
      *
-     * @param id the primary key of the current l f certificate user
+     * @param lfCertificateUserPK the primary key of the current l f certificate user
      * @param certificateID the certificate i d
      * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
      * @return the previous, current, and next l f certificate user
@@ -472,10 +453,11 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser[] findByCertificateID_PrevAndNext(long id,
-        Integer certificateID, OrderByComparator orderByComparator)
+    public LFCertificateUser[] findByCertificateID_PrevAndNext(
+        LFCertificateUserPK lfCertificateUserPK, Long certificateID,
+        OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
-        LFCertificateUser lfCertificateUser = findByPrimaryKey(id);
+        LFCertificateUser lfCertificateUser = findByPrimaryKey(lfCertificateUserPK);
 
         Session session = null;
 
@@ -502,7 +484,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
 
     protected LFCertificateUser getByCertificateID_PrevAndNext(
         Session session, LFCertificateUser lfCertificateUser,
-        Integer certificateID, OrderByComparator orderByComparator,
+        Long certificateID, OrderByComparator orderByComparator,
         boolean previous) {
         StringBundler query = null;
 
@@ -583,7 +565,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         QueryPos qPos = QueryPos.getInstance(q);
 
         if (certificateID != null) {
-            qPos.add(certificateID.intValue());
+            qPos.add(certificateID.longValue());
         }
 
         if (orderByComparator != null) {
@@ -610,7 +592,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public void removeByCertificateID(Integer certificateID)
+    public void removeByCertificateID(Long certificateID)
         throws SystemException {
         for (LFCertificateUser lfCertificateUser : findByCertificateID(
                 certificateID, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
@@ -626,7 +608,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countByCertificateID(Integer certificateID)
+    public int countByCertificateID(Long certificateID)
         throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_CERTIFICATEID;
 
@@ -658,7 +640,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (certificateID != null) {
-                    qPos.add(certificateID.intValue());
+                    qPos.add(certificateID.longValue());
                 }
 
                 count = (Long) q.uniqueResult();
@@ -684,7 +666,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByUserID(Integer userID)
+    public List<LFCertificateUser> findByUserID(Long userID)
         throws SystemException {
         return findByUserID(userID, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
     }
@@ -703,8 +685,8 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByUserID(Integer userID, int start,
-        int end) throws SystemException {
+    public List<LFCertificateUser> findByUserID(Long userID, int start, int end)
+        throws SystemException {
         return findByUserID(userID, start, end, null);
     }
 
@@ -723,7 +705,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByUserID(Integer userID, int start,
+    public List<LFCertificateUser> findByUserID(Long userID, int start,
         int end, OrderByComparator orderByComparator) throws SystemException {
         boolean pagination = true;
         FinderPath finderPath = null;
@@ -790,7 +772,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (userID != null) {
-                    qPos.add(userID.intValue());
+                    qPos.add(userID.longValue());
                 }
 
                 if (!pagination) {
@@ -830,7 +812,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser findByUserID_First(Integer userID,
+    public LFCertificateUser findByUserID_First(Long userID,
         OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
         LFCertificateUser lfCertificateUser = fetchByUserID_First(userID,
@@ -861,7 +843,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser fetchByUserID_First(Integer userID,
+    public LFCertificateUser fetchByUserID_First(Long userID,
         OrderByComparator orderByComparator) throws SystemException {
         List<LFCertificateUser> list = findByUserID(userID, 0, 1,
                 orderByComparator);
@@ -883,7 +865,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser findByUserID_Last(Integer userID,
+    public LFCertificateUser findByUserID_Last(Long userID,
         OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
         LFCertificateUser lfCertificateUser = fetchByUserID_Last(userID,
@@ -914,7 +896,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser fetchByUserID_Last(Integer userID,
+    public LFCertificateUser fetchByUserID_Last(Long userID,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countByUserID(userID);
 
@@ -935,7 +917,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     /**
      * Returns the l f certificate users before and after the current l f certificate user in the ordered set where userID = &#63;.
      *
-     * @param id the primary key of the current l f certificate user
+     * @param lfCertificateUserPK the primary key of the current l f certificate user
      * @param userID the user i d
      * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
      * @return the previous, current, and next l f certificate user
@@ -943,10 +925,11 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser[] findByUserID_PrevAndNext(long id,
-        Integer userID, OrderByComparator orderByComparator)
+    public LFCertificateUser[] findByUserID_PrevAndNext(
+        LFCertificateUserPK lfCertificateUserPK, Long userID,
+        OrderByComparator orderByComparator)
         throws NoSuchLFCertificateUserException, SystemException {
-        LFCertificateUser lfCertificateUser = findByPrimaryKey(id);
+        LFCertificateUser lfCertificateUser = findByPrimaryKey(lfCertificateUserPK);
 
         Session session = null;
 
@@ -972,7 +955,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     }
 
     protected LFCertificateUser getByUserID_PrevAndNext(Session session,
-        LFCertificateUser lfCertificateUser, Integer userID,
+        LFCertificateUser lfCertificateUser, Long userID,
         OrderByComparator orderByComparator, boolean previous) {
         StringBundler query = null;
 
@@ -1053,7 +1036,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         QueryPos qPos = QueryPos.getInstance(q);
 
         if (userID != null) {
-            qPos.add(userID.intValue());
+            qPos.add(userID.longValue());
         }
 
         if (orderByComparator != null) {
@@ -1080,7 +1063,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public void removeByUserID(Integer userID) throws SystemException {
+    public void removeByUserID(Long userID) throws SystemException {
         for (LFCertificateUser lfCertificateUser : findByUserID(userID,
                 QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
             remove(lfCertificateUser);
@@ -1095,7 +1078,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countByUserID(Integer userID) throws SystemException {
+    public int countByUserID(Long userID) throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_USERID;
 
         Object[] finderArgs = new Object[] { userID };
@@ -1126,7 +1109,7 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (userID != null) {
-                    qPos.add(userID.intValue());
+                    qPos.add(userID.longValue());
                 }
 
                 count = (Long) q.uniqueResult();
@@ -1145,103 +1128,92 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     }
 
     /**
-     * Returns all the l f certificate users where userID = &#63; and certificateID = &#63;.
+     * Returns the l f certificate user where userID = &#63; and certificateID = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException} if it could not be found.
      *
      * @param userID the user i d
      * @param certificateID the certificate i d
-     * @return the matching l f certificate users
+     * @return the matching l f certificate user
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a matching l f certificate user could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByUserIDAndCertificateID(
-        Integer userID, Integer certificateID) throws SystemException {
-        return findByUserIDAndCertificateID(userID, certificateID,
-            QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    public LFCertificateUser findByUserIDAndCertificateID(Long userID,
+        Long certificateID)
+        throws NoSuchLFCertificateUserException, SystemException {
+        LFCertificateUser lfCertificateUser = fetchByUserIDAndCertificateID(userID,
+                certificateID);
+
+        if (lfCertificateUser == null) {
+            StringBundler msg = new StringBundler(6);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("userID=");
+            msg.append(userID);
+
+            msg.append(", certificateID=");
+            msg.append(certificateID);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchLFCertificateUserException(msg.toString());
+        }
+
+        return lfCertificateUser;
     }
 
     /**
-     * Returns a range of all the l f certificate users where userID = &#63; and certificateID = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-     * </p>
+     * Returns the l f certificate user where userID = &#63; and certificateID = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
      *
      * @param userID the user i d
      * @param certificateID the certificate i d
-     * @param start the lower bound of the range of l f certificate users
-     * @param end the upper bound of the range of l f certificate users (not inclusive)
-     * @return the range of matching l f certificate users
+     * @return the matching l f certificate user, or <code>null</code> if a matching l f certificate user could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<LFCertificateUser> findByUserIDAndCertificateID(
-        Integer userID, Integer certificateID, int start, int end)
+    public LFCertificateUser fetchByUserIDAndCertificateID(Long userID,
+        Long certificateID) throws SystemException {
+        return fetchByUserIDAndCertificateID(userID, certificateID, true);
+    }
+
+    /**
+     * Returns the l f certificate user where userID = &#63; and certificateID = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param userID the user i d
+     * @param certificateID the certificate i d
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching l f certificate user, or <code>null</code> if a matching l f certificate user could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFCertificateUser fetchByUserIDAndCertificateID(Long userID,
+        Long certificateID, boolean retrieveFromCache)
         throws SystemException {
-        return findByUserIDAndCertificateID(userID, certificateID, start, end,
-            null);
-    }
+        Object[] finderArgs = new Object[] { userID, certificateID };
 
-    /**
-     * Returns an ordered range of all the l f certificate users where userID = &#63; and certificateID = &#63;.
-     *
-     * <p>
-     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-     * </p>
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @param start the lower bound of the range of l f certificate users
-     * @param end the upper bound of the range of l f certificate users (not inclusive)
-     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-     * @return the ordered range of matching l f certificate users
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public List<LFCertificateUser> findByUserIDAndCertificateID(
-        Integer userID, Integer certificateID, int start, int end,
-        OrderByComparator orderByComparator) throws SystemException {
-        boolean pagination = true;
-        FinderPath finderPath = null;
-        Object[] finderArgs = null;
+        Object result = null;
 
-        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-                (orderByComparator == null)) {
-            pagination = false;
-            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID;
-            finderArgs = new Object[] { userID, certificateID };
-        } else {
-            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID;
-            finderArgs = new Object[] {
-                    userID, certificateID,
-                    
-                    start, end, orderByComparator
-                };
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                    finderArgs, this);
         }
 
-        List<LFCertificateUser> list = (List<LFCertificateUser>) FinderCacheUtil.getResult(finderPath,
-                finderArgs, this);
+        if (result instanceof LFCertificateUser) {
+            LFCertificateUser lfCertificateUser = (LFCertificateUser) result;
 
-        if ((list != null) && !list.isEmpty()) {
-            for (LFCertificateUser lfCertificateUser : list) {
-                if (!Validator.equals(userID, lfCertificateUser.getUserID()) ||
-                        !Validator.equals(certificateID,
-                            lfCertificateUser.getCertificateID())) {
-                    list = null;
-
-                    break;
-                }
+            if (!Validator.equals(userID, lfCertificateUser.getUserID()) ||
+                    !Validator.equals(certificateID,
+                        lfCertificateUser.getCertificateID())) {
+                result = null;
             }
         }
 
-        if (list == null) {
-            StringBundler query = null;
-
-            if (orderByComparator != null) {
-                query = new StringBundler(4 +
-                        (orderByComparator.getOrderByFields().length * 3));
-            } else {
-                query = new StringBundler(4);
-            }
+        if (result == null) {
+            StringBundler query = new StringBundler(4);
 
             query.append(_SQL_SELECT_LFCERTIFICATEUSER_WHERE);
 
@@ -1257,14 +1229,6 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 query.append(_FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_2);
             }
 
-            if (orderByComparator != null) {
-                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-                    orderByComparator);
-            } else
-             if (pagination) {
-                query.append(LFCertificateUserModelImpl.ORDER_BY_JPQL);
-            }
-
             String sql = query.toString();
 
             Session session = null;
@@ -1277,30 +1241,41 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (userID != null) {
-                    qPos.add(userID.intValue());
+                    qPos.add(userID.longValue());
                 }
 
                 if (certificateID != null) {
-                    qPos.add(certificateID.intValue());
+                    qPos.add(certificateID.longValue());
                 }
 
-                if (!pagination) {
-                    list = (List<LFCertificateUser>) QueryUtil.list(q,
-                            getDialect(), start, end, false);
+                List<LFCertificateUser> list = q.list();
 
-                    Collections.sort(list);
-
-                    list = new UnmodifiableList<LFCertificateUser>(list);
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                        finderArgs, list);
                 } else {
-                    list = (List<LFCertificateUser>) QueryUtil.list(q,
-                            getDialect(), start, end);
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFCertificateUserPersistenceImpl.fetchByUserIDAndCertificateID(Long, Long, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFCertificateUser lfCertificateUser = list.get(0);
+
+                    result = lfCertificateUser;
+
+                    cacheResult(lfCertificateUser);
+
+                    if ((lfCertificateUser.getUserID() != userID) ||
+                            (lfCertificateUser.getCertificateID() != certificateID)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                            finderArgs, lfCertificateUser);
+                    }
                 }
-
-                cacheResult(list);
-
-                FinderCacheUtil.putResult(finderPath, finderArgs, list);
             } catch (Exception e) {
-                FinderCacheUtil.removeResult(finderPath, finderArgs);
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                    finderArgs);
 
                 throw processException(e);
             } finally {
@@ -1308,305 +1283,29 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
             }
         }
 
-        return list;
-    }
-
-    /**
-     * Returns the first l f certificate user in the ordered set where userID = &#63; and certificateID = &#63;.
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the first matching l f certificate user
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a matching l f certificate user could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFCertificateUser findByUserIDAndCertificateID_First(
-        Integer userID, Integer certificateID,
-        OrderByComparator orderByComparator)
-        throws NoSuchLFCertificateUserException, SystemException {
-        LFCertificateUser lfCertificateUser = fetchByUserIDAndCertificateID_First(userID,
-                certificateID, orderByComparator);
-
-        if (lfCertificateUser != null) {
-            return lfCertificateUser;
-        }
-
-        StringBundler msg = new StringBundler(6);
-
-        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-        msg.append("userID=");
-        msg.append(userID);
-
-        msg.append(", certificateID=");
-        msg.append(certificateID);
-
-        msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-        throw new NoSuchLFCertificateUserException(msg.toString());
-    }
-
-    /**
-     * Returns the first l f certificate user in the ordered set where userID = &#63; and certificateID = &#63;.
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the first matching l f certificate user, or <code>null</code> if a matching l f certificate user could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFCertificateUser fetchByUserIDAndCertificateID_First(
-        Integer userID, Integer certificateID,
-        OrderByComparator orderByComparator) throws SystemException {
-        List<LFCertificateUser> list = findByUserIDAndCertificateID(userID,
-                certificateID, 0, 1, orderByComparator);
-
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns the last l f certificate user in the ordered set where userID = &#63; and certificateID = &#63;.
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the last matching l f certificate user
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a matching l f certificate user could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFCertificateUser findByUserIDAndCertificateID_Last(Integer userID,
-        Integer certificateID, OrderByComparator orderByComparator)
-        throws NoSuchLFCertificateUserException, SystemException {
-        LFCertificateUser lfCertificateUser = fetchByUserIDAndCertificateID_Last(userID,
-                certificateID, orderByComparator);
-
-        if (lfCertificateUser != null) {
-            return lfCertificateUser;
-        }
-
-        StringBundler msg = new StringBundler(6);
-
-        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-        msg.append("userID=");
-        msg.append(userID);
-
-        msg.append(", certificateID=");
-        msg.append(certificateID);
-
-        msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-        throw new NoSuchLFCertificateUserException(msg.toString());
-    }
-
-    /**
-     * Returns the last l f certificate user in the ordered set where userID = &#63; and certificateID = &#63;.
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the last matching l f certificate user, or <code>null</code> if a matching l f certificate user could not be found
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public LFCertificateUser fetchByUserIDAndCertificateID_Last(
-        Integer userID, Integer certificateID,
-        OrderByComparator orderByComparator) throws SystemException {
-        int count = countByUserIDAndCertificateID(userID, certificateID);
-
-        if (count == 0) {
+        if (result instanceof List<?>) {
             return null;
+        } else {
+            return (LFCertificateUser) result;
         }
-
-        List<LFCertificateUser> list = findByUserIDAndCertificateID(userID,
-                certificateID, count - 1, count, orderByComparator);
-
-        if (!list.isEmpty()) {
-            return list.get(0);
-        }
-
-        return null;
     }
 
     /**
-     * Returns the l f certificate users before and after the current l f certificate user in the ordered set where userID = &#63; and certificateID = &#63;.
+     * Removes the l f certificate user where userID = &#63; and certificateID = &#63; from the database.
      *
-     * @param id the primary key of the current l f certificate user
      * @param userID the user i d
      * @param certificateID the certificate i d
-     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-     * @return the previous, current, and next l f certificate user
-     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a l f certificate user with the primary key could not be found
+     * @return the l f certificate user that was removed
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser[] findByUserIDAndCertificateID_PrevAndNext(
-        long id, Integer userID, Integer certificateID,
-        OrderByComparator orderByComparator)
+    public LFCertificateUser removeByUserIDAndCertificateID(Long userID,
+        Long certificateID)
         throws NoSuchLFCertificateUserException, SystemException {
-        LFCertificateUser lfCertificateUser = findByPrimaryKey(id);
+        LFCertificateUser lfCertificateUser = findByUserIDAndCertificateID(userID,
+                certificateID);
 
-        Session session = null;
-
-        try {
-            session = openSession();
-
-            LFCertificateUser[] array = new LFCertificateUserImpl[3];
-
-            array[0] = getByUserIDAndCertificateID_PrevAndNext(session,
-                    lfCertificateUser, userID, certificateID,
-                    orderByComparator, true);
-
-            array[1] = lfCertificateUser;
-
-            array[2] = getByUserIDAndCertificateID_PrevAndNext(session,
-                    lfCertificateUser, userID, certificateID,
-                    orderByComparator, false);
-
-            return array;
-        } catch (Exception e) {
-            throw processException(e);
-        } finally {
-            closeSession(session);
-        }
-    }
-
-    protected LFCertificateUser getByUserIDAndCertificateID_PrevAndNext(
-        Session session, LFCertificateUser lfCertificateUser, Integer userID,
-        Integer certificateID, OrderByComparator orderByComparator,
-        boolean previous) {
-        StringBundler query = null;
-
-        if (orderByComparator != null) {
-            query = new StringBundler(6 +
-                    (orderByComparator.getOrderByFields().length * 6));
-        } else {
-            query = new StringBundler(3);
-        }
-
-        query.append(_SQL_SELECT_LFCERTIFICATEUSER_WHERE);
-
-        if (userID == null) {
-            query.append(_FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_NULL_2);
-        } else {
-            query.append(_FINDER_COLUMN_USERIDANDCERTIFICATEID_USERID_2);
-        }
-
-        if (certificateID == null) {
-            query.append(_FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_NULL_2);
-        } else {
-            query.append(_FINDER_COLUMN_USERIDANDCERTIFICATEID_CERTIFICATEID_2);
-        }
-
-        if (orderByComparator != null) {
-            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-            if (orderByConditionFields.length > 0) {
-                query.append(WHERE_AND);
-            }
-
-            for (int i = 0; i < orderByConditionFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByConditionFields[i]);
-
-                if ((i + 1) < orderByConditionFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
-                    } else {
-                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(WHERE_GREATER_THAN);
-                    } else {
-                        query.append(WHERE_LESSER_THAN);
-                    }
-                }
-            }
-
-            query.append(ORDER_BY_CLAUSE);
-
-            String[] orderByFields = orderByComparator.getOrderByFields();
-
-            for (int i = 0; i < orderByFields.length; i++) {
-                query.append(_ORDER_BY_ENTITY_ALIAS);
-                query.append(orderByFields[i]);
-
-                if ((i + 1) < orderByFields.length) {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC_HAS_NEXT);
-                    } else {
-                        query.append(ORDER_BY_DESC_HAS_NEXT);
-                    }
-                } else {
-                    if (orderByComparator.isAscending() ^ previous) {
-                        query.append(ORDER_BY_ASC);
-                    } else {
-                        query.append(ORDER_BY_DESC);
-                    }
-                }
-            }
-        } else {
-            query.append(LFCertificateUserModelImpl.ORDER_BY_JPQL);
-        }
-
-        String sql = query.toString();
-
-        Query q = session.createQuery(sql);
-
-        q.setFirstResult(0);
-        q.setMaxResults(2);
-
-        QueryPos qPos = QueryPos.getInstance(q);
-
-        if (userID != null) {
-            qPos.add(userID.intValue());
-        }
-
-        if (certificateID != null) {
-            qPos.add(certificateID.intValue());
-        }
-
-        if (orderByComparator != null) {
-            Object[] values = orderByComparator.getOrderByConditionValues(lfCertificateUser);
-
-            for (Object value : values) {
-                qPos.add(value);
-            }
-        }
-
-        List<LFCertificateUser> list = q.list();
-
-        if (list.size() == 2) {
-            return list.get(1);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Removes all the l f certificate users where userID = &#63; and certificateID = &#63; from the database.
-     *
-     * @param userID the user i d
-     * @param certificateID the certificate i d
-     * @throws SystemException if a system exception occurred
-     */
-    @Override
-    public void removeByUserIDAndCertificateID(Integer userID,
-        Integer certificateID) throws SystemException {
-        for (LFCertificateUser lfCertificateUser : findByUserIDAndCertificateID(
-                userID, certificateID, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-                null)) {
-            remove(lfCertificateUser);
-        }
+        return remove(lfCertificateUser);
     }
 
     /**
@@ -1618,8 +1317,8 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countByUserIDAndCertificateID(Integer userID,
-        Integer certificateID) throws SystemException {
+    public int countByUserIDAndCertificateID(Long userID, Long certificateID)
+        throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID;
 
         Object[] finderArgs = new Object[] { userID, certificateID };
@@ -1656,11 +1355,11 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 QueryPos qPos = QueryPos.getInstance(q);
 
                 if (userID != null) {
-                    qPos.add(userID.intValue());
+                    qPos.add(userID.longValue());
                 }
 
                 if (certificateID != null) {
-                    qPos.add(certificateID.intValue());
+                    qPos.add(certificateID.longValue());
                 }
 
                 count = (Long) q.uniqueResult();
@@ -1688,6 +1387,12 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         EntityCacheUtil.putResult(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserImpl.class, lfCertificateUser.getPrimaryKey(),
             lfCertificateUser);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+            new Object[] {
+                lfCertificateUser.getUserID(),
+                lfCertificateUser.getCertificateID()
+            }, lfCertificateUser);
 
         lfCertificateUser.resetOriginalValues();
     }
@@ -1745,6 +1450,8 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(lfCertificateUser);
     }
 
     @Override
@@ -1755,21 +1462,79 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         for (LFCertificateUser lfCertificateUser : lfCertificateUsers) {
             EntityCacheUtil.removeResult(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
                 LFCertificateUserImpl.class, lfCertificateUser.getPrimaryKey());
+
+            clearUniqueFindersCache(lfCertificateUser);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(LFCertificateUser lfCertificateUser) {
+        if (lfCertificateUser.isNew()) {
+            Object[] args = new Object[] {
+                    lfCertificateUser.getUserID(),
+                    lfCertificateUser.getCertificateID()
+                };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
+                args, Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                args, lfCertificateUser);
+        } else {
+            LFCertificateUserModelImpl lfCertificateUserModelImpl = (LFCertificateUserModelImpl) lfCertificateUser;
+
+            if ((lfCertificateUserModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfCertificateUser.getUserID(),
+                        lfCertificateUser.getCertificateID()
+                    };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
+                    args, Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                    args, lfCertificateUser);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(LFCertificateUser lfCertificateUser) {
+        LFCertificateUserModelImpl lfCertificateUserModelImpl = (LFCertificateUserModelImpl) lfCertificateUser;
+
+        Object[] args = new Object[] {
+                lfCertificateUser.getUserID(),
+                lfCertificateUser.getCertificateID()
+            };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
+            args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+            args);
+
+        if ((lfCertificateUserModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID.getColumnBitmask()) != 0) {
+            args = new Object[] {
+                    lfCertificateUserModelImpl.getOriginalUserID(),
+                    lfCertificateUserModelImpl.getOriginalCertificateID()
+                };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
+                args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_USERIDANDCERTIFICATEID,
+                args);
         }
     }
 
     /**
      * Creates a new l f certificate user with the primary key. Does not add the l f certificate user to the database.
      *
-     * @param id the primary key for the new l f certificate user
+     * @param lfCertificateUserPK the primary key for the new l f certificate user
      * @return the new l f certificate user
      */
     @Override
-    public LFCertificateUser create(long id) {
+    public LFCertificateUser create(LFCertificateUserPK lfCertificateUserPK) {
         LFCertificateUser lfCertificateUser = new LFCertificateUserImpl();
 
         lfCertificateUser.setNew(true);
-        lfCertificateUser.setPrimaryKey(id);
+        lfCertificateUser.setPrimaryKey(lfCertificateUserPK);
 
         return lfCertificateUser;
     }
@@ -1777,15 +1542,15 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     /**
      * Removes the l f certificate user with the primary key from the database. Also notifies the appropriate model listeners.
      *
-     * @param id the primary key of the l f certificate user
+     * @param lfCertificateUserPK the primary key of the l f certificate user
      * @return the l f certificate user that was removed
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a l f certificate user with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser remove(long id)
+    public LFCertificateUser remove(LFCertificateUserPK lfCertificateUserPK)
         throws NoSuchLFCertificateUserException, SystemException {
-        return remove((Serializable) id);
+        return remove((Serializable) lfCertificateUserPK);
     }
 
     /**
@@ -1928,34 +1693,14 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
                 FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
                     args);
             }
-
-            if ((lfCertificateUserModelImpl.getColumnBitmask() &
-                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID.getColumnBitmask()) != 0) {
-                Object[] args = new Object[] {
-                        lfCertificateUserModelImpl.getOriginalUserID(),
-                        lfCertificateUserModelImpl.getOriginalCertificateID()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID,
-                    args);
-
-                args = new Object[] {
-                        lfCertificateUserModelImpl.getUserID(),
-                        lfCertificateUserModelImpl.getCertificateID()
-                    };
-
-                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_USERIDANDCERTIFICATEID,
-                    args);
-                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDANDCERTIFICATEID,
-                    args);
-            }
         }
 
         EntityCacheUtil.putResult(LFCertificateUserModelImpl.ENTITY_CACHE_ENABLED,
             LFCertificateUserImpl.class, lfCertificateUser.getPrimaryKey(),
             lfCertificateUser);
+
+        clearUniqueFindersCache(lfCertificateUser);
+        cacheUniqueFindersCache(lfCertificateUser);
 
         return lfCertificateUser;
     }
@@ -1971,9 +1716,9 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         lfCertificateUserImpl.setNew(lfCertificateUser.isNew());
         lfCertificateUserImpl.setPrimaryKey(lfCertificateUser.getPrimaryKey());
 
-        lfCertificateUserImpl.setId(lfCertificateUser.getId());
         lfCertificateUserImpl.setCertificateID(lfCertificateUser.getCertificateID());
         lfCertificateUserImpl.setUserID(lfCertificateUser.getUserID());
+        lfCertificateUserImpl.setAttachedDate(lfCertificateUser.getAttachedDate());
 
         return lfCertificateUserImpl;
     }
@@ -2006,15 +1751,16 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     /**
      * Returns the l f certificate user with the primary key or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException} if it could not be found.
      *
-     * @param id the primary key of the l f certificate user
+     * @param lfCertificateUserPK the primary key of the l f certificate user
      * @return the l f certificate user
      * @throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException if a l f certificate user with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser findByPrimaryKey(long id)
+    public LFCertificateUser findByPrimaryKey(
+        LFCertificateUserPK lfCertificateUserPK)
         throws NoSuchLFCertificateUserException, SystemException {
-        return findByPrimaryKey((Serializable) id);
+        return findByPrimaryKey((Serializable) lfCertificateUserPK);
     }
 
     /**
@@ -2066,14 +1812,14 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
     /**
      * Returns the l f certificate user with the primary key or returns <code>null</code> if it could not be found.
      *
-     * @param id the primary key of the l f certificate user
+     * @param lfCertificateUserPK the primary key of the l f certificate user
      * @return the l f certificate user, or <code>null</code> if a l f certificate user with the primary key could not be found
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public LFCertificateUser fetchByPrimaryKey(long id)
-        throws SystemException {
-        return fetchByPrimaryKey((Serializable) id);
+    public LFCertificateUser fetchByPrimaryKey(
+        LFCertificateUserPK lfCertificateUserPK) throws SystemException {
+        return fetchByPrimaryKey((Serializable) lfCertificateUserPK);
     }
 
     /**
@@ -2240,11 +1986,6 @@ public class LFCertificateUserPersistenceImpl extends BasePersistenceImpl<LFCert
         }
 
         return count.intValue();
-    }
-
-    @Override
-    protected Set<String> getBadColumnNames() {
-        return _badColumnNames;
     }
 
     /**

@@ -1,10 +1,10 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.model.{StatementObjectType, StatementReference}
+import com.arcusys.learn.tincan.model.{ StatementObjectType, StatementReference }
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRef
-import com.arcusys.learn.util.JsonSerializer
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalServiceUtil
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsStatementRefStorageImpl extends KeyedEntityStorage[StatementReference] {
   def mapper(entity: LFTincanLrsStatementRef): StatementReference = {

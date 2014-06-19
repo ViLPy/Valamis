@@ -1,6 +1,6 @@
 package com.arcusys.learn.social.model
 
-import java.util.Date
+import org.joda.time.DateTime
 
 /**
  * Represents comment model for Valamis Social Package
@@ -12,7 +12,7 @@ import java.util.Date
  * @param publishDate - date  of publishing
  */
 case class PackageComment(id: Int,
-                          socialPackageID: Int,
-                          authorID: Int,
-                          comment: String,
-                          publishDate: Date)
+  socialPackageID: Int,
+  authorID: Int,
+  comment: String,
+  publishDate: DateTime)

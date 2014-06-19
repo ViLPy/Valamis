@@ -15,7 +15,7 @@
         </supports>
 
         <portlet-info>
-            <title>Valamis Application</title>
+            <title>Lesson Viewer</title>
         </portlet-info>
     </portlet>
 
@@ -47,7 +47,7 @@
         </supports>
 
         <portlet-info>
-            <title>Package manager</title>
+            <title>Lesson Management</title>
         </portlet-info>
     </portlet>
 
@@ -63,7 +63,7 @@
         </supports>
 
         <portlet-info>
-            <title>Question editor</title>
+            <title>Question management</title>
         </portlet-info>
     </portlet>
 
@@ -79,7 +79,7 @@
         </supports>
 
         <portlet-info>
-            <title>Course designer</title>
+            <title>Lesson Designer</title>
         </portlet-info>
     </portlet>
 
@@ -111,25 +111,10 @@
         </supports>
 
         <portlet-info>
-            <title>Curriculum admin</title>
+            <title>Curriculum Management</title>
         </portlet-info>
     </portlet>
 
-    <portlet>
-        <portlet-name>Achievement</portlet-name>
-        <portlet-class>com.arcusys.learn.view.achievement.AchievementAdmin</portlet-class>
-
-        <expiration-cache>0</expiration-cache>
-
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-        </supports>
-
-        <portlet-info>
-            <title>Achievement admin</title>
-        </portlet-info>
-    </portlet>
 
     <portlet>
         <portlet-name>CurriculumUser</portlet-name>
@@ -143,25 +128,10 @@
         </supports>
 
         <portlet-info>
-            <title>Curriculum user</title>
+            <title>Curriculum Viewer</title>
         </portlet-info>
     </portlet>
 
-    <portlet>
-        <portlet-name>AchievementUser</portlet-name>
-        <portlet-class>com.arcusys.learn.view.AchievementUserView</portlet-class>
-
-        <expiration-cache>0</expiration-cache>
-
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>view</portlet-mode>
-        </supports>
-
-        <portlet-info>
-            <title>Achievement user</title>
-        </portlet-info>
-    </portlet>
 
     <portlet>
         <portlet-name>SCORMUserAccount</portlet-name>
@@ -175,7 +145,7 @@
         </supports>
 
         <portlet-info>
-            <title>Valamis User</title>
+            <title>Valamis User Learning Portfolio</title>
         </portlet-info>
     </portlet>
 
@@ -244,6 +214,38 @@
     </portlet>
 
     <portlet>
+        <portlet-name>CourseEventReportView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.CourseEventReportView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Course Event Report</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>ParticipantReportView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.ParticipantReportView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Participant Report</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
         <portlet-name>TinCanLatestStatementsView</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanLatestStatementsView</portlet-class>
 
@@ -256,6 +258,70 @@
 
         <portlet-info>
             <title>Valamis TinCan Latest statements</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanStudentsLatestStatementsView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanStudentsLatestStatementsView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Students Latest statements</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanMostActiveStudentsView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanMostActiveStudentsView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Teacher's most active students</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanStudentsLeaderboardView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanStudentsLeaderboardView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan students leaderboard</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>TinCanCourseReportView</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanCourseReportView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis TinCan Course Report</title>
         </portlet-info>
     </portlet>
 

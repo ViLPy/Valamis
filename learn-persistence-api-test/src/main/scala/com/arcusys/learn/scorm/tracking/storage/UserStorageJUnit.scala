@@ -3,8 +3,7 @@ package com.arcusys.learn.scorm.tracking.storage
 import com.arcusys.learn.scorm.tracking.model.User
 
 import org.junit.Assert._
-import org.junit.{Test, Before}
-
+import org.junit.{ Test, Before }
 
 trait UserStorageJUnit {
   def userStorage: UserStorage
@@ -43,7 +42,7 @@ trait UserStorageJUnit {
     val user = User(0, "user1")
     val testQuizId = userStorage.createAndGetID(user)
     assertEquals(user.id, testQuizId)
-    userStorage.modify(user.copy(name="user test"))
+    userStorage.modify(user.copy(name = "user test"))
     val fetchedQuiz = userStorage.getByID(testQuizId).get
     assertEquals("user test", fetchedQuiz.name)
   }

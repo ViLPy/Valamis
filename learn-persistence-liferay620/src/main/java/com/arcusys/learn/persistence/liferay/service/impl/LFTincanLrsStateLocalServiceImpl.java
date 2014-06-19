@@ -41,4 +41,12 @@ public class LFTincanLrsStateLocalServiceImpl
     public java.util.List<LFTincanLrsState> findByActivityIdAndStateId(String activityId, String stateId) throws SystemException{
         return lfTincanLrsStatePersistence.findByActivityIdAndStateId(activityId, stateId);
     }
+
+    public java.util.List<LFTincanLrsState> findByActivityIdAndAgentId(String activityId, Integer agentId) throws SystemException{
+        return lfTincanLrsStatePersistence.findByActivityIdAndAgentId(activityId, agentId);
+    }
+
+    public LFTincanLrsState findByStateDocument(String activityId, String stateId, Integer agentId, String registration) throws SystemException{
+        return lfTincanLrsStatePersistence.fetchByStateDocument(activityId, stateId, agentId, registration);
+    }
 }

@@ -3,9 +3,9 @@ package com.arcusys.learn.tincan.storage.impl.liferay
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsSubStatement
-import com.arcusys.learn.tincan.storage.{StatementRefStorage, TincanActivityStorage, ActorStorage}
-import com.arcusys.learn.util.JsonSerializer
+import com.arcusys.learn.tincan.storage.{ StatementRefStorage, TincanActivityStorage, ActorStorage }
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalServiceUtil
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsSubStatementStorageImpl extends KeyedEntityStorage[SubStatement] {
   def actorStorage: ActorStorage
@@ -14,23 +14,23 @@ trait LFTincanLrsSubStatementStorageImpl extends KeyedEntityStorage[SubStatement
 
   private def createStatementObjectAndGetID(obj: StatementObject): Int = {
     obj match {
-      case act:Activity => tincanActivityStorage.createAndGetID(act)
-      case agent:Agent => actorStorage.createAndGetID(agent)
-      case group:Group => actorStorage.createAndGetID(group)
-      case subs:SubStatement => createAndGetID(subs)
-      case ref:StatementReference => tincanStatementRefStorage.createAndGetID(ref)
-      case _ => throw new IllegalArgumentException("Unknown type of object " + obj + " with type " + obj.objectType)
+      case act: Activity           => tincanActivityStorage.createAndGetID(act)
+      case agent: Agent            => actorStorage.createAndGetID(agent)
+      case group: Group            => actorStorage.createAndGetID(group)
+      case subs: SubStatement      => createAndGetID(subs)
+      case ref: StatementReference => tincanStatementRefStorage.createAndGetID(ref)
+      case _                       => throw new IllegalArgumentException("Unknown type of object " + obj + " with type " + obj.objectType)
     }
   }
 
   def mapper(entity: LFTincanLrsSubStatement): SubStatement = {
     val statementObj: Option[StatementObject] = StatementObjectType.withName(entity.getObjType) match {
-      case StatementObjectType.Activity => tincanActivityStorage.getById(entity.getObjID)
-      case StatementObjectType.Agent => actorStorage.getByID(entity.getObjID).map(_.asInstanceOf[Agent])
-      case StatementObjectType.Group => actorStorage.getByID(entity.getObjID).map(_.asInstanceOf[Group])
-      case StatementObjectType.SubStatement => getOne("id" -> entity.getObjID)
+      case StatementObjectType.Activity           => tincanActivityStorage.getById(entity.getObjID)
+      case StatementObjectType.Agent              => actorStorage.getByID(entity.getObjID).map(_.asInstanceOf[Agent])
+      case StatementObjectType.Group              => actorStorage.getByID(entity.getObjID).map(_.asInstanceOf[Group])
+      case StatementObjectType.SubStatement       => getOne("id" -> entity.getObjID)
       case StatementObjectType.StatementReference => tincanStatementRefStorage.getByID(entity.getObjID)
-      case _ => None
+      case _                                      => None
     }
 
     SubStatement(

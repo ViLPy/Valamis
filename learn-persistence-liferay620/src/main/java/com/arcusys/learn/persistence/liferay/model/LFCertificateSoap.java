@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,13 @@ public class LFCertificateSoap implements Serializable {
     private Boolean _publishBadge;
     private String _shortDescription;
     private Integer _companyID;
+    private String _state;
+    private String _emails;
+    private String _validPeriodType;
+    private Integer _validPeriod;
+    private Date _createdDate;
+    private Boolean _isPublished;
+    private Long _scope;
 
     public LFCertificateSoap() {
     }
@@ -35,6 +43,13 @@ public class LFCertificateSoap implements Serializable {
         soapModel.setPublishBadge(model.getPublishBadge());
         soapModel.setShortDescription(model.getShortDescription());
         soapModel.setCompanyID(model.getCompanyID());
+        soapModel.setState(model.getState());
+        soapModel.setEmails(model.getEmails());
+        soapModel.setValidPeriodType(model.getValidPeriodType());
+        soapModel.setValidPeriod(model.getValidPeriod());
+        soapModel.setCreatedDate(model.getCreatedDate());
+        soapModel.setIsPublished(model.getIsPublished());
+        soapModel.setScope(model.getScope());
 
         return soapModel;
     }
@@ -145,5 +160,61 @@ public class LFCertificateSoap implements Serializable {
 
     public void setCompanyID(Integer companyID) {
         _companyID = companyID;
+    }
+
+    public String getState() {
+        return _state;
+    }
+
+    public void setState(String state) {
+        _state = state;
+    }
+
+    public String getEmails() {
+        return _emails;
+    }
+
+    public void setEmails(String emails) {
+        _emails = emails;
+    }
+
+    public String getValidPeriodType() {
+        return _validPeriodType;
+    }
+
+    public void setValidPeriodType(String validPeriodType) {
+        _validPeriodType = validPeriodType;
+    }
+
+    public Integer getValidPeriod() {
+        return _validPeriod;
+    }
+
+    public void setValidPeriod(Integer validPeriod) {
+        _validPeriod = validPeriod;
+    }
+
+    public Date getCreatedDate() {
+        return _createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        _createdDate = createdDate;
+    }
+
+    public Boolean getIsPublished() {
+        return _isPublished;
+    }
+
+    public void setIsPublished(Boolean isPublished) {
+        _isPublished = isPublished;
+    }
+
+    public Long getScope() {
+        return _scope;
+    }
+
+    public void setScope(Long scope) {
+        _scope = scope;
     }
 }

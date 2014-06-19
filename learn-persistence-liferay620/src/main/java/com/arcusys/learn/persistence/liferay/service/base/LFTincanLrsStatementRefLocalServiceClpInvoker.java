@@ -41,14 +41,14 @@ public class LFTincanLrsStatementRefLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
 
     public LFTincanLrsStatementRefLocalServiceClpInvoker() {
         _methodName0 = "addLFTincanLrsStatementRef";
@@ -133,21 +133,21 @@ public class LFTincanLrsStatementRefLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRef"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "removeAll";
+        _methodName302 = "removeAll";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "createLFTincanLrsStatementRef";
+        _methodName303 = "createLFTincanLrsStatementRef";
 
-        _methodParameterTypes287 = new String[] {  };
+        _methodParameterTypes303 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -239,27 +239,27 @@ public class LFTincanLrsStatementRefLocalServiceClpInvoker {
             return LFTincanLrsStatementRefLocalServiceUtil.updateLFTincanLrsStatementRef((com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRef) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFTincanLrsStatementRefLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFTincanLrsStatementRefLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             LFTincanLrsStatementRefLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFTincanLrsStatementRefLocalServiceUtil.createLFTincanLrsStatementRef();
         }
 

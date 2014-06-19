@@ -1,11 +1,10 @@
 package com.arcusys.learn.questionbank.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class EssayQuestionTest extends FlatSpec with ShouldMatchers {
+class EssayQuestionTest extends FlatSpec with Matchers {
   "Essay question" can "be constructed" in {
     val question = new EssayQuestion(
       id = 1,

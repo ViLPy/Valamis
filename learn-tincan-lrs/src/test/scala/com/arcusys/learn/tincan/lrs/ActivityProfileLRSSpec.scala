@@ -1,21 +1,17 @@
 package com.arcusys.learn.tincan.lrs
 
+import com.arcusys.learn.tincan.lrs.activityprofile._
+import com.arcusys.learn.tincan.model.{ Activity, ActivityProfile, _ }
+import com.arcusys.learn.tincan.storage.{ ActivityProfileStorage, TincanActivityStorage }
+import org.joda.time.DateTime
+import org.junit.runner.RunWith
 import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
-import org.junit.runner.RunWith
-
-import java.util.Date
-
-import com.arcusys.learn.tincan.lrs.activityprofile._
-import com.arcusys.learn.tincan.storage.{TincanActivityStorage, ActivityProfileStorage}
-import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.tincan.model.ActivityProfile
-import com.arcusys.learn.tincan.model.Activity
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
-
 @RunWith(classOf[JUnitRunner])
-class ActivityProfileLRSSpec extends Specification { sequential
+class ActivityProfileLRSSpec extends Specification {
+  sequential
 
   private val service = new ActivityProfileLRS {
     val activityStorage: TincanActivityStorage = InMemoryActivityStorage
@@ -23,7 +19,6 @@ class ActivityProfileLRSSpec extends Specification { sequential
   }
 
   "Activity Profile LRS Specification".title
-
 
   "The 'getCompleteActivity' method" should {
 
@@ -61,12 +56,11 @@ class ActivityProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'getActivityDocumentIds' method" should {
 
     "return ids of those profiles that have been stored or updated since specified timestamp" in {
       val since = System.currentTimeMillis() - 14000l
-      val result = service.getActivityDocumentIds("activityId-666", Some(new Date(since)))
+      val result = service.getActivityDocumentIds("activityId-666", Some(new DateTime(since)))
       result must have size 1
       result.contains("profileId-888")
     }
@@ -80,7 +74,6 @@ class ActivityProfileLRSSpec extends Specification { sequential
     }
 
   }
-
 
   "The 'getActivityDocument' method" should {
 
@@ -114,19 +107,18 @@ class ActivityProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'addActivityDocument' method" should {
-    val document = Document("documentId-222", new Date(), "", OtherContent)
+    val document = Document("documentId-222", new DateTime(), "", OtherContent)
 
     "add new activity document" in {
-      val newDocument = Document("documentId-222", new Date(), new String(Array[Byte](2)), OtherContent)
+      val newDocument = Document("documentId-222", new DateTime(), new String(Array[Byte](2)), OtherContent)
       service.addActivityDocument("activityId-333", "profileId-222", newDocument)
       InMemoryActivityProfileStorage.all.
         find(p => p.activityId == "activityId-333" && p.profileId == "profileId-222") must beSome
     }
 
     "throw [ActivityProfileLRSAlreadyExistsException] if one already exist for given activity and profile" in {
-      val newDocument = Document("documentId-222", new Date(), new String(Array[Byte](1)), OtherContent)
+      val newDocument = Document("documentId-222", new DateTime(), new String(Array[Byte](1)), OtherContent)
       service.
         addActivityDocument("activityId-999", "profileId-666", newDocument) must throwA[ActivityProfileLRSAlreadyExistsException]
     }
@@ -153,15 +145,14 @@ class ActivityProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'modifyActivityDocument' method" should {
-    val document = Document("documentId-222", new Date(), new String(Array[Byte](9)), OtherContent)
+    val document = Document("documentId-222", new DateTime(), new String(Array[Byte](9)), OtherContent)
 
-   // "merge given document with the existing one" in pending
+    // "merge given document with the existing one" in pending
 
     "modify existing document content if both the existing document and the given one have binary content type" in {
       service.modifyActivityDocument("activityId-666", "profileId-666",
-        Document("documentId-111", new Date(), "testing", OtherContent))
+        Document("documentId-111", new DateTime(), "testing", OtherContent))
       val updated = InMemoryActivityProfileStorage.all.find(p => p.activityId == "activityId-666" && p.profileId == "profileId-666")
       updated must beSome
       updated.get.document.contents === "testing"
@@ -207,11 +198,10 @@ class ActivityProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'deleteActivityDocument' method" should {
 
     "remove specified document by activity id and profile id" in {
-      val document = Document("documentId-222", new Date(), "", OtherContent)
+      val document = Document("documentId-222", new DateTime(), "", OtherContent)
       service.addActivityDocument("activityId-1000", "profileId-0001", document)
       InMemoryActivityProfileStorage.all.
         find(p => p.activityId == "activityId-1000" && p.profileId == "profileId-0001") must beSome
@@ -226,7 +216,7 @@ class ActivityProfileLRSSpec extends Specification { sequential
       service.deleteActivityDocument("activityId-444", "profileId-111")
       InMemoryActivityProfileStorage.all.find(p =>
         p.activityId == "activityId-444" &&
-        p.profileId == "profileId-111") must beNone
+          p.profileId == "profileId-111") must beNone
     }
 
     "throw 'ActivityProfileArgumentException' if given activity id is null" in {
@@ -271,6 +261,8 @@ object InMemoryActivityStorage extends TincanActivityStorage {
   def renew(): Unit = throw new NotImplementedException
 
   def createAndGetID(activity: Activity): Int = throw new NotImplementedException
+
+  override def getByName(name: String): Seq[Activity] = ???
 }
 
 object InMemoryActivityProfileStorage extends ActivityProfileStorage {
@@ -280,15 +272,15 @@ object InMemoryActivityProfileStorage extends ActivityProfileStorage {
     ActivityProfile(
       "activityId-999",
       "profileId-666",
-      Document("documentId-111", new Date(currentTime - 20000l), "{x: 12\ny: 13}", JSONContent)),
+      Document("documentId-111", new DateTime(currentTime - 20000l), "{x: 12\ny: 13}", JSONContent)),
     ActivityProfile(
       "activityId-666",
       "profileId-666",
-      Document("documentId-111", new Date(currentTime - 15000l), "", OtherContent)),
+      Document("documentId-111", new DateTime(currentTime - 15000l), "", OtherContent)),
     ActivityProfile(
       "activityId-666",
       "profileId-888",
-      Document("documentId-111", new Date(currentTime - 10000l), "", OtherContent))
+      Document("documentId-111", new DateTime(currentTime - 10000l), "", OtherContent))
   )
 
   @volatile
@@ -298,10 +290,9 @@ object InMemoryActivityProfileStorage extends ActivityProfileStorage {
   def get(activityId: String, profileId: String): Option[ActivityProfile] =
     all.find(d => d.activityId == activityId && d.profileId == profileId)
 
-  def getIds(activityId: String, since: Option[Date]): Seq[String] =
-      all.filter(p => p.activityId == activityId &&
-        (!since.isDefined || p.document.updated.getTime >= since.get.getTime)).map(_.profileId)
-
+  def getIds(activityId: String, since: Option[DateTime]): Seq[String] =
+    all.filter(p => p.activityId == activityId &&
+      (!since.isDefined || p.document.updated.getMillis >= since.get.getMillis)).map(_.profileId)
 
   def create(entity: ActivityProfile): Unit = lock.synchronized {
     documents = entity :: documents

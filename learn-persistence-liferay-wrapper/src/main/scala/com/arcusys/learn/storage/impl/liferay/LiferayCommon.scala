@@ -1,8 +1,8 @@
 package com.arcusys.learn.storage.impl.liferay
 
-import java.lang.{Integer => JavaInteger}
-import java.lang.{Long => JavaLong}
-import java.lang.{Double => JavaDouble}
+import java.lang.{ Integer => JavaInteger }
+import java.lang.{ Long => JavaLong }
+import java.lang.{ Double => JavaDouble }
 import java.math
 
 /**
@@ -10,7 +10,7 @@ import java.math
  * Date: 22.3.2013
  */
 object LiferayCommon {
-//  val nullInteger: JavaInteger = new JavaInteger(0)
+  //  val nullInteger: JavaInteger = new JavaInteger(0)
   val nullInteger: JavaInteger = null
   val nullDouble: JavaDouble = null
   val nullLong: JavaLong = null
@@ -26,13 +26,12 @@ object LiferayCommon {
   }
 
   implicit def javaIntegerToOption(value: java.lang.Integer) = new {
-    def toOption: Option[Int] = if(value == null) None else Some(value.intValue())
+    def toOption: Option[Int] = if (value == null) None else Some(value.intValue())
   }
 
   implicit def stringToOption(value: String) = new {
     def toOption: Option[String] = if (isNullOrEmpty(value)) None else Some(value)
   }
-
 
   def getArrayForIsNullSearch(courseId: Int): Array[JavaInteger] = {
     if (courseId == -1) Array(nullInteger) else Array(courseId, nullInteger)
@@ -47,14 +46,14 @@ object LiferayCommon {
   }
 
   def getParameter[T](name: String, parameters: (String, Any)*): Option[T] = {
-    parameters find { _._1 == name } map(_._2.asInstanceOf[T])
+    parameters find { _._1 == name } map (_._2.asInstanceOf[T])
   }
   def getNullableParameter[T](name: String, parameters: (String, Any)*): T = {
     val value = parameters.find(_._1 == name).map(_._2).getOrElse(null)
-    value match{
-      case None => null.asInstanceOf[T]
+    value match {
+      case None         => null.asInstanceOf[T]
       case x: Option[T] => x.get
-      case x: T => x
+      case x: T         => x
     }
   }
 

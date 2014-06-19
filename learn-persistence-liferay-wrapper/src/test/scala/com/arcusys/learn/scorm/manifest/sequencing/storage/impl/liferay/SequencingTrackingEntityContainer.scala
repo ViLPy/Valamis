@@ -4,7 +4,6 @@ import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalSe
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTracking
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
-
 import scala.collection.JavaConverters._
 
 /**
@@ -22,7 +21,7 @@ object SequencingTrackingEntityContainer extends MockEntityContainer[LFSequencin
   def deleteFunction = _.deleteLFSequencingTracking(_)
   def updateFunction = _.updateLFSequencingTracking(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFSequencingTrackings(_,_)
+  def getAllFunction = _.getLFSequencingTrackings(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -42,13 +41,12 @@ object SequencingTrackingEntityContainer extends MockEntityContainer[LFSequencin
     ()
   }
 
-  private def filterBySequencingID(idRaw: Any): Seq[LFSequencingTracking] ={
+  private def filterBySequencingID(idRaw: Any): Seq[LFSequencingTracking] = {
     internalStorage.values.filter(sequencing => sequencing.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }
-
 

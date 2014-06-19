@@ -14,9 +14,9 @@ import com.arcusys.learn.tincan.lrs.statement.StatementLRSException
 import com.arcusys.learn.tincan.lrs.statement.StatementLRSAlreadyExistsException
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer.JSONSerializerException
 import com.arcusys.learn.tincan.api.serializer.SerializeFormat
-import com.arcusys.learn.oauth.BaseLrsClientApiController
+import com.arcusys.learn.controllers.oauth.BaseLrsClientApiApiController
 
-class StatementService(configuration: BindingModule) extends BaseLrsClientApiController(configuration) with TincanMethodOverride {
+class StatementService(configuration: BindingModule) extends BaseLrsClientApiApiController(configuration) with TincanMethodOverride {
   def this() = this(Configuration)
 
   val statementLRS = new StatementLRS() {
@@ -47,22 +47,17 @@ class StatementService(configuration: BindingModule) extends BaseLrsClientApiCon
     try {
       val statement = deserializeStatement(request.body)
       val statementCopy = if (id.isDefined)
-                            statement.copy(id = try{UUID.fromString(id.get)}
-                                                catch {case _ => halt(400, "Invalid statementId, it must be UUID")})
-                          else statement
+        statement.copy(id = try { UUID.fromString(id.get) }
+        catch { case _ => halt(400, "Invalid statementId, it must be UUID") })
+      else statement
       val uuid = statementLRS.addStatement(statementCopy)
       if (idReturn)
         halt(200, serializeIds(Seq(uuid.toString)), reason = "OK")
       else
         halt(204, reason = "No Content")
-    }
-    catch {
-      case e: JSONDeserializerException => halt(400
-        , e.message
-        , reason = "Bad Request")
-      case e: JSONSerializerException => halt(400
-        , e.message
-        , reason = "Bad Request")
+    } catch {
+      case e: JSONDeserializerException => halt(400, e.message, reason = "Bad Request")
+      case e: JSONSerializerException   => halt(400, e.message, reason = "Bad Request")
       case exception: StatementLRSAlreadyExistsException => {
         halt(409, reason = "Conflict")
       }
@@ -112,7 +107,6 @@ class StatementService(configuration: BindingModule) extends BaseLrsClientApiCon
     if (statementFilter.limit.isDefined && statementFilter.limit.get < 0)
       halt(400, "Parameter 'limit' must have nonnegative integer value")
 
-
     try {
       //if(statementFilter.attachments)
       // TODO return multipart content with attachments
@@ -124,37 +118,30 @@ class StatementService(configuration: BindingModule) extends BaseLrsClientApiCon
             if (statementFilter.format.isDefined) {
               val lang = request.getHeader("Accept-Language")
               serializeStatement(result.statements.head, SerializeFormat(statementFilter.format.get.toString, lang))
-            }
-            else
+            } else
               serializeStatement(result.statements.head)
 
-
           halt(200, rawStatement, reason = "OK")
-        }
-        else {
+        } else {
           if (statementFilter.statementId.isDefined)
             halt(404, "Statement with id = '" + statementFilter.statementId.get.toString
               + "' is not found", reason = "Not Found")
-          else
-            halt(404, "Voided statement with id = '" + statementFilter.statementId.get.toString
+          else if (statementFilter.voidedStatementId.isDefined)
+            halt(404, "Voided statement with id = '" + statementFilter.voidedStatementId.get.toString
               + "' is not found", reason = "Not Found")
         }
-      }
-      else {
+      } else {
         val rawStatement =
           if (statementFilter.format.isDefined) {
             val lang = request.getHeader("Accept-Language")
             serializeStatementResult(result, SerializeFormat(statementFilter.format.get.toString, lang))
-          }
-          else
+          } else
             serializeStatementResult(result)
 
         halt(200, rawStatement, reason = "OK")
 
-
       }
-    }
-    catch {
+    } catch {
       case e: JSONSerializerException => halt(404, "", reason = "Cannot serialize statement object")
       case exception: StatementLRSException => {
         halt(400, exception.message)
@@ -167,7 +154,6 @@ class StatementService(configuration: BindingModule) extends BaseLrsClientApiCon
 
     }
   }
-
 
   post("/") {
     // Content-Type: multipart/mixed => POST statements with attachment
@@ -188,18 +174,13 @@ class StatementService(configuration: BindingModule) extends BaseLrsClientApiCon
     try {
       // TODO add support multipart content with attachments
       val statements = deserializeStatements(request.body)
-      halt(200
-        , serializeIds(statementLRS.addStatements(statements).map(id => id.toString))
-        , reason = "OK")
-    }
-    catch {
+      halt(200, serializeIds(statementLRS.addStatements(statements).map(id => id.toString)), reason = "OK")
+    } catch {
       case e: JSONDeserializerException => {
         // if deserialization of list failed, try to add single statement
         setStatement(None, true)
       }
-      case _: JSONSerializerException => halt(400
-        , "Service cannot serialize response list of statements uuids"
-        , reason = "Bad Request")
+      case _: JSONSerializerException => halt(400, "Service cannot serialize response list of statements uuids", reason = "Bad Request")
       case exception: StatementLRSAlreadyExistsException => {
         halt(409, reason = "Conflict")
       }

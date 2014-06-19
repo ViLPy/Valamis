@@ -1,0 +1,40 @@
+<script type="text/template" id="settings-modals-template">
+    <div class="personalPackageList"></div>
+</script>
+
+<!--Package row view-->
+<script type="text/mustache" id="packageScopeRuleRow">
+    <td >{{id}}</td>
+    <td class="h4label valamis">{{{title}}}</td>
+    <td>{{{summary}}}</td>
+    <td class="buttons text-right"><input type="checkbox" id="visibility" {{#visibility}}checked{{/visibility}} /></td>
+    <td class="buttons text-right"><input type="checkbox" id="isDefault" {{#isDefault}}checked{{/isDefault}} /></td>
+
+</script>
+
+<!--Package list view-->
+<script type="text/mustache" id="packageScopeRuleListTemplate">
+    <table class="valamis list-table medium-table" id="scormPackageTable" style="border-left: 1px">
+        <thead>
+        <tr>
+            <th scope="col" class="scormPackageIDColumn listTitle"  >{{packageListIDHeaderLabel}}</th>
+            <th scope="col" class="scormPackageTitleColumn listTitle"  >{{packageListTitleHeaderLabel}}</th>
+            <th scope="col" class="scormPackageSummaryColumn listTitle">{{packageListSummaryHeaderLabel}}</th>
+            <th scope="col" class="scormPackageVisibilityColumn listTitle">{{packageListVisibilityHeaderLabel}}</th>
+            <th scope="col" class="listTitle">{{packageListIsDefaultHeaderLabel}}</th>
+        </tr>
+        </thead>
+        <tbody id="SCORMPackageScopeRuleGrid">
+
+        </tbody>
+    </table>
+
+</script>
+
+<script type="text/html" id="personalPackageListItemTemplate">
+    <div id="liferaySiteElement" class="portlet-learn-scorm">
+        <button id="selectPackageButton" data-package-id="{{id}}" class="button28 buttonInstall quizManagementButton"></button>
+        <div style="line-height: 35px;"><b>{{title}}</b></div>
+        <hr style="clear: both">
+    </div>
+</script>

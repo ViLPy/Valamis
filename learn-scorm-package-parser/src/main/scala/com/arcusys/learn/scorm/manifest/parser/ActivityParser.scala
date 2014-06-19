@@ -5,7 +5,7 @@ import scala.xml.Elem
 import XMLImplicits._
 import com.arcusys.learn.util.TreeNode
 
-class ActivityParser(activityElement: Elem, resourceMap: Map[String, Resource], organizationId: String, parentId: Option[String], scormVersion:String, sharedSequencing: Seq[Sequencing]) {
+class ActivityParser(activityElement: Elem, resourceMap: Map[String, Resource], organizationId: String, parentId: Option[String], scormVersion: String, sharedSequencing: Seq[Sequencing]) {
   def parse: TreeNode[Activity] = {
     val identifier = activityElement attr "identifier" required string
     val resourceIdentifier = activityElement attr "identifierref" optional string
@@ -13,40 +13,40 @@ class ActivityParser(activityElement: Elem, resourceMap: Map[String, Resource], 
     val resourceParameters = activityElement attr "parameters" optional string
     val title = activityElement childElem "title" required string
 
-    val timeLimitAction = activityElement childElem("adlcp", "timeLimitAction") optionalEnum TimeLimitAction
-    val masteryScore = activityElement childElem("adlcp", "masteryScore") optional string
-    val maxTimeAllowed = activityElement childElem("adlcp", "maxTimeAllowed") optional string
-    val dataElement = activityElement childElem("adlcp", "data") optional element
+    val timeLimitAction = activityElement childElem ("adlcp", "timeLimitAction") optionalEnum TimeLimitAction
+    val masteryScore = activityElement childElem ("adlcp", "masteryScore") optional string
+    val maxTimeAllowed = activityElement childElem ("adlcp", "maxTimeAllowed") optional string
+    val dataElement = activityElement childElem ("adlcp", "data") optional element
     val metadata = activityElement childElem "metadata" optional parseMetadata _
-    val sequencing = activityElement childElem("imsss", "sequencing") optional (element => parseActivitySequencing(element, sharedSequencing)) getOrElse (scormVersion match {
+    val sequencing = activityElement childElem ("imsss", "sequencing") optional (element => parseActivitySequencing(element, sharedSequencing)) getOrElse (scormVersion match {
       case "1.2" => new Sequencing(
-          sharedId = Sequencing.Default.sharedId,
-          sharedSequencingIdReference = Sequencing.Default.sharedSequencingIdReference,
-          permissions = new SequencingPermissions(choiceForChildren = true, choiceForNonDescendants = true, flowForChildren = true, forwardOnlyForChildren = false),
-          onlyCurrentAttemptObjectiveProgressForChildren = Sequencing.Default.onlyCurrentAttemptObjectiveProgressForChildren,
-          onlyCurrentAttemptAttemptProgressForChildren = Sequencing.Default.onlyCurrentAttemptAttemptProgressForChildren,
-          attemptLimit = Sequencing.Default.attemptLimit,
-          durationLimitInMilliseconds = Sequencing.Default.durationLimitInMilliseconds,
-          rollupContribution = RollupContribution.Default,
-          primaryObjective = Sequencing.Default.primaryObjective,
-          nonPrimaryObjectives = Sequencing.Default.nonPrimaryObjectives,
-          childrenSelection = Sequencing.Default.childrenSelection,
-          tracking = Sequencing.Default.tracking,
-          preventChildrenActivation = Sequencing.Default.preventChildrenActivation,
-          constrainChoice = Sequencing.Default.constrainChoice,
-          preConditionRules = Nil, postConditionRules = Nil, exitConditionRules = Nil, rollupRules = Nil
-        )
+        sharedId = Sequencing.Default.sharedId,
+        sharedSequencingIdReference = Sequencing.Default.sharedSequencingIdReference,
+        permissions = new SequencingPermissions(choiceForChildren = true, choiceForNonDescendants = true, flowForChildren = true, forwardOnlyForChildren = false),
+        onlyCurrentAttemptObjectiveProgressForChildren = Sequencing.Default.onlyCurrentAttemptObjectiveProgressForChildren,
+        onlyCurrentAttemptAttemptProgressForChildren = Sequencing.Default.onlyCurrentAttemptAttemptProgressForChildren,
+        attemptLimit = Sequencing.Default.attemptLimit,
+        durationLimitInMilliseconds = Sequencing.Default.durationLimitInMilliseconds,
+        rollupContribution = RollupContribution.Default,
+        primaryObjective = Sequencing.Default.primaryObjective,
+        nonPrimaryObjectives = Sequencing.Default.nonPrimaryObjectives,
+        childrenSelection = Sequencing.Default.childrenSelection,
+        tracking = Sequencing.Default.tracking,
+        preventChildrenActivation = Sequencing.Default.preventChildrenActivation,
+        constrainChoice = Sequencing.Default.constrainChoice,
+        preConditionRules = Nil, postConditionRules = Nil, exitConditionRules = Nil, rollupRules = Nil
+      )
       case _ => Sequencing.Default
     })
-    val completionThreshold = activityElement childElem("adlcp", "completionThreshold") optional parseCompletionThreshold _ getOrElse CompletionThreshold.Default
-    val hiddenNavigationControls = activityElement childElem("adlnav", "presentation") optional element match {
-      case None => Nil
-      case Some(e) => e childElem("adlnav", "navigationInterface") optional element children("adlnav", "hideLMSUI") map (c => NavigationControlType.withName(c.text.trim))
+    val completionThreshold = activityElement childElem ("adlcp", "completionThreshold") optional parseCompletionThreshold _ getOrElse CompletionThreshold.Default
+    val hiddenNavigationControls = activityElement childElem ("adlnav", "presentation") optional element match {
+      case None    => Nil
+      case Some(e) => e childElem ("adlnav", "navigationInterface") optional element children ("adlnav", "hideLMSUI") map (c => NavigationControlType.withName(c.text.trim))
     }
 
-    val dataFromLMS = activityElement childElem("adlcp", "dataFromLMS") optional string
+    val dataFromLMS = activityElement childElem ("adlcp", "dataFromLMS") optional string
     if (resourceIdentifier.isDefined) {
-      val data = dataElement children("adlcp", "map") map (mapElement => new ActivityDataMap(
+      val data = dataElement children ("adlcp", "map") map (mapElement => new ActivityDataMap(
         mapElement attr "targetID" required string,
         mapElement attr "readSharedData" withDefault true,
         mapElement attr "writeSharedData" withDefault true

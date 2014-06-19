@@ -248,4 +248,13 @@ public interface LFTincanLrsStateLocalService extends BaseLocalService,
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndStateId(
         java.lang.String activityId, java.lang.String stateId)
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -53,6 +53,10 @@ public class LFTincanLrsStateLocalServiceClp
     private String[] _methodParameterTypes21;
     private String _methodName22;
     private String[] _methodParameterTypes22;
+    private String _methodName23;
+    private String[] _methodParameterTypes23;
+    private String _methodName24;
+    private String[] _methodParameterTypes24;
 
     public LFTincanLrsStateLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -164,6 +168,19 @@ public class LFTincanLrsStateLocalServiceClp
 
         _methodParameterTypes22 = new String[] {
                 "java.lang.String", "java.lang.String"
+            };
+
+        _methodName23 = "findByActivityIdAndAgentId";
+
+        _methodParameterTypes23 = new String[] {
+                "java.lang.String", "java.lang.Integer"
+            };
+
+        _methodName24 = "findByStateDocument";
+
+        _methodParameterTypes24 = new String[] {
+                "java.lang.String", "java.lang.String", "java.lang.Integer",
+                "java.lang.String"
             };
     }
 
@@ -789,5 +806,74 @@ public class LFTincanLrsStateLocalServiceClp
         }
 
         return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName23,
+                    _methodParameterTypes23,
+                    new Object[] {
+                        ClpSerializer.translateInput(activityId),
+                        
+                    ClpSerializer.translateInput(agentId)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName24,
+                    _methodParameterTypes24,
+                    new Object[] {
+                        ClpSerializer.translateInput(activityId),
+                        
+                    ClpSerializer.translateInput(stateId),
+                        
+                    ClpSerializer.translateInput(agentId),
+                        
+                    ClpSerializer.translateInput(registration)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsState) ClpSerializer.translateOutput(returnObj);
     }
 }

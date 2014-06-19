@@ -41,16 +41,16 @@ public class LFPackageCommentLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
 
     public LFPackageCommentLocalServiceClpInvoker() {
         _methodName0 = "addLFPackageComment";
@@ -135,25 +135,25 @@ public class LFPackageCommentLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFPackageComment"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "createLFPackageComment";
+        _methodName302 = "createLFPackageComment";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "findBySocialPackageID";
+        _methodName303 = "findBySocialPackageID";
 
-        _methodParameterTypes287 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes303 = new String[] { "java.lang.Integer" };
 
-        _methodName288 = "removeAll";
+        _methodName304 = "removeAll";
 
-        _methodParameterTypes288 = new String[] {  };
+        _methodParameterTypes304 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -245,30 +245,30 @@ public class LFPackageCommentLocalServiceClpInvoker {
             return LFPackageCommentLocalServiceUtil.updateLFPackageComment((com.arcusys.learn.persistence.liferay.model.LFPackageComment) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFPackageCommentLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFPackageCommentLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             return LFPackageCommentLocalServiceUtil.createLFPackageComment();
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFPackageCommentLocalServiceUtil.findBySocialPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
             LFPackageCommentLocalServiceUtil.removeAll();
 
             return null;

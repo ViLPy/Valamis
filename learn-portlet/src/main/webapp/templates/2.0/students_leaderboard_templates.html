@@ -1,0 +1,37 @@
+<script type="text/html" id="studentViewTemplate">
+    <td>
+        <img src="{{avatarUrl}}" style="width:48px;height: 48px"/>
+    </td>
+    <td width="70%">
+        <div class="statement">
+            {{fullname}}
+        </div>
+    </td>
+    <td class="center-text">
+        <span>{{stmtCount}}</span>
+
+    </td>
+</script>
+
+
+<script type="text/html" id="studentTableViewTemplate">
+    <div class="period-select form-group valamis-select">
+        <label class="form-label">{{periodLabel}}</label>
+        <select class="show-mode form-control">
+            <option value="all_time">{{allTimeLabel}}</option>
+            <option value="year">{{yearLabel}}</option>
+            <option value="month">{{monthLabel}}</option>
+            <option value="week">{{weekLabel}}</option>
+            <option value="day">{{dayLabel}}</option>
+        </select>
+    </div>
+    <table class="statements valamis medium-table no-border">
+        <thead>
+        <tr>
+            <th colspan="2" class="center-text" style="padding: 5px 10px 5px 10px;">{{studentLabel}}</th>
+            <th class="center-text" style="padding: 5px 10px 5px 10px;">{{statementsCountLabel}}</th>
+        </tr>
+        </thead>
+        <tbody class="statementList"></tbody>
+    </table>
+</script>

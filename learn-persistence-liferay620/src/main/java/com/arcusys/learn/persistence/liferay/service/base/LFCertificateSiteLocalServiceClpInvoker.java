@@ -41,20 +41,20 @@ public class LFCertificateSiteLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
     private String _methodName288;
     private String[] _methodParameterTypes288;
     private String _methodName289;
     private String[] _methodParameterTypes289;
-    private String _methodName290;
-    private String[] _methodParameterTypes290;
+    private String _methodName294;
+    private String[] _methodParameterTypes294;
+    private String _methodName295;
+    private String[] _methodParameterTypes295;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName298;
+    private String[] _methodParameterTypes298;
 
     public LFCertificateSiteLocalServiceClpInvoker() {
         _methodName0 = "addLFCertificateSite";
@@ -139,37 +139,37 @@ public class LFCertificateSiteLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFCertificateSite"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName288 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes288 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName289 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes289 = new String[] { "java.lang.String" };
 
-        _methodName286 = "createLFCertificateSite";
+        _methodName294 = "createLFCertificateSite";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes294 = new String[] {  };
 
-        _methodName287 = "findByCertificateID";
+        _methodName295 = "findByCertificateID";
 
-        _methodParameterTypes287 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes295 = new String[] { "java.lang.Integer" };
 
-        _methodName288 = "findByCertificateIDAndSiteID";
+        _methodName296 = "findByCertificateIDAndSiteID";
 
-        _methodParameterTypes288 = new String[] {
+        _methodParameterTypes296 = new String[] {
                 "java.lang.Integer", "java.lang.Integer"
             };
 
-        _methodName289 = "findByCertificateIDAndSiteID";
+        _methodName297 = "findByCertificateIDAndSiteID";
 
-        _methodParameterTypes289 = new String[] {
+        _methodParameterTypes297 = new String[] {
                 "java.lang.Integer[][]", "java.lang.Integer"
             };
 
-        _methodName290 = "removeAll";
+        _methodName298 = "removeAll";
 
-        _methodParameterTypes290 = new String[] {  };
+        _methodParameterTypes298 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -261,42 +261,42 @@ public class LFCertificateSiteLocalServiceClpInvoker {
             return LFCertificateSiteLocalServiceUtil.updateLFCertificateSite((com.arcusys.learn.persistence.liferay.model.LFCertificateSite) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName288.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
             return LFCertificateSiteLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName289.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
             LFCertificateSiteLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName294.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes294, parameterTypes)) {
             return LFCertificateSiteLocalServiceUtil.createLFCertificateSite();
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName295.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes295, parameterTypes)) {
             return LFCertificateSiteLocalServiceUtil.findByCertificateID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFCertificateSiteLocalServiceUtil.findByCertificateIDAndSiteID((java.lang.Integer) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName289.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             return LFCertificateSiteLocalServiceUtil.findByCertificateIDAndSiteID((java.lang.Integer[]) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName290.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes290, parameterTypes)) {
+        if (_methodName298.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes298, parameterTypes)) {
             LFCertificateSiteLocalServiceUtil.removeAll();
 
             return null;

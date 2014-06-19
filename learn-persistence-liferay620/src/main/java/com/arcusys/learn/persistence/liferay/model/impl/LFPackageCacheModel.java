@@ -28,10 +28,11 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
     public String summary;
     public Long assetRefID;
     public Integer courseID;
+    public String logo;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{id=");
         sb.append(id);
@@ -49,6 +50,8 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         sb.append(assetRefID);
         sb.append(", courseID=");
         sb.append(courseID);
+        sb.append(", logo=");
+        sb.append(logo);
         sb.append("}");
 
         return sb.toString();
@@ -93,6 +96,12 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         lfPackageImpl.setAssetRefID(assetRefID);
         lfPackageImpl.setCourseID(courseID);
 
+        if (logo == null) {
+            lfPackageImpl.setLogo(StringPool.BLANK);
+        } else {
+            lfPackageImpl.setLogo(logo);
+        }
+
         lfPackageImpl.resetOriginalValues();
 
         return lfPackageImpl;
@@ -108,6 +117,7 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         summary = objectInput.readUTF();
         assetRefID = objectInput.readLong();
         courseID = objectInput.readInt();
+        logo = objectInput.readUTF();
     }
 
     @Override
@@ -147,5 +157,11 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
 
         objectOutput.writeLong(assetRefID);
         objectOutput.writeInt(courseID);
+
+        if (logo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(logo);
+        }
     }
 }

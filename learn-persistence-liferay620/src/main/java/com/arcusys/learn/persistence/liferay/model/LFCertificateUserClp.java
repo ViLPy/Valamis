@@ -2,6 +2,7 @@ package com.arcusys.learn.persistence.liferay.model;
 
 import com.arcusys.learn.persistence.liferay.service.ClpSerializer;
 import com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -14,15 +15,16 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
     implements LFCertificateUser {
-    private long _id;
-    private Integer _certificateID;
-    private Integer _userID;
+    private Long _certificateID;
+    private Long _userID;
+    private Date _attachedDate;
     private BaseModel<?> _lfCertificateUserRemoteModel;
 
     public LFCertificateUserClp() {
@@ -39,94 +41,72 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
     }
 
     @Override
-    public long getPrimaryKey() {
-        return _id;
+    public LFCertificateUserPK getPrimaryKey() {
+        return new LFCertificateUserPK(_certificateID, _userID);
     }
 
     @Override
-    public void setPrimaryKey(long primaryKey) {
-        setId(primaryKey);
+    public void setPrimaryKey(LFCertificateUserPK primaryKey) {
+        setCertificateID(primaryKey.certificateID);
+        setUserID(primaryKey.userID);
     }
 
     @Override
     public Serializable getPrimaryKeyObj() {
-        return _id;
+        return new LFCertificateUserPK(_certificateID, _userID);
     }
 
     @Override
     public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-        setPrimaryKey(((Long) primaryKeyObj).longValue());
+        setPrimaryKey((LFCertificateUserPK) primaryKeyObj);
     }
 
     @Override
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("id", getId());
         attributes.put("certificateID", getCertificateID());
         attributes.put("userID", getUserID());
+        attributes.put("attachedDate", getAttachedDate());
 
         return attributes;
     }
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        Long id = (Long) attributes.get("id");
-
-        if (id != null) {
-            setId(id);
-        }
-
-        Integer certificateID = (Integer) attributes.get("certificateID");
+        Long certificateID = (Long) attributes.get("certificateID");
 
         if (certificateID != null) {
             setCertificateID(certificateID);
         }
 
-        Integer userID = (Integer) attributes.get("userID");
+        Long userID = (Long) attributes.get("userID");
 
         if (userID != null) {
             setUserID(userID);
         }
-    }
 
-    @Override
-    public long getId() {
-        return _id;
-    }
+        Date attachedDate = (Date) attributes.get("attachedDate");
 
-    @Override
-    public void setId(long id) {
-        _id = id;
-
-        if (_lfCertificateUserRemoteModel != null) {
-            try {
-                Class<?> clazz = _lfCertificateUserRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setId", long.class);
-
-                method.invoke(_lfCertificateUserRemoteModel, id);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
+        if (attachedDate != null) {
+            setAttachedDate(attachedDate);
         }
     }
 
     @Override
-    public Integer getCertificateID() {
+    public Long getCertificateID() {
         return _certificateID;
     }
 
     @Override
-    public void setCertificateID(Integer certificateID) {
+    public void setCertificateID(Long certificateID) {
         _certificateID = certificateID;
 
         if (_lfCertificateUserRemoteModel != null) {
             try {
                 Class<?> clazz = _lfCertificateUserRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setCertificateID",
-                        Integer.class);
+                Method method = clazz.getMethod("setCertificateID", Long.class);
 
                 method.invoke(_lfCertificateUserRemoteModel, certificateID);
             } catch (Exception e) {
@@ -136,21 +116,43 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
     }
 
     @Override
-    public Integer getUserID() {
+    public Long getUserID() {
         return _userID;
     }
 
     @Override
-    public void setUserID(Integer userID) {
+    public void setUserID(Long userID) {
         _userID = userID;
 
         if (_lfCertificateUserRemoteModel != null) {
             try {
                 Class<?> clazz = _lfCertificateUserRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setUserID", Integer.class);
+                Method method = clazz.getMethod("setUserID", Long.class);
 
                 method.invoke(_lfCertificateUserRemoteModel, userID);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public Date getAttachedDate() {
+        return _attachedDate;
+    }
+
+    @Override
+    public void setAttachedDate(Date attachedDate) {
+        _attachedDate = attachedDate;
+
+        if (_lfCertificateUserRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfCertificateUserRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAttachedDate", Date.class);
+
+                method.invoke(_lfCertificateUserRemoteModel, attachedDate);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -226,24 +228,18 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
     public Object clone() {
         LFCertificateUserClp clone = new LFCertificateUserClp();
 
-        clone.setId(getId());
         clone.setCertificateID(getCertificateID());
         clone.setUserID(getUserID());
+        clone.setAttachedDate(getAttachedDate());
 
         return clone;
     }
 
     @Override
     public int compareTo(LFCertificateUser lfCertificateUser) {
-        long primaryKey = lfCertificateUser.getPrimaryKey();
+        LFCertificateUserPK primaryKey = lfCertificateUser.getPrimaryKey();
 
-        if (getPrimaryKey() < primaryKey) {
-            return -1;
-        } else if (getPrimaryKey() > primaryKey) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return getPrimaryKey().compareTo(primaryKey);
     }
 
     @Override
@@ -258,9 +254,9 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
 
         LFCertificateUserClp lfCertificateUser = (LFCertificateUserClp) obj;
 
-        long primaryKey = lfCertificateUser.getPrimaryKey();
+        LFCertificateUserPK primaryKey = lfCertificateUser.getPrimaryKey();
 
-        if (getPrimaryKey() == primaryKey) {
+        if (getPrimaryKey().equals(primaryKey)) {
             return true;
         } else {
             return false;
@@ -269,19 +265,19 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
 
     @Override
     public int hashCode() {
-        return (int) getPrimaryKey();
+        return getPrimaryKey().hashCode();
     }
 
     @Override
     public String toString() {
         StringBundler sb = new StringBundler(7);
 
-        sb.append("{id=");
-        sb.append(getId());
-        sb.append(", certificateID=");
+        sb.append("{certificateID=");
         sb.append(getCertificateID());
         sb.append(", userID=");
         sb.append(getUserID());
+        sb.append(", attachedDate=");
+        sb.append(getAttachedDate());
         sb.append("}");
 
         return sb.toString();
@@ -297,16 +293,16 @@ public class LFCertificateUserClp extends BaseModelImpl<LFCertificateUser>
         sb.append("</model-name>");
 
         sb.append(
-            "<column><column-name>id</column-name><column-value><![CDATA[");
-        sb.append(getId());
-        sb.append("]]></column-value></column>");
-        sb.append(
             "<column><column-name>certificateID</column-name><column-value><![CDATA[");
         sb.append(getCertificateID());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>userID</column-name><column-value><![CDATA[");
         sb.append(getUserID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>attachedDate</column-name><column-value><![CDATA[");
+        sb.append(getAttachedDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

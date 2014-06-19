@@ -3,12 +3,7 @@
     /*{{^isPreview}}*/
     jQuery(document).ready(function () {
         getAPI().Initialize("");
-        var selects = $("select");
-        selects.each(function(){
-            jQuery('option', this).shuffle();
-        })
     });
-
     /*{{/isPreview}}*/
 
     function gatherData() {
@@ -19,8 +14,7 @@
             var answer = jQuery("select", jQuery(element)).val();
             userAnswers.push([question, answer].join("[.]"));
         });
-        var dblQuote=new RegExp("\"", "g");
-        var userAnswersMerged = userAnswers.join("[,]").replace(dblQuote, "'");
+        var userAnswersMerged = userAnswers.join("[,]");
 
         // this will check is user answer right
         getAPI().SetValue("cmi.interactions.0.type", "matching");
@@ -67,9 +61,9 @@
     <div class="playerPageNavigation">
         <div class="playerNext">
             <!--{{#isPreview}}-->
-            <button class="smallTextbutton playerNextButton" type="button">Next</button>
+            <button class="valamis button small green icon-continue" type="button">Next</button>
             <!--{{/isPreview}}--><!--{{^isPreview}}-->
-            <button class="smallTextbutton playerNextButton" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <button class="valamis button small green icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
             <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>

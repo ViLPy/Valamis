@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.course.impl.liferay
 
-import com.arcusys.learn.scorm.manifest.model.{ScopeType, PlayerScopeRule}
+import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PlayerScopeRule }
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalServiceUtil
 import scala.collection.JavaConverters._
@@ -11,7 +11,7 @@ import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule
  * Date: 26.03.13
  */
 trait LFPlayerScopeRuleStorageImpl extends EntityStorage[PlayerScopeRule] {
-  protected def doRenew() { LFPlayerScopeRuleLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFPlayerScopeRuleLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val searchResult = parameters match {
@@ -46,7 +46,6 @@ trait LFPlayerScopeRuleStorageImpl extends EntityStorage[PlayerScopeRule] {
     throw new UnsupportedOperationException("Not implemented")
   }
 
-
   private def getLFEntityById(id: String) = {
     val entities = LFPlayerScopeRuleLocalServiceUtil.findByPlayerID(id, 0, 1)
     if (entities.isEmpty) None
@@ -55,8 +54,8 @@ trait LFPlayerScopeRuleStorageImpl extends EntityStorage[PlayerScopeRule] {
 
   def idParam(parameters: (String, Any)*): Option[String] = {
     parameters find {
-      _._1 equalsIgnoreCase  "playerID"
-    } map {_._2.asInstanceOf[String]}
+      _._1 equalsIgnoreCase "playerID"
+    } map { _._2.asInstanceOf[String] }
   }
 
   private def doCreate(entity: PlayerScopeRule, parameters: (String, Any)*) = {

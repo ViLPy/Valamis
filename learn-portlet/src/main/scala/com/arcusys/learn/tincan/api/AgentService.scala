@@ -2,16 +2,16 @@ package com.arcusys.learn.tincan.api
 
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.tincan.lrs.agentprofile.{AgentProfileLRSAlreadyExistsException, AgentProfileLRSNotExistsException, AgentProfileLRSModificationException, AgentProfileLRS}
-import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage}
+import com.arcusys.learn.tincan.lrs.agentprofile.{ AgentProfileLRSAlreadyExistsException, AgentProfileLRSNotExistsException, AgentProfileLRSModificationException, AgentProfileLRS }
+import com.arcusys.learn.tincan.storage.{ ActorStorage, AgentProfileStorage }
 import org.joda.time.DateTime
-import com.arcusys.learn.tincan.model.{OtherContent, JSONContent, Document}
+import com.arcusys.learn.tincan.model.{ OtherContent, JSONContent, Document }
 import com.arcusys.learn.tincan.api.utils.TincanMethodOverride
 import com.escalatesoft.subcut.inject.BindingModule
-import com.arcusys.learn.oauth.BaseLrsClientApiController
+import com.arcusys.learn.controllers.oauth.BaseLrsClientApiApiController
 
 // http://example.com/xAPI/agents
-class AgentService(configuration: BindingModule) extends BaseLrsClientApiController(configuration) with TincanMethodOverride {
+class AgentService(configuration: BindingModule) extends BaseLrsClientApiApiController(configuration) with TincanMethodOverride {
   def this() = this(Configuration)
 
   val agentProfileLrs = new AgentProfileLRS {
@@ -20,12 +20,11 @@ class AgentService(configuration: BindingModule) extends BaseLrsClientApiControl
 
   }
 
-  def isJsonContent = request.getContentType.startsWith( """application/json""")
+  def isJsonContent = request.getContentType.startsWith("""application/json""")
 
   def getAgent = try {
     deserializeAgent(parameter("agent").required)
-  }
-  catch {
+  } catch {
     case exception: JSONDeserializerException => {
       halt(400, "Required parameter 'agent' has not valid JSON data")
     }
@@ -47,10 +46,9 @@ class AgentService(configuration: BindingModule) extends BaseLrsClientApiControl
     val agent = getAgent
     try {
       halt(200, serializePerson(agentProfileLrs.getPerson(agent)), reason = "OK")
-    }
-    catch {
+    } catch {
       case e: JSONSerializerException => halt(404, e.message, reason = "Not Found")
-      case exception: Exception => halt(400, exception.getMessage)
+      case exception: Exception       => halt(400, exception.getMessage)
 
     }
   }
@@ -59,22 +57,20 @@ class AgentService(configuration: BindingModule) extends BaseLrsClientApiControl
     val agent = getAgent
 
     try {
-      if (parameter("profileId").contains()) {
+      if (parameter("profileId").contains) {
         agentProfileLrs.getAgentDocument(parameter("profileId").required, agent) match {
           case Some(document) => halt(200, new String(document.contents), reason = "OK")
-          case None => halt(404)
+          case None           => halt(404)
         }
-      }
-      else {
+      } else {
         halt(200,
-          serializeIds(agentProfileLrs.getAgentDocumentIds(agent, parameter("since").option.map(new DateTime(_).toDate))),
+          serializeIds(agentProfileLrs.getAgentDocumentIds(agent, parameter("since").option.map(new DateTime(_)))),
           reason = "OK")
 
       }
-    }
-    catch {
+    } catch {
       case e: JSONSerializerException => halt(404, e.message, reason = "Not Found")
-      case exception: Exception => halt(400, exception.getMessage)
+      case exception: Exception       => halt(400, exception.getMessage)
 
     }
   }
@@ -87,8 +83,7 @@ class AgentService(configuration: BindingModule) extends BaseLrsClientApiControl
 
     try {
       agentProfileLrs.modifyAgentDocument(profileId, agent, document)
-    }
-    catch {
+    } catch {
       case exception: AgentProfileLRSNotExistsException => agentProfileLrs.addAgentDocument(profileId, agent, document)
       case exception: AgentProfileLRSModificationException => {
         exception.printStackTrace()
@@ -108,8 +103,7 @@ class AgentService(configuration: BindingModule) extends BaseLrsClientApiControl
 
     try {
       agentProfileLrs.addAgentDocument(profileId, agent, document)
-    }
-    catch {
+    } catch {
       case exception: AgentProfileLRSAlreadyExistsException => {
         agentProfileLrs.deleteAgentDocument(profileId, agent)
         agentProfileLrs.addAgentDocument(profileId, agent, document)

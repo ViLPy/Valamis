@@ -48,10 +48,10 @@ public class LFTincanLrsResultModelImpl extends BaseModelImpl<LFTincanLrsResult>
             { "success", Types.BOOLEAN },
             { "completion", Types.BOOLEAN },
             { "response", Types.CLOB },
-            { "duration", Types.DOUBLE },
+            { "duration", Types.VARCHAR },
             { "extension", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsResult (id_ LONG not null primary key,score TEXT null,success BOOLEAN null,completion BOOLEAN null,response TEXT null,duration DOUBLE null,extension TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsResult (id_ LONG not null primary key,score TEXT null,success BOOLEAN null,completion BOOLEAN null,response TEXT null,duration VARCHAR(75) null,extension TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanLrsResult";
     public static final String ORDER_BY_JPQL = " ORDER BY lfTincanLrsResult.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFTincanLrsResult.id_ ASC";
@@ -76,7 +76,7 @@ public class LFTincanLrsResultModelImpl extends BaseModelImpl<LFTincanLrsResult>
     private Boolean _success;
     private Boolean _completion;
     private String _response;
-    private Double _duration;
+    private String _duration;
     private String _extension;
     private LFTincanLrsResult _escapedModel;
 
@@ -160,7 +160,7 @@ public class LFTincanLrsResultModelImpl extends BaseModelImpl<LFTincanLrsResult>
             setResponse(response);
         }
 
-        Double duration = (Double) attributes.get("duration");
+        String duration = (String) attributes.get("duration");
 
         if (duration != null) {
             setDuration(duration);
@@ -224,12 +224,12 @@ public class LFTincanLrsResultModelImpl extends BaseModelImpl<LFTincanLrsResult>
     }
 
     @Override
-    public Double getDuration() {
+    public String getDuration() {
         return _duration;
     }
 
     @Override
-    public void setDuration(Double duration) {
+    public void setDuration(String duration) {
         _duration = duration;
     }
 
@@ -353,6 +353,12 @@ public class LFTincanLrsResultModelImpl extends BaseModelImpl<LFTincanLrsResult>
         }
 
         lfTincanLrsResultCacheModel.duration = getDuration();
+
+        String duration = lfTincanLrsResultCacheModel.duration;
+
+        if ((duration != null) && (duration.length() == 0)) {
+            lfTincanLrsResultCacheModel.duration = null;
+        }
 
         lfTincanLrsResultCacheModel.extension = getExtension();
 

@@ -1,3 +1,4 @@
+/*
 package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.scorm.tracking.states.storage.impl.ActivityStateTreeStorageJUnit
@@ -13,3 +14,4 @@ class ActivityStateTreeStorageWithLFTest extends ActivityStateTreeStorageJUnit {
   def treeStateStorage = LFStorages.activityStateTreeStorage
   def stateStorage = LFStorages.activityStateStorage
 }
+*/

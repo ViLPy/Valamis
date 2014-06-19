@@ -24,13 +24,12 @@ public class LFTincanLrsStateCacheModel implements CacheModel<LFTincanLrsState>,
     public String stateId;
     public String documentId;
     public String activityId;
-    public String profileId;
     public String registration;
     public Integer agentId;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(id);
@@ -40,8 +39,6 @@ public class LFTincanLrsStateCacheModel implements CacheModel<LFTincanLrsState>,
         sb.append(documentId);
         sb.append(", activityId=");
         sb.append(activityId);
-        sb.append(", profileId=");
-        sb.append(profileId);
         sb.append(", registration=");
         sb.append(registration);
         sb.append(", agentId=");
@@ -75,12 +72,6 @@ public class LFTincanLrsStateCacheModel implements CacheModel<LFTincanLrsState>,
             lfTincanLrsStateImpl.setActivityId(activityId);
         }
 
-        if (profileId == null) {
-            lfTincanLrsStateImpl.setProfileId(StringPool.BLANK);
-        } else {
-            lfTincanLrsStateImpl.setProfileId(profileId);
-        }
-
         if (registration == null) {
             lfTincanLrsStateImpl.setRegistration(StringPool.BLANK);
         } else {
@@ -100,7 +91,6 @@ public class LFTincanLrsStateCacheModel implements CacheModel<LFTincanLrsState>,
         stateId = objectInput.readUTF();
         documentId = objectInput.readUTF();
         activityId = objectInput.readUTF();
-        profileId = objectInput.readUTF();
         registration = objectInput.readUTF();
         agentId = objectInput.readInt();
     }
@@ -126,12 +116,6 @@ public class LFTincanLrsStateCacheModel implements CacheModel<LFTincanLrsState>,
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(activityId);
-        }
-
-        if (profileId == null) {
-            objectOutput.writeUTF(StringPool.BLANK);
-        } else {
-            objectOutput.writeUTF(profileId);
         }
 
         if (registration == null) {

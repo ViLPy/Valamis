@@ -24,7 +24,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
     private String _stateId;
     private String _documentId;
     private String _activityId;
-    private String _profileId;
     private String _registration;
     private Integer _agentId;
     private BaseModel<?> _lfTincanLrsStateRemoteModel;
@@ -70,7 +69,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
         attributes.put("stateId", getStateId());
         attributes.put("documentId", getDocumentId());
         attributes.put("activityId", getActivityId());
-        attributes.put("profileId", getProfileId());
         attributes.put("registration", getRegistration());
         attributes.put("agentId", getAgentId());
 
@@ -101,12 +99,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
 
         if (activityId != null) {
             setActivityId(activityId);
-        }
-
-        String profileId = (String) attributes.get("profileId");
-
-        if (profileId != null) {
-            setProfileId(profileId);
         }
 
         String registration = (String) attributes.get("registration");
@@ -204,28 +196,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
                 Method method = clazz.getMethod("setActivityId", String.class);
 
                 method.invoke(_lfTincanLrsStateRemoteModel, activityId);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
-    @Override
-    public String getProfileId() {
-        return _profileId;
-    }
-
-    @Override
-    public void setProfileId(String profileId) {
-        _profileId = profileId;
-
-        if (_lfTincanLrsStateRemoteModel != null) {
-            try {
-                Class<?> clazz = _lfTincanLrsStateRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setProfileId", String.class);
-
-                method.invoke(_lfTincanLrsStateRemoteModel, profileId);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -349,7 +319,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
         clone.setStateId(getStateId());
         clone.setDocumentId(getDocumentId());
         clone.setActivityId(getActivityId());
-        clone.setProfileId(getProfileId());
         clone.setRegistration(getRegistration());
         clone.setAgentId(getAgentId());
 
@@ -397,7 +366,7 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(getId());
@@ -407,8 +376,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
         sb.append(getDocumentId());
         sb.append(", activityId=");
         sb.append(getActivityId());
-        sb.append(", profileId=");
-        sb.append(getProfileId());
         sb.append(", registration=");
         sb.append(getRegistration());
         sb.append(", agentId=");
@@ -420,7 +387,7 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append(
@@ -442,10 +409,6 @@ public class LFTincanLrsStateClp extends BaseModelImpl<LFTincanLrsState>
         sb.append(
             "<column><column-name>activityId</column-name><column-value><![CDATA[");
         sb.append(getActivityId());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>profileId</column-name><column-value><![CDATA[");
-        sb.append(getProfileId());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>registration</column-name><column-value><![CDATA[");

@@ -44,6 +44,7 @@ public class LFPackageWrapper implements LFPackage, ModelWrapper<LFPackage> {
         attributes.put("summary", getSummary());
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
+        attributes.put("logo", getLogo());
 
         return attributes;
     }
@@ -97,6 +98,12 @@ public class LFPackageWrapper implements LFPackage, ModelWrapper<LFPackage> {
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
     }
 
@@ -278,6 +285,26 @@ public class LFPackageWrapper implements LFPackage, ModelWrapper<LFPackage> {
     @Override
     public void setCourseID(java.lang.Integer courseID) {
         _lfPackage.setCourseID(courseID);
+    }
+
+    /**
+    * Returns the logo of this l f package.
+    *
+    * @return the logo of this l f package
+    */
+    @Override
+    public java.lang.String getLogo() {
+        return _lfPackage.getLogo();
+    }
+
+    /**
+    * Sets the logo of this l f package.
+    *
+    * @param logo the logo of this l f package
+    */
+    @Override
+    public void setLogo(java.lang.String logo) {
+        _lfPackage.setLogo(logo);
     }
 
     @Override

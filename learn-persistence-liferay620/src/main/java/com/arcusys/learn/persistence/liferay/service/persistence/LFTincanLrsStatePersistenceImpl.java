@@ -143,6 +143,84 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
     private static final String _FINDER_COLUMN_ACTIVITYIDANDSTATEID_STATEID_NULL_2 =
         "lfTincanLrsState.stateId IS NULL ";
     private static final String _FINDER_COLUMN_ACTIVITYIDANDSTATEID_STATEID_3 = "(lfTincanLrsState.stateId IS NULL OR lfTincanLrsState.stateId = '')";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID =
+        new FinderPath(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsStateModelImpl.FINDER_CACHE_ENABLED,
+            LFTincanLrsStateImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+            "findByActivityIdAndAgentId",
+            new String[] {
+                String.class.getName(), Integer.class.getName(),
+                
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
+            });
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID =
+        new FinderPath(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsStateModelImpl.FINDER_CACHE_ENABLED,
+            LFTincanLrsStateImpl.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+            "findByActivityIdAndAgentId",
+            new String[] { String.class.getName(), Integer.class.getName() },
+            LFTincanLrsStateModelImpl.ACTIVITYID_COLUMN_BITMASK |
+            LFTincanLrsStateModelImpl.AGENTID_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_ACTIVITYIDANDAGENTID = new FinderPath(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsStateModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+            "countByActivityIdAndAgentId",
+            new String[] { String.class.getName(), Integer.class.getName() });
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_1 =
+        "lfTincanLrsState.activityId IS NULL AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_NULL =
+        "lfTincanLrsState.activityId IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_2 =
+        "lfTincanLrsState.activityId = ? AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_NULL_2 =
+        "lfTincanLrsState.activityId IS NULL  AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3 =
+        "(lfTincanLrsState.activityId IS NULL OR lfTincanLrsState.activityId = '') AND ";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_NULL =
+        "lfTincanLrsState.agentId IS NULL";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_2 = "lfTincanLrsState.agentId = ?";
+    private static final String _FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_NULL_2 =
+        "lfTincanLrsState.agentId IS NULL ";
+    public static final FinderPath FINDER_PATH_FETCH_BY_STATEDOCUMENT = new FinderPath(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsStateModelImpl.FINDER_CACHE_ENABLED,
+            LFTincanLrsStateImpl.class, FINDER_CLASS_NAME_ENTITY,
+            "fetchByStateDocument",
+            new String[] {
+                String.class.getName(), String.class.getName(),
+                Integer.class.getName(), String.class.getName()
+            },
+            LFTincanLrsStateModelImpl.ACTIVITYID_COLUMN_BITMASK |
+            LFTincanLrsStateModelImpl.STATEID_COLUMN_BITMASK |
+            LFTincanLrsStateModelImpl.AGENTID_COLUMN_BITMASK |
+            LFTincanLrsStateModelImpl.REGISTRATION_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_STATEDOCUMENT = new FinderPath(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
+            LFTincanLrsStateModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStateDocument",
+            new String[] {
+                String.class.getName(), String.class.getName(),
+                Integer.class.getName(), String.class.getName()
+            });
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_1 = "lfTincanLrsState.activityId IS NULL AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_NULL = "lfTincanLrsState.activityId IS NULL";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_2 = "lfTincanLrsState.activityId = ? AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_NULL_2 = "lfTincanLrsState.activityId IS NULL  AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_3 = "(lfTincanLrsState.activityId IS NULL OR lfTincanLrsState.activityId = '') AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_STATEID_1 = "lfTincanLrsState.stateId IS NULL AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_STATEID_NULL = "lfTincanLrsState.stateId IS NULL";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_STATEID_2 = "lfTincanLrsState.stateId = ? AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_STATEID_NULL_2 = "lfTincanLrsState.stateId IS NULL  AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_STATEID_3 = "(lfTincanLrsState.stateId IS NULL OR lfTincanLrsState.stateId = '') AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_AGENTID_NULL = "lfTincanLrsState.agentId IS NULL";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_AGENTID_2 = "lfTincanLrsState.agentId = ? AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_AGENTID_NULL_2 = "lfTincanLrsState.agentId IS NULL  AND ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_1 = "lfTincanLrsState.registration IS NULL";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_NULL = "lfTincanLrsState.registration IS NULL";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_2 = "lfTincanLrsState.registration = ?";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_NULL_2 =
+        "lfTincanLrsState.registration IS NULL ";
+    private static final String _FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_3 = "(lfTincanLrsState.registration IS NULL OR lfTincanLrsState.registration = '')";
     private static final String _SQL_SELECT_LFTINCANLRSSTATE = "SELECT lfTincanLrsState FROM LFTincanLrsState lfTincanLrsState";
     private static final String _SQL_SELECT_LFTINCANLRSSTATE_WHERE = "SELECT lfTincanLrsState FROM LFTincanLrsState lfTincanLrsState WHERE ";
     private static final String _SQL_COUNT_LFTINCANLRSSTATE = "SELECT COUNT(lfTincanLrsState) FROM LFTincanLrsState lfTincanLrsState";
@@ -1288,6 +1366,963 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
     }
 
     /**
+     * Returns all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @return the matching l f tincan lrs states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFTincanLrsState> findByActivityIdAndAgentId(
+        String activityId, Integer agentId) throws SystemException {
+        return findByActivityIdAndAgentId(activityId, agentId,
+            QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param start the lower bound of the range of l f tincan lrs states
+     * @param end the upper bound of the range of l f tincan lrs states (not inclusive)
+     * @return the range of matching l f tincan lrs states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFTincanLrsState> findByActivityIdAndAgentId(
+        String activityId, Integer agentId, int start, int end)
+        throws SystemException {
+        return findByActivityIdAndAgentId(activityId, agentId, start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param start the lower bound of the range of l f tincan lrs states
+     * @param end the upper bound of the range of l f tincan lrs states (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f tincan lrs states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFTincanLrsState> findByActivityIdAndAgentId(
+        String activityId, Integer agentId, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID;
+            finderArgs = new Object[] { activityId, agentId };
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID;
+            finderArgs = new Object[] {
+                    activityId, agentId,
+                    
+                    start, end, orderByComparator
+                };
+        }
+
+        List<LFTincanLrsState> list = (List<LFTincanLrsState>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFTincanLrsState lfTincanLrsState : list) {
+                if (!Validator.equals(activityId,
+                            lfTincanLrsState.getActivityId()) ||
+                        !Validator.equals(agentId, lfTincanLrsState.getAgentId())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(4 +
+                        (orderByComparator.getOrderByFields().length * 3));
+            } else {
+                query = new StringBundler(4);
+            }
+
+            query.append(_SQL_SELECT_LFTINCANLRSSTATE_WHERE);
+
+            boolean bindActivityId = false;
+
+            if (activityId == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_1);
+            } else if (activityId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+            } else {
+                bindActivityId = true;
+
+                if (activityId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_2);
+                }
+            }
+
+            if (agentId == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_2);
+            }
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFTincanLrsStateModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindActivityId) {
+                    if (activityId != null) {
+                        qPos.add(activityId);
+                    }
+                }
+
+                if (agentId != null) {
+                    qPos.add(agentId.intValue());
+                }
+
+                if (!pagination) {
+                    list = (List<LFTincanLrsState>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFTincanLrsState>(list);
+                } else {
+                    list = (List<LFTincanLrsState>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Returns the first l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f tincan lrs state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState findByActivityIdAndAgentId_First(
+        String activityId, Integer agentId, OrderByComparator orderByComparator)
+        throws NoSuchLFTincanLrsStateException, SystemException {
+        LFTincanLrsState lfTincanLrsState = fetchByActivityIdAndAgentId_First(activityId,
+                agentId, orderByComparator);
+
+        if (lfTincanLrsState != null) {
+            return lfTincanLrsState;
+        }
+
+        StringBundler msg = new StringBundler(6);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("activityId=");
+        msg.append(activityId);
+
+        msg.append(", agentId=");
+        msg.append(agentId);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFTincanLrsStateException(msg.toString());
+    }
+
+    /**
+     * Returns the first l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState fetchByActivityIdAndAgentId_First(
+        String activityId, Integer agentId, OrderByComparator orderByComparator)
+        throws SystemException {
+        List<LFTincanLrsState> list = findByActivityIdAndAgentId(activityId,
+                agentId, 0, 1, orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the last l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f tincan lrs state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState findByActivityIdAndAgentId_Last(String activityId,
+        Integer agentId, OrderByComparator orderByComparator)
+        throws NoSuchLFTincanLrsStateException, SystemException {
+        LFTincanLrsState lfTincanLrsState = fetchByActivityIdAndAgentId_Last(activityId,
+                agentId, orderByComparator);
+
+        if (lfTincanLrsState != null) {
+            return lfTincanLrsState;
+        }
+
+        StringBundler msg = new StringBundler(6);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("activityId=");
+        msg.append(activityId);
+
+        msg.append(", agentId=");
+        msg.append(agentId);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFTincanLrsStateException(msg.toString());
+    }
+
+    /**
+     * Returns the last l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState fetchByActivityIdAndAgentId_Last(
+        String activityId, Integer agentId, OrderByComparator orderByComparator)
+        throws SystemException {
+        int count = countByActivityIdAndAgentId(activityId, agentId);
+
+        if (count == 0) {
+            return null;
+        }
+
+        List<LFTincanLrsState> list = findByActivityIdAndAgentId(activityId,
+                agentId, count - 1, count, orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the l f tincan lrs states before and after the current l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+     *
+     * @param id the primary key of the current l f tincan lrs state
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the previous, current, and next l f tincan lrs state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState[] findByActivityIdAndAgentId_PrevAndNext(long id,
+        String activityId, Integer agentId, OrderByComparator orderByComparator)
+        throws NoSuchLFTincanLrsStateException, SystemException {
+        LFTincanLrsState lfTincanLrsState = findByPrimaryKey(id);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFTincanLrsState[] array = new LFTincanLrsStateImpl[3];
+
+            array[0] = getByActivityIdAndAgentId_PrevAndNext(session,
+                    lfTincanLrsState, activityId, agentId, orderByComparator,
+                    true);
+
+            array[1] = lfTincanLrsState;
+
+            array[2] = getByActivityIdAndAgentId_PrevAndNext(session,
+                    lfTincanLrsState, activityId, agentId, orderByComparator,
+                    false);
+
+            return array;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    protected LFTincanLrsState getByActivityIdAndAgentId_PrevAndNext(
+        Session session, LFTincanLrsState lfTincanLrsState, String activityId,
+        Integer agentId, OrderByComparator orderByComparator, boolean previous) {
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(6 +
+                    (orderByComparator.getOrderByFields().length * 6));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        query.append(_SQL_SELECT_LFTINCANLRSSTATE_WHERE);
+
+        boolean bindActivityId = false;
+
+        if (activityId == null) {
+            query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_1);
+        } else if (activityId.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+        } else {
+            bindActivityId = true;
+
+            if (activityId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_2);
+            }
+        }
+
+        if (agentId == null) {
+            query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_NULL_2);
+        } else {
+            query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_2);
+        }
+
+        if (orderByComparator != null) {
+            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+            if (orderByConditionFields.length > 0) {
+                query.append(WHERE_AND);
+            }
+
+            for (int i = 0; i < orderByConditionFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByConditionFields[i]);
+
+                if ((i + 1) < orderByConditionFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
+                    } else {
+                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN);
+                    } else {
+                        query.append(WHERE_LESSER_THAN);
+                    }
+                }
+            }
+
+            query.append(ORDER_BY_CLAUSE);
+
+            String[] orderByFields = orderByComparator.getOrderByFields();
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC_HAS_NEXT);
+                    } else {
+                        query.append(ORDER_BY_DESC_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC);
+                    } else {
+                        query.append(ORDER_BY_DESC);
+                    }
+                }
+            }
+        } else {
+            query.append(LFTincanLrsStateModelImpl.ORDER_BY_JPQL);
+        }
+
+        String sql = query.toString();
+
+        Query q = session.createQuery(sql);
+
+        q.setFirstResult(0);
+        q.setMaxResults(2);
+
+        QueryPos qPos = QueryPos.getInstance(q);
+
+        if (bindActivityId) {
+            if (activityId != null) {
+                qPos.add(activityId);
+            }
+        }
+
+        if (agentId != null) {
+            qPos.add(agentId.intValue());
+        }
+
+        if (orderByComparator != null) {
+            Object[] values = orderByComparator.getOrderByConditionValues(lfTincanLrsState);
+
+            for (Object value : values) {
+                qPos.add(value);
+            }
+        }
+
+        List<LFTincanLrsState> list = q.list();
+
+        if (list.size() == 2) {
+            return list.get(1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Removes all the l f tincan lrs states where activityId = &#63; and agentId = &#63; from the database.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByActivityIdAndAgentId(String activityId, Integer agentId)
+        throws SystemException {
+        for (LFTincanLrsState lfTincanLrsState : findByActivityIdAndAgentId(
+                activityId, agentId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+            remove(lfTincanLrsState);
+        }
+    }
+
+    /**
+     * Returns the number of l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param agentId the agent ID
+     * @return the number of matching l f tincan lrs states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByActivityIdAndAgentId(String activityId, Integer agentId)
+        throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_ACTIVITYIDANDAGENTID;
+
+        Object[] finderArgs = new Object[] { activityId, agentId };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_COUNT_LFTINCANLRSSTATE_WHERE);
+
+            boolean bindActivityId = false;
+
+            if (activityId == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_1);
+            } else if (activityId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+            } else {
+                bindActivityId = true;
+
+                if (activityId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_ACTIVITYID_2);
+                }
+            }
+
+            if (agentId == null) {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_ACTIVITYIDANDAGENTID_AGENTID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindActivityId) {
+                    if (activityId != null) {
+                        qPos.add(activityId);
+                    }
+                }
+
+                if (agentId != null) {
+                    qPos.add(agentId.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException} if it could not be found.
+     *
+     * @param activityId the activity ID
+     * @param stateId the state ID
+     * @param agentId the agent ID
+     * @param registration the registration
+     * @return the matching l f tincan lrs state
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState findByStateDocument(String activityId,
+        String stateId, Integer agentId, String registration)
+        throws NoSuchLFTincanLrsStateException, SystemException {
+        LFTincanLrsState lfTincanLrsState = fetchByStateDocument(activityId,
+                stateId, agentId, registration);
+
+        if (lfTincanLrsState == null) {
+            StringBundler msg = new StringBundler(10);
+
+            msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+            msg.append("activityId=");
+            msg.append(activityId);
+
+            msg.append(", stateId=");
+            msg.append(stateId);
+
+            msg.append(", agentId=");
+            msg.append(agentId);
+
+            msg.append(", registration=");
+            msg.append(registration);
+
+            msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+            if (_log.isWarnEnabled()) {
+                _log.warn(msg.toString());
+            }
+
+            throw new NoSuchLFTincanLrsStateException(msg.toString());
+        }
+
+        return lfTincanLrsState;
+    }
+
+    /**
+     * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+     *
+     * @param activityId the activity ID
+     * @param stateId the state ID
+     * @param agentId the agent ID
+     * @param registration the registration
+     * @return the matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState fetchByStateDocument(String activityId,
+        String stateId, Integer agentId, String registration)
+        throws SystemException {
+        return fetchByStateDocument(activityId, stateId, agentId, registration,
+            true);
+    }
+
+    /**
+     * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+     *
+     * @param activityId the activity ID
+     * @param stateId the state ID
+     * @param agentId the agent ID
+     * @param registration the registration
+     * @param retrieveFromCache whether to use the finder cache
+     * @return the matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState fetchByStateDocument(String activityId,
+        String stateId, Integer agentId, String registration,
+        boolean retrieveFromCache) throws SystemException {
+        Object[] finderArgs = new Object[] {
+                activityId, stateId, agentId, registration
+            };
+
+        Object result = null;
+
+        if (retrieveFromCache) {
+            result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                    finderArgs, this);
+        }
+
+        if (result instanceof LFTincanLrsState) {
+            LFTincanLrsState lfTincanLrsState = (LFTincanLrsState) result;
+
+            if (!Validator.equals(activityId, lfTincanLrsState.getActivityId()) ||
+                    !Validator.equals(stateId, lfTincanLrsState.getStateId()) ||
+                    !Validator.equals(agentId, lfTincanLrsState.getAgentId()) ||
+                    !Validator.equals(registration,
+                        lfTincanLrsState.getRegistration())) {
+                result = null;
+            }
+        }
+
+        if (result == null) {
+            StringBundler query = new StringBundler(6);
+
+            query.append(_SQL_SELECT_LFTINCANLRSSTATE_WHERE);
+
+            boolean bindActivityId = false;
+
+            if (activityId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_1);
+            } else if (activityId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_3);
+            } else {
+                bindActivityId = true;
+
+                if (activityId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_2);
+                }
+            }
+
+            boolean bindStateId = false;
+
+            if (stateId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_1);
+            } else if (stateId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_3);
+            } else {
+                bindStateId = true;
+
+                if (stateId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_2);
+                }
+            }
+
+            if (agentId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_AGENTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_AGENTID_2);
+            }
+
+            boolean bindRegistration = false;
+
+            if (registration == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_1);
+            } else if (registration.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_3);
+            } else {
+                bindRegistration = true;
+
+                if (registration.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindActivityId) {
+                    if (activityId != null) {
+                        qPos.add(activityId);
+                    }
+                }
+
+                if (bindStateId) {
+                    if (stateId != null) {
+                        qPos.add(stateId);
+                    }
+                }
+
+                if (agentId != null) {
+                    qPos.add(agentId.intValue());
+                }
+
+                if (bindRegistration) {
+                    if (registration != null) {
+                        qPos.add(registration);
+                    }
+                }
+
+                List<LFTincanLrsState> list = q.list();
+
+                if (list.isEmpty()) {
+                    FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                        finderArgs, list);
+                } else {
+                    if ((list.size() > 1) && _log.isWarnEnabled()) {
+                        _log.warn(
+                            "LFTincanLrsStatePersistenceImpl.fetchByStateDocument(String, String, Integer, String, boolean) with parameters (" +
+                            StringUtil.merge(finderArgs) +
+                            ") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+                    }
+
+                    LFTincanLrsState lfTincanLrsState = list.get(0);
+
+                    result = lfTincanLrsState;
+
+                    cacheResult(lfTincanLrsState);
+
+                    if ((lfTincanLrsState.getActivityId() == null) ||
+                            !lfTincanLrsState.getActivityId().equals(activityId) ||
+                            (lfTincanLrsState.getStateId() == null) ||
+                            !lfTincanLrsState.getStateId().equals(stateId) ||
+                            (lfTincanLrsState.getAgentId() != agentId) ||
+                            (lfTincanLrsState.getRegistration() == null) ||
+                            !lfTincanLrsState.getRegistration()
+                                                 .equals(registration)) {
+                        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                            finderArgs, lfTincanLrsState);
+                    }
+                }
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        if (result instanceof List<?>) {
+            return null;
+        } else {
+            return (LFTincanLrsState) result;
+        }
+    }
+
+    /**
+     * Removes the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; from the database.
+     *
+     * @param activityId the activity ID
+     * @param stateId the state ID
+     * @param agentId the agent ID
+     * @param registration the registration
+     * @return the l f tincan lrs state that was removed
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFTincanLrsState removeByStateDocument(String activityId,
+        String stateId, Integer agentId, String registration)
+        throws NoSuchLFTincanLrsStateException, SystemException {
+        LFTincanLrsState lfTincanLrsState = findByStateDocument(activityId,
+                stateId, agentId, registration);
+
+        return remove(lfTincanLrsState);
+    }
+
+    /**
+     * Returns the number of l f tincan lrs states where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63;.
+     *
+     * @param activityId the activity ID
+     * @param stateId the state ID
+     * @param agentId the agent ID
+     * @param registration the registration
+     * @return the number of matching l f tincan lrs states
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByStateDocument(String activityId, String stateId,
+        Integer agentId, String registration) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_STATEDOCUMENT;
+
+        Object[] finderArgs = new Object[] {
+                activityId, stateId, agentId, registration
+            };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(5);
+
+            query.append(_SQL_COUNT_LFTINCANLRSSTATE_WHERE);
+
+            boolean bindActivityId = false;
+
+            if (activityId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_1);
+            } else if (activityId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_3);
+            } else {
+                bindActivityId = true;
+
+                if (activityId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_ACTIVITYID_2);
+                }
+            }
+
+            boolean bindStateId = false;
+
+            if (stateId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_1);
+            } else if (stateId.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_3);
+            } else {
+                bindStateId = true;
+
+                if (stateId.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_STATEID_2);
+                }
+            }
+
+            if (agentId == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_AGENTID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_AGENTID_2);
+            }
+
+            boolean bindRegistration = false;
+
+            if (registration == null) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_1);
+            } else if (registration.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_3);
+            } else {
+                bindRegistration = true;
+
+                if (registration.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_3);
+                } else {
+                    query.append(_FINDER_COLUMN_STATEDOCUMENT_REGISTRATION_2);
+                }
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindActivityId) {
+                    if (activityId != null) {
+                        qPos.add(activityId);
+                    }
+                }
+
+                if (bindStateId) {
+                    if (stateId != null) {
+                        qPos.add(stateId);
+                    }
+                }
+
+                if (agentId != null) {
+                    qPos.add(agentId.intValue());
+                }
+
+                if (bindRegistration) {
+                    if (registration != null) {
+                        qPos.add(registration);
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
      * Caches the l f tincan lrs state in the entity cache if it is enabled.
      *
      * @param lfTincanLrsState the l f tincan lrs state
@@ -1297,6 +2332,13 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
         EntityCacheUtil.putResult(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanLrsStateImpl.class, lfTincanLrsState.getPrimaryKey(),
             lfTincanLrsState);
+
+        FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+            new Object[] {
+                lfTincanLrsState.getActivityId(), lfTincanLrsState.getStateId(),
+                lfTincanLrsState.getAgentId(),
+                lfTincanLrsState.getRegistration()
+            }, lfTincanLrsState);
 
         lfTincanLrsState.resetOriginalValues();
     }
@@ -1354,6 +2396,8 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
 
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        clearUniqueFindersCache(lfTincanLrsState);
     }
 
     @Override
@@ -1364,6 +2408,68 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
         for (LFTincanLrsState lfTincanLrsState : lfTincanLrsStates) {
             EntityCacheUtil.removeResult(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
                 LFTincanLrsStateImpl.class, lfTincanLrsState.getPrimaryKey());
+
+            clearUniqueFindersCache(lfTincanLrsState);
+        }
+    }
+
+    protected void cacheUniqueFindersCache(LFTincanLrsState lfTincanLrsState) {
+        if (lfTincanLrsState.isNew()) {
+            Object[] args = new Object[] {
+                    lfTincanLrsState.getActivityId(),
+                    lfTincanLrsState.getStateId(), lfTincanLrsState.getAgentId(),
+                    lfTincanLrsState.getRegistration()
+                };
+
+            FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_STATEDOCUMENT, args,
+                Long.valueOf(1));
+            FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT, args,
+                lfTincanLrsState);
+        } else {
+            LFTincanLrsStateModelImpl lfTincanLrsStateModelImpl = (LFTincanLrsStateModelImpl) lfTincanLrsState;
+
+            if ((lfTincanLrsStateModelImpl.getColumnBitmask() &
+                    FINDER_PATH_FETCH_BY_STATEDOCUMENT.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfTincanLrsState.getActivityId(),
+                        lfTincanLrsState.getStateId(),
+                        lfTincanLrsState.getAgentId(),
+                        lfTincanLrsState.getRegistration()
+                    };
+
+                FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_STATEDOCUMENT,
+                    args, Long.valueOf(1));
+                FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                    args, lfTincanLrsState);
+            }
+        }
+    }
+
+    protected void clearUniqueFindersCache(LFTincanLrsState lfTincanLrsState) {
+        LFTincanLrsStateModelImpl lfTincanLrsStateModelImpl = (LFTincanLrsStateModelImpl) lfTincanLrsState;
+
+        Object[] args = new Object[] {
+                lfTincanLrsState.getActivityId(), lfTincanLrsState.getStateId(),
+                lfTincanLrsState.getAgentId(),
+                lfTincanLrsState.getRegistration()
+            };
+
+        FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_STATEDOCUMENT, args);
+        FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT, args);
+
+        if ((lfTincanLrsStateModelImpl.getColumnBitmask() &
+                FINDER_PATH_FETCH_BY_STATEDOCUMENT.getColumnBitmask()) != 0) {
+            args = new Object[] {
+                    lfTincanLrsStateModelImpl.getOriginalActivityId(),
+                    lfTincanLrsStateModelImpl.getOriginalStateId(),
+                    lfTincanLrsStateModelImpl.getOriginalAgentId(),
+                    lfTincanLrsStateModelImpl.getOriginalRegistration()
+                };
+
+            FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_STATEDOCUMENT,
+                args);
+            FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_STATEDOCUMENT,
+                args);
         }
     }
 
@@ -1541,11 +2647,37 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
                 FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDSTATEID,
                     args);
             }
+
+            if ((lfTincanLrsStateModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfTincanLrsStateModelImpl.getOriginalActivityId(),
+                        lfTincanLrsStateModelImpl.getOriginalAgentId()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDAGENTID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID,
+                    args);
+
+                args = new Object[] {
+                        lfTincanLrsStateModelImpl.getActivityId(),
+                        lfTincanLrsStateModelImpl.getAgentId()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVITYIDANDAGENTID,
+                    args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVITYIDANDAGENTID,
+                    args);
+            }
         }
 
         EntityCacheUtil.putResult(LFTincanLrsStateModelImpl.ENTITY_CACHE_ENABLED,
             LFTincanLrsStateImpl.class, lfTincanLrsState.getPrimaryKey(),
             lfTincanLrsState);
+
+        clearUniqueFindersCache(lfTincanLrsState);
+        cacheUniqueFindersCache(lfTincanLrsState);
 
         return lfTincanLrsState;
     }
@@ -1565,7 +2697,6 @@ public class LFTincanLrsStatePersistenceImpl extends BasePersistenceImpl<LFTinca
         lfTincanLrsStateImpl.setStateId(lfTincanLrsState.getStateId());
         lfTincanLrsStateImpl.setDocumentId(lfTincanLrsState.getDocumentId());
         lfTincanLrsStateImpl.setActivityId(lfTincanLrsState.getActivityId());
-        lfTincanLrsStateImpl.setProfileId(lfTincanLrsState.getProfileId());
         lfTincanLrsStateImpl.setRegistration(lfTincanLrsState.getRegistration());
         lfTincanLrsStateImpl.setAgentId(lfTincanLrsState.getAgentId());
 

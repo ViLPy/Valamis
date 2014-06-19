@@ -3,18 +3,18 @@ package com.arcusys.learn.liferay
 import com.liferay.portal.kernel.upgrade.UpgradeProcess
 import com.liferay.portal.kernel.util.UnicodeProperties
 import com.liferay.portal.model._
-import com.liferay.portlet.social.model.{SocialActivityFeedEntry, BaseSocialActivityInterpreter, SocialActivity}
+import com.liferay.portlet.social.model.{ SocialActivityFeedEntry, BaseSocialActivityInterpreter, SocialActivity }
 import com.liferay.portlet.journal.model.JournalArticle
 import com.liferay.portal.theme.ThemeDisplay
-import com.liferay.portal.{NoSuchLayoutException, NoSuchGroupException, NoSuchRoleException}
-import com.liferay.portlet.asset.model.{BaseAssetRenderer, AssetEntry, BaseAssetRendererFactory}
+import com.liferay.portal.{ NoSuchLayoutException, NoSuchGroupException, NoSuchRoleException }
+import com.liferay.portlet.asset.model.{ BaseAssetRenderer, AssetEntry, BaseAssetRendererFactory }
 import com.liferay.portal.security.permission.PermissionChecker
-import com.liferay.portal.kernel.portlet.{LiferayPortletResponse, LiferayPortletRequest}
-import com.liferay.portal.kernel.struts.{StrutsAction, BaseStrutsAction}
+import com.liferay.portal.kernel.portlet.{ LiferayPortletResponse, LiferayPortletRequest }
+import com.liferay.portal.kernel.struts.{ StrutsAction, BaseStrutsAction }
 import com.liferay.portal.kernel.search._
 import com.liferay.portal.kernel.dao.orm.DynamicQuery
 import com.liferay.portlet.asset.NoSuchEntryException
-import com.liferay.portal.service.{BaseLocalService, ServiceContext}
+import com.liferay.portal.service.{ BaseLocalService, ServiceContext }
 import com.liferay.portal.kernel.bean.BeanLocator
 
 object LiferayClasses {

@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.tracking.model.{ObjectiveState, ActivityState}
+import com.arcusys.learn.scorm.tracking.model.{ ObjectiveState, ActivityState }
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class RuleConditionTest extends ActivityStateTreeTestBase {
@@ -11,7 +11,6 @@ class RuleConditionTest extends ActivityStateTreeTestBase {
     new ActivityState(activity = container(attemptLimit), active = false, suspended = false, attemptCompleted = attemptCompleted,
       attemptCompletionAmount = None, attemptAbsoluteDuration = 0, attemptExperiencedDuration = 0,
       activityAbsoluteDuration = 0, activityExperiencedDuration = 0, attemptCount = attemptCount, objectiveStates = objectiveStates)
-
 
   "'Objective satisfied'" should "evaluate to false if objective progress is not known (Table 3.4.2a 1)" in {
     val activity = activityState(objectiveStates = Map(Some("OBJ1") -> new ObjectiveState(satisfied = None, normalizedMeasure = None, objectiveMapInfo = ObjectiveMap.Empty)))

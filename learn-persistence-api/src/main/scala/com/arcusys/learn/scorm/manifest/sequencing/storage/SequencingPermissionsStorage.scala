@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage
 
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.scorm.manifest.model.SequencingPermissions
 
 trait SequencingPermissionsStorage {
   def create(sequencingID: Int, entity: SequencingPermissions)

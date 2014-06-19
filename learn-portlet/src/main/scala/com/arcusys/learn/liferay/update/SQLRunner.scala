@@ -7,7 +7,7 @@ trait SQLRunner {
     try {
       DBFactoryUtilHelper.getDB.runSQL(sql)
     } catch {
-      case _ => {}
+      case _: Throwable =>
     }
   }
 }

@@ -13,23 +13,23 @@ object SocialActivityLocalServiceHelper {
   }
 
   def getActivities(className: String,
-                    start: Int,
-                    end: Int): java.util.List[SocialActivity] =
+    start: Int,
+    end: Int): java.util.List[SocialActivity] =
     SocialActivityLocalServiceUtil.getActivities(className, start, end)
 
   def addActivity(userId: Long,
-                  groupId: Long,
-                  className: String,
-                  classPK: Long,
-                  activityType: Int,
-                  extraData: String,
-                  receiverUserId: Long) {
+    groupId: Long,
+    className: String,
+    classPK: Long,
+    activityType: Int,
+    extraData: String,
+    receiverUserId: Long) {
     SocialActivityLocalServiceUtil.addActivity(userId, groupId, className, classPK, activityType, extraData, receiverUserId)
   }
 
   def getUserActivities(userId: Long,
-                        start: Int,
-                        end: Int): java.util.List[SocialActivity] =
+    start: Int,
+    end: Int): java.util.List[SocialActivity] =
     SocialActivityLocalServiceUtil.getUserActivities(userId, start, end)
 
   def getSocialActivities(start: Int, end: Int): java.util.List[SocialActivity] =

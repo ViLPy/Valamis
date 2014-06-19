@@ -1,11 +1,10 @@
 package com.arcusys.learn.questionbank.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class PositioningQuestionTest extends FlatSpec with ShouldMatchers {
+class PositioningQuestionTest extends FlatSpec with Matchers {
   "Positioning answer" can "be constructed" in {
     val answer = new PositioningAnswer(7, "turn on", true)
     answer.id should equal(7)

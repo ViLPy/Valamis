@@ -5,7 +5,7 @@ import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.{ScopeType, PlayerScopeRule}
+import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PlayerScopeRule }
 import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalServiceUtil
 import com.arcusys.learn.scorm.course.impl.liferay.LFPlayerScopeRuleStorageImpl
 
@@ -26,7 +26,7 @@ class LFPlayerScopeRuleSpec extends SpecificationWithJUnit with Mockito with Thr
   "LFPlayerScopeRuleStorageImpl" should {
 
     "execute 'create' without errors" in new Context {
-      playerStorage.create(new PlayerScopeRule("playerID1",ScopeType.Instance)) must not(throwA[Exception])
+      playerStorage.create(new PlayerScopeRule("playerID1", ScopeType.Instance)) must not(throwA[Exception])
     }
 
     "execute 'getOne' without errors" in new Context {
@@ -34,7 +34,7 @@ class LFPlayerScopeRuleSpec extends SpecificationWithJUnit with Mockito with Thr
     }
 
     "execute 'modify' without errors" in new Context {
-      playerStorage.create(new PlayerScopeRule("playerID3",ScopeType.Instance))
+      playerStorage.create(new PlayerScopeRule("playerID3", ScopeType.Instance))
       playerStorage.modify("playerID" -> "playerID3", "scope" -> ScopeType.Site.toString) must not(throwA[Exception])
       val fetched = playerStorage.getOne("playerID" -> "playerID3")
       fetched must beSome
@@ -42,7 +42,7 @@ class LFPlayerScopeRuleSpec extends SpecificationWithJUnit with Mockito with Thr
     }
 
     "execute 'delete' without errors" in new Context {
-      playerStorage.create(new PlayerScopeRule("playerID1",ScopeType.Instance))
+      playerStorage.create(new PlayerScopeRule("playerID1", ScopeType.Instance))
       playerStorage.delete("playerID" -> "playerID1") must not(throwA[Exception])
       val fetched = playerStorage.getOne("playerID" -> "playerID1")
       fetched must beNone

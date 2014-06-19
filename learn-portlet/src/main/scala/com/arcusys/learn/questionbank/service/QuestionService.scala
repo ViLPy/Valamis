@@ -2,11 +2,10 @@ package com.arcusys.learn.questionbank.service
 
 import com.arcusys.learn.questionbank.model._
 import com.arcusys.scorm.util._
-import com.arcusys.scala.json.Json._
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.arcusys.learn.service.util.AntiSamyHelper
 
 class QuestionService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -22,7 +21,7 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     requireTeacherPermissions()
 
     val id = parameter("id").intRequired
-    json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get))
+    json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get)).get
   }
 
   get("/children/:id") {
@@ -30,7 +29,7 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
 
     val categoryID = parameter("id").intOption(-1)
     val courseID = parameter("courseID").intOption(-1)
-    json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID)))
+    json(QuestionSerializer.buildOutputJSON(questionStorage.getByCategory(categoryID, courseID))).get
   }
 
   post("/") {
@@ -56,7 +55,7 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
       case 8 => new PlainText(0, categoryID, title, text, courseID)
       case _ => halt(405, "Service: Oops! Can't create question")
     }
-    json(QuestionSerializer.buildItemMap(questionStorage.getByID(questionStorage.createAndGetID(entity)).get))
+    json(QuestionSerializer.buildItemMap(questionStorage.getByID(questionStorage.createAndGetID(entity)).get)).get
   }
 
   post("/update/:id") {
@@ -71,13 +70,13 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     val forceCorrectCount = parameter("forceCorrectCount").booleanRequired
     val isCaseSensitive = parameter("isCaseSensitive").booleanRequired
     val courseID = parameter("courseID").intOption(-1)
-    val answersMap = toObject(parameter("answers").withDefault("[]")).asInstanceOf[List[Map[String, Any]]]
+    val answersMap = parseJson[List[Map[String, Any]]](parameter("answers").withDefault("[]")).get
     val entity = questionType match {
       case 0 => new ChoiceQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseChoiceAnswer(_)), forceCorrectCount, courseID)
       case 1 => new TextQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseTextAnswer(_)), isCaseSensitive, courseID)
       case 2 => new NumericQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseNumericAnswer(_)), courseID)
-      case 3 => new PositioningQuestion(id, categoryId, title, text, explanationText, answersMap.map(parsePositioningAnswer(_)), forceCorrectCount,courseID)
-      case 4 => new MatchingQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseMatchingAnswer(_)),courseID)
+      case 3 => new PositioningQuestion(id, categoryId, title, text, explanationText, answersMap.map(parsePositioningAnswer(_)), forceCorrectCount, courseID)
+      case 4 => new MatchingQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseMatchingAnswer(_)), courseID)
       case 5 => new EssayQuestion(id, categoryId, title, text, explanationText, courseID)
       case 6 => new EmbeddedAnswerQuestion(id, categoryId, title, text, explanationText, courseID)
       case 7 => new CategorizationQuestion(id, categoryId, title, text, explanationText, answersMap.map(parseCategorizationAnswer(_)), courseID)
@@ -85,7 +84,7 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
       case _ => halt(405, "Service: Oops! Can't update question")
     }
     questionStorage.modify(entity)
-    json(QuestionSerializer.buildItemMap(entity))
+    json(QuestionSerializer.buildItemMap(entity)).get
   }
 
   post("/move/:id") {
@@ -107,7 +106,7 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
     else None
 
     questionStorage.move(id, parentID, siblingID, moveAfterTarget)
-    json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get))
+    json(QuestionSerializer.buildItemMap(questionStorage.getByID(id).get)).get
 
   }
   post("/delete/:id") {
@@ -122,10 +121,10 @@ class QuestionService(configuration: BindingModule) extends ServletBase(configur
   private def parseTextAnswer(data: Map[String, Any]) = new TextAnswer(0, data.getOrElse("answerText", "").toString)
 
   private def parseNumericAnswer(data: Map[String, Any]) = {
-    def getBigDecimal(value:String) = try {
+    def getBigDecimal(value: String) = try {
       BigDecimal(value)
     } catch {
-      case _ => BigDecimal("0")
+      case _: Throwable => BigDecimal("0")
     }
 
     new NumericAnswer(0, getBigDecimal(data.getOrElse("rangeFrom", 0).toString), getBigDecimal(data.getOrElse("rangeTo", 0).toString))

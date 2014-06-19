@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing LFCertificate in entity cache.
  *
@@ -28,10 +30,17 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
     public Boolean publishBadge;
     public String shortDescription;
     public Integer companyID;
+    public String state;
+    public String emails;
+    public String validPeriodType;
+    public Integer validPeriod;
+    public long createdDate;
+    public Boolean isPublished;
+    public Long scope;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("{id=");
         sb.append(id);
@@ -49,6 +58,20 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         sb.append(shortDescription);
         sb.append(", companyID=");
         sb.append(companyID);
+        sb.append(", state=");
+        sb.append(state);
+        sb.append(", emails=");
+        sb.append(emails);
+        sb.append(", validPeriodType=");
+        sb.append(validPeriodType);
+        sb.append(", validPeriod=");
+        sb.append(validPeriod);
+        sb.append(", createdDate=");
+        sb.append(createdDate);
+        sb.append(", isPublished=");
+        sb.append(isPublished);
+        sb.append(", scope=");
+        sb.append(scope);
         sb.append("}");
 
         return sb.toString();
@@ -89,6 +112,35 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
 
         lfCertificateImpl.setCompanyID(companyID);
 
+        if (state == null) {
+            lfCertificateImpl.setState(StringPool.BLANK);
+        } else {
+            lfCertificateImpl.setState(state);
+        }
+
+        if (emails == null) {
+            lfCertificateImpl.setEmails(StringPool.BLANK);
+        } else {
+            lfCertificateImpl.setEmails(emails);
+        }
+
+        if (validPeriodType == null) {
+            lfCertificateImpl.setValidPeriodType(StringPool.BLANK);
+        } else {
+            lfCertificateImpl.setValidPeriodType(validPeriodType);
+        }
+
+        lfCertificateImpl.setValidPeriod(validPeriod);
+
+        if (createdDate == Long.MIN_VALUE) {
+            lfCertificateImpl.setCreatedDate(null);
+        } else {
+            lfCertificateImpl.setCreatedDate(new Date(createdDate));
+        }
+
+        lfCertificateImpl.setIsPublished(isPublished);
+        lfCertificateImpl.setScope(scope);
+
         lfCertificateImpl.resetOriginalValues();
 
         return lfCertificateImpl;
@@ -104,6 +156,13 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         publishBadge = objectInput.readBoolean();
         shortDescription = objectInput.readUTF();
         companyID = objectInput.readInt();
+        state = objectInput.readUTF();
+        emails = objectInput.readUTF();
+        validPeriodType = objectInput.readUTF();
+        validPeriod = objectInput.readInt();
+        createdDate = objectInput.readLong();
+        isPublished = objectInput.readBoolean();
+        scope = objectInput.readLong();
     }
 
     @Override
@@ -139,5 +198,28 @@ public class LFCertificateCacheModel implements CacheModel<LFCertificate>,
         }
 
         objectOutput.writeInt(companyID);
+
+        if (state == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(state);
+        }
+
+        if (emails == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(emails);
+        }
+
+        if (validPeriodType == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(validPeriodType);
+        }
+
+        objectOutput.writeInt(validPeriod);
+        objectOutput.writeLong(createdDate);
+        objectOutput.writeBoolean(isPublished);
+        objectOutput.writeLong(scope);
     }
 }

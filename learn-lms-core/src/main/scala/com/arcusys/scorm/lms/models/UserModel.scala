@@ -6,5 +6,4 @@ package com.arcusys.scorm.lms.models
 case class UserModel(
   id: BigInt,
   login: String,
-  portrait: BigInt
-)
+  portrait: BigInt)

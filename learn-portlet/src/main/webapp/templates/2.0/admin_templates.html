@@ -1,0 +1,109 @@
+<script type="text/mustache" id="manageRolesTemplate">
+    <div id="modalTemplateDiv"></div>
+    <div class="SCORMPackageListHeader">
+        <h4 class="valamis" style="float:left; padding:7px 7px 0px 7px;">{{teacherPermissionsHeaderLabel}}</h4>
+        <div class="SCORMPackageListHeaderButtons">
+            <button id="addTeacher" class="button valamis medium green val-icon-plus" style="margin-right: 6px;">
+                Add role
+            </button>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+
+    <table style="width: 100%" cellpadding="0" cellspacing="0" class="roleTable" id="teacherRoleTable">
+        <thead>
+        <tr>
+            <th scope="col" class="thinColumn scormPackageIDColumn sortable listTitle" ref="id">
+                {{packageListIDHeaderLabel}}
+            </th>
+            <th scope="col" class="wideColumn scormPackageTitleColumn sortable listTitle" ref="title">
+                {{packageListTitleHeaderLabel}}
+            </th>
+            <th scope="col" class="thinColumn listTitle">{{packageListIsDefaultHeaderLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="teacherRoleList">
+        </tbody>
+    </table>
+    </div>
+
+    <div class="SCORMPackageListHeader" style="margin-top:20px;">
+        <h4 class="valamis" style="float:left; padding:7px 7px 0px 7px;">{{studentPermissionsHeaderLabel}}</h4>
+        <div class="SCORMPackageListHeaderButtons">
+            <button id="addStudent" class="button valamis medium green val-icon-plus " style="margin-right: 6px;">
+                {{addRoleButtonLabel}}
+            </button>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+    <table style="width: 100%" cellpadding="0" cellspacing="0" class="roleTable" id="studentRoleTable">
+        <thead>
+        <tr>
+            <th scope="col" class="thinColumn sortable listTitle" ref="id">{{packageListIDHeaderLabel}}
+            </th>
+            <th scope="col" class="wideColumn sortable listTitle" ref="title">
+                {{packageListTitleHeaderLabel}}
+            </th>
+            <th scope="col" class="thinColumn listTitle">{{packageListIsDefaultHeaderLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="studentRoleList">
+        </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/mustache" id="roleItemTemplate">
+    <td>{{liferayRoleId}}</td>
+    <td>
+        <div>{{name}}</div>
+        <div class="roleDescription">{{description}}</div>
+    </td>
+    <td><input type="checkbox" id="isDefaultRole" {{#isDefault}}checked{{/isDefault}} /></td>
+    <td>
+        <button id="removeRole" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<script type="text/mustache" id="liferayRoleDialogView">
+    <div id="liferayRoleDialog">
+        <div id="roleList">
+        </div>
+    </div>
+</script>
+<script type="text/mustache" id="liferayRoleElementView">
+    <div id="liferaySiteElement" class="portlet-learn-scorm select-role-element">
+        <button id="selectSiteButton"
+                class="button valamis big green val-icon-check no-text quizManagementButton"></button>
+        <div><b>{{roleName}}</b></div>
+        <div style="margin-top:5px; margin-left: 20px">{{description}}</div>
+        <br>
+        <hr>
+    </div>
+</script>
+
+<script type="text/template" id="modals-template">
+    <div class="modals-container valamis"></div>
+</script>
+
+<script type="text/template" id="modal-template-roles">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">Select role</h3>
+
+        <div class="modal-close">
+        </div>
+    </div>
+    <div class="bbm-modal__section select-role-dialog">
+    </div>
+</script>
+
+<script type="text/mustache" id="deleteConfirmationTemplate">
+    <div>{{renewDatabaseWarningLabel}}<br/>
+        <button class='confirmation btn btn-primary'>{{yesLabel}}</button>
+        <button class='btn' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
+    </div>
+</script>

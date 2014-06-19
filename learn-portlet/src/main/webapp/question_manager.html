@@ -1,0 +1,130 @@
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <title>Questionbank editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="text/template" id="bank-edit-question-modal-template">
+        <div class="valamis-tabs">
+            <div class="modal-close"></div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#questionDetails"  data-toggle="tab">{{editQuestionLabel}}</a></li>
+                <li><a href="#answerDetails" data-toggle="tab">{{editAnswerLabel}}</a></li>
+            </ul>
+
+            <div id="questionEditDialog" class="tab-content bank-edit-dialog" style="position: relative">
+            </div>
+
+        </div>
+    </script>
+    <script type="text/template" id="bank-edit-category-modal-template">
+        <div class="bbm-modal__topbar add-members-modal">
+            <h3 class="bbm-modal__title valamis">{{editCategoryLabel}}</h3>
+
+            <div class="modal-close">
+            </div>
+        </div>
+
+        <div class="bbm-modal__section bank-edit-dialog">
+        </div>
+
+    </script>
+
+    <script type="text/javascript">
+        var jQuery1816Bank = jQuery.noConflict();
+        var scormQuestionBankLanguageData = {};
+
+        jQuery1816Bank(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
+            var defaultURL = Utils.getContextPath() + '/i18n/questionbank_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);
+        });
+
+        function onBankLanguageLoad(properties) {
+            scormQuestionBankLanguageData = properties;
+            initBankView();
+        }
+
+        function onBankLanguageError() {
+            alert('Translation resource loading failed!');
+        }
+
+        function initBankView() {
+            var bankView = new QuestionBankView({
+                el: jQuery1816Bank('#questionBankBody'), language: scormQuestionBankLanguageData
+            });
+            bankView.on('questionPopup', function (model) {
+                var details = new EditQuestionModal({model: model});
+                editBankLayout.modals.show(details);
+                details.renderEditor();
+            }, this);
+            bankView.on('categoryPopup', function (model) {
+                var details = new EditCategoryModal({model: model});
+                editBankLayout.modals.show(details);
+                details.renderEditor();
+            }, this);
+
+        }
+
+        var EditBankLayout = Backbone.Marionette.Layout.extend({
+            template: _.template(Mustache.to_html(jQuery('#questionbank-modals-template').html(), scormQuestionBankLanguageData)),
+            regions: {
+                modals: {
+                    selector: '.bank-modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
+            }
+        });
+
+
+        var editBankLayout = new EditBankLayout();
+        jQuery('body').append(editBankLayout.render().el);
+
+        var EditQuestionModal = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQuery('#bank-edit-question-modal-template').html(), scormQuestionBankLanguageData)),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            initialize: function (options) {
+                this.model = options.model;
+            },
+            onRender: function () {
+                this.dialog = new EntityView({el: this.$('.bank-edit-dialog'), language: scormQuestionBankLanguageData});
+                this.dialog.renderEditQuestion(this.model);
+                this.dialog.on('qb-entity-updated', this.close, this);
+            },
+            renderEditor: function () {
+                this.dialog.renderEditor();
+            }
+        });
+        var EditCategoryModal = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQuery('#bank-edit-category-modal-template').html(), scormQuestionBankLanguageData)),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            initialize: function (options) {
+                this.model = options.model;
+            },
+            onRender: function () {
+                this.catView = new EntityView({language: scormQuestionBankLanguageData});
+                this.catView.on('qb-entity-updated', this.close, this);
+                this.$('.bank-edit-dialog').append(this.catView.render(this.model).$el);
+                this.catView.edit();
+            },
+            renderEditor: function () {
+                this.catView.renderEditor();
+            }
+        });
+    </script>
+</head>
+<body>
+
+<div id="questionBankBody">
+
+</div>
+
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+
+</body>
+</html>

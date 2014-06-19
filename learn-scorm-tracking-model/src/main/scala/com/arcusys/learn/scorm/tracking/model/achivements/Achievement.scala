@@ -1,9 +1,8 @@
 package com.arcusys.learn.scorm.tracking.model.achivements
 
-import java.util.Date
+import org.joda.time.DateTime
 
-
-object AchievementActivity extends Enumeration{
+object AchievementActivity extends Enumeration {
   type CertificateActionType = Value
   val PassedAchievement = Value(1)
   val NewAchievement = Value(2)
@@ -18,36 +17,28 @@ object AchievementActivity extends Enumeration{
  */
 
 // Achievement
-case class Achievement
-(
+case class Achievement(
   id: Int = -1,
   title: String = "New achievement",
   description: String = "Achievement info",
   logo: String = "/learn-portlet/img/certificate-default.png",
-  startDate: Date = new java.util.Date
-)
+  startDate: DateTime = new DateTime)
 
 // Activities required to complete achievement
-case class RequiredActivity
-(
+case class RequiredActivity(
   id: Int = -1,
   achievementId: Int,
   activityClassName: String = "",
-  numberActivitiesRequired: Int = 0
-)
+  numberActivitiesRequired: Int = 0)
 
 // Achievement completed
-case class AchievementActivity
-(
+case class AchievementActivity(
   id: Int,
   userId: Int,
-  achievementId: Int
-)
+  achievementId: Int)
 
 // Class for users, who want to participate in Achievement
-case class AchievementUser
-(
+case class AchievementUser(
   id: Int = -1,
   userId: Int,
-  achievementId: Int
-)
+  achievementId: Int)

@@ -7,13 +7,11 @@ package com.arcusys.learn.scorm.manifest.model
  * @param flowForChildren           Learner permitted to navigate forward and backward in the children of this activity. Has no effect on leaf activities
  * @param forwardOnlyForChildren    Learner not permitted to navigate backwards in the children of this activity using 'previous' or 'choice' requests. Has no effect on leaf activities
  */
-class SequencingPermissions
-(
+class SequencingPermissions(
   val choiceForChildren: Boolean,
   val choiceForNonDescendants: Boolean,
   val flowForChildren: Boolean,
-  val forwardOnlyForChildren: Boolean
-  )
+  val forwardOnlyForChildren: Boolean)
 
 /**
  * Factory for sequencing permissions

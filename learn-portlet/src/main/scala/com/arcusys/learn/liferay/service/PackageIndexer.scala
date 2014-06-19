@@ -8,7 +8,7 @@ import java.util
 import com.arcusys.learn.ioc.InjectableFactory
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.FieldHelper
-import com.arcusys.learn.liferay.util.{ValidatorHelper, StringUtilHelper, GetterUtilHelper, SearchEngineUtilHelper}
+import com.arcusys.learn.liferay.util.{ ValidatorHelper, StringUtilHelper, GetterUtilHelper, SearchEngineUtilHelper }
 import com.arcusys.learn.liferay.helpers.IndexerHelper
 
 object PackageIndexer {
@@ -41,18 +41,18 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
 
   protected def doDelete(obj: Object) {
     val pkg = obj match {
-      case s: Manifest => s
+      case s: Manifest    => s
       case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
-      case _ => obj.asInstanceOf[Manifest]
+      case _              => obj.asInstanceOf[Manifest]
     }
     deleteDocument(assetHelper.getAssetFromManifest(pkg).getCompanyId, pkg.assetRefID.get)
   }
 
   protected def doGetDocument(obj: Object) = {
     val pkg = obj match {
-      case s: Manifest => s
+      case s: Manifest    => s
       case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
-      case _ => obj.asInstanceOf[Manifest]
+      case _              => obj.asInstanceOf[Manifest]
     }
 
     val document = new LDocumentImpl
@@ -85,9 +85,9 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
 
   protected def doReindex(obj: Object) {
     val pkg = obj match {
-      case s: Manifest => s
+      case s: Manifest    => s
       case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
-      case _ => obj.asInstanceOf[Manifest]
+      case _              => obj.asInstanceOf[Manifest]
     }
     SearchEngineUtilHelper.updateDocument(getSearchEngineId, assetHelper.getAssetFromManifest(pkg).getCompanyId, getDocument(pkg))
   }

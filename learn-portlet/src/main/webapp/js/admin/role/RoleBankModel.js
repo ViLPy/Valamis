@@ -49,7 +49,7 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
     },
 
     createRoleMap:function (roleID, permission) {
-        return window.LearnAjax.post(Utils.getContextPath() + "services/roles/add/" + roleID + "/" + permission);
+        return window.LearnAjax.post(Utils.getContextPath() + "api/roles/add/" + roleID + "/" + permission);
     },
 
     drop:function () {
@@ -72,7 +72,7 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
             }, this));
     },
     getRolesList:function (permission) {
-        return window.LearnAjax.get(Utils.getContextPath() + "services/roles/" + permission);
+        return window.LearnAjax.get(Utils.getContextPath() + "api/roles/" + permission);
     }
 });
 
@@ -80,7 +80,9 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
 RoleView = Backbone.View.extend({
     events:{
         "click":"setActive",
-        "click #isDefaultRole":"updateDefault"
+        "click #isDefaultRole":"updateDefault",
+        "click #removeRole": "removeRole"
+
     },
 
     initialize:function () {
@@ -110,5 +112,9 @@ RoleView = Backbone.View.extend({
 
     onDestroy:function () {
         this.remove();
+    },
+
+    removeRole: function() {
+        alert("here should be removing");
     }
 });

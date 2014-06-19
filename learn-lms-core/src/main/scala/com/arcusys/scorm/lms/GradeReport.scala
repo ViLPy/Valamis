@@ -13,13 +13,13 @@ abstract class GradeReportNode(val activity: Activity) {
 
   def weightedCorrectShare: Option[Double] = correctShare map (_ * weight)
 
-  override def toString = "Activity: "+activity.id + "/" +activity.title +",\n Correct share: "+correctShare+",\nWeight"+weight+",\nCorrect count: "+weightedCorrectShare
+  override def toString = "Activity: " + activity.id + "/" + activity.title + ",\n Correct share: " + correctShare + ",\nWeight" + weight + ",\nCorrect count: " + weightedCorrectShare
 }
 
 class GradeReportLeaf(override val activity: LeafActivity,
-                      val score:Option[Double],
-                      val text: Option[String], val userResponse:Option[String], val attemptCompleted:Boolean, val essayCommentText:String, val packID:Int, val questType: Option[String])
-  extends GradeReportNode(activity) {
+  val score: Option[Double],
+  val text: Option[String], val userResponse: Option[String], val attemptCompleted: Boolean, val essayCommentText: String, val packID: Int, val questType: Option[String])
+    extends GradeReportNode(activity) {
   val correctShare = score
   val essayComment = essayCommentText
   val weight = 1.0
@@ -27,28 +27,28 @@ class GradeReportLeaf(override val activity: LeafActivity,
   val questionType = questType
 }
 
-class GradeReportBranch(override val activity: ContainerActivity, val children: Seq[GradeReportNode], val essayCommentText:String, val packID:Int)
-  extends GradeReportNode(activity) {
-  val weight = children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weight)
+class GradeReportBranch(override val activity: ContainerActivity, val children: Seq[GradeReportNode], val essayCommentText: String, val packID: Int)
+    extends GradeReportNode(activity) {
+  val weight = children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weight)
   // TODO: be aware of Double.NaN in case if weight == 0.0
-  val correctShare = if (weight == 0.0 || children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).find(_.weightedCorrectShare.isEmpty).isDefined) None
-                     else Some(children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weightedCorrectShare.get) / weight)
+  val correctShare = if (weight == 0.0 || children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).find(_.weightedCorrectShare.isEmpty).isDefined) None
+  else Some(children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weightedCorrectShare.get) / weight)
   val essayComment = essayCommentText
   val packageID = packID
   val questionType = None
-  override def toString = super.toString + ",\nChildren: "+children
+  override def toString = super.toString + ",\nChildren: " + children
 }
 
-class GradeReportRoot(override val activity: Organization, val children: Seq[GradeReportNode], val essayCommentText:String, val packID: Int)
-  extends GradeReportNode(activity) {
-  val weight = children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weight)
+class GradeReportRoot(override val activity: Organization, val children: Seq[GradeReportNode], val essayCommentText: String, val packID: Int)
+    extends GradeReportNode(activity) {
+  val weight = children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weight)
   // TODO: be aware of Double.NaN in case if weight == 0.0
-  val correctShare = if (weight == 0.0 || children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).find(_.weightedCorrectShare.isEmpty).isDefined) None
-                     else Some(children.filter(item=> item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weightedCorrectShare.get) / weight)
+  val correctShare = if (weight == 0.0 || children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).find(_.weightedCorrectShare.isEmpty).isDefined) None
+  else Some(children.filter(item => item.weightedCorrectShare.isDefined || item.questionType == Some("long_fill_in")).foldLeft(0.0)(_ + _.weightedCorrectShare.get) / weight)
   val essayComment = essayCommentText
   val packageID = packID
   val questionType = None
-  override def toString = super.toString + ",\nChildren: "+children
+  override def toString = super.toString + ",\nChildren: " + children
 }
 
 object GradeReport {

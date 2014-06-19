@@ -67,7 +67,7 @@ abstract class TreeNodeBase[TItem, TSelf <: TreeNodeBase[TItem, TSelf]](val item
       other.parent match {
         // If we target the root, include all activities from current up to the root
         case None =>
-          if(includeCommonAncestor) currentActivityPath else (currentActivityPath.dropRight(1))
+          if (includeCommonAncestor) currentActivityPath else (currentActivityPath.dropRight(1))
         case Some(parent) => {
           //Otherwise all activities from the current one up to, but not including the common root must be terminated
           val ancestor = commonAncestor(other).get
@@ -76,7 +76,7 @@ abstract class TreeNodeBase[TItem, TSelf <: TreeNodeBase[TItem, TSelf]](val item
           //We're selecting an activity above the current one. Exit it, too
           //else if (ancestor == other) currentActivityPath.slice(0, currentActivityPath.indexOf(ancestor)+(if(includeCommonAncestor) 2 else 1))
           //Exit everything from current activity up to but not including the common ancestor
-          else currentActivityPath.slice(0, currentActivityPath.indexOf(ancestor)+(if(includeCommonAncestor) 1 else 0))
+          else currentActivityPath.slice(0, currentActivityPath.indexOf(ancestor) + (if (includeCommonAncestor) 1 else 0))
         }
       }
     }

@@ -21,51 +21,49 @@ package com.arcusys.learn.scorm.manifest.model
  * @param exitConditionRules                              Rules which are applied when an attempt on a descendant activity terminates
  * @param rollupRules                                     Rules which are applied to the activity during its rollup
  */
-class Sequencing
-(
-  val sharedId: Option[String],
-  val sharedSequencingIdReference: Option[String],
-  val permissions: SequencingPermissions,
-  val onlyCurrentAttemptObjectiveProgressForChildren: Boolean,
-  val onlyCurrentAttemptAttemptProgressForChildren: Boolean,
-  val attemptLimit: Option[Int],
-  val durationLimitInMilliseconds: Option[Long],
-  val rollupContribution: RollupContribution,
-  val primaryObjective: Option[Objective],
-  val nonPrimaryObjectives: Seq[Objective],
-  val childrenSelection: ChildrenSelection,
-  val tracking: Option[SequencingTracking],
-  val preventChildrenActivation: Boolean,
-  val constrainChoice: Boolean,
-  val preConditionRules: Seq[PreConditionRule],
-  val postConditionRules: Seq[PostConditionRule],
-  val exitConditionRules: Seq[ExitConditionRule],
-  val rollupRules: Seq[RollupRule]
-  ) {
+class Sequencing(
+    val sharedId: Option[String],
+    val sharedSequencingIdReference: Option[String],
+    val permissions: SequencingPermissions,
+    val onlyCurrentAttemptObjectiveProgressForChildren: Boolean,
+    val onlyCurrentAttemptAttemptProgressForChildren: Boolean,
+    val attemptLimit: Option[Int],
+    val durationLimitInMilliseconds: Option[Long],
+    val rollupContribution: RollupContribution,
+    val primaryObjective: Option[Objective],
+    val nonPrimaryObjectives: Seq[Objective],
+    val childrenSelection: ChildrenSelection,
+    val tracking: Option[SequencingTracking],
+    val preventChildrenActivation: Boolean,
+    val constrainChoice: Boolean,
+    val preConditionRules: Seq[PreConditionRule],
+    val postConditionRules: Seq[PostConditionRule],
+    val exitConditionRules: Seq[ExitConditionRule],
+    val rollupRules: Seq[RollupRule]) {
   require(nonPrimaryObjectives.forall(_.id.isDefined), "All non-primary objectives must have IDs defined")
   private val nonPrimaryObjectiveMap = nonPrimaryObjectives.map(o => o.id.get -> o).toMap
   require(nonPrimaryObjectiveMap.size == nonPrimaryObjectives.size, "All non-primary objective IDs must be unique")
   require(primaryObjective.isEmpty || primaryObjective.get.id.isEmpty || !nonPrimaryObjectiveMap.contains(primaryObjective.get.id.get), "Primary objective can't have same ID as non-primary objective")
   private val allObjectives = primaryObjective.toSeq ++ nonPrimaryObjectives
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeNormalizedMeasureTo).forall(_._2.count(_.globalObjectiveMap.writeNormalizedMeasureTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeNormalizedMeasureTo).forall(_._2.count(_.globalObjectiveMap.writeNormalizedMeasureTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeNormalizedMeasure` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeSatisfiedStatusTo).forall(_._2.count(_.globalObjectiveMap.writeSatisfiedStatusTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeSatisfiedStatusTo).forall(_._2.count(_.globalObjectiveMap.writeSatisfiedStatusTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeSatisfiedStatus` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeRawScoreTo).forall(_._2.count(_.globalObjectiveMap.writeRawScoreTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeRawScoreTo).forall(_._2.count(_.globalObjectiveMap.writeRawScoreTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeRawScore` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeMinScoreTo).forall(_._2.count(_.globalObjectiveMap.writeMinScoreTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeMinScoreTo).forall(_._2.count(_.globalObjectiveMap.writeMinScoreTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeMinScore` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeMaxScoreTo).forall(_._2.count(_.globalObjectiveMap.writeMaxScoreTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeMaxScoreTo).forall(_._2.count(_.globalObjectiveMap.writeMaxScoreTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeMaxScore` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeCompletionStatusTo).forall(_._2.count(_.globalObjectiveMap.writeCompletionStatusTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeCompletionStatusTo).forall(_._2.count(_.globalObjectiveMap.writeCompletionStatusTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeCompletionStatus` attribute as true for activity")
 
-  require (allObjectives.groupBy(_.globalObjectiveMap.writeProgressMeasureTo).forall(_._2.count(_.globalObjectiveMap.writeProgressMeasureTo.isDefined) <=1 ),
+  require(allObjectives.groupBy(_.globalObjectiveMap.writeProgressMeasureTo).forall(_._2.count(_.globalObjectiveMap.writeProgressMeasureTo.isDefined) <= 1),
     "More than one <primaryObjective> or <objective> element per activity defines `writeProgressMeasure` attribute as true for activity")
 }
 

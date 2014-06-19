@@ -10,6 +10,6 @@ abstract class NavigationRequestServiceTestBase(requestType: NavigationRequestTy
   }
 
   protected def expectResultWithTarget(result: NavigationResponse, testTreesAndTargets: (ActivityStateTree, ActivityStateTree => String)*) {
-    testTreesAndTargets.foreach(treeAndTarget => {navigation(treeAndTarget._1, requestType, treeAndTarget._2(treeAndTarget._1)) should equal(result)})
+    testTreesAndTargets.foreach(treeAndTarget => { navigation(treeAndTarget._1, requestType, treeAndTarget._2(treeAndTarget._1)) should equal(result) })
   }
 }

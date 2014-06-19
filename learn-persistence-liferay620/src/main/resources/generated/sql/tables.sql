@@ -117,7 +117,32 @@ create table Learn_LFCertificate (
 	isPermanent BOOLEAN null,
 	publishBadge BOOLEAN null,
 	shortDescription VARCHAR(75) null,
-	companyID INTEGER null
+	companyID INTEGER null,
+	state_ VARCHAR(75) null,
+	emails VARCHAR(75) null,
+	validPeriodType VARCHAR(75) null,
+	validPeriod INTEGER null,
+	createdDate DATE null,
+	isPublished BOOLEAN null,
+	scope LONG null
+);
+
+create table Learn_LFCertificateActivity (
+	certificateID LONG not null,
+	activityName VARCHAR(75) not null,
+	datacount INTEGER null,
+	periodType VARCHAR(75) null,
+	period INTEGER null,
+	primary key (certificateID, activityName)
+);
+
+create table Learn_LFCertificateCourse (
+	certificateID LONG not null,
+	courseID LONG not null,
+	arrangementIndex INTEGER null,
+	periodType VARCHAR(75) null,
+	period INTEGER null,
+	primary key (certificateID, courseID)
 );
 
 create table Learn_LFCertificateSite (
@@ -127,10 +152,28 @@ create table Learn_LFCertificateSite (
 	arrangementIndex INTEGER null
 );
 
+create table Learn_LFCertificateTincanStatement (
+	certificateID LONG not null,
+	verb VARCHAR(75) not null,
+	object VARCHAR(75) not null,
+	periodType VARCHAR(75) null,
+	period INTEGER null,
+	primary key (certificateID, verb, object)
+);
+
+create table Learn_LFCertificateToUser (
+	certificateID INTEGER not null,
+	userID INTEGER not null,
+	status VARCHAR(75) null,
+	addedToUserDate DATE null,
+	primary key (certificateID, userID)
+);
+
 create table Learn_LFCertificateUser (
-	id_ LONG not null primary key,
-	certificateID INTEGER null,
-	userID INTEGER null
+	certificateID LONG not null,
+	userID LONG not null,
+	attachedDate DATE null,
+	primary key (certificateID, userID)
 );
 
 create table Learn_LFChildrenSelection (
@@ -224,7 +267,8 @@ create table Learn_LFPackage (
 	resourcesBase TEXT null,
 	summary TEXT null,
 	assetRefID LONG null,
-	courseID INTEGER null
+	courseID INTEGER null,
+	logo TEXT null
 );
 
 create table Learn_LFPackageComment (
@@ -233,6 +277,14 @@ create table Learn_LFPackageComment (
 	authorID INTEGER null,
 	comment_ VARCHAR(75) null,
 	publishDate DATE null
+);
+
+create table Learn_LFPackageGradeStorage (
+	userId LONG not null,
+	packageId LONG not null,
+	grade VARCHAR(75) null,
+	comment_ VARCHAR(75) null,
+	primary key (userId, packageId)
 );
 
 create table Learn_LFPackageScopeRule (
@@ -283,6 +335,7 @@ create table Learn_LFQuiz (
 	id_ LONG not null primary key,
 	title TEXT null,
 	description TEXT null,
+	logo VARCHAR(75) null,
 	welcomePageContent TEXT null,
 	finalPageContent TEXT null,
 	courseID INTEGER null
@@ -306,6 +359,15 @@ create table Learn_LFQuizQuestionCategory (
 	description TEXT null,
 	quizId INTEGER null,
 	parentId INTEGER null,
+	arrangementIndex INTEGER null
+);
+
+create table Learn_LFQuizTreeElement (
+	id_ LONG not null primary key,
+	quizID INTEGER null,
+	elementID VARCHAR(75) null,
+	isCategory BOOLEAN null,
+	parentID VARCHAR(75) null,
 	arrangementIndex INTEGER null
 );
 
@@ -523,7 +585,7 @@ create table Learn_LFTincanLrsResult (
 	success BOOLEAN null,
 	completion BOOLEAN null,
 	response TEXT null,
-	duration DOUBLE null,
+	duration VARCHAR(75) null,
 	extension TEXT null
 );
 
@@ -532,7 +594,6 @@ create table Learn_LFTincanLrsState (
 	stateId VARCHAR(75) null,
 	documentId VARCHAR(75) null,
 	activityId VARCHAR(75) null,
-	profileId VARCHAR(75) null,
 	registration TEXT null,
 	agentId INTEGER null
 );
@@ -583,7 +644,8 @@ create table Learn_LFTincanPackage (
 	title VARCHAR(2000) null,
 	summary VARCHAR(2000) null,
 	assetRefID LONG null,
-	courseID INTEGER null
+	courseID INTEGER null,
+	logo TEXT null
 );
 
 create table Learn_LFUser (

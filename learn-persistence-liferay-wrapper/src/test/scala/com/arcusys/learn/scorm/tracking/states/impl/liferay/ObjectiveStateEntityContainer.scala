@@ -5,7 +5,6 @@ import com.arcusys.learn.persistence.liferay.service.LFObjectiveStateLocalServic
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 import scala.collection.JavaConverters._
 
-
 object ObjectiveStateEntityContainer extends MockEntityContainer[LFObjectiveStateLocalService, LFObjectiveState] {
   lazy val mockLocalService = mock[LFObjectiveStateLocalService]
   lazy val mockServiceBeanName = classOf[LFObjectiveStateLocalService].getName

@@ -22,6 +22,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
     private long _id;
     private String _title;
     private String _description;
+    private String _logo;
     private String _welcomePageContent;
     private String _finalPageContent;
     private Integer _courseID;
@@ -67,6 +68,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
@@ -92,6 +94,12 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
         if (description != null) {
             setDescription(description);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
 
         String welcomePageContent = (String) attributes.get(
@@ -174,6 +182,28 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
                 Method method = clazz.getMethod("setDescription", String.class);
 
                 method.invoke(_lfQuizRemoteModel, description);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public String getLogo() {
+        return _logo;
+    }
+
+    @Override
+    public void setLogo(String logo) {
+        _logo = logo;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLogo", String.class);
+
+                method.invoke(_lfQuizRemoteModel, logo);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -318,6 +348,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         clone.setId(getId());
         clone.setTitle(getTitle());
         clone.setDescription(getDescription());
+        clone.setLogo(getLogo());
         clone.setWelcomePageContent(getWelcomePageContent());
         clone.setFinalPageContent(getFinalPageContent());
         clone.setCourseID(getCourseID());
@@ -366,7 +397,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{id=");
         sb.append(getId());
@@ -374,6 +405,8 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         sb.append(getTitle());
         sb.append(", description=");
         sb.append(getDescription());
+        sb.append(", logo=");
+        sb.append(getLogo());
         sb.append(", welcomePageContent=");
         sb.append(getWelcomePageContent());
         sb.append(", finalPageContent=");
@@ -387,7 +420,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuiz");
@@ -404,6 +437,10 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         sb.append(
             "<column><column-name>description</column-name><column-value><![CDATA[");
         sb.append(getDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>welcomePageContent</column-name><column-value><![CDATA[");
