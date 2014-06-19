@@ -1,16 +1,14 @@
 package com.arcusys.scorm.lms
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
-import org.junit.runner.RunWith
-import com.escalatesoft.subcut.inject.NewBindingModule
-import com.arcusys.learn.scorm.tracking.model._
-import org.scalamock.scalatest.MockFactory
-import org.scalamock.ProxyMockFactory
 import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.scorm.tracking.model._
+import com.escalatesoft.subcut.inject.NewBindingModule
+import org.scalatest.{ Matchers, FlatSpec }
+import org.scalamock.scalatest.MockFactory
+import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class DataModelLMSBehaviorTest extends FlatSpec with ShouldMatchers with MockFactory with ProxyMockFactory {
+class DataModelLMSBehaviorTest extends FlatSpec with Matchers with MockFactory {
   private val storageFactory = mock[StorageFactoryContract]
   val someAttempt = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)
   val attemptWithoutCurrentActivity = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)

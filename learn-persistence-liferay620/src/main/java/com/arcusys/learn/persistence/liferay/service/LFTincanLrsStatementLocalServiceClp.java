@@ -57,6 +57,8 @@ public class LFTincanLrsStatementLocalServiceClp
     private String[] _methodParameterTypes23;
     private String _methodName24;
     private String[] _methodParameterTypes24;
+    private String _methodName25;
+    private String[] _methodParameterTypes25;
 
     public LFTincanLrsStatementLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -177,6 +179,15 @@ public class LFTincanLrsStatementLocalServiceClp
         _methodName24 = "findByTincanID";
 
         _methodParameterTypes24 = new String[] { "java.lang.String" };
+
+        _methodName25 = "findBy";
+
+        _methodParameterTypes25 = new String[] {
+                "java.lang.String", "java.lang.String", "java.lang.Integer",
+                "java.lang.String", "java.lang.Integer", "java.lang.String",
+                "java.util.Date", "java.util.Date", "java.lang.Boolean",
+                "java.lang.Boolean", "java.lang.Boolean", "java.lang.Integer"
+            };
     }
 
     @Override
@@ -865,5 +876,67 @@ public class LFTincanLrsStatementLocalServiceClp
         }
 
         return (com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement> findBy(
+        java.lang.String statementID, java.lang.String voidedStatementID,
+        java.lang.Integer actorID, java.lang.String verbID,
+        java.lang.Integer objID, java.lang.String registration,
+        java.util.Date since, java.util.Date until,
+        java.lang.Boolean related_activities, java.lang.Boolean related_agents,
+        java.lang.Boolean ascending, java.lang.Integer limit)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName25,
+                    _methodParameterTypes25,
+                    new Object[] {
+                        ClpSerializer.translateInput(statementID),
+                        
+                    ClpSerializer.translateInput(voidedStatementID),
+                        
+                    ClpSerializer.translateInput(actorID),
+                        
+                    ClpSerializer.translateInput(verbID),
+                        
+                    ClpSerializer.translateInput(objID),
+                        
+                    ClpSerializer.translateInput(registration),
+                        
+                    ClpSerializer.translateInput(since),
+                        
+                    ClpSerializer.translateInput(until),
+                        
+                    ClpSerializer.translateInput(related_activities),
+                        
+                    ClpSerializer.translateInput(related_agents),
+                        
+                    ClpSerializer.translateInput(ascending),
+                        
+                    ClpSerializer.translateInput(limit)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException) {
+                throw (com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException) t;
+            }
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement>) ClpSerializer.translateOutput(returnObj);
     }
 }

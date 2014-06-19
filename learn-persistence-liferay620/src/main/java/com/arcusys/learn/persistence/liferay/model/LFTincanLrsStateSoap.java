@@ -16,7 +16,6 @@ public class LFTincanLrsStateSoap implements Serializable {
     private String _stateId;
     private String _documentId;
     private String _activityId;
-    private String _profileId;
     private String _registration;
     private Integer _agentId;
 
@@ -30,7 +29,6 @@ public class LFTincanLrsStateSoap implements Serializable {
         soapModel.setStateId(model.getStateId());
         soapModel.setDocumentId(model.getDocumentId());
         soapModel.setActivityId(model.getActivityId());
-        soapModel.setProfileId(model.getProfileId());
         soapModel.setRegistration(model.getRegistration());
         soapModel.setAgentId(model.getAgentId());
 
@@ -113,14 +111,6 @@ public class LFTincanLrsStateSoap implements Serializable {
 
     public void setActivityId(String activityId) {
         _activityId = activityId;
-    }
-
-    public String getProfileId() {
-        return _profileId;
-    }
-
-    public void setProfileId(String profileId) {
-        _profileId = profileId;
     }
 
     public String getRegistration() {

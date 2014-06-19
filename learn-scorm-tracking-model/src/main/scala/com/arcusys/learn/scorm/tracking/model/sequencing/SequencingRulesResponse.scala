@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 case class SequencingRulesResponse(terminationRequest: Option[TerminationRequestType.Value] = None,
-                                   sequencingRequest: Option[SequencingRequestType.Value] = None)
+  sequencingRequest: Option[SequencingRequestType.Value] = None)
 
 object SequencingRulesResponse {
   //That ugly option is to avoid type erasure clashes

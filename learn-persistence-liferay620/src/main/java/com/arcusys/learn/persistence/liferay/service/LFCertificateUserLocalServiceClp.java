@@ -55,8 +55,6 @@ public class LFCertificateUserLocalServiceClp
     private String[] _methodParameterTypes22;
     private String _methodName23;
     private String[] _methodParameterTypes23;
-    private String _methodName24;
-    private String[] _methodParameterTypes24;
 
     public LFCertificateUserLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -70,11 +68,15 @@ public class LFCertificateUserLocalServiceClp
 
         _methodName1 = "createLFCertificateUser";
 
-        _methodParameterTypes1 = new String[] { "long" };
+        _methodParameterTypes1 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName2 = "deleteLFCertificateUser";
 
-        _methodParameterTypes2 = new String[] { "long" };
+        _methodParameterTypes2 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName3 = "deleteLFCertificateUser";
 
@@ -120,11 +122,15 @@ public class LFCertificateUserLocalServiceClp
 
         _methodName10 = "fetchLFCertificateUser";
 
-        _methodParameterTypes10 = new String[] { "long" };
+        _methodParameterTypes10 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName11 = "getLFCertificateUser";
 
-        _methodParameterTypes11 = new String[] { "long" };
+        _methodParameterTypes11 = new String[] {
+                "com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK"
+            };
 
         _methodName12 = "getPersistedModel";
 
@@ -152,33 +158,29 @@ public class LFCertificateUserLocalServiceClp
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "createLFCertificateUser";
+        _methodName19 = "findByCertificateID";
 
-        _methodParameterTypes19 = new String[] {  };
+        _methodParameterTypes19 = new String[] { "java.lang.Long" };
 
-        _methodName20 = "findByCertificateID";
+        _methodName20 = "findByUserID";
 
-        _methodParameterTypes20 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes20 = new String[] { "java.lang.Long" };
 
-        _methodName21 = "findByUserID";
+        _methodName21 = "findByUserIDAndCertificateID";
 
-        _methodParameterTypes21 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes21 = new String[] {
+                "java.lang.Long", "java.lang.Long"
+            };
 
-        _methodName22 = "findByUserIDAndCertificateID";
+        _methodName22 = "removeByUserIDAndCertificateID";
 
         _methodParameterTypes22 = new String[] {
-                "java.lang.Integer", "java.lang.Integer"
+                "java.lang.Long", "java.lang.Long"
             };
 
-        _methodName23 = "removeByUserIDAndCertificateID";
+        _methodName23 = "removeAll";
 
-        _methodParameterTypes23 = new String[] {
-                "java.lang.Integer", "java.lang.Integer"
-            };
-
-        _methodName24 = "removeAll";
-
-        _methodParameterTypes24 = new String[] {  };
+        _methodParameterTypes23 = new String[] {  };
     }
 
     @Override
@@ -212,12 +214,15 @@ public class LFCertificateUserLocalServiceClp
 
     @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser(
-        long id) {
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK) {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName1,
-                    _methodParameterTypes1, new Object[] { id });
+                    _methodParameterTypes1,
+                    new Object[] {
+                        ClpSerializer.translateInput(lfCertificateUserPK)
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -234,14 +239,17 @@ public class LFCertificateUserLocalServiceClp
 
     @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser deleteLFCertificateUser(
-        long id)
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName2,
-                    _methodParameterTypes2, new Object[] { id });
+                    _methodParameterTypes2,
+                    new Object[] {
+                        ClpSerializer.translateInput(lfCertificateUserPK)
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -480,12 +488,16 @@ public class LFCertificateUserLocalServiceClp
 
     @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser fetchLFCertificateUser(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
+        throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName10,
-                    _methodParameterTypes10, new Object[] { id });
+                    _methodParameterTypes10,
+                    new Object[] {
+                        ClpSerializer.translateInput(lfCertificateUserPK)
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -506,14 +518,17 @@ public class LFCertificateUserLocalServiceClp
 
     @Override
     public com.arcusys.learn.persistence.liferay.model.LFCertificateUser getLFCertificateUser(
-        long id)
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName11,
-                    _methodParameterTypes11, new Object[] { id });
+                    _methodParameterTypes11,
+                    new Object[] {
+                        ClpSerializer.translateInput(lfCertificateUserPK)
+                    });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -698,40 +713,14 @@ public class LFCertificateUserLocalServiceClp
     }
 
     @Override
-    public com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser()
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByCertificateID(
+        java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19, new Object[] {  });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-                throw (com.liferay.portal.kernel.exception.SystemException) t;
-            }
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
-    }
-
-    @Override
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByCertificateID(
-        java.lang.Integer certificateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+                    _methodParameterTypes19,
                     new Object[] { ClpSerializer.translateInput(certificateID) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -753,13 +742,13 @@ public class LFCertificateUserLocalServiceClp
 
     @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserID(
-        java.lang.Integer userID)
+        java.lang.Long userID)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
                     new Object[] { ClpSerializer.translateInput(userID) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -780,14 +769,15 @@ public class LFCertificateUserLocalServiceClp
     }
 
     @Override
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserIDAndCertificateID(
-        java.lang.Integer userID, java.lang.Integer certificateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public com.arcusys.learn.persistence.liferay.model.LFCertificateUser findByUserIDAndCertificateID(
+        java.lang.Long userID, java.lang.Long certificateID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException,
+            com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName22,
-                    _methodParameterTypes22,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] {
                         ClpSerializer.translateInput(userID),
                         
@@ -795,6 +785,10 @@ public class LFCertificateUserLocalServiceClp
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException) {
+                throw (com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException) t;
+            }
 
             if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
                 throw (com.liferay.portal.kernel.exception.SystemException) t;
@@ -808,16 +802,17 @@ public class LFCertificateUserLocalServiceClp
             }
         }
 
-        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser>) ClpSerializer.translateOutput(returnObj);
+        return (com.arcusys.learn.persistence.liferay.model.LFCertificateUser) ClpSerializer.translateOutput(returnObj);
     }
 
     @Override
-    public void removeByUserIDAndCertificateID(java.lang.Integer userID,
-        java.lang.Integer certificateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public void removeByUserIDAndCertificateID(java.lang.Long userID,
+        java.lang.Long certificateID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException,
+            com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName23,
-                _methodParameterTypes23,
+            _invokableLocalService.invokeMethod(_methodName22,
+                _methodParameterTypes22,
                 new Object[] {
                     ClpSerializer.translateInput(userID),
                     
@@ -825,6 +820,10 @@ public class LFCertificateUserLocalServiceClp
                 });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException) {
+                throw (com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException) t;
+            }
 
             if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
                 throw (com.liferay.portal.kernel.exception.SystemException) t;
@@ -843,8 +842,8 @@ public class LFCertificateUserLocalServiceClp
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName24,
-                _methodParameterTypes24, new Object[] {  });
+            _invokableLocalService.invokeMethod(_methodName23,
+                _methodParameterTypes23, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

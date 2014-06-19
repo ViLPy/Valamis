@@ -2,9 +2,9 @@ package com.arcusys.learn.questionbank.storage.impl.liferay
 
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
-import com.arcusys.learn.persistence.liferay.service.{LFQuestionLocalServiceUtil, LFQuestionLocalService}
+import com.arcusys.learn.persistence.liferay.service.{ LFQuestionLocalServiceUtil, LFQuestionLocalService }
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.questionbank.model.{TextQuestion, Answer, Question}
+import com.arcusys.learn.questionbank.model.{ TextQuestion, Answer, Question }
 import com.arcusys.learn.questionbank.storage.impl.QuestionCreator
 import com.arcusys.learn.storage.impl.liferay.LFStorages
 import util.Random
@@ -77,8 +77,8 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
       val idsInTest = idsBoth ++: idsCategoryOnly ++: idsCourseOnly ++: idsNone
 
       storage.getAll("categoryID" -> categoryId, "courseID" -> courseId).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsBoth ++: idsCategoryOnly)
-      storage.getAll("categoryID" -> categoryId, "courseID" -> -1).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsCategoryOnly )
-      storage.getAll("categoryID" -> -1, "courseID" -> courseId).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsCourseOnly ++: idsNone )
+      storage.getAll("categoryID" -> categoryId, "courseID" -> -1).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsCategoryOnly)
+      storage.getAll("categoryID" -> -1, "courseID" -> courseId).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsCourseOnly ++: idsNone)
       storage.getAll("categoryID" -> -1, "courseID" -> -1).map(_.id).filter(idsInTest.contains(_)) must containTheSameElementsAs(idsNone)
 
     }
@@ -86,7 +86,7 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
 
   "QuestionEntityStorage.create" should {
     "has arrangementIndex == 1 for first entity" in {
-      randomCategory must not (beEqualTo(randomCategory))
+      randomCategory must not(beEqualTo(randomCategory))
 
       val id = LFStorages.questionStorage.createAndGetID(createTextQuestion(randomCategory))
       LFStorages.questionStorage.getByID(id).get.arrangementIndex must beEqualTo(1)
@@ -116,7 +116,7 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
       val moveAfterTarget = true
       LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.categoryID must  beEqualTo(categoryId)
+      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 3),
@@ -130,7 +130,7 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
       val moveAfterTarget = false
       LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.categoryID must  beEqualTo(categoryId)
+      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 2),
@@ -144,7 +144,7 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
       val moveAfterTarget = true
       LFStorages.questionStorage.move(questionId4.id, categoryId, None, moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.categoryID must  beEqualTo(categoryId)
+      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 4),
@@ -165,7 +165,7 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
       case class QuestionId(name: String, id: Int)
       case class ExpectedIndex(question: QuestionId, arrangementIndex: Int)
 
-      def checkArrangementIndex(expected: ExpectedIndex *) {
+      def checkArrangementIndex(expected: ExpectedIndex*) {
         expected.foreach(expectedIndex =>
           (expectedIndex.question.name -> storage.getByID(expectedIndex.question.id).get.arrangementIndex) must beEqualTo(expectedIndex.question.name -> expectedIndex.arrangementIndex)
         )
@@ -182,7 +182,7 @@ object LFQuestionStorageSpec {
   }
 
   def createQuestion(categoryId: Option[Int] = None, title: String = "title", forceCorrectCount: Option[Boolean] = Some(true),
-                     isCaseSensitive: Option[Boolean] = Some(false), courseId: Option[Int] = None, arrangementIndex: Int = 1): Int = {
+    isCaseSensitive: Option[Boolean] = Some(false), courseId: Option[Int] = None, arrangementIndex: Int = 1): Int = {
     storage.createAndGetID(createTextQuestion(categoryId, title, courseId),
       "categoryID" -> categoryId,
       "forceCorrectCount" -> forceCorrectCount,

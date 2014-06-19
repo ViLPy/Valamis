@@ -6,8 +6,8 @@ import com.liferay.portlet.PortletPreferencesFactoryUtil
 
 object PortletPreferencesFactoryUtilHelper {
   def getPortletSetup(layout: Layout,
-                      portletId: String,
-                      defaultPreferences: String): PortletPreferences =
+    portletId: String,
+    defaultPreferences: String): PortletPreferences =
     PortletPreferencesFactoryUtil.getPortletSetup(layout, portletId, defaultPreferences)
 
   def getLayoutPortletSetup(layout: Layout, portletId: String): PortletPreferences =

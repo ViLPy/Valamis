@@ -1,15 +1,15 @@
 package com.arcusys.learn.view
 
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import liferay.LiferayHelpers
-import org.scalatra.ScalatraFilter
+import org.scalatra.{ ScalatraFilter }
 import java.io.FileNotFoundException
 import com.arcusys.learn.service.util.SessionHandler
 import javax.servlet.http.Cookie
 import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.util.MustacheSupport
 
-class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
+class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with TemplateCoupler {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
@@ -18,7 +18,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
     val contextPath = request.getContextPath
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
-    val userID = themeDisplay.getUser.getUserId
+    val userID = if (request.getRemoteUser != null) request.getRemoteUser.toInt else null.asInstanceOf[Int]
     val hasTeacherPermissions = userManagement.hasTeacherPermissions(userID, courseID)
 
     val sessionID = SessionHandler.getSessionID(request.getRemoteUser)
@@ -35,7 +35,9 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
     httpServletRequest.getSession.setAttribute("teacherPermissions", hasTeacherPermissions)
 
     if (hasTeacherPermissions)
-      out.println(generateResponse(contextPath, "scorm_questionbank.html", language, true, courseID))
+      out.println(getTemplate("/templates/2.0/questionbank_templates.html") +
+        getTemplate("/templates/2.0/question_tree_templates.html") +
+        generateResponse(contextPath, "question_manager.html", language, true, courseID))
     else
       out.println(generateResponse(contextPath, "scorm_nopermissions.html", language))
   }
@@ -45,7 +47,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
       getTranslation("/i18n/error_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/error_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language) ++ translations
     mustache(data, templateName)
@@ -56,7 +58,7 @@ class QuestionBankView extends GenericPortlet with ScalatraFilter with MustacheS
       getTranslation("/i18n/questionbank_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/questionbank_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "isPortlet" -> isPortlet, "language" -> language, "courseID" -> courseID) ++ translations
     mustache(data, templateName)

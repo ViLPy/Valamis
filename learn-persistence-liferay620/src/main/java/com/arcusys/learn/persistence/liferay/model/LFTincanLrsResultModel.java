@@ -120,14 +120,15 @@ public interface LFTincanLrsResultModel extends BaseModel<LFTincanLrsResult> {
      *
      * @return the duration of this l f tincan lrs result
      */
-    public Double getDuration();
+    @AutoEscape
+    public String getDuration();
 
     /**
      * Sets the duration of this l f tincan lrs result.
      *
      * @param duration the duration of this l f tincan lrs result
      */
-    public void setDuration(Double duration);
+    public void setDuration(String duration);
 
     /**
      * Returns the extension of this l f tincan lrs result.

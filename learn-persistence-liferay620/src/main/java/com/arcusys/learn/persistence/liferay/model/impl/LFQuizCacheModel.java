@@ -22,13 +22,14 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
     public long id;
     public String title;
     public String description;
+    public String logo;
     public String welcomePageContent;
     public String finalPageContent;
     public Integer courseID;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{id=");
         sb.append(id);
@@ -36,6 +37,8 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         sb.append(title);
         sb.append(", description=");
         sb.append(description);
+        sb.append(", logo=");
+        sb.append(logo);
         sb.append(", welcomePageContent=");
         sb.append(welcomePageContent);
         sb.append(", finalPageContent=");
@@ -65,6 +68,12 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
             lfQuizImpl.setDescription(description);
         }
 
+        if (logo == null) {
+            lfQuizImpl.setLogo(StringPool.BLANK);
+        } else {
+            lfQuizImpl.setLogo(logo);
+        }
+
         if (welcomePageContent == null) {
             lfQuizImpl.setWelcomePageContent(StringPool.BLANK);
         } else {
@@ -89,6 +98,7 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         id = objectInput.readLong();
         title = objectInput.readUTF();
         description = objectInput.readUTF();
+        logo = objectInput.readUTF();
         welcomePageContent = objectInput.readUTF();
         finalPageContent = objectInput.readUTF();
         courseID = objectInput.readInt();
@@ -109,6 +119,12 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(description);
+        }
+
+        if (logo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(logo);
         }
 
         if (welcomePageContent == null) {

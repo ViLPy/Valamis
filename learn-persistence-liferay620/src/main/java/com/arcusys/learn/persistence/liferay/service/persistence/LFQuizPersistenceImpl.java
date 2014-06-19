@@ -1104,6 +1104,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
         lfQuizImpl.setId(lfQuiz.getId());
         lfQuizImpl.setTitle(lfQuiz.getTitle());
         lfQuizImpl.setDescription(lfQuiz.getDescription());
+        lfQuizImpl.setLogo(lfQuiz.getLogo());
         lfQuizImpl.setWelcomePageContent(lfQuiz.getWelcomePageContent());
         lfQuizImpl.setFinalPageContent(lfQuiz.getFinalPageContent());
         lfQuizImpl.setCourseID(lfQuiz.getCourseID());

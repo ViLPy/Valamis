@@ -1,10 +1,11 @@
 package com.arcusys.learn.social.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.persistence.liferay.service.{LFSocialPackageLocalServiceUtil, LFSocialPackageTagLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFSocialPackageLocalServiceUtil, LFSocialPackageTagLocalServiceUtil }
 import com.arcusys.learn.social.model.SocialPackage
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackage
 import scala.collection.JavaConverters._
+import org.joda.time.DateTime
 
 trait LFSocialPackageStorageImpl extends KeyedEntityStorage[SocialPackage] {
   protected def doRenew() {
@@ -17,7 +18,7 @@ trait LFSocialPackageStorageImpl extends KeyedEntityStorage[SocialPackage] {
     entity.getId.toInt,
     entity.getPackageID,
     entity.getAboutPackage,
-    entity.getPublishDate,
+    new DateTime(entity.getPublishDate),
     entity.getAuthorID,
     extractTags(entity.getId.toInt))
 
@@ -40,7 +41,7 @@ trait LFSocialPackageStorageImpl extends KeyedEntityStorage[SocialPackage] {
     val newEntity = LFSocialPackageLocalServiceUtil.createLFSocialPackage()
     newEntity.setPackageID(entity.packageID)
     newEntity.setAboutPackage(entity.aboutPackage)
-    newEntity.setPublishDate(entity.publishDate)
+    newEntity.setPublishDate(entity.publishDate.toDate)
     newEntity.setAuthorID(entity.authorID)
     val id = LFSocialPackageLocalServiceUtil.addLFSocialPackage(newEntity).getId.toInt
 
@@ -56,12 +57,13 @@ trait LFSocialPackageStorageImpl extends KeyedEntityStorage[SocialPackage] {
 
   def delete(parameters: (String, Any)*) {
     parameters.find(_._1 == "id").map(_._2.asInstanceOf[Int]) foreach {
-      id => {
-        LFSocialPackageTagLocalServiceUtil.findBySocialPackageID(id).asScala.foreach(
-          LFSocialPackageTagLocalServiceUtil.deleteLFSocialPackageTag(_)
-        )
-        LFSocialPackageLocalServiceUtil.deleteLFSocialPackage(id)
-      }
+      id =>
+        {
+          LFSocialPackageTagLocalServiceUtil.findBySocialPackageID(id).asScala.foreach(
+            LFSocialPackageTagLocalServiceUtil.deleteLFSocialPackageTag(_)
+          )
+          LFSocialPackageLocalServiceUtil.deleteLFSocialPackage(id)
+        }
     }
   }
 

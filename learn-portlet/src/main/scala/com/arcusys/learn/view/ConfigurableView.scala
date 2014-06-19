@@ -1,9 +1,10 @@
 package com.arcusys.learn.view
 
-import com.escalatesoft.subcut.inject.Injectable
+import com.arcusys.learn.facades.PackageFacadeContract
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.scorm.lms.{PackageService, UserManagement}
 import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.scorm.lms.{ PackageService, UserManagement }
+import com.escalatesoft.subcut.inject.Injectable
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,5 +20,6 @@ trait ConfigurableView extends Injectable {
   val userStorage = storageFactory.userStorage
   val userManagement = new UserManagement()
   val packageService = new PackageService()
-
+  val packageFacade = inject[PackageFacadeContract]
+  // TODO to solve services and facades needed
 }

@@ -1,0 +1,483 @@
+/* Vars */
+
+@transition-hide-search: all 0.4s ease 0s;
+@filter-width: 300px;
+@margin-default: 20px;
+
+#bundle {
+  .filter-panel {
+    width: @filter-width;
+    position: absolute;
+    height: 100%;
+    z-index: 1000;
+    top: 0;
+  }
+}
+
+
+
+.header > span {
+  font-size: 200%;
+}
+
+.show-filter-button {
+  margin-left: 0 !important;
+}
+
+.portlet-body {
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-panel {
+  background-color: #e4e4e4;
+  transition: @transition-hide-search;
+  border-right: 1px solid #dedede;
+/*box-sizing: border-box;*/
+}
+
+.filter-panel.show {
+  padding: 20px;
+}
+
+.lesson-content-edit .filter-panel {
+  width: 259px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.content-panel {
+  transition: @transition-hide-search;
+  margin: @margin-default;
+}
+
+.content-panel > .header {
+  margin-bottom: @margin-default;
+}
+
+.select-action {
+  margin-bottom: 0px; // drop bootstrap's setting
+}
+
+.lesson-list-container {
+  margin-top: 20px;
+}
+
+button.valamis { // drop Lassy's settings
+  margin-right: 0px;
+}
+
+.lesson-item-tile {
+  height: 310px;
+  width: 260px;
+  list-style-type: none;
+  float: left;
+  margin: 20px;
+}
+
+.lesson-list{
+  margin: 0px;
+}
+
+.cover-image {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 258px;
+  height: 180px;
+  background: #dedede;
+  border-bottom: 1px solid #dedede;
+  position: relative;
+}
+
+.lesson-item-list {
+  list-style-type: none;
+  margin-top: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #d3d4d5;
+  height: 90px;
+  overflow: hidden;
+  :after {
+    clear: both;
+  }
+  .cover-image {
+    width: 130px;
+    height: 90px;
+    margin-right: 10px;
+  }
+  .lesson-description, .lesson-title {
+    max-width: 330px;
+    overflow: visible;
+    white-space: nowrap;
+  }
+
+}
+
+.lesson-buttons {
+  button {
+    margin-right: 10px;
+  }
+  button:last-child {
+    margin-right: 0px;
+  }
+  margin-top: 28px;
+  background: #FFFFFF;
+  padding: 0px 20px;
+}
+
+.modal {
+  width: 90%;
+  margin-left: -45%;
+}
+
+.next-page-button {
+  float: right;
+}
+
+.previous-page-button {
+  float: left;
+}
+
+.portlet-header-base .header {
+  font-size: 200%
+}
+
+.flip-container .command {
+  font-size: 200%;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.lesson-title {
+  font-size: 16px;
+  text-align: left;
+  color: #a9cb4f;
+}
+.lesson-title.list{
+    padding-top: 15px;
+}
+
+.lesson-description {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 27px;
+  white-space: nowrap;
+}
+
+img.logo-mini{
+  max-width:130px;
+  max-height:90px;
+}
+img.logo-xs{
+  max-width:64px;
+  max-height:64px;
+}
+img.logo{
+  max-height: 180px;
+  max-width: 260px;
+}
+
+
+.bottom-paginator .select-items-per-page {
+  display: none;
+}
+
+.bottom-paginator .select-element:first-child {
+  display: none;
+}
+
+.select-action {
+  max-width: 100px;
+}
+
+.hide-filter {
+  display: none;
+  cursor: pointer;
+}
+
+.filter-wrapper { //	input{
+//		width: 100%;
+//		box-sizing: border-box;
+//		height: 32px;
+//	}
+//	margin-right: 20px;
+//	margin-left: 20px;
+}
+
+select {
+  margin-top: 0px !important;
+}
+
+.filter-wrapper select { //	width: 100%;
+}
+
+
+
+.bbm-modal {
+  width: 90% !important;
+}
+
+hr {
+  margin: 3px !important;
+}
+
+.popup-sidebar {
+  overflow: hidden;
+}
+
+.add-content {
+  width: 100%;
+  padding: 10px;
+  padding-left: 40px;
+  background-image: url("../../images/icon-edit.png");
+  background-position: left center;
+  background-repeat: no-repeat !important; //Fonts
+  font-family: Ubuntu;
+  color: #777;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: small; //borders
+  border-top: 1px solid #d3d4d5;
+  border-bottom: 1px solid #d3d4d5;
+  margin-top: -1px;
+  margin-bottom: -1px;
+
+  cursor: pointer;
+}
+
+.popup-content {
+  left: 260px;
+}
+
+.selected>.item-body {
+  background: #e4e4e4;
+}
+
+.unselect-lesson {
+  display: none;
+}
+
+.selected {
+  .unselect-lesson {
+    display: inline;
+  }
+  .select-lesson {
+    display: none;
+  }
+}
+
+.lesson-content-info .bbm-modal {
+  width: 800px!important;
+
+  .bbm-modal__topbar{
+    border-bottom:none;
+  }
+
+  .content {
+    padding:0;
+    .logo-div {
+      width: 30%;
+      padding: 20px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      background-color: #f4f4f4;
+      border: 1px solid #d3d4d5;
+      border-left: none;
+      min-height: 231px;
+      img {
+        max-width: 200px;
+      }
+    }
+    .info-div {
+      width: 70%;
+    }
+    table td:first-child{
+      width: 30%;
+    }
+  }
+}
+
+.lesson-content-edit .bbm-modal {
+  .bbm-modal__section {
+    padding-left: 0;
+    height: auto;
+    .popup-content {
+      left: 0;
+      margin-left: 259px;
+      position: static;
+      min-height: 480px;
+      max-height: 700px;
+      overflow: auto;
+      .internal-collection {
+        overflow: hidden;
+      }
+      .collapsed {
+        max-height: 0;
+      }
+    }
+  }
+}
+
+.question-select-modal {
+  .content>div {
+    max-height: 490px;
+    overflow: auto;
+    border-bottom: 1px solid #DEDEDE;
+    border-top: 1px solid #DEDEDE;
+    margin-top: 40px;
+  }
+  .content .questionBankTree {
+    margin-top:0px!important;
+  }
+}
+
+//Table for quiz
+.lesson-content .item-body {
+  background-color: #FFFFFF;
+}
+
+.lesson-content .category>.item-body {
+  background-color: #f8f8f8;
+}
+
+.lesson-content .category.selected>.item-body{
+  background-color: #e4e4e4;
+}
+
+.lesson-content .category:last-child {
+  border-bottom: 1px solid #DEDEDE;
+}
+
+.lesson-content>div:nth-child(2n+1) {
+  background: #F8F8F8
+}
+
+.lesson-content>div {
+  background: #FFFFFF;
+}
+
+.lesson-content {
+  .internal-collection {
+    margin-left: 35px;
+  }
+  .internal-collection.collapsed {
+    img, label, button {
+      display: none;
+    }
+  }
+  .item-body {
+    height: 57px;
+
+    border: 1px solid #d3d4d5;
+    margin-top: -1px;
+    padding-right: 20px;
+
+
+
+    div.checkbox-container {
+      width: 75px;
+      float: left;
+      position: relative;
+      height: 74px;
+    }
+
+    input {
+      margin-top: 7px;
+    }
+
+    div.title-container {
+      button {
+        margin-top: 7px;
+        margin-left: 10px;
+      }
+      label {
+        padding-top: 8px;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.liferay-article.selected {
+  background-color: #eee;
+}
+
+//.liferay-article.selected{
+//    background-color: red;
+//}
+
+.internal-collection {
+  min-height: 1em;
+}
+
+.ui-state-highlight {
+  height: 1.5em;
+  line-height: 1.2em;
+  background-color: green;
+  opacity: 0.3;
+}
+
+.ui-wrong-helper {
+  background-color: red;
+  opacity: 0.3;
+}
+
+.category-expand-button {
+  width: 38px;
+  height: 38px;
+  background-image: url(/learn-portlet/images/icon-next.png);
+}
+
+.category-expand-button.category-collapsed {
+  background-image: url(/learn-portlet/images/icon-select-button.png);
+}
+
+.liferay-articles-modal table {
+  margin-top: 10px;
+  width: 100%;
+  td:first-child{
+    padding-right: 10px;
+  }
+  th:first-child{
+    padding-right: 10px;
+    text-align: left;
+    padding-left: 20px;
+  }
+  td:last-child{
+    padding-top: 5px;
+    padding-right: 10px;
+    width:50%;
+    text-align: right;
+  }
+}
+
+.add-presentation-modal table.valamis,
+.add-external-resource-modal table.valamis
+{
+  margin-top:-1px;
+  border-left: 1px solid #DEDEDE;
+
+  td:first-child{
+    width: 30%;
+  }
+  td:last-child{
+    width: 70%;
+  }
+}
+
+.add-external-resource-modal .content {
+  button {
+    margin: 20px 0px;
+  }
+  iframe{
+    width: 100%;
+    height: 250px;
+  }
+}
+
+.preview-modal iframe {
+  width: 100%;
+  margin: 20px 0px;
+  height: 500px;
+}

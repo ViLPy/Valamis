@@ -3,14 +3,14 @@ package com.arcusys.learn.tincan.storage.impl.liferay
 import com.arcusys.learn.tincan.model.Result
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsResult
-import com.arcusys.learn.util.JsonSerializer
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalServiceUtil
+import com.arcusys.util.JsonSerializer
 
-trait LFTincanLrsResultStorageImpl extends KeyedEntityStorage[Result]{
-  def mapper(entity:LFTincanLrsResult): Result = {
+trait LFTincanLrsResultStorageImpl extends KeyedEntityStorage[Result] {
+  def mapper(entity: LFTincanLrsResult): Result = {
     Result(
       Option(entity.getScore).map(JsonSerializer.deserializeScore),
-      Option(entity.getSuccess),
+      if (entity.getSuccess == null) None else Option(entity.getSuccess),
       if (entity.getCompletion == null) None else Option(entity.getCompletion),
       Option(entity.getResponse),
       if (entity.getDuration == null) None else Option(entity.getDuration),

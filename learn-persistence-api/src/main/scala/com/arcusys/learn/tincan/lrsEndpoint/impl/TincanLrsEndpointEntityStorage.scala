@@ -7,13 +7,13 @@ import com.arcusys.learn.tincan.model.lrsClient.LrsEndpointSettings
 trait TincanLrsEndpointEntityStorage extends TincanLrsEndpointStorage with EntityStorage[LrsEndpointSettings] {
 
   def get: Option[LrsEndpointSettings] = {
-    getOne(Seq[(String, Any)]():_*)
+    getOne(Seq[(String, Any)](): _*)
   }
 
   def set(lrs: Option[LrsEndpointSettings]) {
     lrs match {
-      case Some(lrs:LrsEndpointSettings) => modify(lrs, Nil:_*)
-      case _ => delete(Nil:_*)
+      case Some(lrs: LrsEndpointSettings) => modify(lrs, Nil: _*)
+      case _                              => delete(Nil: _*)
     }
 
   }

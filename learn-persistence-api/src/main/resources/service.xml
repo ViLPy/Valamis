@@ -28,6 +28,18 @@
         </finder>
     </entity>
 
+    <entity name="LFPackageGradeStorage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="userId" type="Long" primary="true"/>
+        <column name="packageId" type="Long" primary="true" />
+        <column name="grade" type="String" convert-null="true"/>
+        <column name="comment" type="String" convert-null="true"/>
+
+        <finder name="Grade" return-type="LFPackageGradeStorage">
+            <finder-column name="userId"/>
+            <finder-column name="packageId"/>
+        </finder>
+    </entity>
+
     <entity name="LFFileStorage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="filename" type="String" convert-null="true"/>
@@ -46,6 +58,7 @@
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String" convert-null="true"/>
         <column name="description" type="String" convert-null="true"/>
+        <column name="logo" type="String" convert-null="true"/>
         <column name="welcomePageContent" type="String" convert-null="true"/>
         <column name="finalPageContent" type="String" convert-null="true"/>
         <column name="courseID" type="Integer" convert-null="false"/>
@@ -693,7 +706,7 @@
         <column name="success" type="Boolean" />
         <column name="completion" type="Boolean" />
         <column name="response" type="String" />
-        <column name="duration" type="Double" />
+        <column name="duration" type="String" />
         <column name="extension" type="String" />
     </entity>
 
@@ -724,7 +737,6 @@
         <column name="stateId" type="String" />
         <column name="documentId" type="String" />
         <column name="activityId" type="String" />
-        <column name="profileId" type="String" />
         <column name="registration" type="String" />
         <column name="agentId" type="Integer" />
 
@@ -735,6 +747,18 @@
         <finder name="ActivityIdAndStateId" return-type="Collection">
             <finder-column name="activityId"/>
             <finder-column name="stateId"/>
+        </finder>
+
+        <finder name="ActivityIdAndAgentId" return-type="Collection">
+            <finder-column name="activityId"/>
+            <finder-column name="agentId"/>
+        </finder>
+
+        <finder name="StateDocument" return-type="LFTincanLrsState">
+            <finder-column name="activityId"/>
+            <finder-column name="stateId"/>
+            <finder-column name="agentId"/>
+            <finder-column name="registration"/>
         </finder>
     </entity>
 
@@ -751,6 +775,7 @@
         <column name="summary" type="String" convert-null="false"/>
         <column name="assetRefID" type="Long" convert-null="false"/>
         <column name="courseID" type="Integer" convert-null="false"/>
+        <column name="logo" type="String" convert-null="false"/>
 
         <finder name="RefID" return-type="Manifest">
             <finder-column name="assetRefID"/>
@@ -853,6 +878,7 @@
         <column name="summary" type="String" convert-null="false"/>
         <column name="assetRefID" type="Long" convert-null="false"/>
         <column name="courseID" type="Integer" convert-null="false"/>
+        <column name="logo" type="String" convert-null="false"/>
 
         <finder name="RefID" return-type="Manifest">
             <finder-column name="assetRefID"/>
@@ -914,10 +940,7 @@
             <finder-column name="scopeID"/>
             <finder-column name="visibility"/>
         </finder>
-
-
     </entity>
-
 
     <entity name="LFCertificate" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
@@ -928,13 +951,103 @@
         <column name="publishBadge" type="Boolean"/>
         <column name="shortDescription" type="String" convert-null="true"/>
         <column name="companyID" type="Integer"/>
-
+        <column name="state" type="String" />
+        <column name="emails" type="String" convert-null="true"/>
+        <column name="validPeriodType" type="String" />
+        <column name="validPeriod" type="Integer"/>
+        <column name="createdDate" type="Date"/>
+        <column name="isPublished" type="Boolean"/>
+        <column name="scope" type="Long" />
 
         <finder name="CompanyID" return-type="Collection">
             <finder-column name="companyID"/>
         </finder>
+
         <finder name="Title" return-type="Collection">
             <finder-column name="title" comparator="LIKE"/>
+        </finder>
+    </entity>
+
+    <entity name="LFCertificateUser" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="certificateID" type="Long" primary="true"/>
+        <column name="userID" type="Long" primary="true"/>
+        <column name="attachedDate" type="Date"/>
+
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="UserID" return-type="Collection">
+            <finder-column name="userID"/>
+        </finder>
+        <finder name="UserIDAndCertificateID" return-type="LFCertificateUser">
+            <finder-column name="userID"/>
+            <finder-column name="certificateID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFCertificateCourse" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="certificateID" type="Long" primary="true"/>
+        <column name="courseID" type="Long" primary="true"/>
+        <column name="arrangementIndex" type="Integer"/>
+        <column name="periodType" type="String" />
+        <column name="period" type="Integer"/>
+
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="CourseID" return-type="Collection">
+            <finder-column name="courseID"/>
+        </finder>
+        <finder name="CertificateIDAndCourseID" return-type="LFCertificateCourse">
+            <finder-column name="certificateID"/>
+            <finder-column name="courseID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFCertificateTincanStatement" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="certificateID" type="Long" primary="true"/>
+        <column name="verb" type="String" primary="true"/>
+        <column name="object" type="String" primary="true"/>
+        <column name="periodType" type="String" />
+        <column name="period" type="Integer"/>
+
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="Verb" return-type="Collection">
+            <finder-column name="verb"/>
+        </finder>
+        <finder name="Object" return-type="Collection">
+            <finder-column name="object"/>
+        </finder>
+        <finder name="VerbAndObject" return-type="Collection">
+            <finder-column name="verb"/>
+            <finder-column name="object"/>
+        </finder>
+        <finder name="CertificateIDAndVerbAndObject" return-type="LFCertificateCourse">
+            <finder-column name="certificateID"/>
+            <finder-column name="verb"/>
+            <finder-column name="object"/>
+        </finder>
+    </entity>
+
+
+    <entity name="LFCertificateActivity" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="certificateID" type="Long" primary="true"/>
+        <column name="activityName" type="String" primary="true"/>
+        <column name="datacount" type="Integer"/>
+        <column name="periodType" type="String" />
+        <column name="period" type="Integer"/>
+
+        <finder name="CertificateID" return-type="Collection">
+            <finder-column name="certificateID"/>
+        </finder>
+        <finder name="ActivityName" return-type="Collection">
+            <finder-column name="activityName"/>
+        </finder>
+        <finder name="CertificateIDAndActivityName" return-type="LFCertificateActivity">
+            <finder-column name="certificateID"/>
+            <finder-column name="activityName"/>
         </finder>
     </entity>
 
@@ -984,35 +1097,9 @@
         </finder>
     </entity>
 
-    <entity name="LFCertificateSite" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
-        <column name="id" type="long" primary="true"/>
-        <column name="certificateID" type="Integer"/>
-        <column name="siteID" type="Integer"/>
-        <column name="arrangementIndex" type="Integer"/>
 
-        <finder name="CertificateID" return-type="Collection">
-            <finder-column name="certificateID"/>
-        </finder>
-        <finder name="CertificateIDAndSiteID" return-type="Collection">
-            <finder-column name="certificateID" arrayable-operator="OR"/>
-            <finder-column name="siteID"/>
-        </finder>
-    </entity>
-    <entity name="LFCertificateUser" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
-        <column name="id" type="long" primary="true"/>
-        <column name="certificateID" type="Integer"/>
-        <column name="userID" type="Integer"/>
-        <finder name="CertificateID" return-type="Collection">
-            <finder-column name="certificateID"/>
-        </finder>
-        <finder name="UserID" return-type="Collection">
-            <finder-column name="userID"/>
-        </finder>
-        <finder name="UserIDAndCertificateID" return-type="Collection">
-            <finder-column name="userID"/>
-            <finder-column name="certificateID"/>
-        </finder>
-    </entity>
+
+
 
     <entity name="LFSocialPackage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
@@ -1089,6 +1176,24 @@
 
         <finder name="DataKey" return-type="Collection">
             <finder-column name="dataKey"/>
+        </finder>
+    </entity>
+
+    <entity name="LFQuizTreeElement" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="quizID" type="Integer"/>
+        <column name="elementID" type="String"/>
+        <column name="isCategory" type="Boolean"/>
+        <column name="parentID" type="String" convert-null="false"/>
+        <column name="arrangementIndex" type="Integer"/>
+
+        <finder name="QuizID" return-type="Collection">
+            <finder-column name="quizID"/>
+        </finder>
+
+        <finder name="QuizAndElementID" return-type="LFQuizTreeElement">
+            <finder-column name="quizID"/>
+            <finder-column name="elementID"/>
         </finder>
     </entity>
 

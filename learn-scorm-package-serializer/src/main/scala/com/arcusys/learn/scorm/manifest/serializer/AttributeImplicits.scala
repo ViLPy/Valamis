@@ -8,7 +8,7 @@ object AttributeImplicits {
     private def getAttribute(key: String, value: Option[_]) =
       key.split(":") match {
         case Array(namespace, tagname) => Attribute(namespace, tagname, Text(value.get.toString), Null)
-        case _ => Attribute(None, key, Text(value.get.toString), Null)
+        case _                         => Attribute(None, key, Text(value.get.toString), Null)
       }
 
     def %(attr: Map[String, Option[_]]) = {

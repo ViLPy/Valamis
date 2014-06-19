@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Jasmine Spec Runner v2.0.0</title>
+
+    <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.0/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.0/jasmine.css">
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.5.1-bundled/backbone.marionette.min.js"></script>
+
+    <script type="text/javascript" src="lib/jasmine-2.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="lib/jasmine-2.0.0/jasmine-html.js"></script>
+    <script type="text/javascript" src="lib/jasmine-2.0.0/boot.js"></script>
+    <script type="text/javascript" src="lib/jasmine-2.0.0/jasmine-jquery.js"></script>
+
+    <!-- include source files here... -->
+    <script type="text/javascript" src="../js2.0/helpers/TemplateCompiler.js"></script>
+    <script type="text/javascript" src="../js2.0/package-manager/views/package-search.js"></script>
+    <script type="text/javascript" src="../js2.0/package-manager/views/package-list.js"></script>
+    <script type="text/javascript" src="../js2.0/package-manager/models/package-model.js"></script>
+
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="spec/package-manager/PackageListViewSpec.js"></script>
+    <script type="text/javascript" src="spec/package-manager/PackageListSearchViewSpec.js"></script>
+
+</head>
+<body>
+<script type="text/html" id="packageManagerSearch">
+    <h3>Refine search</h3>
+    <form>
+        <div class="form-group">
+            <label class="form-label">Search by name</label>
+            <input type="text" class="search form-control" placeholder="Search">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Sort</label>
+            <select class="sorting form-control">
+                <option value="nameAsc">By name (asc)</option>
+                <option value="nameDesc">By name (desc)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Display</label>
+            <select class="display form-control">
+                <option value="all">All packages</option>
+                <option value="scorm">SCORM</option>
+                <option value="tincan">TinCan</option>
+            </select>
+        </div>
+    </form>
+</script>
+
+<script type="text/html" id="packageManagerListItemView">
+    <div class="certificate-cover-image pull-left">
+        <img src="../images/certificate-01.png"/>
+
+        <div class="ribbon-wrapper-green">
+            <div class="ribbon-green">{{packageType}}</div>
+        </div>
+    </div>
+    <div class="certificate-content pull-left">
+        <div class="certificate-title">{{title}}</div>
+        <div class="certificate-description">{{description}}</div>
+    </div>
+    <div class="pull-right">
+        <div class="certificate-users">
+            <label><input type="checkbox" class="package-visibility-flag" {{#isVisible}} checked {{/isVisible}}> Visible</label>
+        </div>
+        <div class="certificate-courses">
+            <label><input type="checkbox" class="package-default-flag" {{#isDefault}} checked {{/isDefault}}> Is Default</label>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="packageManagerTileItemView">
+    <div class="certificate-cover-image"><img src="../images/certificate-01.png"/>
+
+        <div class="ribbon-wrapper-green">
+            <div class="ribbon-green">{{packageType}}</div>
+        </div>
+    </div>
+    <div class="certificate-content">
+        <div class="certificate-title">{{title}}</div>
+        <div class="certificate-description">{{description}}</div>
+    </div>
+    <div class="certificate-footer">
+        <div class="certificate-users">
+            <label><input type="checkbox" class="package-visibility-flag" {{#isVisible}} checked {{/isVisible}}> Visible</label>
+        </div>
+        <div class="certificate-courses">
+            <label><input type="checkbox" class="package-default-flag" {{#isDefault}} checked {{/isDefault}}> Is Default</label>
+        </div>
+    </div>
+</script>
+
+</body>
+</html>

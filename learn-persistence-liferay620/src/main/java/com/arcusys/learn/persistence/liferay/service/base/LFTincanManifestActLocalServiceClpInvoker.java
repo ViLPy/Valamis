@@ -41,18 +41,18 @@ public class LFTincanManifestActLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
-    private String _methodName289;
-    private String[] _methodParameterTypes289;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
+    private String _methodName305;
+    private String[] _methodParameterTypes305;
 
     public LFTincanManifestActLocalServiceClpInvoker() {
         _methodName0 = "addLFTincanManifestAct";
@@ -137,29 +137,29 @@ public class LFTincanManifestActLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFTincanManifestAct"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "removeAll";
+        _methodName302 = "removeAll";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "createLFTincanManifestActivity";
+        _methodName303 = "createLFTincanManifestActivity";
 
-        _methodParameterTypes287 = new String[] {  };
+        _methodParameterTypes303 = new String[] {  };
 
-        _methodName288 = "findByPackageID";
+        _methodName304 = "findByPackageID";
 
-        _methodParameterTypes288 = new String[] { "java.lang.Long" };
+        _methodParameterTypes304 = new String[] { "java.lang.Long" };
 
-        _methodName289 = "findByTincanID";
+        _methodName305 = "findByTincanID";
 
-        _methodParameterTypes289 = new String[] { "java.lang.String" };
+        _methodParameterTypes305 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -251,37 +251,37 @@ public class LFTincanManifestActLocalServiceClpInvoker {
             return LFTincanManifestActLocalServiceUtil.updateLFTincanManifestAct((com.arcusys.learn.persistence.liferay.model.LFTincanManifestAct) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFTincanManifestActLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFTincanManifestActLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             LFTincanManifestActLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFTincanManifestActLocalServiceUtil.createLFTincanManifestActivity();
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
             return LFTincanManifestActLocalServiceUtil.findByPackageID((java.lang.Long) arguments[0]);
         }
 
-        if (_methodName289.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
+        if (_methodName305.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
             return LFTincanManifestActLocalServiceUtil.findByTincanID((java.lang.String) arguments[0]);
         }
 

@@ -1,0 +1,487 @@
+<script type="text/mustache" id="questionBankTemplate">
+    <div class="overflow-hidden">
+
+        <div id="bankContentWrapper" class="content-wrapper clearfix">
+
+            <!-- Page content -->
+            <div class="page-content-wrapper">
+                <div class="content-header clearfix">
+                    <div class="pull-left button-upload-area">
+                        <button class="filter-toggler button valamis big grey menu-toggle val-icon-search">
+                        </button>
+                    </div>
+
+                    <div class="pull-right button-upload-area">
+                        <button id="questionbankAddQuestions" class="button valamis big green val-icon-plus">
+                            {{buttonAddQuestionTooltipLabel}}
+                        </button>
+                        <button id="questionbankEditQuestions" class="button valamis big green val-icon-edit">
+                            {{buttonEditQuestionTooltipLabel}}
+                        </button>
+                    </div>
+                    <div class="pull-right button-upload-area">
+                        <button id="questionbankAddCategory" class="button valamis big green val-icon-plus">
+                            {{buttonAddCategoryTooltipLabel}}
+                        </button>
+                        <button id="questionbankEditCategory" class="button valamis big green val-icon-edit">
+                            {{buttonEditCategoryTooltipLabel}}
+                        </button>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="sidebar-wrapper">
+
+                        <div class="menu-toggle hidden-xs modal-close-div">
+                        </div>
+                        <div id="SCORMQuestionBankTree">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content">
+
+                    <div id="ItemView" class="clearfix">
+
+                    </div>
+
+                    <div class="select-element pagination-group pull-right">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</script>
+
+<script type="text/template" id="questionbank-modals-template">
+    <div class="bank-modals-container"></div>
+</script>
+
+
+<script type="text/mustache" id="entityListTemplate">
+    <h4 class="valamis margined" style="margin-left: 10px">{{rootViewLabel}} {{^root}} >> {{title}} {{/root}} </h4>
+
+    <div class="hidden-xs" style="margin-left: 10px">
+        <button class="button valamis medium grey val-icon-check selectAll pull-left">{{selectAllLabel}}</button>
+        <div class="select-element">
+            <button class="button valamis medium grey dropdown-button">{{actionLabel}}</button>
+            <ul class="dropdown-button-menu unstyled ">
+                <li class="valamis">
+                    <button class="deleteEntities button valamis medium gray light ">{{deleteLabel}}</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="valamis-row">
+        <table class="valamis list-table medium-table" style="margin-top: 60px">
+            <tbody id="qbItemsList">
+
+
+            </tbody>
+        </table>
+    </div>
+
+</script>
+
+<script type="text/mustache" id="qbEntityRowTemplate">
+    <td class="checkbox-container">
+        <div id="selectEntityCheckbox"
+             class="checkbox valamis qbEntityRowSelect {{#selected}}checked{{/selected}} "></div>
+    </td>
+    <td class="user-name ">{{title}}</td>
+    <td class="user-name" style="text-transform: uppercase">{{type}}</td>
+    <td class="buttons text-right">
+        <button class="button valamis medium grey val-icon-edit no-text"></button>
+        <button class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+
+</script>
+
+
+<script type="text/mustache" id="defaultView">
+
+</script>
+
+<!--<script type="text/mustache" id="categoryView">
+    <div id="SCORMCategoryView">
+        <div>
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categorySubTitleLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryNameView" class="SCORMResult">{{title}}</div>
+
+            <div class="quizSection">
+                <div class="quizSectionTitle">{{categoryDescriptionLabel}}</div>
+                <div style="clear:both"></div>
+            </div>
+            <div id="SCORMCategoryDescription" class="SCORMResult">{{{description}}}</div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+
+
+</script>-->
+
+<script type="text/mustache" id="categoryEditView">
+    <div class="valamis-row margined">
+        <h4 class="valamis margined">{{categorizationCategoryLabel}}</h4>
+    </div>
+
+    <table class="valamis list-table big-table">
+
+        <tr>
+            <td class="user-name">{{categorySubTitleLabel}}</td>
+            <td class="buttons text-right">
+                <input type='text' id='SCORMCategoryNameEdit' title='{{requiredFieldTooltipLabel}}'
+                       style="width: 100%" value='{{title}}'/>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <div class="user-name">{{categoryDescriptionLabel}}</div>
+                <textarea id="SCORMCategoryDescription"> {{{description}}}</textarea>
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="bbm-button button valamis big grey">{{buttonCancelSaveTooltipLabel}}</a>
+        <button class="button valamis big green saveCategory">{{overlayCategorySaveMessageLabel}}</button>
+    </div>
+
+
+</script>
+
+<script type="text/mustache" id="questionView">
+    <div class="valamis-row margined">
+        <h4 class="valamis margined">{{rootViewLabel}} {{#categoryChild}} >> {{categoryTitle}} {{/categoryChild}} >>
+            {{title}}</h4>
+    </div>
+
+    <table class="valamis list-table big-table">
+
+        <tr>
+            <td class="user-name">{{questionTypeLabel}}</td>
+            <td>
+                {{questionTypeString}}
+            </td>
+        </tr>
+        <tr>
+            <td class="user-name">{{questionTitleLabel}}</td>
+            <td>
+                {{title}}
+            </td>
+        </tr>
+        <tr>
+            <td class="user-name">{{questionTextLabel}}</td>
+            <td style="word-break: break-all;">
+                {{{text}}}
+            </td>
+        </tr>
+        <tr>
+            <td class="user-name">{{questionExplanationLabel}}</td>
+            <td>
+                {{{explanationText}}}
+            </td>
+        </tr>
+        <tr id="SCORMQuestionIsBounded">
+
+            <td colspan="2">
+                <div id="SCORMQuestionBounded" style="cursor:default" class="checkbox valamis"/>
+                {{questionNotifyUserCorrectAmountLabel}}
+            </td>
+        </tr>
+
+        <tr id="SCORMQuestionIsCaseSensitive">
+
+            <td colspan="2">
+                <div id="SCORMQuestionCaseSensitive" style="cursor:default" class="checkbox valamis"/>
+                {{questionCaseSensitiveLabel}}
+            </td>
+        </tr>
+    </table>
+
+
+    <div id="SCORMQuestionAnswers">
+        <!-- <div id="SCORMQuestionAnswersEditors"></div>-->
+    </div>
+
+
+</script>
+
+<script type="text/mustache" id="questionEditView">
+
+    <div id="questionDetails" class="certificateContent tab-pane active bbm-modal__section bank-edit-dialog"
+         style="margin-top: 10px">
+
+        <table class="valamis list-table big-table">
+
+            <tr>
+                <td class="user-name">{{questionTypeLabel}}</td>
+                <td class="buttons text-right">
+                    <div class="valamis-select">
+                        <select id="SCORMQuestionType" style="width: 100%">
+                            <option value="type0">{{choiceQuestionTypeLabel}}</option>
+                            <option value="type1">{{shortAnswerQuestionTypeLabel}}</option>
+                            <option value="type2">{{numericQuestionTypeLabel}}</option>
+                            <option value="type3">{{positioningQuestionTypeLabel}}</option>
+                            <option value="type4">{{matchingQuestionTypeLabel}}</option>
+                            <option value="type5">{{essayQuestionTypeLabel}}</option>
+                            <option value="type7">{{categorizationQuestionTypeLabel}}</option>
+                            <option value="type8">{{plainTextTypeLabel}}</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="user-name">{{questionTitleLabel}}</td>
+                <td class="buttons text-right">
+                    <input type='text' id='SCORMQuestionTitleEdit' style="width: 100%"
+                           title='{{requiredFieldTooltipLabel}}'
+                           value='{{title}}'/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="user-name">{{questionTextLabel}}</div>
+                    <textarea id="SCORMQuestionTextView">{{text}}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="user-name">{{questionExplanationLabel}}</td>
+                <td class="buttons text-right">
+                    <textarea id="SCORMExplanationTextView" rows="2" style="width: 100%"
+                              class="certificateDescription">{{explanationText}}</textarea>
+                </td>
+            </tr>
+            <tr id="SCORMQuestionIsBounded">
+
+                <td colspan="2">
+                    <div id="SCORMQuestionBounded" style="cursor:default" class="checkbox valamis"/>
+                    {{questionNotifyUserCorrectAmountLabel}}
+                </td>
+            </tr>
+
+            <tr id="SCORMQuestionIsCaseSensitive">
+
+                <td colspan="2">
+                    <div id="SCORMQuestionCaseSensitive"   style="cursor:default" class="checkbox valamis"/>
+                    {{questionCaseSensitiveLabel}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div id="answerDetails" class="certificateContent tab-pane bbm-modal__section bank-answers-dialog">
+        <div id="SCORMQuestionAnswers">
+            <!-- <div id="SCORMQuestionAnswersEditors"/>-->
+        </div>
+    </div>
+
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="bbm-button button valamis big grey">{{buttonCancelSaveTooltipLabel}}</a>
+        <button class="button valamis big green saveQuestion">{{overlayQuestionSaveMessageLabel}}</button>
+    </div>
+
+</script>
+
+<script type="text/mustache" id="answerCollectionView">
+    <table class="valamis list-table medium-table" style="margin-top: 10px">
+        <thead>
+        <tr>
+            <th colspan="3">
+                <div style="float: left">{{answersLabel}}</div>
+                <div class="text-right" id="SCORMAddAnswersButtonBlock">
+                    <button id="SCORMButtonAddAnswer" class="button valamis big green val-icon-plus">
+                        {{addNewAnswersButtonLabel}}
+                    </button>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody id="SCORMQuestionAnswersEditors">
+        </tbody>
+    </table>
+
+
+</script>
+
+<!-- Answers -->
+<!-- Choice Answer -->
+<script type="text/mustache" id="choiceAnswerView">
+    <td class="checkbox-container isCorrectColumn">
+        <div id="SCORMAnswerIsCorrect" class="checkbox valamis"/>{{answerCorrectnessLabel}}
+    </td>
+    <td colspan="2" class="user-name questionTextColumn">{{{answerText}}}</td>
+
+</script>
+
+<script type="text/mustache" id="choiceAnswerEditView">
+    <td>{{position}}</td>
+    <td class="user-name">
+        <div id="SCORMAnswerIsCorrect" class="checkbox valamis"/>{{answerCorrectnessLabel}}
+        <textarea id="SCORMAnswerText_{{position}}" rows="5" style="width: 100%">{{{answerText}}}</textarea>
+    </td>
+    <td class="buttons text-right">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<!-- Short Answer -->
+<script type="text/mustache" id="shortAnswerView">
+    <td colspan="3" class="user-name questionTextColumn">{{{answerText}}}</td>
+</script>
+
+<script type="text/mustache" id="shortAnswerEditView">
+    <td>{{position}}</td>
+    <td class="user-name questionTextColumn">
+        <input type="text" id="SCORMAnswerText" style="width: 100%" value="{{{answerText}}}"></input>
+    </td>
+    <td class="buttons text-right">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<!-- Numeric Answer -->
+<script type="text/mustache" id="numericAnswerView">
+    <td colspan="3" class="user-name questionTextColumn">
+        <div class="SCORMAnswerTexArea">{{rangeFromLabel}} {{rangeFrom}} {{rangeToLabel}} {{rangeTo}}</div>
+    </td>
+</script>
+
+<script type="text/mustache" id="numericAnswerEditView">
+    <td>{{position}}</td>
+    <td class="user-name questionTextColumn">
+        <div>
+            {{rangeFromLabel}}
+            <input type="text" id="SCORMAnswerRangeFrom" style="width: 100%" value="{{rangeFrom}}"/>
+        </div>
+        <div>
+            {{rangeToLabel}}
+            <input type="text" id="SCORMAnswerRangeTo" style="width: 100%" value="{{rangeTo}}"/>
+        </div>
+    </td>
+    <td class="buttons text-right">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<!-- Positioning Answer -->
+<script type="text/mustache" id="positioningAnswerView">
+    <td colspan="3" class="user-name questionTextColumn">
+        <div class="SCORMAnswerText">{{{answerText}}}</div>
+    </td>
+</script>
+<script type="text/mustache" id="positioningAnswerEditView">
+    <td>{{position}}</td>
+    <td class="user-name">
+        <textarea type="text" id="SCORMAnswerText_{{position}}">{{{answerText}}}</textarea>
+    </td>
+    <td class="buttons text-right">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<!-- Matching Answer -->
+<script type="text/mustache" id="matchingAnswerView">
+    <td class="user-name questionTextColumn">
+        {{matchingSentenceLabel}}
+        <div class="SCORMAnswerText" id="SCORMAnswerText">{{{answerText}}}</div>
+    </td>
+    <td>
+        <div class="answerSectionTitle">{{matchingElementLabel}}</div>
+        <div class="SCORMAnswerTextArea">
+            {{{matchingText}}}
+        </div>
+    </td>
+    <td></td>
+
+</script>
+<script type="text/mustache" id="matchingAnswerEditView">
+    <td>{{position}}</td>
+    <td class="user-name">
+        {{matchingSentenceLabel}}
+        <textarea type="text" id="SCORMAnswerText_{{position}}">{{{answerText}}}</textarea>
+
+        <div class="answerSectionTitle" style="margin-top: 5px;">{{matchingElementLabel}}</div>
+        <input style="width: 100%" type="text" id="SCORMAnswerMatchingText" value=" {{{matchingText}}}"></input>
+    </td>
+    <td class="buttons text-right">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+<!-- Categorization Answer -->
+<script type="text/mustache" id="categorizationAnswerView">
+    <td class="user-name questionTextColumn">
+        <div class="answerSectionTitle">{{categorizationCategoryLabel}}</div>
+        <div class="SCORMAnswerText">{{{answerText}}}</div>
+    </td>
+    <td>
+        <div class="quizSection">
+            <div class="answerSectionTitle">{{categorizationMatchingElementsLabel}}</div>
+        </div>
+        <div id="SCORMAnswerOptions"></div>
+    </td>
+    <td></td>
+
+</script>
+
+<script type="text/mustache" id="categorizationOption">
+    <td colspan="2">
+        <div class="SCORMAnswerText">{{{text}}}</div>
+    </td>
+    <!--<div class="SCORMAnswerTextArea SCORMOption">
+
+        <div style="clear:both"></div>
+    </div>-->
+</script>
+
+<script type="text/mustache" id="categorizationAnswerEditView">
+    <td style="vertical-align: top !important;">{{position}}</td>
+    <td class="user-name">
+        {{categorizationCategoryLabel}}
+        <textarea type="text" id="SCORMAnswerText_{{position}}">{{{answerText}}}</textarea>
+
+        <div style="margin-top: 10px;">
+            <div style="float: left;" class="answerSectionTitle">{{categorizationMatchingElementsLabel}}</div>
+            <button class="button valamis medium green val-icon-plus no-text" style="float: right;"
+                    id="SCORMButtonAddOption">
+                {{categorizationAddNewMatchingElementLabel}}
+            </button>
+        </div>
+        <table id="SCORMAnswerOptions" class="valamis list-table medium-table" style="margin-top: 10px">
+
+        </table>
+    </td>
+    <td class="buttons text-right" style="vertical-align: top !important;">
+        <button id="SCORMAnswerRemove" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+
+</script>
+
+<script type="text/mustache" id="categorizationOptionEdit">
+    <td class="user-name">
+        <textarea type="text" id="SCORMAnswerOptionText_{{cid}}">{{{text}}}</textarea></td>
+    <td class="buttons text-right ">
+        <button id="SCORMButtonRemoveOption" class="button valamis medium red val-icon-delete no-text"></button>
+    </td>
+</script>
+
+
+<script type="text/mustache" id="deleteConfirmationTemplate">
+    <div>{{warningDeleteMessageLabel}}<br/>
+        <button class='confirmation btn btn-primary'>{{yesLabel}}</button>
+        <button class='btn' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
+    </div>
+</script>

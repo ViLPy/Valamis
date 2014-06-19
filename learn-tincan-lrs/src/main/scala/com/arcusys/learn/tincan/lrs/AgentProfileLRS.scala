@@ -3,14 +3,14 @@ package com.arcusys.learn.tincan.lrs
 package agentprofile {
 
   import com.arcusys.learn.tincan.model._
-  import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage}
-  import com.arcusys.learn.tincan.model.{Agent, AgentProfile}
-import java.util.Date
-import com.arcusys.learn.tincan.lrs.utils.JsonCombiner
+  import com.arcusys.learn.tincan.storage.{ ActorStorage, AgentProfileStorage }
+  import com.arcusys.learn.tincan.model.{ Agent, AgentProfile }
+  import com.arcusys.learn.tincan.lrs.utils.JsonCombiner
+  import org.joda.time.DateTime
 
-trait AgentProfileLRS {
-  val agentProfileStorage: AgentProfileStorage
-  val actorStorage: ActorStorage
+  trait AgentProfileLRS {
+    val agentProfileStorage: AgentProfileStorage
+    val actorStorage: ActorStorage
 
     def getPerson(agent: Agent): Person = {
       require(agent != null, "Incorrect parameters were passed in AgentProfileLRS.getPerson")
@@ -25,7 +25,7 @@ trait AgentProfileLRS {
       agentProfileStorage.get(profileId, agent).map(_.content)
     }
 
-    def getAgentDocumentIds(agent: Agent, since: Option[Date]): Seq[String] = {
+    def getAgentDocumentIds(agent: Agent, since: Option[DateTime]): Seq[String] = {
       require(agent != null, "Incorrect parameter was passed into 'AgentProfileLRS.getArgumentDocumentIds'")
       agentProfileStorage.getIds(agent, since)
     }
@@ -55,9 +55,8 @@ trait AgentProfileLRS {
         case Some(c) if c.content.cType == JSONContent && content.cType == JSONContent =>
           val newContent = try {
             JsonCombiner.combine(c.content.contents, content.contents)
-          }
-          catch {
-            case exception : Exception => throw new AgentProfileLRSModificationException("Json Content type of given document can`t be merged with content type of existing document", exception)
+          } catch {
+            case exception: Exception => throw new AgentProfileLRSModificationException("Json Content type of given document can`t be merged with content type of existing document", exception)
           }
           agentProfileStorage.modify(AgentProfile(profileId, agent, content.copy(contents = newContent)))
         case None =>
@@ -75,7 +74,7 @@ trait AgentProfileLRS {
     }
 
     private def require(predicate: Boolean, message: String = "") {
-      if (!predicate) throw  AgentProfileLRSArgumentException(message)
+      if (!predicate) throw AgentProfileLRSArgumentException(message)
     }
   }
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+
+    <div class="statements"> </div>
+    <div class="pagination"></div>
+</div>
+<script type="text/javascript">
+    // upload translations
+    var defaultURL = Utils.getContextPath() + 'i18n/statementReporting_en.properties';
+    var localizedURL = Utils.getContextPath() + 'i18n/statementReporting_{{language}}.properties';
+    Utils.i18nLoader(localizedURL, defaultURL, onReportLanguageLoad, onReportLanguageError);
+
+    Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (template) {
+        Mustache.parse(template);
+
+        return function (view, partials) {
+            return Mustache.render(template,_.extend(view,language), partials);
+        };
+    };
+
+    var MostActiveStudentsApp = new Backbone.Marionette.Application();
+    MostActiveStudentsApp.addRegions({
+        studentView: '.statements',
+        pagination: '.pagination'
+    });
+
+    function initView() {
+        MostActiveStudentsApp.addInitializer(function (options) {
+            var collection = new StudentMostActiveModelCollection();
+            var collectionView = new StudentsListView({collection: collection});
+
+            var paginationView = new PaginationView(options);
+            paginationView.on('page:select', function (page) {
+                collection.fetch({offset: ~~((page - 1) * options.itemsOnPage), amount: options.itemsOnPage});
+            });
+            collection.on('update:statementCollection', paginationView.setPaginationOptions, paginationView);
+
+            MostActiveStudentsApp.studentView.show(collectionView, { preventClose: true });
+            MostActiveStudentsApp.pagination.show(paginationView);
+
+            collection.fetch({offset: 0, amount: options.itemsOnPage});
+        });
+
+        jQuery(function () {
+            MostActiveStudentsApp.start({
+                itemsOnPage: 5
+            });
+        });
+    }
+
+    function onReportLanguageLoad(properties) {
+        language = properties;
+        initView();
+    }
+
+    function onReportLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+</script>
+</body>
+</html>

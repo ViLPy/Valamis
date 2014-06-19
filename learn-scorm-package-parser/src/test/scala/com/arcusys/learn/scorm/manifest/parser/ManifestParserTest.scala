@@ -35,11 +35,11 @@ class ManifestParserTest {
 
   @Test
   def testOrganization() {
-    val organization1 = doc.organizations.find(o=>o.item.id == "TOC1").get.item.asInstanceOf[Organization]
+    val organization1 = doc.organizations.find(o => o.item.id == "TOC1").get.item.asInstanceOf[Organization]
     assertEquals("TOC1", organization1.id)
     assertEquals(true, organization1.objectivesGlobalToSystem)
     assertEquals(true, organization1.sharedDataGlobalToSystem)
-    val organization2 = doc.organizations.find(o=>o.item.id == "TOC2").get.item.asInstanceOf[Organization]
+    val organization2 = doc.organizations.find(o => o.item.id == "TOC2").get.item.asInstanceOf[Organization]
     assertEquals("TOC2", organization2.id)
     assertEquals(false, organization2.objectivesGlobalToSystem)
     assertEquals(false, organization2.sharedDataGlobalToSystem)
@@ -47,7 +47,7 @@ class ManifestParserTest {
 
   @Test
   def testOrganizationMetadata() {
-    val organization1 = doc.organizations.find(o=>o.item.id == "TOC1").get.item.asInstanceOf[Organization]
+    val organization1 = doc.organizations.find(o => o.item.id == "TOC1").get.item.asInstanceOf[Organization]
     val metadata = organization1.metadata.get
     assertEquals(1, metadata.externalMetadataLocations.size)
     assertEquals("activities/activity1MD.xml", metadata.externalMetadataLocations(0))
@@ -55,7 +55,7 @@ class ManifestParserTest {
 
   @Test
   def testActivities() {
-    val activities = doc.organizations.find(o=>o.item.id == "TOC1").get.children
+    val activities = doc.organizations.find(o => o.item.id == "TOC1").get.children
     assertEquals(3, activities.size)
     assertEquals("ITEM1", activities(0).item.id)
     assertEquals("ITEM2", activities(1).item.id)

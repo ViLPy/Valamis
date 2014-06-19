@@ -1,6 +1,5 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-
 // Termination request response model for handling termination request result
 // taken from Termination Request Process [TB.2.3] (SN SCORM book)
 

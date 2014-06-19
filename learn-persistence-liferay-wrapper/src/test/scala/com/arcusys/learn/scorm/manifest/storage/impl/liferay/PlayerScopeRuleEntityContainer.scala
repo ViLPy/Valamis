@@ -4,9 +4,9 @@ import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalServi
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
-import org.mockito.Matchers.{eq => eqMatcher}
+import org.mockito.Matchers.{ eq => eqMatcher }
 
-import java.util.{List => JavaList}
+import java.util.{ List => JavaList }
 import scala.collection.JavaConverters._
 
 /**
@@ -52,13 +52,13 @@ object PlayerScopeRuleEntityContainer extends MockEntityContainer[LFPlayerScopeR
   }
 
   private def unwrapPlayerID(playerIDRaw: Any) = playerIDRaw match {
-    case x: String => x
+    case x: String                  => x
     case Array(x: String, Int, Int) => x
   }
 
   def playerIDMatch(playerID: String)(playerScope: LFPlayerScopeRule): Boolean = playerScope.getPlayerID == playerID
   private def filterByPlayerIDAsList(playerIDRaw: Any): JavaList[LFPlayerScopeRule] = filterByPlayerID(playerIDRaw).asJava
-  private def filterByPlayerID(filenameRaw: Any): Seq[LFPlayerScopeRule] = filterStorage (playerIDMatch(unwrapPlayerID(filenameRaw)))
+  private def filterByPlayerID(filenameRaw: Any): Seq[LFPlayerScopeRule] = filterStorage(playerIDMatch(unwrapPlayerID(filenameRaw)))
 
   private def filterStorage(check: (LFPlayerScopeRule) => Boolean): Seq[LFPlayerScopeRule] = {
     internalStorage.values.filter(check).toSeq

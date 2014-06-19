@@ -3,7 +3,7 @@ package com.arcusys.learn.questionbank.storage.impl.liferay
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.questionbank.model.Answer
 import com.arcusys.learn.persistence.liferay.service.LFAnswerLocalServiceUtil
-import java.math.{ BigDecimal => JavaBigDecimal}
+import java.math.{ BigDecimal => JavaBigDecimal }
 import com.arcusys.learn.persistence.liferay.model.LFAnswer
 import scala.collection.JavaConverters._
 import com.arcusys.learn.questionbank.storage.impl.AnswerFieldsMapper
@@ -13,7 +13,7 @@ import com.arcusys.learn.questionbank.storage.impl.AnswerFieldsMapper
  * Date: 19.3.2013
  */
 trait LFAnswerStorageImpl extends KeyedEntityStorage[Answer] {
-  protected def doRenew() { LFAnswerLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFAnswerLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
 
@@ -21,9 +21,9 @@ trait LFAnswerStorageImpl extends KeyedEntityStorage[Answer] {
     case Seq(("questionID", questionID: Int)) => LFAnswerLocalServiceUtil.findByQuestionId(questionID).asScala map { extract }
   }
 
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
-  def create(entity: Answer, parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def create(entity: Answer, parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
   def delete(parameters: (String, Any)*) {
     parameters match {
@@ -31,25 +31,26 @@ trait LFAnswerStorageImpl extends KeyedEntityStorage[Answer] {
     }
   }
 
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
-  def modify(entity: Answer, parameters: (String, Any)*) {throw new UnsupportedOperationException}
+  def modify(entity: Answer, parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
   def getByID(id: Int, parameters: (String, Any)*) = Option(LFAnswerLocalServiceUtil.getLFAnswer(id)) map { extract }
 
   def createAndGetID(entity: Answer, parameters: (String, Any)*) = {
     // Entity parameter is ignored - see Answer_insert.sql
     val newEntity = LFAnswerLocalServiceUtil.createLFAnswer()
-    parameters.foreach { param => param match {
-      case ("questionID", questionId: Int) => newEntity.setQuestionId(questionId)
-      case ("answerPosition", position: Int) => newEntity.setAnswerPosition(position)
-      case ("answerType", answerType: Int) => newEntity.setAnswerType(answerType)
-      case ("description", description: Option[String]) => description.foreach(newEntity.setDescription(_))
-      case ("isCorrect", isCorrect: Option[Boolean]) => isCorrect.foreach(newEntity.setCorrect(_))
-      case ("rangeFrom", rangeFrom: Option[JavaBigDecimal]) => rangeFrom.foreach{newEntity.setRangeFrom(_)}
-      case ("rangeTo", rangeTo: Option[JavaBigDecimal]) => rangeTo.foreach{newEntity.setRangeTo(_)}
-      case ("matchingText", text: Option[Option[String]]) => if (text.isDefined) text.get.foreach{newEntity.setMatchingText(_)}
-    }
+    parameters.foreach { param =>
+      param match {
+        case ("questionID", questionId: Int)                  => newEntity.setQuestionId(questionId)
+        case ("answerPosition", position: Int)                => newEntity.setAnswerPosition(position)
+        case ("answerType", answerType: Int)                  => newEntity.setAnswerType(answerType)
+        case ("description", description: Option[String])     => description.foreach(newEntity.setDescription(_))
+        case ("isCorrect", isCorrect: Option[Boolean])        => isCorrect.foreach(newEntity.setCorrect(_))
+        case ("rangeFrom", rangeFrom: Option[JavaBigDecimal]) => rangeFrom.foreach { newEntity.setRangeFrom(_) }
+        case ("rangeTo", rangeTo: Option[JavaBigDecimal])     => rangeTo.foreach { newEntity.setRangeTo(_) }
+        case ("matchingText", text: Option[Option[String]])   => if (text.isDefined) text.get.foreach { newEntity.setMatchingText(_) }
+      }
 
     }
     LFAnswerLocalServiceUtil.addLFAnswer(newEntity).getId.toInt
@@ -67,7 +68,7 @@ trait LFAnswerStorageImpl extends KeyedEntityStorage[Answer] {
     throw new UnsupportedOperationException
   }
 
-  def extract(lfEntity: LFAnswer ) = {
+  def extract(lfEntity: LFAnswer) = {
     createAnswer(lfEntity.getAnswerType, new AnswerFieldsMapper {
 
       def matchingText = Option(lfEntity.getMatchingText)

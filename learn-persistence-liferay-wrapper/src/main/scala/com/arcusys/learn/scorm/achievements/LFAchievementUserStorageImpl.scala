@@ -6,18 +6,18 @@ import com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalServi
 import com.arcusys.learn.persistence.liferay.model.LFAchievementUser
 import scala.collection.JavaConverters._
 
-trait LFAchievementUserStorageImpl extends KeyedEntityStorage[AchievementUser]{
-  def renew{
+trait LFAchievementUserStorageImpl extends KeyedEntityStorage[AchievementUser] {
+  def renew {
     LFAchievementUserLocalServiceUtil.removeAll
   }
-  private def convert(lfAchievementUser: LFAchievementUser) : AchievementUser = AchievementUser(
+  private def convert(lfAchievementUser: LFAchievementUser): AchievementUser = AchievementUser(
     lfAchievementUser.getId.toInt,
     lfAchievementUser.getUserId.toInt,
     lfAchievementUser.getAchievementId.toInt
   )
 
-  def getAll(parameters: (String, Any)*): Seq[AchievementUser] = (parameters match{
-    case Seq(("userId", userId: Int)) => LFAchievementUserLocalServiceUtil.findByUserId(userId)
+  def getAll(parameters: (String, Any)*): Seq[AchievementUser] = (parameters match {
+    case Seq(("userId", userId: Int))    => LFAchievementUserLocalServiceUtil.findByUserId(userId)
     case Seq(("achievementId", id: Int)) => LFAchievementUserLocalServiceUtil.findByAchievementId(id)
   }).asScala.map(convert).toSeq
 
@@ -33,22 +33,22 @@ trait LFAchievementUserStorageImpl extends KeyedEntityStorage[AchievementUser]{
 
   def delete(parameters: (String, Any)*) {
     parameters match {
-      case Seq(("id", id:Int)) => LFAchievementUserLocalServiceUtil.deleteLFAchievementUser(id)
+      case Seq(("id", id: Int)) => LFAchievementUserLocalServiceUtil.deleteLFAchievementUser(id)
     }
   }
 
   def getByID(id: Int, parameters: (String, Any)*) = throw new UnsupportedOperationException
 
   def getOne(parameters: (String, Any)*): Option[AchievementUser] = throw new UnsupportedOperationException
-  def getOne(sqlKey: String, parameters: (String, Any)*): Option[AchievementUser]= throw new UnsupportedOperationException()
+  def getOne(sqlKey: String, parameters: (String, Any)*): Option[AchievementUser] = throw new UnsupportedOperationException()
 
   def createAndGetID(parameters: (String, Any)*): Int = throw new UnsupportedOperationException()
   def create(parameters: (String, Any)*) = throw new UnsupportedOperationException()
   def create(entity: AchievementUser, parameters: (String, Any)*) = throw new UnsupportedOperationException()
 
-  def modify(parameters: (String, Any)*)= throw new UnsupportedOperationException()
-  def modify(sqlKey: String, parameters: (String, Any)*)= throw new UnsupportedOperationException()
+  def modify(parameters: (String, Any)*) = throw new UnsupportedOperationException()
+  def modify(sqlKey: String, parameters: (String, Any)*) = throw new UnsupportedOperationException()
 
-  def execute(sqlKey: String, parameters: (String, Any)*)= throw new UnsupportedOperationException()
-  def getAll(sqlKey: String, parameters: (String, Any)*): Seq[AchievementUser]= throw new UnsupportedOperationException()
+  def execute(sqlKey: String, parameters: (String, Any)*) = throw new UnsupportedOperationException()
+  def getAll(sqlKey: String, parameters: (String, Any)*): Seq[AchievementUser] = throw new UnsupportedOperationException()
 }

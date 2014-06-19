@@ -3,51 +3,51 @@ package com.arcusys.learn.storage.impl.liferay
 import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.filestorage.storage.impl.FileRecordEntityStorage
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.scorm.manifest.storage.{PackageScopeRuleStorage, ResourcesStorage, ActivitiesStorage, PackagesStorage}
-import com.arcusys.learn.questionbank.storage.{AnswerStorage, QuestionStorage, QuestionCategoryStorage}
-import com.arcusys.learn.quiz.storage.{QuizQuestionStorage, QuizQuestionCategoryStorage, QuizStorage}
-import com.arcusys.learn.scorm.tracking.storage.{RoleStorage, UserStorage, DataModelStorage, AttemptStorage}
+import com.arcusys.learn.scorm.manifest.storage.{ PackageScopeRuleStorage, ResourcesStorage, ActivitiesStorage, PackagesStorage }
+import com.arcusys.learn.questionbank.storage.{ AnswerStorage, QuestionStorage, QuestionCategoryStorage }
+import com.arcusys.learn.quiz.storage.{ QuizTreeStorage, QuizQuestionStorage, QuizQuestionCategoryStorage, QuizStorage }
+import com.arcusys.learn.scorm.tracking.storage.{ RoleStorage, UserStorage, DataModelStorage, AttemptStorage }
 import com.arcusys.learn.scorm.tracking.states.storage._
-import com.arcusys.learn.scorm.course.{PlayerScopeRuleStorage, CourseStorage}
+import com.arcusys.learn.scorm.course.{ PlayerScopeRuleStorage, CourseStorage }
 import com.arcusys.learn.updater.StorageUpdater
 import com.arcusys.learn.questionbank.storage.impl._
-import com.arcusys.learn.questionbank.storage.impl.liferay.{LFAnswerStorageImpl, LFQuestionStorageImpl, LFQuestionCategoryStorageImpl}
-import com.arcusys.learn.quiz.storage.impl.{QuizQuestionCreator, QuizQuestionEntityStorage, QuizQuestionCategoryEntityStorage, QuizEntityStorage}
-import com.arcusys.learn.quiz.storage.impl.liferay.{LFQuizQuestionStorageImpl, LFQuizQuestionCategoryStorageImpl, LFQuizStorageImpl}
+import com.arcusys.learn.questionbank.storage.impl.liferay.{ LFAnswerStorageImpl, LFQuestionStorageImpl, LFQuestionCategoryStorageImpl }
+import com.arcusys.learn.quiz.storage.impl._
+import com.arcusys.learn.quiz.storage.impl.liferay.{ LFQuizTreeStorageImpl, LFQuizQuestionStorageImpl, LFQuizQuestionCategoryStorageImpl, LFQuizStorageImpl }
 import com.arcusys.learn.filestorage.storage.impl.liferay.LFFileRecordStorageImpl
-import com.arcusys.learn.scorm.course.impl.liferay.{LFPlayerScopeRuleStorageImpl, LFCourseStorageImpl}
-import com.arcusys.learn.scorm.course.impl.{PlayerScopeRuleEntityStorage, CourseEntityStorage}
+import com.arcusys.learn.scorm.course.impl.liferay.{ LFPlayerScopeRuleStorageImpl, LFCourseStorageImpl }
+import com.arcusys.learn.scorm.course.impl.{ PlayerScopeRuleEntityStorage, CourseEntityStorage }
 import com.arcusys.learn.scorm.tracking.storage.impl._
-import com.arcusys.learn.scorm.tracking.impl.liferay.{LFRoleStorageImpl, LFUserStorageImpl}
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{ObjectiveMapStorage, SequencingStorage}
+import com.arcusys.learn.scorm.tracking.impl.liferay.{ LFRoleStorageImpl, LFUserStorageImpl }
+import com.arcusys.learn.scorm.manifest.sequencing.storage.{ ObjectiveMapStorage, SequencingStorage }
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl._
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay._
 import com.arcusys.learn.scorm.manifest.storage.impl._
 import com.arcusys.learn.scorm.manifest.storage.impl.liferay._
-import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{LFAttemptDataStorageImpl, LFAttemptStorageImpl}
+import com.arcusys.learn.scorm.tracking.storage.impl.liferay.{ LFAttemptDataStorageImpl, LFAttemptStorageImpl }
 import com.arcusys.learn.scorm.tracking.states.storage.impl._
 import com.arcusys.learn.scorm.tracking.states.impl.liferay._
-import com.arcusys.learn.social.storage.{PackageVoteStorage, PackageCommentStorage, SocialPackageStorage}
-import com.arcusys.learn.social.storage.impl.{PackageVoteEntityStorage, PackageCommentEntityStorage, SocialPackageEntityStorage}
-import com.arcusys.learn.social.storage.impl.liferay.{LFPackageCommentStorageImpl, LFPackageVoteStorageImpl, LFSocialPackageStorageImpl}
+import com.arcusys.learn.social.storage.{ PackageVoteStorage, PackageCommentStorage, SocialPackageStorage }
+import com.arcusys.learn.social.storage.impl.{ PackageVoteEntityStorage, PackageCommentEntityStorage, SocialPackageEntityStorage }
+import com.arcusys.learn.social.storage.impl.liferay.{ LFPackageCommentStorageImpl, LFPackageVoteStorageImpl, LFSocialPackageStorageImpl }
 import com.arcusys.learn.scorm.certificating._
-import com.arcusys.learn.scorm.certificating.impl.{CertificateUserEntityStorage, CertificateSiteEntityStorage, CertificateEntityStorage}
+import com.arcusys.learn.scorm.certificating.impl.{ CertificateUserEntityStorage, CertificateSiteEntityStorage, CertificateEntityStorage }
 import com.arcusys.learn.setting.storage.SettingStorage
 import com.arcusys.learn.setting.storage.impl.SettingEntityStorage
 import com.arcusys.learn.settings.model.LFSettingStorageImpl
-import com.arcusys.learn.tincan.manifest.storage.{TincanManifestActivityStorage, TincanPackageStorage}
-import com.arcusys.learn.tincan.manifest.storage.impl.{TincanManifestActivityEntityStorage, TincanPackageEntityStorage}
-import com.arcusys.learn.tincan.manifest.storage.impl.liferay.{LFTincanManifestActivityStorageImpl, LFTincanPackageStorageImpl}
+import com.arcusys.learn.tincan.manifest.storage.{ TincanManifestActivityStorage, TincanPackageStorage }
+import com.arcusys.learn.tincan.manifest.storage.impl.{ TincanManifestActivityEntityStorage, TincanPackageEntityStorage }
+import com.arcusys.learn.tincan.manifest.storage.impl.liferay.{ LFTincanManifestActivityStorageImpl, LFTincanPackageStorageImpl }
 import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.tincan.lrsEndpoint.impl.TincanLrsEndpointEntityStorage
 import com.arcusys.learn.tincan.storage.impl.liferay._
 import com.arcusys.learn.tincan.storage._
 import com.arcusys.learn.tincan.storage.impl._
 import com.arcusys.learn.scorm.manifest.storage.impl.ActivityEntityStorage
-import com.arcusys.learn.tincan.model.{AgentProfile}
-import com.arcusys.learn.scorm.Archivements.{AchievementUserStorage, AchievementRequiredStorage, AchievementActivityStorage, AchievementStorage}
-import com.arcusys.learn.scorm.Archivements.impl.{AchievementUserEntityStorage, AchievementRequiredEntityStorage, AchievementActivityEntityStorage, AchievementEntityStorage}
-import com.arcusys.learn.scorm.achievements.{LFAchievementUserStorageImpl, LFAchievementRequiredStorageImpl, LFAchievementActivityStorageImpl, LFAchievementStorageImpl}
+import com.arcusys.learn.tincan.model.{ AgentProfile }
+import com.arcusys.learn.scorm.Archivements.{ AchievementUserStorage, AchievementRequiredStorage, AchievementActivityStorage, AchievementStorage }
+import com.arcusys.learn.scorm.Archivements.impl.{ AchievementUserEntityStorage, AchievementRequiredEntityStorage, AchievementActivityEntityStorage, AchievementEntityStorage }
+import com.arcusys.learn.scorm.achievements.{ LFAchievementUserStorageImpl, LFAchievementRequiredStorageImpl, LFAchievementActivityStorageImpl, LFAchievementStorageImpl }
 import com.arcusys.learn.persistence.liferay.model.impl.LFTincanClientApiStorageImpl
 
 /**
@@ -56,7 +56,7 @@ import com.arcusys.learn.persistence.liferay.model.impl.LFTincanClientApiStorage
  */
 object LFStorageFactory extends StorageFactoryContract {
   lazy val tincanLrsEndpointStorage: TincanLrsEndpointStorage = new TincanLrsEndpointEntityStorage with LFLrsEndpointStorageImpl {}
-  lazy val tincanPackageStorage: TincanPackageStorage = new TincanPackageEntityStorage with LFTincanPackageStorageImpl{
+  lazy val tincanPackageStorage: TincanPackageStorage = new TincanPackageEntityStorage with LFTincanPackageStorageImpl {
     val packageScopeRuleStorage = LFStorageFactory.this.packageScopeRuleStorage
   }
   lazy val tincanActivityStorage: TincanManifestActivityStorage = new TincanManifestActivityEntityStorage with LFTincanManifestActivityStorageImpl
@@ -64,7 +64,7 @@ object LFStorageFactory extends StorageFactoryContract {
   lazy val tincanLrsStatementRefStorage: StatementRefStorage = new StatementRefEntityStorage with LFTincanLrsStatementRefStorageImpl
   lazy val tincanLrsContextActivitiesStorage: ContextActivitiesStorage = new ContextActivitiesEntityStorage with LFTincanLrsContextActivitiesStorageImpl
 
-  lazy val tincanLrsStatementStorage: StatementStorage = new StatementEntityStorage with LFTincanLrsStatementStorageImpl{
+  lazy val tincanLrsStatementStorage: StatementStorage = new StatementEntityStorage with LFTincanLrsStatementStorageImpl {
     def actorStorage: ActorStorage = LFStorageFactory.this.tincanLrsActorStorage
     def tincanActivityStorage: TincanActivityStorage = LFStorageFactory.this.tincanLrsActivityStorage
 
@@ -79,15 +79,15 @@ object LFStorageFactory extends StorageFactoryContract {
     def attachmentStorage: AttachmentStorage = LFStorageFactory.this.tincanLrsAttachmentStorage
   }
 
-  lazy val tincanLrsSubStatementStorage: SubStatementStorage = new SubStatementEntityStorage with LFTincanLrsSubStatementStorageImpl{
-    def actorStorage: ActorStorage= LFStorageFactory.this.tincanLrsActorStorage
+  lazy val tincanLrsSubStatementStorage: SubStatementStorage = new SubStatementEntityStorage with LFTincanLrsSubStatementStorageImpl {
+    def actorStorage: ActorStorage = LFStorageFactory.this.tincanLrsActorStorage
     def tincanActivityStorage: TincanActivityStorage = LFStorageFactory.this.tincanLrsActivityStorage
 
     def tincanStatementRefStorage: StatementRefStorage = LFStorageFactory.this.tincanLrsStatementRefStorage
   }
   lazy val tincanLrsAttachmentStorage: AttachmentStorage = new AttachmentEntityStorage with LFTincanLrsAttachmentStorageImpl
   lazy val tincanLrsResultStorage: TincanResultStorage = new TincanResultEntityStorage with LFTincanLrsResultStorageImpl
-  lazy val tincanLrsContextStorage: ContextStorage = new ContextEntityStorage with LFTincanLrsContextStorageImpl{
+  lazy val tincanLrsContextStorage: ContextStorage = new ContextEntityStorage with LFTincanLrsContextStorageImpl {
     def actorStorage: ActorStorage = LFStorageFactory.this.tincanLrsActorStorage
     def contextActivitiesStorage: ContextActivitiesStorage = LFStorageFactory.this.tincanLrsContextActivitiesStorage
   }
@@ -96,30 +96,29 @@ object LFStorageFactory extends StorageFactoryContract {
 
   lazy val tincanLrsActorStorage: ActorStorage = new ActorEntityStorage with LFActorStorageImpl
   lazy val tincanLrsDocumentStorage: DocumentStorage = new DocumentEntityStorage with LFDocumentStorageImpl
-  lazy val tincanLrsStateStorage: StateStorage = new StateEntityStorage with LFTincanLrsStateStorageImpl{
+  lazy val tincanLrsStateStorage: StateStorage = new StateEntityStorage with LFTincanLrsStateStorageImpl {
     def actorStorage: ActorStorage = LFStorageFactory.this.tincanLrsActorStorage
     def documentStorage: DocumentStorage = LFStorageFactory.this.tincanLrsDocumentStorage
   }
-  lazy val tincanLrsActivityStorage : TincanActivityStorage = new TincanActivityEntityStorage with LFTincanActivityStorageImpl
-  lazy val tincanLrsActivityProfileStorage : ActivityProfileStorage = new ActivityProfileEntityStorage with LFActivityProfileStorageImpl
-  lazy val tincanLrsAgentProfileStorage : AgentProfileStorage = new AgentProfileEntityStorage with LFAgentProfileStorageImpl {
+  lazy val tincanLrsActivityStorage: TincanActivityStorage = new TincanActivityEntityStorage with LFTincanActivityStorageImpl
+  lazy val tincanLrsActivityProfileStorage: ActivityProfileStorage = new ActivityProfileEntityStorage with LFActivityProfileStorageImpl
+  lazy val tincanLrsAgentProfileStorage: AgentProfileStorage = new AgentProfileEntityStorage with LFAgentProfileStorageImpl {
     def actorStorage: ActorStorage = LFStorageFactory.this.tincanLrsActorStorage
     def documentStorage: LFDocumentStorageImpl = LFStorageFactory.this.tincanLrsDocumentStorage.asInstanceOf[LFDocumentStorageImpl]
   }
 
   // Not related to tincan
-  lazy val packageStorage: PackagesStorage = new PackagesEntityStorage with LFPackageStorageImpl{
+  lazy val packageStorage: PackagesStorage = new PackagesEntityStorage with LFPackageStorageImpl {
     val packageScopeRuleStorage = LFStorageFactory.this.packageScopeRuleStorage
   }
-  lazy val activityStorage: ActivitiesStorage = new ActivityEntityStorage with LFActivityStorageImpl with ActivityCreator{
+  lazy val activityStorage: ActivitiesStorage = new ActivityEntityStorage with LFActivityStorageImpl with ActivityCreator {
     val sequencingStorage = LFStorageFactory.this.sequencingStorage
     val dataStorage = LFStorageFactory.this.activityDataStorage
   }
   //lazy val organizationStorage: OrganizationsStorage = new OrganizationsStorageImpl
   lazy val resourceStorage: ResourcesStorage = new ResourceEntityStorage with LFResourceStorageImpl
 
-
-  lazy val questionCategoryStorage: QuestionCategoryStorage = new QuestionCategoryEntityStorage with LFQuestionCategoryStorageImpl{
+  lazy val questionCategoryStorage: QuestionCategoryStorage = new QuestionCategoryEntityStorage with LFQuestionCategoryStorageImpl {
   }
   lazy val questionStorage: QuestionStorage = new QuestionEntityStorage with LFQuestionStorageImpl with QuestionCreator {
     val answerStorage = LFStorageFactory.this.answerStorage
@@ -127,22 +126,23 @@ object LFStorageFactory extends StorageFactoryContract {
   }
   private lazy val answerStorage: AnswerStorage = new AnswerEntityStorage with LFAnswerStorageImpl with AnswerCreator
   lazy val quizStorage: QuizStorage = new QuizEntityStorage with LFQuizStorageImpl
-  lazy val quizQuestionCategoryStorage: QuizQuestionCategoryStorage = new QuizQuestionCategoryEntityStorage with LFQuizQuestionCategoryStorageImpl{
-//    def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean) = { throw new UnsupportedOperationException("Not implemented") }
+  lazy val quizTreeStorage: QuizTreeStorage = new QuizTreeEntityStorage with LFQuizTreeStorageImpl
+
+  lazy val quizQuestionCategoryStorage: QuizQuestionCategoryStorage = new QuizQuestionCategoryEntityStorage with LFQuizQuestionCategoryStorageImpl {
+    //    def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean) = { throw new UnsupportedOperationException("Not implemented") }
   }
   lazy val quizQuestionStorage: QuizQuestionStorage = new QuizQuestionEntityStorage with LFQuizQuestionStorageImpl with QuizQuestionCreator {
     val questionStorage = LFStorageFactory.this.questionStorage
   }
 
-
-  lazy val attemptStorage: AttemptStorage = new AttemptEntityStorage with LFAttemptStorageImpl with AttemptCreator{
+  lazy val attemptStorage: AttemptStorage = new AttemptEntityStorage with LFAttemptStorageImpl with AttemptCreator {
     def userStorage: UserStorage = LFStorageFactory.this.userStorage
     def packageStorage: PackagesStorage = LFStorageFactory.this.packageStorage
   }
 
   lazy val dataModelStorage: DataModelStorage = new DataModelEntityStorage with LFAttemptDataStorageImpl
   lazy val userStorage: UserStorage = new UserEntityStorage with LFUserStorageImpl
-  lazy val activityStateTreeStorage: ActivityStateTreeStorage = new ActivityStateTreeEntityStorage with LFActivityStateTreeStorageImpl with ActivityStateTreeCreator{
+  lazy val activityStateTreeStorage: ActivityStateTreeStorage = new ActivityStateTreeEntityStorage with LFActivityStateTreeStorageImpl with ActivityStateTreeCreator {
     def activityStateStorage: ActivityStateStorage = LFStorageFactory.this.activityStateStorage
 
     def activityStateNodeStorage: ActivityStateNodeStorage = LFStorageFactory.this.activityStateNodeStorage
@@ -153,10 +153,10 @@ object LFStorageFactory extends StorageFactoryContract {
     def activityStateStorage: ActivityStateStorage = LFStorageFactory.this.activityStateStorage
   }
   private lazy val globalObjectiveStorage: GlobalObjectiveStorage = new GlobalObjectiveEntityStorage with LFGlobalObjectiveStorageImpl
-  private lazy val objectiveStateStorage: ObjectiveStateStorage = new ObjectiveStateEntityStorage with LFObjectiveStateStorageImpl{
+  private lazy val objectiveStateStorage: ObjectiveStateStorage = new ObjectiveStateEntityStorage with LFObjectiveStateStorageImpl {
     def objectiveMapStorage: ObjectiveMapStorage = LFStorageFactory.this.objectiveMapStorage
   }
-  lazy val activityStateStorage: ActivityStateStorage = new ActivityStateEntityStorage with LFActivityStateStorageImpl with ActivityStateCreator{
+  lazy val activityStateStorage: ActivityStateStorage = new ActivityStateEntityStorage with LFActivityStateStorageImpl with ActivityStateCreator {
     def activitiesStorage: ActivitiesStorage = LFStorageFactory.this.activityStorage
 
     def objectiveStateStorage: ObjectiveStateStorage = LFStorageFactory.this.objectiveStateStorage
@@ -172,7 +172,7 @@ object LFStorageFactory extends StorageFactoryContract {
     def updateTo1_2() {}
   }
 
-  lazy val sequencingStorage: SequencingStorage = new SequencingEntityStorage with LFSequencingStorageImpl with SequencingCreator{
+  lazy val sequencingStorage: SequencingStorage = new SequencingEntityStorage with LFSequencingStorageImpl with SequencingCreator {
     val sequencingPermissionsStorage = LFStorageFactory.this.sequencingPermissionsStorage
     val rollupContributionStorage = LFStorageFactory.this.rollupContributionStorage
     val objectiveStorageStorage = LFStorageFactory.this.objectiveStorage
@@ -180,8 +180,8 @@ object LFStorageFactory extends StorageFactoryContract {
     val sequencingTrackingStorage = LFStorageFactory.this.sequencingTrackingStorage
     val rollupRuleStorage = LFStorageFactory.this.rollupRuleStorage
     val exitConditionRuleStorageImpl = LFStorageFactory.this.exitConditionRuleStorage
-    val preConditionRuleStorageImpl= LFStorageFactory.this.preConditionRuleStorage
-    val postConditionRuleStorageImpl= LFStorageFactory.this.postConditionRuleStorage
+    val preConditionRuleStorageImpl = LFStorageFactory.this.preConditionRuleStorage
+    val postConditionRuleStorageImpl = LFStorageFactory.this.postConditionRuleStorage
 
     val objectiveMapStorage = LFStorageFactory.objectiveMapStorage
     val ruleConditionStorage = LFStorageFactory.ruleConditionStorage
@@ -191,28 +191,28 @@ object LFStorageFactory extends StorageFactoryContract {
   lazy val sequencingPermissionsStorage = new SequencingPermissionsEntityStorage with LFSequencingPermissionsStorageImpl
   lazy val rollupContributionStorage = new RollupContributionEntityStorage with LFRollupContributionStorageImpl
   lazy val objectiveMapStorage = new ObjectiveMapEntityStorage with LFObjectiveMapStorageImpl
-  lazy val objectiveStorage = new ObjectiveEntityStorage with LFObjectiveStorageImpl with ObjectiveEntityCreator{
+  lazy val objectiveStorage = new ObjectiveEntityStorage with LFObjectiveStorageImpl with ObjectiveEntityCreator {
     val mapStorage = LFStorageFactory.this.objectiveMapStorage
   }
   lazy val childrenSelectionStorage = new ChildrenSelectionEntityStorage with LFChildrenSelectionStorageImpl
   lazy val sequencingTrackingStorage = new SequencingTrackingEntityStorage with LFSequencingTrackingStorageImpl
-  lazy val rollupRuleStorage = new RollupRuleEntityStorage with LFRollupRuleStorageImpl with RollupRuleCreator{
+  lazy val rollupRuleStorage = new RollupRuleEntityStorage with LFRollupRuleStorageImpl with RollupRuleCreator {
     val ruleConditionStorage = LFStorageFactory.this.ruleConditionStorage
   }
-  lazy val exitConditionRuleStorage = new ExitConditionRuleEntityStorage with LFExitConditionRuleStorageImpl with ExitConditionRuleCreator{
+  lazy val exitConditionRuleStorage = new ExitConditionRuleEntityStorage with LFExitConditionRuleStorageImpl with ExitConditionRuleCreator {
     val ruleConditionStorage = LFStorageFactory.this.ruleConditionStorage
   }
-  lazy val preConditionRuleStorage = new PreConditionRuleEntityStorage with LFPreConditionRuleStorageImpl with PreConditionRuleCreator{
+  lazy val preConditionRuleStorage = new PreConditionRuleEntityStorage with LFPreConditionRuleStorageImpl with PreConditionRuleCreator {
     val ruleConditionStorage = LFStorageFactory.this.ruleConditionStorage
   }
-  lazy val postConditionRuleStorage = new PostConditionRuleEntityStorage with LFPostConditionRuleStorageImpl with PostConditionRuleCreator{
+  lazy val postConditionRuleStorage = new PostConditionRuleEntityStorage with LFPostConditionRuleStorageImpl with PostConditionRuleCreator {
     val ruleConditionStorage = LFStorageFactory.this.ruleConditionStorage
   }
   lazy val activityDataStorage = new ActivityDataEntityStorage with LFActivityDataMapStorageImpl
 
-  lazy val certificateStorage: CertificateStorage = new CertificateEntityStorage with LFCertificateStorageImpl
-  lazy val certificateSiteStorage: CertificateSiteStorage = new CertificateSiteEntityStorage with LFCertificateSiteStorageImpl
-  lazy val certificateUserStorage: CertificateUserStorage = new CertificateUserEntityStorage with LFCertificateUserStorageImpl
+  //lazy val certificateStorage: CertificateStorage = new CertificateEntityStorage with LFCertificateStorageImpl
+  //lazy val certificateSiteStorage: CertificateSiteStorage = new CertificateSiteEntityStorage with LFCertificateSiteStorageImpl
+  //lazy val certificateUserStorage: CertificateUserStorage = new CertificateUserEntityStorage with LFCertificateUserStorageImpl
 
   lazy val achievementStorage: AchievementStorage = new AchievementEntityStorage with LFAchievementStorageImpl
   lazy val achievementActivityStorage: AchievementActivityStorage = new AchievementActivityEntityStorage with LFAchievementActivityStorageImpl

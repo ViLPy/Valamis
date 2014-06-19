@@ -47,11 +47,12 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
             { "id_", Types.BIGINT },
             { "title", Types.CLOB },
             { "description", Types.CLOB },
+            { "logo", Types.VARCHAR },
             { "welcomePageContent", Types.CLOB },
             { "finalPageContent", Types.CLOB },
             { "courseID", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuiz";
     public static final String ORDER_BY_JPQL = " ORDER BY lfQuiz.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFQuiz.id_ ASC";
@@ -76,6 +77,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
     private long _id;
     private String _title;
     private String _description;
+    private String _logo;
     private String _welcomePageContent;
     private String _finalPageContent;
     private Integer _courseID;
@@ -124,6 +126,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
@@ -149,6 +152,12 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
         if (description != null) {
             setDescription(description);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
 
         String welcomePageContent = (String) attributes.get(
@@ -207,6 +216,20 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
     @Override
     public void setDescription(String description) {
         _description = description;
+    }
+
+    @Override
+    public String getLogo() {
+        if (_logo == null) {
+            return StringPool.BLANK;
+        } else {
+            return _logo;
+        }
+    }
+
+    @Override
+    public void setLogo(String logo) {
+        _logo = logo;
     }
 
     @Override
@@ -293,6 +316,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         lfQuizImpl.setId(getId());
         lfQuizImpl.setTitle(getTitle());
         lfQuizImpl.setDescription(getDescription());
+        lfQuizImpl.setLogo(getLogo());
         lfQuizImpl.setWelcomePageContent(getWelcomePageContent());
         lfQuizImpl.setFinalPageContent(getFinalPageContent());
         lfQuizImpl.setCourseID(getCourseID());
@@ -374,6 +398,14 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
             lfQuizCacheModel.description = null;
         }
 
+        lfQuizCacheModel.logo = getLogo();
+
+        String logo = lfQuizCacheModel.logo;
+
+        if ((logo != null) && (logo.length() == 0)) {
+            lfQuizCacheModel.logo = null;
+        }
+
         lfQuizCacheModel.welcomePageContent = getWelcomePageContent();
 
         String welcomePageContent = lfQuizCacheModel.welcomePageContent;
@@ -397,7 +429,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(15);
 
         sb.append("{id=");
         sb.append(getId());
@@ -405,6 +437,8 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         sb.append(getTitle());
         sb.append(", description=");
         sb.append(getDescription());
+        sb.append(", logo=");
+        sb.append(getLogo());
         sb.append(", welcomePageContent=");
         sb.append(getWelcomePageContent());
         sb.append(", finalPageContent=");
@@ -418,7 +452,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuiz");
@@ -435,6 +469,10 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         sb.append(
             "<column><column-name>description</column-name><column-value><![CDATA[");
         sb.append(getDescription());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>welcomePageContent</column-name><column-value><![CDATA[");

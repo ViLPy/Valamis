@@ -4,7 +4,7 @@ import com.arcusys.learn.questionbank.model.QuestionCategory
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import org.specs2.mock.Mockito
 import org.specs2.mutable.SpecificationWithJUnit
-import com.arcusys.learn.persistence.liferay.service.{LFQuestionCategoryLocalService, LFQuestionCategoryLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFQuestionCategoryLocalService, LFQuestionCategoryLocalServiceUtil }
 import com.arcusys.learn.storage.impl.liferay.LFStorages
 import util.Random
 import org.specs2.specification.Scope
@@ -72,7 +72,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
       val anotherCourseId: Option[Int] = Some(5678)
 
       val ids = Seq(createNew(courseId = sameCourseId),
-      createNew(courseId = sameCourseId))
+        createNew(courseId = sameCourseId))
 
       val anotherId = createNew(courseId = anotherCourseId)
       val nullCourse = createNew(courseId = None)
@@ -111,7 +111,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
     val entityStorage = LFStorages.questionCategoryStorage
 
     "create new questionCategory with arrangementIndex = 1" in {
-      randomCategory must not (beEqualTo(randomCategory))
+      randomCategory must not(beEqualTo(randomCategory))
 
       val parentId = randomCategory
       val id = entityStorage.createAndGetID(createNewCategory(parentID = parentId))
@@ -140,7 +140,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
       val moveAfterTarget = true
       entityStorage.move(questionId4.id, parentId, None, moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.parentID must  beEqualTo(parentId)
+      storage.getByID(questionId4.id).get.parentID must beEqualTo(parentId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 1),
@@ -154,7 +154,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
       val moveAfterTarget = false
       entityStorage.move(questionId4.id, parentId, Some(questionId2.id), moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.parentID must  beEqualTo(parentId)
+      storage.getByID(questionId4.id).get.parentID must beEqualTo(parentId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 2),
@@ -168,7 +168,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
       val moveAfterTarget = true
       entityStorage.move(questionId4.id, parentId, Some(questionId2.id), moveAfterTarget)
 
-      storage.getByID(questionId4.id).get.parentID must  beEqualTo(parentId)
+      storage.getByID(questionId4.id).get.parentID must beEqualTo(parentId)
 
       checkArrangementIndex(
         ExpectedIndex(questionId4, 4),
@@ -189,7 +189,7 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
       case class QuestionCategoryId(name: String, id: Int)
       case class ExpectedIndex(question: QuestionCategoryId, arrangementIndex: Int)
 
-      def checkArrangementIndex(expected: ExpectedIndex *) {
+      def checkArrangementIndex(expected: ExpectedIndex*) {
         expected.foreach(expectedIndex =>
           (expectedIndex.question.name -> storage.getByID(expectedIndex.question.id).get.arrangementIndex) must beEqualTo(expectedIndex.question.name -> expectedIndex.arrangementIndex)
         )
@@ -197,7 +197,6 @@ class LFQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito 
 
     }
   }
-
 
   def createNew(title: String = "title", courseId: Option[Int] = None, parentID: Option[Int] = None, arrangementIndex: Int = 1): Int = {
     storage.createAndGetID(createNewCategory(title, courseId, None), "parentID" -> parentID, "arrangementIndex" -> arrangementIndex)

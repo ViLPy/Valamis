@@ -1,26 +1,26 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{ObjectiveMapStorage, ObjectiveStorage}
-import com.arcusys.learn.storage.impl.{KeyedEntityStorageExt, EntityStorageExt}
+import com.arcusys.learn.scorm.manifest.sequencing.storage.{ ObjectiveMapStorage, ObjectiveStorage }
+import com.arcusys.learn.storage.impl.{ KeyedEntityStorageExt, EntityStorageExt }
 import com.arcusys.learn.scorm.manifest.model.Objective
 
 /**
  * User: Yulia.Glushonkova
  * Date: 01.04.13
  */
-trait ObjectiveFieldsMapper{
+trait ObjectiveFieldsMapper {
   def identifier: Option[String]
   def satisfiedByMeasure: Boolean
   def minNormalizedMeasure: BigDecimal
 }
-trait ObjectiveEntityCreator{
+trait ObjectiveEntityCreator {
   def mapStorage: ObjectiveMapStorage
 
   def createObjective(id: Int, mapper: ObjectiveFieldsMapper): Objective = {
     import mapper._
     val globalObjectiveMap = mapStorage.get(id)
     require(globalObjectiveMap.isDefined, "Objective should have globalObjectiveMap")
-    new Objective(identifier, satisfiedByMeasure, minNormalizedMeasure, globalObjectiveMap.get )
+    new Objective(identifier, satisfiedByMeasure, minNormalizedMeasure, globalObjectiveMap.get)
   }
 }
 

@@ -1,9 +1,9 @@
 package com.arcusys.scorm.lms
 
-import com.arcusys.learn.scorm.tracking.model.achivements.{ Achievement}
+import com.arcusys.learn.scorm.tracking.model.achivements.Achievement
 import com.arcusys.scorm.lms.models._
-import java.util.Date
 import com.arcusys.learn.liferay.LiferayClasses.LUser
+import org.joda.time.DateTime
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,10 +16,10 @@ trait AchievementRepositoryContract {
   def create(): AchievementModelBL
   def delete(id: Int): Boolean
   def get(page: Int,
-          filter: Option[String],
-          sortDirection: Boolean,
-          countOnPage: Int,
-          companyId: Int): List[AchievementModelBL]
+    filter: Option[String],
+    sortDirection: Boolean,
+    countOnPage: Int,
+    companyId: Int): List[AchievementModelBL]
   def get(id: Int): Achievement
   def getActivities(id: Int): List[AchievementRequiredActivityModel]
   def getCount(): Int
@@ -31,15 +31,15 @@ trait AchievementRepositoryContract {
     title: String,
     description: String,
     logo: String,
-    startDate: Date): Boolean
+    startDate: DateTime): Boolean
   def addActivity(achievementId: Int,
-                  className: String):AchievementRequiredActivityModel
+    className: String): AchievementRequiredActivityModel
   def removeActivity(activityId: Int)
   def updateActivity(activityId: Int,
-                     achievementId: Int,
-                     achievementCount: Int)
+    achievementId: Int,
+    achievementCount: Int)
   def applyAchievementForUser(userId: Int,
-                              achievementId: Int)
+    achievementId: Int)
   def removeAchievementForUser(userId: Int,
-                               achievementId: Int)
+    achievementId: Int)
 }

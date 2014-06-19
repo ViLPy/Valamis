@@ -1,8 +1,8 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
-import com.arcusys.learn.storage.impl.{KeyedEntityStorage}
-import com.arcusys.learn.persistence.liferay.service.{LFTincanClientApiStorageLocalServiceUtil}
-import com.arcusys.learn.persistence.liferay.model.{LFTincanClientApiStorage}
+import com.arcusys.learn.storage.impl.{ KeyedEntityStorage }
+import com.arcusys.learn.persistence.liferay.service.{ LFTincanClientApiStorageLocalServiceUtil }
+import com.arcusys.learn.persistence.liferay.model.{ LFTincanClientApiStorage }
 import com.arcusys.learn.tincan.model.LrsScopeConverters._
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException
@@ -13,8 +13,8 @@ import com.arcusys.learn.tincan.model.lrsServer.ClientApi
 //
 trait LFClientApiStorageImpl extends KeyedEntityStorage[ClientApi] {
   def mapper(entity: LFTincanClientApiStorage): ClientApi = {
-    val tmp =  entity.getIssuedAt()
-    val issuedAt = if(tmp == null) "" else tmp.toString
+    val tmp = entity.getIssuedAt()
+    val issuedAt = if (tmp == null) "" else tmp.toString
     return ClientApi(
       entity.getId(),
       entity.getSecret(),
@@ -30,26 +30,25 @@ trait LFClientApiStorageImpl extends KeyedEntityStorage[ClientApi] {
       entity.getScope())
   }
 
-
   def getByID(id: Int, parameters: (String, Any)*): Option[ClientApi] = {
-    try{
+    try {
       val storage = LFTincanClientApiStorageLocalServiceUtil.getLFTincanClientApiStorage(id)
       val clientApi = mapper(storage)
 
       return Option(clientApi)
     } catch {
-      case _  => return None
+      case _ => return None
     }
   }
 
   override def getByID(id: Long, parameters: (String, Any)*): Option[ClientApi] = {
-    try{
+    try {
       val storage = LFTincanClientApiStorageLocalServiceUtil.getLFTincanClientApiStorage(id)
       val clientApi = mapper(storage)
 
       return Option(clientApi)
     } catch {
-      case _  => return None
+      case _ => return None
     }
   }
 
@@ -63,7 +62,7 @@ trait LFClientApiStorageImpl extends KeyedEntityStorage[ClientApi] {
         val storage = LFTincanClientApiStorageLocalServiceUtil.findByToken(token)
         return Option(mapper(storage))
       } catch {
-        case e:NoSuchLFTincanLrsDocumentException => return None
+        case e: NoSuchLFTincanLrsDocumentException => return None
       }
     }
     case _ => return None

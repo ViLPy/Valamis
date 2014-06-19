@@ -1,15 +1,15 @@
 package com.arcusys.learn.questionbank.storage.impl
 
-import com.arcusys.learn.questionbank.storage.QuestionCategoryStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.questionbank.model.QuestionCategory
+import com.arcusys.learn.questionbank.storage.QuestionCategoryStorage
 
 /**
  * User: dkudinov
  * Date: 20.3.2013
  */
 trait QuestionCategoryEntityStorage extends QuestionCategoryStorage with KeyedEntityStorageExt[QuestionCategory] with EntityStorageExt[QuestionCategory] {
-  def getChildren(parentID: Option[Int], courseID:Option[Int]) = getAll("parentID" -> parentID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
+  def getChildren(parentID: Option[Int], courseID: Option[Int]) = getAll("parentID" -> parentID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
 
   def getAllByCourseID(courseID: Option[Int]) = getAll("courseID" -> courseID.getOrElse(-1))
 
@@ -52,7 +52,7 @@ trait QuestionCategoryEntityStorage extends QuestionCategoryStorage with KeyedEn
           doMove(forUpdate, forIndex)
         } else {
           val forIndex = spannedChildren._1 ++ spannedChildren._2.headOption
-          val forUpdate = if (spannedChildren._2.isEmpty)  Nil else spannedChildren._2.tail
+          val forUpdate = if (spannedChildren._2.isEmpty) Nil else spannedChildren._2.tail
           doMove(forUpdate, forIndex)
         }
       }

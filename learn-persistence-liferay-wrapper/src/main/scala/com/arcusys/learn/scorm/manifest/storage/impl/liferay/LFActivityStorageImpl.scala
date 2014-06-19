@@ -13,7 +13,7 @@ import javax.swing.plaf.OptionPaneUI
  * Date: 10.04.13
  */
 trait LFActivityStorageImpl extends EntityStorage[Activity] {
-  protected def doRenew() { LFActivityLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFActivityLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val lfActivity = LFActivityLocalServiceUtil.findByPackageAndID(
@@ -26,13 +26,12 @@ trait LFActivityStorageImpl extends EntityStorage[Activity] {
   private def extract(lfActivity: LFActivity) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
     createActivity(lfActivity.getIdentifierRef, lfActivity.getId, lfActivity.getTitle, lfActivity.getPackageID, lfActivity.getOrganizationID,
-    lfActivity.getParentID.toOption,
-    lfActivity.getHideLMSUI, lfActivity.getVisible, Option(lfActivity.getResourceParameters),
-    Option(lfActivity.getMasteryScore), Option(lfActivity.getMaxTimeAllowed))
+      lfActivity.getParentID.toOption,
+      lfActivity.getHideLMSUI, lfActivity.getVisible, Option(lfActivity.getResourceParameters),
+      Option(lfActivity.getMasteryScore), Option(lfActivity.getMaxTimeAllowed))
   }
   def createActivity(identifierRef: String, id: String, title: String, packageID: Int, organizationId: String, parentId: Option[String],
-                     hideLMSUI: String, visible: Boolean, resourceParameters: Option[String], masteryScore: Option[String], maxTimeAllowed: Option[String]): Activity
-
+    hideLMSUI: String, visible: Boolean, resourceParameters: Option[String], masteryScore: Option[String], maxTimeAllowed: Option[String]): Activity
 
   def getAll(parameters: (String, Any)*) = {
 
@@ -41,16 +40,16 @@ trait LFActivityStorageImpl extends EntityStorage[Activity] {
         LFActivityLocalServiceUtil.findByPackageID(packageID)
 
       case Seq(("packageID", packageID: Int), ("organizationID", organizationID: String)) =>
-        LFActivityLocalServiceUtil.findByPackageIDAndOrganizationID(packageID,organizationID)
+        LFActivityLocalServiceUtil.findByPackageIDAndOrganizationID(packageID, organizationID)
 
       case Seq(("packageID", packageID: Int), ("parentID", null)) =>
         LFActivityLocalServiceUtil.findByPackageIDAndParentID(packageID, null.asInstanceOf[String])
       case _ => LFActivityLocalServiceUtil.getLFActivities(-1, -1)
     }
-    result.asScala.sortBy(i=>(i.getIndexNumber, i.getId)) map { extract }
+    result.asScala.sortBy(i => (i.getIndexNumber, i.getId)) map { extract }
   }
 
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
   def create(entity: Activity, parameters: (String, Any)*) {
     val newEntity = LFActivityLocalServiceUtil.createLFActivity()
@@ -78,9 +77,9 @@ trait LFActivityStorageImpl extends EntityStorage[Activity] {
     LFActivityLocalServiceUtil.addLFActivity(newEntity)
   }
 
-  def delete(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(entity: Activity, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def delete(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(entity: Activity, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
   def execute(sqlKey: String, parameters: (String, Any)*) {
     throw new UnsupportedOperationException

@@ -6,8 +6,8 @@ import com.arcusys.scorm.lms.DataModelService
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState}
-import com.arcusys.learn.service.util.{AntiSamyHelper, SessionHandler}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState }
+import com.arcusys.learn.service.util.{ AntiSamyHelper, SessionHandler }
 
 class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(configuration) with CookieSupport {
   def this() = this(Configuration)
@@ -41,9 +41,9 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     if (stateTree.isEmpty) {
       val stateTree = ActivityStateTree(activityStorage.getOrganizationTree(currentAttempt.packageID, currentAttempt.organizationID), None, true, None)
       activityStateTreeStorage.create(currentAttempt.id, stateTree)
-      json("status" -> false)
+      json("status" -> false).get
     } else {
-      json("status" -> true)
+      json("status" -> true).get
     }
   }
 
@@ -61,7 +61,7 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val dataModel = new DataModelService(currentAttempt, activityID)
-    json(dataModel.getValue(parameter("key").required))
+    json(dataModel.getValue(parameter("key").required)).get
   }
 
   get("/GetValues") {
@@ -78,7 +78,7 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val dataModel = new DataModelService(currentAttempt, activityID)
-    json(dataModel.getValues)
+    json(dataModel.getValues).get
   }
 
   post("/SetValue") {
@@ -161,7 +161,7 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
       "primaryObjective" -> serializePrimaryObjective(activity.get.item),
       "activityObjectives" -> activity.get.item.activity.sequencing.nonPrimaryObjectives.map(objective =>
         serializeObjective(objective.id, activity.get.item.objectiveStates(objective.id)))
-    ))
+    )).get
   }
 
   post("/ActivityInformation/:activityID") {

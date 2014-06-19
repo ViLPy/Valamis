@@ -2,8 +2,8 @@ package com.arcusys.learn.tincan.storage.impl
 
 import com.arcusys.learn.tincan.storage.StatementStorage
 import java.util.UUID
-import com.arcusys.learn.tincan.model.{Activity, Statement}
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.tincan.model.{ Activity, Statement }
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 
 trait StatementEntityStorage extends StatementStorage with EntityStorage[Statement] {
   def getByUUID(id: UUID): Option[Statement] = {
@@ -11,11 +11,11 @@ trait StatementEntityStorage extends StatementStorage with EntityStorage[Stateme
   }
 
   def get(parameters: (String, Any)*): Seq[Statement] = {
-    getAll(parameters:_*)
+    getAll(parameters: _*)
   }
 
   def create(entity: Statement) = {
-    create(entity, Nil:_*)
+    create(entity, Nil: _*)
     entity.id
   }
 }

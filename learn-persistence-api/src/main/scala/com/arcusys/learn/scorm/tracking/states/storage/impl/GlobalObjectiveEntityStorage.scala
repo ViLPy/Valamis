@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 import com.arcusys.learn.scorm.tracking.states.storage.GlobalObjectiveStorage
 import com.arcusys.learn.scorm.tracking.model.GlobalObjectiveState
 

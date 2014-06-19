@@ -12,7 +12,7 @@ import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
  * Date: 15.3.2013
  */
 trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory] {
-  protected def doRenew() { LFQuestionCategoryLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFQuestionCategoryLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
 
@@ -33,7 +33,6 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
     }
   }
 
-
   def create(parameters: (String, Any)*) {
     throw new UnsupportedOperationException
   }
@@ -48,13 +47,14 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
     }.foreach {
       lfEntity =>
         parameters foreach {
-          param => param match {
-            case ("title", title: String) => lfEntity.setTitle(title)
-            case ("description", description: String) => lfEntity.setDescription(description)
-            case ("id", _) => // do nothing
-            case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
-            case ("parentID", parentID: Option[Int]) => lfEntity.setParentId(parentID)
-          }
+          param =>
+            param match {
+              case ("title", title: String)                    => lfEntity.setTitle(title)
+              case ("description", description: String)        => lfEntity.setDescription(description)
+              case ("id", _)                                   => // do nothing
+              case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
+              case ("parentID", parentID: Option[Int])         => lfEntity.setParentId(parentID)
+            }
         }
         LFQuestionCategoryLocalServiceUtil.updateLFQuestionCategory(lfEntity)
     }
@@ -84,10 +84,11 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
         newEntity.setCourseId(entity.courseID)
         newEntity.setArrangementIndex(entity.arrangementIndex)
         params.foreach {
-          param => param match {
-            case ("parentID", parentID: Option[Int]) => newEntity.setParentId(parentID)
-            case ("arrangementIndex", arrangementIndex: Int) => newEntity.setArrangementIndex(arrangementIndex)
-          }
+          param =>
+            param match {
+              case ("parentID", parentID: Option[Int])         => newEntity.setParentId(parentID)
+              case ("arrangementIndex", arrangementIndex: Int) => newEntity.setArrangementIndex(arrangementIndex)
+            }
         }
 
         LFQuestionCategoryLocalServiceUtil.addLFQuestionCategory(newEntity)
@@ -111,13 +112,13 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
 
   def extract(lfEntity: LFQuestionCategory) = {
     val qc = QuestionCategory(
-    lfEntity.getId.toInt,
-    lfEntity.getTitle,
-    lfEntity.getDescription,
-    Option(lfEntity.getParentId).map(_.toInt),
-    Option(lfEntity.getCourseId).map(_.toInt),
-    lfEntity.getArrangementIndex
-  )
+      lfEntity.getId.toInt,
+      lfEntity.getTitle,
+      lfEntity.getDescription,
+      Option(lfEntity.getParentId).map(_.toInt),
+      Option(lfEntity.getCourseId).map(_.toInt),
+      lfEntity.getArrangementIndex
+    )
     qc
   }
 

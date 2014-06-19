@@ -1,6 +1,7 @@
 package com.arcusys.learn.tincan.model
 
-import java.util.{UUID, Date}
+import org.joda.time.DateTime
+import java.util.UUID
 
 /**
  * The Experience API provides a facility for Activity Providers to save arbitrary data in the form of documents,
@@ -9,10 +10,10 @@ import java.util.{UUID, Date}
  * @param updated When the document was most recently modified.
  * @param contents The contents of the document (arbitrary binary data)
  */
-case class Document(id: String, updated: Date, contents: String, cType: ContentType)
+case class Document(id: String, updated: DateTime, contents: String, cType: ContentType)
 
 object Document {
-  def apply(contents: String, cType: ContentType) = new Document(UUID.randomUUID().toString, new Date(), contents, cType)
+  def apply(contents: String, cType: ContentType) = new Document(UUID.randomUUID().toString, new DateTime(), contents, cType)
 }
 
 sealed trait ContentType {

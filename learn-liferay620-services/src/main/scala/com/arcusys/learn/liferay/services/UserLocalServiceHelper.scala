@@ -1,10 +1,14 @@
 package com.arcusys.learn.liferay.services
 
 import com.liferay.portal.model.User
-import com.liferay.portal.service.{ServiceContext, UserLocalServiceUtil}
+import com.liferay.portal.service.{ ServiceContext, UserLocalServiceUtil }
 import java.util.Locale
 
 object UserLocalServiceHelper {
+  def apply() = new UserLocalServiceHelper {}
+}
+
+trait UserLocalServiceHelper {
   def getCompanyUsers(companyId: Long, start: Int, end: Int): java.util.List[User] =
     UserLocalServiceUtil.getCompanyUsers(companyId, start, end)
 
@@ -18,6 +22,8 @@ object UserLocalServiceHelper {
   def getUserById(companyId: Long, userId: Long): User = UserLocalServiceUtil.getUserById(companyId, userId)
 
   def getRoleUsersCount(roleId: Long): Int = UserLocalServiceUtil.getRoleUsersCount(roleId)
+
+  def getUsersByRoleId(liferayRoleId: Long): java.util.List[User] = UserLocalServiceUtil.getRoleUsers(liferayRoleId)
 
   def addGroupUsers(groupId: Long, userIds: Array[Long]) {
     UserLocalServiceUtil.addGroupUsers(groupId, userIds)
@@ -33,15 +39,15 @@ object UserLocalServiceHelper {
   }
 
   def addUser(creatorUserId: Long, companyId: Long, autoPassword: Boolean,
-              password1: String, password2: String,
-              autoScreenName: Boolean, screenName: String, emailAddress: String,
-              facebookId: Long, openId: String, locale: Locale,
-              firstName: String, middleName: String, lastName: String,
-              prefixId: Int, suffixId: Int, male: Boolean,
-              birthdayMonth: Int, birthdayDay: Int, birthdayYear: Int,
-              jobTitle: String, groupIds: Array[Long], organizationIds: Array[Long],
-              roleIds: Array[Long], userGroupIds: Array[Long], sendEmail: Boolean,
-              serviceContext: ServiceContext): User =
+    password1: String, password2: String,
+    autoScreenName: Boolean, screenName: String, emailAddress: String,
+    facebookId: Long, openId: String, locale: Locale,
+    firstName: String, middleName: String, lastName: String,
+    prefixId: Int, suffixId: Int, male: Boolean,
+    birthdayMonth: Int, birthdayDay: Int, birthdayYear: Int,
+    jobTitle: String, groupIds: Array[Long], organizationIds: Array[Long],
+    roleIds: Array[Long], userGroupIds: Array[Long], sendEmail: Boolean,
+    serviceContext: ServiceContext): User =
     UserLocalServiceUtil.addUser(creatorUserId, companyId, autoPassword, password1, password2,
       autoScreenName, screenName, emailAddress, facebookId, openId, locale,
       firstName, middleName, lastName, prefixId, suffixId, male,

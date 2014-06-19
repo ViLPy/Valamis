@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.storage.impl.{KeyedEntityStorage, EntityStorage}
+import com.arcusys.learn.storage.impl.{ KeyedEntityStorage, EntityStorage }
 import com.arcusys.learn.scorm.manifest.model.Objective
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
@@ -13,7 +13,7 @@ import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.ObjectiveFieldsM
  * Date: 01.04.13
  */
 trait LFObjectiveStorageImpl extends KeyedEntityStorage[Objective] {
-  protected def doRenew() { LFObjectiveLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFObjectiveLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val sequencingID = LiferayCommon.getParameter("sequencingID", parameters: _*)
@@ -21,12 +21,12 @@ trait LFObjectiveStorageImpl extends KeyedEntityStorage[Objective] {
     val lf = LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary(sequencingID.get, isPrimary.get).asScala.headOption
     Option(extract(lf))
   }
-  def extract(lfEntity: Option[LFObjective]) : Objective ={
+  def extract(lfEntity: Option[LFObjective]): Objective = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
-      lfEntity.map(lfEntity => {
+    lfEntity.map(lfEntity => {
       val mapper = new ObjectiveFieldsMapper {
-        def identifier =  lfEntity.getIdentifier.toOption
+        def identifier = lfEntity.getIdentifier.toOption
         def minNormalizedMeasure = BigDecimal(lfEntity.getMinNormalizedMeasure)
         def satisfiedByMeasure = lfEntity.getSatisfiedByMeasure
       }
@@ -39,14 +39,14 @@ trait LFObjectiveStorageImpl extends KeyedEntityStorage[Objective] {
   def getAll(parameters: (String, Any)*) = {
     val sequencingID = LiferayCommon.getParameter("sequencingID", parameters: _*)
     val isPrimary = LiferayCommon.getParameter("isPrimary", parameters: _*)
-    LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary(sequencingID.get, isPrimary.get).asScala  map(x=> extract(Some(x)))
+    LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary(sequencingID.get, isPrimary.get).asScala map (x => extract(Some(x)))
   }
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
-  def create(entity: Objective, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented") }
-  def delete(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(entity: Objective, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def create(entity: Objective, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def delete(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(entity: Objective, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
   def getByID(id: Int, parameters: (String, Any)*) = throw new UnsupportedOperationException("Not implemented")
 

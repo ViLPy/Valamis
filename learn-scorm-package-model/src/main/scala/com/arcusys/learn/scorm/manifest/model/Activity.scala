@@ -12,18 +12,16 @@ package com.arcusys.learn.scorm.manifest.model
  * @param visible                   True if activity is visible, false if it's hidden
  * @param metadata                  Activity metadata
  */
-sealed abstract class Activity
-(
-  val id: String,
-  val title: String,
-  val parentID: Option[String],
-  val organizationID: String,
-  val sequencing: Sequencing,
-  val completionThreshold: CompletionThreshold,
-  val hiddenNavigationControls: Set[NavigationControlType.Value],
-  val visible: Boolean,
-  val metadata: Option[Metadata]
-  ) {
+sealed abstract class Activity(
+    val id: String,
+    val title: String,
+    val parentID: Option[String],
+    val organizationID: String,
+    val sequencing: Sequencing,
+    val completionThreshold: CompletionThreshold,
+    val hiddenNavigationControls: Set[NavigationControlType.Value],
+    val visible: Boolean,
+    val metadata: Option[Metadata]) {
   val isTracked = sequencing.tracking.isDefined
   val isCompletionSetByContent = sequencing.tracking.isDefined && sequencing.tracking.get.completionSetByContent
   val isObjectiveSetByContent = sequencing.tracking.isDefined && sequencing.tracking.get.objectiveSetByContent
@@ -39,8 +37,7 @@ sealed abstract class Activity
  * @param completionThreshold       Information about completion threshold and progress weight
  * @param metadata                  Organization metadata
  */
-class Organization
-(
+class Organization(
   id: String,
   title: String,
   val objectivesGlobalToSystem: Boolean = true,
@@ -48,17 +45,17 @@ class Organization
   sequencing: Sequencing = Sequencing.Default,
   completionThreshold: CompletionThreshold = CompletionThreshold.Default,
   metadata: Option[Metadata] = None)
-  extends Activity(
-    id = id,
-    title = title,
-    parentID = None,
-    organizationID = id,
-    sequencing = sequencing,
-    completionThreshold = completionThreshold,
-    hiddenNavigationControls = Set(),
-    visible = true,
-    metadata = metadata
-  )
+    extends Activity(
+      id = id,
+      title = title,
+      parentID = None,
+      organizationID = id,
+      sequencing = sequencing,
+      completionThreshold = completionThreshold,
+      hiddenNavigationControls = Set(),
+      visible = true,
+      metadata = metadata
+    )
 
 /**
  * Container activity. May contain other container activities and leaf activities
@@ -72,8 +69,7 @@ class Organization
  * @param visible                   True if container activity is visible, false if it's hidden
  * @param metadata                  Container activity metadata
  */
-class ContainerActivity
-(
+class ContainerActivity(
   id: String,
   title: String,
   parentID: String,
@@ -82,9 +78,8 @@ class ContainerActivity
   completionThreshold: CompletionThreshold = CompletionThreshold.Default,
   hiddenNavigationControls: Set[NavigationControlType.Value] = Set(),
   visible: Boolean = true,
-  metadata: Option[Metadata] = None
-  )
-  extends Activity(id, title, Some(parentID), organizationID, sequencing, completionThreshold, hiddenNavigationControls, visible, metadata)
+  metadata: Option[Metadata] = None)
+    extends Activity(id, title, Some(parentID), organizationID, sequencing, completionThreshold, hiddenNavigationControls, visible, metadata)
 
 /**
  * Leaf activity. Does not contain other activities. References a resource
@@ -103,8 +98,7 @@ class ContainerActivity
  * @param visible                   True if leaf activity is visible, false if it's hidden
  * @param metadata                  Leaf activity metadata
  */
-class LeafActivity
-(
+class LeafActivity(
   id: String,
   title: String,
   parentID: String,
@@ -120,6 +114,5 @@ class LeafActivity
   visible: Boolean = true,
   metadata: Option[Metadata] = None,
   val masteryScore: Option[String] = None,
-  val maxTimeAllowed: Option[String] = None
-  )
-  extends Activity(id, title, Some(parentID), organizationID, sequencing, completionThreshold, hiddenNavigationControls, visible, metadata)
+  val maxTimeAllowed: Option[String] = None)
+    extends Activity(id, title, Some(parentID), organizationID, sequencing, completionThreshold, hiddenNavigationControls, visible, metadata)

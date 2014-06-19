@@ -1,9 +1,9 @@
 package com.arcusys.tincan.deployer
 
 import java.io._
-import java.util.zip.{ZipEntry, ZipFile}
-import com.arcusys.scorm.util.{FileProcessing, FileSystemUtil}
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import java.util.zip.{ ZipEntry, ZipFile }
+import com.arcusys.scorm.util.{ FileProcessing, FileSystemUtil }
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
 import scala.xml.XML
 import com.arcusys.tincan.manifest.parser.ActivitiesParser
@@ -13,7 +13,7 @@ import com.arcusys.learn.scorm.manifest.model.ScopeType
 object PackageProcessor {
   def manifestFileName = "tincan.xml"
 
-  def  isValidPackage(packageTmpUUID: String) = {
+  def isValidPackage(packageTmpUUID: String) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     FileProcessing.zipContains(manifestFileName, packageZipName)
   }
@@ -29,14 +29,14 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
   def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String, courseID: Option[Int]) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
     val packageTempDirectory = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + "/" + packageTmpUUID + "/")
-    FileProcessing.unzipFile( PackageProcessor.manifestFileName, packageTempDirectory, packageZipName)
+    FileProcessing.unzipFile(PackageProcessor.manifestFileName, packageTempDirectory, packageZipName)
 
     val root = XML.loadFile(new File(packageTempDirectory + PackageProcessor.manifestFileName))
     val activities = new ActivitiesParser(root, packageTitle, packageSummary).parse
 
     if (activities.find(_.launch.isDefined).isEmpty) throw new RuntimeException("launch not found")
 
-    val manifest = Manifest(-1, packageTitle, Some(packageSummary), courseID, None, isDefault = false )
+    val manifest = Manifest(-1, packageTitle, Some(packageSummary), courseID, None, isDefault = false)
 
     val packageID = packageStorage.createAndGetID(manifest, courseID)
 
@@ -45,7 +45,7 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
 
     activities.map(_.copy(packageId = packageID)).foreach(activityStorage.createAndGetID)
 
-//    for (resource <- doc.resources) resourceStorage.createForPackageAndGetID(packageID, resource)
+    //    for (resource <- doc.resources) resourceStorage.createForPackageAndGetID(packageID, resource)
 
     val packageDirectory = "data/" + packageID + "/"
     unzip(packageDirectory, packageZipName)

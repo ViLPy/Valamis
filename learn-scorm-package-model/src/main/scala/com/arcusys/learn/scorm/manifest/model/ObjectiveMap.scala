@@ -17,8 +17,7 @@ package com.arcusys.learn.scorm.manifest.model
  * @param writeCompletionStatusTo   ID of global objective to transfer completion status to upon termination of the attempt on the activity
  * @param writeProgressMeasureTo    ID of global objective to transfer progress measure to upon termination of the attempt on the activity
  */
-class ObjectiveMap
-(
+class ObjectiveMap(
   val readSatisfiedStatusFrom: Option[String] = None,
   val readNormalizedMeasureFrom: Option[String] = None,
   val writeSatisfiedStatusTo: Option[String] = None,
@@ -32,8 +31,7 @@ class ObjectiveMap
   val writeMinScoreTo: Option[String] = None,
   val writeMaxScoreTo: Option[String] = None,
   val writeCompletionStatusTo: Option[String] = None,
-  val writeProgressMeasureTo: Option[String] = None
-  )
+  val writeProgressMeasureTo: Option[String] = None)
 
 /**
  * Factory for objective map

@@ -1,7 +1,9 @@
 package com.arcusys.learn.scorm.manifest.model
 
-import collection.mutable
+import com.arcusys.learn.scorm.manifest.model.PackageType._
 import com.arcusys.learn.util.TreeNode
+
+import scala.collection.mutable
 
 /**
  * SCORM Manifest together with all its content
@@ -10,13 +12,11 @@ import com.arcusys.learn.util.TreeNode
  * @param resources             All resources
  * @param sequencingCollection  Shared sequencing collection
  */
-class ManifestDocument
-(
-  val manifest: Manifest,
-  val organizations: Seq[TreeNode[Activity]],
-  val resources: Seq[Resource],
-  val sequencingCollection: Seq[Sequencing]
-  ) {
+class ManifestDocument(
+    val manifest: Manifest,
+    val organizations: Seq[TreeNode[Activity]],
+    val resources: Seq[Resource],
+    val sequencingCollection: Seq[Sequencing]) {
   /** Map of all activities by ID */
   val allActivities: Map[String, Activity] = {
     val activitiesBuilder = mutable.Map[String, Activity]()
@@ -29,7 +29,7 @@ class ManifestDocument
     activitiesBuilder.toMap
   }
 
-  val resourceMap = resources.map(r=>r.id->r).toMap
+  val resourceMap = resources.map(r => r.id -> r).toMap
 
   resources.foreach(resource =>
     resource.dependencyIds.foreach(dependencyIdentifier =>
@@ -49,28 +49,35 @@ class ManifestDocument
  * @param summary               Package description in the LMS
  * @param metadata              Manifest metadata, if any
  */
-case class Manifest
-(
-  id: Int,
-  version: Option[String],
-  base: Option[String],
-  scormVersion: String,
-  defaultOrganizationID: Option[String],
-  resourcesBase: Option[String],
-  title: String,
-  summary: Option[String] = None,
-  metadata: Option[Metadata] = None,
-  assetRefID: Option[Long] = None,
-  courseID: Option[Int],
+case class Manifest(
+    id: Int,
+    version: Option[String],
+    base: Option[String],
+    scormVersion: String,
+    defaultOrganizationID: Option[String],
+    resourcesBase: Option[String],
+    title: String,
+    summary: Option[String] = None,
+    metadata: Option[Metadata] = None,
+    assetRefID: Option[Long] = None,
+    courseID: Option[Int],
 
-  visibility: Option[Boolean] = None,
-  isDefault: Boolean
-  )
-{
+    visibility: Option[Boolean] = None,
+    logo: Option[String] = None,
+    isDefault: Boolean) extends BaseManifest {
   base foreach {
     value => require(!value.startsWith("/") && value.endsWith("/"), "If common base is defined, it should not start with a '/' and should end with a '/'")
   }
   resourcesBase foreach {
     value => require(!value.startsWith("/") && value.endsWith("/"), "If resources base is defined, it should not start with a '/' and should end with a '/'")
   }
+
+  def getType: PackageType = PackageType.SCORM
+  def getId: Int = id
+  def getTitle: String = title
+  def getSummary: Option[String] = summary
+  def getVisibility: Option[Boolean] = visibility
+  def getDefault: Boolean = isDefault
+
+  def getLogo: String = logo.getOrElse("")
 }

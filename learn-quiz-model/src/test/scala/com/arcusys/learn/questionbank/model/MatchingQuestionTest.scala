@@ -1,11 +1,10 @@
 package com.arcusys.learn.questionbank.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class MatchingQuestionTest extends FlatSpec with ShouldMatchers {
+class MatchingQuestionTest extends FlatSpec with Matchers {
   "Matching answer" can "be constructed" in {
     val answer = new MatchingAnswer(17, "C#", Some("Microsoft"))
     answer.id should equal(17)
@@ -31,7 +30,7 @@ class MatchingQuestionTest extends FlatSpec with ShouldMatchers {
     text = "Which languages do these companies owe?",
     explanationText = "Yep, Scala is not owned by these companies",
     answers = answers,
-    courseID =Some(1)
+    courseID = Some(1)
   )
 
   private def checkFields(question: MatchingQuestion, categoryId: Option[Int], answers: Seq[MatchingAnswer]) {

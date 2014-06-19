@@ -1,2 +1,2 @@
-liferay_jdbc_url: 'jdbc:postgresql://ossus.intra.arcusys.fi:5432/learndev'
-liferay_jdbc_user: 'learndev'
+liferay_jdbc_url: 'jdbc:postgresql://newossus.intra.arcusys.fi:5432/learn_liferay62_dev'
+liferay_jdbc_user: 'learn'

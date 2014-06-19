@@ -34,32 +34,33 @@ trait LFObjectiveStateStorageImpl extends EntityStorage[(Option[String], Objecti
   def create(parameters: (String, Any)*) {
     val newEntity: LFObjectiveState = LFObjectiveStateLocalServiceUtil.createLFObjectiveState()
     parameters.foreach {
-      param => param match {
-        case ("activityStateID", value: Int) => {
-          newEntity.setActivityStateID(value)
-          val activityState = LFActivityStateLocalServiceUtil.getLFActivityState(value)
-          require(activityState != null, throw new UnsupportedOperationException("ActivityState with ID " + value + " cannot be null"))
-          val packageID = activityState.getPackageID
-          val activityID = activityState.getActivityID
-          val sequencing = LFSequencingLocalServiceUtil.findByActivityIDAndPackageID(packageID, activityID)
-          require(sequencing != null, throw new UnsupportedOperationException("Sequencing should be available for ActivityState with ID " + value))
-          val sequencingID = sequencing.getId.toInt
-          val mapKey = LiferayCommon.getParameter("mapKey", parameters: _*).getOrElse(Option(null))
-          val objective = mapKey match {
-            case Some(mk) => LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimaryAndIdentifier(sequencingID.toInt, false, mk.toString)
-            case None => LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary(sequencingID, true)
+      param =>
+        param match {
+          case ("activityStateID", value: Int) => {
+            newEntity.setActivityStateID(value)
+            val activityState = LFActivityStateLocalServiceUtil.getLFActivityState(value)
+            require(activityState != null, throw new UnsupportedOperationException("ActivityState with ID " + value + " cannot be null"))
+            val packageID = activityState.getPackageID
+            val activityID = activityState.getActivityID
+            val sequencing = LFSequencingLocalServiceUtil.findByActivityIDAndPackageID(packageID, activityID)
+            require(sequencing != null, throw new UnsupportedOperationException("Sequencing should be available for ActivityState with ID " + value))
+            val sequencingID = sequencing.getId.toInt
+            val mapKey = LiferayCommon.getParameter("mapKey", parameters: _*).getOrElse(Option(null))
+            val objective = mapKey match {
+              case Some(mk) => LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimaryAndIdentifier(sequencingID.toInt, false, mk.toString)
+              case None     => LFObjectiveLocalServiceUtil.findBySequencingIDAndIsPrimary(sequencingID, true)
+            }
+            //require(!objective.isEmpty, throw new UnsupportedOperationException("Objective must be defined"))
+            if (!objective.isEmpty) {
+              newEntity.setObjectiveID(objective.asScala.head.getLfId.toInt)
+            }
           }
-          //require(!objective.isEmpty, throw new UnsupportedOperationException("Objective must be defined"))
-          if (!objective.isEmpty) {
-            newEntity.setObjectiveID(objective.asScala.head.getLfId.toInt)
+          case ("mapKey", value: Option[String])     => newEntity.setMapKey(value.getOrElse(null))
+          case ("satisfied", value: Option[Boolean]) => newEntity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
+          case ("normalizedMeasure", value: Option[BigDecimal]) => {
+            newEntity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
           }
         }
-        case ("mapKey", value: Option[String]) => newEntity.setMapKey(value.getOrElse(null))
-        case ("satisfied", value: Option[Boolean]) => newEntity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
-        case ("normalizedMeasure", value: Option[BigDecimal]) => {
-          newEntity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
-        }
-      }
     }
     LFObjectiveStateLocalServiceUtil.addLFObjectiveState(newEntity)
   }
@@ -82,22 +83,23 @@ trait LFObjectiveStateStorageImpl extends EntityStorage[(Option[String], Objecti
     val mapKey = LiferayCommon.getParameter("mapKey", parameters: _*).getOrElse(Option(null))
     val key = mapKey match {
       case Some(mk) => mk.toString
-      case _ => null
+      case _        => null
     }
     val entity = LFObjectiveStateLocalServiceUtil.findByMapKeyAndActivityStateID(key, activityStateID.toInt)
     parameters.foreach {
-      param => param match {
-        case ("satisfied", value: Option[Boolean]) => entity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
-        case ("normalizedMeasure", value: Option[BigDecimal]) => {
-          //val dblVal = value match {
-          //  case Some(e) => e.toDouble
-          //  case _ => null
-          // }
-          //entity.setNormalizedMeasure(dblVal.asInstanceOf[BigDecimal])
-          entity.setNormalizedMeasure(value.getOrElse(null))
+      param =>
+        param match {
+          case ("satisfied", value: Option[Boolean]) => entity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
+          case ("normalizedMeasure", value: Option[BigDecimal]) => {
+            //val dblVal = value match {
+            //  case Some(e) => e.toDouble
+            //  case _ => null
+            // }
+            //entity.setNormalizedMeasure(dblVal.asInstanceOf[BigDecimal])
+            entity.setNormalizedMeasure(value.getOrElse(null))
+          }
+          case _ => {}
         }
-        case _ => {}
-      }
     }
     LFObjectiveStateLocalServiceUtil.updateLFObjectiveState(entity)
   }

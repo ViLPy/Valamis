@@ -1,11 +1,10 @@
 package com.arcusys.learn.questionbank.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class CategorizationQuestionTest extends FlatSpec with ShouldMatchers {
+class CategorizationQuestionTest extends FlatSpec with Matchers {
   "Categorization answer" can "be constructed" in {
     val answer = new CategorizationAnswer(11, "Scala", Some("JVM"))
     answer.id should equal(11)

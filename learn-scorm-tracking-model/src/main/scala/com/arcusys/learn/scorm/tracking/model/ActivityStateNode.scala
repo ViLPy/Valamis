@@ -49,7 +49,7 @@ class ActivityStateNode(item: ActivityState, children: Seq[ActivityStateNode]) e
   def availableChildren: Seq[ActivityStateNode] = availableChildrenCollection
 
   def isAvailableChild: Boolean = parent match {
-    case None => true
+    case None         => true
     case Some(parent) => parent.availableChildren.exists(_ == this)
   }
 
@@ -65,12 +65,12 @@ class ActivityStateNode(item: ActivityState, children: Seq[ActivityStateNode]) e
   }
 
   def isFirstAvailableChild: Boolean = parent match {
-    case None => true
+    case None         => true
     case Some(parent) => parent.availableChildren.headOption == Some(this)
   }
 
   def isLastAvailableChild: Boolean = parent match {
-    case None => true
+    case None         => true
     case Some(parent) => parent.availableChildren.lastOption == Some(this)
   }
 
@@ -80,16 +80,16 @@ class ActivityStateNode(item: ActivityState, children: Seq[ActivityStateNode]) e
         if (childActivity.item.activity.sequencing.primaryObjective.isEmpty) return None
         (runningTotalWeight + childActivity.item.activity.sequencing.rollupContribution.objectiveMeasureWeight,
           (runningTotalMeasure, childActivity.item.primaryObjectiveWeightedMeasure) match {
-            case (None, None) => None
-            case (None, Some(current)) => Some(current)
-            case (Some(total), None) => Some(total)
+            case (None, None)                 => None
+            case (None, Some(current))        => Some(current)
+            case (Some(total), None)          => Some(total)
             case (Some(total), Some(current)) => Some(total + current)
           }
-          )
+        )
       }
     }
     (totalWeight, totalMeasure) match {
-      case (_, None) => Some(None)
+      case (_, None)               => Some(None)
       case (weight, Some(measure)) => if (weight == BigDecimal(0)) Some(None) else Some(Some(measure / weight))
     }
   }
@@ -100,16 +100,16 @@ class ActivityStateNode(item: ActivityState, children: Seq[ActivityStateNode]) e
         (
           runningTotalWeight + childActivity.item.activity.completionThreshold.progressWeight,
           (runningTotalMeasure, childActivity.item.weightedProgress) match {
-            case (None, None) => None
-            case (None, Some(current)) => Some(current)
-            case (Some(total), None) => Some(total)
+            case (None, None)                 => None
+            case (None, Some(current))        => Some(current)
+            case (Some(total), None)          => Some(total)
             case (Some(total), Some(current)) => Some(total + current)
           }
-          )
+        )
       }
     }
     (totalWeight, totalProgress) match {
-      case (_, None) => None
+      case (_, None)                => None
       case (weight, Some(progress)) => if (weight == BigDecimal(0)) None else Some(progress / weight)
     }
   }

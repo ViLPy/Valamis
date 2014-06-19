@@ -4,8 +4,7 @@ import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
 import com.arcusys.learn.scorm.manifest.model.Manifest
 
 import org.junit.Assert._
-import org.junit.{Test, Before}
-
+import org.junit.{ Test, Before }
 
 trait PackagesStorageJUnit {
   def packagesStorage: PackagesStorage
@@ -23,13 +22,13 @@ trait PackagesStorageJUnit {
 
   @Test
   def canCreate() {
-    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false ), Some(0))
+    val pId = packagesStorage.createAndGetID(new Manifest(12, None, None, "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title", courseID = Some(0), isDefault = false), Some(0))
     assertEquals(1, packagesStorage.getAll.size)
   }
 
   @Test
   def canGetByID() {
-    val manifest = new Manifest(12, None, Some("NoneBase/"), "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title",courseID= Some(0), isDefault = false )
+    val manifest = new Manifest(12, None, Some("NoneBase/"), "", Some("defaultOrganizationIdentifier"), Some("resourcesBase/"), "title", courseID = Some(0), isDefault = false)
     val testPackageId = packagesStorage.createAndGetID(manifest, manifest.courseID)
     val createdPackage = packagesStorage.getByID(testPackageId).get
     assertEquals(createdPackage.base, manifest.base)

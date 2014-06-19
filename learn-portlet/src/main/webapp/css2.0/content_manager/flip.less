@@ -1,0 +1,98 @@
+/*  
+
+    Add flipping on hover
+    
+*/
+
+@perspective: 1000px;
+@transform-style: preserve-3d;
+@rotate-duration: 1s;
+@rotate-180-forward: rotateY(180deg);
+@rotate-180-back: rotateY(-180deg);
+
+/* entire container, keeps perspective */
+.flip-container {
+		perspective: @perspective;
+		-webkit-perspective: @perspective;
+		-moz-perspective: @perspective;
+		-ms-perspective: @perspective;
+		
+		-ms-transform: perspective(@perspective);
+		-moz-transform: perspective(@perspective);
+		
+		-moz-transform-style: @transform-style;
+		-ms-transform-style: @transform-style;
+}
+	
+/* flip the pane when hovered */
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+		      transform: @rotate-180-forward;
+		      -webkit-transform: @rotate-180-forward;
+		      -moz-transform: @rotate-180-forward;
+		      -o-transform: @rotate-180-forward;
+}
+
+.flip-container, .front, .back {	
+		 width: 260px;
+		 height: 310px;
+}
+
+/* flip speed goes here */
+.flipper {
+	 position: relative;
+	 
+	 transition: @rotate-duration;
+	 -webkit-transition: @rotate-duration;
+	 -moz-transition: @rotate-duration;
+	 -o-transition: @rotate-duration;
+	 -ms-transition: @rotate-duration;
+	 
+	 transform-style: @transform-style;
+	 -moz-transform-style: @transform-style;
+	 -ms-transform-style: @transform-style;
+	 -webkit-transform-style: @transform-style;
+	 -o-transform-style: @transform-style;	
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	
+	transition: @rotate-duration;
+	-webkit-transition: @rotate-duration;
+	-moz-transition: @rotate-duration;
+	-o-transition: @rotate-duration;
+	-ms-transition: @rotate-duration;
+	
+	transform-style: @transform-style;
+	-moz-transform-style: @transform-style;
+	-ms-transform-style: @transform-style;
+	-webkit-transform-style: @transform-style;
+	-o-transform-style: @transform-style;
+}
+
+/* front pane, placed above back */
+.front {
+     z-index: 2;
+     -webkit-transform: rotateY(0deg);
+     -ms-transform: rotateY(0deg);	 
+}
+
+/* back, initially hidden pane */
+.back {
+      background-color: #DDDDDD;
+
+      transform: @rotate-180-back;	
+      -webkit-transform: @rotate-180-back;
+      -moz-transform: @rotate-180-back;
+      -o-transform: @rotate-180-back;
+      -ms-transform: @rotate-180-back;
+}

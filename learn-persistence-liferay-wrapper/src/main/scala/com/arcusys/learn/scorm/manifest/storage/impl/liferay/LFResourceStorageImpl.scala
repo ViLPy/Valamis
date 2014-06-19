@@ -1,13 +1,13 @@
 package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.scorm.manifest.model.{AssetResource, ScoResource, Resource}
+import com.arcusys.learn.scorm.manifest.model.{ AssetResource, ScoResource, Resource }
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFResource
 
 trait LFResourceStorageImpl extends KeyedEntityStorage[Resource] {
-  protected def doRenew() { LFResourceLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFResourceLocalServiceUtil.removeAll() }
 
   def extract(entity: LFResource) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
@@ -44,9 +44,9 @@ trait LFResourceStorageImpl extends KeyedEntityStorage[Resource] {
     newEntity.setBase(entity.base.getOrElse(null))
     newEntity.setHref(entity.href.getOrElse(null))
     newEntity.setScormType(entity match {
-      case s: ScoResource => "sco"
+      case s: ScoResource   => "sco"
       case a: AssetResource => "asset"
-      case _ => throw new UnsupportedOperationException("Unknown resource type")
+      case _                => throw new UnsupportedOperationException("Unknown resource type")
     })
     val packageID = parameters.find(_._1.equalsIgnoreCase("packageID")).map(e => e._2.asInstanceOf[Int]).getOrElse(throw new UnsupportedOperationException("PackageID should be specified"))
     newEntity.setPackageID(packageID)

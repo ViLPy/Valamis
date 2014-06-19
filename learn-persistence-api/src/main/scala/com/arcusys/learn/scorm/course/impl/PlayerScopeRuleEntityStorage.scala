@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.course.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
-import com.arcusys.learn.scorm.manifest.model.{ScopeType, PlayerScopeRule}
+import com.arcusys.learn.storage.impl.EntityStorageExt
+import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PlayerScopeRule }
 import com.arcusys.learn.scorm.course.PlayerScopeRuleStorage
 
 /**

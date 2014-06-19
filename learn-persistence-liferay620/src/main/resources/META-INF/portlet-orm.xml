@@ -210,31 +210,69 @@
 			<basic name="publishBadge" />
 			<basic name="shortDescription" />
 			<basic name="companyID" />
+			<basic name="state">
+				<column name="STATE_" />
+			</basic>
+			<basic name="emails" />
+			<basic name="validPeriodType" />
+			<basic name="validPeriod" />
+			<basic name="createdDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="isPublished" />
+			<basic name="scope" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteModelImpl">
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateActivityModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateActivityPK" />
 		<attributes>
-			<id name="id">
-				<column name="ID_" />
-			</id>
-			<basic name="certificateID" />
-			<basic name="siteID" />
+			<id name="certificateID" />
+			<id name="activityName" />
+			<basic name="datacount" />
+			<basic name="periodType" />
+			<basic name="period" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateCourseModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateCoursePK" />
+		<attributes>
+			<id name="certificateID" />
+			<id name="courseID" />
 			<basic name="arrangementIndex" />
+			<basic name="periodType" />
+			<basic name="period" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateTincanStatementModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateTincanStatementPK" />
+		<attributes>
+			<id name="certificateID" />
+			<id name="verb" />
+			<id name="object" />
+			<basic name="periodType" />
+			<basic name="period" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK" />
 		<attributes>
-			<id name="id">
-				<column name="ID_" />
-			</id>
-			<basic name="certificateID" />
-			<basic name="userID" />
+			<id name="certificateID" />
+			<id name="userID" />
+			<basic name="attachedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -392,6 +430,7 @@
 			<basic name="summary" />
 			<basic name="assetRefID" />
 			<basic name="courseID" />
+			<basic name="logo" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -409,6 +448,20 @@
 			</basic>
 			<basic name="publishDate">
 				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageGradeStorageModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeStoragePK" />
+		<attributes>
+			<id name="userId" />
+			<id name="packageId" />
+			<basic name="grade" />
+			<basic name="comment">
+				<column name="COMMENT_" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -496,6 +549,7 @@
 			</id>
 			<basic name="title" />
 			<basic name="description" />
+			<basic name="logo" />
 			<basic name="welcomePageContent" />
 			<basic name="finalPageContent" />
 			<basic name="courseID" />
@@ -531,6 +585,21 @@
 			<basic name="description" />
 			<basic name="quizId" />
 			<basic name="parentId" />
+			<basic name="arrangementIndex" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizTreeElementModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="quizID" />
+			<basic name="elementID" />
+			<basic name="isCategory" />
+			<basic name="parentID" />
 			<basic name="arrangementIndex" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -908,7 +977,6 @@
 			<basic name="stateId" />
 			<basic name="documentId" />
 			<basic name="activityId" />
-			<basic name="profileId" />
 			<basic name="registration" />
 			<basic name="agentId" />
 			<transient name="modelAttributes" />
@@ -996,6 +1064,7 @@
 			<basic name="summary" />
 			<basic name="assetRefID" />
 			<basic name="courseID" />
+			<basic name="logo" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -1069,8 +1138,16 @@
 		<table name="Learn_LFCertificate" />
 		<attributes />
 	</entity>
-	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateSiteImpl" name="LFCertificateSite">
-		<table name="Learn_LFCertificateSite" />
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateActivityImpl" name="LFCertificateActivity">
+		<table name="Learn_LFCertificateActivity" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateCourseImpl" name="LFCertificateCourse">
+		<table name="Learn_LFCertificateCourse" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateTincanStatementImpl" name="LFCertificateTincanStatement">
+		<table name="Learn_LFCertificateTincanStatement" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl" name="LFCertificateUser">
@@ -1121,6 +1198,10 @@
 		<table name="Learn_LFPackageComment" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageGradeStorageImpl" name="LFPackageGradeStorage">
+		<table name="Learn_LFPackageGradeStorage" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" name="LFPackageScopeRule">
 		<table name="Learn_LFPackageScopeRule" />
 		<attributes />
@@ -1151,6 +1232,10 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" name="LFQuizQuestionCategory">
 		<table name="Learn_LFQuizQuestionCategory" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizTreeElementImpl" name="LFQuizTreeElement">
+		<table name="Learn_LFQuizTreeElement" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityImpl" name="LFRequiredActivity">

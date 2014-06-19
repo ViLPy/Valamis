@@ -1,13 +1,13 @@
 package com.arcusys.learn.scorm.certificating
 
-import com.arcusys.learn.scorm.tracking.model.certificating.{CertificatePage, Certificate}
+import com.arcusys.learn.scorm.tracking.model.certificating.{ CertificatePage, Certificate }
 
 /**
  * User: Yulia.Glushonkova
  * Date: 10.06.13
  */
 trait CertificateStorage {
-  def getAll: Seq[Certificate]
+  def getAll(): Seq[Certificate]
   def getAll(companyId: Int): Seq[Certificate]
   def getPage(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean): CertificatePage
   def getByID(id: Int): Option[Certificate]

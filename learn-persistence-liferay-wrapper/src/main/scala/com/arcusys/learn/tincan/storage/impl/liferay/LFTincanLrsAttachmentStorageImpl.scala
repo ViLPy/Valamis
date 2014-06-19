@@ -3,9 +3,9 @@ package com.arcusys.learn.tincan.storage.impl.liferay
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.tincan.model.Attachment
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachment
-import com.arcusys.learn.util.JsonSerializer
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalServiceUtil
 import scala.collection.JavaConverters._
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsAttachmentStorageImpl extends EntityStorage[Attachment] {
   def mapper(entity: LFTincanLrsAttachment): Attachment = {

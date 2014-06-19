@@ -43,27 +43,27 @@ public class LFCertificateUserLocalServiceUtil {
     /**
     * Creates a new l f certificate user with the primary key. Does not add the l f certificate user to the database.
     *
-    * @param id the primary key for the new l f certificate user
+    * @param lfCertificateUserPK the primary key for the new l f certificate user
     * @return the new l f certificate user
     */
     public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser(
-        long id) {
-        return getService().createLFCertificateUser(id);
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK) {
+        return getService().createLFCertificateUser(lfCertificateUserPK);
     }
 
     /**
     * Deletes the l f certificate user with the primary key from the database. Also notifies the appropriate model listeners.
     *
-    * @param id the primary key of the l f certificate user
+    * @param lfCertificateUserPK the primary key of the l f certificate user
     * @return the l f certificate user that was removed
     * @throws PortalException if a l f certificate user with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
     public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser deleteLFCertificateUser(
-        long id)
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
-        return getService().deleteLFCertificateUser(id);
+        return getService().deleteLFCertificateUser(lfCertificateUserPK);
     }
 
     /**
@@ -170,23 +170,24 @@ public class LFCertificateUserLocalServiceUtil {
     }
 
     public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser fetchLFCertificateUser(
-        long id) throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().fetchLFCertificateUser(id);
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().fetchLFCertificateUser(lfCertificateUserPK);
     }
 
     /**
     * Returns the l f certificate user with the primary key.
     *
-    * @param id the primary key of the l f certificate user
+    * @param lfCertificateUserPK the primary key of the l f certificate user
     * @return the l f certificate user
     * @throws PortalException if a l f certificate user with the primary key could not be found
     * @throws SystemException if a system exception occurred
     */
     public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser getLFCertificateUser(
-        long id)
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK lfCertificateUserPK)
         throws com.liferay.portal.kernel.exception.PortalException,
             com.liferay.portal.kernel.exception.SystemException {
-        return getService().getLFCertificateUser(id);
+        return getService().getLFCertificateUser(lfCertificateUserPK);
     }
 
     public static com.liferay.portal.model.PersistedModel getPersistedModel(
@@ -262,32 +263,29 @@ public class LFCertificateUserLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
-    public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser createLFCertificateUser()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().createLFCertificateUser();
-    }
-
     public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByCertificateID(
-        java.lang.Integer certificateID)
+        java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().findByCertificateID(certificateID);
     }
 
     public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserID(
-        java.lang.Integer userID)
+        java.lang.Long userID)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getService().findByUserID(userID);
     }
 
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateUser> findByUserIDAndCertificateID(
-        java.lang.Integer userID, java.lang.Integer certificateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificateUser findByUserIDAndCertificateID(
+        java.lang.Long userID, java.lang.Long certificateID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException,
+            com.liferay.portal.kernel.exception.SystemException {
         return getService().findByUserIDAndCertificateID(userID, certificateID);
     }
 
-    public static void removeByUserIDAndCertificateID(
-        java.lang.Integer userID, java.lang.Integer certificateID)
-        throws com.liferay.portal.kernel.exception.SystemException {
+    public static void removeByUserIDAndCertificateID(java.lang.Long userID,
+        java.lang.Long certificateID)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException,
+            com.liferay.portal.kernel.exception.SystemException {
         getService().removeByUserIDAndCertificateID(userID, certificateID);
     }
 

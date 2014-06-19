@@ -10,7 +10,7 @@ class ManifestTest extends FlatSpec with ShouldMatchers {
   "Manifest" can "be constructed" in {
     val manifest = new Manifest(12, version = Some("13"), base = Some("data/"), scormVersion = "2004",
       defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", summary = Some("desc"),
-       metadata = Some(someMetadata), courseID = Some(0), isDefault = false)
+      metadata = Some(someMetadata), courseID = Some(0), isDefault = false)
     manifest.id should equal(12)
     manifest.version should equal(Some("13"))
     manifest.base should equal(Some("data/"))
@@ -24,7 +24,7 @@ class ManifestTest extends FlatSpec with ShouldMatchers {
 
   it can "be constructed with defaults" in {
     val manifest = new Manifest(12, version = Some("13"), base = Some("data/"), scormVersion = "2004",
-      defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0) , isDefault = false  )
+      defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0), isDefault = false)
     manifest.id should equal(12)
     manifest.version should equal(Some("13"))
     manifest.base should equal(Some("data/"))
@@ -39,28 +39,28 @@ class ManifestTest extends FlatSpec with ShouldMatchers {
   it can "not be constructed if base start with /" in {
     intercept[IllegalArgumentException] {
       new Manifest(12, version = Some("13"), base = Some("/data/"), scormVersion = "2004",
-        defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0), isDefault = false )
+        defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0), isDefault = false)
     }
   }
 
   it can "not be constructed if base does not end with /" in {
     intercept[IllegalArgumentException] {
       new Manifest(12, version = Some("13"), base = Some("data"), scormVersion = "2004",
-        defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0), isDefault = false )
+        defaultOrganizationID = Some("O"), resourcesBase = Some("files/"), title = "package1", courseID = Some(0), isDefault = false)
     }
   }
 
   it can "not be constructed if resource base start with /" in {
     intercept[IllegalArgumentException] {
       new Manifest(12, version = Some("13"), base = Some("data/"), scormVersion = "2004",
-        defaultOrganizationID = Some("O"), resourcesBase = Some("/files/"), title = "package1", courseID = Some(0) , isDefault = false   )
+        defaultOrganizationID = Some("O"), resourcesBase = Some("/files/"), title = "package1", courseID = Some(0), isDefault = false)
     }
   }
 
   it can "not be constructed if resource base does not end with /" in {
     intercept[IllegalArgumentException] {
       new Manifest(12, version = Some("13"), base = Some("data/"), scormVersion = "2004",
-        defaultOrganizationID = Some("O"), resourcesBase = Some("files"), title = "package1", courseID = Some(0)  , isDefault = false )
+        defaultOrganizationID = Some("O"), resourcesBase = Some("files"), title = "package1", courseID = Some(0), isDefault = false)
     }
   }
 }

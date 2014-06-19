@@ -1,7 +1,7 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model.Course
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
 
 class CourseService(implicit val bindingModule: BindingModule) extends Injectable {
@@ -18,6 +18,5 @@ class CourseService(implicit val bindingModule: BindingModule) extends Injectabl
   def getCourseGradeAndComment(courseID: Int, userID: Int) = {
     storageFactory.courseStorage.get(courseID, userID)
   }
-
 
 }

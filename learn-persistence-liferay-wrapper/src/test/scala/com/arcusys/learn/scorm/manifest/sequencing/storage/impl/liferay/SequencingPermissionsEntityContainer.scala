@@ -21,7 +21,7 @@ object SequencingPermissionsEntityContainer extends MockEntityContainer[LFSequen
   def deleteFunction = _.deleteLFSequencingPermissions(_)
   def updateFunction = _.updateLFSequencingPermissions(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFSequencingPermissionses(_,_)
+  def getAllFunction = _.getLFSequencingPermissionses(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -43,11 +43,11 @@ object SequencingPermissionsEntityContainer extends MockEntityContainer[LFSequen
     ()
   }
 
-  private def filterBySequencingID(idRaw: Any): Seq[LFSequencingPermissions] ={
+  private def filterBySequencingID(idRaw: Any): Seq[LFSequencingPermissions] = {
     internalStorage.values.filter(sequencing => sequencing.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

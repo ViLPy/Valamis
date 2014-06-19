@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
         <version>1.8-SNAPSHOT</version>
     </parent>
+
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>learn-scorm-package-model</artifactId>
     <name>learn-scorm-package-model</name>
+
+    <properties>
+        <scalastyle.config.path>${project.basedir}/..</scalastyle.config.path>
+    </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-        </dependency>
+        <!-- VALAMIS dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>learn-util</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- SCALA dependencies -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.bin.version}</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- OTHERS -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.9.1</artifactId>
-            <scope>test</scope>
-            <version>1.7.2</version>
-        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
+                <groupId>org.scalariform</groupId>
+                <artifactId>scalariform-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

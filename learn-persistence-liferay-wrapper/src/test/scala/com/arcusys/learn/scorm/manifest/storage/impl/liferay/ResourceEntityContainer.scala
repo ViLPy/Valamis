@@ -6,7 +6,6 @@ import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
 import scala.collection.JavaConverters._
 
-
 object ResourceEntityContainer extends MockEntityContainer[LFResourceLocalService, LFResource] {
   lazy val mockServiceBeanName = classOf[LFResourceLocalService].getName
   lazy val mockLocalService = mock[LFResourceLocalService]
@@ -39,29 +38,31 @@ object ResourceEntityContainer extends MockEntityContainer[LFResourceLocalServic
   def getIdFunction = _.getId
 
   mockLocalService.findByPackageID(anyInt) answers {
-    (paramsRaw, mockService) => {
-      val packageID: Int = paramsRaw match {
-        case Array(a) => a.asInstanceOf[Int]
-      }
+    (paramsRaw, mockService) =>
+      {
+        val packageID: Int = paramsRaw match {
+          case Array(a) => a.asInstanceOf[Int]
+        }
 
-      internalStorage.values.filter(entity => {
-        entity.getPackageID == packageID
-      }).toList.asJava
-    }
+        internalStorage.values.filter(entity => {
+          entity.getPackageID == packageID
+        }).toList.asJava
+      }
   }
 
   mockLocalService.findByPackageIDAndResourceID(anyInt, anyString, anyInt, anyInt) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any) = paramsRaw match {
-        case Array(a, b, c, d) => (a, b)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any) = paramsRaw match {
+          case Array(a, b, c, d) => (a, b)
+        }
+
+        val packageID = paramsTuple._1.asInstanceOf[Int]
+        val resourceID = paramsTuple._2.asInstanceOf[String]
+
+        internalStorage.values.find(entity => {
+          entity.getPackageID == packageID && entity.getResourceID == resourceID
+        }).toList.asJava
       }
-
-      val packageID = paramsTuple._1.asInstanceOf[Int]
-      val resourceID = paramsTuple._2.asInstanceOf[String]
-
-      internalStorage.values.find(entity => {
-        entity.getPackageID == packageID && entity.getResourceID == resourceID
-      }).toList.asJava
-    }
   }
 }

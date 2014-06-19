@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
 import com.arcusys.learn.scorm.manifest.model.ActivityDataMap
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 import com.arcusys.learn.scorm.manifest.storage.ActivityDataStorage
 
 trait ActivityDataEntityStorage extends ActivityDataStorage with EntityStorageExt[ActivityDataMap] {

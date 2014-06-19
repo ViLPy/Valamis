@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
 
 /**
@@ -25,15 +25,15 @@ class TerminationRequestService(implicit val bindingModule: BindingModule) exten
       case None => TerminationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
       case Some(currentActivity) => {
         if ((requestType == TerminationRequestType.Exit || requestType == TerminationRequestType.Abandon) && !currentActivity.item.active)
-        // If the current activity has already been terminated, there is nothing to terminate.
+          // If the current activity has already been terminated, there is nothing to terminate.
           TerminationResponse.invalid("Current Activity already terminated")
         else requestType match {
-          case TerminationRequestType.Exit => exit(tree)
-          case TerminationRequestType.ExitAll => exitAll(tree)
+          case TerminationRequestType.Exit       => exit(tree)
+          case TerminationRequestType.ExitAll    => exitAll(tree)
           case TerminationRequestType.SuspendAll => suspendAll(tree)
-          case TerminationRequestType.Abandon => abandon(tree)
+          case TerminationRequestType.Abandon    => abandon(tree)
           case TerminationRequestType.AbandonAll => abandonAll(tree)
-          case _ => TerminationResponse.invalid("Undefined termination request")
+          case _                                 => TerminationResponse.invalid("Undefined termination request")
         }
       }
     }
@@ -52,8 +52,7 @@ class TerminationRequestService(implicit val bindingModule: BindingModule) exten
             tree.currentActivity = tree.currentActivity.get.parent
             endAttemptService(tree.currentActivity.get)
             applyPostConditionRules // on the new current activity
-          }
-          else TerminationResponse.invalid("Activity tree root has no parent")
+          } else TerminationResponse.invalid("Activity tree root has no parent")
         }
         case SequencingRulesResponse(_, sequencingRequestOption) =>
           // If the attempt on the root of the Activity Tree is ending without a Retry, the Sequencing Session also ends

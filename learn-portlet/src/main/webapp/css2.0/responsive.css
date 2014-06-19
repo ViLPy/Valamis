@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.column {
+    margin: 0px 20px;
+}
+
+.column-first {
+    margin-left: 0px;
+}
+
+.column-last {
+    margin-right: 0px;
+}
+
+.top {
+    margin-bottom: 40px;
+}
+
+.bottom {
+    margin-bottom: 0px;
+}
+
+.wrapper {
+    /*width: 1800px;*/
+}
+
+@media (max-width: 1840px) and (min-width: 1541px) {
+    .wrapper {
+        width: 1500px;
+    }
+}
+
+@media (max-width: 1540px) and (min-width: 1241px) {
+    .wrapper {
+        width: 1200px;
+    }
+}
+
+@media (max-width: 1240px) and (min-width: 941px) {
+    .wrapper {
+        width: 900px;
+    }
+}
+
+@media (max-width: 940px) and (min-width: 641px) {
+    .wrapper {
+        width: 600px;
+    }
+}
+
+@media (max-width: 641px) {
+    .wrapper {
+        width: 100%;
+    }
+}

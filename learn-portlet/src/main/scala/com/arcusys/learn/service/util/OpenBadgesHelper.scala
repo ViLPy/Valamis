@@ -2,8 +2,8 @@ package com.arcusys.learn.service.util
 
 import org.owasp.validator.html._
 import org.apache.http.impl.client.DefaultHttpClient
-import org.apache.http.client.methods.{HttpPost, HttpGet}
-import java.io.{InputStreamReader, BufferedReader}
+import org.apache.http.client.methods.{ HttpPost, HttpGet }
+import java.io.{ InputStreamReader, BufferedReader }
 import scala.util.parsing.json.JSON
 import java.util
 import org.apache.http.NameValuePair
@@ -12,9 +12,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity
 
 object OpenBadgesHelper {
 
-  def getOpenBadges(email:String): List[Map[String, Any]]={
+  def getOpenBadges(email: String): List[Map[String, Any]] = {
     val userId = getOpenBadgesUserId(email)
-    val group =  if (userId != null) getOpenBadgesValamisGroup(userId) else null
+    val group = if (userId != null) getOpenBadgesValamisGroup(userId) else null
     if (userId != null && group != null) return getOpenBadges(userId, group)
     Nil
   }
@@ -42,8 +42,7 @@ object OpenBadgesHelper {
       }
       rd.close()
       userId
-    }
-    catch {
+    } catch {
       case e: Exception => {
         System.out.println("Problem on getting UserID from Mozzila Open Badges " + e.toString)
         null
@@ -72,8 +71,7 @@ object OpenBadgesHelper {
         case _ => null
       }
       null
-    }
-    catch {
+    } catch {
       case e: Exception => {
         System.out.println("Problem on getting valamis group from Mozzila Open Badges " + e.toString)
         null
@@ -83,7 +81,7 @@ object OpenBadgesHelper {
 
   private def getOpenBadges(userId: String, groupId: String): List[Map[String, Any]] = {
     try {
-      val url = "http://beta.openbadges.org/displayer/" + userId + "/group/"+ groupId +".json"
+      val url = "http://beta.openbadges.org/displayer/" + userId + "/group/" + groupId + ".json"
       val client = new DefaultHttpClient
       val request = new HttpGet(url)
       val resp = client.execute(request)
@@ -96,7 +94,7 @@ object OpenBadgesHelper {
           val m = x.asInstanceOf[Map[String, Any]]
 
           val badges = m("badges").asInstanceOf[List[Map[String, Any]]]
-          return badges.map(i=>{
+          return badges.map(i => {
             val badge = (i("assertion").asInstanceOf[Map[String, Any]])("badge").asInstanceOf[Map[String, Any]]
             Map(
               "title" -> badge("name"),
@@ -109,8 +107,7 @@ object OpenBadgesHelper {
         case _ => Nil
       }
       Nil
-    }
-    catch {
+    } catch {
       case e: Exception => {
         System.out.println("Problem on getting valamis certificates from Mozzila Open Badges " + e.toString)
         Nil

@@ -45,15 +45,10 @@ LiferayRoleSelectDialog = Backbone.View.extend({
     callback:function (roleID) {
     },
     initialize:function () {
+        this.$el = jQuery('<div>');
         this.collection = new LiferayRoleCollection();
-        //this.collection.on('reset', this.render, this);
         this.collection.on('select', this.pickUp, this);
-        this.$el.dialog({
-            autoOpen:false,
-            modal:true,
-            width:540,
-            height:400
-        });
+
         this.collection.fetch();
         this.currentCertificate = null;
     },
@@ -64,26 +59,30 @@ LiferayRoleSelectDialog = Backbone.View.extend({
         }
     },
     checkIfExists: function(site){
-        var existed = this.excludedRoles.find(function(item){
+       var existed = this.excludedRoles.find(function(item){
             if (item.get('roleName') == site.get('roleName')) return true;
             else return false; });
         if (existed != null) return true
         else return false;
+
     },
     render:function () {
         this.$el.html(jQuery('#liferayRoleDialogView').html());
+        return this;
+    }   ,
+    renderRoles:function () {
+        this.$el.html(jQuery('#liferayRoleDialogView').html());
         this.collection.each(this.addSite, this);
+        return this;
     },
     choose:function (permission, roleIds, onChoose) {
         this.callback = onChoose;
         this.excludedRoles = roleIds;
 
-        this.render();
-        this.$el.dialog('open');
+        this.renderRoles();
     },
     pickUp:function(model){
         this.callback(model.get('roleID'));
-        this.$el.dialog('close');
     }
 
 });

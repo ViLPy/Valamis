@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.certificating.impl
 
 import com.arcusys.learn.scorm.certificating.CertificateStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
-import com.arcusys.learn.scorm.tracking.model.certificating.{CertificatePage, Certificate}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
+import com.arcusys.learn.scorm.tracking.model.certificating.{ CertificatePage, Certificate }
 
 /**
  * User: Yulia.Glushonkova
@@ -11,7 +11,7 @@ import com.arcusys.learn.scorm.tracking.model.certificating.{CertificatePage, Ce
 trait CertificateEntityStorage extends CertificateStorage with KeyedEntityStorageExt[Certificate] with EntityStorageExt[Certificate] {
   def getPage(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean): CertificatePage = {
     val all = getAll("companyID" -> companyID)
-    val allFiltered = if (!filter.isEmpty) all.filter(i=>i.title.toLowerCase.contains(filter.toLowerCase)) else all
+    val allFiltered = if (!filter.isEmpty) all.filter(i => i.title.toLowerCase.contains(filter.toLowerCase)) else all
     val allSortedAZ = allFiltered.sortBy(_.title.toLowerCase)
     val allSorted = if (sortAZ) allSortedAZ else allSortedAZ.reverse
     val page = allSorted.drop(skip).take(take).reverse

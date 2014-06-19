@@ -18,7 +18,7 @@ class FileStorageImplWithLFSpec extends SpecificationWithJUnit {
 
     "store file with content without errors" in new Context {
       val content: Array[Byte] = Array[Byte]('\12', '\54', '\12', '\51', '\0')
-      fileStorageImpl store ("someFile.2", content) must not (throwA[Exception])
+      fileStorageImpl store ("someFile.2", content) must not(throwA[Exception])
     }
   }
 

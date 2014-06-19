@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        .chartParticipant rect.blue {
+            fill: steelblue;
+        }
+
+        .chartParticipant rect.red {
+            fill: red;
+        }
+
+        .chartParticipant text.bar {
+            fill: black;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+
+        .chartParticipant text.title {
+            fill: black;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+    </style>
+</head>
+<body>
+<style>
+
+
+
+</style>
+
+<div class="clearfix">
+    <div id="filterMenu" class="pull-left"></div>
+    <div class="pull-left" style="max-height: 400px;overflow-y: scroll;">
+        <div style="margin-bottom: 20px;margin-left: 20px;">
+            <span style="background-color: steelblue;color: white;">Amount of participants</span>
+        </div>
+        <svg id="reportParticipantChart" class="chartParticipant"></svg>
+        <div id='chartParticipantLoading'>
+            <img src="{{contextPath}}/img/loading.gif" alt="Loading">
+        </div>
+    </div>
+</div>
+<script type="text/html" id="participantReportFilter">
+    <div class="pull-left">
+        <h3>Grouping</h3>
+        <label for="group_by">Group by</label>
+        <select id="group_by">
+            <option value="course" selected>Course</option>
+            <option value="teacher">Teacher</option>
+            <option value="organization">Organization</option>
+            <option value="group">Group</option>
+        </select>
+        <br>
+        <input type="button" class="btn" value="Show" id="getData"/>
+    </div>
+</script>
+<script type="text/javascript">
+"use strict";
+Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+    return Mustache.compile(rawTemplate);
+};
+
+var ParticipantReportApp = new Backbone.Marionette.Application();
+ParticipantReportApp.addRegions({
+    filterMenu: "#filterMenu",
+    chartStat: "#charts"
+});
+
+ParticipantReportApp.addInitializer(function () {
+    var collection = new ParticipantModelCollection();
+    var filterView= new ParticipantFilterView();
+    var chartView = new ChartStatView({collection: collection});
+    filterView.on('fetch', function(params) {
+        jQuery("#chartParticipantLoading").show();
+        jQuery("#reportParticipantChart").hide();
+        collection.fetch(_.extend(params, {
+            success: function (collection, response, options) {
+                jQuery("#chartParticipantLoading").hide();
+                jQuery("#reportParticipantChart").show();
+            },
+            error: function (collection, response, options) {
+                jQuery("#chartParticipantLoading").hide();
+                jQuery("#reportParticipantChart").hide();
+                toastr.error("Load failed");
+            }
+        }));
+    });
+    ParticipantReportApp.filterMenu.show(filterView);
+    ParticipantReportApp.chartStat.show(chartView);
+
+    filterView.getData();
+});
+
+jQuery(function(){
+    ParticipantReportApp.start();
+});
+
+</script>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+</html>

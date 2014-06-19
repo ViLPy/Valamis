@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.util.Extensions._
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
 
 /**
  * Navigation Request Process [NB.2.1] - implementation
@@ -21,31 +21,31 @@ class NavigationRequestService extends NavigationRequestServiceContract {
     lazy val target = tree(targetActivityId)
     if (requestType.oneOf(Choice, Jump) && target.isEmpty) NavigationResponse.invalid("Target activity does not exist")
     else requestType match {
-      case Start => start(tree)
-      case ResumeAll => resumeAll(tree)
-      case Continue => continue(tree)
-      case Previous => previous(tree)
-      case Choice => choice(tree, target.get)
-      case Jump => jump(tree, target.get)
-      case Exit => exit(tree)
-      case ExitAll => exitAll(tree)
+      case Start      => start(tree)
+      case ResumeAll  => resumeAll(tree)
+      case Continue   => continue(tree)
+      case Previous   => previous(tree)
+      case Choice     => choice(tree, target.get)
+      case Jump       => jump(tree, target.get)
+      case Exit       => exit(tree)
+      case ExitAll    => exitAll(tree)
       case SuspendAll => suspendAll(tree)
-      case Abandon => abandon(tree)
+      case Abandon    => abandon(tree)
       case AbandonAll => abandonAll(tree)
     }
   }
 
   private def start(tree: ActivityStateTree) =
     tree.currentActivity match {
-      case None => NavigationResponse.valid(termination = false)
+      case None    => NavigationResponse.valid(termination = false)
       case Some(_) => NavigationResponse.invalid("Current Activity is already defined / Sequencing session has already begun")
     }
 
   private def resumeAll(tree: ActivityStateTree) =
     (tree.currentActivity, tree.suspendedActivity) match {
       case (None, Some(_)) => NavigationResponse.valid(termination = false)
-      case (None, None) => NavigationResponse.invalid("Suspended Activity is not defined")
-      case _ => NavigationResponse.invalid("Current Activity is already defined / Sequencing session has already begun")
+      case (None, None)    => NavigationResponse.invalid("Suspended Activity is not defined")
+      case _               => NavigationResponse.invalid("Current Activity is already defined / Sequencing session has already begun")
     }
 
   private def continue(tree: ActivityStateTree) =
@@ -87,8 +87,7 @@ class NavigationRequestService extends NavigationRequestServiceContract {
           else NavigationResponse.valid(termination = currentActivity.item.active)
         }
       }
-    }
-    else NavigationResponse.invalid("Choice Sequencing Control Mode violation")
+    } else NavigationResponse.invalid("Choice Sequencing Control Mode violation")
   }
 
   private def jump(tree: ActivityStateTree, targetActivity: ActivityStateNode) =
@@ -106,13 +105,13 @@ class NavigationRequestService extends NavigationRequestServiceContract {
   private def exitAll(tree: ActivityStateTree) =
     tree.currentActivity match {
       case Some(_) => NavigationResponse.valid(termination = true)
-      case None => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
+      case None    => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
     }
 
   private def suspendAll(tree: ActivityStateTree) =
     tree.currentActivity match {
       case Some(_) => NavigationResponse.valid(termination = true)
-      case None => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
+      case None    => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
     }
 
   private def abandon(tree: ActivityStateTree) =
@@ -126,6 +125,6 @@ class NavigationRequestService extends NavigationRequestServiceContract {
   private def abandonAll(tree: ActivityStateTree) =
     tree.currentActivity match {
       case Some(_) => NavigationResponse.valid(termination = true)
-      case None => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
+      case None    => NavigationResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
     }
 }

@@ -1,11 +1,10 @@
 package com.arcusys.learn.scorm.manifest.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ChildActivitySetTest extends FlatSpec with ShouldMatchers {
+class ChildActivitySetTest extends FlatSpec with Matchers {
 
   "Children activity set" can "be all" in {
     val set = ChildActivitySet.all
@@ -37,7 +36,7 @@ class ChildActivitySetTest extends FlatSpec with ShouldMatchers {
   it can "be at least percent" in {
     val set = ChildActivitySet.atLeastPercent(0.3)
     set should equal(ChildActivitySetAtLeastPercent(0.3))
-    ChildActivitySetAtLeastPercent.unapply(set) should equal(Some(0.3))
+    ChildActivitySetAtLeastPercent.unapply(set) should equal(Some(BigDecimal("0.3")))
   }
 
   it can "not be at least percent with negative percent" in {

@@ -13,5 +13,4 @@ case class PackageScopeRule(
   scope: ScopeType.Value,
   scopeID: Option[String],
   visibility: Boolean,
-  isDefault: Boolean
-)
+  isDefault: Boolean)

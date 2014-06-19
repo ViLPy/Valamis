@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
  * Date: 28.03.13
  */
 trait LFSequencingTrackingStorageImpl extends EntityStorage[SequencingTracking] {
-  protected def doRenew() { LFSequencingTrackingLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFSequencingTrackingLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     parameters match {
@@ -26,21 +26,22 @@ trait LFSequencingTrackingStorageImpl extends EntityStorage[SequencingTracking] 
     if (lfEntity.isEmpty) null
     else new SequencingTracking(lfEntity.get.getCompletionSetByContent, lfEntity.get.getObjectiveSetByContent)
 
-
-  def getAll(parameters: (String, Any)*) = {throw new UnsupportedOperationException("Not implemented")}
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def getAll(parameters: (String, Any)*) = { throw new UnsupportedOperationException("Not implemented") }
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
   def create(entity: SequencingTracking, parameters: (String, Any)*) {
     val sequencingID = if (parameters.isEmpty) None
     else parameters match { case Seq(("sequencingID", value: Int)) => Some(value) }
     doUpdate(entity, sequencingID, LFSequencingTrackingLocalServiceUtil.createLFSequencingTracking(), LFSequencingTrackingLocalServiceUtil.addLFSequencingTracking(_))
   }
-  def delete(parameters: (String, Any)*) {parameters match {
-    case Seq(("sequencingID", value: Int)) => { LFSequencingTrackingLocalServiceUtil.removeBySequencingID(value) }
-  }}
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(entity: SequencingTracking, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def delete(parameters: (String, Any)*) {
+    parameters match {
+      case Seq(("sequencingID", value: Int)) => { LFSequencingTrackingLocalServiceUtil.removeBySequencingID(value) }
+    }
+  }
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(entity: SequencingTracking, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
-  def doUpdate(entity: SequencingTracking, sequencingId: Option[Int], newEntity: LFSequencingTracking, updateFunction: (LFSequencingTracking) => LFSequencingTracking): LFSequencingTracking= {
+  def doUpdate(entity: SequencingTracking, sequencingId: Option[Int], newEntity: LFSequencingTracking, updateFunction: (LFSequencingTracking) => LFSequencingTracking): LFSequencingTracking = {
     if (!sequencingId.isEmpty) newEntity.setSequencingID(sequencingId.get)
     newEntity.setCompletionSetByContent(entity.completionSetByContent)
     newEntity.setObjectiveSetByContent(entity.objectiveSetByContent)

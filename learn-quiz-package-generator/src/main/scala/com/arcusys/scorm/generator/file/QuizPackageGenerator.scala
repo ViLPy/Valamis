@@ -1,18 +1,21 @@
 package com.arcusys.scorm.generator.file
 
+import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.scorm.manifest.serializer.ManifestGenerator
+import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.quiz.model._
+import com.arcusys.learn.questionbank.model.PlainText
+import com.arcusys.learn.util.TreeNode
 import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
 import com.arcusys.scorm.generator.util.ResourceHelpers
-import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.quiz.model._
-import com.arcusys.scorm.util.{FileProcessing, FileSystemUtil}
-import scala.collection.mutable
-import com.arcusys.learn.scorm.manifest.serializer.ManifestGenerator
-import com.arcusys.learn.util.TreeNode
-import java.net.URLDecoder
-import com.arcusys.learn.questionbank.model.PlainText
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
-import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.scorm.util.{ FileProcessing, FileSystemUtil }
+
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import org.apache.commons.lang.StringEscapeUtils
+
+import scala.collection.mutable
+import java.net.URLDecoder
+import java.io.File
 
 class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule) extends Injectable {
   private val storageFactory: StorageFactoryContract = inject[StorageFactoryContract]
@@ -24,10 +27,16 @@ class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule
   private val resourceFiles = mutable.HashSet[String]()
   private val scormDependencyID = "scormDependency"
   private val commonResourceURLs = Seq("common.js", "jquery-1.7.2.min.js", "jquery-ui-1.8.20.custom.min.js",
-    "jquery-ui-1.8.20.custom.css", "player_content.css", "scorm_main.css")
+    "jquery-ui-1.8.20.custom.css", "player_content.css", "scorm_main.css", "buttons.css")
+
+  private val commonRevealResourceURLs = Seq("reveal.min.js", "css/reveal.min.css", "css/theme/beige.css",
+    "css/theme/blood.css", "css/theme/default.css", "css/theme/moon.css",
+    "css/theme/night.css", "css/theme/serif.css", "css/theme/simple.css", "css/theme/sky.css", "css/theme/solarized.css")
   private val questionViewGenerator = new QuestionViewGenerator(isPreview = false)
 
-  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath.replaceAll("%20", " ")
+  private def getResourceInputStream(name: String) = Thread.currentThread.getContextClassLoader.getResourceAsStream(name)
+
+  private def getResourceStream(name: String) = Thread.currentThread.getContextClassLoader.getResource(name).getPath
 
   private def decode(source: String) = URLDecoder.decode(source, "UTF-8")
 
@@ -38,7 +47,7 @@ class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule
     val zip = new ZipFile(FileSystemUtil.getRealTmpDir + zipName)
     zip.addEntry("imsmanifest.xml", generateManifest(courseID).toString())
     scoData.foreach(file => zip.addEntry("data/" + file._1 + ".html", file._2))
-    commonResourceURLs.foreach(filename => zip.addFile(getResourceStream("common/" + filename), "data/" + filename))
+    (commonResourceURLs ++ commonRevealResourceURLs).foreach(filename => zip.addFile(getResourceInputStream("common/" + filename), "data/" + filename))
     resourceFiles.foreach(filename => {
       zip.addFile("data/" + filename,
         storageFactory.fileStorage.getFile(filename).getOrElse(throw new Exception("Can't find file '" + filename + "' in DB")).content.getOrElse(throw new Exception("File '" + filename + "' has no content")))
@@ -98,9 +107,9 @@ class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule
     questions.map(question => {
       val parentID = if (categoryID == None) None else Some(categoryID.get.toString)
       val resID = "resource" + question.id
-        question match {
-          case questionBankQuestion: QuestionBankQuizQuestion => {
-            val realQuestion = questionBankQuestion.question
+      question match {
+        case questionBankQuestion: QuestionBankQuizQuestion => {
+          val realQuestion = questionBankQuestion.question
           val imageResources = ResourceHelpers.fetchResources(decode(realQuestion.text))
           resourceBuffer += new AssetResource(resID, Some(resID + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
           scoData(resID) = questionViewGenerator.getHTMLByQuestionId(realQuestion)
@@ -108,23 +117,33 @@ class QuizPackageGenerator(quiz: Quiz)(implicit val bindingModule: BindingModule
           imageResources.foreach(res => {
             resourceFiles += res
           })
-            val leaf = new LeafActivity("question" + questionBankQuestion.id, realQuestion.title, parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Continue, NavigationControlType.Previous))
+          val leaf = new LeafActivity("question" + questionBankQuestion.id, realQuestion.title, parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Continue, NavigationControlType.Previous))
           new TreeNode[Activity](leaf, Nil)
         }
-          case plain: PlainTextQuizQuestion => {
-            val realQuestion = new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), StringEscapeUtils.unescapeJavaScript(plain.text), None)
-            val imageResources = ResourceHelpers.fetchResources(decode(realQuestion.text))
-            resourceBuffer += new AssetResource(resID, Some(resID + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
-            scoData(resID) = questionViewGenerator.getHTMLByQuestionId(realQuestion)
+        case plain: PlainTextQuizQuestion => {
+          val realQuestion = new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), StringEscapeUtils.unescapeJavaScript(plain.text), None)
+          val imageResources = ResourceHelpers.fetchResources(decode(realQuestion.text))
+          resourceBuffer += new AssetResource(resID, Some(resID + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
+          scoData(resID) = questionViewGenerator.getHTMLByQuestionId(realQuestion)
 
-            imageResources.foreach(res => {
-              resourceFiles += res
-            })
-            val leaf = new LeafActivity("question" + plain.id, realQuestion.title, parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Continue, NavigationControlType.Previous))
-            new TreeNode[Activity](leaf, Nil)
-          }
-          case external: ExternalQuizQuestion => {
-            resourceBuffer += new AssetResource(resID, Some(external.url), None, Nil, Nil)
+          imageResources.foreach(res => {
+            resourceFiles += res
+          })
+          val leaf = new LeafActivity("question" + plain.id, realQuestion.title, parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Continue, NavigationControlType.Previous))
+          new TreeNode[Activity](leaf, Nil)
+        }
+        case external: ExternalQuizQuestion => {
+          resourceBuffer += new AssetResource(resID, Some(external.url), None, Nil, Nil)
+          val leaf = new LeafActivity("question" + question.id, question.title.getOrElse(""), parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Previous))
+          new TreeNode[Activity](leaf, Nil)
+        }
+        case reveal: RevealJSQuizQuestion => {
+          val imageResources = ResourceHelpers.fetchResources(decode(reveal.content))
+          resourceBuffer += new AssetResource(resID, Some(resID + ".html"), Some("base/"), imageResources.map(new ResourceFile(_)), Seq(scormDependencyID))
+          scoData(resID) = questionViewGenerator.getHTMLForRevealPage(reveal.content)
+          imageResources.foreach(res => {
+            resourceFiles += res
+          })
           val leaf = new LeafActivity("question" + question.id, question.title.getOrElse(""), parentID.getOrElse(organizationId), organizationId, resID, hiddenNavigationControls = Set(NavigationControlType.Previous))
           new TreeNode[Activity](leaf, Nil)
         }

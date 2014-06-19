@@ -6,10 +6,10 @@ import XMLImplicits._
 
 class SequencingRuleParser(sequencingRuleElement: Elem) {
   def parseSequencingRule = {
-    val ruleConditionsElement = sequencingRuleElement childElem  ("imsss", "ruleConditions") required element
-    val conditionCombination = ruleConditionsElement attr "conditionCombination" withDefault(ConditionCombination, ConditionCombination.All)
-    val conditions = ruleConditionsElement children("imsss", "ruleCondition") map parseSequencingRuleCondition
-    val action = sequencingRuleElement childElem("imsss", "ruleAction") required element attr "action" required string
+    val ruleConditionsElement = sequencingRuleElement childElem ("imsss", "ruleConditions") required element
+    val conditionCombination = ruleConditionsElement attr "conditionCombination" withDefault (ConditionCombination, ConditionCombination.All)
+    val conditions = ruleConditionsElement children ("imsss", "ruleCondition") map parseSequencingRuleCondition
+    val action = sequencingRuleElement childElem ("imsss", "ruleAction") required element attr "action" required string
     (new RuleConditionSet(conditions, conditionCombination), action)
   }
 

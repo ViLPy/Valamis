@@ -1,6 +1,6 @@
 package com.arcusys.learn.tincan.api.utils
 
-import javax.servlet.http.{HttpServletRequestWrapper, HttpServletRequest, HttpServletResponse}
+import javax.servlet.http.{ HttpServletRequestWrapper, HttpServletRequest, HttpServletResponse }
 import org.scalatra.Handler
 import scala.collection.JavaConverters._
 

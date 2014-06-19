@@ -25,7 +25,7 @@ public class LFTincanLrsResultClp extends BaseModelImpl<LFTincanLrsResult>
     private Boolean _success;
     private Boolean _completion;
     private String _response;
-    private Double _duration;
+    private String _duration;
     private String _extension;
     private BaseModel<?> _lfTincanLrsResultRemoteModel;
 
@@ -109,7 +109,7 @@ public class LFTincanLrsResultClp extends BaseModelImpl<LFTincanLrsResult>
             setResponse(response);
         }
 
-        Double duration = (Double) attributes.get("duration");
+        String duration = (String) attributes.get("duration");
 
         if (duration != null) {
             setDuration(duration);
@@ -233,19 +233,19 @@ public class LFTincanLrsResultClp extends BaseModelImpl<LFTincanLrsResult>
     }
 
     @Override
-    public Double getDuration() {
+    public String getDuration() {
         return _duration;
     }
 
     @Override
-    public void setDuration(Double duration) {
+    public void setDuration(String duration) {
         _duration = duration;
 
         if (_lfTincanLrsResultRemoteModel != null) {
             try {
                 Class<?> clazz = _lfTincanLrsResultRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setDuration", Double.class);
+                Method method = clazz.getMethod("setDuration", String.class);
 
                 method.invoke(_lfTincanLrsResultRemoteModel, duration);
             } catch (Exception e) {

@@ -15,7 +15,7 @@ import com.arcusys.learn.storage.impl.liferay.LFStorages
  * User: Yulia.Glushonkova
  * Date: 09.04.13
  */
-class LFSequencingSpec  extends SpecificationWithJUnit with Mockito with ThrownExpectations {
+class LFSequencingSpec extends SpecificationWithJUnit with Mockito with ThrownExpectations {
 
   "Mockito" should {
     "mock service method" in new Context {
@@ -26,17 +26,17 @@ class LFSequencingSpec  extends SpecificationWithJUnit with Mockito with ThrownE
 
   "LFSequencingStorageImpl" should {
     "execute 'create' without errors" in new Context {
-      sequencingStorage.createAndGetID(Sequencing.Default, "packageID"->123, "activityID"->"456") must not(throwA[Exception])
+      sequencingStorage.createAndGetID(Sequencing.Default, "packageID" -> 123, "activityID" -> "456") must not(throwA[Exception])
     }
     "execute 'get' without errors" in new Context {
-      sequencingStorage.createAndGetID(Sequencing.Default, "packageID"->789, "activityID"->"qwe") must not(throwA[Exception])
-     // it will throw an exception because needed to create all sub-entities
-     // val fetched = sequencingStorage.getOne("packageID"->789, "activityID"->"qwe")
-     // fetched must beSome
+      sequencingStorage.createAndGetID(Sequencing.Default, "packageID" -> 789, "activityID" -> "qwe") must not(throwA[Exception])
+      // it will throw an exception because needed to create all sub-entities
+      // val fetched = sequencingStorage.getOne("packageID"->789, "activityID"->"qwe")
+      // fetched must beSome
 
     }
     "execute 'get not existed' without errors" in new Context {
-      val fetched = sequencingStorage.getOne("packageID"->1, "activityID"->"x")
+      val fetched = sequencingStorage.getOne("packageID" -> 1, "activityID" -> "x")
       fetched must beNone
     }
     // need to implement delete

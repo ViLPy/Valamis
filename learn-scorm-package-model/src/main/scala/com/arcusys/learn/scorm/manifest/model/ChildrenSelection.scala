@@ -14,11 +14,9 @@ class ChildrenSelectionTake(val count: Int, val timing: RandomizationTimingType.
  * @param take    Information about how child activities are picked up. If None, all child activities are picked up
  * @param reorder Information about how picked up child activities are randomized. If None, original order is kept
  */
-class ChildrenSelection
-(
-  val take: Option[ChildrenSelectionTake] = None,
-  val reorder: Option[RandomizationTimingType.Value] = None
-  ) {
+class ChildrenSelection(
+    val take: Option[ChildrenSelectionTake] = None,
+    val reorder: Option[RandomizationTimingType.Value] = None) {
   /**
    * Construct for the case when child activities are picked up and randomized
    * @param takeCount   How many child activities are taken

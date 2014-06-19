@@ -1,6 +1,6 @@
 package com.arcusys.learn.tincan.storage.impl
 
-import com.arcusys.learn.tincan.storage.{ClientApiStorage, AttachmentStorage}
+import com.arcusys.learn.tincan.storage.{ ClientApiStorage, AttachmentStorage }
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.tincan.model.Attachment
 

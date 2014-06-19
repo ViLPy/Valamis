@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+        .chart rect.blue {
+            fill: steelblue;
+        }
+        .chart rect.red {
+            fill: red;
+        }
+
+        .chart text.bar {
+            fill: black;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+        .chart text.title {
+            fill: black;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+    </style>
+</head>
+<body>
+<style>
+
+
+
+</style>
+
+<div class="clearfix">
+    <div id="filterMenu" class="pull-left"></div>
+    <div class="pull-left" style="max-height: 400px;overflow-y: scroll;">
+        <div style="margin-bottom: 20px;margin-left: 20px;">
+            <span style="background-color: steelblue;color: white;">Enrollments count</span>
+            <span style="background-color: red;color: white;">Completions count</span>
+        </div>
+        <svg id="reportChart" class="chart"></svg>
+        <div id='chartLoading'>
+            <img src="{{contextPath}}/img/loading.gif" alt="Loading">
+        </div>
+    </div>
+</div>
+<script type="text/html" id="courseEventFilter">
+    <div class="pull-left">
+        <h3>Grouping</h3>
+        <label for="group_by">Group by</label>
+        <select id="group_by">
+            <option value="duration" selected>Duration</option>
+            <option value="teacher">Teacher</option>
+            <option value="organization">Organization</option>
+            <option value="group">Group</option>
+        </select>
+        <label id="durationLabel" for="duration">Duration</label>
+        <select id="duration">
+            <option value="day" selected>Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+        </select>
+        <h3>Filter</h3>
+        <label for="period">Period</label>
+        <select id="period">
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+            <option value="interval" selected>Custom</option>
+        </select>
+        <label id="fromLabel" for="from">From</label>
+        <input type="text" id="from" name="from">
+        <label id="toLabel" for="to">to</label>
+        <input type="text" id="to" name="to">
+        <br>
+        <input type="button" class="btn" value="Show" id="getData"/>
+    </div>
+</script>
+<script type="text/javascript">
+"use strict";
+Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+    return Mustache.compile(rawTemplate);
+};
+
+var StatementStatApp = new Backbone.Marionette.Application();
+StatementStatApp.addRegions({
+    filterMenu: "#filterMenu",
+    chartStat: "#charts"
+});
+
+StatementStatApp.addInitializer(function () {
+    var collection = new CourseEventModelCollection();
+    var filterView= new CourseEventFilterView();
+    var chartView = new ChartStatView({collection: collection});
+    filterView.on('fetch', function(params) {
+        jQuery("#chartLoading").show();
+        jQuery("#reportChart").hide();
+        collection.fetch(_.extend(params, {
+            success: function (collection, response, options) {
+                jQuery("#chartLoading").hide();
+                jQuery("#reportChart").show();
+            },
+            error: function (collection, response, options) {
+                jQuery("#chartLoading").hide();
+                jQuery("#reportChart").hide();
+                toastr.error("Load failed");
+            }
+        }));
+
+    });
+    StatementStatApp.filterMenu.show(filterView);
+    StatementStatApp.chartStat.show(chartView);
+
+    filterView.getData();
+});
+
+jQuery(function(){
+    StatementStatApp.start();
+});
+
+</script>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+</html>

@@ -3,7 +3,7 @@ package com.arcusys.learn.questionbank.model
 /**
  * Base class for an answer option or correct answer for a question
  */
-sealed trait Answer{
+sealed trait Answer {
   def id: Int
 }
 

@@ -1,11 +1,10 @@
 package com.arcusys.learn.questionbank.model
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{ Matchers, FlatSpec }
 import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class TextQuestionTest extends FlatSpec with ShouldMatchers {
+class TextQuestionTest extends FlatSpec with Matchers {
   "Text answer" can "be constructed" in {
     val answer = new TextAnswer(11, "Every me")
     answer.id should equal(11)

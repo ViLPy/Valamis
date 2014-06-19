@@ -5,7 +5,6 @@ import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocal
 import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState
 import scala.collection.JavaConverters._
 
-
 object GlobalObjectiveStateEntityContainer extends MockEntityContainer[LFGlobalObjectiveStateLocalService, LFGlobalObjectiveState] {
   lazy val mockLocalService = mock[LFGlobalObjectiveStateLocalService]
   lazy val mockServiceBeanName = classOf[LFGlobalObjectiveStateLocalService].getName
@@ -16,7 +15,7 @@ object GlobalObjectiveStateEntityContainer extends MockEntityContainer[LFGlobalO
   def deleteFunction = _.deleteLFGlobalObjectiveState(_)
   def updateFunction = _.updateLFGlobalObjectiveState(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFGlobalObjectiveStates(_,_)
+  def getAllFunction = _.getLFGlobalObjectiveStates(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks

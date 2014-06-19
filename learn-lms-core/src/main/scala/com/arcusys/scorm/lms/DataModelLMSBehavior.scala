@@ -1,8 +1,8 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model._
-import com.arcusys.learn.scorm.manifest.model.{Objective, LeafActivity}
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.arcusys.learn.scorm.manifest.model.{ Objective, LeafActivity }
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 
 class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivityState])(implicit val bindingModule: BindingModule) extends Injectable {
 
@@ -18,19 +18,19 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
   // SCORM 1.2
   def getMasteryScore: Option[String] = {
     currentActivity match {
-          case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
-            activity.activity.asInstanceOf[LeafActivity].masteryScore
-          case None => None
-        }
+      case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
+        activity.activity.asInstanceOf[LeafActivity].masteryScore
+      case None => None
+    }
   }
 
   // SCORM 1.2
   def getMaxTimeAllowed12: Option[String] = {
     currentActivity match {
-          case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
-            activity.activity.asInstanceOf[LeafActivity].maxTimeAllowed
-          case None => None
-        }
+      case Some(activity) if activity.activity.isInstanceOf[LeafActivity] =>
+        activity.activity.asInstanceOf[LeafActivity].maxTimeAllowed
+      case None => None
+    }
   }
 
   /**
@@ -59,7 +59,7 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
   def getLaunchData: Option[String] =
     currentActivity.get.activity match {
       case leaf: LeafActivity => leaf.dataFromLMS
-      case _ => None
+      case _                  => None
     }
 
   def getMaxTimeAllowed: Option[String] =
@@ -108,7 +108,7 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
   }
 
   def getAdlData = {
-    def nameGen(key: String, id: Int) = """(?<=.)n(?=.)""".r replaceFirstIn(key, id.toString)
+    def nameGen(key: String, id: Int) = """(?<=.)n(?=.)""".r replaceFirstIn (key, id.toString)
 
     currentActivity.get.activity match {
       case activity: LeafActivity => {
@@ -124,7 +124,7 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
       case Some(activity) => {
         val objectives = activity.activity.sequencing.primaryObjective match {
           case Some(obj) if obj.id.isDefined => Seq(obj) ++ activity.activity.sequencing.nonPrimaryObjectives
-          case _ => activity.activity.sequencing.nonPrimaryObjectives
+          case _                             => activity.activity.sequencing.nonPrimaryObjectives
         }
         objectives.zipWithIndex.foldLeft(Map[String, Option[String]]())((result, item) => result ++ objectiveSerializer(item._1, item._2)) ++
           Map("cmi.objectives._count" -> Some(objectives.size.toString))
@@ -134,7 +134,7 @@ class DataModelLMSBehavior(attempt: Attempt, currentActivity: Option[ActivitySta
   }
 
   private def objectiveSerializer(objective: Objective, id: Int): Map[String, Option[String]] = {
-    def nameGen(key: String) = """(?<=.)n(?=.)""".r replaceFirstIn(key, id.toString)
+    def nameGen(key: String) = """(?<=.)n(?=.)""".r replaceFirstIn (key, id.toString)
 
     Map(nameGen("cmi.objectives.n.id") -> objective.id,
       nameGen("cmi.objectives.n.score._children") -> Some("scaled,raw,min,max"),

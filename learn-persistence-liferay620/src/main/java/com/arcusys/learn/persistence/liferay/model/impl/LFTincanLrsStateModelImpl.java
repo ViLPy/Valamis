@@ -47,11 +47,10 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
             { "stateId", Types.VARCHAR },
             { "documentId", Types.VARCHAR },
             { "activityId", Types.VARCHAR },
-            { "profileId", Types.VARCHAR },
             { "registration", Types.CLOB },
             { "agentId", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsState (id_ LONG not null primary key,stateId VARCHAR(75) null,documentId VARCHAR(75) null,activityId VARCHAR(75) null,profileId VARCHAR(75) null,registration TEXT null,agentId INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanLrsState (id_ LONG not null primary key,stateId VARCHAR(75) null,documentId VARCHAR(75) null,activityId VARCHAR(75) null,registration TEXT null,agentId INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanLrsState";
     public static final String ORDER_BY_JPQL = " ORDER BY lfTincanLrsState.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFTincanLrsState.id_ ASC";
@@ -68,8 +67,10 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
                 "value.object.column.bitmask.enabled.com.arcusys.learn.persistence.liferay.model.LFTincanLrsState"),
             true);
     public static long ACTIVITYID_COLUMN_BITMASK = 1L;
-    public static long STATEID_COLUMN_BITMASK = 2L;
-    public static long ID_COLUMN_BITMASK = 4L;
+    public static long AGENTID_COLUMN_BITMASK = 2L;
+    public static long REGISTRATION_COLUMN_BITMASK = 4L;
+    public static long STATEID_COLUMN_BITMASK = 8L;
+    public static long ID_COLUMN_BITMASK = 16L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFTincanLrsState"));
     private static ClassLoader _classLoader = LFTincanLrsState.class.getClassLoader();
@@ -82,9 +83,11 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
     private String _documentId;
     private String _activityId;
     private String _originalActivityId;
-    private String _profileId;
     private String _registration;
+    private String _originalRegistration;
     private Integer _agentId;
+    private Integer _originalAgentId;
+    private boolean _setOriginalAgentId;
     private long _columnBitmask;
     private LFTincanLrsState _escapedModel;
 
@@ -129,7 +132,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
         attributes.put("stateId", getStateId());
         attributes.put("documentId", getDocumentId());
         attributes.put("activityId", getActivityId());
-        attributes.put("profileId", getProfileId());
         attributes.put("registration", getRegistration());
         attributes.put("agentId", getAgentId());
 
@@ -160,12 +162,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
 
         if (activityId != null) {
             setActivityId(activityId);
-        }
-
-        String profileId = (String) attributes.get("profileId");
-
-        if (profileId != null) {
-            setProfileId(profileId);
         }
 
         String registration = (String) attributes.get("registration");
@@ -242,23 +238,23 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
     }
 
     @Override
-    public String getProfileId() {
-        return _profileId;
-    }
-
-    @Override
-    public void setProfileId(String profileId) {
-        _profileId = profileId;
-    }
-
-    @Override
     public String getRegistration() {
         return _registration;
     }
 
     @Override
     public void setRegistration(String registration) {
+        _columnBitmask |= REGISTRATION_COLUMN_BITMASK;
+
+        if (_originalRegistration == null) {
+            _originalRegistration = _registration;
+        }
+
         _registration = registration;
+    }
+
+    public String getOriginalRegistration() {
+        return _originalRegistration;
     }
 
     @Override
@@ -268,7 +264,19 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
 
     @Override
     public void setAgentId(Integer agentId) {
+        _columnBitmask |= AGENTID_COLUMN_BITMASK;
+
+        if (!_setOriginalAgentId) {
+            _setOriginalAgentId = true;
+
+            _originalAgentId = _agentId;
+        }
+
         _agentId = agentId;
+    }
+
+    public Integer getOriginalAgentId() {
+        return _originalAgentId;
     }
 
     public long getColumnBitmask() {
@@ -306,7 +314,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
         lfTincanLrsStateImpl.setStateId(getStateId());
         lfTincanLrsStateImpl.setDocumentId(getDocumentId());
         lfTincanLrsStateImpl.setActivityId(getActivityId());
-        lfTincanLrsStateImpl.setProfileId(getProfileId());
         lfTincanLrsStateImpl.setRegistration(getRegistration());
         lfTincanLrsStateImpl.setAgentId(getAgentId());
 
@@ -362,6 +369,12 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
 
         lfTincanLrsStateModelImpl._originalActivityId = lfTincanLrsStateModelImpl._activityId;
 
+        lfTincanLrsStateModelImpl._originalRegistration = lfTincanLrsStateModelImpl._registration;
+
+        lfTincanLrsStateModelImpl._originalAgentId = lfTincanLrsStateModelImpl._agentId;
+
+        lfTincanLrsStateModelImpl._setOriginalAgentId = false;
+
         lfTincanLrsStateModelImpl._columnBitmask = 0;
     }
 
@@ -395,14 +408,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
             lfTincanLrsStateCacheModel.activityId = null;
         }
 
-        lfTincanLrsStateCacheModel.profileId = getProfileId();
-
-        String profileId = lfTincanLrsStateCacheModel.profileId;
-
-        if ((profileId != null) && (profileId.length() == 0)) {
-            lfTincanLrsStateCacheModel.profileId = null;
-        }
-
         lfTincanLrsStateCacheModel.registration = getRegistration();
 
         String registration = lfTincanLrsStateCacheModel.registration;
@@ -418,7 +423,7 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(getId());
@@ -428,8 +433,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
         sb.append(getDocumentId());
         sb.append(", activityId=");
         sb.append(getActivityId());
-        sb.append(", profileId=");
-        sb.append(getProfileId());
         sb.append(", registration=");
         sb.append(getRegistration());
         sb.append(", agentId=");
@@ -441,7 +444,7 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append(
@@ -463,10 +466,6 @@ public class LFTincanLrsStateModelImpl extends BaseModelImpl<LFTincanLrsState>
         sb.append(
             "<column><column-name>activityId</column-name><column-value><![CDATA[");
         sb.append(getActivityId());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>profileId</column-name><column-value><![CDATA[");
-        sb.append(getProfileId());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>registration</column-name><column-value><![CDATA[");

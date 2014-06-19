@@ -1892,6 +1892,7 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
         lfPackageImpl.setSummary(lfPackage.getSummary());
         lfPackageImpl.setAssetRefID(lfPackage.getAssetRefID());
         lfPackageImpl.setCourseID(lfPackage.getCourseID());
+        lfPackageImpl.setLogo(lfPackage.getLogo());
 
         return lfPackageImpl;
     }

@@ -13,8 +13,10 @@ import com.arcusys.learn.persistence.liferay.service.LFAnswerLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFAttemptDataLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFAttemptLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFCertificateLocalServiceUtil;
-import com.arcusys.learn.persistence.liferay.service.LFCertificateSiteLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalServiceUtil;
@@ -26,6 +28,7 @@ import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveMapLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveStateLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalServiceUtil;
@@ -35,6 +38,7 @@ import com.arcusys.learn.persistence.liferay.service.LFQuestionLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFQuizTreeElementLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFRoleLocalServiceUtil;
@@ -107,7 +111,11 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFCertificateLocalServiceUtil.clearService();
 
-            LFCertificateSiteLocalServiceUtil.clearService();
+            LFCertificateActivityLocalServiceUtil.clearService();
+
+            LFCertificateCourseLocalServiceUtil.clearService();
+
+            LFCertificateTincanStatementLocalServiceUtil.clearService();
 
             LFCertificateUserLocalServiceUtil.clearService();
 
@@ -133,6 +141,8 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFPackageCommentLocalServiceUtil.clearService();
 
+            LFPackageGradeStorageLocalServiceUtil.clearService();
+
             LFPackageScopeRuleLocalServiceUtil.clearService();
 
             LFPackageVoteLocalServiceUtil.clearService();
@@ -148,6 +158,8 @@ public class ClpMessageListener extends BaseMessageListener {
             LFQuizQuestionLocalServiceUtil.clearService();
 
             LFQuizQuestionCategoryLocalServiceUtil.clearService();
+
+            LFQuizTreeElementLocalServiceUtil.clearService();
 
             LFRequiredActivityLocalServiceUtil.clearService();
 

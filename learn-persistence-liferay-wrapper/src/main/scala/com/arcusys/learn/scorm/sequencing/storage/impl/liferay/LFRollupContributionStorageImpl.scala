@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.scorm.manifest.model.{RollupConsiderationType, CompletionRollupContribution, SatisfactionRollupContribution, RollupContribution}
+import com.arcusys.learn.scorm.manifest.model.{ RollupConsiderationType, CompletionRollupContribution, SatisfactionRollupContribution, RollupContribution }
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalServiceUtil
@@ -10,14 +10,13 @@ import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalSe
  * Date: 02.04.13
  */
 trait LFRollupContributionStorageImpl extends EntityStorage[RollupContribution] {
-  protected def doRenew() { LFRollupContributionLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFRollupContributionLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val sequencingID = LiferayCommon.getParameter("sequencingID", parameters: _*)
     val lfEntity = LFRollupContributionLocalServiceUtil.findBySequencingID(sequencingID.get)
     if (lfEntity == null) None
-    else
-    {
+    else {
       val contributeToSatisfied = lfEntity.getContributeToSatisfied
       val contributeToNotSatisfied = lfEntity.getContributeToNotSatisfied
       val contributeToCompleted = lfEntity.getContributeToCompleted
@@ -35,7 +34,7 @@ trait LFRollupContributionStorageImpl extends EntityStorage[RollupContribution] 
     }
   }
   def getAll(parameters: (String, Any)*) = throw new UnsupportedOperationException("Not implemented")
-  def create(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def create(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
   def create(entity: RollupContribution, parameters: (String, Any)*) {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
@@ -43,15 +42,15 @@ trait LFRollupContributionStorageImpl extends EntityStorage[RollupContribution] 
     val lfEntity = LFRollupContributionLocalServiceUtil.createLFRollupContribution()
     lfEntity.setSequencingID(sequencingID.get)
 
-    val satisfactionParam = parameters find {_._1 == "satisfaction"} map(_._2)
+    val satisfactionParam = parameters find { _._1 == "satisfaction" } map (_._2)
     val satisfaction = satisfactionParam.get.asInstanceOf[Option[SatisfactionRollupContribution]]
     if (satisfaction.isDefined) {
       lfEntity.setContributeToSatisfied(satisfaction.get.contributeToSatisfied.toString)
       lfEntity.setContributeToNotSatisfied(satisfaction.get.contributeToNotSatisfied.toString)
     }
-    val completionParam = parameters find { _._1 == "completion" } map(_._2)
+    val completionParam = parameters find { _._1 == "completion" } map (_._2)
     val completion = completionParam.get.asInstanceOf[Option[CompletionRollupContribution]]
-    if (completion.isDefined){
+    if (completion.isDefined) {
       lfEntity.setContributeToCompleted(completion.get.contributeToCompleted.toString)
       lfEntity.setContributeToIncomplete(completion.get.contributeToIncomplete.toString)
     }
@@ -63,8 +62,8 @@ trait LFRollupContributionStorageImpl extends EntityStorage[RollupContribution] 
     val sequencingID = LiferayCommon.getParameter("sequencingID", parameters: _*)
     LFRollupContributionLocalServiceUtil.removeBySequencingID(sequencingID.get)
   }
-  def modify(parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
-  def modify(entity: RollupContribution, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
+  def modify(entity: RollupContribution, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
   def execute(sqlKey: String, parameters: (String, Any)*) {
     throw new UnsupportedOperationException

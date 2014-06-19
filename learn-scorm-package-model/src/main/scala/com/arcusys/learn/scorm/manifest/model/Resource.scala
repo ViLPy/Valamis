@@ -13,15 +13,13 @@ package com.arcusys.learn.scorm.manifest.model
  * @param dependencyIds IDs of resources this resource depends on
  * @param metadata      Optional metadata for this resource
  */
-sealed abstract class Resource
-(
-  val id: String,
-  val href: Option[String],
-  val base: Option[String],
-  val files: Seq[ResourceFile],
-  val dependencyIds: Seq[String],
-  val metadata: Option[Metadata]
-  ) {
+sealed abstract class Resource(
+    val id: String,
+    val href: Option[String],
+    val base: Option[String],
+    val files: Seq[ResourceFile],
+    val dependencyIds: Seq[String],
+    val metadata: Option[Metadata]) {
   base foreach {
     value => require(!value.startsWith("/") && value.endsWith("/"), "If resource base is defined, it should not start with a '/' and should end with a '/'")
   }
@@ -42,15 +40,13 @@ sealed abstract class Resource
  * @param dependencyIds IDs of resources this resource depends on
  * @param metadata      Optional metadata for this resource
  */
-class ScoResource
-(
+class ScoResource(
   id: String,
   href: String,
   base: Option[String],
   files: Seq[ResourceFile],
   dependencyIds: Seq[String],
-  metadata: Option[Metadata] = None
-  ) extends Resource(id, Some(href), base, files, dependencyIds, metadata)
+  metadata: Option[Metadata] = None) extends Resource(id, Some(href), base, files, dependencyIds, metadata)
 
 /**
  * Asset - a SCORM resource which does not communicate with the Run-Time Environment
@@ -65,12 +61,10 @@ class ScoResource
  * @param dependencyIds IDs of resources this resource depends on
  * @param metadata      Optional metadata for this resource
  */
-class AssetResource
-(
+class AssetResource(
   id: String,
   href: Option[String],
   base: Option[String],
   files: Seq[ResourceFile],
   dependencyIds: Seq[String],
-  metadata: Option[Metadata] = None
-  ) extends Resource(id, href, base, files, dependencyIds, metadata)
+  metadata: Option[Metadata] = None) extends Resource(id, href, base, files, dependencyIds, metadata)

@@ -1,8 +1,11 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,9 +15,9 @@ import java.util.List;
  * @generated
  */
 public class LFCertificateUserSoap implements Serializable {
-    private long _id;
-    private Integer _certificateID;
-    private Integer _userID;
+    private Long _certificateID;
+    private Long _userID;
+    private Date _attachedDate;
 
     public LFCertificateUserSoap() {
     }
@@ -22,9 +25,9 @@ public class LFCertificateUserSoap implements Serializable {
     public static LFCertificateUserSoap toSoapModel(LFCertificateUser model) {
         LFCertificateUserSoap soapModel = new LFCertificateUserSoap();
 
-        soapModel.setId(model.getId());
         soapModel.setCertificateID(model.getCertificateID());
         soapModel.setUserID(model.getUserID());
+        soapModel.setAttachedDate(model.getAttachedDate());
 
         return soapModel;
     }
@@ -68,35 +71,36 @@ public class LFCertificateUserSoap implements Serializable {
         return soapModels.toArray(new LFCertificateUserSoap[soapModels.size()]);
     }
 
-    public long getPrimaryKey() {
-        return _id;
+    public LFCertificateUserPK getPrimaryKey() {
+        return new LFCertificateUserPK(_certificateID, _userID);
     }
 
-    public void setPrimaryKey(long pk) {
-        setId(pk);
+    public void setPrimaryKey(LFCertificateUserPK pk) {
+        setCertificateID(pk.certificateID);
+        setUserID(pk.userID);
     }
 
-    public long getId() {
-        return _id;
-    }
-
-    public void setId(long id) {
-        _id = id;
-    }
-
-    public Integer getCertificateID() {
+    public Long getCertificateID() {
         return _certificateID;
     }
 
-    public void setCertificateID(Integer certificateID) {
+    public void setCertificateID(Long certificateID) {
         _certificateID = certificateID;
     }
 
-    public Integer getUserID() {
+    public Long getUserID() {
         return _userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(Long userID) {
         _userID = userID;
+    }
+
+    public Date getAttachedDate() {
+        return _attachedDate;
+    }
+
+    public void setAttachedDate(Date attachedDate) {
+        _attachedDate = attachedDate;
     }
 }

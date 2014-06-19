@@ -29,10 +29,7 @@
         <filter-name>CurriculumUser</filter-name>
         <filter-class>com.arcusys.learn.view.CurriculumUser</filter-class>
     </filter>
-    <filter>
-        <filter-name>AchievementUser</filter-name>
-        <filter-class>com.arcusys.learn.view.AchievementUserView</filter-class>
-    </filter>
+
     <filter>
         <filter-name>MyAccountView</filter-name>
         <filter-class>com.arcusys.learn.view.MyAccountView</filter-class>
@@ -65,10 +62,7 @@
         <filter-name>CurriculumUser</filter-name>
         <url-pattern>/CurriculumUser/*</url-pattern>
     </filter-mapping>
-    <filter-mapping>
-        <filter-name>AchievementUser</filter-name>
-        <url-pattern>/AchievementUser/*</url-pattern>
-    </filter-mapping>
+
     <filter-mapping>
         <filter-name>MyAccountView</filter-name>
         <url-pattern>/MyAccountView/*</url-pattern>
@@ -152,16 +146,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <servlet>
-        <servlet-name>ValamisOpenBadgesImage Servlet</servlet-name>
-        <servlet-class>com.arcusys.learn.admin.service.BadgeImageService</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ValamisOpenBadgesImage Servlet</servlet-name>
-        <url-pattern>/services/openbadges/*</url-pattern>
-    </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>SCORMApplication Servlet</servlet-name>
         <url-pattern>/SCORMApplication/*</url-pattern>
@@ -232,50 +216,69 @@
         <url-pattern>/services/tincan-packages/*</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>PackageApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.PackageApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PackageApiEndpoint</servlet-name>
+        <url-pattern>/api/packages/*</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
         <servlet-name>OrganizationsService</servlet-name>
         <servlet-class>com.arcusys.learn.scorm.manifest.service.OrganizationsService</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ResourcesService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.manifest.service.ResourcesService</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>ActivitiesService</servlet-name>
         <servlet-class>com.arcusys.learn.scorm.manifest.service.ActivitiesService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminService</servlet-name>
-        <servlet-class>com.arcusys.learn.admin.service.AdminService</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.api.AdminApiController</servlet-class>
     </servlet>
+
     <servlet>
-        <servlet-name>UploadService</servlet-name>
-        <servlet-class>com.arcusys.learn.admin.service.UploadService</servlet-class>
+        <servlet-name>FileApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.FileApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>FileApiEndpoint</servlet-name>
+        <url-pattern>/api/files/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
-        <servlet-name>RoleService</servlet-name>
-        <servlet-class>com.arcusys.learn.admin.service.RoleService</servlet-class>
+        <servlet-name>CourseApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.CourseApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CourseApiEndpoint</servlet-name>
+        <url-pattern>/api/courses/*</url-pattern>
+    </servlet-mapping>
+
+
+
+    <servlet>
+        <servlet-name>GradebookApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.GradebookApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GradebookApiEndpoint</servlet-name>
+        <url-pattern>/api/gradebook/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>QuestionService</servlet-name>
-        <servlet-class>com.arcusys.learn.questionbank.service.QuestionService</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.api.QuestionApiController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CategoryService</servlet-name>
-        <servlet-class>com.arcusys.learn.questionbank.service.CategoryService</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.api.CategoryApiController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>QuizService</servlet-name>
-        <servlet-class>com.arcusys.learn.quiz.service.QuizService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>QuizCategoryService</servlet-name>
-        <servlet-class>com.arcusys.learn.quiz.service.QuizCategoryService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>QuizQuestionService</servlet-name>
-        <servlet-class>com.arcusys.learn.quiz.service.QuizQuestionService</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>GeneratorService</servlet-name>
         <servlet-class>com.arcusys.learn.quiz.service.GeneratedPackagesService</servlet-class>
@@ -289,62 +292,66 @@
         <servlet-class>com.arcusys.learn.scorm.rte.service.SequencingService</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GradebookService</servlet-name>
-        <servlet-class>com.arcusys.learn.gradebook.service.GradebookService</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>LiferayJournalArticleService</servlet-name>
         <servlet-class>com.arcusys.learn.liferay.service.JournalArticleService</servlet-class>
     </servlet>
+
     <servlet>
         <servlet-name>LiferaySiteService</servlet-name>
-        <servlet-class>com.arcusys.learn.liferay.service.LiferaySiteService</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.api.CourseApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>LiferaySiteService</servlet-name>
+        <url-pattern>/services/liferay/site/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
-        <servlet-name>LiferayUserService</servlet-name>
-        <servlet-class>com.arcusys.learn.liferay.service.LiferayUserService</servlet-class>
+        <servlet-name>UserApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.UserApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>UserApiEndpoint</servlet-name>
+        <url-pattern>/api/users/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>LiferayRoleService</servlet-name>
-        <servlet-class>com.arcusys.learn.liferay.service.LiferayRoleService</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.api.RoleApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>LiferayRoleService</servlet-name>
+        <url-pattern>/api/roles/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
-        <servlet-name>CertificateService</servlet-name>
-        <servlet-class>com.arcusys.learn.certificating.CertificateService</servlet-class>
+        <servlet-name>CertificateApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.CertificateApiController</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CertificateApiEndpoint</servlet-name>
+        <url-pattern>/api/certificates/*</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
-        <servlet-name>CertificateSiteService</servlet-name>
-        <servlet-class>com.arcusys.learn.certificating.CertificateSiteService</servlet-class>
+        <servlet-name>ActivityController</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.ActivityApiController</servlet-class>
     </servlet>
+
     <servlet>
-        <servlet-name>CertificateUserService</servlet-name>
-        <servlet-class>com.arcusys.learn.certificating.CertificateUserService</servlet-class>
+        <servlet-name>ReportApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.ReportApiController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>AchievementService</servlet-name>
-        <servlet-class>com.arcusys.learn.achievements.AchievementWebService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ActivityWebService</servlet-name>
-        <servlet-class>com.arcusys.learn.achievements.ActivityWebService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RequiredActivityService</servlet-name>
-        <servlet-class>com.arcusys.learn.achievements.RequiredActivityService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AchievementUserService</servlet-name>
-        <servlet-class>com.arcusys.learn.achievements.AchievementUserService</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportApiEndpoint</servlet-name>
+        <url-pattern>/api/report/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>OrganizationsService</servlet-name>
         <url-pattern>/services/organizations/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ResourcesService</servlet-name>
-        <url-pattern>/services/resources/*</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>ActivitiesService</servlet-name>
         <url-pattern>/services/activities/*</url-pattern>
@@ -353,34 +360,16 @@
         <servlet-name>AdminService</servlet-name>
         <url-pattern>/services/administering/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UploadService</servlet-name>
-        <url-pattern>/services/upload/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RoleService</servlet-name>
-        <url-pattern>/services/roles/*</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>QuestionService</servlet-name>
-        <url-pattern>/services/question/*</url-pattern>
+        <url-pattern>/api/question/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CategoryService</servlet-name>
-        <url-pattern>/services/category/*</url-pattern>
+        <url-pattern>/api/category/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>QuizService</servlet-name>
-        <url-pattern>/services/quiz/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>QuizCategoryService</servlet-name>
-        <url-pattern>/services/quizcategory/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>QuizQuestionService</servlet-name>
-        <url-pattern>/services/quizquestion/*</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>GeneratorService</servlet-name>
         <url-pattern>/services/generator/*</url-pattern>
@@ -393,81 +382,55 @@
         <servlet-name>SequencingService</servlet-name>
         <url-pattern>/services/sequencing/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GradebookService</servlet-name>
-        <url-pattern>/services/gradebook/*</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>LiferayJournalArticleService</servlet-name>
         <url-pattern>/services/liferay/article/*</url-pattern>
     </servlet-mapping>
+
+
+
+
     <servlet-mapping>
-        <servlet-name>LiferaySiteService</servlet-name>
-        <url-pattern>/services/liferay/site/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LiferayUserService</servlet-name>
-        <url-pattern>/services/liferay/user/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LiferayRoleService</servlet-name>
-        <url-pattern>/services/liferay/role/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CertificateService</servlet-name>
-        <url-pattern>/services/certificating/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CertificateSiteService</servlet-name>
-        <url-pattern>/services/certificating/sites/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CertificateUserService</servlet-name>
-        <url-pattern>/services/certificating/users/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AchievementService</servlet-name>
-        <url-pattern>/services/achievement/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ActivityWebService</servlet-name>
+        <servlet-name>ActivityController</servlet-name>
         <url-pattern>/services/activity/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RequiredActivityService</servlet-name>
-        <url-pattern>/services/requiredActivity/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AchievementUserService</servlet-name>
-        <url-pattern>/services/achievementUser/*</url-pattern>
-    </servlet-mapping>
-
 
     <servlet>
         <servlet-name>InitializeController</servlet-name>
-        <servlet-class>com.arcusys.learn.oauth.InitializeController</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.oauth.InitializeApiController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitializeController</servlet-name>
         <url-pattern>/oauth/initiate/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>TokenController</servlet-name>
-        <servlet-class>com.arcusys.learn.oauth.TokenController</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.oauth.TokenApiController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TokenController</servlet-name>
         <url-pattern>/oauth/token/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>RegistrationController</servlet-name>
-        <servlet-class>com.arcusys.learn.oauth.RegistrationController</servlet-class>
+        <servlet-class>com.arcusys.learn.controllers.oauth.RegistrationApiController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationController</servlet-name>
         <url-pattern>/oauth/registration/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>QuizApiEndpoint</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.api.QuizApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuizApiEndpoint</servlet-name>
+        <url-pattern>/api/quiz/*</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>TincanApiStatement</servlet-name>
@@ -477,6 +440,7 @@
         <servlet-name>TincanApiStatement</servlet-name>
         <url-pattern>/TincanApi/statements/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>TincanApiActivities</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.ActivitiesService</servlet-class>
@@ -485,6 +449,7 @@
         <servlet-name>TincanApiActivities</servlet-name>
         <url-pattern>/TincanApi/activities/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>TincanApiAgent</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.AgentService</servlet-class>
@@ -493,6 +458,7 @@
         <servlet-name>TincanApiAgent</servlet-name>
         <url-pattern>/TincanApi/agents/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>TincanApiState</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.StateService</servlet-class>
@@ -501,6 +467,7 @@
         <servlet-name>TincanApiState</servlet-name>
         <url-pattern>/TincanApi/activities/state/*</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>TincanApiAbout</servlet-name>
         <servlet-class>com.arcusys.learn.tincan.api.AboutService</servlet-class>
@@ -509,16 +476,6 @@
         <servlet-name>TincanApiAbout</servlet-name>
         <url-pattern>/TincanApi/about/*</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>TincanReporting</servlet-name>
-        <servlet-class>com.arcusys.learn.reporting.service.TinCanReportingService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanReporting</servlet-name>
-        <url-pattern>/services/reporting/*</url-pattern>
-    </servlet-mapping>
-
-
 
 
     <session-config>

@@ -284,6 +284,21 @@ public class LFTincanLrsStateLocalServiceUtil {
         return getService().findByActivityIdAndStateId(activityId, stateId);
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByActivityIdAndAgentId(activityId, agentId);
+    }
+
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService()
+                   .findByStateDocument(activityId, stateId, agentId,
+            registration);
+    }
+
     public static void clearService() {
         _service = null;
     }

@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, Attempt}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, Attempt }
 
 class SequencingProcessor(attempt: Attempt, tree: ActivityStateTree)(implicit val bindingModule: BindingModule) extends Injectable {
   val navigationRequestService = inject[NavigationRequestServiceContract]
@@ -34,8 +34,8 @@ class SequencingProcessor(attempt: Attempt, tree: ActivityStateTree)(implicit va
         val navigationSequencingRequest = SequencingRequestType.forNavigationRequest(navigationRequest.get)
         val sequencingRequestOption = if (navigationResponse == NavigationResponseWithTermination) {
           terminationRequestService(tree, TerminationRequestType.forNavigationRequest(navigationRequest.get)) match {
-            case TerminationResponseInvalid => None
-            case TerminationResponseValid(None) => Some(navigationSequencingRequest)
+            case TerminationResponseInvalid                                   => None
+            case TerminationResponseValid(None)                               => Some(navigationSequencingRequest)
             case TerminationResponseValid(Some(terminationSequencingRequest)) => Some(terminationSequencingRequest)
           }
         } else Some(navigationSequencingRequest)
@@ -55,7 +55,7 @@ class SequencingProcessor(attempt: Attempt, tree: ActivityStateTree)(implicit va
                 return ProcessorResponse.endSession(tree)
               }
             }
-            case SequencingResponseEmpty => {}
+            case SequencingResponseEmpty   => {}
             case SequencingResponseInvalid => {}
           }
         }

@@ -5,7 +5,6 @@ import com.arcusys.learn.persistence.liferay.model.LFAttempt
 import com.arcusys.learn.storage.impl.liferay.MockKeyedEntityContainer
 import scala.collection.JavaConverters._
 
-
 object AttemptEntityContainer extends MockKeyedEntityContainer[LFAttemptLocalService, LFAttempt] {
   lazy val mockLocalService = mock[LFAttemptLocalService]
   lazy val mockServiceBeanName = classOf[LFAttemptLocalService].getName
@@ -16,8 +15,8 @@ object AttemptEntityContainer extends MockKeyedEntityContainer[LFAttemptLocalSer
   def deleteFunction = _.deleteLFAttempt(_)
   def updateFunction = _.updateLFAttempt(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFAttempts(_,_)
-  def removeAllFunction= _.removeAll()
+  def getAllFunction = _.getLFAttempts(_, _)
+  def removeAllFunction = _.removeAll()
 
   // entity related mocks
   def createMockEntity() = mock[LFAttempt]
@@ -50,7 +49,7 @@ object AttemptEntityContainer extends MockKeyedEntityContainer[LFAttemptLocalSer
   mockLocalService.findByUserID(any) answers { paramsRaw =>
     val userID: Int = paramsRaw match {
       case Array(a) if a.isInstanceOf[Int] => a.asInstanceOf[Int]
-      case a: Int => a
+      case a: Int                          => a
     }
     internalStorage.values.filter(entity => {
       entity.getUserID == userID
@@ -60,7 +59,7 @@ object AttemptEntityContainer extends MockKeyedEntityContainer[LFAttemptLocalSer
   mockLocalService.findByPackageID(any) answers { paramsRaw =>
     val pkgID: Int = paramsRaw match {
       case Array(a) if a.isInstanceOf[Int] => a.asInstanceOf[Int]
-      case a: Int => a
+      case a: Int                          => a
     }
     internalStorage.values.filter(entity => {
       entity.getPackageID == pkgID

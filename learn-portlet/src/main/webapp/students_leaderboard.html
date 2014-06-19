@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+
+    <div id='leaderboardLoading'>
+        <img src="{{contextPath}}/img/loading.gif" alt="Loading">
+    </div>
+    <div id="leaderboard" class="board"></div>
+    <div id="paginationBoard" class="leaderboardPagination"></div>
+</div>
+<script type="text/javascript">
+    // upload translations
+    var defaultURL = Utils.getContextPath() + 'i18n/statementReporting_en.properties';
+    var localizedURL = Utils.getContextPath() + 'i18n/statementReporting_{{language}}.properties';
+    Utils.i18nLoader(localizedURL, defaultURL, onReportLanguageLoad, onReportLanguageError);
+    moment.lang('{{language}}');
+
+    Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (template) {
+        Mustache.parse(template);
+
+        return function (view, partials) {
+            return Mustache.render(template,_.extend(view,language), partials);
+        };
+    };
+
+    var MostActiveStudentsApp = new Backbone.Marionette.Application();
+    MostActiveStudentsApp.addRegions({
+        studentView: '.board',
+        pagination: '.leaderboardPagination'
+    });
+
+    function initView() {
+        MostActiveStudentsApp.addInitializer(function (options) {
+            jQuery('.portlet-title-text').html('Top 5 rank all time');
+
+            var collection = new StudentLeaderboardModelCollection();
+            var collectionView = new StudentsListView({collection: collection, language: language});
+
+            var paginationView = new PaginationView(options);
+            paginationView.on('page:select', function (page) {
+                showLoader();
+                collection.fetch({
+                    offset: ~~((page - 1) * options.itemsOnPage),
+                    amount: options.itemsOnPage,
+                    success: function (collection, response, options) {
+                        hideLoader();
+                    },
+                    error: function (collection, response, options) {
+                        hideLoader();
+                        toastr.error("Load failed");
+                    }
+                });
+            });
+            collection.on('update:statementCollection', paginationView.setPaginationOptions, paginationView);
+
+            MostActiveStudentsApp.studentView.show(collectionView);
+            MostActiveStudentsApp.pagination.show(paginationView);
+
+            collectionView.on("showMode:change", function () {
+                var title = 'Top 5 rank';
+                var momentFromServer = moment();
+                switch (jQuery('.show-mode').val()) {
+                    case "all_time":
+                        title += ' all time';
+                        break;
+                    case "year":
+                        title += ' ' + momentFromServer.format("YYYY");
+                        break;
+                    case "month":
+                        title += ' ' + momentFromServer.format("MMMM");
+                        break;
+                    case "week":
+                        title += ' ' + momentFromServer.format("wo") + ' week';
+                        break;
+                    case "day":
+                        title += ' ' + momentFromServer.format("MMMM Do YYYY");
+                        break;
+                }
+
+                jQuery('.portlet-title-text').html(title);
+                showLoader();
+                collection.fetch({offset: 0, amount: options.itemsOnPage,
+                    success: function (collection, response, options) {
+                        hideLoader();
+                    },
+                    error: function (collection, response, options) {
+                        hideLoader();
+                        toastr.error("Load failed");
+                    }});
+                //collectionView.render();
+            });
+
+            showLoader();
+            collection.fetch({offset: 0, amount: options.itemsOnPage,
+                success: function (collection, response, options) {
+                    hideLoader();
+                },
+                error: function (collection, response, options) {
+                    hideLoader();
+                    toastr.error("Load failed");
+                }});
+        });
+
+        jQuery(function(){
+            MostActiveStudentsApp.start({
+                itemsOnPage: 5
+            });
+        });
+    }
+
+
+
+    function onReportLanguageLoad(properties) {
+        language = properties;
+        initView();
+    }
+
+    function onReportLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+    function showLoader() {
+        jQuery("#leaderboardLoading").show();
+        //jQuery("#leaderboard").hide();
+        //jQuery("#paginationBoard").hide();
+    }
+
+    function hideLoader() {
+        jQuery("#leaderboardLoading").hide();
+        //jQuery("#leaderboard").show();
+        //jQuery("#paginationBoard").show();
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+table.questionBankTree {
+-webkit-appearance: none;
+-moz-appearance: none;
+width: 100%;
+border-collapse: collapse;
+border: 1px solid #DEDEDE;
+border-left: none;
+margin-top: 40px;
+}
+
+table.questionBankTree.no-border,
+table.questionBankTree.no-border tr th,
+table.questionBankTree.no-border tr td {
+border: 0px !important;
+}
+
+table.questionBankTree tr {
+/* background:  #F2F2F2!important; it is for questions */
+font-size: 13px;
+text-transform: uppercase;
+text-align: left;
+
+color: #777777;
+font-weight: bold;
+text-align: left;
+line-height: 20px;
+padding: 10px 20px !important;
+}
+
+table.questionBankTree tr th,
+table.questionBankTree tr td {
+border-collapse: collapse;
+border: 1px solid #DEDEDE;
+word-break: normal;
+vertical-align: middle !important;
+}
+
+table.questionBankTree td.center-text,
+table.questionBankTree th.center-text {
+text-align: center;
+}
+
+table.questionBankTree tr.selectedEntity {
+background: #a9cb4f;
+color: #FFF;
+}
+
+table.questionBankTree tr:hover td {
+background: #EFECBD;
+}
+
+table.questionBankTree tr:hover td .expand-icon,
+table.questionBankTree tr.selectedEntity td .expand-icon {
+background-image: url(../images/icon-next-hovered.png);
+}
+
+table.questionBankTree thead tr:hover td .expand-icon.expanded,
+table.questionBankTree tbody tr:hover td .expand-icon.expanded,
+table.questionBankTree tr.selectedEntity td .expand-icon.expanded {
+background-image: url(../images/icon-expanded-hovered.png) !important;
+}
+
+table.questionBankTree td.questionRow.child {
+padding-left: 50px;
+}
+
+.qbElementsCount {
+    float: right;
+    background: grey;
+    color: #FFF;
+    width: 20px;
+    height: 12px;
+    font-size: xx-small;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin-right: 5px;
+    line-height: 12px;
+}

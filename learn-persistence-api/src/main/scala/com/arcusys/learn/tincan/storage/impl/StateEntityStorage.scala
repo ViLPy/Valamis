@@ -1,16 +1,17 @@
 package com.arcusys.learn.tincan.storage.impl
 
-import com.arcusys.learn.tincan.model.{Agent, State}
-import java.util.{Date, UUID}
+import com.arcusys.learn.tincan.model.{ Agent, State }
+import java.util.UUID
 import com.arcusys.learn.tincan.storage.StateStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
+import org.joda.time.DateTime
 
 trait StateEntityStorage extends StateStorage with EntityStorage[State] with EntityStorageExt[State] {
   def get(activityId: String, stateId: String, agent: Agent, registration: Option[UUID]): Option[State] = {
     getOne("activityId" -> activityId, "stateId" -> stateId, "agent" -> agent, "registration" -> registration)
   }
 
-  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[Date]): Seq[String] = {
+  def getIds(activityId: String, agent: Agent, registration: Option[UUID], since: Option[DateTime]): Seq[String] = {
     getAll("activityId" -> activityId, "agent" -> agent, "registration" -> registration, "since" -> since).map(_.stateId)
   }
 

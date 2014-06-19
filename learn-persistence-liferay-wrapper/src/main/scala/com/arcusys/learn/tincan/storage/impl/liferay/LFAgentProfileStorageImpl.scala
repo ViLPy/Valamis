@@ -1,19 +1,16 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.model.{Account, Agent, AgentProfile}
-import com.arcusys.learn.persistence.liferay.service.{LFTincanLrsDocumentLocalServiceUtil, LFTincanActorLocalServiceUtil, LFTincanLrsAgentProfileLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFTincanLrsDocumentLocalServiceUtil, LFTincanActorLocalServiceUtil, LFTincanLrsAgentProfileLocalServiceUtil }
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfile
 import scala.collection.JavaConverters._
-import com.arcusys.learn.tincan.storage.impl.liferay.mapper.{DocumentMapper, ActorMapper}
-import java.util.Date
+import com.arcusys.learn.tincan.storage.impl.liferay.mapper.{ DocumentMapper, ActorMapper }
 import com.arcusys.learn.tincan.storage.ActorStorage
-import org.json4s.{Extraction, DefaultFormats, Formats}
-import org.json4s.jackson.JsonMethods._
 import com.arcusys.learn.tincan.model.Account
 import com.arcusys.learn.tincan.model.Agent
 import com.arcusys.learn.tincan.model.AgentProfile
-import com.arcusys.learn.util.JsonSerializer.AccountSerializer
+import com.arcusys.learn.util.JsonSupport._
+import org.joda.time.DateTime
 
 trait LFAgentProfileStorageImpl extends KeyedEntityStorage[AgentProfile] {
 
@@ -22,8 +19,7 @@ trait LFAgentProfileStorageImpl extends KeyedEntityStorage[AgentProfile] {
   def documentStorage: LFDocumentStorageImpl
 
   def serializeAccount(account: Account) = {
-    implicit val jsonFormats: Formats = DefaultFormats + new AccountSerializer
-    compact(render(Extraction.decompose(account)))
+    account.toJson.get
   }
 
   def extract(lfEntity: LFTincanLrsAgentProfile): AgentProfile = {
@@ -44,7 +40,7 @@ trait LFAgentProfileStorageImpl extends KeyedEntityStorage[AgentProfile] {
       agent.mbox.getOrElse(null),
       agent.mbox_sha1sum.getOrElse(null),
       agent.openid.getOrElse(null),
-      if(agent.account.isDefined) serializeAccount(agent.account.get) else null
+      if (agent.account.isDefined) serializeAccount(agent.account.get) else null
     ).asScala.toSeq
   }
 
@@ -96,18 +92,16 @@ trait LFAgentProfileStorageImpl extends KeyedEntityStorage[AgentProfile] {
     }
   }
 
-
   def getAll(parameters: (String, Any)*): Seq[AgentProfile] = parameters match {
-    case Seq(("agent", (agent: Agent)), ("since", since: Option[Date])) => {
+    case Seq(("agent", (agent: Agent)), ("since", since: Option[DateTime])) => {
 
-           findAgents(agent)
-             .flatMap(a => LFTincanLrsAgentProfileLocalServiceUtil.findByAgentId(a.getId.toInt).asScala)
-             .filter(ap => !since.isDefined
-              || LFTincanLrsDocumentLocalServiceUtil.getLFTincanLrsDocument(ap.getDocumentId.toInt).getUpdate.compareTo(since.get) >= 0)
-             .map(extract)
+      findAgents(agent)
+        .flatMap(a => LFTincanLrsAgentProfileLocalServiceUtil.findByAgentId(a.getId.toInt).asScala)
+        .filter(ap => !since.isDefined
+          || LFTincanLrsDocumentLocalServiceUtil.getLFTincanLrsDocument(ap.getDocumentId.toInt).getUpdate.compareTo(since.get.toDate) >= 0)
+        .map(extract)
 
     }
-
 
   }
 

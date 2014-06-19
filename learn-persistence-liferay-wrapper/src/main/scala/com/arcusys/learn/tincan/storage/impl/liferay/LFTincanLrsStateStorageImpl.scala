@@ -1,13 +1,13 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.tincan.model.{Agent, State}
+import com.arcusys.learn.tincan.model.{ Agent, State }
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsState
-import com.arcusys.learn.tincan.storage.{DocumentStorage, ActorStorage}
+import com.arcusys.learn.tincan.storage.{ DocumentStorage, ActorStorage }
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalServiceUtil
-import java.util.{Date, UUID}
+import java.util.{ Date, UUID }
 import scala.collection.JavaConverters._
-import com.arcusys.learn.util.JsonSerializer
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsStateStorageImpl extends EntityStorage[State] {
   def actorStorage: ActorStorage
@@ -32,29 +32,39 @@ trait LFTincanLrsStateStorageImpl extends EntityStorage[State] {
 
   def getOne(parameters: (String, Any)*): Option[State] = parameters match {
     case Seq(("activityId", activityId: String), ("stateId", stateId: String), ("agent", agent: Agent), ("registration", registration: Option[UUID])) => {
-      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndStateId(activityId, stateId).asScala.map(mapper)
-        .find(state => state.agent == agent && state.registration == registration)
+      val agentId = actorStorage.getByIFI(agent.objectType, agent.mbox, agent.mbox_sha1sum, agent.openid, agent.account).map(_.getStoredId.getOrElse(-1))
+      Option(LFTincanLrsStateLocalServiceUtil.findByStateDocument(activityId,
+        stateId,
+        if (agentId.isDefined) agentId.get else -1,
+        if (registration.isDefined) JsonSerializer.serializeUUID(registration.get) else null))
+        .map(mapper)
     }
     case _ => None
   }
 
   def getAll(parameters: (String, Any)*): Seq[State] = parameters match {
     case Seq(("activityId", activityId: String), ("agent", agent: Agent), ("registration", registration: Option[UUID]), ("since", since: Option[Date])) => {
-      LFTincanLrsStateLocalServiceUtil.findByActivityId(activityId).asScala.map(mapper)
-        .filter(state => state.agent == agent &&
-        (!since.isDefined || state.content.updated.getTime >= since.get.getTime))
+      val agentId = actorStorage.getByIFI(agent.objectType, agent.mbox, agent.mbox_sha1sum, agent.openid, agent.account).map(_.getStoredId.getOrElse(-1))
+      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndAgentId(activityId, if (agentId.isDefined) agentId.get else -1).asScala.map(mapper)
+        .filter(state => (!since.isDefined || state.content.updated.toDate.getTime >= since.get.getTime))
     }
     case _ => Nil
   }
 
   def delete(parameters: (String, Any)*): Unit = parameters match {
     case Seq(("activityId", activityId: String), ("stateId", stateId: String), ("agent", agent: Agent), ("registration", registration: Option[UUID])) => {
-      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndStateId(activityId, stateId).asScala.map(state => (mapper(state), state.getId))
-        .filter(state => state._1.agent == agent && state._1.registration == registration).foreach(p => LFTincanLrsStateLocalServiceUtil.deleteLFTincanLrsState(p._2))
+      val agentId = actorStorage.getByIFI(agent.objectType, agent.mbox, agent.mbox_sha1sum, agent.openid, agent.account).map(_.getStoredId.getOrElse(-1))
+      Option(LFTincanLrsStateLocalServiceUtil.findByStateDocument(activityId,
+        stateId,
+        if (agentId.isDefined) agentId.get else -1,
+        if (registration.isDefined) JsonSerializer.serializeUUID(registration.get) else null))
+        .map(state => (mapper(state), state.getId))
+        .foreach(p => LFTincanLrsStateLocalServiceUtil.deleteLFTincanLrsState(p._2))
     }
     case Seq(("activityId", activityId: String), ("agent", agent: Agent), ("registration", registration: Option[UUID])) => {
-      LFTincanLrsStateLocalServiceUtil.findByActivityId(activityId).asScala.map(state => (mapper(state), state.getId))
-        .filter(state => state._1.agent == agent && state._1.registration == registration).foreach(p => LFTincanLrsStateLocalServiceUtil.deleteLFTincanLrsState(p._2))
+      val agentId = actorStorage.getByIFI(agent.objectType, agent.mbox, agent.mbox_sha1sum, agent.openid, agent.account).map(_.getStoredId.getOrElse(-1))
+      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndAgentId(activityId, if (agentId.isDefined) agentId.get else -1).asScala.map(state => (mapper(state), state.getId))
+        .filter(state => registration.isDefined && state._1.registration == registration).foreach(p => LFTincanLrsStateLocalServiceUtil.deleteLFTincanLrsState(p._2))
     }
   }
 

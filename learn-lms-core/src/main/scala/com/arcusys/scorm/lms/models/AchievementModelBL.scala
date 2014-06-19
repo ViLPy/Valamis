@@ -5,7 +5,7 @@ import com.arcusys.learn.liferay.LiferayClasses._
 /**
  * Created by iliya.tryapitsin on 14.01.14.
  */
-case class AchievementModelBL (
+case class AchievementModelBL(
   id: Int,
   title: String,
   description: String,
@@ -13,5 +13,4 @@ case class AchievementModelBL (
   startDate: Long,
   completed: Boolean,
   activities: List[AchievementRequiredActivityModel],
-  users: List[LUser]
-)
+  users: List[LUser])

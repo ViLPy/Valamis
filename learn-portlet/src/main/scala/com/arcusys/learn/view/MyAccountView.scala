@@ -1,14 +1,13 @@
 package com.arcusys.learn.view
 
-import javax.portlet.{RenderResponse, RenderRequest, GenericPortlet}
+import javax.portlet.{ RenderResponse, RenderRequest, GenericPortlet }
 import liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import java.io.FileNotFoundException
 import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
+import com.arcusys.learn.util.MustacheSupport
 
-
-class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
+class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with TemplateCoupler {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
@@ -22,11 +21,10 @@ class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupp
     val group = GroupLocalServiceHelper.getGroup(courseID)
     if (group.isUser) {
       val data = Map("contextPath" -> path, "userID" -> group.getClassPK,
-        "language" -> language, "openBadgesUserID" -> 1) ++ translations
+        "language" -> language) ++ translations
 
-      response.getWriter.println(generateResponse(data, "scorm_user.html"))
-    }
-    else {
+      response.getWriter.println(generateResponse(data, "valamis_myAccount.html") + getTemplate("/templates/2.0/myAccount_templates.html"))
+    } else {
       val translations = getTranslation("error", language)
       val data = mustache(Map("contextPath" -> path, "language" -> language) ++ translations, "scorm_nopermissions.html")
       response.getWriter.println(data)
@@ -42,7 +40,7 @@ class MyAccountView extends GenericPortlet with ScalatraFilter with MustacheSupp
       getTranslation("/i18n/" + view + "_" + language)
     } catch {
       case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-      case _ => Map[String, String]()
+      case _                        => Map[String, String]()
     }
   }
 

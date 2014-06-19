@@ -12,8 +12,7 @@ import com.arcusys.learn.liferay.util.Base64Helper
  * Date: 8.3.2013
  */
 trait LFFileRecordStorageImpl extends EntityStorage[FileRecord] {
-  protected def doRenew() { LFFileStorageLocalServiceUtil.removeAll()}
-
+  protected def doRenew() { LFFileStorageLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*) = {
     val searchResult = parameters match {
@@ -24,13 +23,13 @@ trait LFFileRecordStorageImpl extends EntityStorage[FileRecord] {
 
   def extract(entity: LFFileStorage) = FileRecord(entity.getFilename,
     Base64Helper.stringToObject(entity.getContent) match {
-      case null => None
+      case null           => None
       case x: Array[Byte] => Some(x)
     })
 
   def getAll(parameters: (String, Any)*) = {
     val searchResult = parameters match {
-      case Seq(("filename", value: String)) => LFFileStorageLocalServiceUtil.findByFilename(value)
+      case Seq(("filename", value: String))  => LFFileStorageLocalServiceUtil.findByFilename(value)
       case Seq(("directory", value: String)) => LFFileStorageLocalServiceUtil.findByDirectory(value)
     }
     searchResult.asScala map { extract }
@@ -39,7 +38,7 @@ trait LFFileRecordStorageImpl extends EntityStorage[FileRecord] {
   def create(parameters: (String, Any)*) {
     val newEntity: LFFileStorage = LFFileStorageLocalServiceUtil.createLFFileStorage()
     parameters.foreach {
-      case ("filename", value: String) => newEntity.setFilename(value)
+      case ("filename", value: String)     => newEntity.setFilename(value)
       case ("content", value: Array[Byte]) => newEntity.setContent(Base64Helper.objectToString(value))
     }
     LFFileStorageLocalServiceUtil.addLFFileStorage(newEntity)
@@ -47,7 +46,7 @@ trait LFFileRecordStorageImpl extends EntityStorage[FileRecord] {
 
   def delete(parameters: (String, Any)*) {
     parameters match {
-      case Seq(("filename", value: String)) => LFFileStorageLocalServiceUtil.removeByFilename(value)
+      case Seq(("filename", value: String))                                     => LFFileStorageLocalServiceUtil.removeByFilename(value)
       case Seq(("filename", filenameMask: String), ("deleteByDirectory", true)) => LFFileStorageLocalServiceUtil.removeByDirectory(filenameMask)
     }
   }

@@ -9,7 +9,7 @@ import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
  * Date: 02.04.13
  */
 
-object RollupContributionEntityContainer  extends MockEntityContainer[LFRollupContributionLocalService, LFRollupContribution] {
+object RollupContributionEntityContainer extends MockEntityContainer[LFRollupContributionLocalService, LFRollupContribution] {
   lazy val mockServiceBeanName = classOf[LFRollupContributionLocalService].getName
   lazy val mockLocalService = mock[LFRollupContributionLocalService]
 
@@ -19,7 +19,7 @@ object RollupContributionEntityContainer  extends MockEntityContainer[LFRollupCo
   def deleteFunction = _.deleteLFRollupContribution(_)
   def updateFunction = _.updateLFRollupContribution(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFRollupContributions(_,_)
+  def getAllFunction = _.getLFRollupContributions(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -44,11 +44,11 @@ object RollupContributionEntityContainer  extends MockEntityContainer[LFRollupCo
     internalStorage --= filterBySequencingID(id).map(_.getId)
     ()
   }
-  private def filterBySequencingID(idRaw: Any): Seq[LFRollupContribution] ={
+  private def filterBySequencingID(idRaw: Any): Seq[LFRollupContribution] = {
     internalStorage.values.filter(obj => obj.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

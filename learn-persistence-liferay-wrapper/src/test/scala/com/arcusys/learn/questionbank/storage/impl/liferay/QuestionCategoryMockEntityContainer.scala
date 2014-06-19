@@ -63,7 +63,7 @@ object QuestionCategoryMockEntityContainer extends MockKeyedEntityContainer[LFQu
     internalStorage.values.filter(entity => courseIds.contains(
       Option(entity.getCourseId).getOrElse(nullInteger)
     ) && parentIds.contains(
-      Option(entity.getParentId).getOrElse(nullInteger)
-    )).toList.sortBy(_.getArrangementIndex).asJava
+        Option(entity.getParentId).getOrElse(nullInteger)
+      )).toList.sortBy(_.getArrangementIndex).asJava
   }
 }

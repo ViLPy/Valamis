@@ -60,13 +60,12 @@ class LFFileStorageSpec extends SpecificationWithJUnit with Mockito with ThrownE
 
       (createdFile must beSome) and (
         createdFile.get.filename must beEqualTo(filename._2)
-          and (
+        and (
           fileStorage getOne filename must beNone
-          ))
+        ))
 
     }
   }
-
 
   trait Context extends Scope {
     // do initialize mock services
@@ -75,6 +74,5 @@ class LFFileStorageSpec extends SpecificationWithJUnit with Mockito with ThrownE
     val fileStorage: EntityStorage[FileRecord] = new LFFileRecordStorageImpl() {}
 
   }
-
 
 }

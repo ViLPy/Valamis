@@ -4,26 +4,22 @@ import org.specs2.mutable.Specification
 import org.junit.runner.RunWith
 import org.specs2.runner.JUnitRunner
 
-import java.util.Date
-
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.tincan.lrs.agentprofile._
-import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage}
-import com.arcusys.learn.tincan.model.Agent
-import com.arcusys.learn.tincan.model.AgentProfile
+import com.arcusys.learn.tincan.storage.{ ActorStorage, AgentProfileStorage }
 import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRSModificationException
 import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRSArgumentException
-import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRSException
 import com.arcusys.learn.tincan.model.Agent
 import com.arcusys.learn.tincan.model.AgentProfile
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
-
+import org.joda.time.DateTime
 
 @RunWith(classOf[JUnitRunner])
-class AgentProfileLRSSpec extends Specification { sequential
+class AgentProfileLRSSpec extends Specification {
+  sequential
 
   private val agent = Agent("Agent", None, None, None, None, None)
-  private val document = Document("dId-111", new Date(), "", OtherContent)
+  private val document = Document("dId-111", new DateTime(), "", OtherContent)
 
   private val service = new agentprofile.AgentProfileLRS {
     val agentProfileStorage = InMemoryAgentProfileStorage
@@ -38,7 +34,6 @@ class AgentProfileLRSSpec extends Specification { sequential
       service.getPerson(null) must throwA[AgentProfileLRSArgumentException]
     }
   }
-
 
   "The 'getAgentDocument' method" should {
 
@@ -69,24 +64,22 @@ class AgentProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'getAgentDocumentIds' method" should {
 
     "return ids of those profiles that have been stored or updated since the specified timestamp" in {
       InMemoryAgentProfileStorage.reset()
       val since = System.currentTimeMillis() - 17000l
-      val result = service.getAgentDocumentIds(agent, Some(new Date(since)))
+      val result = service.getAgentDocumentIds(agent, Some(new DateTime(since)))
       result must have size 2
       result.contains("profileId-999") must beTrue
       result.contains("profileId-333") must beTrue
     }
 
-    "throw 'AgentProfileLRSArgumentException' if agent is not provided"  in {
-      service.getAgentDocumentIds(null, Some(new Date())) must throwA[AgentProfileLRSArgumentException]
+    "throw 'AgentProfileLRSArgumentException' if agent is not provided" in {
+      service.getAgentDocumentIds(null, Some(new DateTime())) must throwA[AgentProfileLRSArgumentException]
     }
 
   }
-
 
   "The 'addAgentDocument' method" should {
 
@@ -123,7 +116,6 @@ class AgentProfileLRSSpec extends Specification { sequential
 
   }
 
-
   "The 'modifyAgentDocument' method" should {
 
     //"modify (merge) contents of given document and the existing one if they content's type is json" ! pending
@@ -137,17 +129,17 @@ class AgentProfileLRSSpec extends Specification { sequential
 
     "throw 'AgentProfileLRSModificationException' if content of given document is binary" +
       "whereas content of the stored one is json" in {
-      InMemoryAgentProfileStorage.reset()
-      service.modifyAgentDocument("profileId-999", agent, document) must
-        throwA[AgentProfileLRSModificationException]
-    }
+        InMemoryAgentProfileStorage.reset()
+        service.modifyAgentDocument("profileId-999", agent, document) must
+          throwA[AgentProfileLRSModificationException]
+      }
 
     "throw 'AgentProfileLRSModificationException' if content of given document is json" +
       "whereas content of the stored one is binary" in {
-      InMemoryAgentProfileStorage.reset()
-      service.modifyAgentDocument("profileId-666", agent, document.copy(cType = JSONContent)) must
-        throwA[AgentProfileLRSModificationException]
-    }
+        InMemoryAgentProfileStorage.reset()
+        service.modifyAgentDocument("profileId-666", agent, document.copy(cType = JSONContent)) must
+          throwA[AgentProfileLRSModificationException]
+      }
 
     "throw 'AgentProfileLRSNotExistsException' if requested document for modification doesn't even exists" in {
       service.modifyAgentDocument("profileId-1000", agent, document) must throwA[AgentProfileLRSNotExistsException]
@@ -170,7 +162,6 @@ class AgentProfileLRSSpec extends Specification { sequential
     }
 
   }
-
 
   "The deleteAgentDocument" should {
 
@@ -202,8 +193,8 @@ class AgentProfileLRSSpec extends Specification { sequential
 object InMemoryActorStorage extends ActorStorage {
 
   private val defaults =
-    List[Actor](Agent("Agent", Some("Test User"), Some("mailto:test@beta.projecttincan.com"),None,None,None),
-      Agent("Agent", Some("Test User1"), Some("mailto:test1@beta.projecttincan.com"),None,None,None))
+    List[Actor](Agent("Agent", Some("Test User"), Some("mailto:test@beta.projecttincan.com"), None, None, None),
+      Agent("Agent", Some("Test User1"), Some("mailto:test1@beta.projecttincan.com"), None, None, None))
 
   @volatile
   private[this] var actors = defaults
@@ -212,10 +203,12 @@ object InMemoryActorStorage extends ActorStorage {
 
   def all = actors
 
-  def getPerson(agent: Agent): Person ={
-    val person = new Person(Seq("Test User"),Seq("mailto:test@beta.projecttincan.com"),Seq(),Seq(),Seq())
-    all.foreach((a: Actor) => {if(a.isInstanceOf[Agent] && a.asInstanceOf[Agent].FilterCompare(agent))
-      person.AddAgent(a.asInstanceOf[Agent])})
+  def getPerson(agent: Agent): Person = {
+    val person = new Person(Seq("Test User"), Seq("mailto:test@beta.projecttincan.com"), Seq(), Seq(), Seq())
+    all.foreach((a: Actor) => {
+      if (a.isInstanceOf[Agent] && a.asInstanceOf[Agent].FilterCompare(agent))
+        person.AddAgent(a.asInstanceOf[Agent])
+    })
     person
   }
 
@@ -240,13 +233,13 @@ object InMemoryAgentProfileStorage extends AgentProfileStorage {
   private val defaults = List(
     AgentProfile("profileId-666",
       Agent("Agent", None, None, None, None, None),
-      Document("Id-111", new Date(currentTime - 20000l), "", OtherContent)),
+      Document("Id-111", new DateTime(currentTime - 20000l), "", OtherContent)),
     AgentProfile("profileId-999",
       Agent("Agent", None, None, None, None, None),
-      Document("Id-222", new Date(currentTime - 15000l), "{x: \"1\"}", JSONContent)),
+      Document("Id-222", new DateTime(currentTime - 15000l), "{x: \"1\"}", JSONContent)),
     AgentProfile("profileId-333",
       Agent("Agent", None, None, None, None, None),
-      Document("Id-222", new Date(currentTime - 10000l), "{x: \"2\"}", JSONContent))
+      Document("Id-222", new DateTime(currentTime - 10000l), "{x: \"2\"}", JSONContent))
 
   )
 
@@ -257,19 +250,19 @@ object InMemoryAgentProfileStorage extends AgentProfileStorage {
 
   def all = documents
 
-//  def getPerson(agent: Agent): Person ={
-//    val person = new Person(Seq(),Seq(),Seq(),Seq(),Seq())
-//    all.foreach((ap: AgentProfile) => {if(ap.agent.FilterCompare(agent)) person.AddAgent(ap.agent)})
-//    person
-//  }
-  
+  //  def getPerson(agent: Agent): Person ={
+  //    val person = new Person(Seq(),Seq(),Seq(),Seq(),Seq())
+  //    all.foreach((ap: AgentProfile) => {if(ap.agent.FilterCompare(agent)) person.AddAgent(ap.agent)})
+  //    person
+  //  }
+
   def get(profileId: String, agent: Agent): Option[AgentProfile] =
     all.find(d => d.profileId == profileId && d.agent == agent)
 
-  def getIds(agent: Agent, since: Option[Date]): Seq[String] =
+  def getIds(agent: Agent, since: Option[DateTime]): Seq[String] =
     all.filter(p => p.agent == agent &&
-      (!since.isDefined || p.content.updated.getTime >= since.get.getTime))
-    .map(_.profileId)
+      (!since.isDefined || p.content.updated.getMillis >= since.get.getMillis))
+      .map(_.profileId)
 
   def create(entity: AgentProfile): Unit = lock.synchronized {
     documents = entity :: all

@@ -1,0 +1,59 @@
+.expand > .expand-col > .expand-icon {
+    background-image: url(../images/icon-next.png);
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    display: inline-block !important;
+    padding: 6px 15px 3px 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.expand > .expand-col > .expand-icon.expanded {
+    background-image: url(../images/icon-select-button.png) !important;
+}
+
+.expand-text {
+    margin-left: 10px;
+    float: left;
+    cursor: default;
+}
+
+.expand > .expand-col > .expand-text {
+    margin-left: 10px;
+}
+
+.collapse > .expand-col > .expand-text {
+    margin-left: 40px;
+}
+
+tr.collapse {
+
+}
+
+tr.collapse > .expand-col > .expand-icon {
+    background-image: url(../images/icon-collapse.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 4px;
+    cursor: pointer;
+    display: inline-block !important;
+    /*  margin-left: 11px;
+      margin-right: -15px;*/
+    padding: 17px 15px 3px 5px;
+    float: left;
+}
+
+tr.expand-child td.expand-col {
+    padding-left: 24px;
+}
+
+tr.expand-child-child td.expand-col {
+    padding-left: 48px;
+}
+
+tr.expand-child-child {
+    color: #777777;
+}

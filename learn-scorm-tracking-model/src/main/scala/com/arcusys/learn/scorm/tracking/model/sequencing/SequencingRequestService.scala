@@ -1,12 +1,12 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.util.Extensions._
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
 
 class SequencingRequestService(implicit val bindingModule: BindingModule)
-  extends SequencingRequestServiceContract with Injectable {
+    extends SequencingRequestServiceContract with Injectable {
   private val endAttemptService = inject[EndAttemptServiceContract]
 
   /**
@@ -22,14 +22,14 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
     lazy val target = tree(targetActivityID)
     if (requestType.oneOf(Choice, Jump) && target.isEmpty) SequencingResponse.invalid("Target activity does not exist")
     requestType match {
-      case Start => start(tree)
+      case Start     => start(tree)
       case ResumeAll => resumeAll(tree)
-      case Exit => exit(tree)
-      case Retry => retry(tree)
-      case Continue => continue(tree)
-      case Previous => previous(tree)
-      case Choice => choice(tree, target.get)
-      case Jump => jump(tree, target.get)
+      case Exit      => exit(tree)
+      case Retry     => retry(tree)
+      case Continue  => continue(tree)
+      case Previous  => previous(tree)
+      case Choice    => choice(tree, target.get)
+      case Jump      => jump(tree, target.get)
     }
   }
 
@@ -71,7 +71,7 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
           flow(tree, currentActivity, flowForward = true, considerChildren = true) match {
             case SequencingResponseDelivery(activity) => SequencingResponse.delivery(activity)
             //TODO: currently this is not reachable, but do we actually consider the case of flow violation in case of retry?
-            case _ => SequencingResponse.invalid("Flow Sequencing Control Mode violation")
+            case _                                    => SequencingResponse.invalid("Flow Sequencing Control Mode violation")
           }
         else SequencingResponse.delivery(currentActivity)
       }
@@ -121,7 +121,7 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
 
     val commonAncestor = tree.currentActivity match {
       case Some(currentActivity) => (currentActivity commonAncestor targetActivity).get
-      case None => tree
+      case None                  => tree
     }
     // Activity path from the common ancestor to the target activity, exclusive of the target activity
     lazy val pathFromAncestorToTargetExclusive = {
@@ -222,12 +222,12 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
     if (traverseForward) {
       preOrderedActivityList.drop(currentActivityIndex + 1).find(_.isLeaf) match {
         case Some(foundActivity) => foundActivity
-        case _ => activity
+        case _                   => activity
       }
     } else {
       preOrderedActivityList.dropRight(preOrderedActivityList.size - currentActivityIndex).reverse.find(_.isLeaf) match {
         case Some(foundActivity) => foundActivity
-        case _ => activity
+        case _                   => activity
       }
     }
   }
@@ -238,7 +238,7 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
   private def jump(tree: ActivityStateTree, targetActivity: ActivityStateNode) =
     tree.currentActivity match {
       case Some(_) => SequencingResponse.delivery(targetActivity)
-      case _ => SequencingResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
+      case _       => SequencingResponse.invalid("Current Activity is not defined / Sequencing session has not begun")
     }
 
   /**
@@ -285,27 +285,22 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
           //UP.5
           tree.currentActivity.get.pathTo(tree, includeAncestor = false, includeThis = false) foreach endAttemptService.apply
           (SequencingResponseEndSession, None)
-        }
-        else if (activity.isLeaf || !considerChildren) {
+        } else if (activity.isLeaf || !considerChildren) {
           if (activity.isLastAvailableChild) flowFromActivity(activity.parent.get, flowForwardCandidate = true, considerChildren = false, insideBackwardRequest = false)
           else (SequencingResponseDelivery(nextSibling.get), Some(flowForward))
-        }
-        else if (activity.availableChildren.size > 0) (SequencingResponseDelivery(activity.availableChildren(0)), Some(flowForward))
+        } else if (activity.availableChildren.size > 0) (SequencingResponseDelivery(activity.availableChildren(0)), Some(flowForward))
         else (SequencingResponse.invalid("No available children"), None)
-      }
-      else {
+      } else {
         if (activity.isRoot) (SequencingResponse.invalid("Can't go back from root"), None)
         else if (activity.isLeaf || !considerChildren) {
           if (!reversedDirection && activity.parent.get.item.sequencingPermissions.forwardOnlyForChildren) (SequencingResponse.invalid("Sequencing control mode violation"), None)
           else if (activity.isFirstAvailableChild) flowFromActivity(activity.parent.get, flowForwardCandidate = false, considerChildren = false, insideBackwardRequest = false)
           else (SequencingResponseDelivery(previousSibling.get), Some(flowForward))
-        }
-        else if (activity.availableChildren.size > 0) {
+        } else if (activity.availableChildren.size > 0) {
           //Enter activity's forward-only cluster in a backward request and mark that we temporarily move forward
           if (activity.item.sequencingPermissions.forwardOnlyForChildren) (SequencingResponseDelivery(activity.availableChildren(0)), Some(true))
           else (SequencingResponseDelivery(activity.availableChildren.last), Some(false))
-        }
-        else (SequencingResponse.invalid("No available children"), None)
+        } else (SequencingResponse.invalid("No available children"), None)
       }
     }
 
@@ -333,8 +328,7 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
             else flowIntoActivity(nextActivity, flowForward, insideBackwardRequest)
           case _ => flowTreeTraversalResult._1
         }
-      }
-      else if (!activity.item.deliveryEnabled) SequencingResponse.invalid("Delivery is disabled")
+      } else if (!activity.item.deliveryEnabled) SequencingResponse.invalid("Delivery is disabled")
       else if (!activity.isLeaf) {
         val flowTreeTraversalResult = flowFromActivity(activity, flowForward, considerChildren = true, insideBackwardRequest = false)
         flowTreeTraversalResult match {
@@ -343,8 +337,7 @@ class SequencingRequestService(implicit val bindingModule: BindingModule)
             else flowIntoActivity(treeTraversalActivity, flowForward, insideBackwardRequest)
           case _ => flowTreeTraversalResult._1
         }
-      }
-      else SequencingResponseDelivery(activity)
+      } else SequencingResponseDelivery(activity)
     }
 
     val flowTreeTraversalResult = flowFromActivity(activity, flowForward, considerChildren, insideBackwardRequest = false)

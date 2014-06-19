@@ -21,7 +21,7 @@ object ActivityEntityContainer extends MockEntityContainer[LFActivityLocalServic
   def deleteFunction = _.deleteLFActivity(_)
   def updateFunction = _.updateLFActivity(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFActivities(_,_)
+  def getAllFunction = _.getLFActivities(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -51,7 +51,7 @@ object ActivityEntityContainer extends MockEntityContainer[LFActivityLocalServic
     val id = paramsTuple._2 match { case x: String => x }
 
     val result = internalStorage.values.filter(entity => entity.getPackageID == packageID
-      &&  entity.getId == id).headOption
+      && entity.getId == id).headOption
     if (result.isEmpty) null else result.get
   }
   mockLocalService.findByPackageID(any) answers { id =>
@@ -72,12 +72,12 @@ object ActivityEntityContainer extends MockEntityContainer[LFActivityLocalServic
   mockLocalService.findByPackageIDAndParentID(any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any) = paramsRaw match {
       case Array(a, b) if a.isInstanceOf[Int] && b.isInstanceOf[String] => (a, b)
-      case Array(a, null) if a.isInstanceOf[Int] => (a, null)
+      case Array(a, null) if a.isInstanceOf[Int]                        => (a, null)
     }
     val packageID = paramsTuple._1 match { case x: Int => x }
     val parentID = paramsTuple._2 match {
       case x: String => x
-      case _ => null
+      case _         => null
     }
 
     internalStorage.values.filter(entity => entity.getPackageID == packageID

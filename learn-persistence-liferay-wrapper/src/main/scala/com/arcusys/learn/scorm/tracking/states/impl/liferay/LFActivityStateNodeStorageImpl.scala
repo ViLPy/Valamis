@@ -8,8 +8,7 @@ import com.arcusys.learn.persistence.liferay.service.LFActivityStateNodeLocalSer
 import scala.collection.JavaConverters._
 
 trait LFActivityStateNodeStorageImpl extends KeyedEntityStorage[ActivityStateNode] {
-  protected def doRenew() { LFActivityStateNodeLocalServiceUtil.removeAll()}
-
+  protected def doRenew() { LFActivityStateNodeLocalServiceUtil.removeAll() }
 
   def extract(entity: LFActivityStateNode) = {
     val mapper = new ActivityStateNodeFieldsMapper {
@@ -29,14 +28,15 @@ trait LFActivityStateNodeStorageImpl extends KeyedEntityStorage[ActivityStateNod
 
     val newEntity = LFActivityStateNodeLocalServiceUtil.createLFActivityStateNode()
     parameters.foreach {
-      param => param match {
-        case ("treeID", value: Int) => newEntity.setTreeID(value)
-        case ("parentID", value: Option[Int]) => {
-          newEntity.setParentID(value)
+      param =>
+        param match {
+          case ("treeID", value: Int) => newEntity.setTreeID(value)
+          case ("parentID", value: Option[Int]) => {
+            newEntity.setParentID(value)
+          }
+          case ("availableChildrenIDs", value: String) => newEntity.setAvailableChildrenIDs(value)
+          case _                                       => {}
         }
-        case ("availableChildrenIDs", value: String) => newEntity.setAvailableChildrenIDs(value)
-        case _ => {}
-      }
     }
     LFActivityStateNodeLocalServiceUtil.addLFActivityStateNode(newEntity).getId.toInt
   }
@@ -87,5 +87,5 @@ trait LFActivityStateNodeStorageImpl extends KeyedEntityStorage[ActivityStateNod
 
   def getOne(sqlKey: String, parameters: (String, Any)*): Option[ActivityStateNode] = throw new UnsupportedOperationException("Not implemented")
 
-  def modify(sqlKey: String, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def modify(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 }

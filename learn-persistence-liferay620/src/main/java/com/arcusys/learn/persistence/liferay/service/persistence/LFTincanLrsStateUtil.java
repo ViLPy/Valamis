@@ -448,6 +448,290 @@ public class LFTincanLrsStateUtil {
     }
 
     /**
+    * Returns all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @return the matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByActivityIdAndAgentId(activityId, agentId);
+    }
+
+    /**
+    * Returns a range of all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param start the lower bound of the range of l f tincan lrs states
+    * @param end the upper bound of the range of l f tincan lrs states (not inclusive)
+    * @return the range of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId, int start,
+        int end) throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByActivityIdAndAgentId(activityId, agentId, start, end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param start the lower bound of the range of l f tincan lrs states
+    * @param end the upper bound of the range of l f tincan lrs states (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsState> findByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId, int start,
+        int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByActivityIdAndAgentId(activityId, agentId, start, end,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the first l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f tincan lrs state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByActivityIdAndAgentId_First(
+        java.lang.String activityId, java.lang.Integer agentId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByActivityIdAndAgentId_First(activityId, agentId,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the first l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByActivityIdAndAgentId_First(
+        java.lang.String activityId, java.lang.Integer agentId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByActivityIdAndAgentId_First(activityId, agentId,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the last l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f tincan lrs state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByActivityIdAndAgentId_Last(
+        java.lang.String activityId, java.lang.Integer agentId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByActivityIdAndAgentId_Last(activityId, agentId,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the last l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByActivityIdAndAgentId_Last(
+        java.lang.String activityId, java.lang.Integer agentId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByActivityIdAndAgentId_Last(activityId, agentId,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the l f tincan lrs states before and after the current l f tincan lrs state in the ordered set where activityId = &#63; and agentId = &#63;.
+    *
+    * @param id the primary key of the current l f tincan lrs state
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the previous, current, and next l f tincan lrs state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a l f tincan lrs state with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState[] findByActivityIdAndAgentId_PrevAndNext(
+        long id, java.lang.String activityId, java.lang.Integer agentId,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByActivityIdAndAgentId_PrevAndNext(id, activityId,
+            agentId, orderByComparator);
+    }
+
+    /**
+    * Removes all the l f tincan lrs states where activityId = &#63; and agentId = &#63; from the database.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByActivityIdAndAgentId(
+        java.lang.String activityId, java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByActivityIdAndAgentId(activityId, agentId);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs states where activityId = &#63; and agentId = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param agentId the agent ID
+    * @return the number of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByActivityIdAndAgentId(java.lang.String activityId,
+        java.lang.Integer agentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByActivityIdAndAgentId(activityId, agentId);
+    }
+
+    /**
+    * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or throws a {@link com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException} if it could not be found.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @param agentId the agent ID
+    * @param registration the registration
+    * @return the matching l f tincan lrs state
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState findByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByStateDocument(activityId, stateId, agentId,
+            registration);
+    }
+
+    /**
+    * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @param agentId the agent ID
+    * @param registration the registration
+    * @return the matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByStateDocument(activityId, stateId, agentId,
+            registration);
+    }
+
+    /**
+    * Returns the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @param agentId the agent ID
+    * @param registration the registration
+    * @param retrieveFromCache whether to use the finder cache
+    * @return the matching l f tincan lrs state, or <code>null</code> if a matching l f tincan lrs state could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState fetchByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration,
+        boolean retrieveFromCache)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByStateDocument(activityId, stateId, agentId,
+            registration, retrieveFromCache);
+    }
+
+    /**
+    * Removes the l f tincan lrs state where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63; from the database.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @param agentId the agent ID
+    * @param registration the registration
+    * @return the l f tincan lrs state that was removed
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFTincanLrsState removeByStateDocument(
+        java.lang.String activityId, java.lang.String stateId,
+        java.lang.Integer agentId, java.lang.String registration)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .removeByStateDocument(activityId, stateId, agentId,
+            registration);
+    }
+
+    /**
+    * Returns the number of l f tincan lrs states where activityId = &#63; and stateId = &#63; and agentId = &#63; and registration = &#63;.
+    *
+    * @param activityId the activity ID
+    * @param stateId the state ID
+    * @param agentId the agent ID
+    * @param registration the registration
+    * @return the number of matching l f tincan lrs states
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByStateDocument(java.lang.String activityId,
+        java.lang.String stateId, java.lang.Integer agentId,
+        java.lang.String registration)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .countByStateDocument(activityId, stateId, agentId,
+            registration);
+    }
+
+    /**
     * Caches the l f tincan lrs state in the entity cache if it is enabled.
     *
     * @param lfTincanLrsState the l f tincan lrs state

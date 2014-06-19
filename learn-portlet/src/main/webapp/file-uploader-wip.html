@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jQuery File Upload Example</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css2.0/jquery.fileupload.css">
+  <style type="text/css">
+    .dropzone {
+      background: #bababa;
+      width: 250px;
+      height: 150px;
+      text-align: center;
+      display: table-cell;
+      vertical-align: middle;
+      font-weight: bold;
+      border: 1px dashed #7b7b7b;
+    }
+
+    .progress {
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+<div class="file-uploader">
+
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js2.0/vendor/jquery.ui.widget.js"></script>
+<script src="js2.0/jquery.iframe-transport.js"></script>
+<script src="js2.0/jquery.fileupload.js"></script>
+<!--[if (gte IE 8)&(lt IE 10)]>
+<script src="js2.0/cors/jquery.xdr-transport.js"></script>
+<![endif]-->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+<script type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/backbone.modelbinder/1.0.4/Backbone.ModelBinder.min.js"></script>
+<script type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.5.1-bundled/backbone.marionette.min.js"></script>
+
+<script type="text/html" id="fileUploaderDropZone">
+  <div id="dropzone" class="dropzone fileinput-button">
+    Drop files to upload<br>(or click)
+    <input id="fileupload" type="file" name="files[]" data-url="{{fileUploadEndpoint}}" multiple>
+  </div>
+  <div class="progress hidden">
+    <div class="progress-bar progress-bar-success" role="progressbar"></div>
+  </div>
+</script>
+<script type="text/html" id="fileUploaderItem">
+  <div>
+    <strong>{{filename}}</strong>
+
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width:{{progress}}%"></div>
+    </div>
+    <div class="info-block">
+      <span name="bitrate">{{bitrate}}</span>
+      <span name="remaining">{{remaining}}</span>
+      <span name="uploadedBytes">{{uploadedBytes}}</span> of <span name="fileSize">{{fileSize}}</span>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="fileUploaderDoneItemPackage">
+  <div>
+    <div id="dropzone" class="dropzone fileinput-button">
+      Drop files to upload<br>(or click)
+      <input id="fileupload" type="file" name="files[]" data-url="{{fileUploadEndpoint}}" multiple>
+    </div>
+    <strong>{{filename}}</strong>
+
+    <div class="progress">
+      <div class="progress-bar" role="progressbar"></div>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="packageItemView">
+  Ok
+</script>
+
+<script>
+  var PackageUploadView = Backbone.Marionette.ItemView.extend({
+    template: '#packageItemView'
+  });
+
+
+  var FileUploaderItemModel = Backbone.Model.extend({
+    defaults: {
+      filename: '',
+      progress: 0,
+      bitrate: '',
+      remaining: '',
+      fileSize: 0,
+      uploadedBytes: 0
+    }
+  });
+
+  /**
+   * Generic file uploader item view
+   *
+   * @constructor
+   * @param {{template:String}} options - selector
+   */
+  var FileUploaderItemView = Backbone.View.extend({
+    initialize: function (options) {
+      options = options || {};
+      this.listenTo(this.model, 'change:progress', this.updateUploadProgress);
+      this._modelBinder = new Backbone.ModelBinder();
+      this.template = options.template || '#fileUploaderItem';
+    },
+    render: function () {
+      this.$el.html(Mustache.render(jQuery(this.template).html(), this.model.toJSON()));
+      this._modelBinder.bind(this.model, this.el);
+      return this;
+    },
+    updateUploadProgress: function () {
+      this.$('.progress-bar').css('width', this.model.get('progress') + '%');
+    },
+    hideInfo: function () {
+      this.$('.info-block').hide();
+    }
+  });
+
+  /**
+   * File uploader, based on https://github.com/blueimp/jQuery-File-Upload (MIT License)
+   *
+   * @constructor
+   * @param {{endpoint: String, itemView: Backbone.View}} options
+   *    endpoint - where to upload files
+   *    itemView - view to render for each uploading item
+   * @fires itemDone on file uploading complete
+   *
+   * @event itemDone
+   * @param {Object} result - response from server
+   * @param {FileUploaderItemView} view - view of file item uploading process
+   * @param {FileUploaderItemModel} model - model instance used for view
+   */
+  var FileUploader = Backbone.View.extend({
+    initialize: function (options) {
+      options = options || {};
+      this.fileUploadEndpoint = options.endpoint || '//jquery-file-upload.appspot.com/';
+      this.itemViewClass = options.itemView || FileUploaderItemView;
+      this.amount = 0;
+    },
+    render: function () {
+      this.$el.html(Mustache.render(jQuery('#fileUploaderDropZone').html(), this));
+
+      this.$('#fileupload').fileupload({
+        dataType: 'json',
+        dropZone: this.$('#dropzone')
+      }).bind('fileuploaddone', this.onDone.bind(this)).
+          bind('fileuploadprogress', this.onProgress.bind(this)).
+          bind('fileuploadprogressall', this.onProgressAll.bind(this)).
+          bind('fileuploadadd', this.onAdd.bind(this));
+
+      // TODO: for testing with CORS on IE only, remove in production
+      this.$('#fileupload').fileupload(
+          'option',
+          'redirect',
+          window.location.href.replace(
+              /\/[^\/]*$/,
+              '/cors/result.html?%s'
+          )
+      );
+
+      return this;
+    },
+    onAdd: function (e, data) {
+      this.amount += 1;
+      data.itemModel = new FileUploaderItemModel({
+        filename: data.files[0].name
+      });
+      data.itemView = new this.itemViewClass({model: data.itemModel});
+      jQuery('body').append(data.itemView.render().$el);
+      this.$('.dropzone').hide();
+      if (this.amount > 1) {
+        this.$('.progress').removeClass('hidden');
+      }
+    },
+    onDone: function (e, data) {
+      data.itemView.hideInfo();
+      this.trigger('itemDone', data.result, data.itemView, data.itemModel);
+
+      this.amount -= 1;
+      if (this.amount === 0) {
+        this.$('.progress').addClass('hidden');
+      }
+    },
+    onProgress: function (e, data) {
+      var progress = ~~(data.loaded / data.total * 100);
+      var remaining = (data.total - data.loaded) * 8 / data.bitrate;
+      data.itemModel.set({
+        'progress': progress,
+        'bitrate': this._formatBitrate(data.bitrate),
+        'remaining': this._formatTime(remaining),
+        'fileSize': this._formatFileSize(data.total),
+        'uploadedBytes': this._formatFileSize(data.loaded)
+      });
+    },
+    onProgressAll: function (e, data) {
+      var progress = ~~(data.loaded / data.total * 100);
+      this.updateOverallProgress(progress);
+    },
+    updateOverallProgress: function (value) {
+      var percentage = value + '%';
+      this.$('.progress-bar').css('width', percentage).html(percentage);
+    },
+    _formatTime: function (seconds) {
+      var date = new Date(seconds * 1000),
+          days = Math.floor(seconds / 86400);
+      days = days ? days + 'd ' : '';
+      return days +
+          ('0' + date.getUTCHours()).slice(-2) + ':' +
+          ('0' + date.getUTCMinutes()).slice(-2) + ':' +
+          ('0' + date.getUTCSeconds()).slice(-2);
+    },
+    _formatFileSize: function (bytes) {
+      if (typeof bytes !== 'number') {
+        return '';
+      }
+      if (bytes >= 1000000000) {
+        return (bytes / 1000000000).toFixed(2) + ' GB';
+      }
+      if (bytes >= 1000000) {
+        return (bytes / 1000000).toFixed(2) + ' MB';
+      }
+      return (bytes / 1000).toFixed(2) + ' KB';
+    },
+    _formatBitrate: function (bits) {
+      if (typeof bits !== 'number') {
+        return '';
+      }
+      if (bits >= 1000000000) {
+        return (bits / 1000000000).toFixed(2) + ' Gbit/s';
+      }
+      if (bits >= 1000000) {
+        return (bits / 1000000).toFixed(2) + ' Mbit/s';
+      }
+      if (bits >= 1000) {
+        return (bits / 1000).toFixed(2) + ' kbit/s';
+      }
+      return bits.toFixed(2) + ' bit/s';
+    }
+  });
+
+  $(function () {
+    var uploader = new FileUploader({el: jQuery('.file-uploader')});
+    uploader.on('itemDone', function (result, view, model) {
+      var v = new PackageUploadView({el: view.$el});
+      v.render();
+    });
+    uploader.render();
+  });
+</script>
+</body>
+</html>

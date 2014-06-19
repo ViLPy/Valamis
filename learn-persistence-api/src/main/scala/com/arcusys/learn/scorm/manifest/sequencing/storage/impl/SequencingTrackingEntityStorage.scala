@@ -9,9 +9,9 @@ import com.arcusys.learn.scorm.manifest.sequencing.storage.SequencingTrackingSto
  * Date: 28.03.13
  */
 trait SequencingTrackingEntityStorage extends SequencingTrackingStorage with EntityStorageExt[SequencingTracking] {
-   def create(sequencingID: Int, entity: SequencingTracking) {
-      create(entity, "sequencingID"->sequencingID)
-    }
-    def get(sequencingID: Int): Option[SequencingTracking] = getOne("sequencingID"->sequencingID)
-    def delete(sequencingID: Int) { delete("sequencingID"->sequencingID) }
+  def create(sequencingID: Int, entity: SequencingTracking) {
+    create(entity, "sequencingID" -> sequencingID)
+  }
+  def get(sequencingID: Int): Option[SequencingTracking] = getOne("sequencingID" -> sequencingID)
+  def delete(sequencingID: Int) { delete("sequencingID" -> sequencingID) }
 }

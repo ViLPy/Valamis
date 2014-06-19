@@ -21,7 +21,7 @@ case class ChildActivitySetAtLeastCount(count: Int) extends ChildActivitySet {
 
 /**At least 'percent' % of children*/
 case class ChildActivitySetAtLeastPercent(percent: BigDecimal) extends ChildActivitySet {
-  require(percent between(0, 1))
+  require(percent between (0, 1))
 }
 
 /**Factory methods for child activity sets*/
@@ -44,10 +44,10 @@ object ChildActivitySet {
   /**Get the child activity set by name and optional parameters*/
   def parse(name: String, count: Option[Int] = None, percent: Option[BigDecimal] = None) = {
     name match {
-      case "all" => all
-      case "any" => any
-      case "none" => none
-      case "atLeastCount" => atLeastCount(count.get)
+      case "all"            => all
+      case "any"            => any
+      case "none"           => none
+      case "atLeastCount"   => atLeastCount(count.get)
       case "atLeastPercent" => atLeastPercent(percent.get)
     }
   }

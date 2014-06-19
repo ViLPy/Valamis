@@ -6,13 +6,13 @@ object SequencingRequestType extends Enumeration {
 
   def forNavigationRequest(navigationRequest: NavigationRequestType.Value): SequencingRequestType.Value =
     navigationRequest match {
-      case NavigationRequestType.Start => Start
+      case NavigationRequestType.Start     => Start
       case NavigationRequestType.ResumeAll => ResumeAll
-      case NavigationRequestType.Continue => Continue
-      case NavigationRequestType.Previous => Previous
-      case NavigationRequestType.Choice => Choice
-      case NavigationRequestType.Jump => Jump
+      case NavigationRequestType.Continue  => Continue
+      case NavigationRequestType.Previous  => Previous
+      case NavigationRequestType.Choice    => Choice
+      case NavigationRequestType.Jump      => Jump
       case NavigationRequestType.Exit | NavigationRequestType.ExitAll | NavigationRequestType.SuspendAll |
-           NavigationRequestType.Abandon | NavigationRequestType.AbandonAll => Exit
+        NavigationRequestType.Abandon | NavigationRequestType.AbandonAll => Exit
     }
 }

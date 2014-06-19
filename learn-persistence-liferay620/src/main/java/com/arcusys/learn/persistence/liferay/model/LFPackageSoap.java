@@ -20,6 +20,7 @@ public class LFPackageSoap implements Serializable {
     private String _summary;
     private Long _assetRefID;
     private Integer _courseID;
+    private String _logo;
 
     public LFPackageSoap() {
     }
@@ -35,6 +36,7 @@ public class LFPackageSoap implements Serializable {
         soapModel.setSummary(model.getSummary());
         soapModel.setAssetRefID(model.getAssetRefID());
         soapModel.setCourseID(model.getCourseID());
+        soapModel.setLogo(model.getLogo());
 
         return soapModel;
     }
@@ -145,5 +147,13 @@ public class LFPackageSoap implements Serializable {
 
     public void setCourseID(Integer courseID) {
         _courseID = courseID;
+    }
+
+    public String getLogo() {
+        return _logo;
+    }
+
+    public void setLogo(String logo) {
+        _logo = logo;
     }
 }

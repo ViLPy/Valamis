@@ -1,14 +1,13 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
-import org.scalamock.scalatest.MockFactory
-import org.scalamock.ProxyMockFactory
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.util.TreeNode
 import com.arcusys.learn.scorm.tracking.model.ActivityStateTree
+import com.arcusys.learn.util.TreeNode
 
-abstract class ActivityStateTreeTestBase extends FlatSpec with ShouldMatchers with MockFactory with ProxyMockFactory {
+import org.scalatest.{ Matchers, FlatSpec }
+import org.scalamock.scalatest.MockFactory
+
+abstract class ActivityStateTreeTestBase extends FlatSpec with Matchers with MockFactory {
   val organizationId = "OR"
 
   protected def rootOnlyTree(hasCurrent: Boolean = false, currentActive: Boolean = false, hasSuspended: Boolean = false) = {
@@ -25,18 +24,17 @@ abstract class ActivityStateTreeTestBase extends FlatSpec with ShouldMatchers wi
     val current = currentLevel match {
       case Some(0) => Some(organization.id)
       case Some(1) => Some(leaf1.id)
-      case _ => None
+      case _       => None
     }
     val suspended = suspendedLevel match {
       case Some(0) => Some(organization.id)
       case Some(1) => Some(leaf1.id)
-      case _ => None
+      case _       => None
     }
     ActivityStateTree(tree, current, currentActive, suspended)
   }
 
-  protected def twoLevelWideTree
-  (
+  protected def twoLevelWideTree(
     currentLevel: Option[Int] = None, rootPermissions: SequencingPermissions = SequencingPermissions.Default,
     leftPermissions: SequencingPermissions = SequencingPermissions.Default, rightPermissions: SequencingPermissions = SequencingPermissions.Default, midPermissions: SequencingPermissions = SequencingPermissions.Default,
     leftPreConditionRules: Seq[PreConditionRule] = Nil, rightPreConditionRules: Seq[PreConditionRule] = Nil, midPreConditionRules: Seq[PreConditionRule] = Nil,
@@ -50,25 +48,24 @@ abstract class ActivityStateTreeTestBase extends FlatSpec with ShouldMatchers wi
     val current = currentLevel match {
       case Some(0) => Some(organization.id)
       case Some(1) => Some(leaf1.id)
-      case _ => None
+      case _       => None
     }
     val suspended = suspendedLevel match {
       case Some(0) => Some(organization.id)
       case Some(1) => Some(leaf1.id)
-      case _ => None
+      case _       => None
     }
     ActivityStateTree(tree, current, currentActive, suspended)
   }
 
   protected def threeLevelTree(currentLevel: Option[Int] = None, rootPermissions: SequencingPermissions = SequencingPermissions.Default,
-                               leftPermissions: SequencingPermissions = SequencingPermissions.Default,
-                               rightPermissions: SequencingPermissions = SequencingPermissions.Default,
-                               leftLeftPermissions: SequencingPermissions = SequencingPermissions.Default,
-                               currentActive: Boolean = false, suspendedLevel: Option[Int] = None, tracking: Option[SequencingTracking] = Some(SequencingTracking.Default),
-                               primaryObjectivesSet: Boolean = false, leftPreConditionRules: Seq[PreConditionRule] = Nil,
-                               rightRightPreConditionRules: Seq[PreConditionRule] = Nil, rightPreConditionRules: Seq[PreConditionRule] = Nil, rootPreConditionRules: Seq[PreConditionRule] = Nil,
-                               rightPreventChildrenActivation: Boolean = false, leftPreventChildrenActivation: Boolean = false, leftLeftPreventChildrenActivation: Boolean = false
-                                ) = {
+    leftPermissions: SequencingPermissions = SequencingPermissions.Default,
+    rightPermissions: SequencingPermissions = SequencingPermissions.Default,
+    leftLeftPermissions: SequencingPermissions = SequencingPermissions.Default,
+    currentActive: Boolean = false, suspendedLevel: Option[Int] = None, tracking: Option[SequencingTracking] = Some(SequencingTracking.Default),
+    primaryObjectivesSet: Boolean = false, leftPreConditionRules: Seq[PreConditionRule] = Nil,
+    rightRightPreConditionRules: Seq[PreConditionRule] = Nil, rightPreConditionRules: Seq[PreConditionRule] = Nil, rootPreConditionRules: Seq[PreConditionRule] = Nil,
+    rightPreventChildrenActivation: Boolean = false, leftPreventChildrenActivation: Boolean = false, leftLeftPreventChildrenActivation: Boolean = false) = {
     require(currentLevel.isEmpty || currentLevel.get <= 2)
     val organization = rootActivity(permissions = rootPermissions, tracking = tracking,
       primaryObjective = if (primaryObjectivesSet) Some(new Objective(None, false, 1, ObjectiveMap.Empty)) else None,
@@ -98,48 +95,44 @@ abstract class ActivityStateTreeTestBase extends FlatSpec with ShouldMatchers wi
       case Some(0) => Some(organization.id)
       case Some(1) => Some(container1.id)
       case Some(2) => Some(leaf11.id)
-      case _ => None
+      case _       => None
     }
     val suspended = suspendedLevel match {
       case Some(0) => Some(organization.id)
       case Some(1) => Some(container1.id)
       case Some(2) => Some(leaf11.id)
-      case _ => None
+      case _       => None
     }
     ActivityStateTree(tree, current, currentActive, suspended)
   }
 
   protected def rootActivity(permissions: SequencingPermissions = SequencingPermissions.Default, tracking: Option[SequencingTracking] = Some(SequencingTracking.Default),
-                             primaryObjective: Option[Objective] = None, preConditionRules: Seq[PreConditionRule] = Nil) =
+    primaryObjective: Option[Objective] = None, preConditionRules: Seq[PreConditionRule] = Nil) =
     new Organization(organizationId, "organization " + organizationId,
       sequencing = sequencing(permissions, None, tracking, primaryObjective, preConditionRules = preConditionRules)
     )
 
-  protected def leafActivity
-  (
+  protected def leafActivity(
     id: String, parentId: Option[String], organizationId: String = organizationId,
     permissions: SequencingPermissions = SequencingPermissions.Default, tracking: Option[SequencingTracking] = Some(SequencingTracking.Default),
     progressWeight: BigDecimal = CompletionThreshold.Default.progressWeight,
     primaryObjective: Option[Objective] = None,
     objectiveMeasureWeight: BigDecimal = 1,
     preConditionRules: Seq[PreConditionRule] = Nil,
-    preventChildrenActivation: Boolean = false
-    ) =
+    preventChildrenActivation: Boolean = false) =
     new LeafActivity(id, "ACTIVITY " + id, parentId.getOrElse(organizationId), organizationId, "RES1",
       sequencing = sequencing(permissions, None, tracking, primaryObjective, objectiveMeasureWeight, preConditionRules, preventChildrenActivation = preventChildrenActivation),
       completionThreshold = new CompletionThreshold(CompletionThreshold.Default.completedByMeasure, CompletionThreshold.Default.minProgressMeasure, progressWeight)
     )
 
-  protected def containerActivity
-  (
+  protected def containerActivity(
     id: String, parentId: Option[String], organizationId: String = organizationId,
     permissions: SequencingPermissions = SequencingPermissions.Default, attemptLimit: Option[Int] = None, tracking: Option[SequencingTracking] = Some(SequencingTracking.Default),
     progressWeight: BigDecimal = CompletionThreshold.Default.progressWeight,
     primaryObjective: Option[Objective] = None,
     objectiveMeasureWeight: BigDecimal = 1,
     preConditionRules: Seq[PreConditionRule] = Nil, postConditionRules: Seq[PostConditionRule] = Nil, exitConditionRules: Seq[ExitConditionRule] = Nil,
-    preventChildrenActivation: Boolean = false
-    ) =
+    preventChildrenActivation: Boolean = false) =
     new ContainerActivity(id, "ACTIVITY " + id, parentId.getOrElse(organizationId), organizationId,
       sequencing = sequencing(permissions, attemptLimit, tracking, primaryObjective, objectiveMeasureWeight,
         preConditionRules, postConditionRules, exitConditionRules, preventChildrenActivation),
@@ -147,10 +140,9 @@ abstract class ActivityStateTreeTestBase extends FlatSpec with ShouldMatchers wi
     )
 
   private def sequencing(permissions: SequencingPermissions, attemptLimit: Option[Int], tracking: Option[SequencingTracking],
-                         primaryObjective: Option[Objective] = None, objectiveMeasureWeight: BigDecimal = 1,
-                         preConditionRules: Seq[PreConditionRule] = Nil, postConditionRules: Seq[PostConditionRule] = Nil, exitConditionRules: Seq[ExitConditionRule] = Nil,
-                         preventChildrenActivation: Boolean = false
-                          ) = new Sequencing(
+    primaryObjective: Option[Objective] = None, objectiveMeasureWeight: BigDecimal = 1,
+    preConditionRules: Seq[PreConditionRule] = Nil, postConditionRules: Seq[PostConditionRule] = Nil, exitConditionRules: Seq[ExitConditionRule] = Nil,
+    preventChildrenActivation: Boolean = false) = new Sequencing(
     sharedId = None,
     sharedSequencingIdReference = None,
     permissions = permissions,

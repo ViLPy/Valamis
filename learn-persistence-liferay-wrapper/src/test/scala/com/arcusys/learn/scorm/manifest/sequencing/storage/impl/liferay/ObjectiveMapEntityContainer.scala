@@ -21,7 +21,7 @@ object ObjectiveMapEntityContainer extends MockEntityContainer[LFObjectiveMapLoc
   def deleteFunction = _.deleteLFObjectiveMap(_)
   def updateFunction = _.updateLFObjectiveMap(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFObjectiveMaps(_,_)
+  def getAllFunction = _.getLFObjectiveMaps(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -55,11 +55,11 @@ object ObjectiveMapEntityContainer extends MockEntityContainer[LFObjectiveMapLoc
     ()
   }
 
-  private def filterByObjectiveID(idRaw: Any): Seq[LFObjectiveMap] ={
+  private def filterByObjectiveID(idRaw: Any): Seq[LFObjectiveMap] = {
     internalStorage.values.filter(obj => obj.getObjectiveID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {
-    case x: Int => x
+    case x: Int                  => x
     case Array(x: Int, Int, Int) => x
   }
 }

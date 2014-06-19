@@ -1,0 +1,130 @@
+@charset "UTF-8";
+/* CSS Document */
+
+table.valamis {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #DEDEDE;
+    border-left:none; /*check it*/
+}
+
+table.valamis.no-border,
+table.valamis.no-border tr th,
+table.valamis.no-border tr td{
+    border: 0px!important;
+}
+
+table.valamis tr th {
+    background: #e4e4e4 url(../images/table-header-bg.jpg) repeat-x top left;
+    background-size: contain;
+    color: #777777;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: left;
+    line-height: 20px;
+    padding: 10px 20px!important;
+}
+
+table.valamis tr th,
+table.valamis tr td {
+     border-collapse: collapse;
+     border: 1px solid #DEDEDE;
+    word-break: normal;
+    vertical-align: middle!important;
+ }
+
+table.valamis td.center-text,
+table.valamis th.center-text {
+    text-align: center;
+}
+
+table.valamis tr {
+    background: #FFFFFF!important;
+}
+
+table.valamis tr:nth-child(odd),
+table.valamis tr:nth-child(odd) td {
+    background: #f2f2f2!important;
+}
+
+/*table.valamis tr:nth-child(even) {*/
+/*background: #f8f8f8!important;*/
+/*}*/
+
+td.user-name {
+    font-weight: 500!important;
+
+}
+
+/* Sort icon for th in valamis tables */
+.sortable-icon {
+    background-image: url(../images/sort.png);
+    background-position: right center;
+    width: 10px;
+    height: 14px;
+    cursor: pointer;
+    display: inline-block!important;
+    margin-left: 10px;
+}
+
+/* Big table (Row height: 80px) */
+
+.big-table td {
+    padding: 15px 20px!important;
+}
+
+.big-table td.user-img {
+    width: 90px;
+}
+
+
+.big-table .user-img img {
+    height: 50px;
+    max-width: 50px;
+}
+
+.big-table .user-name {
+    font-size: 18px;
+
+}
+
+
+/* Medium table (Row height: 60px;) */
+
+.medium-table td {
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+    padding-left: 5px;
+}
+
+.medium-table td.user-img {
+    width: 60px;
+}
+
+.medium-table .user-img img  {
+    max-width: 40px;
+}
+
+.medium-table .user-name {
+    font-size: 16px;
+}
+
+
+table td.checkbox-container {
+    width: 16px;
+}
+
+table td.buttons button {
+    float: none;
+}
+
+/* "List table": No borders */
+
+table.list-table td {
+    border-right: none!important;
+    border-left: none!important;
+}
+

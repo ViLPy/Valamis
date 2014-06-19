@@ -1,0 +1,88 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/**{*/
+	/*-webkit-box-sizing: border-box;*/
+	   /*-moz-box-sizing: border-box;*/
+	        /*box-sizing: border-box;*/
+/*}*/
+
+html, body {
+	width: 100%;
+	margin: 0; 
+	padding: 20px;
+}
+
+body {
+	background: #f2f2f2;
+	color: #2c2c2c;
+	font-family: Ubuntu, sans-serif;
+}
+
+.wrapper {
+	/*width: 1800px;*/
+	margin: 100px auto;
+}
+
+h3 {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 40px;
+	margin-bottom: 20px;
+}
+
+h4 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 34px;
+	margin-bottom: 20px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
+.float-left { float: left; }
+.float-right { float: right;}
+
+.row:before,
+.row:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.row:after {
+  clear: both;
+}
+
+.row {
+	margin-bottom: 30px;
+}
+
+
+
+.filter-toggler {
+    width: 43px;
+    height: 38px;
+    margin-left: 15px !important;
+}
+
+@media (max-width: 767px) {
+    .filter-toggler {
+        margin-left: 0 !important;
+    }
+}
+
+.overflow-hidden {
+    overflow: hidden;
+    min-height: 400px;
+    position: relative;
+}
+
+.bottom-paginator .select-items-per-page {
+    display: none;
+}
+.bottom-paginator .select-element:first-child {
+    display: none;
+}

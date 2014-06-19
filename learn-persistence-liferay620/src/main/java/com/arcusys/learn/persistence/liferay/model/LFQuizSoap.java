@@ -15,6 +15,7 @@ public class LFQuizSoap implements Serializable {
     private long _id;
     private String _title;
     private String _description;
+    private String _logo;
     private String _welcomePageContent;
     private String _finalPageContent;
     private Integer _courseID;
@@ -28,6 +29,7 @@ public class LFQuizSoap implements Serializable {
         soapModel.setId(model.getId());
         soapModel.setTitle(model.getTitle());
         soapModel.setDescription(model.getDescription());
+        soapModel.setLogo(model.getLogo());
         soapModel.setWelcomePageContent(model.getWelcomePageContent());
         soapModel.setFinalPageContent(model.getFinalPageContent());
         soapModel.setCourseID(model.getCourseID());
@@ -101,6 +103,14 @@ public class LFQuizSoap implements Serializable {
 
     public void setDescription(String description) {
         _description = description;
+    }
+
+    public String getLogo() {
+        return _logo;
+    }
+
+    public void setLogo(String logo) {
+        _logo = logo;
     }
 
     public String getWelcomePageContent() {

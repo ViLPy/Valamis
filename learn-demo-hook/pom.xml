@@ -5,29 +5,78 @@
         <groupId>com.arcusys.learn</groupId>
         <version>1.8-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>learn-demo-hook</artifactId>
     <packaging>war</packaging>
 
-    <artifactId>learn-demo-hook</artifactId>
+
+
+    <dependencies>
+        <!-- VALAMIS dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-portlet</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <!-- SCALA dependencies -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+
+        <!-- OTHERS -->
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.scala-tools</groupId>
-                <artifactId>maven-scala-plugin</artifactId>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.scalariform</groupId>
+                <artifactId>scalariform-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
                 <configuration>
                     <warName>${project.artifactId}</warName>
                     <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.4</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -43,7 +92,9 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -62,50 +113,44 @@
         </resources>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.portlet</groupId>
-            <artifactId>portlet-api</artifactId>
-            <version>2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>learn-portlet</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-            <classifier>classes</classifier>
-        </dependency>
-    </dependencies>
+
     <profiles>
+        <profile>
+            <id>Liferay6.1</id>
+            <properties>
+                <persistence.version>612</persistence.version>
+                <supported.liferay.versions>6.1.2, 6.1.20, 6.1.30</supported.liferay.versions>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>learn-liferay612-services</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.liferay.portal</groupId>
+                    <artifactId>portal-impl</artifactId>
+                    <version>${liferay.version6.1}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.liferay.portal</groupId>
+                    <artifactId>portal-service</artifactId>
+                    <version>${liferay.version6.1}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.arcusys.learn</groupId>
+                    <artifactId>learn-persistence-liferay612</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
         <profile>
             <id>Liferay6.2</id>
             <properties>
                 <persistence.version>620</persistence.version>
-                <supported.liferay.versions>6.2.0</supported.liferay.versions>
+                <supported.liferay.versions>6.2.0,6.2.10+</supported.liferay.versions>
             </properties>
             <dependencies>
                 <dependency>
@@ -116,13 +161,13 @@
                 <dependency>
                     <groupId>com.liferay.portal</groupId>
                     <artifactId>portal-impl</artifactId>
-                    <version>6.2.0-GA1</version>
+                    <version>${liferay.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>com.liferay.portal</groupId>
                     <artifactId>portal-service</artifactId>
-                    <version>6.2.0-GA1</version>
+                    <version>${liferay.version}</version>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
@@ -133,9 +178,12 @@
             </dependencies>
         </profile>
     </profiles>
+
     <properties>
+        <scalastyle.config.path>${project.basedir}/..</scalastyle.config.path>
         <!-- Avoid replacement in resources -->
         <java_io_tmpdir>${java.io.tmpdir</java_io_tmpdir>
         <user_dir>${user.dir</user_dir>
+
     </properties>
 </project>

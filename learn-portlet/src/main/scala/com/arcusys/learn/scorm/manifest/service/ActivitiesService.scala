@@ -6,7 +6,7 @@ import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.util.TreeNode
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
 
 class ActivitiesService(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
@@ -21,7 +21,7 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
       "childActivities" -> Nil,
       "leafData" -> (activity match {
         case leaf: LeafActivity => Map("resourceID" -> leaf.resourceIdentifier, "resourceParam" -> leaf.resourceParameters.getOrElse(""))
-        case _ => Map()
+        case _                  => Map()
       })
     )
   )
@@ -35,7 +35,7 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
       "childActivities" -> node.children.map(mapNode),
       "leafData" -> (node.item match {
         case leaf: LeafActivity => Map("resourceID" -> leaf.resourceIdentifier, "resourceParam" -> leaf.resourceParameters.getOrElse(""))
-        case _ => Map()
+        case _                  => Map()
       })
     )
 
@@ -51,7 +51,7 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
       "childActivities" -> node.availableChildren.map(mapNode),
       "leafData" -> (node.item.activity match {
         case leaf: LeafActivity => Map("resourceID" -> leaf.resourceIdentifier, "resourceParam" -> leaf.resourceParameters.getOrElse(""))
-        case _ => Map()
+        case _                  => Map()
       })
     )
 

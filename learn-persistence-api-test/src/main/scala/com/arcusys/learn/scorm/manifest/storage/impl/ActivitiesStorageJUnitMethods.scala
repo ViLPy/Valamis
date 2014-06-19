@@ -4,7 +4,7 @@ import org.junit._
 import Assert._
 import com.arcusys.learn.scorm.manifest.model._
 import scala.Some
-import com.arcusys.learn.scorm.manifest.storage.{ActivitiesStorage, PackagesStorage}
+import com.arcusys.learn.scorm.manifest.storage.{ ActivitiesStorage, PackagesStorage }
 
 /**
  * User: dkudinov

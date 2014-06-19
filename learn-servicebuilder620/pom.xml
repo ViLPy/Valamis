@@ -25,6 +25,45 @@
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
+                <executions>
+                    <!-- To disable this plugin from running of at verify phase -->
+                    <execution>
+                        <id>scala-code-checking</id>
+                        <goals/>
+                        <phase/>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <executions>
+                    <!-- To disable this plugin from running -->
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <goals/>
+                        <phase/>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <goals/>
+                        <phase/>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.scalariform</groupId>
+                <artifactId>scalariform-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>scala-code-formatting</id>
+                        <phase/>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>3.2</version>
@@ -146,7 +185,7 @@
                         -->
                         <groupId>com.arcusys.learn</groupId>
                         <artifactId>learn-maven-plugin</artifactId>
-                        <version>1.7-SNAPSHOT</version>
+                        <version>${project.version}</version>
                         <dependencies>
                             <dependency>
                                 <groupId>${project.groupId}</groupId>

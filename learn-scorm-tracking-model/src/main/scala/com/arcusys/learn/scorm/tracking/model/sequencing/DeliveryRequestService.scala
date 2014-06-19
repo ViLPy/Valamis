@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
 import com.escalatesoft.subcut.inject._
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
 
 /**
  * Content Delivery Environment Process [DB.2]
@@ -27,7 +27,7 @@ class DeliveryRequestService(implicit val bindingModule: BindingModule) extends 
         activityPathFromSuspended.foreach(activity => {
           activity.item.activity match {
             case l: LeafActivity => activity.item.suspended = false
-            case _ => if (!activity.availableChildren.exists(_.item.suspended)) activity.item.suspended = false
+            case _               => if (!activity.availableChildren.exists(_.item.suspended)) activity.item.suspended = false
           }
         })
         tree.suspendedActivity = None
@@ -39,7 +39,7 @@ class DeliveryRequestService(implicit val bindingModule: BindingModule) extends 
       return
     }
     // Content is about to be delivered, clear any existing suspend all state
-    if (tree.suspendedActivity.isDefined && tree.suspendedActivity != activityToDeliver) clearSuspendedActivity()
+    if (tree.suspendedActivity.isDefined && tree.suspendedActivity.get != activityToDeliver) clearSuspendedActivity()
 
     // Make sure that all attempts that should end are terminated
     //Terminate Descendent Attempts Process [UP.3]

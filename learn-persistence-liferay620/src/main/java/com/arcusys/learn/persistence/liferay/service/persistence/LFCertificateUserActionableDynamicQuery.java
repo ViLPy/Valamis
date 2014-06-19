@@ -18,6 +18,6 @@ public abstract class LFCertificateUserActionableDynamicQuery
 
         setClassLoader(com.arcusys.learn.persistence.liferay.service.ClpSerializer.class.getClassLoader());
 
-        setPrimaryKeyPropertyName("id");
+        setPrimaryKeyPropertyName("primaryKey.certificateID");
     }
 }

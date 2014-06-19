@@ -1,10 +1,11 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.storage.impl.{KeyedEntityStorage, EntityStorage}
+import com.arcusys.learn.storage.impl.{ KeyedEntityStorage, EntityStorage }
 import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFTincanActor
-import com.arcusys.learn.util.JsonSerializer._
+import com.arcusys.util.JsonSerializer
+import JsonSerializer._
 import scala.collection.JavaConverters._
 import com.arcusys.learn.tincan.storage.impl.liferay.mapper.ActorMapper
 
@@ -20,12 +21,12 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
   def getOne(parameters: (String, Any)*): Option[Actor] = parameters match {
     case Seq(("id", actorID: Int)) => getByID(actorID)
     case Seq(("objectType", objectType: String),
-            ("mbox", mbox: Option[String]),
-            ("mbox_sha1sum", mbox_sha1sum: Option[String]),
-            ("openid", openid: Option[String]),
-            ("account", account: Option[Account])) =>{
-      val accountJson = if(account.isDefined) serializeAccount(account.get) else null
-      LFTincanActorLocalServiceUtil.findAgent(objectType, mbox.getOrElse(null), mbox_sha1sum.getOrElse(null),openid.getOrElse(null),accountJson)
+      ("mbox", mbox: Option[String]),
+      ("mbox_sha1sum", mbox_sha1sum: Option[String]),
+      ("openid", openid: Option[String]),
+      ("account", account: Option[Account])) => {
+      val accountJson = if (account.isDefined) serializeAccount(account.get) else null
+      LFTincanActorLocalServiceUtil.findAgent(objectType, mbox.getOrElse(null), mbox_sha1sum.getOrElse(null), openid.getOrElse(null), accountJson)
         .asScala
         .map(ActorMapper.map)
         .headOption
@@ -54,7 +55,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
           case Seq(("parentID", parentID: String)) => {
             lfEntity.setMemberOf(parentID)
           }
-          case _ => {/*do nothing*/}
+          case _ => { /*do nothing*/ }
         }
       }
       case group: Group => {
@@ -79,7 +80,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
 
   def createAndGetID(entity: Actor, parameters: (String, Any)*): Int = {
     val lfEntity = LFTincanActorLocalServiceUtil.createLFTincanActor()
-    setFields(lfEntity, entity, parameters:_*)
+    setFields(lfEntity, entity, parameters: _*)
     LFTincanActorLocalServiceUtil.addLFTincanActor(lfEntity).getId.toInt
   }
 
@@ -91,7 +92,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
 
   def modify(parameters: (String, Any)*): Unit = throw new UnsupportedOperationException()
 
-  def modify(entity: Actor, parameters: (String, Any)*): Unit = {throw new UnsupportedOperationException()}
+  def modify(entity: Actor, parameters: (String, Any)*): Unit = { throw new UnsupportedOperationException() }
 
   def execute(sqlKey: String, parameters: (String, Any)*): Unit = throw new UnsupportedOperationException()
 

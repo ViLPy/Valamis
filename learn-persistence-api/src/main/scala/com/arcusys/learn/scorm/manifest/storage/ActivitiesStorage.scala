@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.manifest.storage
 
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.scorm.manifest.model.{ Activity, Organization }
 import com.arcusys.learn.util.TreeNode
 
 trait ActivitiesStorage {

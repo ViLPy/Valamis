@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.tracking.storage.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
-import com.arcusys.learn.scorm.tracking.model.{User, Attempt}
-import com.arcusys.learn.scorm.tracking.storage.{UserStorage, AttemptStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
+import com.arcusys.learn.scorm.tracking.model.{ User, Attempt }
+import com.arcusys.learn.scorm.tracking.storage.{ UserStorage, AttemptStorage }
 import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
 
 trait AttemptFieldsMapper {

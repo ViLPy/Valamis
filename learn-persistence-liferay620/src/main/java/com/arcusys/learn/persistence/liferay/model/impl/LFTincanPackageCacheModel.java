@@ -25,10 +25,11 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
     public String summary;
     public Long assetRefID;
     public Integer courseID;
+    public String logo;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(id);
@@ -40,6 +41,8 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         sb.append(assetRefID);
         sb.append(", courseID=");
         sb.append(courseID);
+        sb.append(", logo=");
+        sb.append(logo);
         sb.append("}");
 
         return sb.toString();
@@ -66,6 +69,12 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         lfTincanPackageImpl.setAssetRefID(assetRefID);
         lfTincanPackageImpl.setCourseID(courseID);
 
+        if (logo == null) {
+            lfTincanPackageImpl.setLogo(StringPool.BLANK);
+        } else {
+            lfTincanPackageImpl.setLogo(logo);
+        }
+
         lfTincanPackageImpl.resetOriginalValues();
 
         return lfTincanPackageImpl;
@@ -78,6 +87,7 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         summary = objectInput.readUTF();
         assetRefID = objectInput.readLong();
         courseID = objectInput.readInt();
+        logo = objectInput.readUTF();
     }
 
     @Override
@@ -99,5 +109,11 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
 
         objectOutput.writeLong(assetRefID);
         objectOutput.writeInt(courseID);
+
+        if (logo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(logo);
+        }
     }
 }

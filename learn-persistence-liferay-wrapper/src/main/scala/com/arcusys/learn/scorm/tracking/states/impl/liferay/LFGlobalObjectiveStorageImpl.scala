@@ -2,32 +2,33 @@ package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.scorm.tracking.model.GlobalObjectiveState
-import com.arcusys.learn.persistence.liferay.service.{LFActivityStateTreeLocalServiceUtil, LFGlobalObjectiveStateLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFActivityStateTreeLocalServiceUtil, LFGlobalObjectiveStateLocalServiceUtil }
 import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState
 import scala.collection.JavaConverters._
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
 trait LFGlobalObjectiveStorageImpl extends EntityStorage[(String, GlobalObjectiveState)] {
-  protected def doRenew() { LFGlobalObjectiveStateLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFGlobalObjectiveStateLocalServiceUtil.removeAll() }
 
   def create(parameters: (String, Any)*) {
     val newEntity: LFGlobalObjectiveState = LFGlobalObjectiveStateLocalServiceUtil.createLFGlobalObjectiveState()
     parameters.foreach {
-      param => param match {
-        case ("treeID", value: Int) => newEntity.setTreeID(value)
-        case ("attemptID", value: Int) => {
-          val stateTree = LFActivityStateTreeLocalServiceUtil.findByAttemptID(value)
-          require(stateTree != null, throw new UnsupportedOperationException("State tree should be defined for attempt " + value))
-          newEntity.setTreeID(stateTree.getId.toInt)
+      param =>
+        param match {
+          case ("treeID", value: Int) => newEntity.setTreeID(value)
+          case ("attemptID", value: Int) => {
+            val stateTree = LFActivityStateTreeLocalServiceUtil.findByAttemptID(value)
+            require(stateTree != null, throw new UnsupportedOperationException("State tree should be defined for attempt " + value))
+            newEntity.setTreeID(stateTree.getId.toInt)
+          }
+          case ("mapKey", value: String)             => newEntity.setMapKey(value)
+          case ("satisfied", value: Option[Boolean]) => newEntity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
+          case ("normalizedMeasure", value: Option[BigDecimal]) => {
+            newEntity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
+          }
+          case ("attemptCompleted", value: Option[Boolean]) => newEntity.setAttemptCompleted(value.getOrElse(null).asInstanceOf[Boolean])
         }
-        case ("mapKey", value: String) => newEntity.setMapKey(value)
-        case ("satisfied", value: Option[Boolean]) => newEntity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
-        case ("normalizedMeasure", value: Option[BigDecimal]) => {
-          newEntity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
-        }
-        case ("attemptCompleted", value: Option[Boolean]) => newEntity.setAttemptCompleted(value.getOrElse(null).asInstanceOf[Boolean])
-      }
     }
     LFGlobalObjectiveStateLocalServiceUtil.addLFGlobalObjectiveState(newEntity)
   }
@@ -69,14 +70,15 @@ trait LFGlobalObjectiveStorageImpl extends EntityStorage[(String, GlobalObjectiv
     val mapKey = LiferayCommon.getParameter[String]("mapKey", parameters: _*).getOrElse(throw new UnsupportedOperationException("Cannot modify without mapKey"))
     val entity = LFGlobalObjectiveStateLocalServiceUtil.findByTreeIDAndMapKey(treeID.toInt, mapKey)
     parameters.foreach {
-      param => param match {
-        case ("satisfied", value: Option[Boolean]) => entity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
-        case ("normalizedMeasure", value: Option[BigDecimal]) => {
-          entity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
+      param =>
+        param match {
+          case ("satisfied", value: Option[Boolean]) => entity.setSatisfied(value.getOrElse(null).asInstanceOf[Boolean])
+          case ("normalizedMeasure", value: Option[BigDecimal]) => {
+            entity.setNormalizedMeasure(value.map(BigDecimal(_)).getOrElse(null))
+          }
+          case ("attemptCompleted", value: Option[Boolean]) => entity.setAttemptCompleted(value.getOrElse(null).asInstanceOf[Boolean])
+          case _ => {}
         }
-        case ("attemptCompleted", value: Option[Boolean]) => entity.setAttemptCompleted(value.getOrElse(null).asInstanceOf[Boolean])
-        case _ =>{}
-      }
     }
     LFGlobalObjectiveStateLocalServiceUtil.updateLFGlobalObjectiveState(entity)
   }
@@ -103,5 +105,5 @@ trait LFGlobalObjectiveStorageImpl extends EntityStorage[(String, GlobalObjectiv
 
   def getOne(sqlKey: String, parameters: (String, Any)*): Option[(String, GlobalObjectiveState)] = throw new UnsupportedOperationException("Not implemented")
 
-  def modify(sqlKey: String, parameters: (String, Any)*) {throw new UnsupportedOperationException("Not implemented")}
+  def modify(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 }

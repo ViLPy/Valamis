@@ -1,5 +1,7 @@
 package com.arcusys.learn.persistence.liferay.model;
 
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK;
+
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.service.ServiceContext;
@@ -7,6 +9,8 @@ import com.liferay.portal.service.ServiceContext;
 import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * The base model interface for the LFCertificateUser service. Represents a row in the &quot;Learn_LFCertificateUser&quot; database table, with each column mapped to a property of this class.
@@ -33,56 +37,56 @@ public interface LFCertificateUserModel extends BaseModel<LFCertificateUser> {
      *
      * @return the primary key of this l f certificate user
      */
-    public long getPrimaryKey();
+    public LFCertificateUserPK getPrimaryKey();
 
     /**
      * Sets the primary key of this l f certificate user.
      *
      * @param primaryKey the primary key of this l f certificate user
      */
-    public void setPrimaryKey(long primaryKey);
-
-    /**
-     * Returns the ID of this l f certificate user.
-     *
-     * @return the ID of this l f certificate user
-     */
-    public long getId();
-
-    /**
-     * Sets the ID of this l f certificate user.
-     *
-     * @param id the ID of this l f certificate user
-     */
-    public void setId(long id);
+    public void setPrimaryKey(LFCertificateUserPK primaryKey);
 
     /**
      * Returns the certificate i d of this l f certificate user.
      *
      * @return the certificate i d of this l f certificate user
      */
-    public Integer getCertificateID();
+    public Long getCertificateID();
 
     /**
      * Sets the certificate i d of this l f certificate user.
      *
      * @param certificateID the certificate i d of this l f certificate user
      */
-    public void setCertificateID(Integer certificateID);
+    public void setCertificateID(Long certificateID);
 
     /**
      * Returns the user i d of this l f certificate user.
      *
      * @return the user i d of this l f certificate user
      */
-    public Integer getUserID();
+    public Long getUserID();
 
     /**
      * Sets the user i d of this l f certificate user.
      *
      * @param userID the user i d of this l f certificate user
      */
-    public void setUserID(Integer userID);
+    public void setUserID(Long userID);
+
+    /**
+     * Returns the attached date of this l f certificate user.
+     *
+     * @return the attached date of this l f certificate user
+     */
+    public Date getAttachedDate();
+
+    /**
+     * Sets the attached date of this l f certificate user.
+     *
+     * @param attachedDate the attached date of this l f certificate user
+     */
+    public void setAttachedDate(Date attachedDate);
 
     @Override
     public boolean isNew();

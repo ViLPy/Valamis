@@ -4,13 +4,12 @@ import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.ioc.Configuration
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
-import com.arcusys.learn.liferay.services.{CounterLocalServiceHelper, ClassNameLocalServiceHelper, AssetEntryLocalServiceHelper}
+import com.arcusys.learn.liferay.services.{ CounterLocalServiceHelper, ClassNameLocalServiceHelper, AssetEntryLocalServiceHelper }
 import com.arcusys.learn.liferay.util.IndexerRegistryUtilHelper
 import com.arcusys.learn.liferay.LiferayClasses.LNoSuchEntryException
 import com.arcusys.learn.liferay.constants.ContentTypesHelper
 
-
-class AssetHelper (configuration: BindingModule) extends ServletBase(configuration) {
+class AssetHelper(configuration: BindingModule) extends ServletBase(configuration) {
   def this() = this(Configuration)
 
   import storageFactory._
@@ -25,7 +24,7 @@ class AssetHelper (configuration: BindingModule) extends ServletBase(configurati
         AssetEntryLocalServiceHelper.deleteAssetEntry(entryID)
       }
     } catch {
-      case e:LNoSuchEntryException => System.out.println("Asset not found")
+      case e: LNoSuchEntryException => System.out.println("Asset not found")
     }
   }
 
@@ -45,31 +44,31 @@ class AssetHelper (configuration: BindingModule) extends ServletBase(configurati
     indexer.reindex(packageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
   }
 
-//  def addTincanPackage(userID: Long, groupID: Long, manifest: com.arcusys.learn.tincan.manifest.model.Manifest, content: String = "") {
-//    val classNameId = ClassNameLocalServiceUtil.getClassNameId(classOf[com.arcusys.learn.tincan.manifest.model.Manifest].getName)
-//    val classPK = CounterLocalServiceUtil.increment
-//    val entry = AssetEntryLocalServiceUtil.updateEntry(userID, groupID, classOf[com.arcusys.learn.tincan.manifest.model.Manifest].getName,
-//      classPK, "", classNameId, null, null, true, null,
-//      null, null, null, ContentTypes.TEXT_HTML, manifest.title,
-//      content, manifest.summary.getOrElse(""), null, null, 0, 0, null, false)
-//    entry.setClassPK(entry.getPrimaryKey)
-//    AssetEntryLocalServiceUtil.updateAssetEntry(entry)
-//
-//    tincanPackageStorage.setAssetRefID(manifest.id, entry.getPrimaryKey)
-//
-//    val indexer = IndexerRegistryUtil.getIndexer(classOf[com.arcusys.learn.tincan.manifest.model.Manifest])
-//    indexer.reindex(tincanPackageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
-//  }
-//
-//  def deleteTincanPackage(entryID: Long) {
-//    try {
-//      if (AssetEntryLocalServiceUtil.getAssetEntry(entryID) != null) {
-//        val indexer = IndexerRegistryUtil.getIndexer(classOf[com.arcusys.learn.tincan.manifest.model.Manifest])
-//        indexer.delete(tincanPackageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
-//        AssetEntryLocalServiceUtil.deleteAssetEntry(entryID)
-//      }
-//    } catch {
-//      case e:NoSuchEntryException => System.out.println("Asset not found")
-//    }
-//  }
+  //  def addTincanPackage(userID: Long, groupID: Long, manifest: com.arcusys.learn.tincan.manifest.model.Manifest, content: String = "") {
+  //    val classNameId = ClassNameLocalServiceUtil.getClassNameId(classOf[com.arcusys.learn.tincan.manifest.model.Manifest].getName)
+  //    val classPK = CounterLocalServiceUtil.increment
+  //    val entry = AssetEntryLocalServiceUtil.updateEntry(userID, groupID, classOf[com.arcusys.learn.tincan.manifest.model.Manifest].getName,
+  //      classPK, "", classNameId, null, null, true, null,
+  //      null, null, null, ContentTypes.TEXT_HTML, manifest.title,
+  //      content, manifest.summary.getOrElse(""), null, null, 0, 0, null, false)
+  //    entry.setClassPK(entry.getPrimaryKey)
+  //    AssetEntryLocalServiceUtil.updateAssetEntry(entry)
+  //
+  //    tincanPackageStorage.setAssetRefID(manifest.id, entry.getPrimaryKey)
+  //
+  //    val indexer = IndexerRegistryUtil.getIndexer(classOf[com.arcusys.learn.tincan.manifest.model.Manifest])
+  //    indexer.reindex(tincanPackageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
+  //  }
+  //
+  //  def deleteTincanPackage(entryID: Long) {
+  //    try {
+  //      if (AssetEntryLocalServiceUtil.getAssetEntry(entryID) != null) {
+  //        val indexer = IndexerRegistryUtil.getIndexer(classOf[com.arcusys.learn.tincan.manifest.model.Manifest])
+  //        indexer.delete(tincanPackageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
+  //        AssetEntryLocalServiceUtil.deleteAssetEntry(entryID)
+  //      }
+  //    } catch {
+  //      case e:NoSuchEntryException => System.out.println("Asset not found")
+  //    }
+  //  }
 }

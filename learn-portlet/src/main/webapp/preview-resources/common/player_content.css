@@ -1,0 +1,173 @@
+/* ------------ BASIC LAYOUT ----------------*/
+
+.SCORMPlayerContentDisplay {
+    padding: 20px 10px;
+}
+
+.SCORMPlayerContentDisplay .playerHeader {
+    margin: 0 0 20px 0;
+}
+
+.SCORMPlayerContentDisplay .playerMainArea {
+    margin: 10px 5px 10px 5px;
+}
+
+.SCORMPlayerContentDisplay .playerPageNavigation {
+    margin: 27px 0 10px 0;
+    width: 100%;
+    border-top: 1px dashed #666666;
+    padding: 7px 0;
+}
+
+.SCORMPlayerContentDisplay h1 {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 2px 2px 2px 0;
+}
+
+.SCORMPlayerContentDisplay h2 {
+    font-weight: normal;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.playerPageNavigation .playerPrevious {
+    float: left;
+}
+
+.playerPageNavigation .playerNext {
+    float: right;
+}
+
+/*--Matching Question--*/
+
+#scormQuestionData td{
+   padding: 3px;
+}
+
+/* ------------ Choice Question ----------------*/
+
+.playerMainArea .radio, .playerMainArea .checkbox {
+    margin: 7px 6px 0 0;
+}
+
+/* ------------ Short Answer Question ----------------*/
+
+.playerMainArea .playerShortAnswerField {
+    background: #D9DCDD;
+    border: 1px solid #666666;
+    font-size: 14px;
+    padding: 4px;
+    font-family: "Tahoma", sans-serif;
+}
+
+.playerMainArea .playerShortAnswerField:focus {
+    background: #EFECBD;
+}
+
+.playerMainArea .changeColorOnFocus:focus {
+    background: #EFECBD;
+}
+
+/* ------------ Long Answer Question ----------------*/
+
+.playerMainArea .playerLongAnswerField {
+    background: #D9DCDD;
+    border: 1px solid #666666;
+    font-size: 14px;
+    padding: 4px;
+    font-family: "Tahoma", sans-serif;
+}
+
+.playerMainArea .playerLongAnswerField:focus {
+    background: #EFECBD;
+}
+
+/* ------------ Placing Question ----------------*/
+
+.playerMainArea .playerPlacingAnswers {
+}
+
+.playerMainArea .playerPlacingAnswers ul {
+    list-style-type: none;
+    margin: 5px;
+    padding: 0;
+}
+
+.playerMainArea .playerPlacingAnswers ul li {
+    background-color: #EFECBD;
+    border: 2px dotted #666666;
+    margin: 8px;
+    padding: 5px;
+    width: 200px;
+    text-align: center;
+    cursor: move;
+    line-height: 1.2em;
+}
+
+.playerMainArea .playerPlacingAnswers ul li:hover {
+    background-color: #F7E55C;
+}
+
+/* ------------ Categorize Question ----------------*/
+
+.playerMainArea .playerCategorizeAnswers ul.categorizationAnswerElements {
+    list-style-type: none;
+    margin: 5px;
+    padding: 0;
+    float: left;
+}
+
+.playerMainArea .playerCategorizeAnswers ul li {
+    background-color: #EFECBD;
+    border: 2px dotted #666666;
+    margin: 8px;
+    padding: 5px;
+    width: 120px;
+    text-align: center;
+    cursor: move;
+    line-height: 1.2em;
+}
+
+.playerMainArea .playerCategorizeAnswers ul li:hover {
+    background-color: #F7E55C;
+}
+
+.categorizationAnswerBoxs {
+    float: left;
+    margin: 0 0 0 20px;
+}
+
+.categorizationAnswerBoxs th {
+    font-size: 14px;
+    font-weight: normal;
+    background: #666666;
+    font-size: 14px;
+    padding: 1px 2px 3px 2px;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.categorizationAnswerBoxs td {
+    background-color: #FFF;
+    min-height: 100px;
+    font-size: 14px;
+    padding: 0 0 10px 0;
+}
+
+.categorizationAnswerBoxs .answerContainer {
+    height: auto;
+    list-style-type: none;
+    margin: 0;
+    min-height: 100px;
+    padding: 5px;
+    width: 180px;
+    border: 2px solid #666666;
+}
+
+.externalResourceIframe {
+    width: 100%;
+    border: #6B6B6B solid 1px;
+    margin: 0;
+    padding: 0;
+}

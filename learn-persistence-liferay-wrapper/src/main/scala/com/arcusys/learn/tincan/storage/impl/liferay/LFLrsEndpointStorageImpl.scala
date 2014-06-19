@@ -4,11 +4,11 @@ import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint
-import com.arcusys.learn.tincan.model.lrsClient.{UserBasicAuthorization, OAuthAuthorization, LrsEndpointSettings, CommonBasicAuthorization}
+import com.arcusys.learn.tincan.model.lrsClient.{ UserBasicAuthorization, OAuthAuthorization, LrsEndpointSettings, CommonBasicAuthorization }
 
 trait LFLrsEndpointStorageImpl extends EntityStorage[LrsEndpointSettings] {
 
-  def renew() { LFTincanLrsEndpointLocalServiceUtil.removeAll()}
+  def renew() { LFTincanLrsEndpointLocalServiceUtil.removeAll() }
 
   def getOne(parameters: (String, Any)*): Option[LrsEndpointSettings] = {
     extract(LFTincanLrsEndpointLocalServiceUtil.getEndpoint)
@@ -33,9 +33,9 @@ trait LFLrsEndpointStorageImpl extends EntityStorage[LrsEndpointSettings] {
       val endpoint = if (entity.getEndpoint == null) "" else entity.getEndpoint
       entity.getAuthType match {
         case "BasicCommon" => Some(LrsEndpointSettings(endpoint, CommonBasicAuthorization(entity.getKey, entity.getSecret)))
-        case "BasicUser" => Some(LrsEndpointSettings(endpoint, UserBasicAuthorization))
-        case "OAuth" => Some(LrsEndpointSettings(endpoint, OAuthAuthorization(entity.getKey, entity.getSecret)))
-        case _ => throw new UnsupportedOperationException("unsupported auth type : " + entity.getAuthType)
+        case "BasicUser"   => Some(LrsEndpointSettings(endpoint, UserBasicAuthorization))
+        case "OAuth"       => Some(LrsEndpointSettings(endpoint, OAuthAuthorization(entity.getKey, entity.getSecret)))
+        case _             => throw new UnsupportedOperationException("unsupported auth type : " + entity.getAuthType)
       }
     }
   }

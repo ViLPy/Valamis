@@ -17,12 +17,12 @@ class ManifestParser(root: Elem, title: String, summary: String) {
     implicit val adlseqNs = root.getNamespace("adlseq")
     //val identifier = root attr "identifier" required()
     val manifestVersion = root attr "version" optional string
-    val base = root attr(xmlNs, "base") optional string
+    val base = root attr (xmlNs, "base") optional string
     val metadataElem = root childElem "metadata" optional element
     val metadataOption = if (metadataElem.isDefined) Some(parseMetadata(metadataElem.get)) else None
     // TODO: do we really need schema?
     //val schema = metadataElem childElem "schema" required string
-    val scormVersion = if (metadataElem.isDefined) metadataElem.get childElem "schemaversion" withDefault("1.2") else "1.2"
+    val scormVersion = if (metadataElem.isDefined) metadataElem.get childElem "schemaversion" withDefault ("1.2") else "1.2"
     val organizationsElement = root childElem "organizations" required element
     val resourcesElem = root childElem "resources" required element
     val sequencingCollectionElement = root childElem ("imsss", "sequencingCollection") optional element
@@ -34,10 +34,10 @@ class ManifestParser(root: Elem, title: String, summary: String) {
     if ((organizationElements.length == 0) && (defaultOrganizationIdentifier != None)) throw new SCORMParserException("<organizations> element does not contain <organization> elements but has the default attribute defined")
 
     val resourceElements = resourcesElem children "resource"
-    val resourcesBase = resourcesElem attr(xmlNs, "base") optional string
+    val resourcesBase = resourcesElem attr (xmlNs, "base") optional string
     def parseThisResource(elem: Elem) = parseResource(elem, scormVersion, adlcpNs)
     val resources = resourceElements map parseThisResource
-    val resourceMap = resources.map(r=>r.id->r).toMap
+    val resourceMap = resources.map(r => r.id -> r).toMap
     def parseThisOrganization(elem: Elem) = parseOrganization(elem, resourceMap, adlcpNs, adlseqNs, scormVersion, sequencingElements)
     val organizations = organizationElements map parseThisOrganization
     if (defaultOrganizationIdentifier.isDefined && organizations.find(o => Some(o.item.id) == defaultOrganizationIdentifier).isEmpty)

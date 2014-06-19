@@ -1,0 +1,50 @@
+<script type="text/mustache" id="liferayAccountInfoView">
+    <div style="width:100px; float:left;">
+        <img src="{{picture}}" alt="{{name}}" width="90px"/>
+    </div>
+    <div style="margin-left: 105px; margin-top: 5px; font-size: 14px;">
+        <b>{{name}}</b>
+        <br>
+        {{email}}
+    </div>
+    <br>
+    <br clear="all"/>
+
+
+    <div id="valamisCertificates">
+        <div id="userCertificatesList" class="badge-list SCORMAddNewButton">
+            <div id="UserCertificateTitle">{{curriculumMyTabsHeaderLabel}}</div>
+        </div>
+    </div>
+
+
+
+</script>
+
+<script type="text/mustache" id="userCertificateItemView" class="availableQuizItem">
+    <div class="badge-item">
+        <div class="openbadge">
+            <img src="{{logo}}" width="100"/>
+
+            <p>
+             <!--   &lt;!&ndash;{{^isPermanent}}&ndash;&gt;
+                {{expireDateLabel}} {{expireDate}}
+                &lt;!&ndash;{{/isPermanent}}&ndash;&gt;-->
+            </p>
+
+            <p class="issuer">{{title}}</p>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="userAchievementItemView" class="availableQuizItem">
+    <div class="badge-item">
+        <div class="openbadge">
+            <img src="{{logo}}" width="100"/>
+
+            <p class="issuer">{{title}}</p>
+        </div>
+    </div>
+</script>
+
+

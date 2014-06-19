@@ -1,0 +1,29 @@
+<script type="text/html" id="reportFilter">
+    <h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>
+    <form>
+        <div class="select-scope-group form-group valamis-select">
+            <label class="form-label">{{scopeLabel}}</label>
+            <select class="select-scope form-control">
+                <option value="instance">{{scopeInstance}}</option>
+                <option value="course">{{scopeCourse}}</option>
+            </select>
+        </div>
+
+        <button type="button" class="button valamis medium grey text-center hidden-lg hidden-md">{{searchLabel}}</button>
+    </form>
+</script>
+
+<script type="text/html" id="courseViewTemplate">
+    <p style="padding-left: 10px">{{coursesLabel}} {{coursesCount}}</p>
+    <p style="padding-left: 10px">{{learnersLabel}} {{studentsCount}}</p>
+    <p style="padding-left: 10px">{{startedLabel}} {{studentsStartedCount}}</p>
+    <p style="padding-left: 10px">{{unknownLabel}} {{studentsUnknownPercentage}}% ({{studentsUnknownCount}} {{ofLabel}} {{studentsCount}})</p>
+    <p style="padding-left: 10px">{{incompletedLabel}} {{studentsIncompletedPercentage}}% ({{studentsIncompletedCount}} {{ofLabel}} {{studentsCount}})</p>
+    <p style="padding-left: 10px">{{completedLabel}} {{studentsCompletedPercentage}}% ({{studentsCompletedCount}} {{ofLabel}} {{studentsCount}})</p>
+    <p style="padding-left: 10px">{{failedLabel}} {{studentsFailedPercentage}}% ({{studentsFailedCount}} {{ofLabel}} {{studentsCount}})</p>
+    <p style="padding-left: 10px">{{PassedLabel}} {{studentsPassedPercentage}}% ({{studentsPassedCount}} {{ofLabel}} {{studentsCount}})</p>
+</script>
+
+<script type="text/html" id="loadingViewTemplate">
+    <p style="padding-left: 10px">Loading...</p>
+</script>

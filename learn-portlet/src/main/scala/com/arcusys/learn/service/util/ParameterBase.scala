@@ -1,115 +1,99 @@
 package com.arcusys.learn.service.util
 
-import scala._
-import java.util.Date
-import org.joda.time.DateTime
-import javax.servlet.http.HttpServletRequest
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException
+import org.joda.time.DateTime
+import org.scalatra.ScalatraBase
+
 import scala.tools.cmd.Parser.ParseException
-import scala.collection.JavaConverters._
-import scala.Some
+import scala.util.{ Failure, Success, Try }
+import java.util.Date
+import javax.servlet.http.HttpServletResponse
 
-class ParameterBase(name: String, r: HttpServletRequest) {
+class ParameterBase(name: String, kernel: ScalatraBase) {
+  import kernel._
 
-  def required = {
-    val param = r.getParameter(name)
-    param match {
-      case "" => throw new ParameterNamesNotFoundException("Required parameter '" + name + "' is not specified")
-      case _ => param
-    }
+  def withDefault(default: String): String = kernel.params.get(name) match {
+    case Some(value) => value
+    case None        => default
   }
 
-  def withDefault(default: String): String = {
-    val param = r.getParameter(name)
-    param match {
-      case "" => default
-      case _ => param
-    }
+  def required: String = kernel.params.get(name) match {
+    case Some(value) => value
+    case None =>
+      throw new ParameterNamesNotFoundException(s"Required parameter '$name' is not specified")
   }
 
-  def longRequired = try {
-    required.toLong
-  } catch {
-    case _ => throw new ParseException("Long parameter '" + name + "' could not be parsed")
+  def longRequired: Long = Try(required.toLong) match {
+    case Success(value) => value
+    case Failure(_) =>
+      throw new ParseException(s"Long parameter '$name' could not be parsed")
   }
 
-  def intRequired = try {
-    required.toInt
-  } catch {
-    case _ =>  throw new ParseException("Integer parameter '" + name + "' could not be parsed")
+  def intRequired: Int = Try(required.toInt) match {
+    case Success(value) => value
+    case Failure(_) =>
+      throw new ParseException(s"Integer parameter '$name' could not be parsed")
   }
 
-  def option: Option[String] = {
-    val param = r.getParameter(name)
-    param match {
-      case "" => None
-      case _ => Option(param)
-    }
+  def floatRequired: Float = Try(required.toFloat) match {
+    case Success(value) => value
+    case Failure(_) =>
+      throw new ParseException(s"Float parameter '$name' could not be parsed")
   }
 
-  def intOption(none: String): Option[Int] = {
-    val value = r.getParameter(name)
-    if (value == none || value == "")
-      None
+  def booleanRequired: Boolean = required.toLowerCase match {
+    case "1" | "on" | "true"   => true
+    case "0" | "off" | "false" => false
+    case _ =>
+      throw new ParseException(s"Boolean parameter '$name' could not be parsed")
+  }
+  def booleanOption: Option[Boolean] = Try(booleanRequired).toOption
+  def booleanOption(none: String): Option[Boolean] = {
+    val value = params.getOrElse(name, none)
+    if (value == none) None
     else Some(try {
-      value.toInt
+      value.toBoolean
     } catch {
-      case _ =>  throw new ParseException("Integer parameter '" + name + "' could not be parsed")
+      case _: Throwable => halt(HttpServletResponse.SC_BAD_REQUEST, s"Integer parameter '$name' could not be parsed")
     })
   }
 
+  def multiRequired: Seq[String] = kernel.multiParams.get(name) match {
+    case Some(value) => value
+    case None =>
+      throw new ParameterNamesNotFoundException(s"Required parameter '$name' is not specified")
+  }
+
+  def multiWithEmpty: Seq[String] = kernel.multiParams.get(name) match {
+    case Some(value) => value
+    case None        => Seq[String]()
+  }
+
+  def contains: Boolean = kernel.multiParams.contains(name)
+
+  def option: Option[String] = kernel.params.get(name)
+
+  def intOption: Option[Int] = Try(intRequired).toOption
+  def intOption(none: String): Option[Int] = {
+    val value = params.getOrElse(name, none)
+    if (value == none) None
+    else Some(value.toInt)
+  }
   def intOption(none: Int): Option[Int] = intOption(none.toString)
 
+  def longOption: Option[Long] = Try(longRequired).toOption
+
   def bigDecimalOption(none: String): Option[BigDecimal] = {
-    val value = r.getParameter(name)
-    if (value == none || value == "")
-      None
-    else Some(try {
-      BigDecimal(value.toDouble)
-    } catch {
-      case _ =>  throw new ParseException("BigDecimal parameter '" + name + "' could not be parsed")
-    })
+    val value = params.getOrElse(name, none)
+    if (value == none) None
+    else Some(BigDecimal(value.toDouble))
   }
+  def bigDecimalOption: Option[BigDecimal] = option flatMap { str => Try(BigDecimal(str)).toOption }
 
-  def booleanRequired = try {
-    required match {
-      case "1" | "on" | "true" => true
-      case "0" | "off" | "false" => false
-      case _ => false
-    }
-  } catch {
-    case _ =>  throw new ParseException("Boolean parameter '" + name + "' could not be parsed")
-  }
-
-  def booleanOption(none: String): Option[Boolean] = {
-    val value = r.getParameter(name)
-    if (value == none || value == "")
-      None
-    else Some(try {
-      value match {
-        case "1" | "on" | "true" => true
-        case "0" | "off" | "false" => false
-        case _ => false
-      }
-    } catch {
-      case _ =>  throw new ParseException("Boolean parameter '" + name + "' could not be parsed")
-    })
-  }
-
+  def dateTimeOption: Option[DateTime] = kernel.params.get(name) map (new DateTime(_))
   def dateOption(none: String): Option[Date] = {
-    val value = r.getParameter(name)
-    if (value == none || value == "")
-      None
-    else Some(try {
-      new DateTime(value).toDate
-    } catch {
-      case _ =>  throw new ParseException("DateTime parameter '" + name + "' could not be parsed")
-    })
+    val value = params.getOrElse(name, none)
+    if (value == none) None
+    else Some(new DateTime(value).toDate)
   }
-
-  def multiRequired = r.getParameter(name)
-
-  def contains = r.getParameterNames()
-    .asScala
-    .contains(name)
 }

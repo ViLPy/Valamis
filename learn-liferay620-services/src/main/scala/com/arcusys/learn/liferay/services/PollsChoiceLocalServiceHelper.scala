@@ -5,9 +5,9 @@ import com.liferay.portlet.polls.service.PollsChoiceLocalServiceUtil
 
 object PollsChoiceLocalServiceHelper {
   def addChoice(userId: Long,
-                questionId: Long,
-                name: String,
-                description: String,
-                serviceContext: ServiceContext) =
+    questionId: Long,
+    name: String,
+    description: String,
+    serviceContext: ServiceContext) =
     PollsChoiceLocalServiceUtil.addChoice(userId, questionId, name, description, serviceContext)
 }

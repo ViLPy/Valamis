@@ -7,7 +7,7 @@ import scala.Array
 
 trait BlogHelpers {
   def addBlogsEntry(userId: Long, title: String, fileName: String,
-                    serviceContext: ServiceContext, replacement: Map[String, String] = Map()) = {
+    serviceContext: ServiceContext, replacement: Map[String, String] = Map()) = {
     val content = if (replacement.isEmpty) {
       HookHelpers.getString(fileName)
     } else {

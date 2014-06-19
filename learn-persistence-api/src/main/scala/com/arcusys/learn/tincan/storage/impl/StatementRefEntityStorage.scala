@@ -6,14 +6,14 @@ import com.arcusys.learn.storage.impl.KeyedEntityStorage
 
 trait StatementRefEntityStorage extends StatementRefStorage with KeyedEntityStorage[StatementReference] {
   def createAndGetID(entity: StatementReference) = {
-    createAndGetID(entity, Nil:_*)
+    createAndGetID(entity, Nil: _*)
   }
 
   def getByID(id: Int) = {
-    getByID(id, Nil:_*)
+    getByID(id, Nil: _*)
   }
 
   def delete(id: Int) = {
-    delete("id"->id)
+    delete("id" -> id)
   }
 }

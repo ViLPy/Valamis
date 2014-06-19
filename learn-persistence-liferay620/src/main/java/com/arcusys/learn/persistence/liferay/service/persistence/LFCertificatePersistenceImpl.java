@@ -129,7 +129,7 @@ public class LFCertificatePersistenceImpl extends BasePersistenceImpl<LFCertific
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFCertificatePersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "id"
+                "id", "state"
             });
     private static LFCertificate _nullLFCertificate = new LFCertificateImpl() {
             @Override
@@ -1377,6 +1377,13 @@ public class LFCertificatePersistenceImpl extends BasePersistenceImpl<LFCertific
         lfCertificateImpl.setPublishBadge(lfCertificate.getPublishBadge());
         lfCertificateImpl.setShortDescription(lfCertificate.getShortDescription());
         lfCertificateImpl.setCompanyID(lfCertificate.getCompanyID());
+        lfCertificateImpl.setState(lfCertificate.getState());
+        lfCertificateImpl.setEmails(lfCertificate.getEmails());
+        lfCertificateImpl.setValidPeriodType(lfCertificate.getValidPeriodType());
+        lfCertificateImpl.setValidPeriod(lfCertificate.getValidPeriod());
+        lfCertificateImpl.setCreatedDate(lfCertificate.getCreatedDate());
+        lfCertificateImpl.setIsPublished(lfCertificate.getIsPublished());
+        lfCertificateImpl.setScope(lfCertificate.getScope());
 
         return lfCertificateImpl;
     }

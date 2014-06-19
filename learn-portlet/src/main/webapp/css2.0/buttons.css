@@ -1,0 +1,506 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.button.valamis {
+    border: 1px solid;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+    font-family: Ubuntu;
+    border-radius: 1px;
+    padding: 0px 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-repeat: no-repeat !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: 0.05s all linear;
+    -moz-transition: 0.05s all linear;
+    transition: 0.05s all linear;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.button.valamis:hover {
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05), inset 0px -50px 50px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05), inset 0px -50px 50px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05), inset 0px -50px 50px 0px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+}
+
+.button.valamis:last-child {
+    margin-right: 5px;
+}
+
+.button.valamis.float {
+    float: left;
+}
+
+/* Button sizes */
+
+.button.valamis.big {
+    line-height: 36px;
+    height: 38px;
+}
+
+.button.valamis.medium {
+    line-height: 32px;
+    height: 34px;
+}
+
+.button.valamis.small {
+    line-height: 24px;
+    height: 26px;
+}
+
+.button.valamis.light {
+    /*font-weight: normal;*/
+}
+
+.button.valamis.margined {
+    margin-left: 20px;
+}
+
+/* Button colors */
+
+.button.valamis.grey {
+    background-color: #FBFBFB;
+    color: #777777;
+    border-color: #D4D4D4;
+}
+
+.button.valamis.grey.active {
+    background-color: #EBEBEB;
+}
+
+.button.valamis.green, .button.valamis.val-icon-check.selected {
+    background-color: #a9cb4f;
+    color: #FFFFFF;
+    border-color: #98b647;
+}
+
+.button.valamis.red {
+    background-color: #df7568;
+    color: #FFFFFF;
+    border-color: #b76055;
+}
+
+/* Button icons */
+
+.button.valamis.val-icon-plus {
+    background-image: url(../images/icon-plus-green.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+.button.valamis.val-icon-minus {
+    background-image: url(../images/icon-minus.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-check.grey {
+    background-image: url(../images/icon-check-grey.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-check.green, .button.valamis.val-icon-check.selected {
+    background-image: url(../images/icon-check-green.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-upload {
+    background-image: url(../images/icon-upload-green.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-continue {
+    background-image: url(../images/icon-continue-green.png);
+    background-position: right center;
+    padding-right: 38px;
+}
+
+.button.valamis.val-icon-preview {
+    background-image: url(../images/icon-preview.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-command {
+    width: 260px;
+}
+
+.button.valamis.val-icon-edit {
+    background-image: url(../images/icon-edit.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-reload {
+    background-image: url(../images/reload-icon.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-delete.red {
+    background-image: url(../images/icon-delete.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-delete.grey {
+    background-image: url(../images/icon-delete-grey.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-clone {
+    background-image: url(../images/icon-clone.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.unpublished .button.valamis.val-icon-publish {
+    background-image: url(../images/icon-publish.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-publish {
+    background-image: url(../images/icon-unpublish.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-download {
+    background-image: url(../images/icon-download.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-save-next {
+    background-image: url(../images/icon-continue-green.png);
+    background-position: right center;
+    padding-right: 38px;
+}
+
+.button.valamis.val-icon-save-previous {
+    background-image: url(../images/icon-previous.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-save-close {
+    background-image: url(../images/icon-close.png);
+    background-position: right center;
+    padding-right: 38px;
+}
+
+.button.valamis.val-icon-save-check {
+    background-image: url(../images/icon-check-green.png);
+    background-position: right center;
+    padding-right: 38px;
+}
+
+.button.valamis.val-icon-design-new {
+    background-image: url(../images/icon-design-new.png);
+    background-position: left center;
+    padding-left: 38px;
+}
+
+.button.valamis.val-icon-list-view {
+    background-image: url(../images/icon-list-view.png);
+    background-position: center;
+}
+
+.button.valamis.val-icon-list-view.active {
+    background-image: url(../images/icon-list-view-active.png);
+}
+
+.button.valamis.val-icon-grid-view {
+    background-image: url(../images/icon-grid-view.png);
+    background-position: center;
+}
+
+.button.valamis.val-icon-grid-view.active {
+    background-image: url(../images/icon-grid-view-active.png);
+}
+
+.button.valamis.val-icon-previous {
+    background-image: url(../images/icon-previous.png);
+    background-position: center;
+    width: 42px !important;
+}
+
+.button.valamis.val-icon-next {
+    background-image: url(../images/icon-next.png);
+    background-position: center;
+    width: 42px !important;
+}
+
+.button.valamis.val-icon-expanded {
+    background-image: url(../images/icon-select-button.png);
+    background-position: center;
+    width: 42px !important;
+}
+
+.button.valamis.val-icon-close {
+    background-image: url(../images/icon-close.png);
+    background-position: center;
+    /*width: 42px !important;*/
+}
+.button.valamis.val-icon-search{
+    background-image: url(../images/icon-search.png);
+    background-position: center;
+    width: 42px !important;
+}
+
+/* Button with no text */
+
+.button.valamis.no-text {
+    text-indent: -9999px;
+    padding: 0 !important;
+    background-position: center !important;
+}
+
+.button.valamis.no-text.big {
+    width: 40px;
+    line-height: 38px;
+}
+
+.button.valamis.no-text.medium {
+    width: 36px;
+    line-height: 34px;
+}
+
+.button.valamis.no-text.small {
+    width: 28px;
+    line-height: 26px;
+}
+
+/* Button Groups */
+
+.button-group {
+    float: left;
+    /*margin-right: 10px;*/
+}
+
+.button-group .button {
+    margin-right: -1px !important;
+    float: left;
+}
+
+/* Select Element */
+
+.select-element {
+    margin-left: 20px;
+    /*margin-right: 10px;*/
+    float: left;
+}
+
+.select-element-label {
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 36px;
+    color: #777777;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.select-element select {
+    margin-bottom: 0px!important;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.select-element select:focus {
+    border-color: #a9cb4f;
+    outline: none;
+    color: #2f2f2f;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.paginatorData {
+    width: 115px;
+}
+
+.select-element .button {
+    /*margin-right: 0px;*/
+}
+
+.select-element .dropdown-container {
+    float: left;
+    overflow: visible;
+}
+
+.select-element .valamis-select {
+    float: left;
+    overflow: visible;
+}
+
+/* select list*/
+
+.valamis-select select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url(../images/icon-select-button.png) no-repeat;
+    background-color: #FBFBFB;
+
+    background-position: right;
+    width: auto;
+    text-indent: 0.01px;
+    text-overflow: "";
+
+    font-size: 13px !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    text-align: left;
+    font-family: Ubuntu;
+    letter-spacing: 0.03em;
+    color: #777777 !important;
+    border-color: #D4D4D4;
+    padding-right: 30px;
+    border-radius: 0;
+    height: 34px;
+    line-height: normal;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.valamis-select select::-ms-expand {
+    display: none;
+}
+
+.valamis-select select:focus {
+    border-color: #a9cb4f!important;
+    outline: none!important;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.valamis-select select:hover {
+    background: url(../images/icon-select-button.png) no-repeat;
+    background-color: #FBFBFB;
+
+    background-position: right;
+}
+
+/* Dropdown Buttons */
+
+.button.dropdown-button {
+    background-image: url(../images/icon-select-button.png);
+    background-position: right center;
+    padding-right: 38px;
+}
+
+.button.dropdown-button.big.green {
+    position: relative;
+}
+
+.button.dropdown-button.big.green:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 38px;
+    height: 38px;
+    background-image: url(../images/icon-dropdown-green.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    z-index: 900;
+}
+
+.dropdown-button-menu {
+    display: none;
+    position: absolute;
+    margin-top: 0px !important;
+    border: 1px solid #d3d4d5;
+    background: #f8f8f8;
+    -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-button-menu li {
+    line-height: 20px;
+
+}
+
+.dropdown-button-menu.wide li {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #777777;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid #dedede;
+}
+
+.dropdown-button-menu button {
+    width: 100%;
+    border: 0!important;
+    border-bottom: 1px solid #d3d4d5!important;
+    white-space: nowrap;
+}
+
+.dropdown-button-menu .button.valamis.val-icon-plus {
+    background-image: url(../images/icon-plus-grey-small.png);
+}
+
+.dropdown-button-menu li:last-child button {
+    border-bottom: 0!important;
+}
+
+.dropdown-visible.dropdown-button-menu {
+    display: block;
+}
+
+.button.valamis.fluid {
+    width: 100%;
+}
+
+.button.float-right {
+    float: right;
+}
+
+.buttons.text-right {
+    text-align: right;
+}
+
+.modal-close, .modal-close-div {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 60px!important;
+    height: 60px!important;
+    padding: 0px!important;
+    cursor: pointer;
+}
+
+.btn-valamis {
+    padding: 4px 12px;
+    border: 1px solid #cfcfcf;
+    border-bottom-color: #b5b5b5;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}

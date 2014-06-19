@@ -7,9 +7,9 @@ import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFAttemptData
 
 trait LFAttemptDataStorageImpl extends EntityStorage[AttemptData] {
-  protected def doRenew() { LFAttemptDataLocalServiceUtil.removeAll()}
+  protected def doRenew() { LFAttemptDataLocalServiceUtil.removeAll() }
 
-  def extract(entity: LFAttemptData) ={
+  def extract(entity: LFAttemptData) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
     new AttemptData(entity.getDataKey, entity.getDataValue.toOption, entity.getAttemptID, entity.getActivityID)
   }
@@ -45,12 +45,13 @@ trait LFAttemptDataStorageImpl extends EntityStorage[AttemptData] {
   def create(parameters: (String, Any)*) {
     val newEntity: LFAttemptData = LFAttemptDataLocalServiceUtil.createLFAttemptData()
     parameters.foreach {
-      param => param match {
-        case ("attemptID", value: Int) => newEntity.setAttemptID(value)
-        case ("activityID", value: String) => newEntity.setActivityID(value)
-        case ("dataKey", value: String) => newEntity.setDataKey(value)
-        case ("dataValue", value: String) => newEntity.setDataValue(value)
-      }
+      param =>
+        param match {
+          case ("attemptID", value: Int)     => newEntity.setAttemptID(value)
+          case ("activityID", value: String) => newEntity.setActivityID(value)
+          case ("dataKey", value: String)    => newEntity.setDataKey(value)
+          case ("dataValue", value: String)  => newEntity.setDataValue(value)
+        }
     }
     LFAttemptDataLocalServiceUtil.addLFAttemptData(newEntity)
   }
@@ -58,9 +59,9 @@ trait LFAttemptDataStorageImpl extends EntityStorage[AttemptData] {
   def modify(parameters: (String, Any)*) {
     parameters match {
       case Seq(("attemptID", attemptID: Int),
-      ("activityID", activityID: String),
-      ("dataKey", dataKey: String),
-      ("dataValue", dataValue: String)) => {
+        ("activityID", activityID: String),
+        ("dataKey", dataKey: String),
+        ("dataValue", dataValue: String)) => {
         val found = LFAttemptDataLocalServiceUtil.findBySingleKey(attemptID, activityID, dataKey, 0, 1)
         if (!found.isEmpty) {
           val entity = found.get(0)

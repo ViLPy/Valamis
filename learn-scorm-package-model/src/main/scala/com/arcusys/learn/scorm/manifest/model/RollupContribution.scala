@@ -6,23 +6,19 @@ import com.arcusys.learn.util.Extensions._
  * Information about how activity contributes to the evaluation of its parent's Satisfied and Not Satisfied rollup rules
  * @param contributeToSatisfied     The way activity contributes to rolled up Satisfied status of parent
  * @param contributeToNotSatisfied  The way activity contributes to rolled up Not Satisfied status of parent
- **/
-class SatisfactionRollupContribution
-(
+ */
+class SatisfactionRollupContribution(
   val contributeToSatisfied: RollupConsiderationType.Value,
-  val contributeToNotSatisfied: RollupConsiderationType.Value
-  )
+  val contributeToNotSatisfied: RollupConsiderationType.Value)
 
 /**
  * Information about how activity contributes to the evaluation of its parent's Completed and Incomplete rollup rules
  * @param contributeToCompleted     The way activity contributes to rolled up Completed status of parent
  * @param contributeToIncomplete    The way activity contributes to rolled up Incomplete status of parent
  */
-class CompletionRollupContribution
-(
+class CompletionRollupContribution(
   val contributeToCompleted: RollupConsiderationType.Value,
-  val contributeToIncomplete: RollupConsiderationType.Value
-  )
+  val contributeToIncomplete: RollupConsiderationType.Value)
 
 /**
  * Information about how activity contributes to container's rollup
@@ -31,14 +27,12 @@ class CompletionRollupContribution
  * @param objectiveMeasureWeight        Weighting factor applied to the objective's normalized measure used during rollup for the parent activity
  * @param measureSatisfactionIfActive   Measure should be used to determine satisfaction during rollup when activity is active
  */
-class RollupContribution
-(
-  val satisfaction: Option[SatisfactionRollupContribution],
-  val completion: Option[CompletionRollupContribution],
-  val objectiveMeasureWeight: BigDecimal,
-  val measureSatisfactionIfActive: Boolean
-  ) {
-  require(objectiveMeasureWeight between(0, 1))
+class RollupContribution(
+    val satisfaction: Option[SatisfactionRollupContribution],
+    val completion: Option[CompletionRollupContribution],
+    val objectiveMeasureWeight: BigDecimal,
+    val measureSatisfactionIfActive: Boolean) {
+  require(objectiveMeasureWeight between (0, 1))
 }
 
 /**

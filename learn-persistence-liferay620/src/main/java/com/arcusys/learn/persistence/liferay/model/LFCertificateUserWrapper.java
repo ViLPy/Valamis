@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,31 +38,31 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("id", getId());
         attributes.put("certificateID", getCertificateID());
         attributes.put("userID", getUserID());
+        attributes.put("attachedDate", getAttachedDate());
 
         return attributes;
     }
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        Long id = (Long) attributes.get("id");
-
-        if (id != null) {
-            setId(id);
-        }
-
-        Integer certificateID = (Integer) attributes.get("certificateID");
+        Long certificateID = (Long) attributes.get("certificateID");
 
         if (certificateID != null) {
             setCertificateID(certificateID);
         }
 
-        Integer userID = (Integer) attributes.get("userID");
+        Long userID = (Long) attributes.get("userID");
 
         if (userID != null) {
             setUserID(userID);
+        }
+
+        Date attachedDate = (Date) attributes.get("attachedDate");
+
+        if (attachedDate != null) {
+            setAttachedDate(attachedDate);
         }
     }
 
@@ -71,7 +72,7 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @return the primary key of this l f certificate user
     */
     @Override
-    public long getPrimaryKey() {
+    public com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK getPrimaryKey() {
         return _lfCertificateUser.getPrimaryKey();
     }
 
@@ -81,28 +82,9 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @param primaryKey the primary key of this l f certificate user
     */
     @Override
-    public void setPrimaryKey(long primaryKey) {
+    public void setPrimaryKey(
+        com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPK primaryKey) {
         _lfCertificateUser.setPrimaryKey(primaryKey);
-    }
-
-    /**
-    * Returns the ID of this l f certificate user.
-    *
-    * @return the ID of this l f certificate user
-    */
-    @Override
-    public long getId() {
-        return _lfCertificateUser.getId();
-    }
-
-    /**
-    * Sets the ID of this l f certificate user.
-    *
-    * @param id the ID of this l f certificate user
-    */
-    @Override
-    public void setId(long id) {
-        _lfCertificateUser.setId(id);
     }
 
     /**
@@ -111,7 +93,7 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @return the certificate i d of this l f certificate user
     */
     @Override
-    public java.lang.Integer getCertificateID() {
+    public java.lang.Long getCertificateID() {
         return _lfCertificateUser.getCertificateID();
     }
 
@@ -121,7 +103,7 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @param certificateID the certificate i d of this l f certificate user
     */
     @Override
-    public void setCertificateID(java.lang.Integer certificateID) {
+    public void setCertificateID(java.lang.Long certificateID) {
         _lfCertificateUser.setCertificateID(certificateID);
     }
 
@@ -131,7 +113,7 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @return the user i d of this l f certificate user
     */
     @Override
-    public java.lang.Integer getUserID() {
+    public java.lang.Long getUserID() {
         return _lfCertificateUser.getUserID();
     }
 
@@ -141,8 +123,28 @@ public class LFCertificateUserWrapper implements LFCertificateUser,
     * @param userID the user i d of this l f certificate user
     */
     @Override
-    public void setUserID(java.lang.Integer userID) {
+    public void setUserID(java.lang.Long userID) {
         _lfCertificateUser.setUserID(userID);
+    }
+
+    /**
+    * Returns the attached date of this l f certificate user.
+    *
+    * @return the attached date of this l f certificate user
+    */
+    @Override
+    public java.util.Date getAttachedDate() {
+        return _lfCertificateUser.getAttachedDate();
+    }
+
+    /**
+    * Sets the attached date of this l f certificate user.
+    *
+    * @param attachedDate the attached date of this l f certificate user
+    */
+    @Override
+    public void setAttachedDate(java.util.Date attachedDate) {
+        _lfCertificateUser.setAttachedDate(attachedDate);
     }
 
     @Override

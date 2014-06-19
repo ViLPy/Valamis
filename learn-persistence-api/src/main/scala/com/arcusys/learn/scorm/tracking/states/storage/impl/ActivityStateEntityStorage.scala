@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl
 
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
-import com.arcusys.learn.scorm.tracking.model.{ObjectiveState, ActivityState}
-import com.arcusys.learn.scorm.tracking.states.storage.{ObjectiveStateStorage, ActivityStateStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
+import com.arcusys.learn.scorm.tracking.model.{ ObjectiveState, ActivityState }
+import com.arcusys.learn.scorm.tracking.states.storage.{ ObjectiveStateStorage, ActivityStateStorage }
 import com.arcusys.learn.scorm.manifest.storage.ActivitiesStorage
 
 trait ActivityStateFieldsMapper {

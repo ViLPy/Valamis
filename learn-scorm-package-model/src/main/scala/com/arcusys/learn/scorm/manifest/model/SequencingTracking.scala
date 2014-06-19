@@ -5,11 +5,9 @@ package com.arcusys.learn.scorm.manifest.model
  * @param completionSetByContent  Attempt completion status will be set by the SCO
  * @param objectiveSetByContent   Objective satisfied status will be set by the SCO
  */
-class SequencingTracking
-(
+class SequencingTracking(
   val completionSetByContent: Boolean,
-  val objectiveSetByContent: Boolean
-  )
+  val objectiveSetByContent: Boolean)
 
 /**
  * Factory for sequencing tracking

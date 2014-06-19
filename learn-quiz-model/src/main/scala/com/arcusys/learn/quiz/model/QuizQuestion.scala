@@ -4,7 +4,7 @@ import com.arcusys.learn.questionbank.model._
 
 object QuizQuestionType extends Enumeration {
   type QuizQuestionType = Value
-  val External, QuestionBank, PlainText = Value
+  val External, QuestionBank, PlainText, RevealJS = Value
 }
 
 /**
@@ -22,22 +22,29 @@ sealed trait QuizQuestion {
 }
 
 case class ExternalQuizQuestion(id: Int,
-                                quizID: Int,
-                                categoryID: Option[Int],
-                                title: Option[String],
-                                url: String,
-                                arrangementIndex: Int = 1) extends QuizQuestion
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  url: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
 
 case class PlainTextQuizQuestion(id: Int,
-                                 quizID: Int,
-                                 categoryID: Option[Int],
-                                 title: Option[String],
-                                 text: String,
-                                 arrangementIndex: Int = 1) extends QuizQuestion
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  text: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
 
 case class QuestionBankQuizQuestion(id: Int,
-                                    quizID: Int,
-                                    categoryID: Option[Int],
-                                    title: Option[String],
-                                    question: Question[Answer],
-                                    arrangementIndex: Int = 1) extends QuizQuestion
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  question: Question[Answer],
+  arrangementIndex: Int = 1) extends QuizQuestion
+
+case class RevealJSQuizQuestion(id: Int,
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  content: String,
+  arrangementIndex: Int = 1) extends QuizQuestion

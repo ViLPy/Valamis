@@ -1,13 +1,13 @@
 package com.arcusys.scorm.util
 
 import com.arcusys.learn.questionbank.model._
-import com.arcusys.scala.json.Json._
+import com.arcusys.learn.util.JsonSupport
 
-object QuestionSerializer {
+object QuestionSerializer extends JsonSupport {
 
   def buildItemMap(question: Question[Answer]) = {
     def buildAnswersData = {
-      toJson(question match {
+      json(question match {
         case e: ChoiceQuestion =>
           for (answer <- e.answers) yield Map("answerText" -> answer.text, "isCorrect" -> answer.isCorrect)
         case e: TextQuestion =>
@@ -20,22 +20,22 @@ object QuestionSerializer {
           for (answer <- e.answers) yield Map("answerText" -> answer.text, "matchingText" -> answer.keyText.getOrElse(""))
         case e: CategorizationQuestion =>
           for (answer <- e.answers) yield Map("answerText" -> answer.text, "matchingText" -> answer.answerCategoryText.getOrElse(""))
-        case e: EssayQuestion => Seq[Map[String, Any]]()
+        case e: EssayQuestion          => Seq[Map[String, Any]]()
         case e: EmbeddedAnswerQuestion => Seq[Map[String, Any]]()
-        case e: PlainText => Seq[Map[String, Any]]()
-        case _ => throw new Exception("Service: Oops! Can't recognize question type")
-      }).replaceAll("\"", "'")
+        case e: PlainText              => Seq[Map[String, Any]]()
+        case _                         => throw new Exception("Service: Oops! Can't recognize question type")
+      }).get.replaceAll("\"", "'")
     }
 
     val forceCorrectCount = question match {
-      case e: ChoiceQuestion => e.forceCorrectCount
+      case e: ChoiceQuestion      => e.forceCorrectCount
       case e: PositioningQuestion => e.forceCorrectCount
-      case _ => false
+      case _                      => false
     }
 
     val isCaseSensitive = question match {
       case e: TextQuestion => e.isCaseSensitive
-      case _ => false
+      case _               => false
     }
 
     Map("id" -> question.id,

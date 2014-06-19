@@ -27,7 +27,6 @@ object QuizQuestionCategoryMockEntityContainer extends QuizQuestionCategoryMockI
   def getAllFunction = _.getLFQuizQuestionCategories(_, _)
   def removeAllFunction = _.removeAll()
 
-
   // entity related mocks
   def createMockEntity() = mock[LFQuizQuestionCategory]
   def mockEntityProperties(mockEntity: LFQuizQuestionCategory) {
@@ -42,7 +41,7 @@ object QuizQuestionCategoryMockEntityContainer extends QuizQuestionCategoryMockI
 
   mockLocalService.findByQuizIdAndParentId(any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any) = paramsRaw match {
-      case Array(a, b)  => (a, b)
+      case Array(a, b) => (a, b)
     }
 
     val quizId = unwrapNullableInteger(paramsTuple._1)

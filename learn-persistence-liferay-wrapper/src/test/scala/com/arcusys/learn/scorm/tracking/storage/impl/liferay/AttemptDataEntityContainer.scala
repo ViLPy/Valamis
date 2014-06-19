@@ -4,10 +4,9 @@ import com.arcusys.learn.persistence.liferay.service.LFAttemptDataLocalService
 import com.arcusys.learn.persistence.liferay.model.LFAttemptData
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
-import org.mockito.Matchers.{eq => eqMatcher}
+import org.mockito.Matchers.{ eq => eqMatcher }
 
 import scala.collection.JavaConverters._
-
 
 object AttemptDataEntityContainer extends MockEntityContainer[LFAttemptDataLocalService, LFAttemptData] {
   lazy val mockServiceBeanName = classOf[LFAttemptDataLocalService].getName
@@ -40,64 +39,68 @@ object AttemptDataEntityContainer extends MockEntityContainer[LFAttemptDataLocal
   def getIdFunction = _.getId
 
   mockLocalService.findByAttemptIDWithActivityID(anyInt, anyString) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any) = paramsRaw match {
-        case Array(a, b) => (a, b)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any) = paramsRaw match {
+          case Array(a, b) => (a, b)
+        }
+
+        val attemptID = paramsTuple._1.asInstanceOf[Int]
+        val activityID = paramsTuple._2.asInstanceOf[String]
+
+        internalStorage.values.filter(entity => {
+          entity.getAttemptID == attemptID && entity.getActivityID == activityID
+        }).toList.asJava
       }
-
-      val attemptID = paramsTuple._1.asInstanceOf[Int]
-      val activityID = paramsTuple._2.asInstanceOf[String]
-
-      internalStorage.values.filter(entity => {
-        entity.getAttemptID == attemptID && entity.getActivityID == activityID
-      }).toList.asJava
-    }
   }
 
   mockLocalService.findByAttemptIDWithDataKey(anyInt, anyString) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any) = paramsRaw match {
-        case Array(a, b) => (a, b)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any) = paramsRaw match {
+          case Array(a, b) => (a, b)
+        }
+
+        val attemptID = paramsTuple._1.asInstanceOf[Int]
+        val dataKey = paramsTuple._2.asInstanceOf[String]
+
+        internalStorage.values.filter(entity => {
+          entity.getAttemptID == attemptID && entity.getDataKey == dataKey
+        }).toList.asJava
       }
-
-      val attemptID = paramsTuple._1.asInstanceOf[Int]
-      val dataKey = paramsTuple._2.asInstanceOf[String]
-
-      internalStorage.values.filter(entity => {
-        entity.getAttemptID == attemptID && entity.getDataKey == dataKey
-      }).toList.asJava
-    }
   }
 
   mockLocalService.findBySingleKey(anyInt, anyString, anyString, eqMatcher(0), eqMatcher(1)) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any, Any) = paramsRaw match {
-        case Array(a, b, c, d, e) => (a, b, c)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any, Any) = paramsRaw match {
+          case Array(a, b, c, d, e) => (a, b, c)
+        }
+
+        val attemptID = paramsTuple._1.asInstanceOf[Int]
+        val activityID = paramsTuple._2.asInstanceOf[String]
+        val dataKey = paramsTuple._3.asInstanceOf[String]
+
+        internalStorage.values.find(entity => {
+          entity.getAttemptID == attemptID && entity.getActivityID == activityID && entity.getDataKey == dataKey
+        }).toList.asJava
       }
-
-      val attemptID = paramsTuple._1.asInstanceOf[Int]
-      val activityID = paramsTuple._2.asInstanceOf[String]
-      val dataKey = paramsTuple._3.asInstanceOf[String]
-
-      internalStorage.values.find(entity => {
-        entity.getAttemptID == attemptID && entity.getActivityID == activityID && entity.getDataKey == dataKey
-      }).toList.asJava
-    }
   }
 
   mockLocalService.findByCollectionValues(anyInt, anyString, anyString) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any, Any) = paramsRaw match {
-        case Array(a, b, c) => (a, b, c)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any, Any) = paramsRaw match {
+          case Array(a, b, c) => (a, b, c)
+        }
+
+        val attemptID = paramsTuple._1.asInstanceOf[Int]
+        val activityID = paramsTuple._2.asInstanceOf[String]
+        val dataKey = paramsTuple._3.asInstanceOf[String].replaceFirst("%", "")
+
+        internalStorage.values.filter(entity => {
+          entity.getAttemptID == attemptID && entity.getActivityID == activityID && entity.getDataKey.startsWith(dataKey)
+        }).toList.asJava
       }
-
-      val attemptID = paramsTuple._1.asInstanceOf[Int]
-      val activityID = paramsTuple._2.asInstanceOf[String]
-      val dataKey = paramsTuple._3.asInstanceOf[String].replaceFirst("%","")
-
-      internalStorage.values.filter(entity => {
-        entity.getAttemptID == attemptID && entity.getActivityID == activityID && entity.getDataKey.startsWith(dataKey)
-      }).toList.asJava
-    }
   }
 }

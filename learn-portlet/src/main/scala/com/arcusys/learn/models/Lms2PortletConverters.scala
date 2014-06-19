@@ -2,7 +2,7 @@ package com.arcusys.learn.models
 
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.scorm.lms.models
-import com.arcusys.scorm.lms.models.{AchievementRequiredActivityModel, ActivityModelBL}
+import com.arcusys.scorm.lms.models.{ AchievementRequiredActivityModel, ActivityModelBL }
 
 object Lms2PortletConverters {
   implicit def toUserModel(user: LUser): UserModel = {
@@ -16,12 +16,11 @@ object Lms2PortletConverters {
 
   implicit def toUserModels(users: List[LUser]): List[UserModel] =
     for (user <- users)
-    yield user:UserModel
-
+      yield user: UserModel
 
   implicit def toAchievementModels(achievements: List[models.AchievementModelBL]): List[AchievementModel] =
     for (achievement <- achievements)
-    yield achievement:AchievementModel
+      yield achievement: AchievementModel
 
   implicit def toAchievementModel(achievement: models.AchievementModelBL): AchievementModel =
     AchievementModel(
@@ -31,7 +30,7 @@ object Lms2PortletConverters {
       achievement.logo,
       achievement.startDate,
       achievement.completed,
-      achievement.activities.map(a => a:AchievementActivityModel),
+      achievement.activities.map(a => a: AchievementActivityModel),
       achievement.users
     )
 
@@ -46,6 +45,6 @@ object Lms2PortletConverters {
       achActivity.requiredCount)
 
   implicit def toAchievementActivityModels(achActivities: List[AchievementRequiredActivityModel]): List[AchievementActivityModel] =
-    for(achievementRequiredActivity <- achActivities)
-    yield achievementRequiredActivity: AchievementActivityModel
+    for (achievementRequiredActivity <- achActivities)
+      yield achievementRequiredActivity: AchievementActivityModel
 }

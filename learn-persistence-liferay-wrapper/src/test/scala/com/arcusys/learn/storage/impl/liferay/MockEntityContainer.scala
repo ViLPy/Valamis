@@ -4,9 +4,10 @@ import org.specs2.mock.Mockito
 import com.arcusys.learn.persistence.liferay.service.ClpSerializer
 import collection.mutable
 import java.util.concurrent.ConcurrentHashMap
+import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
-import java.util.{List => JavaList}
-import java.lang.{Integer => JavaInteger}
+import java.util.{ List => JavaList }
+import java.lang.{ Integer => JavaInteger }
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.util.PortletBeanLocatorUtilHelper
 
@@ -44,7 +45,7 @@ trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mo
   createFunction(mockLocalService) answers {
     mockService =>
       val mockEntity: B = createMockEntity()
-      val id: Long = IDGenService.getNextID//util.Random.nextInt()
+      val id: Long = IDGenService.getNextID //util.Random.nextInt()
 
       getIdFunction(mockEntity) returns id
 
@@ -66,7 +67,7 @@ trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mo
     (service, params) => internalStorage.values.toList.asJava
   }
 
-  removeAllFunction(mockLocalService) answers {service => internalStorage.clear()}
+  removeAllFunction(mockLocalService) answers { service => internalStorage.clear() }
 
   def mockLocalService: A
   def mockServiceBeanName: String
@@ -98,7 +99,7 @@ trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mo
 
   def internalStorage: mutable.ConcurrentMap[Long, B] = {
     if (_internalStorage.get == null) {
-      _internalStorage.set(new ConcurrentHashMap[Long, B].asScala)
+      _internalStorage.set(new ConcurrentHashMap[Long, B])
     }
     _internalStorage.get
   }
@@ -169,44 +170,44 @@ trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mo
 
   // useful functions
   def unwrapString(valueRaw: Any): String = valueRaw match {
-    case x: String => x
+    case x: String   => x
     case Array(null) => null
-    case Array(x) => x.toString
-    case _ => null
+    case Array(x)    => x.toString
+    case _           => null
   }
 
   def unwrapNullableInteger(valueRaw: Any): java.lang.Integer = valueRaw match {
     case x: java.lang.Integer => x
-    case Array(x) => x.asInstanceOf[java.lang.Integer]
-    case null => null
+    case Array(x)             => x.asInstanceOf[java.lang.Integer]
+    case null                 => null
   }
 
   def unwrapArrayInteger(valueRaw: Any): Array[JavaInteger] = valueRaw match {
     case x: Array[JavaInteger] => x
-    case Array(x: Array[_]) => x.asInstanceOf[Array[JavaInteger]]
-    case null => null
+    case Array(x: Array[_])    => x.asInstanceOf[Array[JavaInteger]]
+    case null                  => null
   }
 
   def unwrapLong(valueRaw: Any): Long = valueRaw match {
-    case x: Long => x
+    case x: Long        => x
     case Array(x: Long) => x
-    case Array(null) => null.asInstanceOf[Long]
+    case Array(null)    => null.asInstanceOf[Long]
   }
 
   def unwrapBoolean(valueRaw: Any) = valueRaw match {
-    case x: Boolean => x
+    case x: Boolean        => x
     case Array(x: Boolean) => x
   }
 
   def unwrapDouble(valueRaw: Any): java.lang.Double = valueRaw match {
-    case x: Double => x
+    case x: Double        => x
     case Array(x: Double) => x
-    case _ => null
+    case _                => null
   }
 
   def unwrapBigDecimal(valueRaw: Any): java.math.BigDecimal = valueRaw match {
-    case x: java.math.BigDecimal => x
+    case x: java.math.BigDecimal        => x
     case Array(x: java.math.BigDecimal) => x
-    case _ => null
+    case _                              => null
   }
 }

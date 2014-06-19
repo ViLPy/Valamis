@@ -21,7 +21,7 @@ object PackageScopeRuleEntityContainer extends MockEntityContainer[LFPackageScop
   def deleteFunction = _.deleteLFPackageScopeRule(_)
   def updateFunction = _.updateLFPackageScopeRule(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFPackageScopeRules(_,_)
+  def getAllFunction = _.getLFPackageScopeRules(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
@@ -35,32 +35,38 @@ object PackageScopeRuleEntityContainer extends MockEntityContainer[LFPackageScop
   }
   def getIdFunction = _.getId
 
-  mockLocalService.findByPackageID(any) answers {id=>
-    /*val result = */filterByPackageID(id).asJava
+  mockLocalService.findByPackageID(any) answers { id =>
+    /*val result = */ filterByPackageID(id).asJava
     //if (result.isEmpty) Seq().asJava else result.asJava
   }
 
-  mockLocalService.fetchByPackageIDAndScope(any,any,any) answers{ (paramsRaw, mockService) =>{
-    getByPackageIDAndScope(paramsRaw, mockService)
-  }}
-  mockLocalService.findByPackageIDAndScope(any,any,any) answers{ (paramsRaw, mockService) =>{
-    getByPackageIDAndScope(paramsRaw, mockService)
-  }}
-
-  mockLocalService.findByScope(any, any) answers {  (paramsRaw, mockService) =>{
-    val paramsTuple: (Any, Any) = paramsRaw match {
-      case Array(a, b) => (a, b)
+  mockLocalService.fetchByPackageIDAndScope(any, any, any) answers { (paramsRaw, mockService) =>
+    {
+      getByPackageIDAndScope(paramsRaw, mockService)
     }
-    val scope = paramsTuple._1 match { case x: String => x }
-    val scopeID = paramsTuple._2 match {
-      case x: String => x
-      case null => null
+  }
+  mockLocalService.findByPackageIDAndScope(any, any, any) answers { (paramsRaw, mockService) =>
+    {
+      getByPackageIDAndScope(paramsRaw, mockService)
     }
+  }
 
-    internalStorage.values.filter(entity => entity.getScope == scope && entity.getScopeID == scopeID).toList.asJava
-  }}
+  mockLocalService.findByScope(any, any) answers { (paramsRaw, mockService) =>
+    {
+      val paramsTuple: (Any, Any) = paramsRaw match {
+        case Array(a, b) => (a, b)
+      }
+      val scope = paramsTuple._1 match { case x: String => x }
+      val scopeID = paramsTuple._2 match {
+        case x: String => x
+        case null      => null
+      }
 
-  def getByPackageIDAndScope(paramsRaw: Any, mockService: Any)={
+      internalStorage.values.filter(entity => entity.getScope == scope && entity.getScopeID == scopeID).toList.asJava
+    }
+  }
+
+  def getByPackageIDAndScope(paramsRaw: Any, mockService: Any) = {
     val paramsTuple: (Any, Any, Any) = paramsRaw match {
       case Array(a, b, c) if a.isInstanceOf[Int] && b.isInstanceOf[String] => (a, b, c)
     }
@@ -68,14 +74,14 @@ object PackageScopeRuleEntityContainer extends MockEntityContainer[LFPackageScop
     val scope = paramsTuple._2 match { case x: String => x }
     val scopeID = paramsTuple._3 match {
       case x: String => x
-      case null => null
+      case null      => null
     }
 
     val result = internalStorage.values.filter(entity => entity.getPackageID == packageID && entity.getScope == scope && entity.getScopeID == scopeID).headOption
     if (result.isEmpty) null else result.get
   }
 
-  mockLocalService.findByAllByPackageIDAndScope(any,any,any) answers { (paramsRaw, mockService) =>
+  mockLocalService.findByAllByPackageIDAndScope(any, any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any, Any) = paramsRaw match {
       case Array(a, b, c) => (a, b, c)
     }
@@ -83,20 +89,20 @@ object PackageScopeRuleEntityContainer extends MockEntityContainer[LFPackageScop
     val scope = paramsTuple._2.toString
     val scopeID = paramsTuple._3 match {
       case x: String => x
-      case null => null
+      case null      => null
     }
 
     internalStorage.values.filter(entity => entity.getPackageID == packageID && entity.getScope == scope && entity.getScopeID == scopeID).toList.asJava
   }
 
-  mockLocalService.findByVisibility(any,any,any) answers { (paramsRaw, mockService) =>
+  mockLocalService.findByVisibility(any, any, any) answers { (paramsRaw, mockService) =>
     val paramsTuple: (Any, Any, Any) = paramsRaw match {
       case Array(a, b, c) => (a, b, c)
     }
     val scope = paramsTuple._1.toString
     val scopeID = paramsTuple._2 match {
       case x: String => x
-      case null => null
+      case null      => null
     }
     val visibility = paramsTuple._3.asInstanceOf[Boolean]
 

@@ -1,7 +1,7 @@
 package com.arcusys.learn.filestorage.storage.impl
 
 import com.arcusys.learn.filestorage.storage.FileStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.storage.impl.EntityStorageExt
 import com.arcusys.learn.scorm.tracking.model.FileRecord
 
 /**
@@ -29,6 +29,5 @@ trait FileRecordEntityStorage extends FileStorage with EntityStorageExt[FileReco
     else delete("filename" -> stripSlashes(filename))
   }
 
-
-  private def stripSlashes(filename: String) = """/{2,}""".r replaceAllIn(filename, "/")
+  private def stripSlashes(filename: String) = """/{2,}""".r replaceAllIn (filename, "/")
 }

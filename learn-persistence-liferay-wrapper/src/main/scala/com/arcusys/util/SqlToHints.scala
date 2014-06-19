@@ -1,11 +1,11 @@
 package com.arcusys.util
 
 import com.codecommit.antixml._
-import java.io.{StringWriter, StringReader, FileOutputStream, File}
+import java.io.{ StringWriter, StringReader, FileOutputStream, File }
 import scala.collection.mutable
 import java.util.Scanner
-import javax.xml.transform.stream.{StreamResult, StreamSource}
-import javax.xml.transform.{OutputKeys, TransformerFactory}
+import javax.xml.transform.stream.{ StreamResult, StreamSource }
+import javax.xml.transform.{ OutputKeys, TransformerFactory }
 
 object SqlToHints extends App {
   println("1. Reading portlet-model-hints.xml ...")
@@ -17,7 +17,7 @@ object SqlToHints extends App {
   val scripts: Seq[String] = files.map(readFile(_)).toSeq
 
   println("3. Extracting data from sql scripts ...")
-  val models = scripts.map {script =>
+  val models = scripts.map { script =>
     Model.construct(script.lines.toList)
   }
 
@@ -42,12 +42,10 @@ object SqlToHints extends App {
       val contentsInBytes = prettyFormat(data).getBytes
       os.write(contentsInBytes)
       os.flush()
-    }
-    catch {
+    } catch {
       case e: Exception => println("Cannot write hints\n" + e.getMessage)
-    }
-    finally {
-      if(os != null) os.close()
+    } finally {
+      if (os != null) os.close()
     }
   }
 
@@ -76,15 +74,13 @@ object SqlToHints extends App {
 
     val directory = try {
       Some(new File(path))
-    }
-    catch {
+    } catch {
       case _: Exception => None
     }
 
     if (directory.isDefined && directory.get.exists()) {
-       recursiveLookup(directory.get).filter(_.contains("_renew")).map(f => f.replace("sql/", (path + "/"))).toList
-    }
-    else {
+      recursiveLookup(directory.get).filter(_.contains("_renew")).map(f => f.replace("sql/", (path + "/"))).toList
+    } else {
       Nil
     }
 
@@ -97,12 +93,11 @@ object SqlToHints extends App {
     val lineSeparator = System.getProperty("line.separator")
 
     try {
-      while(scanner.hasNextLine) {
+      while (scanner.hasNextLine) {
         fileContents.append(scanner.nextLine() + lineSeparator)
       }
       fileContents.toString()
-    }
-    finally scanner.close()
+    } finally scanner.close()
   }
 }
 
@@ -147,18 +142,18 @@ object Model {
     val regexp2 = """(?<=.*\()([0-9]+,[0-9]+)(?=\).*)""".r
 
     lines.filter(line => line.contains("VARCHAR") ||
-                         line.contains("text") ||
-                         line.contains("decimal") ||
-                         line.contains("numeric")).
-    map { line =>
-      val parts = line.trim.split(' ')
-      if(line.contains("VARCHAR"))
-        ModelVariable(parts(0), regexp.findAllIn(parts(1)).toArray.headOption, "VARCHAR")
-      else if (line.contains("text"))
-        ModelVariable(parts(0), regexp2.findAllIn(parts(1)).toArray.headOption, "Text")
-      else
-        ModelVariable(parts(0), regexp2.findAllIn(parts(1)).toArray.headOption, "BigDecimal")
-    }.toSeq
+      line.contains("text") ||
+      line.contains("decimal") ||
+      line.contains("numeric")).
+      map { line =>
+        val parts = line.trim.split(' ')
+        if (line.contains("VARCHAR"))
+          ModelVariable(parts(0), regexp.findAllIn(parts(1)).toArray.headOption, "VARCHAR")
+        else if (line.contains("text"))
+          ModelVariable(parts(0), regexp2.findAllIn(parts(1)).toArray.headOption, "Text")
+        else
+          ModelVariable(parts(0), regexp2.findAllIn(parts(1)).toArray.headOption, "BigDecimal")
+      }.toSeq
   }
 }
 
@@ -171,12 +166,12 @@ object XmlHelper {
     println(xmlHintCollections)
 
     val updatedModels = xmlModels.map { elem =>
-      val name = elem.attrs(QName(None,"name"))
+      val name = elem.attrs(QName(None, "name"))
       val model = getModelByName(name, models)
 
       if (model.isDefined) {
         val fields = getUpdatedFields(elem, model.get)
-        elem.toZipper.updated(0, elem.copy(children = Group(fields:_*)))
+        elem.toZipper.updated(0, elem.copy(children = Group(fields: _*)))
       } else {
         elem
       }
@@ -184,33 +179,33 @@ object XmlHelper {
 
     val modelNodes = updatedModels.map {
       case zipper: Zipper[Elem] => zipper.toGroup.head.asInstanceOf[Node]
-      case elem: Elem => elem.asInstanceOf[Node]
+      case elem: Elem           => elem.asInstanceOf[Node]
     }.toList
 
     val hintCollectionNodes = xmlHintCollections.map {
       case zipper: Zipper[Elem] => zipper.toGroup.head.asInstanceOf[Node]
-      case elem: Elem => elem.asInstanceOf[Node]
+      case elem: Elem           => elem.asInstanceOf[Node]
     }.toList
 
-    xmlHints.toZipper.updated(0, xmlHints.copy(children = Group(hintCollectionNodes ++ modelNodes:_*)))
+    xmlHints.toZipper.updated(0, xmlHints.copy(children = Group(hintCollectionNodes ++ modelNodes: _*)))
   }
 
   def getXmlHint(variable: ModelVariable, vType: String): Elem =
-    if(vType == "VARCHAR")
-      <field name={variable.name} type="String">
-        <hint name="max-length">{variable.value.get}</hint>
+    if (vType == "VARCHAR")
+      <field name={ variable.name } type="String">
+        <hint name="max-length">{ variable.value.get }</hint>
       </field>.convert
     else if (vType == "Text")
-      <field name={variable.name} type="String">
+      <field name={ variable.name } type="String">
         <hint name="max-length">2000000</hint>
       </field>.convert
     else
-      <field name={variable.name} type="BigDecimal">
-        <hint name="precision-scale">{"(" + variable.value.get + ")"}</hint>
+      <field name={ variable.name } type="BigDecimal">
+        <hint name="precision-scale">{ "(" + variable.value.get + ")" }</hint>
       </field>.convert
 
   def getModelByName(attrName: String, models: Seq[Model]): Option[Model] = {
-    val trimmedName = attrName.split('.').last.replace("LF","")
+    val trimmedName = attrName.split('.').last.replace("LF", "")
     models.find(m => trimmedName.contains(m.name) && (trimmedName.size < (m.name.size + 4)))
   }
 
@@ -224,7 +219,7 @@ object XmlHelper {
       val variable = model.variables.find(_.name.toLowerCase == name.toLowerCase)
 
       if (variable.isDefined &&
-          isHintable(fieldType, variable.get.vType))
+        isHintable(fieldType, variable.get.vType))
         replaces += getXmlHint(variable.get, variable.get.vType)
       else
         replaces += field
@@ -234,8 +229,8 @@ object XmlHelper {
 
   private def isHintable(fieldType: String, varType: String) = {
     if (fieldType == "string" && varType == "VARCHAR") true
-    else if(fieldType == "string" && varType == "Text") true
-    else if(fieldType =="bigdecimal" && varType == "BigDecimal") true
+    else if (fieldType == "string" && varType == "Text") true
+    else if (fieldType == "bigdecimal" && varType == "BigDecimal") true
     else false
   }
 }

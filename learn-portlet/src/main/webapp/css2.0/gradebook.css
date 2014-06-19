@@ -1,0 +1,451 @@
+body {
+    background: #f2f2f2;
+}
+
+.bbm-modal {
+    width: 90% !important;
+}
+
+.bbm-modal.edit-grade {
+    width: 50% !important;
+}
+
+.bbm-modal.review {
+    width: 70% !important;
+}
+
+.simple-description {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+
+}
+
+.modals-container > .bbm-wrapper > .bbm-modal {
+    overflow: hidden;
+}
+
+.filter-toggler {
+    width: 43px;
+    height: 38px;
+    margin-left: 15px !important;
+}
+
+.portlet-learn-scorm input[type="text"] {
+    height: auto;
+    width: 90%;
+}
+
+.portlet-learn-scorm select {
+    height: 34px;
+    width: 100%;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+    min-height: 400px;
+    position: relative;
+}
+
+.text-input {
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    line-height: 20px !important;
+    height: 36px !important;
+}
+
+/* ------------ Gradebook Filter  ----------------*/
+.multiselect-container {
+    border: 2px solid #ccc;
+    background-color: #ffffff;
+    width: 90%;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.checkbox-group {
+    margin-left: 5px !important;
+}
+
+/* ------------ Gradebook Table  ----------------*/
+
+.student-click {
+    cursor: pointer;
+}
+
+.table-fixed-column {
+    overflow-x: scroll;
+    overflow-y: auto;
+    width: 250px;
+    margin-left: 120px;
+    /*margin-top: 30px;*/
+}
+
+td, th {
+    padding: 5px 20px;
+    width: 100px;
+}
+
+th:first-child,
+td:first-child {
+    /*position: absolute;*/
+    left: 5px
+}
+
+/* ------------ Gradebook Student View  ----------------*/
+
+.student-view-dialog {
+    padding: 0px !important;
+
+}
+
+div.student-info-panel {
+    margin-left: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 0;
+    background: #f2f2f2;
+    position: relative;
+    overflow-y: auto;
+    z-index: 1;
+    transition: all 0.4s linear 0s;
+    border-right: 0;
+}
+
+div.student-grades-panel {
+    width: 100%;
+    /*margin-bottom: 20px;*/
+    max-height: 800px;
+    overflow-y: scroll;
+    overflow-style: scrollbar;
+}
+
+.header-view {
+    background: #e4e4e4 url(../images/table-header-bg.jpg) repeat-x top left;
+    color: #777777;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: left;
+    line-height: 20px;
+}
+
+.student-info {
+    display: block;
+    margin: 10px;
+
+}
+
+.student-name-label {
+
+}
+
+.student-info-label {
+    margin-top: 10px;
+    color: #777777;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.address-icon {
+    background-image: url(../images/location.png);
+    /*background-position: right center;*/
+    width: 16px;
+    height: 20px;
+    display: inline-block !important;
+    margin-right: 10px;
+}
+
+.org-icon {
+    background-image: url(../images/organization.png);
+    /*background-position: left center;*/
+    width: 16px;
+    height: 16px;
+    display: inline-block !important;
+    margin-right: 10px;
+}
+
+/* ------------ Gradebook Student View Table  ----------------*/
+
+tr.table-row {
+
+}
+
+tr.expand {
+
+}
+
+.expand > .expand-col > .expand-icon {
+    background-image: url(../images/icon-expand.png);
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    display: inline-block !important;
+    margin-left: 11px;
+    margin-right: -15px;
+    padding: 6px 15px 3px 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    float: left;
+}
+
+.expand-text {
+    margin-left: 20px;
+}
+
+.expand > .expand-col > .expand-text {
+    margin-left: 40px;
+}
+
+.collapse > .expand-col > .expand-text {
+    margin-left: 40px;
+}
+
+tr.collapse {
+
+}
+
+tr.collapse > .expand-col > .expand-icon {
+    background-image: url(../images/icon-collapse.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 4px;
+    cursor: pointer;
+    display: inline-block !important;
+    margin-left: 11px;
+    margin-right: -15px;
+    padding: 17px 15px 3px 5px;
+    float: left;
+}
+
+tr.expand-child td.expand-col {
+    padding-left: 24px;
+}
+
+tr.expand-child-child td.expand-col {
+    padding-left: 48px;
+}
+
+tr.expand-child-child {
+    color: #777777;
+}
+
+tr.total-row {
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.statementTable td{
+    background: #ffffff!important;
+}
+
+.verb{
+    font-weight: bold;
+}
+
+.obj{
+    color: #222222;
+}
+
+/*tr.collapsed > td.expanded-child{*/
+/*visibility: hidden;*/
+/*}*/
+
+/* ------------ Gradebook Student Review   ----------------*/
+.package-info-label {
+    margin-top: 10px;
+    color: #777777;
+    display: block;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+
+.package-name-label {
+
+}
+
+.package-info {
+    display: block;
+    margin: 10px;
+
+}
+
+.attemptSelector {
+    display: inline-block;
+}
+
+.prev-next {
+    float: none !important;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#attemptChoice {
+    height: 34px;
+}
+
+/* ------------ Responsive  ----------------*/
+
+/**
+* Tablet
+*/
+@media (min-width: 767px) and (max-width: 1199px) {
+
+    #GradeTable td:nth-child(2),
+    #GradeTable th:nth-child(2) {
+        display: none;
+    }
+}
+
+/**
+* Mobile
+*/
+@media (max-width: 767px) {
+
+    #GradeTable td:nth-child(2),
+    #GradeTable th:nth-child(2),
+    #GradeTable td:nth-child(3),
+    #GradeTable th:nth-child(3) {
+        display: none;
+    }
+
+    .show-mode-group{
+        display: none;
+    }
+}
+
+
+
+
+/**
+* Table with fixed column
+*/
+.scroll-table {
+    width: 100%;
+    overflow: scroll;
+    /*height: 300px;*/
+    /*position: relative;*/
+}
+
+.noscroll-table {
+    overflow: hidden;
+    /*display: inline;*/
+    /*height: 300px;*/
+    /*position: relative;*/
+}
+
+.detailed-row-header{
+    color: #777777;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: left;
+    line-height: 20px;
+    padding: 10px 20px!important;
+}
+
+.detailed-column-total-grade-header{
+    font-weight: 600!important;
+}
+
+.DTFC_LeftBodyWrapper table thead tr th,
+.dataTables_scrollBody table thead tr th{
+    display: none;
+}
+
+.dataTable{
+    margin-bottom: 0px!important;
+}
+
+
+
+
+/*
+* Student view package table content
+*/
+
+.Grid {
+    display: block;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.Grid-cell {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+    width: 100%;
+}
+
+.u-mb10 {
+    margin-bottom: 10px!important;
+}
+
+.StreamItem {
+    position: relative;
+}
+
+.ProfileTweet {
+    background-color: #FFF;
+    border: 1px solid #d8e2e8;
+    border-radius: 6px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.375em;
+    padding: 13px 15px 15px;
+    margin-left: 15px;
+}
+
+.u-textBreak {
+    word-wrap: break-word!important;
+}
+
+.ProfileTweet-header {
+    margin: 0 0 10px;
+    transition: color .15s;
+}
+.u-textMute {
+    color: #8899a6;
+}
+
+.ProfileTweet--high .ProfileTweet-text {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 34px;
+}
+.u-dir[dir="ltr"] {
+    direction: ltr!important;
+    text-align: left!important;
+    unicode-bidi: embed;
+}
+.ProfileTweet-text {
+    color: #292f33;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+/*blockquote, dl, dd, h1, h2, h3, h4, h5, h6, figure, p, pre {*/
+    /*margin: 0;*/
+/*}*/
+
+.ProfileTweet-actionList {
+    margin-top: 5px;
+}
+/*ol, ul {*/
+    /*margin: 0;*/
+    /*list-style: none;*/
+    /*padding: 0;*/
+/*}*/

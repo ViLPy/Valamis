@@ -4,7 +4,7 @@ import com.arcusys.learn.scorm.tracking.states.storage.ObjectiveStateStorage
 import com.arcusys.learn.scorm.manifest.sequencing.storage.ObjectiveMapStorage
 import com.arcusys.learn.scorm.tracking.model.ObjectiveState
 import com.arcusys.learn.scorm.manifest.model.ObjectiveMap
-import com.arcusys.learn.storage.impl.{EntityStorageExt, EntityStorage}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 
 trait ObjectiveStateFieldsMapper {
   def mapKey: Option[String]
@@ -26,7 +26,7 @@ trait ObjectiveStateCreator {
       mapper.normalizedMeasure,
       objectiveID match {
         case Some(id) => objectiveMapStorage.get(id).getOrElse(ObjectiveMap.Empty)
-        case _ => ObjectiveMap.Empty
+        case _        => ObjectiveMap.Empty
       }
     ))
   }

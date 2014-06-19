@@ -257,4 +257,14 @@ public interface LFTincanLrsStatementLocalService extends BaseLocalService,
         java.lang.String tincanID)
         throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
             com.liferay.portal.kernel.exception.SystemException;
+
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatement> findBy(
+        java.lang.String statementID, java.lang.String voidedStatementID,
+        java.lang.Integer actorID, java.lang.String verbID,
+        java.lang.Integer objID, java.lang.String registration,
+        java.util.Date since, java.util.Date until,
+        java.lang.Boolean related_activities, java.lang.Boolean related_agents,
+        java.lang.Boolean ascending, java.lang.Integer limit)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException,
+            com.liferay.portal.kernel.exception.SystemException;
 }

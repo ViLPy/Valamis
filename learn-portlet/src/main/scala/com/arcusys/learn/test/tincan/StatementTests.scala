@@ -1,19 +1,12 @@
 package com.arcusys.learn.test.tincan
 
-import com.arcusys.learn.tincan.lrs.statement._
-import java.util.{Calendar, Date, UUID}
-import java.net.URI
 import java.io.PrintWriter
+import java.net.URI
+import java.util.{ Calendar, Date, UUID }
+
+import com.arcusys.learn.tincan.lrs.statement._
 import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.tincan.lrs.statement.StatementFilter
-import scala.Some
-import com.arcusys.learn.tincan.lrs.statement.StatementLRSException
-import com.arcusys.learn.tincan.lrs.statement.StatementLRSAlreadyExistsException
-import com.arcusys.learn.tincan.model.Activity
-import com.arcusys.learn.tincan.model.Statement
-import com.arcusys.learn.tincan.model.Agent
-import com.arcusys.learn.tincan.model.Verb
-import com.arcusys.learn.tincan.lrs.statement.StatementLRSArgumentException
+import com.arcusys.learn.tincan.storage.TincanActivityStorage
 
 class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
@@ -32,9 +25,9 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
   val statement = Statement(
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"),
-    Agent("Agent", Some("agent1"), None, None, None, None),
+    Agent("Agent", Some("agent1"), Option("mailto:test@test.com"), None, None, None),
     Verb("verbId", Map.empty[String, String]),
-    new Agent("Agent", Some("agent1"), None, None, None, None),
+    new Agent("Agent", Some("agent1"), Option("mailto:test@test.com"), None, None, None),
     None,
     None,
     Some(new Date()),
@@ -48,7 +41,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc1111"),
     Agent("Agent", Some("agent_test1"), Some("mailto:test@test.com"), None, None, None),
     Verb("verbId_test1", Map.empty[String, String]),
-    new Activity("Activity", "activityId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
+    new Activity("Activity", "activityId", Option(Map("en" -> "Test Activity")), None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
     None,
     None,
     Some(future),
@@ -60,20 +53,20 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
   val statementWithSubStatement = Statement(
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc3123"),
-    Agent("Agent", Some("agent1"), None, None, None, None),
+    Agent("Agent", Some("agent1"), Option("mailto:test@test.com"), None, None, None),
     Verb("verbId_test1", Map.empty[String, String]),
     new SubStatement(
-      Agent("Agent", Some("agent_sub"), None, None, None, None),
+      Agent("Agent", Some("agent_sub"), Option("mailto:test@test.com"), None, None, None),
       Verb("verbId_test1", Map.empty[String, String]),
       new Activity("Activity", "activitySubId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
       "SubStatement", None),
     None,
     Some(new Context(Some(UUID.fromString("fdf01666-25c0-4c15-b481-74ba0fbc3123")),
-      Some(Agent("Agent", Some("agent_instructor"), None, None, None, None)),
+      Some(Agent("Agent", Some("agent_instructor"), Option("mailto:test@test.com"), None, None, None)),
       Some(new Group("Group", Some("Team1"),
-        Some(Seq(Agent("Agent", Some("agent_team"), None, None, None, None))),
+        Some(Seq(Agent("Agent", Some("agent_team"), Option("mailto:test@test.com"), None, None, None))),
         None, None, None, None)),
-      new ContextActivities(Set(), Set(), Set(), Set(), None), None, None, None, None, Seq())),
+      Option(new ContextActivities(Set(), Set(), Set(), Set(), None)), None, None, None, None, Seq())),
     Some(future),
     Some(future),
     None,
@@ -83,7 +76,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
   val statement2 = statement.copy(
     id = UUID.fromString("40d10a63-2c37-4071-9595-793af98e89b0"),
-    actor = Agent("Agent", Some("agent2"), None, None, None, None),
+    actor = Agent("Agent", Some("agent2"), Option("mailto:test@test.com"), None, None, None),
     verb = Verb("verbId2", Map.empty[String, String]),
     timestamp = Some(past),
     stored = Some(past)
@@ -108,12 +101,19 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     writer.write("add a statement and return 'StatementAdded' if the statement with given id doesn't exist yet: success <br>")
   }
 
+  def testFindActivity(tincanActivityStorage: TincanActivityStorage) {
+
+    val result = tincanActivityStorage.getByName("Test")
+    if (result.size == 0) throw new Exception()
+
+    writer.write("find tincan activity by name: success <br>")
+  }
+
   def testCreateAlreadyExist() {
     try {
       statementLRS.addStatement(statement)
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSAlreadyExistsException => {
         writer.write("throw 'StatementLRSAlreadyExistsException' if the given statement equals to the existing one with the same id: success <br>")
       }
@@ -123,8 +123,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
       val uuid = UUID.fromString("40d10a63-2c37-4071-9595-793af98e89b0")
       statementLRS.addStatement(statement.copy(id = uuid))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSAlreadyExistsException => {
         writer.write("throw 'StatementLRSAlreadyExistsException' if the given statement differs from the existing one with the same id: success <br>")
       }
@@ -135,8 +134,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     try {
       statementLRS.addStatement(null)
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSArgumentException => {
         writer.write("throw 'StatementLRSArgumentException' if given statement is null: success <br>")
       }
@@ -192,8 +190,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
       reset()
       statementLRS.addStatements(null)
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSArgumentException => {
         writer.write("throw 'StatementLRSArgumentException' if list of given statements is null: success <br>")
       }
@@ -221,8 +218,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     try {
       statementLRS.getStatement(null)
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSArgumentException => {
         writer.write("throw 'StatementLRSArgumentException' if given id is null: success <br>")
       }
@@ -255,7 +251,6 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     val result = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, None, None, None, Some(true))).statements
     if (result.size != 8) throw new Exception()
     if (result.head.stored.get != past) throw new Exception()
-
 
     val result1 = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, None, None, None, None, None, None, None, Some(false))).statements
     if (result1.size != 8) throw new Exception()
@@ -306,16 +301,15 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     result = statementLRS.getStatements(StatementFilter(None, None,
-      Some(Agent("Agent",None,Some("mailto:test@test.com"),None,None,None)),
+      Some(Agent("Agent", None, Some("mailto:test@test.com"), None, None, None)),
       None, None, None, None, None)).statements
-      if (result.size != 1) throw new Exception()
-      if (!result.head.id.equals(statement1.id)) throw new Exception()
+    if (result.size != 1) throw new Exception()
+    if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     result = statementLRS.getStatements(StatementFilter(None, None,
-      Some(Agent("Agent",None,Some("mailto:test1@test.com"),None,None,None)),
+      Some(Agent("Agent", None, Some("mailto:test1@test.com"), None, None, None)),
       None, None, None, None, None)).statements
     if (result.size != 0) throw new Exception()
-
 
     writer.write("get one statement by agent id: success <br>")
   }
@@ -460,8 +454,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some("fdf01fb5-25c0-4c75-b482-74ba0fbc3584"),
         None, None, None, None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if both statementId and voidedStatementId are specified: success <br>")
       }
@@ -475,8 +468,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(Agent("Agent", None, None, None, None, None)),
         None, None, None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and agent: success <br>")
       }
@@ -491,8 +483,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some("verbId1"),
         None, None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and verb id: success <br>")
       }
@@ -507,8 +498,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some("activityId1"),
         None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and activity id: success <br>")
       }
@@ -523,8 +513,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(UUID.randomUUID()),
         None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and registration id: success <br>")
       }
@@ -539,8 +528,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(new Date()),
         None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and date since it is created: success <br>")
       }
@@ -554,8 +542,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         None, None, None, None, None,
         Some(new Date())))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified statement id and date until it is created: success <br>")
       }
@@ -569,8 +556,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(Agent("Agent", None, None, None, None, None)),
         None, None, None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and agent: success <br>")
       }
@@ -585,8 +571,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some("verbId1"),
         None, None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and verb id: success <br>")
       }
@@ -601,8 +586,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some("activityId1"),
         None, None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and activity id: success <br>")
       }
@@ -617,8 +601,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(UUID.randomUUID()),
         None, None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and registration id: success <br>")
       }
@@ -633,8 +616,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         Some(new Date()),
         None))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and date since it is created: success <br>")
       }
@@ -648,14 +630,12 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
         None, None, None, None, None,
         Some(new Date())))
       throw new Exception()
-    }
-    catch {
+    } catch {
       case exception: StatementLRSException => {
         writer.write("throw 'StatementLRSException' if specified voided id and date until it is created: success <br>")
       }
     }
   }
-
 
   def addStatementWithSubStatement() {
     statementLRS.addStatement(statementWithSubStatement)

@@ -1,6 +1,5 @@
 package com.arcusys.learn.tincan.model
 
-
 /**
  * A Statement may represent an Activity as the Object of the Statement.
  * The following table lists the Object properties in this case
@@ -48,7 +47,7 @@ case class Activity(
  */
 case class InteractionComponent(id: String, description: LanguageMap)
 
-case class ActivityReference(id:String, objectType:Option[String])
+case class ActivityReference(id: String, objectType: Option[String])
 
 /**
  * Traditional e-learning has included structures for interactions or assessments.
@@ -66,7 +65,6 @@ case class ContextActivities(
   other: Set[ActivityReference],
   id: Option[Int] = None)
 
-
 object InteractionType extends Enumeration {
   val Choice = Value("choice")
   val Sequencing = Value("sequencing")
@@ -75,6 +73,7 @@ object InteractionType extends Enumeration {
   val Performance = Value("performance")
   val TrueFalse = Value("true-false")
   val FillIn = Value("fill-in")
+  val LongFillIn = Value("long_fill_in")
   val Numeric = Value("numeric")
   val Other = Value("other")
 
@@ -82,5 +81,4 @@ object InteractionType extends Enumeration {
 }
 
 case class ActivityProfile(activityId: String, profileId: String, document: Document)
-
 

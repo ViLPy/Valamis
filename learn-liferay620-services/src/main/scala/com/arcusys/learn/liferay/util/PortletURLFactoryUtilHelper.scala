@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest
 
 object PortletURLFactoryUtilHelper {
   def create(request: HttpServletRequest,
-             portletId: String,
-             plid: Long,
-             lifecycle: String): LiferayPortletURL =
+    portletId: String,
+    plid: Long,
+    lifecycle: String): LiferayPortletURL =
     PortletURLFactoryUtil.create(request: HttpServletRequest, portletId, plid, lifecycle)
 }

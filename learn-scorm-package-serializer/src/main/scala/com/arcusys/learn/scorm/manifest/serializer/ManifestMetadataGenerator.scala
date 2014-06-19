@@ -9,7 +9,7 @@ object ManifestMetadataGenerator {
         ADL SCORM
       </schema>
       <schemaversion>
-        {manifest.scormVersion}
+        { manifest.scormVersion }
       </schemaversion>
     </metadata>
 }

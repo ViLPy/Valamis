@@ -41,32 +41,32 @@ public class LFPackageScopeRuleLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
-    private String _methodName289;
-    private String[] _methodParameterTypes289;
-    private String _methodName290;
-    private String[] _methodParameterTypes290;
-    private String _methodName291;
-    private String[] _methodParameterTypes291;
-    private String _methodName292;
-    private String[] _methodParameterTypes292;
-    private String _methodName293;
-    private String[] _methodParameterTypes293;
-    private String _methodName294;
-    private String[] _methodParameterTypes294;
-    private String _methodName295;
-    private String[] _methodParameterTypes295;
     private String _methodName296;
     private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
+    private String _methodName305;
+    private String[] _methodParameterTypes305;
+    private String _methodName306;
+    private String[] _methodParameterTypes306;
+    private String _methodName307;
+    private String[] _methodParameterTypes307;
+    private String _methodName308;
+    private String[] _methodParameterTypes308;
+    private String _methodName309;
+    private String[] _methodParameterTypes309;
+    private String _methodName310;
+    private String[] _methodParameterTypes310;
+    private String _methodName311;
+    private String[] _methodParameterTypes311;
+    private String _methodName312;
+    private String[] _methodParameterTypes312;
 
     public LFPackageScopeRuleLocalServiceClpInvoker() {
         _methodName0 = "addLFPackageScopeRule";
@@ -151,69 +151,69 @@ public class LFPackageScopeRuleLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "createLFPackageScopeRule";
+        _methodName302 = "createLFPackageScopeRule";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "findByPackageID";
+        _methodName303 = "findByPackageID";
 
-        _methodParameterTypes287 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes303 = new String[] { "java.lang.Integer" };
 
-        _methodName288 = "findByScopeAndIsDefault";
+        _methodName304 = "findByScopeAndIsDefault";
 
-        _methodParameterTypes288 = new String[] {
+        _methodParameterTypes304 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.Boolean"
             };
 
-        _methodName289 = "findByScope";
+        _methodName305 = "findByScope";
 
-        _methodParameterTypes289 = new String[] {
+        _methodParameterTypes305 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
 
-        _methodName290 = "findByPackageIDAndScope";
+        _methodName306 = "findByPackageIDAndScope";
 
-        _methodParameterTypes290 = new String[] {
+        _methodParameterTypes306 = new String[] {
                 "java.lang.Integer", "java.lang.String", "java.lang.String"
             };
 
-        _methodName291 = "fetchByPackageIDAndScope";
+        _methodName307 = "fetchByPackageIDAndScope";
 
-        _methodParameterTypes291 = new String[] {
+        _methodParameterTypes307 = new String[] {
                 "java.lang.Integer", "java.lang.String", "java.lang.String"
             };
 
-        _methodName292 = "findByAllByPackageIDAndScope";
+        _methodName308 = "findByAllByPackageIDAndScope";
 
-        _methodParameterTypes292 = new String[] {
+        _methodParameterTypes308 = new String[] {
                 "java.lang.Integer", "java.lang.String", "java.lang.String"
             };
 
-        _methodName293 = "findByVisibility";
+        _methodName309 = "findByVisibility";
 
-        _methodParameterTypes293 = new String[] {
+        _methodParameterTypes309 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.Boolean"
             };
 
-        _methodName294 = "removeByPackageID";
+        _methodName310 = "removeByPackageID";
 
-        _methodParameterTypes294 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes310 = new String[] { "java.lang.Integer" };
 
-        _methodName295 = "removeAll";
+        _methodName311 = "removeAll";
 
-        _methodParameterTypes295 = new String[] {  };
+        _methodParameterTypes311 = new String[] {  };
 
-        _methodName296 = "getLFPackageScopeRule";
+        _methodName312 = "getLFPackageScopeRule";
 
-        _methodParameterTypes296 = new String[] { "long" };
+        _methodParameterTypes312 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -305,82 +305,82 @@ public class LFPackageScopeRuleLocalServiceClpInvoker {
             return LFPackageScopeRuleLocalServiceUtil.updateLFPackageScopeRule((com.arcusys.learn.persistence.liferay.model.LFPackageScopeRule) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFPackageScopeRuleLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.createLFPackageScopeRule();
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByScopeAndIsDefault((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 (java.lang.Boolean) arguments[2]);
         }
 
-        if (_methodName289.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
+        if (_methodName305.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByScope((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName290.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes290, parameterTypes)) {
+        if (_methodName306.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByPackageIDAndScope((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
-        if (_methodName291.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes291, parameterTypes)) {
+        if (_methodName307.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes307, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.fetchByPackageIDAndScope((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
-        if (_methodName292.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes292, parameterTypes)) {
+        if (_methodName308.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes308, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByAllByPackageIDAndScope((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
-        if (_methodName293.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes293, parameterTypes)) {
+        if (_methodName309.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes309, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.findByVisibility((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 (java.lang.Boolean) arguments[2]);
         }
 
-        if (_methodName294.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes294, parameterTypes)) {
+        if (_methodName310.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes310, parameterTypes)) {
             LFPackageScopeRuleLocalServiceUtil.removeByPackageID((java.lang.Integer) arguments[0]);
 
             return null;
         }
 
-        if (_methodName295.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes295, parameterTypes)) {
+        if (_methodName311.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes311, parameterTypes)) {
             LFPackageScopeRuleLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName312.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes312, parameterTypes)) {
             return LFPackageScopeRuleLocalServiceUtil.getLFPackageScopeRule(((Long) arguments[0]).longValue());
         }
 

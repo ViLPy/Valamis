@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.tracking.model.{ObjectiveState, ActivityState}
+import com.arcusys.learn.scorm.tracking.model.{ ObjectiveState, ActivityState }
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class ExitConditionRuleTest extends ActivityStateTreeTestBase {

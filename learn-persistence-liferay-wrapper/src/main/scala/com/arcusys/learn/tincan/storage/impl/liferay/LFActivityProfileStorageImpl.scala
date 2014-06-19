@@ -1,13 +1,12 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.tincan.model.{Document, OtherContent, JSONContent, ActivityProfile}
+import com.arcusys.learn.tincan.model.{ Document, OtherContent, JSONContent, ActivityProfile }
 import com.arcusys.learn.persistence.liferay.model.LFTincanActProfile
-import com.arcusys.learn.persistence.liferay.service.{LFTincanActProfileLocalServiceUtil, LFTincanLrsDocumentLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFTincanActProfileLocalServiceUtil, LFTincanLrsDocumentLocalServiceUtil }
 import com.arcusys.learn.persistence.liferay.NoSuchLFTincanActProfileException
-import java.util.Date
 import scala.collection.JavaConverters._
-
+import org.joda.time.DateTime
 
 trait LFActivityProfileStorageImpl extends EntityStorage[ActivityProfile] {
 
@@ -18,10 +17,10 @@ trait LFActivityProfileStorageImpl extends EntityStorage[ActivityProfile] {
       entity.getProfileId,
       new Document(
         lfDocument.getDocumentId,
-        lfDocument.getUpdate,
+        new DateTime(lfDocument.getUpdate),
         lfDocument.getContent,
         lfDocument.getContentType match {
-          case "Json" => JSONContent
+          case "Json"  => JSONContent
           case "Other" => OtherContent
         }
       ))
@@ -31,8 +30,8 @@ trait LFActivityProfileStorageImpl extends EntityStorage[ActivityProfile] {
     case Seq(("activityId", activityId: String), ("profileId", profileId: String)) => {
       try {
 
-       val lfActivityProfile = LFTincanActProfileLocalServiceUtil.findByActivityIdAndProfileId(activityId, profileId)
-       Some(mapper(lfActivityProfile))
+        val lfActivityProfile = LFTincanActProfileLocalServiceUtil.findByActivityIdAndProfileId(activityId, profileId)
+        Some(mapper(lfActivityProfile))
 
       } catch {
         case e: NoSuchLFTincanActProfileException => None
@@ -44,9 +43,9 @@ trait LFActivityProfileStorageImpl extends EntityStorage[ActivityProfile] {
     case Seq(("activityId", activityId: String), ("profileId", profileId: String), ("document", document: Document)) => {
       val lfDocument = LFTincanLrsDocumentLocalServiceUtil.createLFTincanLrsDocument(
         document.id,
-        document.updated,
+        document.updated.toDate,
         document.cType match {
-          case JSONContent => "Json"
+          case JSONContent  => "Json"
           case OtherContent => "Other"
         },
         new String(document.contents)
@@ -90,12 +89,12 @@ trait LFActivityProfileStorageImpl extends EntityStorage[ActivityProfile] {
     }
   }
 
-  def getAll(parameters: (String, Any)*): Seq[ActivityProfile] =  parameters match {
-    case Seq(("activityId", activityId: String), ("since", since: Option[Date])) => {
+  def getAll(parameters: (String, Any)*): Seq[ActivityProfile] = parameters match {
+    case Seq(("activityId", activityId: String), ("since", since: Option[DateTime])) => {
       LFTincanActProfileLocalServiceUtil.findByActivityId(activityId).asScala
         .map(mapper)
         .filter(activity =>
-        (!since.isDefined || activity.document.updated.getTime >= since.get.getTime))
+          (!since.isDefined || activity.document.updated.getMillis >= since.get.getMillis))
     }
     case _ => Nil
   }

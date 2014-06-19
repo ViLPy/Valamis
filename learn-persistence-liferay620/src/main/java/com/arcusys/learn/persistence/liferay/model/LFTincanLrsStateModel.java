@@ -103,21 +103,6 @@ public interface LFTincanLrsStateModel extends BaseModel<LFTincanLrsState> {
     public void setActivityId(String activityId);
 
     /**
-     * Returns the profile ID of this l f tincan lrs state.
-     *
-     * @return the profile ID of this l f tincan lrs state
-     */
-    @AutoEscape
-    public String getProfileId();
-
-    /**
-     * Sets the profile ID of this l f tincan lrs state.
-     *
-     * @param profileId the profile ID of this l f tincan lrs state
-     */
-    public void setProfileId(String profileId);
-
-    /**
      * Returns the registration of this l f tincan lrs state.
      *
      * @return the registration of this l f tincan lrs state

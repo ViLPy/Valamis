@@ -9,6 +9,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the LFCertificate service. Represents a row in the &quot;Learn_LFCertificate&quot; database table, with each column mapped to a property of this class.
  *
@@ -158,6 +160,107 @@ public interface LFCertificateModel extends BaseModel<LFCertificate> {
      * @param companyID the company i d of this l f certificate
      */
     public void setCompanyID(Integer companyID);
+
+    /**
+     * Returns the state of this l f certificate.
+     *
+     * @return the state of this l f certificate
+     */
+    @AutoEscape
+    public String getState();
+
+    /**
+     * Sets the state of this l f certificate.
+     *
+     * @param state the state of this l f certificate
+     */
+    public void setState(String state);
+
+    /**
+     * Returns the emails of this l f certificate.
+     *
+     * @return the emails of this l f certificate
+     */
+    @AutoEscape
+    public String getEmails();
+
+    /**
+     * Sets the emails of this l f certificate.
+     *
+     * @param emails the emails of this l f certificate
+     */
+    public void setEmails(String emails);
+
+    /**
+     * Returns the valid period type of this l f certificate.
+     *
+     * @return the valid period type of this l f certificate
+     */
+    @AutoEscape
+    public String getValidPeriodType();
+
+    /**
+     * Sets the valid period type of this l f certificate.
+     *
+     * @param validPeriodType the valid period type of this l f certificate
+     */
+    public void setValidPeriodType(String validPeriodType);
+
+    /**
+     * Returns the valid period of this l f certificate.
+     *
+     * @return the valid period of this l f certificate
+     */
+    public Integer getValidPeriod();
+
+    /**
+     * Sets the valid period of this l f certificate.
+     *
+     * @param validPeriod the valid period of this l f certificate
+     */
+    public void setValidPeriod(Integer validPeriod);
+
+    /**
+     * Returns the created date of this l f certificate.
+     *
+     * @return the created date of this l f certificate
+     */
+    public Date getCreatedDate();
+
+    /**
+     * Sets the created date of this l f certificate.
+     *
+     * @param createdDate the created date of this l f certificate
+     */
+    public void setCreatedDate(Date createdDate);
+
+    /**
+     * Returns the is published of this l f certificate.
+     *
+     * @return the is published of this l f certificate
+     */
+    public Boolean getIsPublished();
+
+    /**
+     * Sets the is published of this l f certificate.
+     *
+     * @param isPublished the is published of this l f certificate
+     */
+    public void setIsPublished(Boolean isPublished);
+
+    /**
+     * Returns the scope of this l f certificate.
+     *
+     * @return the scope of this l f certificate
+     */
+    public Long getScope();
+
+    /**
+     * Sets the scope of this l f certificate.
+     *
+     * @param scope the scope of this l f certificate
+     */
+    public void setScope(Long scope);
 
     @Override
     public boolean isNew();

@@ -1,15 +1,16 @@
 package com.arcusys.learn.settings.model
 
+import com.arcusys.learn.settings.model.SettingType.SettingType
+
 /**
-* A site which is part of certificate
-* @param key             Unique settings key
-* @param value  setting value
-*/
-case class Setting (
+ * A site which is part of certificate
+ * @param key             Unique settings key
+ * @param value  setting value
+ */
+case class Setting(
   id: Int,
   key: SettingType.Value,
-  value: String
-)
+  value: String)
 
 object SettingType extends Enumeration {
   type SettingType = Value
@@ -17,4 +18,9 @@ object SettingType extends Enumeration {
   val IssuerURL = Value("IssuerURL")
   val IssuerOrganization = Value("IssuerOrganization")
   val DBVersion = Value("DBVersion")
+}
+
+object EmptySetting {
+  def apply(settingType: SettingType,
+    defaultValue: String = "") = Setting(0, settingType, defaultValue)
 }

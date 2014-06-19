@@ -5,8 +5,8 @@ import com.arcusys.learn.persistence.liferay.service.LFPackageLocalService
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
 import scala.collection.JavaConverters._
-import java.lang.{Long => JavaLong}
-import java.lang.{Integer => JavaInt}
+import java.lang.{ Long => JavaLong }
+import java.lang.{ Integer => JavaInt }
 
 /**
  * User: Yulia.Glushonkova
@@ -65,8 +65,7 @@ object PackageEntityContainer extends MockEntityContainer[LFPackageLocalService,
 
   def getIdFunction = _.getId
 
-
-/*
+  /*
   mockLocalService.findByPackageIDAndCourseID(any, any) answers {
     (paramsRaw, mockService) =>
       val paramsTuple: (Any, Any) = paramsRaw match {

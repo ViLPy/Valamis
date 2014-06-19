@@ -16,7 +16,8 @@ class ManifestGeneratorTest {
     )
 
     val generated = ManifestGenerator.toXML(doc)
-    val parsedDoc = new ManifestParser(generated, "title", "summary").parse
+    val parser = new ManifestParser(generated, "title", "summary")
+    val parsedDoc = parser.parse
 
     assertEquals(doc.manifest.version, parsedDoc.manifest.version)
     assertEquals(doc.manifest.base, parsedDoc.manifest.base)

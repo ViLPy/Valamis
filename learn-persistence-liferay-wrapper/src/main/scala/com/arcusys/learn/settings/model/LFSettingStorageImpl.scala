@@ -12,14 +12,13 @@ import com.arcusys.learn.persistence.liferay.model.LFConfig
  */
 trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
   protected def doRenew() {
-      LFConfigLocalServiceUtil.removeAll()
+    LFConfigLocalServiceUtil.removeAll()
   }
 
   def extract(entity: LFConfig) = new Setting(
     entity.getId.toInt,
     SettingType.withName(entity.getDataKey),
     entity.getDataValue)
-
 
   def getOne(parameters: (String, Any)*) = {
     parameters match {
@@ -31,7 +30,7 @@ trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
   }
 
   def getAll(parameters: (String, Any)*) = {
-    LFConfigLocalServiceUtil.getLFConfigs(-1,-1).asScala.map(extract)
+    LFConfigLocalServiceUtil.getLFConfigs(-1, -1).asScala.map(extract)
   }
 
   def create(parameters: (String, Any)*) {

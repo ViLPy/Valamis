@@ -1,10 +1,9 @@
 package com.arcusys.learn.questionbank.storage
 
-import com.arcusys.learn.questionbank.model._
+import com.arcusys.learn.questionbank.model.QuestionCategory
 
 /** Question bank question category repository */
-trait QuestionCategoryStorage
-{
+trait QuestionCategoryStorage {
   /** Get all question categories in user-defined order */
   //def getAll: Seq[QuestionCategory]
   def getAllByCourseID(courseID: Option[Int]): Seq[QuestionCategory]
@@ -16,7 +15,7 @@ trait QuestionCategoryStorage
    * Get list of subcategories for given parent category in user-defined order.
    * @param parentID ID of parent category to get subcategories for, or None to get list of root categories
    */
-  def getChildren(parentID: Option[Int], courseID:Option[Int]): Seq[QuestionCategory]
+  def getChildren(parentID: Option[Int], courseID: Option[Int]): Seq[QuestionCategory]
 
   /**
    * Create a new category in storage
@@ -40,8 +39,8 @@ trait QuestionCategoryStorage
    * @param siblingID        ID of category near which the moved category should be placed
    * @param moveAfterSibling True -> place category after the given sibling (after all siblings if siblingID = None), false -> place category before the given sibling (before all siblings if siblingID = None)
    */
-  def move(id: Int, parentID:Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean)
-  
+  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean)
+
   /** Delete a category by ID */
   def delete(id: Int)
   def renew()

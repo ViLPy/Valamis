@@ -88,6 +88,21 @@ public interface LFQuizModel extends BaseModel<LFQuiz> {
     public void setDescription(String description);
 
     /**
+     * Returns the logo of this l f quiz.
+     *
+     * @return the logo of this l f quiz
+     */
+    @AutoEscape
+    public String getLogo();
+
+    /**
+     * Sets the logo of this l f quiz.
+     *
+     * @param logo the logo of this l f quiz
+     */
+    public void setLogo(String logo);
+
+    /**
      * Returns the welcome page content of this l f quiz.
      *
      * @return the welcome page content of this l f quiz

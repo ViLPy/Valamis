@@ -1,20 +1,18 @@
 package com.arcusys.learn.view
 
-import scala.collection.JavaConversions._
 import javax.portlet.GenericPortlet
 import javax.portlet.PortletContext
 import javax.servlet.ServletContext
 import org.scalatra._
-import java.util.Properties
-import java.io.{FileInputStream, InputStreamReader}
+import java.io.FileInputStream
 
 trait TemplateCoupler {
-  self: ScalatraKernel =>
+  self: ScalatraBase =>
   def getTemplate(path: String): String = {
     if (isPortletContext) templateForPortlet(path, this.asInstanceOf[GenericPortlet].getPortletContext)
     else {
       val context = this match {
-        case f: ScalatraFilter => f.servletContext
+        case f: ScalatraFilter  => f.servletContext
         case s: ScalatraServlet => s.servletContext
       }
       templateForServlet(path, context)

@@ -7,12 +7,10 @@ package com.arcusys.learn.questionbank.model
  * @param description   A more detailed description of the category used when the admin or tested user need an explanation
  * @param parentID      ID of the parent category, if this is a subcategory. None if category has no parent
  */
-case class QuestionCategory
-(
+case class QuestionCategory(
   id: Int,
   title: String,
   description: String,
   parentID: Option[Int],
   courseID: Option[Int],
-  arrangementIndex: Int = 1
-  )
+  arrangementIndex: Int = 1)

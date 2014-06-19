@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.Archivements.impl
 
-import com.arcusys.learn.scorm.tracking.model.achivements.{Achievement, AchievementActivity}
-import com.arcusys.learn.scorm.Archivements.{AchievementActivityStorage, AchievementStorage}
+import com.arcusys.learn.scorm.tracking.model.achivements.AchievementActivity
+import com.arcusys.learn.scorm.Archivements.AchievementActivityStorage
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 
 trait AchievementActivityEntityStorage extends AchievementActivityStorage with KeyedEntityStorage[AchievementActivity] {

@@ -6,14 +6,14 @@ import com.arcusys.learn.tincan.model.Context
 
 trait ContextEntityStorage extends ContextStorage with KeyedEntityStorage[Context] {
   def createAndGetID(entity: Context) = {
-    createAndGetID(entity, Nil:_*)
+    createAndGetID(entity, Nil: _*)
   }
 
   def getByID(id: Int) = {
-    getByID(id, Nil:_*)
+    getByID(id, Nil: _*)
   }
 
   def delete(id: Int) = {
-    delete("id"->id)
+    delete("id" -> id)
   }
 }

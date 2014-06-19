@@ -2,7 +2,7 @@ package com.arcusys.learn.quiz.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.learn.persistence.liferay.service.{LFQuizQuestionCategoryLocalServiceUtil, LFQuizLocalServiceUtil}
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLocalServiceUtil, LFQuizLocalServiceUtil }
 import com.arcusys.learn.persistence.liferay.model.LFQuiz
 import scala.collection.JavaConverters._
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
@@ -34,10 +34,11 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
 
   def delete(parameters: (String, Any)*) {
     parameters.find(_._1 == "id").map(_._2.asInstanceOf[Int]) foreach {
-      id => {
-        LFQuizQuestionCategoryLocalServiceUtil.findByQuizId(id).asScala.foreach(cat => LFQuizQuestionCategoryLocalServiceUtil.deleteLFQuizQuestionCategory(cat.getId))
-        LFQuizLocalServiceUtil.deleteLFQuiz(id)
-      }
+      id =>
+        {
+          LFQuizQuestionCategoryLocalServiceUtil.findByQuizId(id).asScala.foreach(cat => LFQuizQuestionCategoryLocalServiceUtil.deleteLFQuizQuestionCategory(cat.getId))
+          LFQuizLocalServiceUtil.deleteLFQuiz(id)
+        }
     }
   }
 
@@ -58,7 +59,7 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
   private def doCreate(entity: Quiz, parameters: (String, Any)*) = {
     val lfEntity: LFQuiz = LFQuizLocalServiceUtil.createLFQuiz()
     lfEntity.setCourseID(entity.courseID)
-
+    lfEntity.setLogo(entity.logo)
     doUpdateEntity(entity, lfEntity, LFQuizLocalServiceUtil.addLFQuiz(_), parameters: _*)
   }
 
@@ -82,7 +83,7 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
         lfEntity.setDescription(entity.description)
         lfEntity.setWelcomePageContent(entity.welcomePageContent)
         lfEntity.setFinalPageContent(entity.finalPageContent)
-
+        lfEntity.setLogo(entity.logo)
         update(lfEntity)
       }
     }
@@ -100,5 +101,6 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
     entity.getDescription,
     entity.getWelcomePageContent,
     entity.getFinalPageContent,
-    Option(entity.getCourseID).map(_.toInt))
+    Option(entity.getCourseID).map(_.toInt),
+    entity.getLogo)
 }

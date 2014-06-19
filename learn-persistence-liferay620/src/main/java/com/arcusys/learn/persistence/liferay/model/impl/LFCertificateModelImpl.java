@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +52,16 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
             { "isPermanent", Types.BOOLEAN },
             { "publishBadge", Types.BOOLEAN },
             { "shortDescription", Types.VARCHAR },
-            { "companyID", Types.INTEGER }
+            { "companyID", Types.INTEGER },
+            { "state_", Types.VARCHAR },
+            { "emails", Types.VARCHAR },
+            { "validPeriodType", Types.VARCHAR },
+            { "validPeriod", Types.INTEGER },
+            { "createdDate", Types.TIMESTAMP },
+            { "isPublished", Types.BOOLEAN },
+            { "scope", Types.BIGINT }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title VARCHAR(3000) null,description TEXT null,logo VARCHAR(75) null,isPermanent BOOLEAN null,publishBadge BOOLEAN null,shortDescription VARCHAR(75) null,companyID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFCertificate (id_ LONG not null primary key,title VARCHAR(3000) null,description TEXT null,logo VARCHAR(75) null,isPermanent BOOLEAN null,publishBadge BOOLEAN null,shortDescription VARCHAR(75) null,companyID INTEGER null,state_ VARCHAR(75) null,emails VARCHAR(75) null,validPeriodType VARCHAR(75) null,validPeriod INTEGER null,createdDate DATE null,isPublished BOOLEAN null,scope LONG null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFCertificate";
     public static final String ORDER_BY_JPQL = " ORDER BY lfCertificate.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFCertificate.id_ ASC";
@@ -89,6 +97,13 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
     private Integer _companyID;
     private Integer _originalCompanyID;
     private boolean _setOriginalCompanyID;
+    private String _state;
+    private String _emails;
+    private String _validPeriodType;
+    private Integer _validPeriod;
+    private Date _createdDate;
+    private Boolean _isPublished;
+    private Long _scope;
     private long _columnBitmask;
     private LFCertificate _escapedModel;
 
@@ -137,6 +152,13 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         attributes.put("publishBadge", getPublishBadge());
         attributes.put("shortDescription", getShortDescription());
         attributes.put("companyID", getCompanyID());
+        attributes.put("state", getState());
+        attributes.put("emails", getEmails());
+        attributes.put("validPeriodType", getValidPeriodType());
+        attributes.put("validPeriod", getValidPeriod());
+        attributes.put("createdDate", getCreatedDate());
+        attributes.put("isPublished", getIsPublished());
+        attributes.put("scope", getScope());
 
         return attributes;
     }
@@ -189,6 +211,48 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
         if (companyID != null) {
             setCompanyID(companyID);
+        }
+
+        String state = (String) attributes.get("state");
+
+        if (state != null) {
+            setState(state);
+        }
+
+        String emails = (String) attributes.get("emails");
+
+        if (emails != null) {
+            setEmails(emails);
+        }
+
+        String validPeriodType = (String) attributes.get("validPeriodType");
+
+        if (validPeriodType != null) {
+            setValidPeriodType(validPeriodType);
+        }
+
+        Integer validPeriod = (Integer) attributes.get("validPeriod");
+
+        if (validPeriod != null) {
+            setValidPeriod(validPeriod);
+        }
+
+        Date createdDate = (Date) attributes.get("createdDate");
+
+        if (createdDate != null) {
+            setCreatedDate(createdDate);
+        }
+
+        Boolean isPublished = (Boolean) attributes.get("isPublished");
+
+        if (isPublished != null) {
+            setIsPublished(isPublished);
+        }
+
+        Long scope = (Long) attributes.get("scope");
+
+        if (scope != null) {
+            setScope(scope);
         }
     }
 
@@ -310,6 +374,80 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         return _originalCompanyID;
     }
 
+    @Override
+    public String getState() {
+        return _state;
+    }
+
+    @Override
+    public void setState(String state) {
+        _state = state;
+    }
+
+    @Override
+    public String getEmails() {
+        if (_emails == null) {
+            return StringPool.BLANK;
+        } else {
+            return _emails;
+        }
+    }
+
+    @Override
+    public void setEmails(String emails) {
+        _emails = emails;
+    }
+
+    @Override
+    public String getValidPeriodType() {
+        return _validPeriodType;
+    }
+
+    @Override
+    public void setValidPeriodType(String validPeriodType) {
+        _validPeriodType = validPeriodType;
+    }
+
+    @Override
+    public Integer getValidPeriod() {
+        return _validPeriod;
+    }
+
+    @Override
+    public void setValidPeriod(Integer validPeriod) {
+        _validPeriod = validPeriod;
+    }
+
+    @Override
+    public Date getCreatedDate() {
+        return _createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(Date createdDate) {
+        _createdDate = createdDate;
+    }
+
+    @Override
+    public Boolean getIsPublished() {
+        return _isPublished;
+    }
+
+    @Override
+    public void setIsPublished(Boolean isPublished) {
+        _isPublished = isPublished;
+    }
+
+    @Override
+    public Long getScope() {
+        return _scope;
+    }
+
+    @Override
+    public void setScope(Long scope) {
+        _scope = scope;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -349,6 +487,13 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         lfCertificateImpl.setPublishBadge(getPublishBadge());
         lfCertificateImpl.setShortDescription(getShortDescription());
         lfCertificateImpl.setCompanyID(getCompanyID());
+        lfCertificateImpl.setState(getState());
+        lfCertificateImpl.setEmails(getEmails());
+        lfCertificateImpl.setValidPeriodType(getValidPeriodType());
+        lfCertificateImpl.setValidPeriod(getValidPeriod());
+        lfCertificateImpl.setCreatedDate(getCreatedDate());
+        lfCertificateImpl.setIsPublished(getIsPublished());
+        lfCertificateImpl.setScope(getScope());
 
         lfCertificateImpl.resetOriginalValues();
 
@@ -451,12 +596,50 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
         lfCertificateCacheModel.companyID = getCompanyID();
 
+        lfCertificateCacheModel.state = getState();
+
+        String state = lfCertificateCacheModel.state;
+
+        if ((state != null) && (state.length() == 0)) {
+            lfCertificateCacheModel.state = null;
+        }
+
+        lfCertificateCacheModel.emails = getEmails();
+
+        String emails = lfCertificateCacheModel.emails;
+
+        if ((emails != null) && (emails.length() == 0)) {
+            lfCertificateCacheModel.emails = null;
+        }
+
+        lfCertificateCacheModel.validPeriodType = getValidPeriodType();
+
+        String validPeriodType = lfCertificateCacheModel.validPeriodType;
+
+        if ((validPeriodType != null) && (validPeriodType.length() == 0)) {
+            lfCertificateCacheModel.validPeriodType = null;
+        }
+
+        lfCertificateCacheModel.validPeriod = getValidPeriod();
+
+        Date createdDate = getCreatedDate();
+
+        if (createdDate != null) {
+            lfCertificateCacheModel.createdDate = createdDate.getTime();
+        } else {
+            lfCertificateCacheModel.createdDate = Long.MIN_VALUE;
+        }
+
+        lfCertificateCacheModel.isPublished = getIsPublished();
+
+        lfCertificateCacheModel.scope = getScope();
+
         return lfCertificateCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("{id=");
         sb.append(getId());
@@ -474,6 +657,20 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(getShortDescription());
         sb.append(", companyID=");
         sb.append(getCompanyID());
+        sb.append(", state=");
+        sb.append(getState());
+        sb.append(", emails=");
+        sb.append(getEmails());
+        sb.append(", validPeriodType=");
+        sb.append(getValidPeriodType());
+        sb.append(", validPeriod=");
+        sb.append(getValidPeriod());
+        sb.append(", createdDate=");
+        sb.append(getCreatedDate());
+        sb.append(", isPublished=");
+        sb.append(getIsPublished());
+        sb.append(", scope=");
+        sb.append(getScope());
         sb.append("}");
 
         return sb.toString();
@@ -481,7 +678,7 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+        StringBundler sb = new StringBundler(49);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFCertificate");
@@ -518,6 +715,34 @@ public class LFCertificateModelImpl extends BaseModelImpl<LFCertificate>
         sb.append(
             "<column><column-name>companyID</column-name><column-value><![CDATA[");
         sb.append(getCompanyID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>state</column-name><column-value><![CDATA[");
+        sb.append(getState());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>emails</column-name><column-value><![CDATA[");
+        sb.append(getEmails());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>validPeriodType</column-name><column-value><![CDATA[");
+        sb.append(getValidPeriodType());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>validPeriod</column-name><column-value><![CDATA[");
+        sb.append(getValidPeriod());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>createdDate</column-name><column-value><![CDATA[");
+        sb.append(getCreatedDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>isPublished</column-name><column-value><![CDATA[");
+        sb.append(getIsPublished());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>scope</column-name><column-value><![CDATA[");
+        sb.append(getScope());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -1,2 +1,0 @@
-INSERT INTO RollupRuleCondition(rollupRuleID, conditionRuleID, objectiveId, measureThreshold, conditionType, inverseCondition)
-VALUES (:rollupRuleID, :conditionRuleID, :e.objectiveId, :e.measureThreshold.bigDecimal, :e.conditionType.toString, :e.inverse)

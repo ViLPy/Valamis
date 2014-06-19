@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.tracking.model.sequencing
 
-import com.arcusys.learn.scorm.tracking.model.{ActivityStateTree, ActivityStateNode}
+import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class ExitPathTest extends ActivityStateTreeTestBase {

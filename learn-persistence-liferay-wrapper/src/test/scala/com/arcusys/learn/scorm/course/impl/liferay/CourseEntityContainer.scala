@@ -20,7 +20,7 @@ object CourseEntityContainer extends MockEntityContainer[LFCourseLocalService, L
   def deleteFunction = _.deleteLFCourse(_)
   def updateFunction = _.updateLFCourse(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFCourses(_,_)
+  def getAllFunction = _.getLFCourses(_, _)
   def removeAllFunction = _.removeAll()
 
   def createMockEntity() = mock[LFCourse]
@@ -37,9 +37,10 @@ object CourseEntityContainer extends MockEntityContainer[LFCourseLocalService, L
     getByCourseIdAndUserId(paramsRaw, mockService)
   }
   mockLocalService.findByCourseIdAndUserId(any, any) answers {
-    (paramsRaw, mockService) => getByCourseIdAndUserId(paramsRaw, mockService)}
+    (paramsRaw, mockService) => getByCourseIdAndUserId(paramsRaw, mockService)
+  }
 
-  def getByCourseIdAndUserId(paramsRaw: Any, mockService: Any) ={
+  def getByCourseIdAndUserId(paramsRaw: Any, mockService: Any) = {
     val paramsTuple: (Any, Any) = paramsRaw match {
       case Array(a, b) if a.isInstanceOf[Int] && b.isInstanceOf[Int] => (a, b)
     }
@@ -47,7 +48,7 @@ object CourseEntityContainer extends MockEntityContainer[LFCourseLocalService, L
     val userId = paramsTuple._2 match { case x: Int => x }
 
     val result = internalStorage.values.filter(entity => Option(entity.getCourseID).getOrElse(nullInteger) == courseId
-      &&  Option(entity.getUserID).getOrElse(nullInteger) == userId).headOption
+      && Option(entity.getUserID).getOrElse(nullInteger) == userId).headOption
     if (result.isEmpty) null else result.get
   }
 

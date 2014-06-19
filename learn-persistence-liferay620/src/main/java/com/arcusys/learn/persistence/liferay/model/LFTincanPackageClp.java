@@ -25,6 +25,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
     private String _summary;
     private Long _assetRefID;
     private Integer _courseID;
+    private String _logo;
     private BaseModel<?> _lfTincanPackageRemoteModel;
 
     public LFTincanPackageClp() {
@@ -69,6 +70,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         attributes.put("summary", getSummary());
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
+        attributes.put("logo", getLogo());
 
         return attributes;
     }
@@ -103,6 +105,12 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
     }
 
@@ -216,6 +224,28 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         }
     }
 
+    @Override
+    public String getLogo() {
+        return _logo;
+    }
+
+    @Override
+    public void setLogo(String logo) {
+        _logo = logo;
+
+        if (_lfTincanPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setLogo", String.class);
+
+                method.invoke(_lfTincanPackageRemoteModel, logo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFTincanPackageRemoteModel() {
         return _lfTincanPackageRemoteModel;
     }
@@ -290,6 +320,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         clone.setSummary(getSummary());
         clone.setAssetRefID(getAssetRefID());
         clone.setCourseID(getCourseID());
+        clone.setLogo(getLogo());
 
         return clone;
     }
@@ -335,7 +366,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(11);
+        StringBundler sb = new StringBundler(13);
 
         sb.append("{id=");
         sb.append(getId());
@@ -347,6 +378,8 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         sb.append(getAssetRefID());
         sb.append(", courseID=");
         sb.append(getCourseID());
+        sb.append(", logo=");
+        sb.append(getLogo());
         sb.append("}");
 
         return sb.toString();
@@ -354,7 +387,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(22);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFTincanPackage");
@@ -379,6 +412,10 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         sb.append(
             "<column><column-name>courseID</column-name><column-value><![CDATA[");
         sb.append(getCourseID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

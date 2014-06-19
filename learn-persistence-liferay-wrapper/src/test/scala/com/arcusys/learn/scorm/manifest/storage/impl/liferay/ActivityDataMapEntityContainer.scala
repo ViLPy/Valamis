@@ -5,7 +5,6 @@ import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 import com.arcusys.learn.persistence.liferay.model.LFActivityDataMap
 import scala.collection.JavaConverters._
 
-
 object ActivityDataMapEntityContainer extends MockEntityContainer[LFActivityDataMapLocalService, LFActivityDataMap] {
   lazy val mockServiceBeanName = classOf[LFActivityDataMapLocalService].getName
   lazy val mockLocalService = mock[LFActivityDataMapLocalService]
@@ -38,33 +37,35 @@ object ActivityDataMapEntityContainer extends MockEntityContainer[LFActivityData
   def getIdFunction = _.getId
 
   mockLocalService.findByPackageIDAndActivityID(anyInt, anyString) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any) = paramsRaw match {
-        case Array(a, b) => (a, b)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any) = paramsRaw match {
+          case Array(a, b) => (a, b)
+        }
+
+        val packageID = paramsTuple._1.asInstanceOf[Int]
+        val activityID = paramsTuple._2.asInstanceOf[String]
+
+        internalStorage.values.filter(entity => {
+          entity.getPackageID == packageID && entity.getActivityID == activityID
+        }).toList.asJava
       }
-
-      val packageID = paramsTuple._1.asInstanceOf[Int]
-      val activityID = paramsTuple._2.asInstanceOf[String]
-
-      internalStorage.values.filter(entity => {
-        entity.getPackageID == packageID && entity.getActivityID == activityID
-      }).toList.asJava
-    }
   }
 
   mockLocalService.removeByPackageIDAndActivityID(anyInt, anyString) answers {
-    (paramsRaw, mockService) => {
-      val paramsTuple: (Any, Any) = paramsRaw match {
-        case Array(a, b) => (a, b)
+    (paramsRaw, mockService) =>
+      {
+        val paramsTuple: (Any, Any) = paramsRaw match {
+          case Array(a, b) => (a, b)
+        }
+
+        val packageID = paramsTuple._1.asInstanceOf[Int]
+        val activityID = paramsTuple._2.asInstanceOf[String]
+
+        internalStorage --= internalStorage.values.filter(entity => {
+          entity.getPackageID == packageID && entity.getActivityID == activityID
+        }).map(_.getId)
+        ()
       }
-
-      val packageID = paramsTuple._1.asInstanceOf[Int]
-      val activityID = paramsTuple._2.asInstanceOf[String]
-
-      internalStorage --= internalStorage.values.filter(entity => {
-        entity.getPackageID == packageID && entity.getActivityID == activityID
-      }).map(_.getId)
-      ()
-    }
   }
 }

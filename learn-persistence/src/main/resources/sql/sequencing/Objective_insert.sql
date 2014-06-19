@@ -1,2 +1,0 @@
-INSERT INTO Objective(sequencingID, satisfiedByMeasure, identifier, minNormalizedMeasure, isPrimary)
-VALUES (:sequencingID, :e.satisfiedByMeasure, :e.id, :e.minNormalizedMeasure.bigDecimal, :isPrimary)

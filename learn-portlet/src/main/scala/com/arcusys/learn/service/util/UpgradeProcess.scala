@@ -1,16 +1,15 @@
 package com.arcusys.learn.service.util
 
 import scala.collection.JavaConversions._
-import java.util.{Calendar, Locale}
+import java.util.{ Calendar, Locale }
 import java.util
-import com.arcusys.learn.admin.service.UploadService
 import com.arcusys.learn.scorm.tracking.model.PermissionType
 import scala.util.Random
 import com.arcusys.learn.storage.StorageFactoryContract
 import scala.xml.XML
 import scala.collection.JavaConverters._
 import com.arcusys.learn.liferay.services._
-import com.arcusys.learn.liferay.helpers.{HookHelpers, MessageBoardSupport, DocumentLibrarySupport, BlogHelpers}
+import com.arcusys.learn.liferay.helpers.{ HookHelpers, MessageBoardSupport, DocumentLibrarySupport, BlogHelpers }
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.util._
 import com.arcusys.learn.liferay.constants._
@@ -19,6 +18,9 @@ import com.arcusys.learn.quiz.model.Quiz
 import com.arcusys.learn.questionbank.model.ChoiceAnswer
 import com.arcusys.learn.scorm.tracking.model.User
 import com.arcusys.learn.scorm.tracking.model.Role
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
+import com.arcusys.learn.controllers.api.FileApiController
+import com.arcusys.learn.facades.FileFacadeContract
 
 object UpgradeProcess {
   val isPublic = false
@@ -29,7 +31,7 @@ trait UserHelpers {
   implicit val storageFactory: StorageFactoryContract
 
   def addUser(organizationID: Long, companyId: Long, screenName: String, firstName: String, lastName: String, male: Boolean,
-              jobTitle: String, roleIds: Array[Long]) = {
+    jobTitle: String, roleIds: Array[Long]) = {
 
     val creatorUserId = 0
     val autoPassword = false
@@ -53,7 +55,7 @@ trait UserHelpers {
 
     val serviceContext = new LServiceContext()
 
-    val createdUser = UserLocalServiceHelper.getUsers(-1, -1).find(_.getScreenName == screenName)
+    val createdUser = UserLocalServiceHelper().getUsers(-1, -1).find(_.getScreenName == screenName)
     val user = if (createdUser != None) {
       val foundUser = createdUser.get
       if (storageFactory.userStorage.getByID(foundUser.getUserId.toInt).isDefined) {
@@ -61,7 +63,7 @@ trait UserHelpers {
       }
       foundUser
     } else {
-      UserLocalServiceHelper.addUser(
+      UserLocalServiceHelper().addUser(
         creatorUserId, companyId, autoPassword, password1, password2,
         autoScreenName, screenName, emailAddress, facebookId, openId,
         locale, firstName, middleName, lastName, prefixId, suffixId, male,
@@ -69,17 +71,17 @@ trait UserHelpers {
         Array[Long](), Array[Long](), Array[Long](), sendEmail, serviceContext)
     }
 
-    UserLocalServiceHelper.addGroupUsers(sevenCogsOrganization.getGroupId, Array(user.getUserId))
+    UserLocalServiceHelper().addGroupUsers(sevenCogsOrganization.getGroupId, Array(user.getUserId))
 
     val portrait = HookHelpers.getBytes("demo/profile/" + screenName + ".jpg")
 
-    UserLocalServiceHelper.updatePortrait(user.getUserId, portrait)
+    UserLocalServiceHelper().updatePortrait(user.getUserId, portrait)
 
     val questions = StringUtilHelper.split(PropsUtilHelper.get("users.reminder.queries.questions"))
 
     val question = questions(0)
     val answer = "123"
-    UserLocalServiceHelper.updateReminderQuery(user.getUserId, question, answer)
+    UserLocalServiceHelper().updateReminderQuery(user.getUserId, question, answer)
     val userUID = user.getUserId
     if (storageFactory.userStorage.getByID(userUID.toInt).isEmpty) {
       storageFactory.userStorage.createAndGetID(User(userUID.toInt, user.getFullName))
@@ -88,20 +90,19 @@ trait UserHelpers {
   }
 }
 
-class UpgradeProcess(val storageFactory: StorageFactoryContract) extends UserHelpers with BlogHelpers
-with MessageBoardSupport with DocumentLibrarySupport
-{
+class UpgradeProcess(val storageFactory: StorageFactoryContract, val fileFacade: FileFacadeContract) extends UserHelpers with BlogHelpers
+    with MessageBoardSupport with DocumentLibrarySupport {
   final private val demoOrgName = "Valamis eLearning demo site"
 
   def doUpgrade() {
     System.out.println("Deploying private demo site")
     val companyId = PortalUtilHelper.getDefaultCompanyId
-    val defaultUserId = UserLocalServiceHelper.getDefaultUserId(companyId)
+    val defaultUserId = UserLocalServiceHelper().getDefaultUserId(companyId)
 
     val companies = CompanyLocalServiceHelper.getCompanies
     for (company <- companies) {
       val companyID = company.getCompanyId
-      val userID = UserLocalServiceHelper.getDefaultUserId(companyID)
+      val userID = UserLocalServiceHelper().getDefaultUserId(companyID)
       if (!RoleLocalServiceHelper.getRoles(companyID).exists(_.getName.equalsIgnoreCase("teacher"))) RoleLocalServiceHelper.addRole(userID, companyID, "Teacher", null, null, RoleConstantsHelper.TYPE_SITE)
       if (!RoleLocalServiceHelper.getRoles(companyID).exists(_.getName.equalsIgnoreCase("student"))) RoleLocalServiceHelper.addRole(userID, companyID, "Student", null, null, RoleConstantsHelper.TYPE_SITE)
     }
@@ -109,7 +110,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     try {
       val orgToDelete = OrganizationLocalServiceHelper.getOrganizations(-1, -1).asScala.filter(_.getName.equalsIgnoreCase(demoOrgName)) //.getOrganizationId(companyId, demoOrgName)
       orgToDelete.foreach(organization => {
-        UserLocalServiceHelper.unsetOrganizationUsers(organization.getOrganizationId, UserLocalServiceHelper.getOrganizationUsers(organization.getOrganizationId).map(_.getUserId).toArray)
+        UserLocalServiceHelper().unsetOrganizationUsers(organization.getOrganizationId, UserLocalServiceHelper().getOrganizationUsers(organization.getOrganizationId).map(_.getUserId).toArray)
         OrganizationLocalServiceHelper.deleteOrganization(organization)
       })
     } catch {
@@ -201,7 +202,6 @@ with MessageBoardSupport with DocumentLibrarySupport
     val activities = addPortletId(layoutTheory, PortletKeysHelper.ACTIVITIES, "column-6")
     setPortletPreferences(layoutTheory, activities, "demo/settings/activities.xml")
 
-
     val teacherID = RoleLocalServiceHelper.getRole(companyId, "Teacher").getRoleId
     val studentID = RoleLocalServiceHelper.getRole(companyId, "Student").getRoleId
     val teacherRoleIDs = Array(teacherID)
@@ -215,12 +215,11 @@ with MessageBoardSupport with DocumentLibrarySupport
     UserGroupRoleLocalServiceHelper.addUserGroupRoles(studentOskuUser.getUserId, group.getGroupId, studentRoleIDs)
     UserGroupRoleLocalServiceHelper.addUserGroupRoles(teacherUser.getUserId, group.getGroupId, teacherRoleIDs)
 
-
-    if (storageFactory.roleStorage.getForPermission(PermissionType.Student).find(_.liferayRoleID == studentID.toInt).isEmpty) {
-      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Student").getRoleId.toInt, PermissionType.Student, false))
+    if (storageFactory.roleStorage.getForPermission(PermissionType.STUDENT).find(_.liferayRoleID == studentID.toInt).isEmpty) {
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Student").getRoleId.toInt, PermissionType.STUDENT, false))
     }
-    if (storageFactory.roleStorage.getForPermission(PermissionType.Teacher).find(_.liferayRoleID == teacherID.toInt).isEmpty) {
-      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Teacher").getRoleId.toInt, PermissionType.Teacher, false))
+    if (storageFactory.roleStorage.getForPermission(PermissionType.TEACHER).find(_.liferayRoleID == teacherID.toInt).isEmpty) {
+      storageFactory.roleStorage.createAndGetID(new Role(0, RoleLocalServiceHelper.getRole(companyId, "Teacher").getRoleId.toInt, PermissionType.TEACHER, false))
     }
 
     PrincipalThreadLocalHelper.setName(teacherUser.getUserId)
@@ -238,12 +237,12 @@ with MessageBoardSupport with DocumentLibrarySupport
     val url = "/documents/" + discussion.getGroupId + "/" + discussion.getFolderId + "/" + discussion.getTitle
 
     val pictureContent = <root available-locales="en_US" default-locale="en_US">
-      <dynamic-element instance-id="a71Lks8V" name="Picture" type="document_library" index-type=" ">
-        <dynamic-content>
-          {url}
-        </dynamic-content>
-      </dynamic-element>
-    </root>
+                           <dynamic-element instance-id="a71Lks8V" name="Picture" type="document_library" index-type=" ">
+                             <dynamic-content>
+                               { url }
+                             </dynamic-content>
+                           </dynamic-element>
+                         </root>
 
     val journalArticle2 = addJournalArticleWithContent(defaultUserId, group.getGroupId,
       "Discussion", pictureContent.toString(), pictureBoxStructure.getStructureId, pictureBoxTemplate.getTemplateId,
@@ -252,7 +251,6 @@ with MessageBoardSupport with DocumentLibrarySupport
     //JournalArticleLocalServiceUtil.updateJournalArticle(journalArticle2)
     configureJournalContent(layoutTheory, group, portletLanding2, journalArticle2.getArticleId)
     removePortletBorder(layoutTheory, portletLanding2)
-
 
     val question = PollsQuestionLocalServiceHelper.addQuestion(teacherUser.getUserId,
       Map(Locale.US -> "Poll"), Map(Locale.US -> "Do you think we might be on to something?"), 1, 1, 2020, 1, 1, true, null, serviceContext)
@@ -379,8 +377,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   def addSimpleJournalArticle(userID: Long, group: LGroup,
-                              layout: LLayout, title: String, file: String, destination: String,
-                              serviceContext: LServiceContext) {
+    layout: LLayout, title: String, file: String, destination: String,
+    serviceContext: LServiceContext) {
     val portlet = addPortletId(layout, PortletKeysHelper.JOURNAL_CONTENT, destination)
     val article = addJournalArticle(userID, group.getGroupId, title, file, serviceContext)
     configureJournalContent(layout, group, portlet, article.getArticleId)
@@ -436,7 +434,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   private def addCourse(title: String, summary: String, file: String, courseId: Long, userID: Long, groupID: Long) = {
     val stream = HookHelpers.getInputStream(file)
     val courseID = courseId
-    new UploadService().storePackage(title, summary, Some(courseID.toInt), stream, userID, groupID)
+    //throw new NotImplementedException
+    fileFacade.savePackage(title, summary, Some(courseID.toInt), userID, groupID, stream)
   }
 
   private def addQuestionsAndQuiz(courseId: Int) {
@@ -456,7 +455,7 @@ with MessageBoardSupport with DocumentLibrarySupport
     val choice3 = ChoiceQuestion(0, None, "E-learning is easier", "E-learning is easier than traditional learning.", "", Seq(choice3Answer1, choice3Answer2), false, Some(courseId), 3)
     val choice3ID = storageFactory.questionStorage.createAndGetID(choice3)
 
-    val quiz = Quiz(0, "E-learning test", "Demo quiz", "<p>Test yourself.</p>", "<p>Thank You.</p>", Some(courseId))
+    val quiz = Quiz(0, "E-learning test", "Demo quiz", "<p>Test yourself.</p>", "<p>Thank You.</p>", Some(courseId), "")
     val quizID = storageFactory.quizStorage.createAndGetID(quiz)
     storageFactory.quizQuestionStorage.createFromQuestionBankAndGetID(quizID, None, choice1ID)
     storageFactory.quizQuestionStorage.createFromQuestionBankAndGetID(quizID, None, choice2ID)
@@ -520,8 +519,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addLayout(group: LGroup, name: String,
-                          isPublic: Boolean, friendlyURL: String, layoutTemplateId: String,
-                          parent: Long = LayoutConstantsHelper.DEFAULT_PARENT_LAYOUT_ID) = {
+    isPublic: Boolean, friendlyURL: String, layoutTemplateId: String,
+    parent: Long = LayoutConstantsHelper.DEFAULT_PARENT_LAYOUT_ID) = {
     val serviceContext: LServiceContext = new LServiceContext
     val layout = LayoutLocalServiceHelper.addLayout(group.getCreatorUserId, group.getGroupId,
       !isPublic, parent,
@@ -556,7 +555,7 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addJournalStructure(userId: Long, groupId: Long,
-                                    title: String, filename: String, serviceContext: LServiceContext) = {
+    title: String, filename: String, serviceContext: LServiceContext) = {
     val xsd = HookHelpers.getString(filename)
 
     JournalStructureLocalServiceHelper.addStructure(userId, groupId,
@@ -566,9 +565,9 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addJournalTemplate(userId: Long, groupId: Long,
-                                   title: String, filename: String, structureID: String,
-                                   langType: String,
-                                   serviceContext: LServiceContext) = {
+    title: String, filename: String, structureID: String,
+    langType: String,
+    serviceContext: LServiceContext) = {
     val xsl = HookHelpers.getString(filename)
 
     JournalTemplateLocalServiceHelper.addTemplate(userId, groupId,
@@ -577,8 +576,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addJournalArticle(userId: Long, groupId: Long,
-                                  title: String, filename: String,
-                                  structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
+    title: String, filename: String,
+    structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
 
     val content = HookHelpers.getString(filename)
 
@@ -586,8 +585,8 @@ with MessageBoardSupport with DocumentLibrarySupport
   }
 
   protected def addJournalArticleWithContent(userId: Long, groupId: Long,
-                                             title: String, content: String,
-                                             structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
+    title: String, content: String,
+    structureId: String, templateId: String, serviceContext: LServiceContext): LJournalArticle = {
 
     serviceContext.setAddGroupPermissions(true)
     serviceContext.setAddGuestPermissions(UpgradeProcess.isPublic)

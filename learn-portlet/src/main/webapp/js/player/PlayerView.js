@@ -86,7 +86,7 @@ PlayerView = Backbone.View.extend({
                     text(value));
         }
 
-        var organizationsData = window.LearnAjax.syncRequest(Utils.getContextPath() + "/services/organizations/package/" + this.packageID);
+        var organizationsData = window.LearnAjax.syncRequest(Utils.getContextPath() + "services/organizations/package/" + this.packageID);
         for (var i = 0; i < organizationsData.length; i++) {
             addOption('#SCORMOrganizations', organizationsData[i].id, decodeURIComponent(organizationsData[i].title));
         }
@@ -99,7 +99,7 @@ PlayerView = Backbone.View.extend({
         }
 
         this.organizationID = organizationsData[0].id;
-        var activitiesData = window.LearnAjax.syncRequest(Utils.getContextPath() + '/services/activities/package/' + this.packageID + '/organization/' + this.organizationID);
+        var activitiesData = window.LearnAjax.syncRequest(Utils.getContextPath() + 'services/activities/package/' + this.packageID + '/organization/' + this.organizationID);
         this.buildTree(activitiesData);
     },
 
@@ -146,16 +146,18 @@ PlayerView = Backbone.View.extend({
             this.trigger('endSession');
             jQuery.ajax({
                 type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/services/sequencing/clearSession"
+                url: jQuery("#SCORMContextPath").val()+"services/sequencing/clearSession"
             });
         }
 
         if (data.currentActivity && !data.endSession) {
+            SetLRS(data);
             this.selectNode(data.currentActivity);
             jQuery('#SCORMDataOutput').attr("src", data.activityURL);
             resizeIFrame();
             API_1484_11.setActivity(this.packageID, this.organizationID, data.currentActivity);
             API.setActivity(this.packageID, this.organizationID, data.currentActivity);
+            SetActivity(data.activityURL,data.activityTitle,data.activityDesc, this.packageID);
 
             showNavigationControls();
             if (data.hiddenUI) {
@@ -177,10 +179,7 @@ PlayerView = Backbone.View.extend({
     },
 
     openTincanPackage:function(launchUrl, endpoint, auth, secret) {
-        var actor = {
-            mbox:["mailto:"+jQuery("#userEmail").val()],
-            name:[jQuery("#userName").val()]
-        };
+        var actor = jQuery("#tincanActor").val();
 
         var src = "{0}/SCORMData/{1}?endpoint={2}&auth={3}&actor={4}"
             .replace("{0}", Utils.getContextPath())
@@ -190,11 +189,11 @@ PlayerView = Backbone.View.extend({
             .replace("{4}", encodeURIComponent(JSON.stringify(actor)));
 
         if(secret){
-            var sign = "asdasd"
-            src += "&oauth_signature={0}&oauth_signature_method=HMAC-SHA1".replace("{0}", sign)
+            var sign = "asdasd";
+            src += "&oauth_signature={0}&oauth_signature_method=HMAC-SHA1".replace("{0}", sign);
         }
 
-        jQuery('#SCORMDataOutput').attr("src", src)
+        jQuery('#SCORMDataOutput').attr("src", src);
     },
 
     loadTincanPackage:function() {
@@ -214,11 +213,11 @@ PlayerView = Backbone.View.extend({
         jQuery.ajax({
             type: 'POST',
             dataType: 'json',
-            url: Utils.getContextPath() + "/services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
+            url: Utils.getContextPath() + "services/sequencing/Tincan/" + this.packageID + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID"),
 
             success: function(data) {
                 if (data.internal) {
-                    var endpoint = document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "/TincanApi/";
+                    var endpoint = document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "TincanApi/";
                     player.openTincanPackage(data.launchURL, endpoint, data.auth);
                 }
                 else {
@@ -229,6 +228,7 @@ PlayerView = Backbone.View.extend({
                         else {
                             jQuery("#tincanLaunchUrlCredentialsDialog").val(data.launchURL);
                             jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
+                            jQuery('#tincanLrsUserCredentials').attr('onclick','openTincanPackageFromCredentialsDialog()');
                             jQuery('#tincanLrsUserCredentials').dialog('open');
                         }
                     } else if (data.authType === "OAuth") {
@@ -270,7 +270,7 @@ PlayerView = Backbone.View.extend({
     },
 
     getNavigationRequestURL:function (requestType) {
-        return Utils.getContextPath() + "/services/sequencing/NavigationRequest/" + this.packageID + "/" + this.organizationID + "/" + requestType + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID");
+        return Utils.getContextPath() + "services/sequencing/NavigationRequest/" + this.packageID + "/" + this.organizationID + "/" + requestType + "?scormUserID=" + window.LearnAjax.getHeader("scormUserID");
     },
 
     doPrevious:function () {
@@ -295,13 +295,14 @@ PlayerView = Backbone.View.extend({
             this.trigger('endSession');
             jQuery.ajax({
                 type: 'POST',
-                url: jQuery("#SCORMContextPath").val()+"/services/sequencing/clearSession"
+                url: jQuery("#SCORMContextPath").val()+"services/sequencing/clearSession"
             });
             jQuery('#SCORMDataOutput').attr("src", "");
         } else {
             // SCORM 1.2, ignore auto doContinue on LMSFinish
             window.API.silenceFinish();
             jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("exitAll"));
+            endAttemptSession();
         }
     },
 
@@ -311,6 +312,7 @@ PlayerView = Backbone.View.extend({
             window.API.silenceFinish();
             jQuery('#SCORMDataOutput').attr("src", this.getNavigationRequestURL("suspendAll"));
             this.onSuspend = true;
+            endAttemptSession();
         }
     },
 

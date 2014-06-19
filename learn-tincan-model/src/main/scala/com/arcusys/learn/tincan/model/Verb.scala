@@ -1,6 +1,5 @@
 package com.arcusys.learn.tincan.model
 
-
 /**
  * The Verb defines the action between Actor and Activity.
  * @param id Corresponds to a Verb definition. Each Verb definition corresponds to the meaning of a Verb, not the word.

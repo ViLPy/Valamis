@@ -40,6 +40,11 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
 
+## Version 2.0 Update 19.6.2014
+ - New UI with RWD
+ - Gradebook for LRS
+ - New reports
+
 ## Version 1.7 Update 28.2.2014
  - OAuth identity provider for TinCan LRS
  - TinCan statements viewer and reporting

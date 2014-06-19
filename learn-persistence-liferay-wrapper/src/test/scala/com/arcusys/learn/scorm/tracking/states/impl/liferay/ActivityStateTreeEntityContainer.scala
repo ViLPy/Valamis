@@ -4,7 +4,6 @@ import com.arcusys.learn.persistence.liferay.service.LFActivityStateTreeLocalSer
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateTree
 import com.arcusys.learn.storage.impl.liferay.MockKeyedEntityContainer
 
-
 object ActivityStateTreeEntityContainer extends MockKeyedEntityContainer[LFActivityStateTreeLocalService, LFActivityStateTree] {
   lazy val mockLocalService = mock[LFActivityStateTreeLocalService]
   lazy val mockServiceBeanName = classOf[LFActivityStateTreeLocalService].getName
@@ -15,7 +14,7 @@ object ActivityStateTreeEntityContainer extends MockKeyedEntityContainer[LFActiv
   def deleteFunction = _.deleteLFActivityStateTree(_)
   def updateFunction = _.updateLFActivityStateTree(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFActivityStateTrees(_,_)
+  def getAllFunction = _.getLFActivityStateTrees(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks

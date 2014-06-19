@@ -10,9 +10,10 @@ package com.arcusys.learn.quiz.model
  * @param finalPageContent    static content for last quiz page
  */
 case class Quiz(
-                 id: Int,
-                 title: String,
-                 description: String,
-                 welcomePageContent: String,
-                 finalPageContent: String,
-                 courseID: Option[Int])
+  id: Int,
+  title: String,
+  description: String,
+  welcomePageContent: String,
+  finalPageContent: String,
+  courseID: Option[Int],
+  logo: String)

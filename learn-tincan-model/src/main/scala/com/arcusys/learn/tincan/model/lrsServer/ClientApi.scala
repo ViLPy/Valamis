@@ -5,7 +5,7 @@ import com.arcusys.learn.tincan.model.LrsScope
 /**
  * Created by Iliya on 14.02.14.
  */
-case class ClientApi (
+case class ClientApi(
   id: Long,
   secret: String,
   name: String,

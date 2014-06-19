@@ -29,7 +29,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     "version" -> manifest.version,
     "visibility" -> manifest.visibility.getOrElse(false),
     "isDefault" -> manifest.isDefault,
-    "type" -> "scorm")
+    "type" -> "scorm",
+    "logo" -> manifest.logo)
 
   def serializeToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
     "title" -> manifest.title,
@@ -37,7 +38,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     "version" -> "",
     "visibility" -> manifest.visibility.getOrElse(false),
     "isDefault" -> manifest.isDefault,
-    "type" -> "tincan")
+    "type" -> "tincan",
+    "logo" -> manifest.logo)
 
   val jsonModel = new JsonModelBuilder[Manifest](serializeToMap)
 
@@ -64,7 +66,8 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
         "version" -> manifest.version,
         "suspendedID" -> (if (attempt.isDefined) activityStateTreeStorage.get(attempt.get.id).map(_.suspendedActivity.map(_.item.activity.id)) else None),
         "attempted" -> attempt.isDefined,
-        "type" -> "scorm")
+        "type" -> "scorm",
+        "logo" -> manifest.logo)
     }
 
     def serializeTincanToMap(manifest: tincan.manifest.model.Manifest) = Map("id" -> manifest.id,
@@ -73,17 +76,36 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
       "version" -> "",
       "suspendedID" -> None,
       "attempted" -> false,
-      "type" -> "tincan")
-
+      "type" -> "tincan",
+      "logo" -> manifest.logo)
 
     val courseID = parameter("courseID").intRequired
     val pageID = parameter("pageID").required
+    val companyID = PortalUtilHelper.getCompanyId(request)
+    val filter = parameter("filter").required
+    val sortBy = parameter("sortBy").required
+    val sortAscDirection = parameter("sortAscDirection").booleanRequired
 
+    val scormFiltered = packageService.getVisiblePackages(parameter("playerID").required, companyID, courseID, pageID)
+      .filter(_.title.toLowerCase.contains(filter.toLowerCase))
+    val scormSortedAZ = sortBy match {
+      case "name" => scormFiltered.sortBy(_.title)
+      case "date" => scormFiltered.sortBy(_.id)
+    }
+    val scormSorted = if (sortAscDirection) scormSortedAZ else scormSortedAZ.reverse
+
+    val tincanFiltered = packageService.getVisibleTincanPackages(parameter("playerID").required, companyID, courseID, pageID)
+      .filter(_.title.toLowerCase.contains(filter.toLowerCase))
+    val tincanSortedAZ = sortBy match {
+      case "name" => tincanFiltered.sortBy(_.title)
+      case "date" => tincanFiltered.sortBy(_.id)
+    }
+    val tincanSorted = if (sortAscDirection) tincanSortedAZ else tincanSortedAZ.reverse
     // TODO need filter for tincan packages, and implement sorting (M)
     json(
-      packageService.getVisiblePackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID).sortBy(_.title).map(serializeScormToMap) ++
-        packageService.getVisibleTincanPackages(parameter("playerID").required, getAllCourseIDs, courseID, pageID).sortBy(_.title).map(serializeTincanToMap)
-    )
+      scormSorted.map(serializeScormToMap) ++
+        tincanSorted.map(serializeTincanToMap)
+    ).get
   }
 
   // get all packages for Admin Instance scope
@@ -92,22 +114,18 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
   }
 
   private def getInInstance = {
-    val courseIds = getAllCourseIDs
+    val companyID = PortalUtilHelper.getCompanyId(request)
+    val courseIds = packageService.getAllCourseIDs(companyID)
     val scormPackages = packageStorage.getAllForInstance(courseIds).map(serializeToMap)
     val tincanPackages = tincanPackageStorage.getAllForInstance(courseIds).map(serializeToMap)
-    val result = json(scormPackages ++ tincanPackages)
+    val result = json(scormPackages ++ tincanPackages).get
     result
-  }
-
-  private def getAllCourseIDs = {
-    val groups = GroupLocalServiceHelper.search(PortalUtilHelper.getCompanyId(request), null, null, null, QueryUtilHelper.ALL_POS, QueryUtilHelper.ALL_POS)
-    groups.map(i => i.getGroupId.toInt).toList
   }
 
   // get packages for Admin Site scope
   get("/allInSite") {
     val courseID = parameter("courseID").intOption(-1)
-    json(packageStorage.getByCourseID(courseID).map(serializeToMap) ++ tincanPackageStorage.getByCourseID(courseID).map(serializeToMap))
+    json(packageStorage.getByCourseID(courseID).map(serializeToMap) ++ tincanPackageStorage.getByCourseID(courseID).map(serializeToMap)).get
   }
 
   // get packages, only by current CourseID (liferay siteID), visibility for current Player + Scope
@@ -119,20 +137,21 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
       case ScopeType.Page => {
         val pagePackages = packageStorage.getByScope(courseID, scopeType, parameter("pageID").required).map(serializeToMap)
         val tincanPackages = tincanPackageStorage.getByScope(courseID, scopeType, parameter("pageID").required).map(serializeToMap)
-        json(pagePackages ++ tincanPackages)
+        json(pagePackages ++ tincanPackages).get
       }
       case ScopeType.Player => {
         val playerPackages = packageStorage.getByScope(courseID, scopeType, parameter("playerID").required).map(serializeToMap)
         val tincanPackages = tincanPackageStorage.getByScope(courseID, scopeType, parameter("playerID").required).map(serializeToMap)
-        val courseIds = getAllCourseIDs
+        val companyID = PortalUtilHelper.getCompanyId(request)
+        val courseIds = packageService.getAllCourseIDs(companyID)
         val personalPackages = packageStorage.getByExactScope(courseIds, scopeType, parameter("playerID").required).map(serializeToMap)
         val personalTincanPackages = tincanPackageStorage.getByExactScope(courseIds, scopeType, parameter("playerID").required).map(serializeToMap)
-        json(playerPackages ++ tincanPackages ++ personalPackages ++ personalTincanPackages)
+        json(playerPackages ++ tincanPackages ++ personalPackages ++ personalTincanPackages).get
       }
       case ScopeType.Site => {
         val sitePackages = packageStorage.getByCourseID(Option(courseID)).map(serializeToMap)
         val tincanPackages = tincanPackageStorage.getByCourseID(Option(courseID)).map(serializeToMap)
-        json(sitePackages ++ tincanPackages)
+        json(sitePackages ++ tincanPackages).get
       }
       case ScopeType.Instance => getInInstance
     }
@@ -140,8 +159,9 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
 
   get("/getPersonalForPlayer/:playerID") {
     val playerID = parameter("playerID").required
-    val courseIds = getAllCourseIDs
-    val layouts = LayoutLocalServiceHelper.getLayouts(UserLocalServiceHelper.getUser(getSessionUserID).getGroupId, true)
+    val companyID = PortalUtilHelper.getCompanyId(request)
+    val courseIds = packageService.getAllCourseIDs(companyID)
+    val layouts = LayoutLocalServiceHelper.getLayouts(UserLocalServiceHelper().getUser(getSessionUserID).getGroupId, true)
 
     val shown = packageStorage.getByExactScope(courseIds, ScopeType.Player, playerID).map(_.id)
     val personalPackages = packageStorage.getByCourseID(Some(layouts.asScala.last.getGroupId.toInt)).filter(p => !shown.contains(p.id))
@@ -149,7 +169,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     val shownTC = tincanPackageStorage.getByExactScope(courseIds, ScopeType.Player, playerID).map(_.id)
     val personalTincanPackages = tincanPackageStorage.getByCourseID(Some(layouts.asScala.last.getGroupId.toInt)).filter(p => !shownTC.contains(p.id))
 
-    json(personalPackages.map(serializeToMap) ++ personalTincanPackages.map(serializeToMap))
+    json(personalPackages.map(serializeToMap) ++ personalTincanPackages.map(serializeToMap)).get
   }
 
   post("/addPackageToPlayer/:playerID") {
@@ -174,7 +194,7 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     packageStorage.setDescriptions(id, parameter("title").required, AntiSamyHelper.sanitize(parameter("summary").required))
 
     scopeType match {
-      case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
+      case ScopeType.Site     => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
       case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
     }
   }
@@ -190,10 +210,10 @@ class PackagesService(configuration: BindingModule) extends ServletBase(configur
     updatePackageSettings(id, visibility.getOrElse(false), parameter("isDefault").booleanRequired, scope, courseID)
 
     scopeType match {
-      case ScopeType.Site => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
+      case ScopeType.Site     => jsonModel(packageStorage.getByID(id, courseID, scopeType, courseID.toString))
       case ScopeType.Instance => jsonModel(packageStorage.getByID(id, courseID, scopeType, ""))
-      case ScopeType.Page => jsonModel(packageStorage.getByID(id, courseID, scopeType, parameter("pageID").required))
-      case ScopeType.Player => jsonModel(packageStorage.getByID(id))
+      case ScopeType.Page     => jsonModel(packageStorage.getByID(id, courseID, scopeType, parameter("pageID").required))
+      case ScopeType.Player   => jsonModel(packageStorage.getByID(id))
     }
   }
 

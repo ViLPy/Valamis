@@ -1,9 +1,9 @@
 package com.arcusys.learn.view.updater
 
-import com.arcusys.scala.scalatra.mustache.MustacheSupport
 import javax.portlet._
 import org.scalatra.ScalatraFilter
 import com.arcusys.learn.view.liferay.LiferayHelpers
+import com.arcusys.learn.util.MustacheSupport
 
 class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSupport {
   override def destroy() {}
@@ -21,7 +21,7 @@ class UpdaterView1_2 extends GenericPortlet with ScalatraFilter with MustacheSup
       "scopeID" -> scopeID)
     response.getWriter.println(mustache(data, "updater12.html"))
   }
-/*
+  /*
   override def serveResource(request: ResourceRequest, response: ResourceResponse) {
     if (StorageFactory.dbType == DBType.Postgres) {
       System.out.println("Updating to version 1.2.1")

@@ -3,11 +3,11 @@ package com.arcusys.learn.tincan.storage.impl.liferay
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.tincan.model.ContextActivities
 import com.arcusys.learn.persistence.liferay.model.LFTincanCtxActivities
-import com.arcusys.learn.util.JsonSerializer
 import com.arcusys.learn.persistence.liferay.service.LFTincanCtxActivitiesLocalServiceUtil
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsContextActivitiesStorageImpl extends KeyedEntityStorage[ContextActivities] {
-  def mapper(entity:LFTincanCtxActivities): ContextActivities = {
+  def mapper(entity: LFTincanCtxActivities): ContextActivities = {
     ContextActivities(
       JsonSerializer.deserializeActivityReference(entity.getParent).toSet,
       JsonSerializer.deserializeActivityReference(entity.getGrouping).toSet,

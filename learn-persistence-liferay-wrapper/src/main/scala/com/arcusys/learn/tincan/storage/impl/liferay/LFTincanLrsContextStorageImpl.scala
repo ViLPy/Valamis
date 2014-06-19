@@ -1,11 +1,11 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.model.{Group, Context}
+import com.arcusys.learn.tincan.model.{ Group, Context }
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsContext
-import com.arcusys.learn.util.JsonSerializer
-import com.arcusys.learn.tincan.storage.{ContextActivitiesStorage, ActorStorage}
+import com.arcusys.learn.tincan.storage.{ ContextActivitiesStorage, ActorStorage }
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalServiceUtil
+import com.arcusys.util.JsonSerializer
 
 trait LFTincanLrsContextStorageImpl extends KeyedEntityStorage[Context] {
   def actorStorage: ActorStorage
@@ -19,12 +19,13 @@ trait LFTincanLrsContextStorageImpl extends KeyedEntityStorage[Context] {
         .map(_.asInstanceOf[Group])
     }).getOrElse(None)
 
+    val contextActivities = Option(entity.getContextActivitiesID).map(id => contextActivitiesStorage.getByID(id)).flatMap(o => o)
+
     Context(
       Option(entity.getRegistration).map(JsonSerializer.deserializeUUID),
       Option(entity.getInstructorID).map(id => actorStorage.getByID(id)).getOrElse(None),
       group,
-      contextActivitiesStorage.getByID(entity.getContextActivitiesID)
-        .getOrElse(throw new IllegalArgumentException("Cannot find context activities for Context " + entity)),
+      contextActivities,
       Option(entity.getRevision),
       Option(entity.getPlatform),
       Option(entity.getLanguage),
@@ -44,8 +45,10 @@ trait LFTincanLrsContextStorageImpl extends KeyedEntityStorage[Context] {
     entity.instructor.foreach(i => lfEntity.setInstructorID(actorStorage.createAndGetID(i)))
     entity.team.foreach(t => lfEntity.setTeamID(actorStorage.createAndGetID(t)))
 
-    val contextActID = entity.contextActivities.id.getOrElse(contextActivitiesStorage.createAndGetID(entity.contextActivities))
-    lfEntity.setContextActivitiesID(contextActID)
+    if (entity.contextActivities.isDefined) {
+      val contextActID = entity.contextActivities.get.id.getOrElse(contextActivitiesStorage.createAndGetID(entity.contextActivities.get))
+      lfEntity.setContextActivitiesID(contextActID)
+    }
     entity.revision.foreach(lfEntity.setRevision)
     entity.platform.foreach(lfEntity.setPlatform)
     entity.language.foreach(lfEntity.setLanguage)

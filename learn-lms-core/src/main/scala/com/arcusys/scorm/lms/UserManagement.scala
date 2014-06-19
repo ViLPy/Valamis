@@ -1,10 +1,10 @@
 package com.arcusys.scorm.lms
 
-import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.tracking.model.PermissionType
 import scala.collection.JavaConverters._
-import com.arcusys.learn.liferay.services.{UserLocalServiceHelper, RoleLocalServiceHelper}
+import com.arcusys.learn.liferay.services.{ UserLocalServiceHelper, RoleLocalServiceHelper }
 import com.arcusys.learn.liferay.LiferayClasses._
 
 class UserManagement(implicit val bindingModule: BindingModule) extends Injectable {
@@ -19,7 +19,7 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
 
   def getStudentsWithAttemptsByCourseID(courseID: Long) = {
     def getAllRawUsers = {
-      val users = UserLocalServiceHelper.getGroupUsers(courseID)
+      val users = UserLocalServiceHelper().getGroupUsers(courseID)
       for (i <- 0 to users.size - 1) yield users.get(i)
     }
 
@@ -32,7 +32,7 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
       } yield scormUsers.filter(scUser => scUser.id == user.getUserId).head
     }
 
-    val studentRoles = storageFactory.roleStorage.getForPermission(PermissionType.Student)
+    val studentRoles = storageFactory.roleStorage.getForPermission(PermissionType.STUDENT)
     getUsersByRole(studentRoles).distinct.map(user => Map("id" -> user.id, "name" -> user.name))
   }
 
@@ -42,16 +42,16 @@ class UserManagement(implicit val bindingModule: BindingModule) extends Injectab
 
   def isStudent(userID: Long, courseID: Long) = {
     val roles = getAllUserRoles(userID, courseID)
-    val studentRoles = storageFactory.roleStorage.getForPermission(PermissionType.Student)
+    val studentRoles = storageFactory.roleStorage.getForPermission(PermissionType.STUDENT)
     //roles.find(_.getName.equalsIgnoreCase("student")).isDefined
     roles.exists(r => studentRoles.exists(_.liferayRoleID == r.getRoleId))
   }
 
   def hasTeacherPermissions(userId: Long, courseId: Long) = {
     if (isAdmin(userId, courseId)) true
-    else{
+    else {
       val roles = getAllUserRoles(userId, courseId)
-      val teacherRoles = storageFactory.roleStorage.getForPermission(PermissionType.Teacher)
+      val teacherRoles = storageFactory.roleStorage.getForPermission(PermissionType.TEACHER)
       val isTeacher = roles.exists(r => teacherRoles.exists(_.liferayRoleID == r.getRoleId))
       isTeacher
     }

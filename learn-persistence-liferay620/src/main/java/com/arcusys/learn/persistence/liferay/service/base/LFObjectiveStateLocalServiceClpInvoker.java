@@ -41,20 +41,20 @@ public class LFObjectiveStateLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName280;
-    private String[] _methodParameterTypes280;
-    private String _methodName281;
-    private String[] _methodParameterTypes281;
-    private String _methodName286;
-    private String[] _methodParameterTypes286;
-    private String _methodName287;
-    private String[] _methodParameterTypes287;
-    private String _methodName288;
-    private String[] _methodParameterTypes288;
-    private String _methodName289;
-    private String[] _methodParameterTypes289;
-    private String _methodName290;
-    private String[] _methodParameterTypes290;
+    private String _methodName296;
+    private String[] _methodParameterTypes296;
+    private String _methodName297;
+    private String[] _methodParameterTypes297;
+    private String _methodName302;
+    private String[] _methodParameterTypes302;
+    private String _methodName303;
+    private String[] _methodParameterTypes303;
+    private String _methodName304;
+    private String[] _methodParameterTypes304;
+    private String _methodName305;
+    private String[] _methodParameterTypes305;
+    private String _methodName306;
+    private String[] _methodParameterTypes306;
 
     public LFObjectiveStateLocalServiceClpInvoker() {
         _methodName0 = "addLFObjectiveState";
@@ -139,37 +139,37 @@ public class LFObjectiveStateLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFObjectiveState"
             };
 
-        _methodName280 = "getBeanIdentifier";
+        _methodName296 = "getBeanIdentifier";
 
-        _methodParameterTypes280 = new String[] {  };
+        _methodParameterTypes296 = new String[] {  };
 
-        _methodName281 = "setBeanIdentifier";
+        _methodName297 = "setBeanIdentifier";
 
-        _methodParameterTypes281 = new String[] { "java.lang.String" };
+        _methodParameterTypes297 = new String[] { "java.lang.String" };
 
-        _methodName286 = "createLFObjectiveState";
+        _methodName302 = "createLFObjectiveState";
 
-        _methodParameterTypes286 = new String[] {  };
+        _methodParameterTypes302 = new String[] {  };
 
-        _methodName287 = "findByMapKeyAndActivityStateID";
+        _methodName303 = "findByMapKeyAndActivityStateID";
 
-        _methodParameterTypes287 = new String[] {
+        _methodParameterTypes303 = new String[] {
                 "java.lang.String", "java.lang.Integer"
             };
 
-        _methodName288 = "findByActivityStateID";
+        _methodName304 = "findByActivityStateID";
 
-        _methodParameterTypes288 = new String[] {
+        _methodParameterTypes304 = new String[] {
                 "java.lang.Integer", "int", "int"
             };
 
-        _methodName289 = "removeAll";
+        _methodName305 = "removeAll";
 
-        _methodParameterTypes289 = new String[] {  };
+        _methodParameterTypes305 = new String[] {  };
 
-        _methodName290 = "getLFObjectiveState";
+        _methodName306 = "getLFObjectiveState";
 
-        _methodParameterTypes290 = new String[] { "long" };
+        _methodParameterTypes306 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -261,45 +261,45 @@ public class LFObjectiveStateLocalServiceClpInvoker {
             return LFObjectiveStateLocalServiceUtil.updateLFObjectiveState((com.arcusys.learn.persistence.liferay.model.LFObjectiveState) arguments[0]);
         }
 
-        if (_methodName280.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes280, parameterTypes)) {
+        if (_methodName296.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName281.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes281, parameterTypes)) {
+        if (_methodName297.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
             LFObjectiveStateLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName286.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes286, parameterTypes)) {
+        if (_methodName302.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.createLFObjectiveState();
         }
 
-        if (_methodName287.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes287, parameterTypes)) {
+        if (_methodName303.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.findByMapKeyAndActivityStateID((java.lang.String) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName288.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes288, parameterTypes)) {
+        if (_methodName304.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.findByActivityStateID((java.lang.Integer) arguments[0],
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue());
         }
 
-        if (_methodName289.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes289, parameterTypes)) {
+        if (_methodName305.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
             LFObjectiveStateLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName290.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes290, parameterTypes)) {
+        if (_methodName306.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
             return LFObjectiveStateLocalServiceUtil.getLFObjectiveState(((Long) arguments[0]).longValue());
         }
 

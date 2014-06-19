@@ -39,6 +39,7 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
         attributes.put("id", getId());
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
+        attributes.put("logo", getLogo());
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
@@ -64,6 +65,12 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
 
         if (description != null) {
             setDescription(description);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
 
         String welcomePageContent = (String) attributes.get(
@@ -164,6 +171,26 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
     @Override
     public void setDescription(java.lang.String description) {
         _lfQuiz.setDescription(description);
+    }
+
+    /**
+    * Returns the logo of this l f quiz.
+    *
+    * @return the logo of this l f quiz
+    */
+    @Override
+    public java.lang.String getLogo() {
+        return _lfQuiz.getLogo();
+    }
+
+    /**
+    * Sets the logo of this l f quiz.
+    *
+    * @param logo the logo of this l f quiz
+    */
+    @Override
+    public void setLogo(java.lang.String logo) {
+        _lfQuiz.setLogo(logo);
     }
 
     /**

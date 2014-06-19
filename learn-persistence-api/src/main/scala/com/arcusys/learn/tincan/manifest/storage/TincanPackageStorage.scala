@@ -6,9 +6,9 @@ import com.arcusys.learn.scorm.manifest.model.ScopeType
 trait TincanPackageStorage {
   def renew()
 
-  def createAndGetID(entity: Manifest, courseID:Option[Int]): Int
+  def createAndGetID(entity: Manifest, courseID: Option[Int]): Int
 
-  def getByRefID(refID:Long): Option[Manifest]
+  def getByRefID(refID: Long): Option[Manifest]
 
   def getAll: Seq[Manifest]
 
@@ -29,6 +29,7 @@ trait TincanPackageStorage {
   def delete(id: Int)
 
   def setDescriptions(id: Int, title: String, summary: String)
+  def setLogo(id: Int, logo: Option[String])
 
-  def setAssetRefID(id: Int, refID:Long)
+  def setAssetRefID(id: Int, refID: Long)
 }

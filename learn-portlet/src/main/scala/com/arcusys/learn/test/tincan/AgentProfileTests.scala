@@ -1,15 +1,11 @@
 package com.arcusys.learn.test.tincan
 
 import java.io.PrintWriter
-import com.arcusys.learn.tincan.lrs.state.StateLRS
 import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.{ActorStorage, AgentProfileStorage, StateStorage}
+import com.arcusys.learn.tincan.storage.{ ActorStorage, AgentProfileStorage }
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
-import scala.Some
 import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRS
-import java.util.Date
-import scala.Some
 import com.arcusys.learn.tincan.model.Agent
 import com.arcusys.learn.tincan.model.Account
 import scala.Some
@@ -30,7 +26,7 @@ class AgentProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
   def createAndReadTest() {
     renew()
     val profileId = "zdxfaf"
-    val agent = Agent("Agent", Some("agent name"), Some("q@q.q"), Some("12345"), None, Some(Account("hp","name")))
+    val agent = Agent("Agent", Some("agent name"), Some("q@q.q"), Some("12345"), None, Some(Account("hp", "name")))
     val document = Document("the content", JSONContent)
 
     agentProfileLrs.addAgentDocument(profileId, agent, document)
@@ -81,7 +77,7 @@ class AgentProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
       "xcv" -> Document("the content 3", OtherContent)
     )
 
-    documents.foreach(p=> agentProfileLrs.addAgentDocument(p._1, agent, p._2))
+    documents.foreach(p => agentProfileLrs.addAgentDocument(p._1, agent, p._2))
 
     writer.write("agent profile document, create many SUCCESS <br>")
   }

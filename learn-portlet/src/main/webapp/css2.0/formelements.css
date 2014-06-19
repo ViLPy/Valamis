@@ -1,0 +1,78 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.checkbox.valamis {
+    width: 14px;
+    min-height:14px;
+    height: 14px;
+    background-color: #e4e4e4;
+    border: 1px solid #d4d4d4;
+    border-radius: 1px;
+    cursor: pointer;
+    float: left;
+    padding-left: 0px;
+    -webkit-transition: 0.05s all linear!important;
+    -moz-transition: 0.05s all linear!important;
+    transition: 0.05s all linear!important;
+}
+
+.checkbox.valamis:hover {
+    background-color: #d8d8d8;
+}
+
+.checkbox.valamis.checked {
+    background-image: url(../images/checkbox-checked.png);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.text-input.valamis, .textarea.valamis {
+    background: #FAFAFA!important;
+    border: 1px solid #d4d4d4!important;
+    border-radius: 1px!important;
+    line-height: 20px!important;
+    /*height:38px!important;*/
+    padding: 8px 10px!important;
+    font-size: 15px!important;
+    color: #777777!important;
+    width: 300px;
+    -webkit-transition: 0.05s all linear;
+    -moz-transition: 0.05s all linear;
+    transition: 0.05s all linear;
+}
+
+.textarea.valamis {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.text-input.valamis:focus, .textarea.valamis:focus {
+    background: #FFFFFF!important;
+    border-color: #a9cb4f!important;
+    color: #2c2c2c!important;
+}
+
+.form-label.valamis {
+    display: block;
+    font-size: 13px;
+    line-height: 16px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #777777;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.form-label.inline.valamis {
+    display: inline;
+}
+
+.form-label.valamis.checkbox-label {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    float: left;
+    margin-left: 10px;
+}
+	

@@ -51,9 +51,10 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
             { "resourcesBase", Types.CLOB },
             { "summary", Types.CLOB },
             { "assetRefID", Types.BIGINT },
-            { "courseID", Types.INTEGER }
+            { "courseID", Types.INTEGER },
+            { "logo", Types.CLOB }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackage (id_ LONG not null primary key,defaultOrganizationID TEXT null,title TEXT null,base TEXT null,resourcesBase TEXT null,summary TEXT null,assetRefID LONG null,courseID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackage (id_ LONG not null primary key,defaultOrganizationID TEXT null,title TEXT null,base TEXT null,resourcesBase TEXT null,summary TEXT null,assetRefID LONG null,courseID INTEGER null,logo TEXT null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackage";
     public static final String ORDER_BY_JPQL = " ORDER BY lfPackage.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFPackage.id_ ASC";
@@ -90,6 +91,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
     private Integer _courseID;
     private Integer _originalCourseID;
     private boolean _setOriginalCourseID;
+    private String _logo;
     private long _columnBitmask;
     private LFPackage _escapedModel;
 
@@ -138,6 +140,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         attributes.put("summary", getSummary());
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
+        attributes.put("logo", getLogo());
 
         return attributes;
     }
@@ -191,6 +194,12 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        String logo = (String) attributes.get("logo");
+
+        if (logo != null) {
+            setLogo(logo);
         }
     }
 
@@ -302,6 +311,16 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         return _originalCourseID;
     }
 
+    @Override
+    public String getLogo() {
+        return _logo;
+    }
+
+    @Override
+    public void setLogo(String logo) {
+        _logo = logo;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -341,6 +360,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         lfPackageImpl.setSummary(getSummary());
         lfPackageImpl.setAssetRefID(getAssetRefID());
         lfPackageImpl.setCourseID(getCourseID());
+        lfPackageImpl.setLogo(getLogo());
 
         lfPackageImpl.resetOriginalValues();
 
@@ -452,12 +472,20 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
 
         lfPackageCacheModel.courseID = getCourseID();
 
+        lfPackageCacheModel.logo = getLogo();
+
+        String logo = lfPackageCacheModel.logo;
+
+        if ((logo != null) && (logo.length() == 0)) {
+            lfPackageCacheModel.logo = null;
+        }
+
         return lfPackageCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{id=");
         sb.append(getId());
@@ -475,6 +503,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         sb.append(getAssetRefID());
         sb.append(", courseID=");
         sb.append(getCourseID());
+        sb.append(", logo=");
+        sb.append(getLogo());
         sb.append("}");
 
         return sb.toString();
@@ -482,7 +512,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFPackage");
@@ -519,6 +549,10 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         sb.append(
             "<column><column-name>courseID</column-name><column-value><![CDATA[");
         sb.append(getCourseID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>logo</column-name><column-value><![CDATA[");
+        sb.append(getLogo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

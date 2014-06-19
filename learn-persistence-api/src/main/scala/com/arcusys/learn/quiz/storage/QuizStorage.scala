@@ -1,6 +1,6 @@
 package com.arcusys.learn.quiz.storage
 
-import com.arcusys.learn.quiz.model._
+import com.arcusys.learn.quiz.model.Quiz
 
 trait QuizStorage {
   def getAll: Seq[Quiz]

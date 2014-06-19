@@ -3,7 +3,7 @@ package com.arcusys.learn.questionbank.storage.impl
 import com.arcusys.learn.questionbank.model._
 
 import com.arcusys.learn.questionbank.storage.AnswerStorage
-import com.arcusys.learn.storage.impl.{EntityStorageExt, KeyedEntityStorageExt}
+import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import math.BigDecimal
 
 /**
@@ -58,38 +58,38 @@ trait AnswerEntityStorage extends AnswerStorage with KeyedEntityStorageExt[Answe
         "questionID" -> questionID,
         "answerPosition" -> position,
         "answerType" -> (answer match {
-          case e: ChoiceAnswer => 0
-          case e: TextAnswer => 1
-          case e: NumericAnswer => 2
-          case e: PositioningAnswer => 3
-          case e: MatchingAnswer => 4
+          case e: ChoiceAnswer         => 0
+          case e: TextAnswer           => 1
+          case e: NumericAnswer        => 2
+          case e: PositioningAnswer    => 3
+          case e: MatchingAnswer       => 4
           case e: CategorizationAnswer => 7
         }),
         "description" -> (answer match {
-          case e: ChoiceAnswer => Some(e.text)
-          case e: TextAnswer => Some(e.text)
-          case e: PositioningAnswer => Some(e.text)
-          case e: MatchingAnswer => Some(e.text)
+          case e: ChoiceAnswer         => Some(e.text)
+          case e: TextAnswer           => Some(e.text)
+          case e: PositioningAnswer    => Some(e.text)
+          case e: MatchingAnswer       => Some(e.text)
           case e: CategorizationAnswer => Some(e.text)
-          case _ => None
+          case _                       => None
         }),
         "isCorrect" -> (answer match {
-          case e: ChoiceAnswer => Some(e.isCorrect)
+          case e: ChoiceAnswer      => Some(e.isCorrect)
           case e: PositioningAnswer => Some(e.isCorrect)
-          case _ => None
+          case _                    => None
         }),
         "rangeFrom" -> (answer match {
           case e: NumericAnswer => Some(e.notLessThan.bigDecimal)
-          case _ => None
+          case _                => None
         }),
         "rangeTo" -> (answer match {
           case e: NumericAnswer => Some(e.notGreaterThan.bigDecimal)
-          case _ => None
+          case _                => None
         }),
         "matchingText" -> (answer match {
-          case e: MatchingAnswer => Some(e.keyText)
+          case e: MatchingAnswer       => Some(e.keyText)
           case e: CategorizationAnswer => Some(e.answerCategoryText)
-          case _ => None
+          case _                       => None
         })
       )
     }

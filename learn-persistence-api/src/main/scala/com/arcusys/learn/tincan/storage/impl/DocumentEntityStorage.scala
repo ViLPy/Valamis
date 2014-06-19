@@ -13,10 +13,10 @@ trait DocumentEntityStorage extends DocumentStorage with EntityStorage[Document]
   }
 
   def create(entity: Document) {
-    create(entity, Nil:_*)
+    create(entity, Nil: _*)
   }
 
   def modify(entity: Document) {
-    modify(entity, Nil:_*)
+    modify(entity, Nil: _*)
   }
 }
