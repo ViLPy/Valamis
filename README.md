@@ -45,6 +45,7 @@ Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded c
  - Gradebook for LRS
  - New reports
  - Updated curriculum functionality
+ - Fullscreen mode for Lesson Viewer 
 
 ## Version 1.7 Update 28.2.2014
  - OAuth identity provider for TinCan LRS
