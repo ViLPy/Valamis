@@ -71,7 +71,7 @@ GradebookDetailedListView = Backbone.View.extend({
 
         this.packages = new Object();
 
-        this.paginator = new ValamisPaginator({el: jQuery('.paginator'), model: this.model.get('paginatorModel'), language: this.options.language});
+        this.paginator = new ValamisPaginator({el: jQuery('#gradebookPaginator'), model: this.model.get('paginatorModel'), language: this.options.language});
 
 
     },

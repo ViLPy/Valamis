@@ -6,7 +6,7 @@
 
 Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn using Liferay platform. You can use it as your organizations social learning environment.
 
-Supported Liferay version is currently 6.2 since release 1.6.6. Older versions has support of 6.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
+Supported Liferay version is currently 6.2 SP1 since release 1.6.6. Older versions has support of 6.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -39,6 +39,25 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 2.2 Update 11.12.2014
+ - Uploading pptx presentation as TinCan package
+ - Uploading pptx presentation as list of questions in Lesson Designer
+ - Moving questions between courses, displaying all questions from Liferay instance
+ - Logo change will affect only after Save action
+ - Scandic letters problem fix
+ - Time limit for passing package
+ - Time limit between package retakes
+ - Check mark for package which user already started, displaying remain attemps
+ - PDF viewer
+ - Theme selector for tincan
+ - Randomization questions in tincan packages
+ - Foreground video
+ - Printing Learning transcript
+ - Fluid card layout
+ - Tincan signed statements support
+ - Removed instructional sentences (such as "choose correct answers" ) from questions
+ - UI improvements
 
 ## Version 2.0 Update 19.6.2014
  - New UI with RWD

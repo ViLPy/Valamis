@@ -3,6 +3,7 @@ package com.arcusys.learn.controllers.api
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.models.{ ActivityModel, GeneralResponse }
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
 
 class ActivityApiController(configuration: BindingModule) extends BaseApiController(configuration) {
   def this() = this(Configuration)
@@ -21,6 +22,7 @@ class ActivityApiController(configuration: BindingModule) extends BaseApiControl
         "com.liferay.calendar.model.CalendarBooking",
         "com.liferay.portlet.bookmarks.model.BookmarksEntry"
       )
+
     )
 
     GeneralResponse(data = data)

@@ -20,7 +20,7 @@ trait CategoryFacadeContract {
     parentId: Option[Int],
     courseId: Option[Int]): CategoryResponse
 
-  def delete(id: Int): Boolean
+  def delete(id: Int, courseId: Option[Int]): Boolean
 
   def update(id: Int,
     title: String,
@@ -30,4 +30,6 @@ trait CategoryFacadeContract {
     dndMode: DndModeType,
     targetId: Int,
     itemType: String): CategoryResponse
+
+  def moveToCourse(id: Int, courseID: Option[Int], newCourseID: Option[Int])
 }

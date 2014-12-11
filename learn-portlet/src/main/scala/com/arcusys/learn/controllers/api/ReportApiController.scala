@@ -15,7 +15,11 @@ class ReportApiController(configuration: BindingModule) extends BaseApiControlle
 
   val reportFacade = inject[ReportFacadeContract]
 
-  get("/") {
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/report(/)") {
     implicit val formats: Formats = DefaultFormats + new StatementSerializer
 
     jsonAction {
@@ -23,20 +27,18 @@ class ReportApiController(configuration: BindingModule) extends BaseApiControlle
       reportRequest.actionType match {
         case ReportActionType.MOST_ACTIVE_USERS => {
           reportFacade.getMostActive(
-            getSessionUserID,
+            getUserId.toInt,
             reportRequest.offset,
             reportRequest.amount)
-
-          //CollectionResponse(reportRequest.page, students, studentsCount)
         }
 
         case ReportActionType.STUDENTS_LATEST_STATEMENTS => reportFacade.getStudentsLatestStatements(
-          getSessionUserID,
+          getUserId.toInt,
           reportRequest.offset,
           reportRequest.amount)
 
         case ReportActionType.USER_LATEST_STATEMENTS => reportFacade.getUserLatestStatements(
-          getSessionUserID,
+          getUserId.toInt,
           reportRequest.offset,
           reportRequest.amount)
 

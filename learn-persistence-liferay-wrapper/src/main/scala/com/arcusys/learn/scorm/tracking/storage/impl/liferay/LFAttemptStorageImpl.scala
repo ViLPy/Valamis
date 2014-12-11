@@ -8,6 +8,7 @@ import com.arcusys.learn.persistence.liferay.model.LFAttempt
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import scala.collection.JavaConverters._
 
+@deprecated
 trait LFAttemptStorageImpl extends KeyedEntityStorage[Attempt] {
   protected def doRenew() {
     LFAttemptLocalServiceUtil.removeAll()

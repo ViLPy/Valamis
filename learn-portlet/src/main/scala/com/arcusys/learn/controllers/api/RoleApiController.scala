@@ -14,8 +14,12 @@ class RoleApiController(configuration: BindingModule) extends BaseApiController(
 
   val roleFacade = inject[RoleFacadeContract]
 
-  get("/")(jsonAction {
-    val companyId = parameter("companyID").longRequired
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/roles(/)")(jsonAction {
+    val companyId = getLiferayUser.getCompanyId
     RoleLocalServiceHelper
       .getRoles(companyId)
       .asScala
@@ -23,13 +27,13 @@ class RoleApiController(configuration: BindingModule) extends BaseApiController(
       .toSeq
   })
 
-  get("/:permission")(jsonAction {
+  get("/roles/:permission")(jsonAction {
 
     val roleRequest = RoleRequest(this)
     roleFacade.getForPermission(roleRequest.permissionType)
   })
 
-  post("/(:roleID)")(jsonAction {
+  post("/roles(/)(:roleID)")(jsonAction {
     requireTeacherPermissions()
 
     val roleRequest = RoleRequest(this)

@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.course.PlayerScopeRuleStorage
  * User: Yulia.Glushonkova
  * Date: 26.03.13
  */
+@deprecated
 trait PlayerScopeRuleEntityStorage extends PlayerScopeRuleStorage with EntityStorageExt[PlayerScopeRule] {
   def get(playerID: String) = {
     getOne("playerID" -> playerID)

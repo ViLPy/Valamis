@@ -3,16 +3,22 @@ package com.arcusys.learn.models.request
 import org.scalatra.ScalatraServlet
 import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
 
+import scala.util.Try
+
 /**
  * Created by Iliya Tryapitsin on 10.04.2014.
  */
 object CategoryRequest extends BaseRequest {
+
+  val COURSE_ID = "courseID"
+  val NEW_COURSE_ID = "newCourseID"
+  val CATEGORY_ID = "categoryId"
+  val CATEGORY_IDs = "categoryIDs"
+
   val ID = "id"
   val PARENT_ID = "parentId"
-  val CATEGORY_ID = "categoryId"
   val CATEGORIES = "categories"
   val QUESTIONS = "questions"
-  val COURSE_ID = "courseId"
   val TITLE = "title"
   val DESCRIPTION = "description"
   val DND_MODE = "dndMode"
@@ -35,7 +41,11 @@ object CategoryRequest extends BaseRequest {
 
     def categoryId = Parameter(CATEGORY_ID).intOption
 
+    def categoryIds = Parameter(CATEGORY_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
+
     def courseId = Parameter(COURSE_ID).intOption
+
+    def newCourseId = Parameter(NEW_COURSE_ID).intOption
 
     def parentId = Parameter(PARENT_ID).intOption
 

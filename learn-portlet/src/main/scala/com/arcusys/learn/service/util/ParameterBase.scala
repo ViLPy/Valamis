@@ -41,6 +41,23 @@ class ParameterBase(name: String, kernel: ScalatraBase) {
       throw new ParseException(s"Float parameter '$name' could not be parsed")
   }
 
+  def floatOption: Option[Float] = Try(required.toFloat) match {
+    case Success(value) => Option(value)
+    case Failure(_) =>
+      throw new ParseException(s"Float parameter '$name' could not be parsed")
+  }
+
+  def doubleRequired: Double = Try(required.toDouble) match {
+    case Success(value) => value
+    case Failure(_) =>
+      throw new ParseException(s"Double parameter '$name' could not be parsed")
+  }
+
+  def doubleOption: Option[Double] = Try(required.toDouble) match {
+    case Success(value) => Option(value)
+    case Failure(_)     => None
+  }
+
   def booleanRequired: Boolean = required.toLowerCase match {
     case "1" | "on" | "true"   => true
     case "0" | "off" | "false" => false
@@ -89,6 +106,12 @@ class ParameterBase(name: String, kernel: ScalatraBase) {
     else Some(BigDecimal(value.toDouble))
   }
   def bigDecimalOption: Option[BigDecimal] = option flatMap { str => Try(BigDecimal(str)).toOption }
+
+  def bigDecimalRequired: BigDecimal = Try(BigDecimal(required)) match {
+    case Success(value) => value
+    case Failure(_) =>
+      throw new ParseException(s"BigDecimal parameter '$name' could not be parsed")
+  }
 
   def dateTimeOption: Option[DateTime] = kernel.params.get(name) map (new DateTime(_))
   def dateOption(none: String): Option[Date] = {

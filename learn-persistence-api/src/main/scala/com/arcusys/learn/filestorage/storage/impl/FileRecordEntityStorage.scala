@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.tracking.model.FileRecord
  * User: dkudinov
  * Date: 14.3.2013
  */
+@deprecated
 trait FileRecordEntityStorage extends FileStorage with EntityStorageExt[FileRecord] {
 
   def getFile(filename: String): Option[FileRecord] = getOne("filename" -> stripSlashes(filename))

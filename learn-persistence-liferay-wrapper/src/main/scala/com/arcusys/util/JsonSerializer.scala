@@ -23,8 +23,8 @@ object JsonSerializer extends JsonSupport {
   def deserializeInteractionComponents(raw: String): Seq[InteractionComponent] =
     parseJson[Seq[InteractionComponent]](raw).get
 
-  def serializeExtensions(extensions: Seq[Extension]) = json(extensions).get
-  def deserializeExtensions(raw: String): Seq[Extension] = parseJson[Seq[Extension]](raw).get
+  def serializeExtensions(extensions: Option[Map[String, String]]) = json(extensions).get
+  def deserializeExtensions(raw: String): Option[Map[String, String]] = parseJson[Map[String, String]](raw).toOption
 
   def serializeAccounts(accounts: Seq[Account]) = json(accounts).get
 

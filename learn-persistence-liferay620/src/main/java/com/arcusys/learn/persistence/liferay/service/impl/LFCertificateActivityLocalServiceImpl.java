@@ -4,6 +4,7 @@ import com.arcusys.learn.persistence.liferay.NoSuchLFCertificateCourseException;
 import com.arcusys.learn.persistence.liferay.model.LFCertificateActivity;
 import com.arcusys.learn.persistence.liferay.model.LFCertificateCourse;
 import com.arcusys.learn.persistence.liferay.service.base.LFCertificateActivityLocalServiceBaseImpl;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateActivityPK;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class LFCertificateActivityLocalServiceImpl
      *
      * Never reference this interface directly. Always use {@link com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalServiceUtil} to access the l f certificate activity local service.
      */
+
+    public LFCertificateActivity createLFCertificateActivity(Long certificateID, String activityName) {
+        return super.createLFCertificateActivity(new LFCertificateActivityPK(certificateID, activityName));
+    }
 
     public List<LFCertificateActivity> findByCertificateID(Long certificateID)
             throws SystemException {

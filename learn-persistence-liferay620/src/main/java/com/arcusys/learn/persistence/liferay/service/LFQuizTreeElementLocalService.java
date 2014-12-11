@@ -246,6 +246,10 @@ public interface LFQuizTreeElementLocalService extends BaseLocalService,
         java.lang.Integer quizID, java.lang.String elementId)
         throws com.liferay.portal.kernel.exception.SystemException;
 
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentId)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException;
 }

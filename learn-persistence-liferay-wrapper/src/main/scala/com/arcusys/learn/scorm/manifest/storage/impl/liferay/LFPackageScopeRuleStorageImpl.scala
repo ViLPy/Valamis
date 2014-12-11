@@ -11,6 +11,7 @@ import scala.collection.JavaConverters._
  * User: Yulia.Glushonkova
  * Date: 12.04.13
  */
+@deprecated
 trait LFPackageScopeRuleStorageImpl extends EntityStorage[PackageScopeRule] {
   protected def doRenew() { LFPackageScopeRuleLocalServiceUtil.removeAll() }
 

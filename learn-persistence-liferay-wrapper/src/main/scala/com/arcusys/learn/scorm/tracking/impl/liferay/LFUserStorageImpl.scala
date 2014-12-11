@@ -10,6 +10,7 @@ import scala.collection.JavaConverters._
  * User: Yulia.Glushonkova
  * Date: 28.03.13
  */
+@deprecated
 trait LFUserStorageImpl extends EntityStorage[User] {
   protected def doRenew() {
     LFUserLocalServiceUtil.removeAll()

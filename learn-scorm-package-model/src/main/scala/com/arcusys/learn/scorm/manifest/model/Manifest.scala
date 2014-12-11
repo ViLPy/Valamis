@@ -1,6 +1,7 @@
 package com.arcusys.learn.scorm.manifest.model
 
 import com.arcusys.learn.scorm.manifest.model.PackageType._
+import com.arcusys.learn.scorm.manifest.model.PeriodType.PeriodType
 import com.arcusys.learn.util.TreeNode
 
 import scala.collection.mutable
@@ -64,7 +65,10 @@ case class Manifest(
 
     visibility: Option[Boolean] = None,
     logo: Option[String] = None,
-    isDefault: Boolean) extends BaseManifest {
+    isDefault: Boolean,
+    passingLimit: Int = 0,
+    rerunInterval: Int = 0,
+    rerunIntervalType: PeriodType = PeriodType.UNLIMITED) extends BaseManifest {
   base foreach {
     value => require(!value.startsWith("/") && value.endsWith("/"), "If common base is defined, it should not start with a '/' and should end with a '/'")
   }
@@ -78,6 +82,9 @@ case class Manifest(
   def getSummary: Option[String] = summary
   def getVisibility: Option[Boolean] = visibility
   def getDefault: Boolean = isDefault
+  def getPassingLimit: Int = passingLimit
+  def getRerunInterval: Int = rerunInterval
+  def getRerunIntervalType: PeriodType = rerunIntervalType
 
   def getLogo: String = logo.getOrElse("")
 }

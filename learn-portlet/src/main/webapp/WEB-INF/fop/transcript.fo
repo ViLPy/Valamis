@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="content"
+        page-width="210mm" page-height="297mm" margin-top="10mm" margin-bottom="10mm">
+      <fo:region-body/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-reference="content">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:table table-layout="fixed" width="100%">
+        <fo:table-column column-width="proportional-column-width(1)"/>
+        <fo:table-body>
+          <fo:table-row height="277mm">
+            <fo:table-cell display-align="before" padding-top="0">
+
+              <fo:block-container position="absolute" top="0mm" right="40pt" height="14pt" width="100%">
+                <fo:block font="22pt sans-serif" color="#636362" text-align="right" font-weight="bold">
+                Valamis learning transcript
+                </fo:block>
+              </fo:block-container>
+
+              <fo:block-container position="absolute" top="7mm" right="40pt" height="12pt" width="70%">
+                <fo:block text-align="right">
+                  <fo:leader color="#b4b3b4" leader-pattern="rule"  rule-thickness="4.0pt" leader-length="12cm" text-align="right"/>
+                </fo:block>
+              </fo:block-container>
+
+              <fo:block-container position="absolute" top="12mm" right="40pt" height="12pt" width="100%">
+                <fo:block font="18pt sans-serif" color="#636362" text-align="right">
+                {{username}}
+                </fo:block>
+              </fo:block-container>
+
+              <fo:block-container height="40mm" width="100%">
+                <fo:block height="40mm"></fo:block>
+              </fo:block-container>
+
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

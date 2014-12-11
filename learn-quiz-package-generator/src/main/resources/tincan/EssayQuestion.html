@@ -1,0 +1,22 @@
+<section data-state="essay_{{id}}">
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+    </div>
+    <div class="playerMainArea">
+        <textarea class="answerField changeColorOnFocus" id="scormAnswer{{id}}" rows="15" cols="60"></textarea>
+    </div>
+</div>
+</section>
+<script>
+
+    TinCanCourseModules['essay_{{id}}'] = function(tincan) {
+        // this will check is user answer right
+        var userAnswer = jQuery("#scormAnswer{{id}}").val();
+
+        var taskID = 'task{{id}}';
+        tincan.sendStatement(GetQuestionAnswerStatement(
+            taskID, '{{{text}}}', '{{title}}', 'long_fill_in', encodeURIComponent(userAnswer), '', undefined)
+        );
+    }
+</script>

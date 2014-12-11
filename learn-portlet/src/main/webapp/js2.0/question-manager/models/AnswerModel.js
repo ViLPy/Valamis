@@ -6,40 +6,50 @@ AnswerModelCollection = Backbone.Collection.extend({
 ChoiceAnswer = AnswerModel.extend({
   defaults: {
     answerText: '',
-    isCorrect: false
+    isCorrect: false,
+    score: null
   }
 });
 
 ShortAnswer = AnswerModel.extend({
   defaults: {
-    answerText: ''
+    answerText: '',
+    score: null
   }
 });
 
 NumericAnswer = AnswerModel.extend({
   defaults: {
     rangeFrom: 0,
-    rangeTo: 0
+    rangeTo: 0,
+    score: null
   }
 });
 
 PositioningAnswer = AnswerModel.extend({
   defaults: {
     answerText: '',
-    isCorrect: false
+    isCorrect: false,
+    score: null
   }
 });
 
 MatchingAnswer = AnswerModel.extend({
   defaults: {
     answerText: '',
-    matchingText: ''
+    matchingText: '',
+    score: null
   }
 });
 
 CategorizationAnswer = AnswerModel.extend({
   defaults: {
     answerText: '',
-    matchingText: ''
+    matchingText: '',
+    score: null
   }
+});
+
+$("#SCORMButtonAddAnswer").on('click', function(){
+
 });

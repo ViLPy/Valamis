@@ -33,6 +33,7 @@
         <column name="packageId" type="Long" primary="true" />
         <column name="grade" type="String" convert-null="true"/>
         <column name="comment" type="String" convert-null="true"/>
+        <column name="date" type="Date" convert-null="true"/>
 
         <finder name="Grade" return-type="LFPackageGradeStorage">
             <finder-column name="userId"/>
@@ -62,6 +63,7 @@
         <column name="welcomePageContent" type="String" convert-null="true"/>
         <column name="finalPageContent" type="String" convert-null="true"/>
         <column name="courseID" type="Integer" convert-null="false"/>
+        <column name="maxDuration" type="Integer" convert-null="false"/>
 
         <finder name="CourseId" return-type="Collection">
             <finder-column name="courseID" arrayable-operator="OR"/>
@@ -77,6 +79,8 @@
         <column name="url" type="String" convert-null="true"/>
         <column name="plainText" type="String" convert-null="true"/>
         <column name="arrangementIndex" type="Integer"/>
+        <column name="autoShowAnswer" type="Boolean"/>
+        <column name="groupId" type="Integer"/>
 
         <finder name="QuizID" return-type="Collection">
             <finder-column name="quizId"/>
@@ -85,6 +89,11 @@
             <finder-column name="quizId"/>
             <finder-column name="categoryId"/>
         </finder>
+    </entity>
+
+    <entity name="LFQuizAnswerScore" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="answerId" type="long" primary="true"/>
+        <column name="score" type="Double"/>
     </entity>
 
     <entity name="LFQuizQuestionCategory" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
@@ -769,6 +778,7 @@
         <column name="key" type="String" />
         <column name="secret" type="String" />
     </entity>
+
     <entity name="LFTincanPackage" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
         <column name="title" type="String"/>
@@ -789,6 +799,7 @@
             <finder-column name="courseID"/>
         </finder>
     </entity>
+
     <!-- LFTincanManifestActivity -->
     <entity name="LFTincanManifestAct" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
         <column name="id" type="long" primary="true"/>
@@ -1195,6 +1206,73 @@
             <finder-column name="quizID"/>
             <finder-column name="elementID"/>
         </finder>
+
+        <finder name="QuizAndParentID" return-type="Collection">
+            <finder-column name="quizID"/>
+            <finder-column name="parentID"/>
+        </finder>
     </entity>
+
+    <entity name="LFSiteDependentConfig" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="siteID" type="Integer"/>
+        <column name="dataKey" type="String"/>
+        <column name="dataValue" type="String"/>
+
+        <finder name="SiteID" return-type="Collection">
+            <finder-column name="siteID"/>
+        </finder>
+
+        <finder name="SiteIDAndDataKey" return-type="LFSiteDependentConfig">
+            <finder-column name="siteID"/>
+            <finder-column name="dataKey"/>
+        </finder>
+
+        <finder name="DataKey" return-type="Collection">
+            <finder-column name="dataKey"/>
+        </finder>
+    </entity>
+    
+    <entity name="LFLessonLimit" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="itemID" type="Long" primary="true"></column>
+        <!-- Package or Course -->
+        <column name="itemType" type="String" primary="true"></column>
+
+        <column name="passingLimit" type="Integer"></column>
+
+        <column name="rerunInterval" type="Integer"></column>
+        <column name="rerunIntervalType" type="String"></column>
+
+
+        <finder name="ItemIDAndItemType" return-type="LFLessonLimit">
+            <finder-column name="itemID"/>
+            <finder-column name="itemType"/>
+        </finder>
+    </entity>
+
+    <entity name="LFLRSToActivitySetting" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="id" type="long" primary="true"/>
+        <column name="courseID" type="Integer"/>
+        <column name="title" type="String"/>
+        <column name="activityFilter" type="String" convert-null="false"/>
+        <column name="verbFilter" type="String" convert-null="false"/>
+
+        <finder name="CourseID" return-type="Collection">
+            <finder-column name="courseID"/>
+        </finder>
+    </entity>
+
+    <entity name="LFTincanURI" cache-enabled="false" local-service="true" remote-service="false" json-enabled="false">
+        <column name="uri" type="String" primary="true"/>
+        <column name="objID" type="String"/>
+        <column name="objType" type="String"/>
+        <column name="content" type="String"/>
+
+        <finder name="URI" return-type="LFTincanURI">
+            <finder-column name="objID"/>
+            <finder-column name="objType"/>
+        </finder>
+    </entity>
+
 
 </service-builder>

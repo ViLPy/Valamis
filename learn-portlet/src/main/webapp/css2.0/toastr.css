@@ -182,7 +182,7 @@ cursor: pointer;
         top: -0.2em;
     }
 }
-@media all and (min-width: 480px) and (max-width: 767px) {
+@media all and (min-width: 480px) and (max-width: 766px) {
     #toast-container > div {
         padding: 15px 15px 15px 50px;
         width: 25em;

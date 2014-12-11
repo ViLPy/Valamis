@@ -1,7 +1,9 @@
 package com.arcusys.learn.liferay.service.asset
 
+import com.arcusys.learn.controllers.api.BaseApiController
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.scorm.manifest.storage.ScormPackagesStorage
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.liferay.services.{ CounterLocalServiceHelper, ClassNameLocalServiceHelper, AssetEntryLocalServiceHelper }
@@ -9,10 +11,11 @@ import com.arcusys.learn.liferay.util.IndexerRegistryUtilHelper
 import com.arcusys.learn.liferay.LiferayClasses.LNoSuchEntryException
 import com.arcusys.learn.liferay.constants.ContentTypesHelper
 
-class AssetHelper(configuration: BindingModule) extends ServletBase(configuration) {
+//TODO remove repository using
+class AssetHelper(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
-  import storageFactory._
+  private val packageRepository = inject[ScormPackagesStorage]
 
   def getAssetFromManifest(man: Manifest) = AssetEntryLocalServiceHelper.getAssetEntry(man.assetRefID.get)
 
@@ -20,7 +23,7 @@ class AssetHelper(configuration: BindingModule) extends ServletBase(configuratio
     try {
       if (AssetEntryLocalServiceHelper.getAssetEntry(entryID) != null) {
         val indexer = IndexerRegistryUtilHelper.getIndexer(classOf[Manifest])
-        indexer.delete(packageStorage.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
+        indexer.delete(packageRepository.getByRefID(entryID).getOrElse(throw new Exception("Package with refID " + entryID + " can not be found!")))
         AssetEntryLocalServiceHelper.deleteAssetEntry(entryID)
       }
     } catch {
@@ -38,10 +41,10 @@ class AssetHelper(configuration: BindingModule) extends ServletBase(configuratio
     entry.setClassPK(entry.getPrimaryKey)
     AssetEntryLocalServiceHelper.updateAssetEntry(entry)
 
-    packageStorage.setAssetRefID(manifest.id, entry.getPrimaryKey)
+    packageRepository.setAssetRefID(manifest.id, entry.getPrimaryKey)
 
     val indexer = IndexerRegistryUtilHelper.getIndexer(classOf[Manifest])
-    indexer.reindex(packageStorage.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
+    indexer.reindex(packageRepository.getByID(manifest.id).getOrElse(throw new Exception("Can't get updated manifest")))
   }
 
   //  def addTincanPackage(userID: Long, groupID: Long, manifest: com.arcusys.learn.tincan.manifest.model.Manifest, content: String = "") {

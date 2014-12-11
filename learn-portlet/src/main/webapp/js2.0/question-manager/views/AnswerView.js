@@ -88,7 +88,8 @@ var ChoiceAnswerView = AnswerView.extend({
     var template = Mustache.to_html(jQuery(templateName).html(), _.extend(this.model.toJSON(), _.extend({
       cid: this.cid,
       position: this.position,
-      answerText: decodeURIComponent(this.model.get('answerText'))
+      answerText: decodeURIComponent(this.model.get('answerText')),
+      score: this.$('#SCORMAnswerScore').val() || this.model.get('score')
     }, this.language)));
     this.$el.html(template);
 
@@ -108,7 +109,8 @@ var ChoiceAnswerView = AnswerView.extend({
   updateModel: function () {
     this.model.set({
       answerText: encodeURIComponent(this.editor.getData()),
-      isCorrect: this.$('#SCORMAnswerIsCorrect').hasClass('checked')
+      isCorrect: this.$('#SCORMAnswerIsCorrect').hasClass('checked'),
+      score: this.$('#SCORMAnswerScore').val()
     });
     return this.model;
   },
@@ -127,13 +129,15 @@ var ShortAnswerView = AnswerView.extend({
     this.$el = jQuery1816Bank('<tr>');
     this.$el.attr('id', this.cid);
     this.position = options.position;
+    this.language = options.language;
   },
   render: function () {
     var templateName = (this.renderType == 'edit') ? '#shortAnswerEditView' : '#shortAnswerView';
     var template = Mustache.to_html(jQuery(templateName).html(), _.extend(this.model.toJSON(), _.extend({
       cid: this.cid,
       position: this.position,
-      answerText: decodeURIComponent(this.model.get('answerText'))
+      answerText: decodeURIComponent(this.model.get('answerText')),
+      score: this.$('#SCORMAnswerScore').val() || this.model.get('score')
     }, this.language)));
     this.$el.html(template);
 
@@ -141,7 +145,8 @@ var ShortAnswerView = AnswerView.extend({
   },
   updateModel: function () {
     this.model.set({
-      answerText: encodeURIComponent(this.$('#SCORMAnswerText').val())
+      answerText: encodeURIComponent(this.$('#SCORMAnswerText').val()),
+      score: this.$('#SCORMAnswerScore').val()
     });
     return this.model;
   }
@@ -163,7 +168,8 @@ var NumericAnswerView = AnswerView.extend({
     var templateName = (this.renderType == 'edit') ? '#numericAnswerEditView' : '#numericAnswerView';
     var template = Mustache.to_html(jQuery(templateName).html(), _.extend(this.model.toJSON(), _.extend({
       cid: this.cid,
-      position: this.position
+      position: this.position,
+      score: this.$('#SCORMAnswerScore').val() || this.model.get('score')
     }, this.language)));
     this.$el.html(template);
 
@@ -173,7 +179,8 @@ var NumericAnswerView = AnswerView.extend({
   updateModel: function () {
     this.model.set({
       rangeFrom: parseFloat(this.$('#SCORMAnswerRangeFrom').val()),
-      rangeTo: parseFloat(this.$('#SCORMAnswerRangeTo').val())
+      rangeTo: parseFloat(this.$('#SCORMAnswerRangeTo').val()),
+      score: this.$('#SCORMAnswerScore').val()
     });
     return this.model;
   }
@@ -210,7 +217,8 @@ var PositioningAnswerView = AnswerView.extend({
   },
   updateModel: function () {
     this.model.set({
-      answerText: encodeURIComponent(this.editor.getData())
+      answerText: encodeURIComponent(this.editor.getData()),
+      score: jQuery('.bank-answers-dialog #positioningAnswerScore').val()
     });
     return this.model;
   }
@@ -233,7 +241,8 @@ var MatchingAnswerView = AnswerView.extend({
       cid: this.cid,
       position: this.position,
       answerText: decodeURIComponent(this.model.get('answerText')),
-      matchingText: decodeURIComponent(this.model.get('matchingText'))
+      matchingText: decodeURIComponent(this.model.get('matchingText')),
+      score: this.$('#SCORMAnswerScore').val() || this.model.get('score')
     }, this.language)));
     this.$el.html(template);
 
@@ -250,7 +259,8 @@ var MatchingAnswerView = AnswerView.extend({
   updateModel: function () {
     this.model.set({
       answerText: encodeURIComponent(this.editor.getData()),
-      matchingText: encodeURIComponent(this.$('#SCORMAnswerMatchingText').val())
+      matchingText: encodeURIComponent(this.$('#SCORMAnswerMatchingText').val()),
+      score: this.$('#SCORMAnswerScore').val()
     });
     return this.model;
   }
