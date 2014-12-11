@@ -6,6 +6,8 @@ import com.arcusys.learn.persistence.liferay.model.LFTincanLrsState
 import com.arcusys.learn.tincan.storage.{ DocumentStorage, ActorStorage }
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalServiceUtil
 import java.util.{ Date, UUID }
+import org.joda.time.DateTime
+
 import scala.collection.JavaConverters._
 import com.arcusys.util.JsonSerializer
 
@@ -44,9 +46,13 @@ trait LFTincanLrsStateStorageImpl extends EntityStorage[State] {
 
   def getAll(parameters: (String, Any)*): Seq[State] = parameters match {
     case Seq(("activityId", activityId: String), ("agent", agent: Agent), ("registration", registration: Option[UUID]), ("since", since: Option[Date])) => {
+
       val agentId = actorStorage.getByIFI(agent.objectType, agent.mbox, agent.mbox_sha1sum, agent.openid, agent.account).map(_.getStoredId.getOrElse(-1))
-      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndAgentId(activityId, if (agentId.isDefined) agentId.get else -1).asScala.map(mapper)
-        .filter(state => (!since.isDefined || state.content.updated.toDate.getTime >= since.get.getTime))
+      LFTincanLrsStateLocalServiceUtil.findByActivityIdAndAgentId(activityId, if (agentId.isDefined) agentId.get else -1).asScala
+        .map(mapper)
+        .filter(state => {
+          (!since.isDefined || state.content.updated.compareTo(new DateTime(since.get)) >= 0)
+        })
     }
     case _ => Nil
   }

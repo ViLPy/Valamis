@@ -29,6 +29,8 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
     private String _url;
     private String _plainText;
     private Integer _arrangementIndex;
+    private Boolean _autoShowAnswer;
+    private Integer _groupId;
     private BaseModel<?> _lfQuizQuestionRemoteModel;
 
     public LFQuizQuestionClp() {
@@ -77,6 +79,8 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
         attributes.put("url", getUrl());
         attributes.put("plainText", getPlainText());
         attributes.put("arrangementIndex", getArrangementIndex());
+        attributes.put("autoShowAnswer", getAutoShowAnswer());
+        attributes.put("groupId", getGroupId());
 
         return attributes;
     }
@@ -135,6 +139,18 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
 
         if (arrangementIndex != null) {
             setArrangementIndex(arrangementIndex);
+        }
+
+        Boolean autoShowAnswer = (Boolean) attributes.get("autoShowAnswer");
+
+        if (autoShowAnswer != null) {
+            setAutoShowAnswer(autoShowAnswer);
+        }
+
+        Integer groupId = (Integer) attributes.get("groupId");
+
+        if (groupId != null) {
+            setGroupId(groupId);
         }
     }
 
@@ -337,6 +353,51 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
         }
     }
 
+    @Override
+    public Boolean getAutoShowAnswer() {
+        return _autoShowAnswer;
+    }
+
+    @Override
+    public void setAutoShowAnswer(Boolean autoShowAnswer) {
+        _autoShowAnswer = autoShowAnswer;
+
+        if (_lfQuizQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAutoShowAnswer",
+                        Boolean.class);
+
+                method.invoke(_lfQuizQuestionRemoteModel, autoShowAnswer);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public Integer getGroupId() {
+        return _groupId;
+    }
+
+    @Override
+    public void setGroupId(Integer groupId) {
+        _groupId = groupId;
+
+        if (_lfQuizQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setGroupId", Integer.class);
+
+                method.invoke(_lfQuizQuestionRemoteModel, groupId);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFQuizQuestionRemoteModel() {
         return _lfQuizQuestionRemoteModel;
     }
@@ -415,6 +476,8 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
         clone.setUrl(getUrl());
         clone.setPlainText(getPlainText());
         clone.setArrangementIndex(getArrangementIndex());
+        clone.setAutoShowAnswer(getAutoShowAnswer());
+        clone.setGroupId(getGroupId());
 
         return clone;
     }
@@ -460,7 +523,7 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(23);
 
         sb.append("{id=");
         sb.append(getId());
@@ -480,6 +543,10 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
         sb.append(getPlainText());
         sb.append(", arrangementIndex=");
         sb.append(getArrangementIndex());
+        sb.append(", autoShowAnswer=");
+        sb.append(getAutoShowAnswer());
+        sb.append(", groupId=");
+        sb.append(getGroupId());
         sb.append("}");
 
         return sb.toString();
@@ -487,7 +554,7 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(31);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuizQuestion");
@@ -528,6 +595,14 @@ public class LFQuizQuestionClp extends BaseModelImpl<LFQuizQuestion>
         sb.append(
             "<column><column-name>arrangementIndex</column-name><column-value><![CDATA[");
         sb.append(getArrangementIndex());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>autoShowAnswer</column-name><column-value><![CDATA[");
+        sb.append(getAutoShowAnswer());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>groupId</column-name><column-value><![CDATA[");
+        sb.append(getGroupId());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

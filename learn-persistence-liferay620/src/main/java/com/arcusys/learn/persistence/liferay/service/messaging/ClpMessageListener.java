@@ -24,6 +24,8 @@ import com.arcusys.learn.persistence.liferay.service.LFConfigLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFLRSToActivitySettingLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFLessonLimitLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveMapLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveStateLocalServiceUtil;
@@ -35,6 +37,7 @@ import com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalServiceUt
 import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuestionCategoryLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuestionLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFQuizAnswerScoreLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceUtil;
@@ -48,6 +51,7 @@ import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFSiteDependentConfigLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanActProfileLocalServiceUtil;
@@ -67,6 +71,7 @@ import com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLoca
 import com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanManifestActLocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFTincanPackageLocalServiceUtil;
+import com.arcusys.learn.persistence.liferay.service.LFTincanURILocalServiceUtil;
 import com.arcusys.learn.persistence.liferay.service.LFUserLocalServiceUtil;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -131,6 +136,10 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFGlobalObjectiveStateLocalServiceUtil.clearService();
 
+            LFLessonLimitLocalServiceUtil.clearService();
+
+            LFLRSToActivitySettingLocalServiceUtil.clearService();
+
             LFObjectiveLocalServiceUtil.clearService();
 
             LFObjectiveMapLocalServiceUtil.clearService();
@@ -155,6 +164,8 @@ public class ClpMessageListener extends BaseMessageListener {
 
             LFQuizLocalServiceUtil.clearService();
 
+            LFQuizAnswerScoreLocalServiceUtil.clearService();
+
             LFQuizQuestionLocalServiceUtil.clearService();
 
             LFQuizQuestionCategoryLocalServiceUtil.clearService();
@@ -178,6 +189,8 @@ public class ClpMessageListener extends BaseMessageListener {
             LFSequencingPermissionsLocalServiceUtil.clearService();
 
             LFSequencingTrackingLocalServiceUtil.clearService();
+
+            LFSiteDependentConfigLocalServiceUtil.clearService();
 
             LFSocialPackageLocalServiceUtil.clearService();
 
@@ -216,6 +229,8 @@ public class ClpMessageListener extends BaseMessageListener {
             LFTincanManifestActLocalServiceUtil.clearService();
 
             LFTincanPackageLocalServiceUtil.clearService();
+
+            LFTincanURILocalServiceUtil.clearService();
 
             LFUserLocalServiceUtil.clearService();
         }

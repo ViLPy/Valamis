@@ -4,9 +4,9 @@
         getAPI().Initialize("");
     });
     /*{{/isPreview}}*/
-
     function gatherData() {
         /*{{^isPreview}}*/
+        /*{{^autoShowAnswer}}*/
         // this will check is user answer right
         var userAnswer = jQuery("#scormAnswer").val();
         getAPI().SetValue("cmi.interactions.0.type", "long_fill_in");
@@ -17,6 +17,7 @@
 
         getAPI().SetValue("cmi.completion_status", "completed");
         getAPI().SetValue("cmi.success_status", "unknown");
+        /*{{/autoShowAnswer}}*/
         /*{{/isPreview}}*/
     }
 </script>
@@ -24,8 +25,6 @@
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
         <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
-
-        <h2 class="SCORMPlayerQuestionSubtitle">Write a few sentences about topic:</h2>
     </div>
     <div class="playerMainArea">
         <textarea class="answerField changeColorOnFocus" id="scormAnswer" rows="15" cols="60"></textarea>

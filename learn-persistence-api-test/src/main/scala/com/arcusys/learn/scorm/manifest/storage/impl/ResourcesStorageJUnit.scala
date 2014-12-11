@@ -1,13 +1,13 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
-import com.arcusys.learn.scorm.manifest.storage.{ PackagesStorage, ResourcesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage, ResourcesStorage }
 import com.arcusys.learn.scorm.manifest.model.{ ScoResource, Manifest }
 
 import org.junit.Assert._
 import org.junit.{ Test, Before }
 
 trait ResourcesStorageJUnit {
-  def packagesStorage: PackagesStorage
+  def packagesStorage: ScormPackagesStorage
   def resourcesStorage: ResourcesStorage
 
   @Before

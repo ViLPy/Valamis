@@ -6,7 +6,7 @@ import org.specs2.matcher.ThrownExpectations
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.tracking.model.Course
+import com.arcusys.learn.scorm.tracking.model.CourseGrade
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,11 +25,11 @@ class LFCourseSpec extends SpecificationWithJUnit with Mockito with ThrownExpect
   "LFCourseStorageImpl" should {
 
     "execute 'create' without errors" in new Context {
-      courseStorage.create(new Course(100, 1, "", "")) must not(throwA[Exception])
+      courseStorage.create(new CourseGrade(100, 1, "", "")) must not(throwA[Exception])
     }
 
     "execute 'getByCourseIdAndUserId' without errors" in new Context {
-      courseStorage.create(new Course(200, 423, "", "")) must not(throwA[Exception])
+      courseStorage.create(new CourseGrade(200, 423, "", "")) must not(throwA[Exception])
       var fetched = courseStorage.getOne("courseID" -> 200, "userID" -> 423)
       fetched must beSome
       fetched.get.courseID must beEqualTo(200)
@@ -41,8 +41,8 @@ class LFCourseSpec extends SpecificationWithJUnit with Mockito with ThrownExpect
     }
 
     "execute 'modify' without errors" in new Context {
-      courseStorage.create(new Course(300, 1, "", "")) must not(throwA[Exception])
-      courseStorage.modify(new Course(300, 1, "grade1", "comment1")) must not(throwA[Exception])
+      courseStorage.create(new CourseGrade(300, 1, "", "")) must not(throwA[Exception])
+      courseStorage.modify(new CourseGrade(300, 1, "grade1", "comment1")) must not(throwA[Exception])
       val updated = courseStorage.getOne("courseID" -> 300, "userID" -> 1)
       updated must beSome
       updated.get.courseID must beEqualTo(300)
@@ -54,6 +54,6 @@ class LFCourseSpec extends SpecificationWithJUnit with Mockito with ThrownExpect
   trait Context extends Scope {
     // do initialize mock services
     val courseService = CourseEntityContainer.mockLocalService
-    val courseStorage: EntityStorage[Course] = new LFCourseStorageImpl {}
+    val courseStorage: EntityStorage[CourseGrade] = new LFCourseStorageImpl {}
   }
 }

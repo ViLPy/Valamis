@@ -1,6 +1,6 @@
-var WordCloudStatModelService = new Backbone.Service({ url: Utils.getContextPath,
+var WordCloudStatModelService = new Backbone.Service({ url: '/',
     sync: {
-        'read': "api/report?action=STATEMENT_VERBS"
+        'read': path.api.report + "?action=STATEMENT_VERBS"
     }
 });
 

@@ -14,13 +14,13 @@ SCORM12API.prototype.LMSCommit = function () {
         serialized["activityID"] = activityID;
         return serialized;
     };
-    window.LearnAjax.syncRequest(Utils.getContextPath() + "services/rte/SetValues", "post", postData(this.dataSet.getAllFieldsData()));
-    window.LearnAjax.syncRequest(Utils.getContextPath() + "services/rte/SetValues", "post", postData(this.collectionData));
+    window.LearnAjax.syncRequest(path.root + path.rte + "SetValues", "post", postData(this.dataSet.getAllFieldsData()));
+    window.LearnAjax.syncRequest(path.root + path.rte + "SetValues", "post", postData(this.collectionData));
     return 'true';
 };
 
 SCORM12API.prototype.fetchDataModel = function () {
-    var baseData = this.doSyncRequest("services/rte/GetValues");
+    var baseData = this.doSyncRequest(path.rte + "GetValues");
     for (var key in baseData) {
         var fieldModel = this.dataSet.getField(this.getOriginalKeyName(key));
         // check is model field for given key exists
@@ -37,12 +37,12 @@ SCORM12API.prototype.fetchCollections = function () {
         }
     };
 
-    var cmiInteractions = this.doSyncRequest("services/rte/GetValue/cmi.interactions.");
+    var cmiInteractions = this.doSyncRequest(path.rte + "GetValue/cmi.interactions.");
     if (!cmiInteractions["cmi.interactions._count"]) {
         cmiInteractions["cmi.interactions._count"] = 0;
     }
 
-    var cmiObjectives = this.doSyncRequest("services/rte/GetValue/cmi.objectives.");
+    var cmiObjectives = this.doSyncRequest(path.rte + "GetValue/cmi.objectives.");
     if (!cmiObjectives["cmi.objectives._count"]) {
         cmiObjectives["cmi.objectives._count"] = 0;
     }

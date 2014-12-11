@@ -5,9 +5,9 @@ import org.specs2.mock.Mockito
 import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionLocalService, LFQuizQuestionLocalServiceUtil }
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.quiz.model.{ QuizQuestionType, QuizQuestion }
-import com.arcusys.learn.questionbank.storage.QuestionStorage
+import com.arcusys.learn.questionbank.storage.{ QuestionAnswerStorage, QuestionStorage }
 import com.arcusys.learn.storage.impl.liferay.LFStorages
-import com.arcusys.learn.questionbank.storage.impl.liferay.{ LFQuestionStorageSpec, QuestionMockEntityContainer }
+import com.arcusys.learn.questionbank.storage.impl.liferay.{ QuestionStorageImpl, QuestionAnswerStorageImpl, LFQuestionStorageSpec, QuestionMockEntityContainer }
 import com.arcusys.learn.quiz.storage.impl.QuizQuestionCreator
 import util.Random
 import org.specs2.specification.Scope
@@ -22,7 +22,9 @@ class LFQuizQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
   val questionStorage = LFStorages.questionStorage
   val storageService: LFQuizQuestionLocalService = QuizQuestionMockEntityContainer.mockLocalService
   val storage: KeyedEntityStorage[QuizQuestion] = new LFQuizQuestionStorageImpl with QuizQuestionCreator {
-    val questionStorage: QuestionStorage = LFQuizQuestionStorageSpec.this.questionStorage
+    val questionStorage = new QuestionStorageImpl {
+      override protected def answerStorage: QuestionAnswerStorage = new QuestionAnswerStorageImpl
+    }
   }
 
   "Mockito" should {

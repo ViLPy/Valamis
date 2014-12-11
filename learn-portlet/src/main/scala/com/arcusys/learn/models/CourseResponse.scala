@@ -11,5 +11,7 @@ case class CourseResponse(id: Long,
 case class CertificateCourseResponse(id: Long,
   certificateId: Int,
   title: String,
+  url: String,
   value: Option[Int],
-  period: String)
+  period: String,
+  arrangementIndex: Int)

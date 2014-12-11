@@ -1,17 +1,22 @@
 package com.arcusys.learn.scorm.manifest.service
 
+import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
+import com.arcusys.learn.controllers.api.BaseApiController
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.scorm.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.util.TreeNode
-import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode }
+import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
 
-class ActivitiesService(configuration: BindingModule) extends ServletBase(configuration) {
+class ActivitiesService(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
-  import storageFactory._
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  lazy val activityManager = inject[ActivityServiceContract]
 
   val jsonModel = new JsonModelBuilder[Activity](activity =>
     Map(
@@ -58,44 +63,21 @@ class ActivitiesService(configuration: BindingModule) extends ServletBase(config
     mapNode(node)
   })
 
-  before() {
-    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
-    response.setHeader("Expires", "-1")
-  }
+  get("/manifestactivities(/)") {
+    val userID = getUserId.toInt
 
-  get("/package/:packageID/organization/:organizationID") {
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
     val packageID = parameter("packageID").intRequired
     val organizationID = parameter("organizationID").required
-    val currentAttempt = attemptStorage.getActive(userID, packageID) match {
-      case Some(attempt) => attempt
-      case None => {
-        attemptStorage.createAndGetID(userID, packageID, organizationID)
-        attemptStorage.getActive(userID, packageID).getOrElse(halt(404, "Okay. Check DB connection."))
-      }
-    }
-    val tree = activityStateTreeStorage.get(currentAttempt.id).getOrElse({
-      val stateTree = ActivityStateTree(activityStorage.getOrganizationTree(currentAttempt.packageID, currentAttempt.organizationID), None, true, None)
-      activityStateTreeStorage.create(currentAttempt.id, stateTree)
-      stateTree
-    })
+
+    val currentAttempt = activityManager.getActiveAttempt(userID, packageID, organizationID)
+    val tree = activityManager.getActivityStateTreeForAttemptOrCreate(currentAttempt)
 
     jsonStateNodeModel(tree.availableChildren)
   }
 
-  /*get("/package/:packageID/organization/:organizationID") {
-    val packageID = parameter("packageID").intRequired
-    val organizationID = parameter("organizationID").required
-    jsonNodeModel(activityStorage.getOrganizationTree(packageID, organizationID).children)
-  }*/
-
-  get("/package/:packageID/organization/:organizationID/activity/:id") {
+  /* get("/manifestactivities/package/:packageID/organization/:organizationID/activity/:id") {
     val packageID = parameter("packageID").intRequired
     val id = parameter("id").required
     jsonModel(activityStorage.get(packageID, id))
-  }
+  }*/
 }

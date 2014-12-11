@@ -1,5 +1,19 @@
 /* ------------ BASIC LAYOUT ----------------*/
 
+/* <--- styles for solving fullscreen problem */
+
+.playerMainArea video,
+.playerMainArea iframe {
+    width: 100%;
+    height:79%;
+}
+
+video::-webkit-media-controls-fullscreen-button {
+    display: none!important;
+}
+
+/* --> */
+
 * {
   margin: 0;
   padding: 0;

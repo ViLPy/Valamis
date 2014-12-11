@@ -1,28 +1,28 @@
 package com.arcusys.learn.test.tincan
 
 import java.io.PrintWriter
+
+import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
 import com.arcusys.learn.tincan.lrs.state.StateLRS
 import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.StateStorage
-import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
-import com.arcusys.learn.tincan.model.State
-import com.arcusys.learn.tincan.model.Agent
-import com.arcusys.learn.tincan.model.Account
-import scala.Some
-import java.util.Date
+import com.arcusys.learn.tincan.storage.{ DocumentStorage, ActorStorage, AgentProfileStorage, StateStorage }
+import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.joda.time.DateTime
 
-class StateProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContract) {
-
+class StateProfileTests(writer: PrintWriter) extends Injectable {
+  override implicit def bindingModule: BindingModule = Configuration
   private val stateLrs = new StateLRS {
-    val stateStorage: StateStorage = storageFactory.tincanLrsStateStorage
+    val stateStorage: StateStorage = inject[StateStorage]
   }
 
+  private val tincanLrsActorStorage = inject[ActorStorage]
+  private val tincanLrsDocumentStorage = inject[DocumentStorage]
+
   def renew() {
-    storageFactory.tincanLrsActorStorage.renew()
-    storageFactory.tincanLrsStateStorage.renew()
-    storageFactory.tincanLrsDocumentStorage.renew()
+    tincanLrsActorStorage.renew()
+    stateLrs.stateStorage.renew()
+    tincanLrsDocumentStorage.renew()
   }
 
   def createAndReadTest() {
@@ -41,7 +41,7 @@ class StateProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
 
   def createAndReadWithEmptyAgentTest() {
     renew()
-    val agent = Agent("Agent", Some(""), None, None, None, None)
+    val agent = Agent("Agent", Some(""), Some("q@q.q"), None, None, None)
     val state = State("activId", "stateId", agent, None, Document("the content", JSONContent))
 
     stateLrs.addStateDocument(state)

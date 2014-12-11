@@ -43,6 +43,7 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
+        attributes.put("maxDuration", getMaxDuration());
 
         return attributes;
     }
@@ -90,6 +91,12 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        Integer maxDuration = (Integer) attributes.get("maxDuration");
+
+        if (maxDuration != null) {
+            setMaxDuration(maxDuration);
         }
     }
 
@@ -251,6 +258,26 @@ public class LFQuizWrapper implements LFQuiz, ModelWrapper<LFQuiz> {
     @Override
     public void setCourseID(java.lang.Integer courseID) {
         _lfQuiz.setCourseID(courseID);
+    }
+
+    /**
+    * Returns the max duration of this l f quiz.
+    *
+    * @return the max duration of this l f quiz
+    */
+    @Override
+    public java.lang.Integer getMaxDuration() {
+        return _lfQuiz.getMaxDuration();
+    }
+
+    /**
+    * Sets the max duration of this l f quiz.
+    *
+    * @param maxDuration the max duration of this l f quiz
+    */
+    @Override
+    public void setMaxDuration(java.lang.Integer maxDuration) {
+        _lfQuiz.setMaxDuration(maxDuration);
     }
 
     @Override

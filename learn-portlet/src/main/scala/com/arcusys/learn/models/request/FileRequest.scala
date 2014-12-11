@@ -1,19 +1,33 @@
 package com.arcusys.learn.models.request
 
-import com.arcusys.learn.service.util.Parameter
+import java.io.{ File, InputStream }
+
 import com.arcusys.learn.liferay.util.Base64Helper
-import com.arcusys.learn.web.{ FileUploadingException, FileUploading }
-import java.io.{ InputStream, File }
+import com.arcusys.learn.service.util.Parameter
+import com.arcusys.learn.web.FileUploading
 
 object FileRequest extends BaseRequest {
+
+  val COURSE_ID = "courseID"
+  val COMPANY_ID = "companyID"
+  val QUIZ_ID = "quizID"
+  val CATEGORY_ID = "categoryID"
+
   val STREAM = "stream"
   val FILE = "file"
   val CONTENT_TYPE = "contentType"
   val FILE_ID = "fileId"
   val FOLDER_ID = "folderId"
   val BASE64_CONTENT = "inputBase64"
+  val FILE_ENTRY_ID = "fileEntryID"
+  val FILE_VERSION = "fileVersion"
+
+  val GROUP_ID = "groupId"
+  val VIDEO_UUID = "uuid"
 
   val DEFAULT_ICON_NAME = "icon.png"
+
+  val EXPORT_EXTENSION = ".zip"
 
   def apply(scalatra: FileUploading) = new Model(scalatra)
 
@@ -36,10 +50,17 @@ object FileRequest extends BaseRequest {
     }
 
     def id = Parameter(FILE_ID).intOption
-
     def folder = Parameter(FOLDER_ID).required
-
+    def fileEntryID = Parameter(FILE_ENTRY_ID).longRequired
+    def fileVersion = Parameter(FILE_VERSION).required
     def file = Parameter(FILE).required
+    def quizID = Parameter(QUIZ_ID).intRequired
+    def categoryID = Parameter(CATEGORY_ID).option
+    def videoGroupID = Parameter(GROUP_ID).intRequired
+    def videoUUID = Parameter(VIDEO_UUID).required
+
+    def courseIDRequired = Parameter(COURSE_ID).intRequired
+    def companyIDRequired = Parameter(COMPANY_ID).intRequired
 
     def base64Content = {
       val inputBase64 = Parameter(BASE64_CONTENT).required.replace("data:image/png;base64,", "")

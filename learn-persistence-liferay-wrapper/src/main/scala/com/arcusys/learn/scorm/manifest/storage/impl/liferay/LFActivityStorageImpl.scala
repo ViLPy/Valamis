@@ -12,6 +12,7 @@ import javax.swing.plaf.OptionPaneUI
  * User: Yulia.Glushonkova
  * Date: 10.04.13
  */
+@deprecated
 trait LFActivityStorageImpl extends EntityStorage[Activity] {
   protected def doRenew() { LFActivityLocalServiceUtil.removeAll() }
 

@@ -2,21 +2,18 @@ package com.arcusys.scorm.lms
 
 import com.arcusys.learn.tincan.model.{ LrsScope }
 import LrsScope._
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
+import com.arcusys.learn.tincan.storage.TincanClientApiStorage
 import scala.util.Random
 import java.util.UUID
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
-import com.arcusys.learn.storage.StorageFactoryContract
 import com.liferay.portal.kernel.dao.orm.ObjectNotFoundException
-import scala.math.Ordering.String
-import scala.Predef.String
 import com.arcusys.learn.tincan.model.lrsServer.{ ClientApiModel, ClientApi }
 
 //
 // Created by iliya.tryapitsin on 13.02.14.
 //
 class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends ClientApiStoreManagerContract with Injectable {
-  private val storage = inject[StorageFactoryContract]
+  private val tincanClientApiStorage = inject[TincanClientApiStorage]
 
   val expiredIn: Long = 3600
 
@@ -49,29 +46,29 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
 
     val clientApi = ClientApi(id, secret, clientName, description, url, redirectUrl, icon, "", "", "", expiredIn, scope)
     val clientApiModel = ClientApiModel(id.toString, secret, clientName, "", expiredIn, scope)
-    storage.tincanClientApiStorage.create(clientApi)
+    tincanClientApiStorage.create(clientApi)
 
     return clientApiModel
   }
 
   def setFetchToken(clientId: Long, fetchToken: String) = {
-    val clientApi = storage.tincanClientApiStorage.getById(clientId)
+    val clientApi = tincanClientApiStorage.getById(clientId)
     val c = clientApi match {
       case Some(value) => value
       case None        => throw new ObjectNotFoundException()
     }
 
-    storage.tincanClientApiStorage.modify(c.copy(code = fetchToken, token = ""))
+    tincanClientApiStorage.modify(c.copy(code = fetchToken, token = ""))
   }
 
   def setAccessToken(clientId: Long, accessToken: String, /*not used*/ refreshToken: String) = {
-    val clientApi = storage.tincanClientApiStorage.getById(clientId)
+    val clientApi = tincanClientApiStorage.getById(clientId)
     val c = clientApi match {
       case Some(value) => value
       case None        => throw new ObjectNotFoundException()
     }
 
-    storage.tincanClientApiStorage.modify(c.copy(token = accessToken, code = ""))
+    tincanClientApiStorage.modify(c.copy(token = accessToken, code = ""))
   }
 
   def validate(token: String): Boolean = {
@@ -84,7 +81,7 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
   }
 
   def getClientById(clientId: Long): ClientApiModel = {
-    val clientApi = storage.tincanClientApiStorage.getById(clientId)
+    val clientApi = tincanClientApiStorage.getById(clientId)
     return clientApi match {
       case Some(value) => ClientApiModel(value.id.toString, value.secret, value.name, value.issuedAt, value.expiredIn, value.scope)
       case None        => throw new ObjectNotFoundException()
@@ -92,7 +89,7 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
   }
 
   def getClientByToken(token: String): ClientApiModel = {
-    val clientApi = storage.tincanClientApiStorage.getByToken(token)
+    val clientApi = tincanClientApiStorage.getByToken(token)
     return clientApi match {
       case Some(value) => ClientApiModel(value.id.toString, value.secret, value.name, value.issuedAt, value.expiredIn, value.scope)
       case None        => throw new ObjectNotFoundException()
@@ -100,7 +97,7 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
   }
 
   def checkClientFetchCode(clientId: Long, code: String): Boolean = {
-    val clientApi = storage.tincanClientApiStorage.getById(clientId)
+    val clientApi = tincanClientApiStorage.getById(clientId)
     return clientApi match {
       case Some(value) => return value.code == code
       case None        => return false
@@ -108,7 +105,7 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
   }
 
   def isExistClient(clientId: Long): Boolean = {
-    val clientApi = storage.tincanClientApiStorage.getById(clientId)
+    val clientApi = tincanClientApiStorage.getById(clientId)
     return clientApi match {
       case Some(value) => return true
       case None        => return false
@@ -116,7 +113,7 @@ class ClientApiStoreManager(implicit val bindingModule: BindingModule) extends C
   }
 
   def getAll(): Seq[ClientApiModel] = {
-    return storage.tincanClientApiStorage
+    return tincanClientApiStorage
       .getAll()
       .map(value => ClientApiModel(value.id.toString, value.secret, value.name, value.issuedAt, value.expiredIn, value.scope))
       .toSeq

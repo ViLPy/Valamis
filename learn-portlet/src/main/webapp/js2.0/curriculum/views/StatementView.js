@@ -2,6 +2,7 @@ StatementModel = Backbone.Model.extend({
   defaults: {
     language: '',
     verb: 'http://adlnet.gov/expapi/verbs/answered',
+    verbName: 'answered',
     verbs: [
       { id: 'http://adlnet.gov/expapi/verbs/answered', title: 'answered'},
       { id: 'http://adlnet.gov/expapi/verbs/asked', title: 'asked' },
@@ -29,35 +30,44 @@ StatementModel = Backbone.Model.extend({
       { id: 'http://adlnet.gov/expapi/verbs/voided', title: 'voided'},
       { id: 'http://adlnet.gov/expapi/verbs/interacted', title: 'interacted'}
     ],
-    object: ''
+    obj: '',
+    objName: '',
+    selected: false
   }
 });
 
-StatementCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+StatementCollectionService = new Backbone.Service({ url: path.root,
   targets: {
     'saveToCertificate': {
-      'path': function (model, options) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=ADDTINCANSTMNT' +
-          '&tincanStmntVerb=' + options.verb +
-          '&tincanStmntObj=' + options.obj +
-          '&periodValue=0';
+      'path': function (collection, options) {
+        var stmnts = JSON.stringify( collection.map(function (item) {
+          return {
+            verb: item.get('verb'),
+            obj: item.get('obj')
+          };
+        } ));
+
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDTINCANSTMNTS' + '&tincanStmnts=' + stmnts;
       },
       method: 'post'
     }
-
-//  sync: {
-//    'create': {
-//      'path': function () {
-//        return 'services/certificating/?action=ADD&companyID=' + jQuery('#curriculumCompanyID').val();
-//      },
-//      'method': 'post'
-//    }
-
   }
 });
 
 StatementCollection = Backbone.Collection.extend({
 }).extend(StatementCollectionService);
+
+var Plugin = Backbone.Model.extend({
+    label: function () {
+        return this.get("name") + " ("+this.id+")";
+    }
+});
+
+var PluginCollection = Backbone.Collection.extend({
+    model: Plugin
+});
+
+
 
 
 StatementListElement = Backbone.View.extend({
@@ -74,13 +84,30 @@ StatementListElement = Backbone.View.extend({
     var template = Mustache.to_html(jQuery('#statementElementView').html(),
       _.extend(this.model.toJSON(), this.language));
     this.$el.html(template);
+      var plugins = new PluginCollection();
+      plugins.url = path.root + path.api.activities;
+
+      new AutoCompleteView({
+          input: this.$("#objectSelection"), // your input field
+          model: plugins, // your collection
+          queryParameter: "activity",
+          onSelect: jQuery.proxy(function (model) {
+              this.model.set({obj: model.id});
+              this.$('#objectSelection').val(model.id);
+          },this)
+      }).render();
+      this.$("#verbSelection [value='"+this.model.get('verb')+"']").attr("selected", "selected");
     return this;
   },
   setVerb: function () {
     this.model.set({verb: this.$('#verbSelection').val()});
   },
   setObject: function () {
-    this.model.set({object: this.$('#objectSelection').val()});
+    var obj = this.$('#objectSelection').val();
+    if (obj.length > 3){
+
+    }
+    this.model.set({obj: this.$('#objectSelection').val()});
   },
   deleteStatement: function () {
     this.model.destroy();
@@ -96,6 +123,7 @@ StatementContainer = Backbone.View.extend({
   initialize: function (options) {
     this.language = options.language;
     this.collection = new StatementCollection();
+    this.on('addStatements',this.selectStatements);
   },
   render: function () {
     var template = Mustache.to_html(jQuery('#statementDialogView').html(), this.language);
@@ -110,19 +138,27 @@ StatementContainer = Backbone.View.extend({
     this.$('#statementList').append(view.render().$el);
   },
   addStatements: function () {
-    this.collection.each(this.addOne, this);
-  },
-  addOne: function (model) {
     var that = this;
-    this.collection.saveToCertificate({}, {verb: model.get('verb'), obj: model.get('object')}).then(function (res) {
+    this.collection.saveToCertificate({}).then(function (res) {
       that.trigCloseModal();
       toastr.success(that.language['overlayCompleteMessageLabel']);
     }, function (err, res) {
+      that.trigCloseModal();
       toastr.error(that.language['overlayFailedMessageLabel']);
     });
   },
+  selectStatements: function (selectedItems) {
+      this.collection.reset();
+      this.$('#statementList').empty();
+      selectedItems.forEach(jQuery.proxy(function (item){
+          this.collection.add(item);
+          var view = new StatementListElement({ model: item, language: this.language });
+          this.$('#statementList').append(view.render().$el);
+      },this));
+  },
+
   trigCloseModal: function () {
-    this.trigger('closeModal', this)
+    this.trigger('closeModal', this);
   }
 });
 

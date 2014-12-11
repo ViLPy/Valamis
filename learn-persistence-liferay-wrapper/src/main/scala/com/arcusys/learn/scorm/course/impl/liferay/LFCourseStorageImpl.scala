@@ -4,7 +4,7 @@ import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFCourse
 import scala._
-import com.arcusys.learn.scorm.tracking.model.Course
+import com.arcusys.learn.scorm.tracking.model.CourseGrade
 import org.joda.time.DateTime
 
 /**
@@ -12,15 +12,16 @@ import org.joda.time.DateTime
  * User: Yulia.Glushonkova
  * Date: 26.03.13
  */
-trait LFCourseStorageImpl extends EntityStorage[Course] {
+@deprecated
+trait LFCourseStorageImpl extends EntityStorage[CourseGrade] {
   protected def doRenew() { LFCourseLocalServiceUtil.removeAll() }
 
-  def modify(entity: Course, parameters: (String, Any)*) {
+  def modify(entity: CourseGrade, parameters: (String, Any)*) {
     val lfEntity = LFCourseLocalServiceUtil.findByCourseIdAndUserId(entity.courseID, entity.userID)
     doUpdate(entity, lfEntity, LFCourseLocalServiceUtil.updateLFCourse(_))
   }
 
-  def create(entity: Course, parameters: (String, Any)*) {
+  def create(entity: CourseGrade, parameters: (String, Any)*) {
     doUpdate(entity, LFCourseLocalServiceUtil.createLFCourse(), LFCourseLocalServiceUtil.addLFCourse(_))
   }
 
@@ -34,9 +35,9 @@ trait LFCourseStorageImpl extends EntityStorage[Course] {
       }
     }
   }
-  def extract(lfEntity: LFCourse): Option[Course] =
+  def extract(lfEntity: LFCourse): Option[CourseGrade] =
     if (lfEntity == null) None
-    else Option(Course(lfEntity.getCourseID,
+    else Option(CourseGrade(lfEntity.getCourseID,
       lfEntity.getUserID,
       lfEntity.getGrade,
       lfEntity.getComment,
@@ -47,7 +48,7 @@ trait LFCourseStorageImpl extends EntityStorage[Course] {
   def delete(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
   def modify(parameters: (String, Any)*) { throw new UnsupportedOperationException("Not implemented") }
 
-  def doUpdate(entity: Course, newEntity: LFCourse, updateFunction: (LFCourse) => LFCourse): LFCourse = {
+  def doUpdate(entity: CourseGrade, newEntity: LFCourse, updateFunction: (LFCourse) => LFCourse): LFCourse = {
     newEntity.setCourseID(entity.courseID)
     newEntity.setUserID(entity.userID)
     newEntity.setGrade(entity.grade)

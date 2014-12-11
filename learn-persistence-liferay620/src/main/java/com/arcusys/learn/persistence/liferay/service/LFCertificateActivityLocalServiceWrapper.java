@@ -279,6 +279,13 @@ public class LFCertificateActivityLocalServiceWrapper
     }
 
     @Override
+    public com.arcusys.learn.persistence.liferay.model.LFCertificateActivity createLFCertificateActivity(
+        java.lang.Long certificateID, java.lang.String activityName) {
+        return _lfCertificateActivityLocalService.createLFCertificateActivity(certificateID,
+            activityName);
+    }
+
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateActivity> findByCertificateID(
         java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {

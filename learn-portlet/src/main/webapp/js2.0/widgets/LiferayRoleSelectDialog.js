@@ -7,10 +7,10 @@ LiferayRoleModel = Backbone.Model.extend({
     }
 });
 
-LiferayRoleCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+LiferayRoleCollectionService = new Backbone.Service({ url: path.root,
     sync: {
         'read': function () {
-            return "api/roles/"+"?companyID="+ jQuery("#companyID").val();
+            return path.api.roles + "?companyID="+ jQuery("#companyID").val();
         }
     }
 });

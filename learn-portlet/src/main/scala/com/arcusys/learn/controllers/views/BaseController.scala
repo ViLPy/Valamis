@@ -54,14 +54,14 @@ abstract class BaseController extends GenericPortlet
     SessionHandler.setAttribute(
       sessionId,
       "hasTeacherPermissions",
-      userManagement.hasTeacherPermissions(
+      userRoleService.hasTeacherPermissions(
         baseViewModel.getUserId,
         baseViewModel.getCourseId))
 
     SessionHandler.setAttribute(
       sessionId,
       "isAdmin",
-      userManagement.isAdmin(
+      userRoleService.isAdmin(
         baseViewModel.getUserId,
         baseViewModel.getCourseId))
 

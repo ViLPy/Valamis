@@ -1,16 +1,14 @@
-RoleService = new Backbone.Service({ url: Utils.getContextPath,
+RoleService = new Backbone.Service({ url: path.root,
   sync: {
     'update': {
       'path': function (model) {
-        return 'api/roles/' + model.id + '?action=UPDATE&permission=' + model.get('permission') +
-          '&isDefault=' + model.get('isDefault');
+        return path.api.roles +  model.id + '?action=UPDATE&permission=' + model.get('permission') + '&isDefault=' + model.get('isDefault');
       },
       'method': 'post'
     },
     'delete': {
       'path': function (model) {
-        return 'api/roles/' + model.id + '?action=DELETE&liferayRoleID=' + model.get('liferayRoleId') +
-          '&permission=' + model.get('permission');
+        return path.api.roles + model.id + '?action=DELETE&liferayRoleID=' + model.get('liferayRoleId') + '&permission=' + model.get('permission');
       },
       'method': 'post'
     }

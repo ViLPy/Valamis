@@ -336,6 +336,190 @@ public class LFQuizTreeElementUtil {
     }
 
     /**
+    * Returns all the l f quiz tree elements where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @return the matching l f quiz tree elements
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().findByQuizAndParentID(quizID, parentID);
+    }
+
+    /**
+    * Returns a range of all the l f quiz tree elements where quizID = &#63; and parentID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizTreeElementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param start the lower bound of the range of l f quiz tree elements
+    * @param end the upper bound of the range of l f quiz tree elements (not inclusive)
+    * @return the range of matching l f quiz tree elements
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentID, int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByQuizAndParentID(quizID, parentID, start, end);
+    }
+
+    /**
+    * Returns an ordered range of all the l f quiz tree elements where quizID = &#63; and parentID = &#63;.
+    *
+    * <p>
+    * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFQuizTreeElementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+    * </p>
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param start the lower bound of the range of l f quiz tree elements
+    * @param end the upper bound of the range of l f quiz tree elements (not inclusive)
+    * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+    * @return the ordered range of matching l f quiz tree elements
+    * @throws SystemException if a system exception occurred
+    */
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentID, int start,
+        int end,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByQuizAndParentID(quizID, parentID, start, end,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the first l f quiz tree element in the ordered set where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f quiz tree element
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException if a matching l f quiz tree element could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement findByQuizAndParentID_First(
+        java.lang.Integer quizID, java.lang.String parentID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByQuizAndParentID_First(quizID, parentID,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the first l f quiz tree element in the ordered set where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the first matching l f quiz tree element, or <code>null</code> if a matching l f quiz tree element could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement fetchByQuizAndParentID_First(
+        java.lang.Integer quizID, java.lang.String parentID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByQuizAndParentID_First(quizID, parentID,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the last l f quiz tree element in the ordered set where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f quiz tree element
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException if a matching l f quiz tree element could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement findByQuizAndParentID_Last(
+        java.lang.Integer quizID, java.lang.String parentID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByQuizAndParentID_Last(quizID, parentID,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the last l f quiz tree element in the ordered set where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the last matching l f quiz tree element, or <code>null</code> if a matching l f quiz tree element could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement fetchByQuizAndParentID_Last(
+        java.lang.Integer quizID, java.lang.String parentID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .fetchByQuizAndParentID_Last(quizID, parentID,
+            orderByComparator);
+    }
+
+    /**
+    * Returns the l f quiz tree elements before and after the current l f quiz tree element in the ordered set where quizID = &#63; and parentID = &#63;.
+    *
+    * @param id the primary key of the current l f quiz tree element
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+    * @return the previous, current, and next l f quiz tree element
+    * @throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException if a l f quiz tree element with the primary key could not be found
+    * @throws SystemException if a system exception occurred
+    */
+    public static com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement[] findByQuizAndParentID_PrevAndNext(
+        long id, java.lang.Integer quizID, java.lang.String parentID,
+        com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+        throws com.arcusys.learn.persistence.liferay.NoSuchLFQuizTreeElementException,
+            com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence()
+                   .findByQuizAndParentID_PrevAndNext(id, quizID, parentID,
+            orderByComparator);
+    }
+
+    /**
+    * Removes all the l f quiz tree elements where quizID = &#63; and parentID = &#63; from the database.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @throws SystemException if a system exception occurred
+    */
+    public static void removeByQuizAndParentID(java.lang.Integer quizID,
+        java.lang.String parentID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        getPersistence().removeByQuizAndParentID(quizID, parentID);
+    }
+
+    /**
+    * Returns the number of l f quiz tree elements where quizID = &#63; and parentID = &#63;.
+    *
+    * @param quizID the quiz i d
+    * @param parentID the parent i d
+    * @return the number of matching l f quiz tree elements
+    * @throws SystemException if a system exception occurred
+    */
+    public static int countByQuizAndParentID(java.lang.Integer quizID,
+        java.lang.String parentID)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getPersistence().countByQuizAndParentID(quizID, parentID);
+    }
+
+    /**
     * Caches the l f quiz tree element in the entity cache if it is enabled.
     *
     * @param lfQuizTreeElement the l f quiz tree element

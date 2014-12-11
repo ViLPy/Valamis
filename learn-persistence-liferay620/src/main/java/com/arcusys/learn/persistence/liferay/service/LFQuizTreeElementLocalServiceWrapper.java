@@ -298,6 +298,14 @@ public class LFQuizTreeElementLocalServiceWrapper
     }
 
     @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfQuizTreeElementLocalService.findByQuizAndParentID(quizID,
+            parentId);
+    }
+
+    @Override
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         _lfQuizTreeElementLocalService.removeAll();

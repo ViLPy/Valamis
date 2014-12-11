@@ -2,7 +2,7 @@ package com.arcusys.learn.questionbank.storage.impl
 
 import com.arcusys.learn.questionbank.model._
 
-import com.arcusys.learn.questionbank.storage.AnswerStorage
+import com.arcusys.learn.questionbank.storage.QuestionAnswerStorage
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import math.BigDecimal
 
@@ -19,6 +19,7 @@ trait AnswerFieldsMapper {
   def matchingText: Option[String]
 }
 
+@deprecated
 trait AnswerCreator {
   def createAnswer(answerType: Int, mapper: AnswerFieldsMapper): Answer = {
     import mapper._
@@ -43,7 +44,8 @@ trait AnswerCreator {
   }
 }
 
-trait AnswerEntityStorage extends AnswerStorage with KeyedEntityStorageExt[Answer] with EntityStorageExt[Answer] {
+@deprecated
+trait AnswerEntityStorage extends QuestionAnswerStorage with KeyedEntityStorageExt[Answer] with EntityStorageExt[Answer] {
   def getByQuestion(questionID: Int) = getAll("questionID" -> questionID)
 
   def deleteByQuestion(questionID: Int) {

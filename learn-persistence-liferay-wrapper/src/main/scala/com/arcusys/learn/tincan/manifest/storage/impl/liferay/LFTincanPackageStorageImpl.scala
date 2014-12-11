@@ -1,14 +1,21 @@
 package com.arcusys.learn.tincan.manifest.storage.impl.liferay
 
+import com.arcusys.learn.persistence.liferay.model.LFTincanPackage
+import com.arcusys.learn.persistence.liferay.service._
+import com.arcusys.learn.persistence.liferay.service.persistence.LFLessonLimitPK
+import com.arcusys.learn.scorm.manifest.model.{ PeriodType, LessonType }
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.tincan.manifest.model.Manifest
-import com.arcusys.learn.persistence.liferay.service.{ LFPackageScopeRuleLocalServiceUtil, LFPackageLocalServiceUtil, LFAttemptLocalServiceUtil, LFTincanPackageLocalServiceUtil }
-import com.arcusys.learn.persistence.liferay.model.{ LFPackageScopeRule, LFTincanPackage }
+import com.arcusys.learn.tincan.manifest.model.TincanManifest
+
 import scala.collection.JavaConverters._
+import scala.util.Try
 
-trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
+@deprecated
+trait LFTincanPackageStorageImpl extends KeyedEntityStorage[TincanManifest] {
 
-  protected def doRenew() { LFTincanPackageLocalServiceUtil.removeAll() }
+  protected def doRenew() {
+    LFTincanPackageLocalServiceUtil.removeAll()
+  }
 
   def getOne(parameters: (String, Any)*) = {
     val lfRule = parameters match {
@@ -53,17 +60,27 @@ trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
 
   private def extract(lfEntity: LFTincanPackage) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
-    Manifest(
+    val lessonLimit = Try({
+      val limit = LFLessonLimitLocalServiceUtil.findByID(lfEntity.getId, LessonType.tincanPackage.toString)
+      (limit.getPassingLimit.toInt, limit.getRerunInterval.toInt, limit.getRerunIntervalType)
+    }
+    ).getOrElse((0, 0, ""))
+
+    TincanManifest(
       lfEntity.getId.toInt,
       lfEntity.getTitle,
       Option(lfEntity.getSummary),
       lfEntity.getCourseID.toOption,
       lfEntity.getAssetRefID.toOption,
-      None, Option(lfEntity.getLogo), false)
+      None, Option(lfEntity.getLogo),
+      false,
+      lessonLimit._1,
+      lessonLimit._2,
+      PeriodType(lessonLimit._3))
   }
 
   def create(parameters: (String, Any)*) { throw new UnsupportedOperationException }
-  def create(entity: Manifest, parameters: (String, Any)*) {
+  def create(entity: TincanManifest, parameters: (String, Any)*) {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
     val newEntity = LFTincanPackageLocalServiceUtil.createLFTincanPackage()
 
@@ -73,14 +90,21 @@ trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
     newEntity.setAssetRefID(entity.assetRefID)
     entity.logo.foreach(newEntity.setLogo)
 
-    LFTincanPackageLocalServiceUtil.addLFTincanPackage(newEntity).getId.toInt
+    val id = LFTincanPackageLocalServiceUtil.addLFTincanPackage(newEntity).getId.toInt
+    val limitEntity = LFLessonLimitLocalServiceUtil.createLFLessonLimit(new LFLessonLimitPK(id.toLong, LessonType.tincanPackage.toString))
+    limitEntity.setPassingLimit(entity.passingLimit)
+    limitEntity.setRerunInterval(entity.rerunInterval)
+    limitEntity.setRerunIntervalType(entity.rerunIntervalType.toString)
+    LFLessonLimitLocalServiceUtil.addLFLessonLimit(limitEntity)
+    id
   }
 
   def delete(parameters: (String, Any)*) {
     parameters match {
       case Seq(("id", id: Any)) => {
         LFTincanPackageLocalServiceUtil.deleteLFTincanPackage(getLong(id))
-        //  LFPackageScopeRuleLocalServiceUtil.removeByPackageID(getInt(id))
+        val passingLimitEntity = LFLessonLimitLocalServiceUtil.findByID(getLong(id), LessonType.tincanPackage.toString)
+        LFLessonLimitLocalServiceUtil.deleteLFLessonLimit(passingLimitEntity)
       }
     }
   }
@@ -103,16 +127,35 @@ trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
         logo.foreach(entity.setLogo)
         entity
       }
+      case Seq(("id", id: Int), ("passingLimit", passingLimit: Int), ("rerunInterval", rerunInterval: Int), ("rerunIntervalType", rerunIntervalType: String)) => {
+        val entity = LFTincanPackageLocalServiceUtil.findByPackageID(Array(id.toLong: java.lang.Long)).get(0)
+        try {
+          val limitEntity = LFLessonLimitLocalServiceUtil.findByID(entity.getId, LessonType.tincanPackage.toString)
+          limitEntity.setPassingLimit(passingLimit)
+          limitEntity.setRerunInterval(rerunInterval)
+          limitEntity.setRerunIntervalType(rerunIntervalType)
+          LFLessonLimitLocalServiceUtil.updateLFLessonLimit(limitEntity)
+        } catch {
+          case _ => {
+            val limitEntity = LFLessonLimitLocalServiceUtil.createLFLessonLimit(new LFLessonLimitPK(id.toLong, LessonType.tincanPackage.toString))
+            limitEntity.setPassingLimit(passingLimit)
+            limitEntity.setRerunInterval(rerunInterval)
+            limitEntity.setRerunIntervalType(rerunIntervalType)
+            LFLessonLimitLocalServiceUtil.addLFLessonLimit(limitEntity)
+          }
+        }
+        entity
+      }
     }
     LFTincanPackageLocalServiceUtil.updateLFTincanPackage(lfEntity)
   }
 
-  def modify(entity: Manifest, parameters: (String, Any)*) { throw new UnsupportedOperationException }
+  def modify(entity: TincanManifest, parameters: (String, Any)*) { throw new UnsupportedOperationException }
   def getByID(id: Int, parameters: (String, Any)*) = {
     Option(LFTincanPackageLocalServiceUtil.getLFTincanPackage(id)).map(extract)
   }
 
-  def createAndGetID(entity: Manifest, parameters: (String, Any)*) = {
+  def createAndGetID(entity: TincanManifest, parameters: (String, Any)*) = {
     import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
     val newEntity = LFTincanPackageLocalServiceUtil.createLFTincanPackage()
 
@@ -120,7 +163,15 @@ trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
     newEntity.setSummary(entity.summary.getOrElse(null))
     newEntity.setTitle(entity.title)
 
-    LFTincanPackageLocalServiceUtil.addLFTincanPackage(newEntity).getId.toInt
+    val id = LFTincanPackageLocalServiceUtil.addLFTincanPackage(newEntity).getId.toInt
+
+    val limitEntity = LFLessonLimitLocalServiceUtil.createLFLessonLimit(new LFLessonLimitPK(id.toLong, LessonType.tincanPackage.toString))
+    limitEntity.setPassingLimit(entity.passingLimit)
+    limitEntity.setRerunInterval(entity.rerunInterval)
+    limitEntity.setRerunIntervalType(entity.rerunIntervalType.toString)
+    LFLessonLimitLocalServiceUtil.addLFLessonLimit(limitEntity)
+
+    id
   }
 
   override def getAll(sql: String, parameters: (String, Any)*) = {
@@ -144,7 +195,7 @@ trait LFTincanPackageStorageImpl extends KeyedEntityStorage[Manifest] {
 
   def execute(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException }
 
-  def getOne(sqlKey: String, parameters: (String, Any)*): Option[Manifest] = throw new UnsupportedOperationException
+  def getOne(sqlKey: String, parameters: (String, Any)*): Option[TincanManifest] = throw new UnsupportedOperationException
 
   def modify(sqlKey: String, parameters: (String, Any)*) { throw new UnsupportedOperationException }
 }

@@ -1,6 +1,7 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
-import com.arcusys.learn.scorm.manifest.storage.{ PackageScopeRuleStorage, PackagesStorage }
+import com.arcusys.learn.scorm.manifest.model.PeriodType.PeriodType
+import com.arcusys.learn.scorm.manifest.storage.{ PackageScopeRuleStorage, ScormPackagesStorage }
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.scorm.manifest.model.ScopeType
 import scala.Predef._
@@ -11,7 +12,8 @@ import com.arcusys.learn.scorm.manifest.model.Manifest
  * User: dkudinov
  * Date: 3.4.2013
  */
-trait PackagesEntityStorage extends PackagesStorage with KeyedEntityStorageExt[Manifest] with EntityStorageExt[Manifest] {
+@deprecated
+trait PackagesEntityStorage extends ScormPackagesStorage with KeyedEntityStorageExt[Manifest] with EntityStorageExt[Manifest] {
   def packageScopeRuleStorage: PackageScopeRuleStorage
 
   def getByRefID(refID: Long): Option[Manifest] = getOne("refID" -> refID)
@@ -113,5 +115,9 @@ trait PackagesEntityStorage extends PackagesStorage with KeyedEntityStorageExt[M
 
   def setLogo(id: Int, logo: Option[String]) {
     modify("id" -> id, "logo" -> logo)
+  }
+
+  def setLimits(id: Int, passingLimit: Int, rerunInterval: Int, rerunIntervalType: PeriodType) = {
+    modify("id" -> id, "passingLimit" -> passingLimit, "rerunInterval" -> rerunInterval, "rerunIntervalType" -> rerunIntervalType.toString)
   }
 }

@@ -4,16 +4,10 @@ import org.scalatra.{ ScalatraServlet }
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.service.util.{ OldParameterBase, Parameter, SessionHandlerContract }
 import com.arcusys.learn.util.JsonSupport
-import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.controllers.auth.{ LiferayAuthSupport }
 
-abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet with JsonSupport with Injectable {
-  before() {
-    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
-    response.setHeader("Expires", "-1")
-  }
+trait ServletBase extends ScalatraServlet with JsonSupport with Injectable {
 
-  implicit val bindingModule = configuration
-  val storageFactory = inject[StorageFactoryContract]
   implicit val sessionHandler = inject[SessionHandlerContract]
 
   @deprecated
@@ -40,22 +34,22 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
   @deprecated
   def parameter(name: String) = new OldParameterBase(name, this)
 
-  def isAdmin = try {
-    sessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
-  } catch {
-    case e: Exception => false
-  }
+  //  def isAdmin = try {
+  //    sessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
+  //  } catch {
+  //    case e: Exception => false
+  //  }
 
-  def hasTeacherPermissions = try {
-    sessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
-  } catch {
-    case e: Exception => false
-  }
+  //  def hasTeacherPermissions = try {
+  //    sessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
+  //  } catch {
+  //    case e: Exception => false
+  //  }
 
-  def getCompanyId = {
-    val company = request.cookies.get("COMPANY_ID")
-    company.getOrElse("-1").toInt
-  }
+  //  def getCompanyId = {
+  //    val company = request.cookies.get("COMPANY_ID")
+  //    company.getOrElse("-1").toInt
+  //  }
 
   def getSessionUserID = try {
     sessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
@@ -63,11 +57,11 @@ abstract class ServletBase(configuration: BindingModule) extends ScalatraServlet
     case e: Exception => -1 // guest
   }
 
-  def requireAdmin() {
-    if (!isAdmin) halt(401)
-  }
+  //  def requireAdmin() {
+  //    if (!isAdmin) halt(401)
+  //  }
 
-  def requireTeacherPermissions() {
-    if (!hasTeacherPermissions) halt(401)
-  }
+  //  def requireTeacherPermissions() {
+  //    if (!hasTeacherPermissions) halt(401)
+  //  }
 }

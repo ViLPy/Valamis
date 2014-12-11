@@ -1,9 +1,9 @@
 package com.arcusys.learn.scorm.manifest.model
 
-/**
- * Created by guestAdmin on 25.04.14.
- */
+import org.joda.time._
+
 case class PackageGrade(userId: Long,
   packageId: Long,
   grade: String,
-  comment: String)
+  comment: String,
+  date: Option[DateTime] = None)

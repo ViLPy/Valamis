@@ -8,6 +8,7 @@ import com.arcusys.learn.persistence.liferay.model.LFActivityState
 import com.arcusys.learn.scorm.tracking.states.storage.impl.ActivityStateFieldsMapper
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
+@deprecated
 trait LFActivityStateStorageImpl extends KeyedEntityStorageExt[ActivityState] {
   protected def doRenew() { LFActivityStateLocalServiceUtil.removeAll() }
 

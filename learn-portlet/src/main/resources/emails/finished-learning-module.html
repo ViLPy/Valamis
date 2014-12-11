@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2 style="background-color: #A7C46C;
+    color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin: 0;
+    font-family: Times New Roman, serif;
+    margin-bottom: 5px;"> Valamis Course Notifications</h2>
+<div style="font-family: Helvetica,sans-serif;
+    padding-left: 10px; font-weight: bold; font-size: 1.3em;">{{date}}</div>
+{{#data}}
+<h4 style="font-family: Helvetica,sans-serif; padding-left: 10px; margin-bottom: 3px;">{{studentName}}</h4>
+<div style="font-family: Helvetica,sans-serif; padding-left: 15px; border-top:1px solid #eee; padding-top: 10px">
+    <table>
+        {{#finishedPackages}}
+        <tr>
+            <td valign="top">
+                 <b>completed</b> the <b>{{.}}</b> package
+            </td>
+        </tr>
+        {{/finishedPackages}}
+    </table>
+</div>
+{{/data}}
+</body>
+</html>

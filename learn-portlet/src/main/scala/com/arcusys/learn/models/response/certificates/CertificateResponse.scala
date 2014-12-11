@@ -1,12 +1,9 @@
 package com.arcusys.learn.models.response.certificates
 
 import com.arcusys.learn.models._
-import com.arcusys.learn.models.StatementResponse
-import com.arcusys.learn.models.ActivityResponse
-import com.arcusys.learn.models.CourseResponse
 import com.arcusys.learn.models.response.users.UserShortResponse
+import com.arcusys.learn.scorm.manifest.model.PeriodType
 import org.joda.time.DateTime
-import com.arcusys.learn.scorm.tracking.model.certificating.PeriodType
 
 /**
  * Created by Iliya Tryapitsin on 05.03.14.

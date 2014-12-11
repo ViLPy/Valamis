@@ -74,14 +74,19 @@ object FileProcessing {
 
   def extractRootDirectories(filename: String) = filename.split("/").dropRight(1) // split path to directory list and drop filename from list
 
-  def copyInputStream(in: InputStream, out: OutputStream) {
+  def copyInputStream(input: InputStream, out: OutputStream) {
     try {
-      var b = in.read
-      while (b >= 0) {
-        out.write(b)
-        b = in.read
+      val buffer = new Array[Byte](8192)
+      def copy() {
+        val read = input.read(buffer)
+        if (read >= 0) {
+          out.write(buffer, 0, read)
+          copy()
+        }
       }
-      in.close()
+      copy()
+
+      input.close()
       out.close()
     } catch {
       case _: Throwable =>
@@ -94,5 +99,13 @@ object FileProcessing {
     tmpFile.delete
 
     packageTmpUUID
+  }
+
+  def deleteFile(file: File) {
+    if (file.isDirectory)
+      file.listFiles.foreach {
+        f => deleteFile(f)
+      }
+    file.delete
   }
 }

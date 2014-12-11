@@ -21,7 +21,7 @@ case class Achievement(
   id: Int = -1,
   title: String = "New achievement",
   description: String = "Achievement info",
-  logo: String = "/learn-portlet/img/certificate-default.png",
+  logo: String = "/learn-portlet/img/certificate-default.jpg",
   startDate: DateTime = new DateTime)
 
 // Activities required to complete achievement

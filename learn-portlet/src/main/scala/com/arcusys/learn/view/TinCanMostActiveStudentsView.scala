@@ -5,6 +5,7 @@ import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.util.MustacheSupport
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport, SessionSupport, TemplateCoupler }
 
 class TinCanMostActiveStudentsView
     extends GenericPortlet
@@ -26,7 +27,7 @@ class TinCanMostActiveStudentsView
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
 
-    if (!themeDisplay.isSignedIn || !userManagement.hasTeacherPermissions(userUID, courseID)) {
+    if (!themeDisplay.isSignedIn || !userRoleService.hasTeacherPermissions(userUID, courseID)) {
       val translations = getTranslation("error", language)
       out.println(mustache(translations, "scorm_nopermissions.html"))
     } else {
@@ -36,9 +37,9 @@ class TinCanMostActiveStudentsView
 
   def generateResponse(contextPath: String, templateName: String, language: String, resURL: String = "") = {
     val translations = try {
-      getTranslation("/i18n/statementReporting_" + language)
+      getTranslation("/i18n/statementReport_" + language)
     } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/statementReporting_en")
+      case e: FileNotFoundException => getTranslation("/i18n/statementReport_en")
       case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language, "resourceURL" -> resURL) ++ translations

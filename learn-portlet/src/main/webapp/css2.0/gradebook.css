@@ -3,15 +3,15 @@ body {
 }
 
 .bbm-modal {
-    width: 90% !important;
+    /*width: 90% !important;*/
 }
 
 .bbm-modal.edit-grade {
-    width: 50% !important;
+    /*width: 50% !important;*/
 }
 
 .bbm-modal.review {
-    width: 70% !important;
+    /*width: 70% !important;*/
 }
 
 .simple-description {
@@ -25,11 +25,11 @@ body {
     overflow: hidden;
 }
 
-.filter-toggler {
-    width: 43px;
-    height: 38px;
-    margin-left: 15px !important;
-}
+/*.filter-toggler {*/
+    /*width: 43px;*/
+    /*height: 38px;*/
+    /*margin-left: 15px !important;*/
+/*}*/
 
 .portlet-learn-scorm input[type="text"] {
     height: auto;
@@ -41,11 +41,11 @@ body {
     width: 100%;
 }
 
-.overflow-hidden {
-    overflow: hidden;
-    min-height: 400px;
-    position: relative;
-}
+/*.overflow-hidden {*/
+    /*overflow: hidden;*/
+    /*min-height: 400px;*/
+    /*position: relative;*/
+/*}*/
 
 .text-input {
     width: 100%;
@@ -123,18 +123,9 @@ div.student-grades-panel {
     overflow-style: scrollbar;
 }
 
-.header-view {
-    background: #e4e4e4 url(../images/table-header-bg.jpg) repeat-x top left;
-    color: #777777;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: left;
-    line-height: 20px;
-}
-
 .student-info {
     display: block;
-    margin: 10px;
+    margin: 20px;
 
 }
 
@@ -146,7 +137,6 @@ div.student-grades-panel {
     margin-top: 10px;
     color: #777777;
     vertical-align: middle;
-    margin-left: 20px;
 }
 
 .address-icon {
@@ -169,68 +159,38 @@ div.student-grades-panel {
 
 /* ------------ Gradebook Student View Table  ----------------*/
 
-tr.table-row {
+/*tr.table-row {*/
 
-}
+/*}*/
 
-tr.expand {
+/*tr.expand {*/
 
-}
+/*}*/
+
 
 .expand > .expand-col > .expand-icon {
     background-image: url(../images/icon-expand.png);
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
-    display: inline-block !important;
-    margin-left: 11px;
-    margin-right: -15px;
-    padding: 6px 15px 3px 5px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    float: left;
+    width: 20px;
+    height: 20px;
+    padding: 0;
 }
 
 .expand-text {
-    margin-left: 20px;
+    margin-left: 0px;
 }
 
 .expand > .expand-col > .expand-text {
-    margin-left: 40px;
-}
-
-.collapse > .expand-col > .expand-text {
-    margin-left: 40px;
-}
-
-tr.collapse {
-
+    margin-left: 10px;
 }
 
 tr.collapse > .expand-col > .expand-icon {
-    background-image: url(../images/icon-collapse.png);
-    background-position: center center;
-    background-repeat: no-repeat;
-    width: 12px;
-    height: 4px;
-    cursor: pointer;
-    display: inline-block !important;
-    margin-left: 11px;
-    margin-right: -15px;
-    padding: 17px 15px 3px 5px;
-    float: left;
+    width: 20px;
+    height: 20px;
+    padding: 0;
 }
 
-tr.expand-child td.expand-col {
-    padding-left: 24px;
-}
-
-tr.expand-child-child td.expand-col {
-    padding-left: 48px;
-}
-
-tr.expand-child-child {
-    color: #777777;
+.collapse > .expand-col > .expand-text {
+    margin-left: 10px;
 }
 
 tr.total-row {
@@ -261,7 +221,6 @@ tr.total-row {
     color: #777777;
     display: block;
     vertical-align: middle;
-    margin-left: 20px;
 }
 
 .package-name-label {
@@ -270,7 +229,7 @@ tr.total-row {
 
 .package-info {
     display: block;
-    margin: 10px;
+    margin: 20px;
 
 }
 
@@ -288,6 +247,34 @@ tr.total-row {
     height: 34px;
 }
 
+
+
+#GradeTable tr td:first-child {
+    border-left: none;
+}
+
+.grade-table td.grade, .grade-table .edit-button-td {
+    width: 1%;
+    white-space: nowrap;
+    border-right: none!important;
+    border-left: none!important;
+}
+
+#GradeTable td .user-name-wrapper,
+.grade-table td .user-name-wrapper {
+    height: 40px;
+    display: table;
+}
+
+#GradeTable td .user-name-wrapper .user-name,
+.grade-table td .user-name-wrapper .user-name {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
+
 /* ------------ Responsive  ----------------*/
 
 /**
@@ -304,17 +291,23 @@ tr.total-row {
 /**
 * Mobile
 */
-@media (max-width: 767px) {
+@media (max-width: 766px) {
 
     #GradeTable td:nth-child(2),
     #GradeTable th:nth-child(2),
     #GradeTable td:nth-child(3),
-    #GradeTable th:nth-child(3) {
+    #GradeTable th:nth-child(3),
+    #GradeTable td.user-img .user-img {
         display: none;
     }
 
     .show-mode-group{
         display: none;
+    }
+
+    #GradeTable tr td:first-child,
+    #GradeTable {
+        border-left: 1px solid #d3d4d5;
     }
 }
 
@@ -435,7 +428,7 @@ tr.total-row {
     font-size: 16px;
     line-height: 22px;
     margin-bottom: 10px;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
 }
 /*blockquote, dl, dd, h1, h2, h3, h4, h5, h6, figure, p, pre {*/
     /*margin: 0;*/
@@ -449,3 +442,34 @@ tr.total-row {
     /*list-style: none;*/
     /*padding: 0;*/
 /*}*/
+
+#courseComment {
+    background: #FAFAFA!important;
+    border: 1px solid #d4d4d4!important;
+    border-radius: 1px!important;
+    line-height: 20px!important;
+    padding: 8px 10px!important;
+    margin-bottom: 0!important;
+    font-size: 14px!important;
+    color: #777777!important;
+    width: 300px;
+    font-family: "Ubuntu", Ubuntu, sans-serif;
+    -webkit-transition: 0.05s all linear;
+    -moz-transition: 0.05s all linear;
+    transition: 0.05s all linear;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    min-height: 100px;
+    resize: vertical;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#courseComment:focus {
+    background: #FFFFFF!important;
+    border-color: #a9cb4f!important;
+    color: #2c2c2c!important;
+
+}

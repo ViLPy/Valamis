@@ -12,6 +12,7 @@ import com.arcusys.learn.questionbank.storage.impl.AnswerFieldsMapper
  * User: dkudinov
  * Date: 19.3.2013
  */
+@deprecated
 trait LFAnswerStorageImpl extends KeyedEntityStorage[Answer] {
   protected def doRenew() { LFAnswerLocalServiceUtil.removeAll() }
 

@@ -52,7 +52,7 @@ public class LFTincanManifestActModelImpl extends BaseModelImpl<LFTincanManifest
             { "launch", Types.VARCHAR },
             { "resourceID", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanManifestAct (id_ LONG not null primary key,tincanID VARCHAR(75) null,packageID LONG null,activityType VARCHAR(75) null,name VARCHAR(75) null,description VARCHAR(75) null,launch VARCHAR(75) null,resourceID VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanManifestAct (id_ LONG not null primary key,tincanID VARCHAR(2000) null,packageID LONG null,activityType VARCHAR(2000) null,name VARCHAR(2000) null,description VARCHAR(2000) null,launch VARCHAR(2000) null,resourceID VARCHAR(2000) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanManifestAct";
     public static final String ORDER_BY_JPQL = " ORDER BY lfTincanManifestAct.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFTincanManifestAct.id_ ASC";

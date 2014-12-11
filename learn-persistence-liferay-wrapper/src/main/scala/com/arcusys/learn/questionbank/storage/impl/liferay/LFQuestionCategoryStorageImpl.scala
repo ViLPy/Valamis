@@ -11,6 +11,7 @@ import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
  * User: dkudinov
  * Date: 15.3.2013
  */
+@deprecated
 trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory] {
   protected def doRenew() { LFQuestionCategoryLocalServiceUtil.removeAll() }
 
@@ -22,9 +23,9 @@ trait LFQuestionCategoryStorageImpl extends KeyedEntityStorage[QuestionCategory]
       val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseId)
       LFQuestionCategoryLocalServiceUtil.findByCourseId(courseIdsForSearch).asScala.map { extract }.sortBy(_.arrangementIndex)
     }
-    case Seq(a: (String, Int), b: (String, Int)) if Set(a._1, b._1) == Set("courseID", "parentID") => {
+    case Seq(a: (String, Int), b: (String, Int)) if Set(a._1, b._1) == Set("courseID", "categoryID") => {
       val courseId: Int = parameters.find(_._1 == "courseID").map { _._2.asInstanceOf[Int] }.get
-      val parentId: Int = parameters.find(_._1 == "parentID").map { _._2.asInstanceOf[Int] }.get
+      val parentId: Int = parameters.find(_._1 == "categoryID").map { _._2.asInstanceOf[Int] }.get
 
       val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseId)
       val parentIdsForSearch: Array[java.lang.Integer] = if (parentId == -1) Array(nullInteger) else Array(new Integer(parentId))

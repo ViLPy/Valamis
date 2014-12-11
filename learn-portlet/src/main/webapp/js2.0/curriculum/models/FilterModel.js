@@ -5,14 +5,16 @@ LiferayOrganizationModel = Backbone.Model.extend({
   }
 });
 
-LiferayOrganizationCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+LiferayOrganizationCollectionService = new Backbone.Service({ url: path.root,
   sync: {
     'read': function () {
-      return  'api/users/orgs';
+      return  path.api.users + 'orgs';
     }
   }
 });
 
-LiferayOrganizationCollection = Backbone.Collection.extend({
-  model: LiferayOrganizationModel
-}).extend(LiferayOrganizationCollectionService);
+LiferayOrganizationCollection = Backbone.Collection
+    .extend({
+        model: LiferayOrganizationModel
+    })
+    .extend(LiferayOrganizationCollectionService);

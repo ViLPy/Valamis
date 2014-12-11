@@ -11,10 +11,8 @@ class DBUpdater200 extends LUpgradeProcess with SQLRunner {
     // --- Creating new tables/dropping old ones
     runSQLScript(
       """
-        |drop table learn_LFCertificateSite;
-        |
         |create table Learn_LFQuizTreeElement (
-        |	id LONG not null primary key,
+        |	id_ LONG not null primary key,
         |	quizID INTEGER null,
         |	elementID VARCHAR(3000) null,
         |	isCategory BOOLEAN null,
@@ -48,18 +46,37 @@ class DBUpdater200 extends LUpgradeProcess with SQLRunner {
         |	period INTEGER null,
         |	primary key (certificateID, verb, object)
         |);
+        |
+        |create table Learn_LFPackageGradeStorage (
+        |	userId LONG not null,
+        |	packageId LONG not null,
+        |	grade VARCHAR(75) null,
+        |	comment_ VARCHAR(75) null,
+        |	primary key (userId, packageId)
+        |);
       """.stripMargin)
 
     // --- Altering learn_LFCertificate table
     runSQLScript(
       """
-        |alter table learn_LFCertificate add column state VARCHAR(300) null;
+        |alter table learn_LFCertificate add column state_ VARCHAR(300) null;
         |alter table learn_LFCertificate add column emails VARCHAR(300) null;
         |alter table learn_LFCertificate add column createdDate DATE null;
         |alter table learn_LFCertificate add column validPeriodType VARCHAR(500) null;
         |alter table learn_LFCertificate add column validPeriod INTEGER null;
         |alter table learn_LFCertificate add column isPublished BOOLEAN null;
         |alter table learn_LFCertificate add column scope LONG null;
+      """.stripMargin)
+
+    // --- Set default values for new columns in learn_LFCertificate table
+    // --- Set validPeriodType=UNLIMITED
+    // --- Set validPeriod=0
+    // --- Set isPublished=FALSE
+    runSQLScript(
+      """
+        |update learn_LFCertificate set validPeriodType = 'UNLIMITED';
+        |update learn_LFCertificate set validPeriod = 0;
+        |update learn_LFCertificate set isPublished = FALSE;
       """.stripMargin)
 
     // --- Adding logo column into learn_LFQuiz, learn_LFTincanPackage, learn_LFPackage tables
@@ -71,11 +88,8 @@ class DBUpdater200 extends LUpgradeProcess with SQLRunner {
       """.stripMargin)
 
     // --- Resetting category's and quiz's parentid to null
-    runSQLScript(
-      """
-        | update learn_lfquestioncategory set parentid= null;
-        | update learn_lfquizquestioncategory set parentid = null;
-      """.stripMargin)
+    runSQLScript("update learn_lfquestioncategory set parentid= null;")
+    runSQLScript("update learn_lfquizquestioncategory set parentid = null;")
 
     // --- Updating "duration" type in the learn_LFTincanLrsResult table
     runSQLScript(
@@ -141,5 +155,12 @@ class DBUpdater200 extends LUpgradeProcess with SQLRunner {
         |create index IX_5328A41E on Learn_LFQuizTreeElement (quizID);
         |create index IX_7C8C5429 on Learn_LFQuizTreeElement (quizID, elementID);
       """.stripMargin)
+
+    runSQLScript(
+      """
+        |insert into Learn_LFCertificateCourse (certificateID, siteID, arrangementIndex, 'UNLIMITED', 0) select certificateID, siteID, arrangementIndex from Learn_LFCertificateSite;
+        |drop table Learn_LFCertificateSite;
+      """.stripMargin
+    )
   }
 }

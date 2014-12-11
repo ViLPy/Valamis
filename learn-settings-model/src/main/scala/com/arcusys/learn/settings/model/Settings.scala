@@ -18,6 +18,7 @@ object SettingType extends Enumeration {
   val IssuerURL = Value("IssuerURL")
   val IssuerOrganization = Value("IssuerOrganization")
   val DBVersion = Value("DBVersion")
+  val SendMessages = Value("SendMessages")
 }
 
 object EmptySetting {

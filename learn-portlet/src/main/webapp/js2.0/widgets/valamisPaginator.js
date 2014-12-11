@@ -49,6 +49,10 @@ var ValamisPaginator = Backbone.View.extend({
   initialize: function (options) {
     if (options === undefined || options.model === undefined) this.model = new PageModel();
     this.language = options.language;
+    if (options.needDisplay === undefined)
+      this.needDisplay = false;
+    else
+      this.needDisplay = options.needDisplay;
     this.model.on('change', this.render, this);
   },
   render: function () {
@@ -57,6 +61,11 @@ var ValamisPaginator = Backbone.View.extend({
 
     var template = Mustache.to_html(templateContainer.html(), _.extend(this.model.toJSON(), this.language));
     this.$el.html(template);
+
+    if (this.needDisplay) {
+      var displayTemplate = Mustache.to_html(jQuery('#paginatorDisplayTemplate').html(), _.extend(this.model.toJSON(), this.language));
+      this.$el.find("#paginatorDisplay").html(displayTemplate);
+    }
     this.$('.paginator-items-per-page').val(this.model.get('itemsOnPage'));
     return this;
   },
@@ -83,7 +92,11 @@ var ValamisPaginator = Backbone.View.extend({
     if (current >= this.model.get('totalElements') / this.model.get('itemsOnPage')) return;
     this.updatePage(current + 1);
   },
-
+  setItemsPerPage: function(count){
+    this.model.set({
+      itemsOnPage: count
+    });
+  },
   onItemsPerPageChanged: function () {
     this.model.set({
       itemsOnPage: this.$('.paginator-items-per-page').val(),

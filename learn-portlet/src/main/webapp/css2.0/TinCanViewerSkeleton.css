@@ -184,9 +184,9 @@
 
 /* Note: Design for a width of 768px */
 
-@media only screen and (min-width: 768px) and (max-width: 959px) {
+@media only screen and (min-width: 767px) and (max-width: 1199px) {
     .container {
-        width: 768px;
+        width: 767px;
     }
 
     .container .column,
@@ -344,7 +344,7 @@
 
 /* Note: Design for a width of 320px */
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 766px) {
     .container {
         width: 300px;
     }
@@ -400,7 +400,7 @@
 
 /* Note: Design for a width of 480px */
 
-@media only screen and (min-width: 480px) and (max-width: 767px) {
+@media only screen and (min-width: 480px) and (max-width: 766px) {
     .container {
         width: 420px;
     }

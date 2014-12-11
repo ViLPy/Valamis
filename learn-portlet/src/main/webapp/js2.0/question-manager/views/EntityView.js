@@ -15,7 +15,7 @@ var EntityView = Backbone.View.extend({
     }
   },
 
-  renderEntityList: function (catCollection, qCollection, isRoot, title) {
+  renderEntityList: function (catCollection, qCollection, isRoot, title, baseTitle) {
     if (this.currentView) this.currentView.remove();
 
     this.currentView = new qbEntityListView({
@@ -23,10 +23,14 @@ var EntityView = Backbone.View.extend({
       qCollection: qCollection,
       language: this.language,
       isRoot: isRoot,
-      title: title
+      title: title,
+      baseTitle: baseTitle
     });
     this.currentView.on('editEntityRow', function (item) {
       this.trigger('editEntityRow', item);
+    }, this);
+    this.currentView.on('moveEntityToSite', function (item) {
+      this.trigger('moveEntityToSite', item);
     }, this);
     this.currentView.on('removeEntityRow', function (item) {
       this.trigger('removeEntityRow', item);
@@ -36,7 +40,7 @@ var EntityView = Backbone.View.extend({
   },
 
 
-  render: function (model, categoryChild, categoryTitle) {
+  render: function (model, categoryChild, categoryTitle, baseTitle) {
     if (this.currentView) this.currentView.remove();
 
     if (model instanceof CategoryModel) {
@@ -53,7 +57,8 @@ var EntityView = Backbone.View.extend({
         model: model,
         categoryChild: categoryChild,
         categoryTitle: categoryTitle,
-        language: this.language
+        language: this.language,
+        baseTitle: baseTitle
       });
       this.currentView.on('qb-entity-updated', function () {
         this.trigger('qb-entity-updated', this);

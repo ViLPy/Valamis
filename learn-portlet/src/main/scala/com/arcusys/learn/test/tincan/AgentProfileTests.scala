@@ -1,26 +1,26 @@
 package com.arcusys.learn.test.tincan
 
 import java.io.PrintWriter
-import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.{ ActorStorage, AgentProfileStorage }
+
+import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.tincan.api.serializer.JsonDeserializer._
 import com.arcusys.learn.tincan.lrs.agentprofile.AgentProfileLRS
-import com.arcusys.learn.tincan.model.Agent
-import com.arcusys.learn.tincan.model.Account
-import scala.Some
+import com.arcusys.learn.tincan.model._
+import com.arcusys.learn.tincan.storage.{ DocumentStorage, ActorStorage, AgentProfileStorage }
+import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
-class AgentProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContract) {
-
+class AgentProfileTests(writer: PrintWriter) extends Injectable {
+  override implicit def bindingModule: BindingModule = Configuration
   private val agentProfileLrs = new AgentProfileLRS {
-    val agentProfileStorage: AgentProfileStorage = storageFactory.tincanLrsAgentProfileStorage
-    val actorStorage: ActorStorage = storageFactory.tincanLrsActorStorage
+    val agentProfileStorage: AgentProfileStorage = inject[AgentProfileStorage]
+    val actorStorage: ActorStorage = inject[ActorStorage]
   }
+  private val tincanLrsDocumentStorage = inject[DocumentStorage]
 
   def renew() {
-    storageFactory.tincanLrsActorStorage.renew()
-    storageFactory.tincanLrsAgentProfileStorage.renew()
-    storageFactory.tincanLrsDocumentStorage.renew()
+    agentProfileLrs.agentProfileStorage.renew()
+    agentProfileLrs.actorStorage.renew()
+    tincanLrsDocumentStorage.renew()
   }
 
   def createAndReadTest() {
@@ -41,7 +41,7 @@ class AgentProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContr
   def createAndReadWithEmptyAgentTest() {
     renew()
     val profileId = "zdxfaf"
-    val agent = Agent("Agent", Some(""), None, None, None, None)
+    val agent = Agent("Agent", Some("Test"), Some("p@p.com"), None, None, None)
     val document = Document("the content", JSONContent)
 
     agentProfileLrs.addAgentDocument(profileId, agent, document)

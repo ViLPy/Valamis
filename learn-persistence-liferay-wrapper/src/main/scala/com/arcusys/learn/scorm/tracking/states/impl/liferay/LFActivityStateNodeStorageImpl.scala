@@ -7,6 +7,7 @@ import com.arcusys.learn.scorm.tracking.states.storage.impl.ActivityStateNodeFie
 import com.arcusys.learn.persistence.liferay.service.LFActivityStateNodeLocalServiceUtil
 import scala.collection.JavaConverters._
 
+@deprecated
 trait LFActivityStateNodeStorageImpl extends KeyedEntityStorage[ActivityStateNode] {
   protected def doRenew() { LFActivityStateNodeLocalServiceUtil.removeAll() }
 

@@ -21,6 +21,8 @@ public class LFQuizQuestionSoap implements Serializable {
     private String _url;
     private String _plainText;
     private Integer _arrangementIndex;
+    private Boolean _autoShowAnswer;
+    private Integer _groupId;
 
     public LFQuizQuestionSoap() {
     }
@@ -37,6 +39,8 @@ public class LFQuizQuestionSoap implements Serializable {
         soapModel.setUrl(model.getUrl());
         soapModel.setPlainText(model.getPlainText());
         soapModel.setArrangementIndex(model.getArrangementIndex());
+        soapModel.setAutoShowAnswer(model.getAutoShowAnswer());
+        soapModel.setGroupId(model.getGroupId());
 
         return soapModel;
     }
@@ -155,5 +159,21 @@ public class LFQuizQuestionSoap implements Serializable {
 
     public void setArrangementIndex(Integer arrangementIndex) {
         _arrangementIndex = arrangementIndex;
+    }
+
+    public Boolean getAutoShowAnswer() {
+        return _autoShowAnswer;
+    }
+
+    public void setAutoShowAnswer(Boolean autoShowAnswer) {
+        _autoShowAnswer = autoShowAnswer;
+    }
+
+    public Integer getGroupId() {
+        return _groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        _groupId = groupId;
     }
 }

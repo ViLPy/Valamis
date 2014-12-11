@@ -84,6 +84,7 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
         lfEntity.setWelcomePageContent(entity.welcomePageContent)
         lfEntity.setFinalPageContent(entity.finalPageContent)
         lfEntity.setLogo(entity.logo)
+        lfEntity.setMaxDuration(entity.maxDuration)
         update(lfEntity)
       }
     }
@@ -102,5 +103,6 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
     entity.getWelcomePageContent,
     entity.getFinalPageContent,
     Option(entity.getCourseID).map(_.toInt),
-    entity.getLogo)
+    entity.getLogo,
+    Option(entity.getMaxDuration).map(_.toInt))
 }

@@ -1,5 +1,7 @@
 package com.arcusys.learn.liferay.service
 
+import com.arcusys.learn.controllers.api.BaseApiController
+
 import scala.collection.JavaConverters._
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
@@ -9,7 +11,7 @@ import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.{ QueryUtilHelper, WorkflowConstantsHelper }
 
-class JournalArticleService(configuration: BindingModule) extends ServletBase(configuration) {
+class JournalArticleService(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
   val jsonModel = new JsonModelBuilder[LJournalArticle](article =>

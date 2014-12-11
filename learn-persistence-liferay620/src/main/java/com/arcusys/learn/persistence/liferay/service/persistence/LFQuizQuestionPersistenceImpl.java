@@ -1437,6 +1437,8 @@ public class LFQuizQuestionPersistenceImpl extends BasePersistenceImpl<LFQuizQue
         lfQuizQuestionImpl.setUrl(lfQuizQuestion.getUrl());
         lfQuizQuestionImpl.setPlainText(lfQuizQuestion.getPlainText());
         lfQuizQuestionImpl.setArrangementIndex(lfQuizQuestion.getArrangementIndex());
+        lfQuizQuestionImpl.setAutoShowAnswer(lfQuizQuestion.getAutoShowAnswer());
+        lfQuizQuestionImpl.setGroupId(lfQuizQuestion.getGroupId());
 
         return lfQuizQuestionImpl;
     }

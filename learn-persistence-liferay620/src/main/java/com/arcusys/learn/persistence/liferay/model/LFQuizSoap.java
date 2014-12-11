@@ -19,6 +19,7 @@ public class LFQuizSoap implements Serializable {
     private String _welcomePageContent;
     private String _finalPageContent;
     private Integer _courseID;
+    private Integer _maxDuration;
 
     public LFQuizSoap() {
     }
@@ -33,6 +34,7 @@ public class LFQuizSoap implements Serializable {
         soapModel.setWelcomePageContent(model.getWelcomePageContent());
         soapModel.setFinalPageContent(model.getFinalPageContent());
         soapModel.setCourseID(model.getCourseID());
+        soapModel.setMaxDuration(model.getMaxDuration());
 
         return soapModel;
     }
@@ -135,5 +137,13 @@ public class LFQuizSoap implements Serializable {
 
     public void setCourseID(Integer courseID) {
         _courseID = courseID;
+    }
+
+    public Integer getMaxDuration() {
+        return _maxDuration;
+    }
+
+    public void setMaxDuration(Integer maxDuration) {
+        _maxDuration = maxDuration;
     }
 }

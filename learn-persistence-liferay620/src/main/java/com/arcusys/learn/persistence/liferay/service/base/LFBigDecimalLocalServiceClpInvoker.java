@@ -41,10 +41,10 @@ public class LFBigDecimalLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
 
     public LFBigDecimalLocalServiceClpInvoker() {
         _methodName0 = "addLFBigDecimal";
@@ -129,13 +129,13 @@ public class LFBigDecimalLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFBigDecimal"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -227,13 +227,13 @@ public class LFBigDecimalLocalServiceClpInvoker {
             return LFBigDecimalLocalServiceUtil.updateLFBigDecimal((com.arcusys.learn.persistence.liferay.model.LFBigDecimal) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFBigDecimalLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFBigDecimalLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;

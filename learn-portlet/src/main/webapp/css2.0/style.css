@@ -1,7 +1,14 @@
 @charset "UTF-8";
 /* CSS Document */
 
-section {
+.pull-right {
+    float: right;
+}
+.pull-left {
+    float: left;
+}
+
+.portlet-learn-scorm section {
     /*should be changed by portlet body*/
     background: #F2F2F2;
     color: #2C2C2C;
@@ -10,7 +17,11 @@ section {
     line-height: 1.5;
 }
 
-.portlet-content {
+.portlet-learn-scorm .portlet {
+    padding: 0;
+}
+
+.portlet-learn-scorm .portlet-content {
     padding: 0px !important;
     background: #F2F2F2;
 
@@ -19,14 +30,6 @@ section {
     box-sizing: border-box;
 
 }
-
-/*a {*/
-/*text-decoration: underline;*/
-/*}*/
-
-/*a:hover, a:active {*/
-/*text-decoration: none;*/
-/*}*/
 
 .valamis-row:before,
 .valamis-row:after {
@@ -46,6 +49,10 @@ section {
     /*margin-left: 5px;*/
 }
 
+.valamis-row:last-child {
+    margin-bottom: 0;
+}
+
 .valamis-row.margined {
     margin-left: 5px;
 }
@@ -61,11 +68,21 @@ h1.valamis, .h1label.valamis {
 
 h2.valamis, .h2label.valamis {
     color: #2C2C2C;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: bold;
     font-family: Ubuntu, Arial, sans-serif;
     margin-top: 0px;
     margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.title-wrapper h2 {
+    margin: 0;
+    display: inline;
+}
+
+.title-wrapper h2.padded-left {
+    padding-left: 5px;
 }
 
 h3.valamis, .h3label.valamis {
@@ -78,13 +95,22 @@ h3.valamis, .h3label.valamis {
 }
 
 h4.valamis, .h4label.valamis {
+    white-space: nowrap;
     color: #2C2C2C;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
     font-family: Ubuntu, Arial, sans-serif;
     margin-top: 0px;
+    margin-bottom: 6px;
+    line-height: 1;
+}
+
+@-moz-document url-prefix()
+{
+	h4.valamis, .h4label.valamis {
+        letter-spacing: 0;
+	}
 }
 
 h1.valamis.margined, h2.valamis.margined, h3.valamis.margined, h4.valamis.margined {
@@ -151,7 +177,13 @@ img .valamis {
     font-size: 16px;
     font-weight: 500 !important;
     font-family: Ubuntu;
-    letter-spacing: 0.03em;
+}
+
+@-moz-document url-prefix()
+{
+	.valamis-tabs {
+        letter-spacing: 0;
+	}
 }
 
 .bbm-modal .valamis-tabs {
@@ -162,22 +194,591 @@ img .valamis {
     border-top: 2px solid #a9cb4f !important;
 }
 
-.valamis-tabs ul.nav.nav-tabs {
+.valamis-tabs ul.nav.nav-tabs, .tabs-container {
+    padding: 0px;
+    margin: 0px;
+    border-bottom: 1px solid #d3d4d5;
+    position: relative;
+    height: 60px;
+    background: #f2f2f2;
+    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e6e6e6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e6e6e6));
+    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: -o-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: linear-gradient(to bottom,  #f2f2f2 0%,#e6e6e6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#e6e6e6',GradientType=0 );
+}
+
+.valamis-tabs ul.nav.nav-tabs li {
+    padding: 0;
+    margin: 0;
+    border-right: 1px solid #d3d4d5;
+}
+
+.valamis-tabs ul.nav.nav-tabs li a {
+    line-height: 60px;
+    border: none!important;
+    color: #777777;
+    margin: 0;
+    padding: 0px 20px;
+    border-radius: 0;
+}
+
+.valamis-tabs ul.nav.nav-tabs li.active {
+    background: #FFFFFF;
+    background: -moz-linear-gradient(top,  #FFFFFF 0%, #F2F2F2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#F2F2F2));
+    background: -webkit-linear-gradient(top,  #FFFFFF 0%,#F2F2F2 100%);
+    background: -o-linear-gradient(top,  #FFFFFF 0%,#F2F2F2 100%);
+    background: -ms-linear-gradient(top,  #FFFFFF 0%,#F2F2F2 100%);
+    background: linear-gradient(to bottom,  #FFFFFF 0%,#F2F2F2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#F2F2F2',GradientType=0 );
+}
+
+.valamis-tabs ul.nav.nav-tabs li a:hover {
+    border: none;
+}
+
+.valamis-tabs ul.nav.nav-tabs li.active a {
+    -webkit-box-shadow: inset 0px 4px 0px 0px #90ae1d;
+    -moz-box-shadow: inset 0px 4px 0px 0px #90ae1d;
+    box-shadow: inset 0px 4px 0px 0px #90ae1d;
+    color: #2c2c2c!important;
+}
+
+.tabs-container button {
+    margin-top: 11px;
+    margin-left: 20px!important;
+}
+
+
+.popup-content-header {
+    padding: 5px 0px 0px 20px;
+}
+
+.sidebar-wrapper {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.sidebar-wrapper select {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+width: 100%!important;
+}
+
+.sidebar-wrapper input.search {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    line-height: 20px !important;
+    height: 36px !important;
+}
+
+.sidebar-wrapper .wideButton,
+.logo-div .wideButton {
+    width: 100%;
+    margin-bottom: 10px !important;
+    padding-left: 75px !important;
+    background-position: 40px center !important;
+}
+
+.page-content-wrapper .content-header-padded {
+    margin-top: 0px;
+}
+
+.page-content.grid-view {
+    padding: 10px;
+}
+
+div.full-width {
+    width: 100%;
+}
+
+div.upload {
+    width: 145px;
+    height: 33px;
+    background: url("../img/uploadButton.png") no-repeat transparent !important;
+    overflow: hidden;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+div.upload input {
+    display: block !important;
+    width: 145px !important;
+    height: 33px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+
+}
+
+div.upload:hover {
+    background: url("../img/uploadButtonHovered.png") no-repeat transparent !important;
+}
+
+/*.valamis-tile-item {*/
+    /*display: block;*/
+    /*float: left;*/
+    /*margin: 10px;*/
+    /*border: 1px solid #d3d4d5;*/
+    /*width: 260px;*/
+    /*background: #FFFFFF;*/
+    /*box-sizing: border-box;*/
+    /*-moz-box-sizing: border-box;*/
+/*}*/
+
+.valamis-tile-item {
+    display: block;
+    float: left;
+}
+
+.valamis-tile-item-wrapper {
+    margin:10px;
+    border: 1px solid #d3d4d5;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.grid-view.width0 .valamis-tile-item{ width: 16.66666666%; }
+
+.grid-view.width1 .valamis-tile-item{ width: 20%; }
+
+.grid-view.width2 .valamis-tile-item{ width: 25%; }
+
+.grid-view.width3 .valamis-tile-item{ width: 33.33333333%; }
+
+.grid-view.width4 .valamis-tile-item{ width: 50%; }
+
+.grid-view.width5 .valamis-tile-item{ width: 100%; }
+
+.valamis-item-cover-image {
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #dedede;
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-origin: content-box;
+    background-position: center;
+    box-sizing: border-box;
+    background-image: url("../img/imgo.jpg");
+    /*border-bottom: 1px solid #d3d4d5;*/
+}
+
+.valamis-item-cover-image.certificate-logo {
+    background-image: url("../img/certificate-default.jpg");
+}
+
+.valamis-item-cover-image img {
+    vertical-align: middle;
+}
+
+.valamis-item-content {
+    padding: 20px 10px;
+    height: 40px;
+}
+
+.valamis-item-title {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.valamis-item-title.padded-top {
+    padding-top: 10px;
+}
+
+.valamis-item-description {
+    font-size: 13px;
+    line-height: 14px;
+    max-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.valamis-item-footer {
+    height: 40px;
+    line-height: 39px;
+    padding: 0 10px;
+    border-top: 1px solid #dedede;
+    font-size: 13px;
+    color: #777777;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@-moz-document url-prefix()
+{
+	.valamis-item-footer {
+        letter-spacing: 0;
+	}
+}
+
+.valamis-list-item {
+    display: block;
+    margin: 20px 0px;
+    border: 1px solid #d3d4d5;
+    width: 100%;
+    height: 90px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    overflow: hidden;
+}
+
+.valamis-list-item .valamis-item-content {
+    padding: 10px;
+}
+
+.valamis-list-item .valamis-item-description,
+.valamis-list-item .valamis-item-title {
+    max-width: 330px;
+    overflow: visible;
+    white-space: nowrap;
+}
+
+.valamis-list-item .valamis-item-cover-image {
+    width: 130px;
+    height: 90px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.valamis-list-item .valamis-item-buttons {
+    margin-top: 25px;
+    padding: 0px 10px;
+    background: inherit;
+}
+
+.div-table{
+    display:table;
+    width:100%;
+}
+
+.div-row{
+    display:table-row;
+}
+
+.div-col{
+    display:table-cell;
+}
+
+.div-col input.no-margin {
+    margin:0px!important;
+}
+
+img.logo-mini{
+    max-width:130px;
+    max-height:90px;
+}
+img.logo-xs{
+    max-width:64px;
+    max-height:64px;
+}
+img.logo{
+    max-height: 180px;
+    max-width: 258px;
+}
+
+.centered-content {
+    text-align: center;
+}
+
+.box-sizing {
+    width: 100% !important;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+input.valamis.box-sizing {
+    line-height: 20px !important;
+    height: 36px !important;
+}
+
+textarea.valamis.box-sizing {
+    line-height: 20px !important;
+}
+
+table.valamis {
+    display: inline-table;
+}
+
+.padded-left {
     padding-left: 10px;
+}
+
+.headerPaginator {
     padding-top: 5px;
-    margin-bottom: 0px;
 }
 
-.valamis-tabs .tab-content {
-    /*margin-top: 10px;*/
+.logo-div img {
+    max-width: 230px;
 }
 
-@media (max-width: 767px) {
+.logo-div h3 {
+    font-weight: 500;
+}
+
+.info-div {
+    width: 70%;
+}
+
+.content-header-padded {
+    padding-left: 20px;
+}
+
+form {
+    margin: 0 0 20px;
+}
+
+.course-report-grey {
+    /*vertical-align:top;*/
+    padding:2px;
+    /*font-size:.7em;*/
+    background: rgba(0,0,0,0.1);
+    height: 40px;
+    line-height: 40px;
+}
+
+.course-report-white {
+    /*vertical-align:top;*/
+    padding:2px;
+    /*font-size:.7em;*/
+    background:white;
+    height: 40px;
+    line-height: 40px;
+}
+#course-report-frame {
+    display: block;
+    float: left;
+    /*margin: 20px auto;*/
+    border: 1px solid #d3d4d5;
+    /*width: 400px;*/
+    max-height: 360px;
+    /*width: auto;*/
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+    margin:2% 15% 0 5%;
+    width: 80%;
+
+}
+
+.logo-div {
+    width: 30%;
+    padding: 20px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #f4f4f4;
+    border-right: 1px solid #d3d4d5;
+    border-bottom: 1px solid #d3d4d5;
+    min-height: 231px;
+}
+
+.valamis-paginator .pagination-group{
+    margin-left: 20px;
+}
+
+.portlet-icon-back {
+    color: #999 !important;
+}
+
+.portlet-icon-back:hover {
+    color: #2C2C2C !important;
+}
+
+
+
+
+@media (min-width: 767px) and (max-width: 1199px) {
+    .valamis-list-item .valamis-item-description,
+    .valamis-list-item .valamis-item-title {
+        max-width: 200px;
+    }
+
+    .logo-div .button.valamis.val-icon-doc-lib {
+        background-position: 12% center !important;
+        padding-left: 23% !important;
+    }
+}
+
+@media (max-width: 766px) {
+    .logo-div, .info-div {
+        width: 100%;
+        float: left;
+    }
+
+    .logo-div {
+        text-align: center;
+    }
+
+    .logo-div .wideButton{
+        max-width: 200px;
+    }
+
+    .logo-div .button.valamis.val-icon-doc-lib {
+        background-position: 25px center !important;
+        padding-left: 50px !important;
+    }
+
     .valamis-tabs ul.nav.nav-tabs {
-        padding-right: 10px;
+        overflow: hidden;
     }
 
-    .valamis-tabs li {
-        float: initial !important;
+    .valamis-tabs ul.nav.nav-tabs li {
+        border: none;
+        padding: 0px 10px;
+        background: transparent!important;
     }
+
+    .valamis-tabs ul.nav.nav-tabs li a {
+        padding: 0px 0px;
+        font-size: 14px;
+        background-color: transparent!important;
+    }
+
+    /*from certificates.css, package_manager.css*/
+
+    .show-details-button {
+        width: 31px;
+        height: 60px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        text-align: center;
+        padding-top: 21px;
+    }
+
+    img.logo-mini{
+        max-width:87px;
+        max-height:58px;
+    }
+
+    .valamis-item-title.padded-top {
+        padding-top: 0px;
+    }
+
+    .valamis-list-item {
+        margin: 0 0 10px;
+        height: 61px;
+    }
+
+    .valamis-item-content {
+       /*padding: 10px 20px 10px 0px;*/
+    }
+
+    .valamis-list-item .valamis-item-cover-image {
+        width: 87px;
+        height: 58px;
+    }
+
+    .valamis-list-item .valamis-item-description,
+    .valamis-list-item .valamis-item-title {
+        max-width: 50px;
+    }
+
+    .valamis-list-item .valamis-item-buttons {
+        margin-top: 12px;
+    }
+
+    /*<--pagination */
+
+    .valamis-paginator {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+
+    .valamis-paginator .pagination-group {
+        position: relative;
+        width: 100%;
+        margin: 0;
+    }
+
+    .valamis-paginator .pagination-group .select-element-label-wrapper,
+    .valamis-paginator .pagination-group .select-element-label-wrapper .select-element-label
+    {
+        width: 100%;
+        text-align: center;
+    }
+
+    .valamis-paginator .paginator-previous-page {
+        position: absolute;
+        left: 3px;
+        top: 0;
+    }
+
+    .valamis-paginator .paginator-next-page {
+        position: absolute;
+        right: 3px;
+        top: 0;
+    }
+
+    /*-->*/
+
+}
+
+#toolbarWrapper {
+    padding: 20px;
+    padding-top: 0px;
+}
+
+#packageManagerMainRegion {
+    padding: 10px;
+}
+
+#bottomPaging {
+    padding: 20px;
+}
+
+#curriculum-content_Curriculum_WAR_learnportlet {
+    padding-top: 0px;
+}
+
+#curriculum-content_Curriculum_WAR_learnportlet .pull-right.full-width {
+    margin-bottom: 30px;
+}
+
+.no-margin {
+    margin: 0!important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #d3d4d5;
+}
+
+
+.questionsCountToShowText {
+    width: auto !important;
+    margin-left: 20px !important;
+}
+.randomQuestionOrderingToggle {
+    margin-left: 20px !important;
+}
+
+#answerDetails {
+    overflow: hidden;
+}
+#UserCertificateTitle,
+#valamisCertificates,
+#UserCertificateInfo{
+    display: block; width: 100%; clear: both;
+}
+
+#UserCertificateTitle{
+    margin: 10px;
+    padding-top: 20px;
+}
+#valamisCertificates .valamis-tile-item-wrapper {
+    cursor: pointer;
 }

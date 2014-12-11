@@ -3,6 +3,7 @@ package com.arcusys.learn.liferay.service
 import asset.AssetHelper
 import javax.servlet.http.{ HttpServletResponse, HttpServletRequest }
 import javax.portlet.{ WindowState, PortletMode, PortletRequest, PortletURL }
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage }
 import utils.PortletKeys
 import com.arcusys.learn.ioc.InjectableFactory
 import com.arcusys.learn.liferay.services.LayoutLocalServiceHelper
@@ -11,8 +12,9 @@ import com.arcusys.learn.liferay.util._
 import com.arcusys.learn.liferay.constants._
 import com.arcusys.learn.scorm.manifest.model.Manifest
 
+// TODO remove repository using
 class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
-  lazy val packageStorage = storageFactory.packageStorage
+  lazy val packageRepository = inject[ScormPackagesStorage]
   lazy val assetHelper = new AssetHelper()
 
   override def execute(originalStrutsAction: LStrutsAction, request: HttpServletRequest, response: HttpServletResponse): String = {
@@ -42,7 +44,7 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
       portletURL.setPortletMode(PortletMode.VIEW)
     }
     portletURL.setParameter("entryID",
-      packageStorage.getByRefID(resourcePrimKey).getOrElse(throw new Exception("Can't find package with refID " + resourcePrimKey)).id.toString)
+      packageRepository.getByRefID(resourcePrimKey).getOrElse(throw new Exception("Can't find package with refID " + resourcePrimKey)).id.toString)
     response.sendRedirect(portletURL.toString)
     null
   }
@@ -61,7 +63,7 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
 
   protected def getSCORMPackage(resourcePrimKey: Long): Manifest = {
     try {
-      packageStorage.getByRefID(resourcePrimKey).get
+      packageRepository.getByRefID(resourcePrimKey).get
     } catch {
       case e: Exception => null
     }
@@ -85,7 +87,7 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
           val preferences = PortletPreferencesFactoryUtilHelper.getPortletSetup(layout, portlet.getPortletId, StringPoolHelper.BLANK)
           val resourcePrimKey: Long = GetterUtilHelper.getLong(preferences.getValue("resourcePrimKey", null))
           try {
-            packageStorage.getByRefID(resourcePrimKey).get
+            packageRepository.getByRefID(resourcePrimKey).get
             true
           } catch {
             case _: Exception => false
@@ -95,7 +97,7 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
       if (portlet.isDefined) {
         val preferences = PortletPreferencesFactoryUtilHelper.getPortletSetup(layout, portlet.get.getPortletId, StringPoolHelper.BLANK)
         val resourcePrimKey: Long = GetterUtilHelper.getLong(preferences.getValue("resourcePrimKey", null))
-        val selPkg = packageStorage.getByRefID(resourcePrimKey).get
+        val selPkg = packageRepository.getByRefID(resourcePrimKey).get
         val rootResourcePrimKey: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
         val selRootResourcePrimKey: Long = assetHelper.getAssetFromManifest(selPkg).getPrimaryKey
         if (rootResourcePrimKey == selRootResourcePrimKey) {

@@ -10,14 +10,16 @@ import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.FieldHelper
 import com.arcusys.learn.liferay.util.{ ValidatorHelper, StringUtilHelper, GetterUtilHelper, SearchEngineUtilHelper }
 import com.arcusys.learn.liferay.helpers.IndexerHelper
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage }
 
 object PackageIndexer {
   val PORTLET_ID: String = utils.PortletKeys.SCORM_PACKAGE
   private final val CLASS_NAMES: Array[String] = Array[String](classOf[Manifest].getName)
 }
 
+//TODO remove repository using
 class PackageIndexer extends IndexerHelper with InjectableFactory {
-  lazy val packageStorage = storageFactory.packageStorage
+  lazy val packageRepository = inject[ScormPackagesStorage]
   lazy val assetHelper = new AssetHelper()
 
   def getClassNames: Array[String] = PackageIndexer.CLASS_NAMES
@@ -42,7 +44,7 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
   protected def doDelete(obj: Object) {
     val pkg = obj match {
       case s: Manifest    => s
-      case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
+      case a: LAssetEntry => packageRepository.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
       case _              => obj.asInstanceOf[Manifest]
     }
     deleteDocument(assetHelper.getAssetFromManifest(pkg).getCompanyId, pkg.assetRefID.get)
@@ -51,7 +53,7 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
   protected def doGetDocument(obj: Object) = {
     val pkg = obj match {
       case s: Manifest    => s
-      case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
+      case a: LAssetEntry => packageRepository.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
       case _              => obj.asInstanceOf[Manifest]
     }
 
@@ -86,14 +88,14 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
   protected def doReindex(obj: Object) {
     val pkg = obj match {
       case s: Manifest    => s
-      case a: LAssetEntry => packageStorage.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
+      case a: LAssetEntry => packageRepository.getByRefID(a.getClassPK).getOrElse(obj.asInstanceOf[Manifest])
       case _              => obj.asInstanceOf[Manifest]
     }
     SearchEngineUtilHelper.updateDocument(getSearchEngineId, assetHelper.getAssetFromManifest(pkg).getCompanyId, getDocument(pkg))
   }
 
   protected def doReindex(className: String, classPK: Long) {
-    val pkg = packageStorage.getByRefID(classPK).getOrElse(throw new Exception("Can't find Manifest with ID " + classPK))
+    val pkg = packageRepository.getByRefID(classPK).getOrElse(throw new Exception("Can't find Manifest with ID " + classPK))
     reindexPackages(pkg)
   }
 
@@ -115,7 +117,7 @@ class PackageIndexer extends IndexerHelper with InjectableFactory {
   }
 
   protected def reindexKBArticles(companyId: Long, startKBArticleId: Long, endKBArticleId: Long) {
-    val packages = packageStorage.getAll.filter(pkg => pkg.assetRefID.isDefined && assetHelper.getAssetFromManifest(pkg).getCompanyId == companyId)
+    val packages = packageRepository.getAll.filter(pkg => pkg.assetRefID.isDefined && assetHelper.getAssetFromManifest(pkg).getCompanyId == companyId)
     val documents = new java.util.ArrayList[LDocument]
     for (pkg <- packages) {
       val document = doGetDocument(pkg)

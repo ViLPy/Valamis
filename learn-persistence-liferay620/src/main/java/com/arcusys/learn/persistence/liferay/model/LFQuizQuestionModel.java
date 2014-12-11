@@ -173,6 +173,34 @@ public interface LFQuizQuestionModel extends BaseModel<LFQuizQuestion> {
      */
     public void setArrangementIndex(Integer arrangementIndex);
 
+    /**
+     * Returns the auto show answer of this l f quiz question.
+     *
+     * @return the auto show answer of this l f quiz question
+     */
+    public Boolean getAutoShowAnswer();
+
+    /**
+     * Sets the auto show answer of this l f quiz question.
+     *
+     * @param autoShowAnswer the auto show answer of this l f quiz question
+     */
+    public void setAutoShowAnswer(Boolean autoShowAnswer);
+
+    /**
+     * Returns the group ID of this l f quiz question.
+     *
+     * @return the group ID of this l f quiz question
+     */
+    public Integer getGroupId();
+
+    /**
+     * Sets the group ID of this l f quiz question.
+     *
+     * @param groupId the group ID of this l f quiz question
+     */
+    public void setGroupId(Integer groupId);
+
     @Override
     public boolean isNew();
 

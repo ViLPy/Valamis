@@ -11,6 +11,7 @@ object QuestionActionType extends Enumeration {
   val MOVE = Value("MOVE")
   val GET_BY_ID = Value("GETBYID")
   val GET_CHILDREN = Value("GETCHILDREN")
+  val MOVE_TO_COURSE = Value("MOVETOCOURSE")
 
   type QuestionActionType = Value
 }

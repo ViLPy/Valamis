@@ -4,15 +4,15 @@ import org.junit._
 import Assert._
 import com.arcusys.learn.scorm.manifest.model._
 import scala.Some
-import com.arcusys.learn.scorm.manifest.storage.{ ActivitiesStorage, PackagesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ActivityStorage, ScormPackagesStorage }
 
 /**
  * User: dkudinov
  * Date: 25.4.2013
  */
 trait ActivitiesStorageJUnitMethods {
-  def packagesStorage: PackagesStorage
-  def activitiesStorage: ActivitiesStorage
+  def packagesStorage: ScormPackagesStorage
+  def activitiesStorage: ActivityStorage
 
   @Before
   def setUp() {

@@ -1,5 +1,7 @@
 package com.arcusys.learn.web
 
+import com.arcusys.learn.controllers.api.BaseApiController
+import com.arcusys.learn.quiz.storage.QuizQuestionStorage
 import com.arcusys.scorm.generator.util.ResourceHelpers
 import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
 import com.escalatesoft.subcut.inject.BindingModule
@@ -7,11 +9,12 @@ import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.learn.quiz.model.{ RevealJSQuizQuestion, PlainTextQuizQuestion, ExternalQuizQuestion, QuestionBankQuizQuestion }
 import com.arcusys.learn.questionbank.model.PlainText
-
-class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBase(configuration) {
+// TODO check and remove this class
+@deprecated
+class QuizPreviewResourceFilter(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
-  import storageFactory._
+  private val quizQuestionStorage = inject[QuizQuestionStorage]
 
   get("/*.*") {
     val filename = multiParams("splat").mkString(".")
@@ -38,9 +41,9 @@ class QuizPreviewResourceFilter(configuration: BindingModule) extends ServletBas
     val gen = new QuestionViewGenerator(isPreview = true)
     val quizQuestion = quizQuestionStorage.getByID(id).get
     quizQuestion match {
-      case question: QuestionBankQuizQuestion => gen.getHTMLByQuestionId(question.question, context)
+      case question: QuestionBankQuizQuestion => gen.getHTMLByQuestionId(question.question, false, context)
       // interpret as usual plain text
-      case plain: PlainTextQuizQuestion       => gen.getHTMLByQuestionId(new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), plain.text, plain.categoryID), context)
+      case plain: PlainTextQuizQuestion       => gen.getHTMLByQuestionId(new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), plain.text, plain.categoryID), false, context)
       case external: ExternalQuizQuestion     => redirect(external.url)
       case revealJS: RevealJSQuizQuestion     => halt(404, "Not implemented")
     }

@@ -3,6 +3,7 @@ package com.arcusys.learn.questionbank.storage
 import com.arcusys.learn.questionbank.model.{ Question, Answer }
 
 /** Question bank question repository */
+
 trait QuestionStorage {
   /** Get question by ID, or None if not found */
   def getByID(id: Int): Option[Question[Answer]]
@@ -28,10 +29,10 @@ trait QuestionStorage {
   /**
    * Set new parent and relative position for question
    * @param id               ID of question to move
+   * @param index            Index of question in new category
    * @param parentID         ID of question's new category. None if question should be moved to bank root
-   * @param siblingID        ID of question or category near which the moved question should be placed
-   * @param moveAfterTarget  True -> place question after the given sibling (after all siblings if siblingID = None), false -> place question before the given sibling (before all siblings if siblingID = None)
    */
-  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean)
+  def move(id: Int, index: Int, parentID: Option[Int])
+  def moveToCourse(id: Int, courseID: Option[Int], moveInRoot: Boolean)
   def renew()
 }

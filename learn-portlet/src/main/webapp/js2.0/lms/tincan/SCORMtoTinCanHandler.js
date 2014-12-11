@@ -221,6 +221,7 @@ function attemptCompleted()
 
 function endAttemptSession()
 {
+    if (currentPackageID == -1) return;
     SendAttemptData();
     initialized = false;
     myTinCan.activity = null;

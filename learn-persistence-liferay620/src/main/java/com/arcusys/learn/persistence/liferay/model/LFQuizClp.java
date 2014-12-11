@@ -26,6 +26,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
     private String _welcomePageContent;
     private String _finalPageContent;
     private Integer _courseID;
+    private Integer _maxDuration;
     private BaseModel<?> _lfQuizRemoteModel;
 
     public LFQuizClp() {
@@ -72,6 +73,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
+        attributes.put("maxDuration", getMaxDuration());
 
         return attributes;
     }
@@ -119,6 +121,12 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        Integer maxDuration = (Integer) attributes.get("maxDuration");
+
+        if (maxDuration != null) {
+            setMaxDuration(maxDuration);
         }
     }
 
@@ -278,6 +286,28 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         }
     }
 
+    @Override
+    public Integer getMaxDuration() {
+        return _maxDuration;
+    }
+
+    @Override
+    public void setMaxDuration(Integer maxDuration) {
+        _maxDuration = maxDuration;
+
+        if (_lfQuizRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuizRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setMaxDuration", Integer.class);
+
+                method.invoke(_lfQuizRemoteModel, maxDuration);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFQuizRemoteModel() {
         return _lfQuizRemoteModel;
     }
@@ -352,6 +382,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         clone.setWelcomePageContent(getWelcomePageContent());
         clone.setFinalPageContent(getFinalPageContent());
         clone.setCourseID(getCourseID());
+        clone.setMaxDuration(getMaxDuration());
 
         return clone;
     }
@@ -397,7 +428,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -413,6 +444,8 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         sb.append(getFinalPageContent());
         sb.append(", courseID=");
         sb.append(getCourseID());
+        sb.append(", maxDuration=");
+        sb.append(getMaxDuration());
         sb.append("}");
 
         return sb.toString();
@@ -420,7 +453,7 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuiz");
@@ -453,6 +486,10 @@ public class LFQuizClp extends BaseModelImpl<LFQuiz> implements LFQuiz {
         sb.append(
             "<column><column-name>courseID</column-name><column-value><![CDATA[");
         sb.append(getCourseID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>maxDuration</column-name><column-value><![CDATA[");
+        sb.append(getMaxDuration());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -11,4 +11,5 @@ object CategoryActionType extends Enumeration {
   val UPDATE = Value("UPDATE")
   val DELETE = Value("DELETE")
   val MOVE = Value("MOVE")
+  val MOVE_TO_COURSE = Value("MOVETOCOURSE")
 }

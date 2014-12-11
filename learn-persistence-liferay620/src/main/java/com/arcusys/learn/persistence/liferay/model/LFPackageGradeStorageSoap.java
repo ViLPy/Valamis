@@ -5,6 +5,7 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeS
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class LFPackageGradeStorageSoap implements Serializable {
     private Long _packageId;
     private String _grade;
     private String _comment;
+    private Date _date;
 
     public LFPackageGradeStorageSoap() {
     }
@@ -30,6 +32,7 @@ public class LFPackageGradeStorageSoap implements Serializable {
         soapModel.setPackageId(model.getPackageId());
         soapModel.setGrade(model.getGrade());
         soapModel.setComment(model.getComment());
+        soapModel.setDate(model.getDate());
 
         return soapModel;
     }
@@ -112,5 +115,13 @@ public class LFPackageGradeStorageSoap implements Serializable {
 
     public void setComment(String comment) {
         _comment = comment;
+    }
+
+    public Date getDate() {
+        return _date;
+    }
+
+    public void setDate(Date date) {
+        _date = date;
     }
 }

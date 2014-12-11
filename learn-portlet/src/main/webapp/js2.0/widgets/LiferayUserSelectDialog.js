@@ -6,23 +6,33 @@ LiferayUserModel = Backbone.Model.extend({
   }
 });
 
-LiferayUserCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+LiferayUserCollectionService = new Backbone.Service({ url: '/',
   sync: {
     'read': function (collection, options) {
-      return  'api/certificates/' + jQuery('#selectedCertificateID').val() + '/users' +
-        '?action=GETNOTCONTAINEDSTUDENTS' +
-        '&orgId=' + jQuery('#userOrganization').val() +
-        '&filter=' + jQuery('#userSearch').val() +
-        '&sortBy=name' +
-        '&sortAscDirection=' + jQuery('#sortUser').val() +
-        '&page=' + options.currentPage +
-        '&count=' + options.itemsOnPage;
+        if(typeof options.getAllUsers !== 'undefined' && options.getAllUsers !== null && options.getAllUsers == true) {
+            return path.api.users + '?orgId=-1' +
+                '&filter=' + jQuery('#userSearch').val() +
+                '&sortBy=name' +
+                '&sortAscDirection=' + jQuery('#sortUser').val() +
+                '&page=' + options.currentPage +
+                '&count=' + options.itemsOnPage;
+        }
+        else {
+            return  path.api.certificates + jQuery('#selectedCertificateID').val() + '/users' +
+                '?action=GETNOTCONTAINEDSTUDENTS' +
+                '&orgId=' + jQuery('#userOrganization').val() +
+                '&filter=' + jQuery('#userSearch').val() +
+                '&sortBy=name' +
+                '&sortAscDirection=' + jQuery('#sortUser').val() +
+                '&page=' + options.currentPage +
+                '&count=' + options.itemsOnPage;
+        }
     }
   },
   targets: {
     'saveToCertificate': {
       'path': function (model, options) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=ADDUSERS&' + options.users;    //userIDs=10963&userIDs=11019&userIDs=10956';
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDUSERS&' + options.users;    //userIDs=10963&userIDs=11019&userIDs=10956';
       },
       method: 'post'
     }
@@ -41,7 +51,8 @@ LiferayUserCollection = Backbone.Collection.extend({
 
 LiferayUserListElement = Backbone.View.extend({
   events: {
-    'click .toggleButton': 'toggleThis'
+    'click #toggleUserButton': 'toggleThis',
+    'click #toggleSingleUserButton': 'selectUserAndClose'
   },
   initialize: function () {
     this.$el = jQuery('<tr>');
@@ -65,6 +76,17 @@ LiferayUserListElement = Backbone.View.extend({
     }
   },
 
+  selectUserAndClose: function () {
+      this.trigger('lfUserSelected', this.model);  // TODO: do it only if single select
+      var alreadySelected = this.model.get('selected');
+      if (alreadySelected) {
+          this.setUnselected();
+      }
+      else {
+          this.setSelected();
+      }
+  },
+
   setSelected: function () {
     this.model.set({selected: true });
     this.$('.toggleButton').removeClass('grey');
@@ -85,7 +107,11 @@ LiferayUserList = Backbone.View.extend({
 
   initialize: function (options) {
     this.language = options.language;
-    this.collection = new LiferayUserCollection();
+    this.getAllUsers = options.getAllUsers;
+//    if(typeof options.collection === 'undefined' || options.collection === null)
+      this.collection = new LiferayUserCollection({getAllUsers: this.getAllUsers});
+//    else
+//      this.collection = options.collection;
 
     this.collection.on('reset', this.showAll, this);
     this.collection.on('unsetIsSelectedAll', this.unsetIsSelectedAll, this);
@@ -117,6 +143,10 @@ LiferayUserList = Backbone.View.extend({
     var view = new LiferayUserListElement({model: user});
     var viewDOM = view.render();
     this.$('#userList').append(viewDOM);
+    view.on('lfUserSelected', function (item) {
+      this.trigger('lfUserSelected', item);
+    }, this);
+
   },
 
 
@@ -139,8 +169,10 @@ LiferayUserList = Backbone.View.extend({
   },
 
   render: function () {
-    var renderedTemplate = Mustache.to_html(jQuery('#liferayUserListView').html(), this.language)
+    var renderedTemplate = Mustache.to_html(jQuery('#liferayUserListView').html(), this.language);
     this.$el.html(renderedTemplate);
+//    if(this.collection.length > 0)
+//      this.showAll();
 
     var that = this;
     this.paginator = new ValamisPaginator({el: jQuery('#availableUserListPaginator'), language: this.language});
@@ -156,10 +188,10 @@ LiferayUserList = Backbone.View.extend({
   reloadFirstPage: function () {
     jQuery('#addUsersButton').hide();
     jQuery('#noUsersLabel').hide();
-    this.collection.fetch({reset: true, currentPage: 1, itemsOnPage: this.paginator.itemsOnPage()});
+    this.collection.fetch({getAllUsers: this.getAllUsers, reset: true, currentPage: 1, itemsOnPage: this.paginator.itemsOnPage()});
   },
   reload: function () {
-    this.collection.fetch({reset: true, currentPage: this.paginator.currentPage(), itemsOnPage: this.paginator.itemsOnPage()});
+    this.collection.fetch({getAllUsers: this.getAllUsers, reset: true, currentPage: this.paginator.currentPage(), itemsOnPage: this.paginator.itemsOnPage()});
   },
 
   selectAll: function () {
@@ -200,6 +232,19 @@ LiferayUserSelectDialog = Backbone.View.extend({
   initialize: function (options) {
     this.$el = jQuery('<div>');
     this.language = options.language;
+    if(typeof options.getAllUsers !== null && options.getAllUsers !== 'undefined')
+        this.getAllUsers = options.getAllUsers;
+    else
+        this.getAllUsers = false;
+
+    /*if(typeof options.singleSelect !== 'undefined' && options.singleSelect !== null)
+        this.singleSelect = options.singleSelect;
+    else
+        this.singleSelect = false;*/
+    /*if(typeof options.collection !== 'undefined' && options.collection !== null)
+        this.collection = options.collection;
+    else
+        this.collection = null;*/
 
     this.organizations = new LiferayOrganizationCollection();
     this.organizations.on('reset', this.showDefaultView, this);
@@ -210,8 +255,14 @@ LiferayUserSelectDialog = Backbone.View.extend({
     var renderedTemplate = Mustache.to_html(jQuery('#liferayUserDialogView').html(), this.language);
     this.$el.html(renderedTemplate);
 
-    this.userListView = new LiferayUserList({el: this.$('#allUsersList'), language: this.language});
+    this.userListView = new LiferayUserList({el: this.$el.find('#allUsersList'), language: this.language, getAllUsers: this.getAllUsers});
     this.userListView.on('usersAdded', this.trigCloseModal, this);
+
+    this.userListView.on('lfUserSelected', function (item) {
+      if (this.getAllUsers)
+          this.trigger('lfUserSelected', item);
+    }, this);
+    /*this.userListView.on('lfUserSelected', this.trigCloseModal, this);*/
 
     this.organizations.fetch({reset: true});
 

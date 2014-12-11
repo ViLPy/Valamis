@@ -1,10 +1,14 @@
 /* CSS Document */
 
-/* --- modals --- */
-
-.certificate-modals-container .bbm-modal__bottombar {
-    margin-top: 0px;
+.certificate-editGoals-dialog .ui-corner-all.ui-sortable-helper {
+    background: #f2f2f2 !important;
 }
+
+.certificate-editGoals-dialog .ui-corner-all.ui-sortable-helper .user-name {
+    width: 52%!important;
+}
+
+/* --- modals --- */
 
 .certificate-modals-container .nav.nav-tabs li.active {
     border-bottom: 1px solid #d3d4d5;
@@ -58,12 +62,20 @@
 
 .certificate-modals-container .bbm-wrapper:nth-child(2) .bbm-modal {
     max-height: 900px;
-    max-width: 1200px;
+    max-width: 900px;
+    margin-top: 25px;
+}
+
+.certificate-modals-container .bbm-wrapper:nth-child(3) .bbm-modal {
+    max-height: 900px;
+    max-width: 900px;
+    margin-top: 50px;
 }
 
 .certificate-modals-container .page-content-wrapper {
     max-height: 700px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .certificate-addMembers-dialog {
@@ -106,38 +118,37 @@
 }
 
 
-.certificate-addCourse-dialog {
+.certificate-addGoal-dialog {
     overflow: auto;
 }
 
-.certificate-addCourse-dialog .popup-content-header {
+.certificate-addGoal-dialog .popup-content-header {
     float:left;
 }
 
-.certificate-addCourse-dialog .content-wrapper {
+.certificate-addGoal-dialog .content-wrapper {
     min-height: 240px;
 }
 
-/*.certificate-addCourse-dialog .contentTable {*/
-    /*margin-top: 20px;*/
-    /*margin-bottom: 20px;*/
-/*}*/
+.certificate-addGoal-dialog .valamis-paginator {
+    padding-top: 10px;
+}
 
-.certificate-addCourse-dialog .contentTable td.amount {
+.certificate-addGoal-dialog .contentTable td.amount {
     width: 25px;
     padding-top: 2px;
 }
 
-.certificate-addCourse-dialog .contentTable td:first-child {
+.certificate-addGoal-dialog .contentTable td:first-child {
     padding-left: 15px;
 }
 
-.certificate-addCourse-dialog .contentTable td:last-child {
+.certificate-addGoal-dialog .contentTable td:last-child {
     padding-right: 15px;
 }
 
-.certificate-addCourse-dialog .contentTable input,
-.certificate-addCourse-dialog .contentTable select {
+.certificate-addGoal-dialog .contentTable input,
+.certificate-addGoal-dialog .contentTable select {
     margin-bottom: 0px !important;
 }
 
@@ -147,113 +158,22 @@
 
 .page-content.certificates-collection .tab-content {
     padding:20px;
+    overflow: initial;
 }
 
 /* --- */
 
-.popup-content-header {
-    padding: 5px 0px 0px 20px;
-}
-
 .sidebar-wrapper {
     padding: 20px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-.sidebar-wrapper select {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100%;
-}
-
-.sidebar-wrapper input.search {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 100% !important;
-    line-height: 20px !important;
-    height: 36px !important;
-}
-
-.sidebar-wrapper .wideButton {
-    width: 100%;
-    margin-top: 10px !important;
-    padding-left: 80px !important;
-    background-position: 40px center !important;
-}
-
-.page-content-wrapper .content-header-padded {
-    margin-top: 0px;
-}
-
-.page-content.grid-view {
-    margin-top: 10px;
-    padding-top: 10px;
 }
 
 .page-content .certificate-items {
     padding-top: 40px;
 }
 
-.certificate-tile {
-    display: block;
-    float: left;
-    margin: 20px;
-    border: 1px solid #d3d4d5;
-    width: 260px;
-    background: #FFFFFF;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-.certificate-list-item {
-    display: block;
-    margin: 20px 0px;
-    border: 1px solid #d3d4d5;
-    width: 100%;
-    height: 90px;
-    background: #FFFFFF;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    overflow: hidden;
-}
-
-.certificate-list-item .certificate-description,
-.certificate-list-item .certificate-title {
-    max-width: 330px;
-    overflow: visible;
-    white-space: nowrap;
-}
-
 .certificate-items .unpublished {
     opacity: 0.5;
 }
-
-.certificate-cover-image {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    width: 258px;
-    height: 180px;
-    overflow: hidden;
-    background: #dedede;
-    border-bottom: 1px solid #dedede;
-    position: relative;
-}
-
-img.logo-mini{
-    max-width:130px;
-    max-height:90px;
-}
-img.logo-xs{
-    max-width:64px;
-    max-height:64px;
-}
-img.logo{
-    max-height: 180px;
-    max-width: 260px;
-}
-
 
 .certificate-editDetails-dialog .valid-div input[type="radio"] {
     margin-top: 11px;
@@ -286,8 +206,13 @@ img.logo{
 }
 
 .list-table td.duringPeriod {
-    width: 210px;
+    width: 240px; /* do not reduce it: will cause bug in firefox*/
+    min-width: 200px;
     padding-top: 2px;
+}
+
+.list-table td.duringPeriod .select-element {
+    margin: 0!important;
 }
 
 .certificate-editGoals-dialog .list-table input,
@@ -309,113 +234,28 @@ img.logo{
     padding-right: 5px;
 }
 
-.certificate-list-item .certificate-cover-image {
-    width: 130px;
-    height: 90px;
-    overflow: hidden;
-    margin-right: 10px;
-}
-
-.certificate-content {
-    padding: 20px;
-}
-
-.certificate-list-content {
-    padding: 10px;
-}
-
-.certificate-title {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: #a9cb4f;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.certificate-title.padded-top {
-    padding-top: 15px;
-}
-
-.certificate-description {
-    font-size: 13px;
-    line-height: 14px;
-    max-height: 30px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.certificate-footer {
-    height: 46px;
-    line-height: 40px;
-    padding-left: 20px;
-    background: #f8f8f8;
-    border-top: 1px solid #dedede;
-    font-size: 13px;
-    color: #777777;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    width: 238px;
+.certificate-editGoals-dialog .dropdown-button-menu.dropdown-visible {
+    z-index: 1;
 }
 
 .certificate-users, .certificate-courses {
     float: left;
     padding-right: 10px;
-    padding-top: 7px;
+    /*padding-top: 7px;*/
 }
 
-.certificate-buttons {
-    margin-top: 25px;
-    padding: 0px 10px;
-    background: inherit;
+.inline-valamis {
+    float:left;
 }
 
 @media (max-width: 766px) {
+    .certificate-editGoals-dialog .ui-corner-all.ui-sortable-helper .user-name {
+        width: 45%!important;
+    }
+
     /* hidden-xs */
-    /*<--pagination */
 
-    img.logo-mini{
-        max-width:64px;
-        max-height:50px;
-    }
-    .select-element-label-wrapper {
-        width: 100%;
-    }
-
-    .select-element-label-wrapper .select-element-label {
-        width: 100%;
-        text-align: center;
-    }
-
-    .pagination-group {
-        position: relative;
-        width: 100%;
-        margin: 0;
-    }
-
-    .paginator {
-        margin-bottom: 5px;
-        width: 100%;
-    }
-
-    .paginator-previous-page {
-        position: absolute;
-        left: 3px;
-        top: 0;
-    }
-
-    .paginator-next-page {
-        position: absolute;
-        right: 3px;
-        top: 0;
-    }
-
-    /*-->*/
-    .certificate-addCourse-dialog .sidebar-wrapper {
+    .certificate-addGoal-dialog .sidebar-wrapper {
         margin-top: 50px;
     }
 
@@ -433,14 +273,11 @@ img.logo{
 
     .inline-valamis {
         display: table-row;
+        float: none;
     }
 
     .inline-block-div {
         display: inline-block;
-    }
-
-    .certificate-buttons {
-        margin-top: 12px;
     }
 
     .sidebar-wrapper {
@@ -448,44 +285,10 @@ img.logo{
         padding-bottom: 0px;
     }
 
-    .certificate-list-item .certificate-cover-image {
-        width: 87px;
-        height: 58px;
-    }
-
-    .certificate-list-item {
-        margin: 0 0 10px;
-        height: 61px;
-    }
-
-    .certificate-list-item .certificate-description,
-    .certificate-list-item .certificate-title {
-        max-width: 50px;
-    }
-
     .page-content.grid-view {
-        padding-right: 5px;
         padding-bottom: 10px;
-        padding-left: 5px;
     }
 
-    .certificate-list-content {
-        padding: 10px 20px 10px 0px;
-    }
-
-    .show-details-button {
-        width: 31px;
-        height: 60px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        text-align: center;
-        padding-top: 21px;
-    }
-
-    .page-content.certificates-collection .nav-tabs {
-        padding-left: 50px!important;
-    }
 
     .certificate-editMembers-dialog .popup-content-container {
         margin-top: 50px;
@@ -526,12 +329,22 @@ img.logo{
         width: 1px;
         overflow: visible;
     }
+
+    .valamis-item-buttons button {
+        text-indent: -9999px;
+        width: 36px;
+        padding: 0 !important;
+        background-position: center !important;
+    }
+
+    .certificate-editDetails-dialog .select-element {
+        margin: 0;
+    }
 }
 
 @media (min-width: 767px) and (max-width: 1199px) {
-    .certificate-list-item .certificate-description,
-    .certificate-list-item .certificate-title {
-        max-width: 200px;
+    .certificate-editGoals-dialog .ui-corner-all.ui-sortable-helper .user-name {
+        width: 45%!important;
     }
 }
 
@@ -539,131 +352,27 @@ img.logo{
     width: 50%;
 }
 
-div.full-width {
-    width: 100%;
-}
-
-div.upload {
-    width: 145px;
-    height: 33px;
-    background: url("../img/uploadButton.png") no-repeat transparent !important;
-    overflow: hidden;
-    color: #ffffff;
-    border-radius: 5px;
-}
-
-div.upload input {
-    display: block !important;
-    width: 145px !important;
-    height: 33px !important;
-    opacity: 0 !important;
-    overflow: hidden !important;
-
-}
-
-div.upload:hover {
-    background: url("../img/uploadButtonHovered.png") no-repeat transparent !important;
-}
-
 .certificateContent {
     padding: 0 !important;
-}
-
-.bbm-modal__section {
-    position: relative;
-}
-
-.bbm-modal__bottombar {
-    border-top: none;
-}
-
-.bbm-modal__bottombar button.big {
-    margin-top: -2px;
-}
-
-.bbm-modal .sidebar-wrapper {
-    background-color: #f4f4f4;
-}
-
-.button.valamis:last-child {
-    margin-right: 0px !important;
 }
 
 .certificate-logo-uploader-dialog {
     padding-bottom: 30px;
 }
 
-
-
-input.onlyDigits {
-    width: 20px;
-    height: 24px !important;
-    background: #FAFAFA !important;
-    border: 1px solid #d4d4d4 !important;
-    border-radius: 1px !important;
-    line-height: 20px !important;
-    font-size: 15px !important;
-    color: #777777 !important;
-    -webkit-transition: 0.05s all linear;
-    -moz-transition: 0.05s all linear;
-    transition: 0.05s all linear;
+.certificate-selectStatements-dialog {
+    padding: 0;
 }
 
-input.onlyDigits:focus {
-    background: #FFFFFF !important;
-    border-color: #a9cb4f !important;
-    color: #2c2c2c !important;
+.certificate-selectStatements-dialog #allStatementsList table button {
+    margin-right: 15px;
 }
 
-.amountLabel {
+/* .amountLabel {
     width: 20px;
     text-align: right;
-}
+}*/ 
 
-.centered-content {
-    text-align: center;
-}
-
-.box-sizing {
-    width: 100% !important;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-input.valamis.box-sizing {
-    line-height: 20px !important;
-    height: 36px !important;
-}
-
-textarea.valamis.box-sizing {
-    line-height: 20px !important;
-}
-
-table.valamis {
-    display: inline-table;
-}
-
-.padded-left {
-    padding-left: 10px;
-}
-
-#siteListPaginator {
-    padding-top: 5px;
-}
-
-.div-table{
-    display:table;
-    width:100%;
-}
-
-.div-row{
-    display:table-row;
-}
-
-.div-col{
-    display:table-cell;
-}
-
-.div-col input.no-margin {
-    margin:0px!important;
+.toolBar {
+    margin-bottom: 30px;
 }

@@ -37,10 +37,10 @@ class JsonSerializerTest {
 
   @Test
   def canSerializeAndDeSerializeExtensionSeq {
-    val extension = Seq(Extension("aa", "aa!"), Extension("bb", "bb!"))
+    val extension = Some(Map("aa" -> "aa!", "bb" -> "bb!"))
     val jsonString = JsonSerializer.serializeExtensions(extension)
     val deSerializedSeq = JsonSerializer.deserializeExtensions(jsonString)
-    assert(deSerializedSeq.length == extension.length)
+    assert(deSerializedSeq.get.keySet.size == extension.get.keySet.size)
     assert(deSerializedSeq.toSet == extension.toSet)
   }
 

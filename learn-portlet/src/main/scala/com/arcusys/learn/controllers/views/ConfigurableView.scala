@@ -1,9 +1,9 @@
 package com.arcusys.learn.controllers.views
 
+import com.arcusys.learn.bl.services.{ UserRoleServiceContract }
 import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.scorm.lms.{ PackageService, UserManagement }
-import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.scorm.lms.PackageService
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +15,7 @@ trait ConfigurableView extends Injectable {
 
   implicit val bindingModule = Configuration
 
-  val storageFactory = inject[StorageFactoryContract]
-  val userStorage = storageFactory.userStorage
-  val userManagement = new UserManagement()
+  val userRoleService = inject[UserRoleServiceContract]
   val packageService = new PackageService()
 
 }

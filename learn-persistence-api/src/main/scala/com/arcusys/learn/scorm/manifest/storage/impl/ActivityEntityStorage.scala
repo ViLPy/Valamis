@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
-import com.arcusys.learn.scorm.manifest.storage.{ ActivityDataStorage, ActivitiesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ActivityDataStorage, ActivityStorage }
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.util.TreeNode
 import collection.mutable
@@ -12,9 +12,10 @@ import scala.Some
  * User: Yulia.Glushonkova
  * Date: 10.04.13
  */
+@deprecated
 trait ActivityCreator {
   val sequencingStorage: SequencingStorage
-  val dataStorage: ActivityDataStorage
+  val activityDataRepository: ActivityDataStorage
 
   def createActivity(identifierRef: String, id: String, title: String, packageID: Int, organizationId: String, parentId: Option[String],
     hideLMSUI: String, visible: Boolean, resourceParameters: Option[String], masteryScore: Option[String], maxTimeAllowed: Option[String]): Activity = {
@@ -43,7 +44,7 @@ trait ActivityCreator {
         resourceParameters,
         None, //timeLimitAction
         Some("dataFromLMS"),
-        dataStorage.getForActivity(packageID, id),
+        activityDataRepository.getForActivity(packageID, id),
         sequencing,
         CompletionThreshold.Default,
         hideLMSUI.split('|').toSet.filter(!_.isEmpty).map(NavigationControlType.withName(_)),
@@ -55,7 +56,8 @@ trait ActivityCreator {
   }
 }
 
-trait ActivityEntityStorage extends ActivitiesStorage with EntityStorageExt[Activity] {
+@deprecated
+trait ActivityEntityStorage extends ActivityStorage with EntityStorageExt[Activity] {
   val sequencingStorage: SequencingStorage
   val dataStorage: ActivityDataStorage
 

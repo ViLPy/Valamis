@@ -6,13 +6,15 @@ import com.arcusys.learn.models.request.ReportActionType._
 import com.arcusys.learn.exceptions.BadRequestException
 
 object ReportRequest extends BaseCollectionFilteredRequest with BaseRequest {
+
+  val COURSE_ID = "courseId"
+  val SCOPE = "scope"
+
   val OFFSET = "offset"
   val AMOUNT = "amount"
   val PERIOD = "period"
   val FROM = "from"
   val TO = "to"
-  val COURSE_ID = "courseId"
-  val SCOPE = "scope"
   val GROUP_BY = "groupBy"
   val GROUP_PERIOD = "groupPeriod"
 

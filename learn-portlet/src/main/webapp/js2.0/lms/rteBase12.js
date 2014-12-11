@@ -15,7 +15,7 @@ var SCORM12API = function () {
 };
 
 SCORM12API.prototype.doSyncRequest = function (url, methodType) {
-    return window.LearnAjax.syncRequest(Utils.getContextPath() + url, methodType, {
+    return window.LearnAjax.syncRequest(path.root + url, methodType, {
         activityID:this.currentActivityID,
         packageID:this.currentPackageID,
         organizationID:this.currentOrganizationID
@@ -39,7 +39,7 @@ SCORM12API.prototype.LMSInitialize = function (param) {
 
     this.errorCode = "0";
     if (param == "") {
-        var initResponse = this.doSyncRequest("services/rte/Initialize", "POST");
+        var initResponse = this.doSyncRequest(path.rte + "Initialize", "POST");
         if (!initResponse.status) {
             this.errorCode = "101";
             this.diagnosticMessage = "Failure while service initialization";

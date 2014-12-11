@@ -23,6 +23,8 @@ import com.arcusys.learn.persistence.liferay.model.LFConfigClp;
 import com.arcusys.learn.persistence.liferay.model.LFCourseClp;
 import com.arcusys.learn.persistence.liferay.model.LFFileStorageClp;
 import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveStateClp;
+import com.arcusys.learn.persistence.liferay.model.LFLRSToActivitySettingClp;
+import com.arcusys.learn.persistence.liferay.model.LFLessonLimitClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMapClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveStateClp;
@@ -34,6 +36,7 @@ import com.arcusys.learn.persistence.liferay.model.LFPackageVoteClp;
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionClp;
+import com.arcusys.learn.persistence.liferay.model.LFQuizAnswerScoreClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionClp;
@@ -47,6 +50,7 @@ import com.arcusys.learn.persistence.liferay.model.LFRuleConditionClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTrackingClp;
+import com.arcusys.learn.persistence.liferay.model.LFSiteDependentConfigClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageClp;
 import com.arcusys.learn.persistence.liferay.model.LFSocialPackageTagClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanActProfileClp;
@@ -66,6 +70,7 @@ import com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRefClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsSubStatementClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanManifestActClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanPackageClp;
+import com.arcusys.learn.persistence.liferay.model.LFTincanURIClp;
 import com.arcusys.learn.persistence.liferay.model.LFUserClp;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -247,6 +252,14 @@ public class ClpSerializer {
             return translateInputLFGlobalObjectiveState(oldModel);
         }
 
+        if (oldModelClassName.equals(LFLessonLimitClp.class.getName())) {
+            return translateInputLFLessonLimit(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFLRSToActivitySettingClp.class.getName())) {
+            return translateInputLFLRSToActivitySetting(oldModel);
+        }
+
         if (oldModelClassName.equals(LFObjectiveClp.class.getName())) {
             return translateInputLFObjective(oldModel);
         }
@@ -295,6 +308,10 @@ public class ClpSerializer {
             return translateInputLFQuiz(oldModel);
         }
 
+        if (oldModelClassName.equals(LFQuizAnswerScoreClp.class.getName())) {
+            return translateInputLFQuizAnswerScore(oldModel);
+        }
+
         if (oldModelClassName.equals(LFQuizQuestionClp.class.getName())) {
             return translateInputLFQuizQuestion(oldModel);
         }
@@ -341,6 +358,10 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(LFSequencingTrackingClp.class.getName())) {
             return translateInputLFSequencingTracking(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFSiteDependentConfigClp.class.getName())) {
+            return translateInputLFSiteDependentConfig(oldModel);
         }
 
         if (oldModelClassName.equals(LFSocialPackageClp.class.getName())) {
@@ -418,6 +439,10 @@ public class ClpSerializer {
 
         if (oldModelClassName.equals(LFTincanPackageClp.class.getName())) {
             return translateInputLFTincanPackage(oldModel);
+        }
+
+        if (oldModelClassName.equals(LFTincanURIClp.class.getName())) {
+            return translateInputLFTincanURI(oldModel);
         }
 
         if (oldModelClassName.equals(LFUserClp.class.getName())) {
@@ -677,6 +702,27 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFLessonLimit(BaseModel<?> oldModel) {
+        LFLessonLimitClp oldClpModel = (LFLessonLimitClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFLessonLimitRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFLRSToActivitySetting(
+        BaseModel<?> oldModel) {
+        LFLRSToActivitySettingClp oldClpModel = (LFLRSToActivitySettingClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFLRSToActivitySettingRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFObjective(BaseModel<?> oldModel) {
         LFObjectiveClp oldClpModel = (LFObjectiveClp) oldModel;
 
@@ -792,6 +838,16 @@ public class ClpSerializer {
         LFQuizClp oldClpModel = (LFQuizClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFQuizRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFQuizAnswerScore(BaseModel<?> oldModel) {
+        LFQuizAnswerScoreClp oldClpModel = (LFQuizAnswerScoreClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFQuizAnswerScoreRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -916,6 +972,17 @@ public class ClpSerializer {
         LFSequencingTrackingClp oldClpModel = (LFSequencingTrackingClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFSequencingTrackingRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
+    public static Object translateInputLFSiteDependentConfig(
+        BaseModel<?> oldModel) {
+        LFSiteDependentConfigClp oldClpModel = (LFSiteDependentConfigClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFSiteDependentConfigRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -1122,6 +1189,16 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateInputLFTincanURI(BaseModel<?> oldModel) {
+        LFTincanURIClp oldClpModel = (LFTincanURIClp) oldModel;
+
+        BaseModel<?> newModel = oldClpModel.getLFTincanURIRemoteModel();
+
+        newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+        return newModel;
+    }
+
     public static Object translateInputLFUser(BaseModel<?> oldModel) {
         LFUserClp oldClpModel = (LFUserClp) oldModel;
 
@@ -1263,6 +1340,16 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitImpl")) {
+            return translateOutputLFLessonLimit(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFLRSToActivitySettingImpl")) {
+            return translateOutputLFLRSToActivitySetting(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl")) {
             return translateOutputLFObjective(oldModel);
         }
@@ -1323,6 +1410,11 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFQuizAnswerScoreImpl")) {
+            return translateOutputLFQuizAnswerScore(oldModel);
+        }
+
+        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl")) {
             return translateOutputLFQuizQuestion(oldModel);
         }
@@ -1380,6 +1472,11 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl")) {
             return translateOutputLFSequencingTracking(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSiteDependentConfigImpl")) {
+            return translateOutputLFSiteDependentConfig(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1475,6 +1572,11 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl")) {
             return translateOutputLFTincanPackage(oldModel);
+        }
+
+        if (oldModelClassName.equals(
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanURIImpl")) {
+            return translateOutputLFTincanURI(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1674,6 +1776,16 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFLRSToActivitySettingException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFLRSToActivitySettingException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFObjectiveException();
         }
@@ -1734,6 +1846,11 @@ public class ClpSerializer {
         }
 
         if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFQuizAnswerScoreException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizAnswerScoreException();
+        }
+
+        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException();
         }
@@ -1791,6 +1908,11 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingTrackingException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSiteDependentConfigException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSiteDependentConfigException();
         }
 
         if (className.equals(
@@ -1886,6 +2008,11 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanPackageException();
+        }
+
+        if (className.equals(
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanURIException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanURIException();
         }
 
         if (className.equals(
@@ -2134,6 +2261,27 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFLessonLimit(BaseModel<?> oldModel) {
+        LFLessonLimitClp newModel = new LFLessonLimitClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFLessonLimitRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFLRSToActivitySetting(
+        BaseModel<?> oldModel) {
+        LFLRSToActivitySettingClp newModel = new LFLRSToActivitySettingClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFLRSToActivitySettingRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFObjective(BaseModel<?> oldModel) {
         LFObjectiveClp newModel = new LFObjectiveClp();
 
@@ -2253,6 +2401,16 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFQuizRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFQuizAnswerScore(BaseModel<?> oldModel) {
+        LFQuizAnswerScoreClp newModel = new LFQuizAnswerScoreClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFQuizAnswerScoreRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2378,6 +2536,17 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFSequencingTrackingRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFSiteDependentConfig(
+        BaseModel<?> oldModel) {
+        LFSiteDependentConfigClp newModel = new LFSiteDependentConfigClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSiteDependentConfigRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2581,6 +2750,16 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFTincanPackageRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFTincanURI(BaseModel<?> oldModel) {
+        LFTincanURIClp newModel = new LFTincanURIClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFTincanURIRemoteModel(oldModel);
 
         return newModel;
     }

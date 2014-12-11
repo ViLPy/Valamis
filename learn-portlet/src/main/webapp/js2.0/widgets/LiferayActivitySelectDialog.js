@@ -5,11 +5,11 @@ LiferayActivityModel = Backbone.Model.extend({
   }
 });
 
-LiferayActivityCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+LiferayActivityCollectionService = new Backbone.Service({ url: '/',
   targets: {
     'saveToCertificate': {
       'path': function (model, options) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=ADDACTIVITIES&' + options.activities;
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDACTIVITIES&' + options.activities;
       },
       method: 'post'
     }
@@ -67,6 +67,8 @@ LiferayActivityContainer = Backbone.View.extend({
     this.collection.add({activityID: 'com.liferay.portlet.messageboards.model.MBMessage'});
     this.collection.add({activityID: 'com.liferay.calendar.model.CalendarBooking'});
     this.collection.add({activityID: 'com.liferay.portlet.bookmarks.model.BookmarksEntry'});
+    this.collection.add({activityID: 'participation'});
+    this.collection.add({activityID: 'contribution'});
 
   },
   render: function () {

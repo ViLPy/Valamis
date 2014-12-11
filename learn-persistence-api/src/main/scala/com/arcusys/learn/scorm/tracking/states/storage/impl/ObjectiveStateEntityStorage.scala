@@ -32,6 +32,7 @@ trait ObjectiveStateCreator {
   }
 }
 
+@deprecated
 trait ObjectiveStateEntityStorage extends ObjectiveStateStorage with EntityStorageExt[(Option[String], ObjectiveState)] {
   def objectiveMapStorage: ObjectiveMapStorage
 

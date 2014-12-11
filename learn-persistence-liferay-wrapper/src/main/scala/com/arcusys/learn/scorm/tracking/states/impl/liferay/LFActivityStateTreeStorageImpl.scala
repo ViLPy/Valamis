@@ -7,6 +7,7 @@ import com.arcusys.learn.scorm.tracking.states.storage.impl.ActivityStateTreeFie
 import com.arcusys.learn.persistence.liferay.service.LFActivityStateTreeLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.NoSuchLFActivityStateTreeException
 
+@deprecated
 trait LFActivityStateTreeStorageImpl extends KeyedEntityStorage[ActivityStateTree] {
   protected def doRenew() { LFActivityStateTreeLocalServiceUtil.removeAll() }
 

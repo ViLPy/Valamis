@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.8-SNAPSHOT</version>
+        <version>2.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>learn-persistence-liferay620</artifactId>
@@ -40,7 +40,6 @@
             <version>${liferay.version}</version>
             <scope>provided</scope>
         </dependency>
-        
         <dependency>
             <groupId>com.liferay.portal</groupId>
             <artifactId>util-java</artifactId>
@@ -77,8 +76,8 @@
                     <!-- To disable this plugin from running of at verify phase -->
                     <execution>
                         <id>scala-code-checking</id>
-                        <goals/>
-                        <phase/>
+                        <goals />
+                        <phase />
                     </execution>
                 </executions>
             </plugin>
@@ -89,13 +88,13 @@
                     <!-- To disable this plugin from running -->
                     <execution>
                         <id>scala-compile-first</id>
-                        <goals/>
-                        <phase/>
+                        <goals />
+                        <phase />
                     </execution>
                     <execution>
                         <id>scala-test-compile</id>
-                        <goals/>
-                        <phase/>
+                        <goals />
+                        <phase />
                     </execution>
                 </executions>
             </plugin>
@@ -105,7 +104,7 @@
                 <executions>
                     <execution>
                         <id>scala-code-formatting</id>
-                        <phase/>
+                        <phase />
                     </execution>
                 </executions>
             </plugin>

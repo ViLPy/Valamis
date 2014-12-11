@@ -1,27 +1,32 @@
 package com.arcusys.learn.models.request
 
-import org.scalatra.ScalatraBase
 import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
-import com.arcusys.learn.models.AnswerResponse
+import org.scalatra.ScalatraBase
+
+import scala.util.Try
 
 /**
  * User: Yulia.Glushonkova
  * Date: 05.05.14
  */
 object QuestionRequest extends BaseRequest {
-  val ID = "id"
-  val COURSE_ID = "courseId"
-  val QUESTION_TYPE = "questionType"
+
+  val COURSE_ID = "courseID"
+  val NEW_COURSE_ID = "newCourseID"
   val CATEGORY_ID = "categoryID"
+  val CATEGORY_IDs = "categoryIDs"
+
+  val ID = "id"
+  val QUESTION_TYPE = "questionType"
   val TITLE = "title"
   val TEXT = "text"
   val EXPLANATION_TEXT = "explanationText"
   val FORCE = "forceCorrectCount"
   val CASE = "isCaseSensitive"
   val ANSWERS = "answers"
-  val DNDMODE = "dndMode"
-  val TARGET_ID = "targetID"
-  val ITEM_TYPE = "itemType"
+  val INDEX = "index"
+  val PARENT_ID = "parentID"
+  val QUESTION_IDs = "questionIDs"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
@@ -31,9 +36,12 @@ object QuestionRequest extends BaseRequest {
     def action = QuestionActionType.withName(Parameter(ACTION).required.toUpperCase)
 
     def id = Parameter(ID).intRequired
+
     def idOption = Parameter(ID).intOption
 
     def courseID = Parameter(COURSE_ID).intOption(-1)
+
+    def newCourseId = Parameter(NEW_COURSE_ID).intOption
 
     def questionType = Parameter(QUESTION_TYPE).intRequired
 
@@ -51,11 +59,13 @@ object QuestionRequest extends BaseRequest {
 
     def answers = Parameter(ANSWERS).withDefault("[]")
 
-    def dndMode = Parameter(DNDMODE).required
+    def parentID = Parameter(PARENT_ID).intOption(-1)
 
-    def targetID = Parameter(TARGET_ID).intOption(-1)
+    def index = Parameter(INDEX).intRequired
 
-    def itemType = Parameter(ITEM_TYPE).required
+    def categoryIds = Parameter(CATEGORY_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
+
+    def questionIds = Parameter(QUESTION_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
   }
 
 }

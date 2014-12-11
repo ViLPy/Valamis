@@ -4,7 +4,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.8-SNAPSHOT</version>
+        <version>2.2-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -140,24 +140,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>Liferay6.1</id>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>learn-liferay612-services</artifactId>
-                    <version>${project.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>com.arcusys.learn</groupId>
-                    <!-- TODO: change to learn-persistence-api when all references in LFStorageFactory are changed to ServiceBuilder persistence classes -->
-                    <artifactId>learn-persistence-liferay612</artifactId>
-                    <version>${project.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
         <profile>
             <id>Liferay6.2</id>
             <dependencies>

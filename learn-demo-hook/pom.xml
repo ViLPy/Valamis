@@ -3,7 +3,7 @@
     <parent>
         <artifactId>learn</artifactId>
         <groupId>com.arcusys.learn</groupId>
-        <version>1.8-SNAPSHOT</version>
+        <version>2.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,10 +16,10 @@
         <!-- VALAMIS dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>learn-portlet</artifactId>
+            <artifactId>learn-bl</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
-            <classifier>classes</classifier>
+            <!--<scope>compile</scope>-->
+            <!--<classifier>classes</classifier>-->
         </dependency>
 
         <!-- SCALA dependencies -->
@@ -48,6 +48,214 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.arcusys.learn</groupId>
+            <artifactId>learn-persistence-liferay620</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+
+
+
+
+        <!-- Begin: VALAMIS project-related dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-scorm-package-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-quiz-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-scorm-tracking-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-settings-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.arcusys.learn</groupId>
+            <artifactId>learn-tincan-lrs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-scorm-package-parser</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-persistence-liferay-wrapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-web-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-quiz-package-generator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-lms-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-tincan-package</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>learn-scorm-package-deployer</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- End: VALAMIS project-related dependencies -->
+
+        <!--Begin: SCALA dependencies -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2_${scala.bin.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatra</groupId>
+            <artifactId>scalatra_${scala.bin.version}</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatra</groupId>
+            <artifactId>scalatra-auth_${scala.bin.version}</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.escalatesoft.subcut</groupId>
+            <artifactId>subcut_${scala.bin.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_${scala.bin.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatra</groupId>
+            <artifactId>scalatra-scalatest_${scala.bin.version}</artifactId>
+            <version>2.2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.bin.version}</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scalamock</groupId>
+            <artifactId>scalamock-scalatest-support_${scala.bin.version}</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.portletguru</groupId>
+            <artifactId>portlettester</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <!-- End: SCALA dependencies -->
+
+        <!-- SERVLET/PORTLET dependencies -->
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.owasp.antisamy</groupId>
+            <artifactId>antisamy</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- OTHER dependencies -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-convert</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
         </dependency>
     </dependencies>
 
@@ -83,7 +291,7 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <tasks>
-                                <move file="${project.build.directory}/classes/liferay-plugin-package.properties" tofile="${project.build.directory}/${project.artifactId}/WEB-INF/liferay-plugin-package.properties" />
+
                             </tasks>
                         </configuration>
                         <goals>
@@ -116,41 +324,10 @@
 
     <profiles>
         <profile>
-            <id>Liferay6.1</id>
-            <properties>
-                <persistence.version>612</persistence.version>
-                <supported.liferay.versions>6.1.2, 6.1.20, 6.1.30</supported.liferay.versions>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>learn-liferay612-services</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.liferay.portal</groupId>
-                    <artifactId>portal-impl</artifactId>
-                    <version>${liferay.version6.1}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>com.liferay.portal</groupId>
-                    <artifactId>portal-service</artifactId>
-                    <version>${liferay.version6.1}</version>
-                    <scope>provided</scope>
-                </dependency>
-                <dependency>
-                    <groupId>com.arcusys.learn</groupId>
-                    <artifactId>learn-persistence-liferay612</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
             <id>Liferay6.2</id>
             <properties>
                 <persistence.version>620</persistence.version>
-                <supported.liferay.versions>6.2.0,6.2.10+</supported.liferay.versions>
+                <supported.liferay.versions>6.2.1</supported.liferay.versions>
             </properties>
             <dependencies>
                 <dependency>
@@ -182,8 +359,8 @@
     <properties>
         <scalastyle.config.path>${project.basedir}/..</scalastyle.config.path>
         <!-- Avoid replacement in resources -->
-        <java_io_tmpdir>${java.io.tmpdir</java_io_tmpdir>
-        <user_dir>${user.dir</user_dir>
+        <java_io_tmpdir>${java.io.tmpdir}</java_io_tmpdir>
+        <user_dir>${user.dir}</user_dir>
 
     </properties>
 </project>

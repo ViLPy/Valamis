@@ -14,14 +14,13 @@ GradebookRowView = Backbone.View.extend({
     },
 
     setActive:function () {
-        //this.$el.addClass("SCORMHighlitedPackage");
         //this.trigger('change-active', this);
     },
 
     render:function () {
         var language = this.options.language;
         var lastModifiedDate = '';
-        if (this.model.get('lastModified') != 0) {
+        if (this.model.get('lastModified') != '' && this.model.get('lastModified') != 0) {
             var momentFromServer = moment(this.model.get('lastModified'));
             var clampedMoment = momentFromServer.max();
             lastModifiedDate = clampedMoment.fromNow();
@@ -69,15 +68,6 @@ GradebookListView = Backbone.View.extend({
 
         this.$el.html(template);
 
-
-//        this.$(".sortable").each(jQuery.proxy(function (index, element) {
-//            var dom = jQuery(element);
-//            this.sortableAscOrder[dom.attr('ref')] = true;
-//            var icon = jQuery('<div>');
-//            icon.addClass('sortable-icon');
-//            dom.append(icon);
-//        }, this));
-
         this.paginator = new ValamisPaginator({el: jQuery('.paginator'), model: this.model.get('paginatorModel'), language: this.options.language});
 
     },
@@ -95,7 +85,6 @@ GradebookListView = Backbone.View.extend({
                 this.collection = new GradebookStudentCollection(res.records);
                 this.addStudentsFromCollection();
                 this.paginator.updateItems(res.total);
-                //this.options.paginator.render();
             }, this),
             error: function (err, res) {
                 // do something in case of an error
@@ -105,11 +94,6 @@ GradebookListView = Backbone.View.extend({
     },
 
     sortStudents:function (event) {
-//        var targetRow = jQuery(event.target);
-//        var ref = targetRow.attr('ref');
-//        this.sortableAscOrder[ref] = !this.sortableAscOrder[ref];
-//        this.studentGradeList.sort(ref, this.sortableAscOrder[ref] ? "asc" : "desc");
-        //TODO
     },
 
 

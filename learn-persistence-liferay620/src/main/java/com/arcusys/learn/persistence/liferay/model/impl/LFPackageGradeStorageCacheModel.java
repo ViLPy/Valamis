@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing LFPackageGradeStorage in entity cache.
  *
@@ -24,10 +26,11 @@ public class LFPackageGradeStorageCacheModel implements CacheModel<LFPackageGrad
     public Long packageId;
     public String grade;
     public String comment;
+    public long date;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{userId=");
         sb.append(userId);
@@ -37,6 +40,8 @@ public class LFPackageGradeStorageCacheModel implements CacheModel<LFPackageGrad
         sb.append(grade);
         sb.append(", comment=");
         sb.append(comment);
+        sb.append(", date=");
+        sb.append(date);
         sb.append("}");
 
         return sb.toString();
@@ -61,6 +66,12 @@ public class LFPackageGradeStorageCacheModel implements CacheModel<LFPackageGrad
             lfPackageGradeStorageImpl.setComment(comment);
         }
 
+        if (date == Long.MIN_VALUE) {
+            lfPackageGradeStorageImpl.setDate(null);
+        } else {
+            lfPackageGradeStorageImpl.setDate(new Date(date));
+        }
+
         lfPackageGradeStorageImpl.resetOriginalValues();
 
         return lfPackageGradeStorageImpl;
@@ -72,6 +83,7 @@ public class LFPackageGradeStorageCacheModel implements CacheModel<LFPackageGrad
         packageId = objectInput.readLong();
         grade = objectInput.readUTF();
         comment = objectInput.readUTF();
+        date = objectInput.readLong();
     }
 
     @Override
@@ -91,5 +103,7 @@ public class LFPackageGradeStorageCacheModel implements CacheModel<LFPackageGrad
         } else {
             objectOutput.writeUTF(comment);
         }
+
+        objectOutput.writeLong(date);
     }
 }

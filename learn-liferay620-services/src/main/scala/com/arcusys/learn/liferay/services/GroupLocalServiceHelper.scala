@@ -35,4 +35,5 @@ object GroupLocalServiceHelper {
 
   def updateFriendlyURL(groupId: Long, friendlyURL: String): Group =
     GroupLocalServiceUtil.updateFriendlyURL(groupId, friendlyURL)
+
 }

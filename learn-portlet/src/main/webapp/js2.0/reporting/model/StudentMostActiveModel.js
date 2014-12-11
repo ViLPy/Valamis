@@ -2,10 +2,10 @@ var StudentMostActiveModel = Backbone.Model.extend({
     defaults: {}
 });
 
-StudentMostActiveModelCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+StudentMostActiveModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
         'read': function (collection, options) {
-            return 'api/report?action=MOST_ACTIVE_USERS&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
+            return path.api.report + '?action=MOST_ACTIVE_USERS&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
         }
     }
 });

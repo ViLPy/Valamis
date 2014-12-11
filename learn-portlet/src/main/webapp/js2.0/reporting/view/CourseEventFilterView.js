@@ -10,7 +10,7 @@ var CourseEventFilterView = Backbone.Marionette.ItemView.extend({
         this.$('#from').datepicker({
             defaultDate: 0,
             changeMonth: true,
-            numberOfMonths: 3,
+            numberOfMonths: 1,
             onClose: function (selectedDate) {
                 this.$('#to').datepicker('option', 'minDate', selectedDate);
                 localStorage.setItem('courseEventReportDateFrom', this.$('#from').datepicker('getDate').getTime());
@@ -19,12 +19,13 @@ var CourseEventFilterView = Backbone.Marionette.ItemView.extend({
         this.$('#to').datepicker({
             defaultDate: 0,
             changeMonth: true,
-            numberOfMonths: 3,
+            numberOfMonths: 1,
             onClose: function (selectedDate) {
                 this.$('#from').datepicker('option', 'maxDate', selectedDate);
                 localStorage.setItem('courseEventReportDateTo', this.$('#to').datepicker('getDate').getTime());
             }.bind(this)
         });
+
         var storedFrom = localStorage.getItem('courseEventReportDateFrom') || new Date().getTime();
         var storedTo = localStorage.getItem('courseEventReportDateTo') || new Date().getTime();
         var period = localStorage.getItem('courseEventReportPeriod');

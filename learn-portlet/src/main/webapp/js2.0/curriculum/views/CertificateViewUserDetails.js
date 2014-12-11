@@ -4,10 +4,10 @@ var GOAL_TYPE = {
   ACTIVITY: 3
 };
 
-var CertificateGoalStatusService = new Backbone.Service({ url: Utils.getContextPath,
+var CertificateGoalStatusService = new Backbone.Service({ url: path.root,
   sync: {
     'read': function (e, options) {
-      return 'api/users/' + options.userID + '/certificates/' + options.certificateID + '/goals';
+      return path.api.users + options.userID + '/certificates/' + options.certificateID + '/goals';
     }
   }
 });
@@ -28,15 +28,16 @@ var GoalStatusView = Backbone.View.extend({
     this.$el = jQuery('<tr>');
     this.language = options.language;
 
-    this.model.set({
-      type: options.type,
-      certificateID: options.certificateID,
-      status: options.status});
+    this.model.set({ type: options.type, certificateID: options.certificateID, status: options.status});
+
     if (options.type == GOAL_TYPE.STATEMENT)
       this.model.set({title: this.language[this.model.get('tincanStmntVerb')] + ' ' + this.model.get('tincanStmntObj')});
-    if (options.type == GOAL_TYPE.ACTIVITY)
-      this.model.set({activityID: this.model.get('title'), title: this.language[this.model.get('title')]});
-
+    else if (options.type == GOAL_TYPE.ACTIVITY) {
+        var name = this.model.get('title');
+        this.model.set({activityID: this.model.get('title'), title: this.language[this.model.get('title')]});
+        if (name == 'participation' || name == 'contribution')
+            this.model.set({noDate: true });
+    }
   },
   render: function () {
     var template = Mustache.to_html(jQuery('#goalRowTemplate').html(), _.extend(this.model.toJSON(), {
@@ -55,7 +56,6 @@ var ViewUserDetailsDialog = Backbone.View.extend({
   initialize: function (options) {
     this.options = options;
     this.model = new CertificateModel();
-    this.model.on('change', this.resetStatuses, this);
     this.statuses = new CertificateGoalStatus();
     this.statuses.on('change', this.addAll, this);
     this.render();
@@ -75,7 +75,7 @@ var ViewUserDetailsDialog = Backbone.View.extend({
     this.certificateID = certificateID;
     this.isUserMember = isUserMember;
     this.model.set({id: certificateID});
-    this.model.fetch();
+    this.model.fetch({success: jQuery.proxy(function (){ this.resetStatuses(); }, this) });
   },
   resetStatuses: function () {
     if (this.isUserMember)
@@ -90,6 +90,7 @@ var ViewUserDetailsDialog = Backbone.View.extend({
   },
   renderGoals: function (goals, statuses, type) {
     if (goals != undefined) {
+      var isFirstNotPassed = true;
       for (var i = 0; i < goals.length; i++) {
         var status = '';
         var item = new CertificateGoalStatus(goals[i]);
@@ -115,9 +116,15 @@ var ViewUserDetailsDialog = Backbone.View.extend({
             }).map(function (i) {
                 return i.status;
               });
+
+
           }
         }
 
+        if (type == GOAL_TYPE.COURSE){
+          if (status == '' || !isFirstNotPassed) item.set({url: ''});
+          if (status != 'Success') isFirstNotPassed = false;
+        }
         var view = new GoalStatusView({model: item, status: status, certificateID: this.model.id, type: type, language: this.options.language});
 
         var template = view.render().$el;
@@ -128,7 +135,7 @@ var ViewUserDetailsDialog = Backbone.View.extend({
         else if (type == GOAL_TYPE.STATEMENT) {
           this.$('#certificateStatementsTable').append(template);
         }
-        else {
+        else if (type == GOAL_TYPE.ACTIVITY) {
           this.$('#certificateActivitiesTable').append(template);
         }
       }

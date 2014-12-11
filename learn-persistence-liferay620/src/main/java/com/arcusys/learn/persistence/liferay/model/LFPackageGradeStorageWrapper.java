@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class LFPackageGradeStorageWrapper implements LFPackageGradeStorage,
         attributes.put("packageId", getPackageId());
         attributes.put("grade", getGrade());
         attributes.put("comment", getComment());
+        attributes.put("date", getDate());
 
         return attributes;
     }
@@ -70,6 +72,12 @@ public class LFPackageGradeStorageWrapper implements LFPackageGradeStorage,
 
         if (comment != null) {
             setComment(comment);
+        }
+
+        Date date = (Date) attributes.get("date");
+
+        if (date != null) {
+            setDate(date);
         }
     }
 
@@ -172,6 +180,26 @@ public class LFPackageGradeStorageWrapper implements LFPackageGradeStorage,
     @Override
     public void setComment(java.lang.String comment) {
         _lfPackageGradeStorage.setComment(comment);
+    }
+
+    /**
+    * Returns the date of this l f package grade storage.
+    *
+    * @return the date of this l f package grade storage
+    */
+    @Override
+    public java.util.Date getDate() {
+        return _lfPackageGradeStorage.getDate();
+    }
+
+    /**
+    * Sets the date of this l f package grade storage.
+    *
+    * @param date the date of this l f package grade storage
+    */
+    @Override
+    public void setDate(java.util.Date date) {
+        _lfPackageGradeStorage.setDate(date);
     }
 
     @Override

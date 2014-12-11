@@ -4,6 +4,7 @@ import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
 import com.arcusys.learn.scorm.tracking.states.storage.{ ActivityStateNodeStorage, ActivityStateStorage }
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 
+@deprecated
 trait ActivityStateNodeFieldsMapper {
   def id: Int
 
@@ -12,6 +13,7 @@ trait ActivityStateNodeFieldsMapper {
   def availableChildrenIDs: String
 }
 
+@deprecated
 trait ActivityStateNodeCreator {
   def activityStateStorage: ActivityStateStorage
 
@@ -30,6 +32,7 @@ trait ActivityStateNodeCreator {
   }
 }
 
+@deprecated
 trait ActivityStateNodeEntityStorage extends ActivityStateNodeStorage with KeyedEntityStorageExt[ActivityStateNode] with EntityStorageExt[ActivityStateNode] {
   def activityStateStorage: ActivityStateStorage
 

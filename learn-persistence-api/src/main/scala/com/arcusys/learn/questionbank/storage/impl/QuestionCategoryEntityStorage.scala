@@ -8,8 +8,9 @@ import com.arcusys.learn.questionbank.storage.QuestionCategoryStorage
  * User: dkudinov
  * Date: 20.3.2013
  */
+@deprecated
 trait QuestionCategoryEntityStorage extends QuestionCategoryStorage with KeyedEntityStorageExt[QuestionCategory] with EntityStorageExt[QuestionCategory] {
-  def getChildren(parentID: Option[Int], courseID: Option[Int]) = getAll("parentID" -> parentID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
+  def getChildren(parentID: Option[Int], courseID: Option[Int]) = getAll("categoryID" -> parentID.getOrElse(-1), "courseID" -> courseID.getOrElse(-1))
 
   def getAllByCourseID(courseID: Option[Int]) = getAll("courseID" -> courseID.getOrElse(-1))
 

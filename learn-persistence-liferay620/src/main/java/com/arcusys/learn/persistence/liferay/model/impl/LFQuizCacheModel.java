@@ -26,10 +26,11 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
     public String welcomePageContent;
     public String finalPageContent;
     public Integer courseID;
+    public Integer maxDuration;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(id);
@@ -45,6 +46,8 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         sb.append(finalPageContent);
         sb.append(", courseID=");
         sb.append(courseID);
+        sb.append(", maxDuration=");
+        sb.append(maxDuration);
         sb.append("}");
 
         return sb.toString();
@@ -87,6 +90,7 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         }
 
         lfQuizImpl.setCourseID(courseID);
+        lfQuizImpl.setMaxDuration(maxDuration);
 
         lfQuizImpl.resetOriginalValues();
 
@@ -102,6 +106,7 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         welcomePageContent = objectInput.readUTF();
         finalPageContent = objectInput.readUTF();
         courseID = objectInput.readInt();
+        maxDuration = objectInput.readInt();
     }
 
     @Override
@@ -140,5 +145,6 @@ public class LFQuizCacheModel implements CacheModel<LFQuiz>, Externalizable {
         }
 
         objectOutput.writeInt(courseID);
+        objectOutput.writeInt(maxDuration);
     }
 }

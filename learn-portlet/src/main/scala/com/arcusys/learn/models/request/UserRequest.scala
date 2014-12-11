@@ -1,8 +1,8 @@
 package com.arcusys.learn.models.request
 
-import com.arcusys.learn.service.util.{ Parameter }
-import org.scalatra.{ ScalatraBase }
-import com.arcusys.learn.models.{ BaseCollectionRequest }
+import com.arcusys.learn.service.util.Parameter
+import org.scalatra.ScalatraBase
+import com.arcusys.learn.models.BaseCollectionRequest
 
 /**
  * Created by Iliya Tryapitsin on 12.03.14.
@@ -12,21 +12,20 @@ object UserRequest extends BaseCollectionRequest {
   val RESULT_AS = "resultAs"
   val COMPANY_ID = "companyID"
   val ORG_ID = "orgId"
+  val SCOPE = "scope"
+
   val MODULE_ID = "moduleId"
   val AVAILABLE = "available"
   val IS_ONLY_PUBLISHED = "isOnlyPublished"
   val CERTIFICATE_ID = "certificateId"
-  val SCOPE = "scope"
   val WITH_OPENBADGES = "withOpenBadges"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
   class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
-    def id = Parameter(USER_ID).intRequired
+    def requestedUserId = Parameter(USER_ID).intRequired
 
-    def hasId = Parameter(USER_ID).option.isDefined
-
-    def companyId = Parameter(COMPANY_ID).longRequired
+    def isUserIdRequest = Parameter(USER_ID).option.isDefined
 
     def orgId = Parameter(ORG_ID).longRequired
 

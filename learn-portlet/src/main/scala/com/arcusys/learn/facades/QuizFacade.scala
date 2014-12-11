@@ -1,79 +1,57 @@
 package com.arcusys.learn.facades
 
-import com.arcusys.learn.models._
-import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
-import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.storage.impl.liferay.LFStorageFactory
-import com.arcusys.learn.quiz.model._
-import com.arcusys.scorm.generator.file.QuizPackageGenerator
-import com.arcusys.learn.liferay.service.asset.AssetHelper
-import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
-import com.arcusys.scorm.deployer.PackageProcessor
-import com.arcusys.learn.quiz.model.PlainTextQuizQuestion
-import com.arcusys.learn.quiz.model.QuizQuestionCategory
-import com.arcusys.learn.models.QuizCategoryResponse
-import com.arcusys.learn.models.QuizQuestionPreviewRedirect
-import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.learn.models.QuizQuestionBankResponse
-import com.arcusys.learn.quiz.model.ExternalQuizQuestion
-import com.arcusys.learn.models.QuizQuestionPreviewContent
-import scala.Some
-import com.arcusys.learn.questionbank.model.PlainText
-import com.arcusys.learn.models.QuizResponse
-import com.arcusys.learn.models.QuizQuestionExternalResponse
-import com.arcusys.learn.models.QuizQuestionRevealJSResponse
-import com.arcusys.learn.quiz.model.QuestionBankQuizQuestion
-import com.arcusys.learn.quiz.model.RevealJSQuizQuestion
-import com.arcusys.learn.models.QuizQuestionPlainTextResponse
-import com.arcusys.learn.models.response.CollectionResponse
 import java.io.{ FileInputStream, InputStream }
-import com.arcusys.scorm.util.FileSystemUtil
 
-class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with Injectable {
+import com.arcusys.learn.bl.exceptions.EntityNotFoundException
+import com.arcusys.learn.exceptions.BadRequestException
+import com.arcusys.learn.export.quiz.{ QuizExportProcessor, QuizImportProcessor }
+import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.models.request.PackagePublishType
+import com.arcusys.learn.models.response.CollectionResponse
+import com.arcusys.learn.models._
+import com.arcusys.learn.questionbank.model.{ DLVideo, PlainText }
+import com.arcusys.learn.quiz.model.{ ExternalQuizQuestion, PlainTextQuizQuestion, QuestionBankQuizQuestion, Quiz, QuizQuestionCategory, RevealJSQuizQuestion, _ }
+import com.arcusys.learn.util.JsonSupport
+import com.arcusys.scorm.generator.file.ScormPackageGenerator
+import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
+import com.arcusys.scorm.util.FileSystemUtil
+import com.arcusys.tincan.generator.file.TinCanQuizPackageGenerator
+import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
+
+class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with Injectable with JsonSupport {
   def this() = this(Configuration)
 
   implicit val bindingModule = configuration
 
-  lazy val quizStorage = LFStorageFactory.quizStorage
-  lazy val categoryStorage = LFStorageFactory.quizQuestionCategoryStorage
-  lazy val questionStorage = LFStorageFactory.quizQuestionStorage
-  lazy val quizTreeStorage = LFStorageFactory.quizTreeStorage
+  lazy val quizService = inject[com.arcusys.learn.bl.services.QuizServiceContract]
 
-  lazy val fileFacade = inject[FileFacadeContract]
+  def getAll(courseID: Int, filter: String, sortBy: String, sortDirectionAsc: Boolean, pageNumber: Int, pageSize: Int): CollectionResponse[QuizResponse] = {
 
-  def getAll(filter: String, sortBy: String, sortDirectionAsc: Boolean, pageNumber: Int, pageSize: Int): CollectionResponse[QuizResponse] = {
-    var quizzes = quizStorage.getAll
-
-    if (filter != null && !filter.isEmpty) quizzes = quizzes.filter(_.title.contains(filter))
-
-    val totalCount = quizzes.size
-
-    quizzes = sortBy match {
-      case "TITLE"        => quizzes.sortBy(_.title)
-      case "CREATIONDATE" => quizzes.sortBy(_.id)
-      case "DESCRIPTION"  => quizzes.sortBy(_.description)
-      case _              => quizzes.sortBy(_.title)
-    }
-
-    if (!sortDirectionAsc) quizzes = quizzes.reverse
-
-    quizzes = quizzes drop (pageNumber * pageSize - pageSize) take pageSize
+    val rangeResult = quizService.getQuizes(
+      courseID,
+      Option(filter),
+      sortBy,
+      sortDirectionAsc,
+      pageNumber * pageSize - pageSize,
+      pageSize
+    )
 
     CollectionResponse(
       pageNumber,
-      quizzes map toQuizResponse toSeq,
-      totalCount
+      rangeResult.items map toQuizResponse toSeq,
+      rangeResult.total
     )
   }
 
-  private def toQuizResponse(q: Quiz): QuizResponse = QuizResponse(q.id, q.title, q.description, q.logo)
+  private def toQuizResponse(q: Quiz): QuizResponse = {
+    QuizResponse(q.id, q.title, q.description, q.logo, quizService.getQuestionsCount(q.id), q.maxDuration)
+  }
 
   private def toQuestionResponse(question: QuizQuestion) = {
-    val quizTreeElement = quizTreeStorage.getByQuizAndElementID(question.quizID, "q_" + question.id)
-    val arrangementIndex = quizTreeElement.map(_.arrangementIndex).getOrElse(1)
+    val arrangementIndex = quizService.getQuestionIndex(question.quizID, question.id)
     question match {
       case q: QuestionBankQuizQuestion => QuizQuestionBankResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.question.title, q.question, arrangementIndex // TODO: convert answer
+        "q_" + q.id, q.quizID, q.categoryID, q.question.title, q.question, q.autoShowAnswer, arrangementIndex // TODO: convert answer
       )
       case q: PlainTextQuizQuestion => QuizQuestionPlainTextResponse(
         "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.text, arrangementIndex
@@ -84,12 +62,21 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
       case q: RevealJSQuizQuestion => QuizQuestionRevealJSResponse(
         "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.content, arrangementIndex
       )
+      case q: PDFQuizQuestion => QuizQuestionPDFResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.filename, arrangementIndex
+      )
+      case q: PPTXQuizQuestion => QuizQuestionPPTXResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), arrangementIndex
+      )
+      case q: DLVideoQuizQuestion => QuizQuestionVideoDLResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.uuid, arrangementIndex
+      )
+      case _ => throw new Exception("Unknown type of question")
     }
   }
 
   private def toCategoryResponse(c: QuizQuestionCategory, qs: Seq[QuizQuestion]) = {
-    val quizTreeElement = quizTreeStorage.getByQuizAndElementID(c.quizID, "c_" + c.id)
-    val arrangementIndex = quizTreeElement.map(_.arrangementIndex).getOrElse(1)
+    val arrangementIndex = quizService.getCategoryIndex(c.quizID, c.id)
     QuizCategoryResponse(
       "c_" + c.id, c.quizID, c.title, arrangementIndex, qs.map(q => toQuestionResponse(q))
     )
@@ -99,187 +86,203 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
 
   private def idFromQuestion(id: String) = id.replace("q_", "").toInt
 
-  def create(title: String, description: String, logo: String, courseID: Int): QuizResponse = {
-    val id = quizStorage.createAndGetID(Quiz(-1, title, description, "", "", Some(courseID), logo)) // TODO: store logo
-    quizStorage.getByID(id).map(toQuizResponse).get
+  def create(title: String, description: String, logo: String, courseID: Int, maxDuration: Option[Int]): QuizResponse = {
+    val quiz = quizService.createQuiz(title, description, logo, courseID, maxDuration)
+    toQuizResponse(quiz)
   }
 
   def delete(quizId: Int) {
-    questionStorage.getByCategory(quizId, None).foreach(q => deleteQuestion(quizId, q.id))
-    categoryStorage.getChildren(quizId, None).foreach(c => deleteCategory(quizId, c.id))
-    quizTreeStorage.getByQuizID(quizId).foreach(e => quizTreeStorage.delete(e.id))
-    quizStorage.delete(quizId)
+    quizService.deleteQuiz(quizId)
   }
 
-  def publish(quizId: Int, userID: Long, groupIDOption: Option[Long]): QuizPublishStatusResponse = {
-    val quiz = quizStorage.getByID(quizId).get
-    val hasQuestion = questionStorage.getCount(quizId) > 0
-    if (!hasQuestion) return QuizPublishStatusResponse(status = false)
+  def publish(quizId: Int, userID: Long, groupIDOption: Option[Long], publishType: PackagePublishType.Value,
+    theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): QuizPublishStatusResponse = {
 
-    val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip(quiz.courseID)
-    val packageFileName = filename.substring(0, filename.length - 4)
-
-    val packageProcessor = new PackageProcessor()
-    val quizLogo = quiz.logo
-    val quizID = quiz.id
-    val packageID = packageProcessor.processPackageAndGetID(quiz.title, quiz.description, packageFileName, quiz.courseID, None)
-
-    if (quizLogo.nonEmpty) {
-      fileFacade.copyToFolder("quiz_logo_" + quizID, quizLogo, "package_logo_" + packageID)
-
-      LFStorageFactory.packageStorage.setLogo(packageID, Option(quizLogo))
+    publishType match {
+      case PackagePublishType.SCORM  => quizService.publishQuizAsScorm(quizId, userID, groupIDOption, randomOrdering, questionsPerUser)
+      case PackagePublishType.TinCan => quizService.publishQuizAsTincan(quizId, theme, randomOrdering, questionsPerUser)
     }
-
-    for (groupID <- groupIDOption) {
-      val packageStorage = LFStorageFactory.packageStorage
-      val assetHelper = new AssetHelper()
-
-      val thePackage = packageStorage.getByID(packageID).getOrElse(throw new Exception("Can't find newly created package"))
-      assetHelper.addPackage(userID, groupID, thePackage)
-    }
-
     QuizPublishStatusResponse(status = true)
   }
 
-  def download(quizID: Int, courseID: Long): InputStream = {
-    val quiz = quizStorage.getByID(quizID).get
-    val generator = new QuizPackageGenerator(quiz)
-    val filename = generator.generateZip(Some(courseID.toInt))
+  def download(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): InputStream = {
+    val quiz = quizService.getQuiz(quizID)
+
+    val generator = publishType match {
+      case PackagePublishType.SCORM  => new ScormPackageGenerator(quiz)
+      case PackagePublishType.TinCan => new TinCanQuizPackageGenerator(quiz, theme)
+    }
+
+    val filename = generator.generateZip(Some(courseID.toInt), randomOrdering, questionsPerUser)
     new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
   }
 
-  def update(quizId: Int, newTitle: String, newDescription: String, newLogo: String): Unit = {
-    val quiz = quizStorage.getByID(quizId).get
-      .copy(title = newTitle, description = newDescription, logo = newLogo)
+  def downloadExternal(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], portalURL: String): InputStream = {
+    val quiz = quizService.getQuiz(quizID)
+    val generator = new TinCanQuizPackageGenerator(quiz, theme, Some(portalURL))
+    val filename = generator.generateZip(Some(courseID.toInt), randomOrdering, questionsPerUser)
+    new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
+  }
 
-    quizStorage.modify(quiz)
+  def update(quizId: Int, newTitle: String, newDescription: String, maxDuration: Option[Int]) = {
+    quizService.updateQuiz(quizId, newTitle, newDescription, maxDuration)
+  }
+
+  def updateLogo(quizId: Int, newLogo: String) = {
+    quizService.updateQuizLogo(quizId, newLogo)
   }
 
   def clone(quizId: Int): Unit = {
-    val quiz = quizStorage.getByID(quizId).get
-
-    val newQuizId = quizStorage.createAndGetID(quiz.copy(title = quiz.title + " (copy)"))
-
-    if (quiz.logo.nonEmpty)
-      fileFacade.copyToFolder("quiz_logo_" + quizId, quiz.logo, "quiz_logo_" + newQuizId)
-
-    def cloneContent(content: QuizContentResponse, categoryId: Option[String]): Unit = content match {
-      case c: QuizCategoryResponse =>
-        val newCategory = addCategory(newQuizId, c.title)
-        c.children.foreach(cloneContent(_, Some(newCategory.id)))
-      case q: QuizQuestionRevealJSResponse =>
-        addQuestionRevealJS(newQuizId, categoryId, q.title, q.text)
-      case q: QuizQuestionExternalResponse =>
-        addQuestionExternal(newQuizId, categoryId, q.title, q.url)
-      case q: QuizQuestionPlainTextResponse =>
-        addQuestionPlainText(newQuizId, categoryId, q.title, q.text)
-      case q: QuizQuestionBankResponse =>
-        addQuestion(newQuizId, categoryId, q.question.id)
-    }
-
-    getContent(quizId).foreach(cloneContent(_, None))
+    quizService.cloneQuiz(quizId, " (copy)")
   }
 
   def getContent(quizId: Int): Seq[QuizContentResponse] = {
-    val rootCategories = categoryStorage.getChildren(quizId, None)
-      .map(c => toCategoryResponse(c, questionStorage.getByCategory(quizId, Some(c.id))))
+    val rootCategories = quizService.getCategories(quizId, None)
+      .map(c => toCategoryResponse(c, quizService.getQuestionsByCategory(quizId, Some(c.id))))
 
     val rootContent: Seq[QuizContentResponse] = rootCategories ++
-      questionStorage.getByCategory(quizId, None).map(toQuestionResponse)
+      quizService.getQuestionsByCategory(quizId, None).map(toQuestionResponse)
 
     //TODO: add not root categories
     rootContent.sortBy(_.arrangementIndex)
   }
 
-  def getQuestionPreview(questionId: String): QuizQuestionPreview = {
+  def getQuestionPreview(quizID: Int, questionId: String): QuizQuestionPreview = {
     lazy val gen = new QuestionViewGenerator(isPreview = true)
     val context = ""
-    questionStorage.getByID(idFromQuestion(questionId)) match {
+    quizService.getQuestionOption(idFromQuestion(questionId)) match {
       case Some(q: QuestionBankQuizQuestion) => QuizQuestionPreviewContent(
-        gen.getHTMLByQuestionId(q.question, context)
+        gen.getHTMLByQuestionId(q.question, false, context)
       )
       case Some(q: PlainTextQuizQuestion) => QuizQuestionPreviewContent(
-        gen.getHTMLByQuestionId(new PlainText(q.id, q.categoryID, q.title.getOrElse(""), q.text, q.categoryID), context)
+        gen.getHTMLByQuestionId(new PlainText(q.id, q.categoryID, q.title.getOrElse(""), q.text, q.categoryID), false, context)
       )
       case Some(q: RevealJSQuizQuestion) => QuizQuestionPreviewContent(
         gen.getHTMLForRevealPage(q.content)
       )
+      case Some(q: PDFQuizQuestion) =>
+        val url = "/learn-portlet/preview-resources/pdf/web/viewer.html?file=/learn-portlet/SCORMData/files/quizData" +
+          quizID.toString + "/" + q.filename
+        QuizQuestionPreviewRedirect(url)
+      case Some(q: PPTXQuizQuestion) => QuizQuestionPreviewContent(
+        gen.getHTMLForPPTXReview(q.quizID, q.file)
+      )
       case Some(q: ExternalQuizQuestion) => QuizQuestionPreviewRedirect(q.url)
+
+      case Some(q: DLVideoQuizQuestion) => QuizQuestionPreviewContent(
+        gen.getHTMLByQuestionId(new DLVideo(q.id, q.categoryID, q.title.getOrElse(""), q.uuid, q.categoryID, q.uuid, q.groupId), false, context)
+      )
     }
   }
 
   def addCategory(quizID: Int, title: String): QuizCategoryResponse = {
-    val categoryId = categoryStorage.createAndGetID(QuizQuestionCategory(0, title, "", quizID, None))
-    quizTreeStorage.createAndGetID(QuizTreeElement(0, quizID, "c_" + categoryId, true, None))
-    categoryStorage.getByID(categoryId).map(toCategoryResponse(_, Seq())).get
+    val category = quizService.createCategory(quizID, title, "")
+    toCategoryResponse(category, Seq())
   }
 
   def addQuestionPlainText(quizID: Int, categoryID: Option[String], title: String, text: String): QuizQuestionResponse = {
-    val questionId = questionStorage.createPlainAndGetID(quizID, categoryID.map(idFromCategory), title, text)
-    quizTreeStorage.createAndGetID(QuizTreeElement(0, quizID, "q_" + questionId, true, categoryID))
-    questionStorage.getByID(questionId).map(toQuestionResponse).get
+    val question = quizService.createQuestionPlainText(quizID, categoryID.map(idFromCategory), title, text)
+    toQuestionResponse(question)
   }
 
+  //TODO: WAT?
   def addQuestionRevealJS(quizID: Int, categoryID: Option[String], title: String, text: String): QuizQuestionResponse = {
-    val questionId = questionStorage.createRevealAndGetID(quizID, categoryID.map(idFromCategory), title, text)
-    quizTreeStorage.createAndGetID(QuizTreeElement(0, quizID, "q_" + questionId, true, categoryID))
-    questionStorage.getByID(questionId).map(toQuestionResponse).get
+    //questionStorage.modifyRevealJS(text.toInt, title)
+    //questionStorage.getByID(text.toInt).map(toQuestionResponse).get
+    null
+  }
+
+  def addQuestionPDF(quizID: Int, categoryID: Option[String], title: String, filename: String): QuizQuestionResponse = {
+    val question = quizService.createQuestionPDF(quizID, categoryID.map(idFromCategory), title, filename)
+    toQuestionResponse(question)
   }
 
   def addQuestionExternal(quizID: Int, categoryID: Option[String], title: String, url: String): QuizQuestionResponse = {
-    val questionId = questionStorage.createExternalAndGetID(quizID, categoryID.map(idFromCategory), title, url)
-    quizTreeStorage.createAndGetID(QuizTreeElement(0, quizID, "q_" + questionId, true, categoryID))
-    questionStorage.getByID(questionId).map(toQuestionResponse).get
+    val question = quizService.createQuestionExternal(quizID, categoryID.map(idFromCategory), title, url)
+    toQuestionResponse(question)
   }
 
-  def addQuestion(quizID: Int, categoryID: Option[String], questionID: Int): QuizQuestionResponse = {
-    val questionId = questionStorage.createFromQuestionBankAndGetID(quizID, categoryID.map(idFromCategory), questionID)
-    quizTreeStorage.createAndGetID(QuizTreeElement(0, quizID, "q_" + questionId, true, categoryID))
-    questionStorage.getByID(questionId).map(toQuestionResponse).get
+  def addQuestion(quizID: Int, categoryID: Option[String], bankQuestionID: Int): QuizQuestionResponse = {
+    val question = quizService.createQuestionFromQuestionBank(quizID, categoryID.map(idFromCategory), bankQuestionID)
+    toQuestionResponse(question)
+  }
+
+  def addVideo(quizID: Int, categoryID: Option[String], title: String, url: String, fromDL: Boolean, uuid: Option[String], groupId: Option[Long]): QuizQuestionResponse = {
+    val question = if (fromDL) quizService.createQuestionDocumentLibrary(quizID, categoryID.map(idFromCategory), title, uuid.get, groupId.get.toInt)
+    else {
+      val r = """(?i)(?<=src=")(.+?)(?=")""".r
+      val iframeURL = r.findAllIn(url).toSeq
+      if (iframeURL.isEmpty) {
+        quizService.createQuestionPlainText(quizID, categoryID.map(idFromCategory), title, url)
+      } else {
+        quizService.createQuestionExternal(quizID, categoryID.map(idFromCategory), title, iframeURL.head)
+      }
+    }
+
+    toQuestionResponse(question)
   }
 
   def updateCategory(quizID: Int, categoryID: String, title: String): Unit =
-    categoryStorage.modify(idFromCategory(categoryID), title, "")
+    quizService.updateCategory(idFromCategory(categoryID), title, "")
 
-  def updateQuestion(quizID: Int, id: String, title: String): Unit =
-    questionStorage.modify(idFromQuestion(id), title)
+  def updateQuestion(quizID: Int, id: String, title: String, autoShowAnswer: Boolean): Unit =
+    quizService.updateQuestionFromQuestionBank(idFromQuestion(id), title, autoShowAnswer)
 
   def updateQuestionPlainText(quizID: Int, questionID: String, title: String): Unit =
-    questionStorage.modify(idFromQuestion(questionID), title)
+    quizService.updateQuestionPlainText(idFromQuestion(questionID), title)
 
-  def updateQuestionRevealJS(quizID: Int, questionID: String, title: String, content: String): Unit =
-    questionStorage.modifyRevealJS(idFromQuestion(questionID), title, content)
+  def updateQuestionRevealJS(quizID: Int, questionID: String, title: String): Unit =
+    quizService.updateQuestionRevealJS(idFromQuestion(questionID), title)
+
+  def updateQuestionPDF(quizID: Int, questionID: String, title: String): Unit =
+    quizService.updateQuestionRevealJS(idFromQuestion(questionID), title) //FIXME: misspell?
+
+  def updateQuestionPPTX(questionID: String, title: String): Unit =
+    quizService.updateQuestionPPTX(idFromQuestion(questionID), title)
 
   def updateQuestionExternal(quizID: Int, questionID: String, title: String, url: String): Unit =
-    questionStorage.modifyExternal(idFromQuestion(questionID), title, url)
+    quizService.updateQuestionExternal(idFromQuestion(questionID), title, url)
 
-  def deleteCategory(quizID: Int, categoryID: String): Unit = deleteCategory(quizID, idFromCategory(categoryID))
+  def deleteCategory(quizID: Int, categoryID: String): Unit =
+    quizService.deleteCategory(quizID, idFromCategory(categoryID))
 
-  def deleteCategory(quizID: Int, categoryID: Int) {
-    questionStorage.getByCategory(quizID, Some(categoryID)).foreach(q => deleteQuestion(quizID, q.id))
-    quizTreeStorage.getByQuizAndElementID(quizID, "c_" + categoryID).map(e => quizTreeStorage.delete(e.id))
-    categoryStorage.delete(categoryID)
-  }
+  def deleteQuestion(quizID: Int, questionID: String): Unit =
+    quizService.deleteQuestion(quizID, idFromQuestion(questionID))
 
-  def deleteQuestion(quizID: Int, questionID: String): Unit = deleteQuestion(quizID, idFromQuestion(questionID))
-
-  def deleteQuestion(quizID: Int, questionID: Int): Unit = {
-    quizTreeStorage.getByQuizAndElementID(quizID, "q_" + questionID).map(e => quizTreeStorage.delete(e.id))
-    questionStorage.delete(questionID)
-  }
-
-  def moveElement(quizID: Int, elementID: String, parentID: Option[String], index: Int) {
+  def moveElement(quizId: Int, elementID: String, parentID: Option[String], index: Int) {
     // check if parent valid
-    if (parentID.isDefined) {
-      if (!parentID.get.startsWith("c_")) return // not category
-      if (quizTreeStorage.getByQuizAndElementID(quizID, parentID.get).isEmpty) return // not persisted
-    }
+    if (parentID.isDefined && !parentID.get.startsWith("c_")) return // not category
+    if (parentID.isDefined && elementID.startsWith("c_") && parentID.get.startsWith("c_")) return
 
-    quizTreeStorage.getByQuizAndElementID(quizID, elementID).foreach(entity => {
+    if (elementID.startsWith("c_")) quizService.moveCategory(quizId, idFromCategory(elementID), parentID.map(idFromCategory), index)
+    if (elementID.startsWith("q_")) quizService.moveQuestion(quizId, idFromQuestion(elementID), parentID.map(idFromCategory), index)
+
+    //TODO: checkme
+    /*quizTreeStorage.getByQuizAndElementID(quizID, elementID).foreach(entity => {
       if (elementID.startsWith("c_")) categoryStorage.updateParent(idFromCategory(elementID), parentID.map(idFromCategory))
       else if (elementID.startsWith("q_")) questionStorage.updateParent(idFromQuestion(elementID), parentID.map(idFromCategory))
-      quizTreeStorage.move(entity.copy(parentID = parentID, arrangementIndex = index))
-    })
+      quizTreeStorage.move(entity.copy(parentID = parentID, arrangementIndex = index), entity.arrangementIndex)
+    })*/
   }
+
+  override def exportAllLessonsBase(courseID: Int): InputStream = {
+    val quizzes = quizService.getQuizes(courseID)
+    if (quizzes.isEmpty)
+      throw new EntityNotFoundException("No lessons to export")
+    new QuizExportProcessor().exportItems(quizzes)
+  }
+
+  override def exportLessons(quizIds: Seq[Int]): InputStream = {
+    val quizzes = quizIds.map(quizId => {
+      quizService.getQuizOption(quizId).getOrElse(throw new BadRequestException(s"Lesson with id:${quizId} not found"))
+    })
+    if (quizzes.isEmpty)
+      throw new EntityNotFoundException("No lessons to export")
+    new QuizExportProcessor().exportItems(quizzes)
+  }
+
+  override def importLessons(filename: String, courseID: Int): Unit = {
+    new QuizImportProcessor().importItems(filename, courseID)
+  }
+
 }

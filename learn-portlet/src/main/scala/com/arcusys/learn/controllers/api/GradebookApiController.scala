@@ -18,12 +18,16 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
 
   var hashCollection = 0
 
-  get("/")(jsonAction {
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/gradebooks(/)")(jsonAction {
     val gradebookRequest = GradebookRequest(this)
     gradebookRequest.actionType match {
       case GradebookActionType.ALL => {
-        if (!hasTeacherPermissions)
-          throw new AccessDeniedException
+        requireTeacherPermissions()
+
         val students = if (gradebookRequest.isShortResult)
           gradebookFacade.getStudents(
             gradebookRequest.courseId,
@@ -31,7 +35,7 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
             gradebookRequest.count,
             gradebookRequest.studentName,
             gradebookRequest.organizationName,
-            gradebookRequest.isSortDirectionAsc)
+            gradebookRequest.sortBy)
         else
           gradebookFacade.getExtStudents(
             gradebookRequest.courseId,
@@ -40,7 +44,7 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
             gradebookRequest.studentName,
             gradebookRequest.organizationName,
             gradebookRequest.selectedPackages,
-            gradebookRequest.isSortDirectionAsc)
+            gradebookRequest.sortBy)
 
         val studentsCount = gradebookFacade.getStudentsCount(
           gradebookRequest.courseId,
@@ -65,12 +69,11 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
     }
   })
 
-  post("/")(jsonAction {
+  post("/gradebooks(/)")(jsonAction {
     val gradebookRequest = GradebookRequest(this)
     gradebookRequest.actionType match {
       case GradebookActionType.TOTAL_GRADE => {
-        if (!hasTeacherPermissions)
-          throw new AccessDeniedException
+        requireTeacherPermissions()
         gradebookFacade.changeTotalGrade(
           gradebookRequest.studentId,
           gradebookRequest.courseId,
@@ -79,8 +82,7 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
       }
 
       case GradebookActionType.GRADES => {
-        if (!hasTeacherPermissions)
-          throw new AccessDeniedException
+        requireTeacherPermissions()
         gradebookFacade.changePackageGrade(
           gradebookRequest.studentId,
           gradebookRequest.packageId,

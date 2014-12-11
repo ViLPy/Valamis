@@ -14,6 +14,7 @@ object AdminRequest {
   val ISSUER_NAME = "issuerName"
   val ISSUER_ORGANIZATION = "issuerOrganization"
   val ISSUER_URL = "issuerUrl"
+  val SEND_MESSAGES = "sendMessages"
   val ACTION = "action"
   val IS_EXTERNAL_LRS = "isExternalLrs"
   val END_POINT = "endpoint"
@@ -30,6 +31,7 @@ object AdminRequest {
     def issuerName = Parameter(AdminRequest.ISSUER_NAME).required
     def issuerOrganization = Parameter(AdminRequest.ISSUER_ORGANIZATION).required
     def issuerUrl = Parameter(AdminRequest.ISSUER_URL).required
+    def sendMessages = Parameter(AdminRequest.SEND_MESSAGES).required
     def actionType: AdminActionType = AdminActionType.withName(Parameter(AdminRequest.ACTION).required.toUpperCase)
     def isExternalLrs: Boolean = Parameter(AdminRequest.IS_EXTERNAL_LRS).booleanRequired
 

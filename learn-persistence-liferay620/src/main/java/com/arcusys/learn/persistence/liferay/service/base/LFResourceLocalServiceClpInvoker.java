@@ -41,20 +41,20 @@ public class LFResourceLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
-    private String _methodName302;
-    private String[] _methodParameterTypes302;
-    private String _methodName303;
-    private String[] _methodParameterTypes303;
-    private String _methodName304;
-    private String[] _methodParameterTypes304;
-    private String _methodName305;
-    private String[] _methodParameterTypes305;
-    private String _methodName306;
-    private String[] _methodParameterTypes306;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
+    private String _methodName322;
+    private String[] _methodParameterTypes322;
+    private String _methodName323;
+    private String[] _methodParameterTypes323;
+    private String _methodName324;
+    private String[] _methodParameterTypes324;
+    private String _methodName325;
+    private String[] _methodParameterTypes325;
+    private String _methodName326;
+    private String[] _methodParameterTypes326;
 
     public LFResourceLocalServiceClpInvoker() {
         _methodName0 = "addLFResource";
@@ -139,35 +139,35 @@ public class LFResourceLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFResource"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
 
-        _methodName302 = "createLFResource";
+        _methodName322 = "createLFResource";
 
-        _methodParameterTypes302 = new String[] {  };
+        _methodParameterTypes322 = new String[] {  };
 
-        _methodName303 = "findByPackageID";
+        _methodName323 = "findByPackageID";
 
-        _methodParameterTypes303 = new String[] { "java.lang.Integer" };
+        _methodParameterTypes323 = new String[] { "java.lang.Integer" };
 
-        _methodName304 = "findByPackageIDAndResourceID";
+        _methodName324 = "findByPackageIDAndResourceID";
 
-        _methodParameterTypes304 = new String[] {
+        _methodParameterTypes324 = new String[] {
                 "java.lang.Integer", "java.lang.String", "int", "int"
             };
 
-        _methodName305 = "removeAll";
+        _methodName325 = "removeAll";
 
-        _methodParameterTypes305 = new String[] {  };
+        _methodParameterTypes325 = new String[] {  };
 
-        _methodName306 = "getLFResource";
+        _methodName326 = "getLFResource";
 
-        _methodParameterTypes306 = new String[] { "long" };
+        _methodParameterTypes326 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -259,45 +259,45 @@ public class LFResourceLocalServiceClpInvoker {
             return LFResourceLocalServiceUtil.updateLFResource((com.arcusys.learn.persistence.liferay.model.LFResource) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFResourceLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFResourceLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName302.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+        if (_methodName322.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
             return LFResourceLocalServiceUtil.createLFResource();
         }
 
-        if (_methodName303.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+        if (_methodName323.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
             return LFResourceLocalServiceUtil.findByPackageID((java.lang.Integer) arguments[0]);
         }
 
-        if (_methodName304.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
+        if (_methodName324.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
             return LFResourceLocalServiceUtil.findByPackageIDAndResourceID((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1],
                 ((Integer) arguments[2]).intValue(),
                 ((Integer) arguments[3]).intValue());
         }
 
-        if (_methodName305.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
+        if (_methodName325.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes325, parameterTypes)) {
             LFResourceLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName306.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
+        if (_methodName326.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes326, parameterTypes)) {
             return LFResourceLocalServiceUtil.getLFResource(((Long) arguments[0]).longValue());
         }
 

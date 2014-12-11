@@ -26,7 +26,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canCreate() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(1, "title2", "description2", quizId, None))
     assertEquals(2, quizCategoryStorage.getAll.size)
@@ -34,7 +34,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canGetByID() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val testCategoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     val fetchedCategory = quizCategoryStorage.getByID(testCategoryId).get
     assertEquals("title1", fetchedCategory.title)
@@ -43,7 +43,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canUpdate() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val testCategoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     quizCategoryStorage.modify(testCategoryId, "titleTest", "description1")
     val fetchedCategory = quizCategoryStorage.getByID(testCategoryId).get
@@ -52,7 +52,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canDelete() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(1, "title2", "description3", quizId, None))
     val testCategoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(2, "title3", "description3", quizId, None))
@@ -66,7 +66,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canCascadeDeleteByQuiz() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(1, "title2", "description3", quizId, None))
     val testCategoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(2, "title3", "description3", quizId, None))
@@ -78,7 +78,7 @@ trait QuizCategoryStorageJUnitMethods {
 
   @Test
   def canCascadeDeleteByCategory() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val testCategoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(2, "title3", "description3", quizId, None))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, Some(testCategoryId)))
     quizCategoryStorage.createAndGetID(new QuizQuestionCategory(1, "title2", "description3", quizId, Some(testCategoryId)))

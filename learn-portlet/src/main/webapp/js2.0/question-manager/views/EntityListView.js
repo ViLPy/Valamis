@@ -2,12 +2,15 @@ var qbEntityListView = Backbone.View.extend({
   events: {
     'click .selectAll': 'selectAll',
     'click .dropdown-button': 'toggleAction',
-    'click .deleteEntities': 'confirmDeleteSelectedEntities'
+    'click .deleteEntities': 'confirmDeleteSelectedEntities',
+    'click .moveEntities': 'moveSelectedEntities',
+    'click .exportEntities': 'exportSelectedEntities'
   },
   initialize: function (options) {
     this.language = options.language;
     this.catCollection = options.catCollection || new Backbone.Collection();
     this.qCollection = options.qCollection;
+    this.baseTitle = options.baseTitle;
 
     this.model = new Backbone.Model();
     this.views = [];
@@ -17,7 +20,7 @@ var qbEntityListView = Backbone.View.extend({
     });
   },
   render: function () {
-    var template = Mustache.to_html(jQuery('#entityListTemplate').html(), _.extend(this.model.toJSON(), this.language));
+    var template = Mustache.to_html(jQuery('#entityListTemplate').html(), _.extend({baseTitle: this.baseTitle}, this.model.toJSON(), this.language));
     this.$el.html(template);
     return this;
   },
@@ -77,6 +80,17 @@ var qbEntityListView = Backbone.View.extend({
         "extendedTimeOut": "0"
       });
   },
+  exportSelectedEntities: function () {
+      this.toggleAction();
+      var export_url = path.root + path.api.files + 'export/?action=EXPORT&contentType=question&courseID=' + jQuery('#courseID').val();
+      this.catCollection.where({selected: true}).forEach(function (item) {
+          export_url+= '&categoryID=' + item.id;
+      }, this);
+      this.qCollection.where({selected: true}).forEach(function (item) {
+          export_url+= '&id=' + item.id;
+      }, this);
+      window.location = export_url;
+  },
   deleteSelectedEntities: function () {
     this.catCollection.where({selected: true}).forEach(function (item) {
       this.trigger('removeEntityRow', 'c' + item.id);
@@ -86,6 +100,22 @@ var qbEntityListView = Backbone.View.extend({
       this.trigger('removeEntityRow', 'q' + item.id);
       this.views[item.id].drop();
     }, this);
+  },
+  moveSelectedEntities: function() {
+    var catSelected = this.catCollection.where({selected: true}).map(function (item) {
+      return item.get('id');
+    });
+    var questSelected = this.qCollection.where({selected: true}).map(function (item) {
+      return item.get('id');
+    });
+
+    var categories = jQuery.param({'categoryIDs': catSelected}, true);
+    var questions = jQuery.param({'questionIDs': questSelected}, true);
+
+    if (categories != '' || questions != '') {
+      this.toggleAction();
+      this.trigger('moveEntityToSite', [categories, questions]);
+    }
   }
 });
 
@@ -122,7 +152,12 @@ var qbEntityRow = Backbone.View.extend({
   },
   doDelete: function () {
     this.drop();
-    this.trigger('removeEntityRow', this.model.id);
+      var prefix = '';
+      if (this.model instanceof CategoryModel)
+          prefix ='c';
+      else if (this.model instanceof QuestionModel)
+          prefix ='q';
+    this.trigger('removeEntityRow', prefix + this.model.id);
   },
   drop: function () {
     this.remove();

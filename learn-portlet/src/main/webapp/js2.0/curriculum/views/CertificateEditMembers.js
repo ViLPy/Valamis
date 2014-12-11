@@ -1,8 +1,8 @@
-CertificateMemberModelService = new Backbone.Service({ url: Utils.getContextPath,
+CertificateMemberModelService = new Backbone.Service({ url: path.root,
   sync: {
     'delete': {
       'path': function (model) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS' +
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS' +
           '&userIDs=' + model.id;
       },
       'method': 'post'
@@ -18,10 +18,10 @@ CertificateMemberModel = Backbone.Model.extend({
   }
 }).extend(CertificateMemberModelService);
 
-CertificateMemberCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+CertificateMemberCollectionService = new Backbone.Service({ url: path.root,
   sync: {
     'read': function (collection, options) {
-      return 'api/certificates/' + jQuery('#selectedCertificateID').val() +
+      return path.api.certificates + jQuery('#selectedCertificateID').val() +
         '/users?action=GETSTUDENTS' +
         '&orgId=' + jQuery('#memberOrganization').val() +
         '&sortBy=' + options.sort[0] +
@@ -33,7 +33,7 @@ CertificateMemberCollectionService = new Backbone.Service({ url: Utils.getContex
   targets: {
     'deleteFromCertificate': {
       'path': function (model, options) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS&' + options.users;
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS&' + options.users;
       },
       method: 'post'
     }
@@ -54,7 +54,6 @@ CertificateMemberCollection = Backbone.Collection.extend({
       });
 
     this.trigger('userCollection:updated', { total: response.total, currentPage: response.currentPage, listed: arr.length });
-    console.log(arr);
     return arr;
   }
 }).extend(CertificateMemberCollectionService);

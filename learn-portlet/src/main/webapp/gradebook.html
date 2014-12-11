@@ -5,7 +5,7 @@
 
 </head>
 <body>
-<div class="overflow-hidden gradebookBody">
+<div class="overflow-hidden gradebookBody clearfix" style="min-height: 600px">
     <div id="packageView">
 
     </div>
@@ -21,16 +21,16 @@
 
 
             <!-- Sidebar -->
-            <div class="sidebar-wrapper">
+            <div class="sidebar-wrapper filter-panel">
                 <div class="menu-toggle hidden-xs modal-close-div">
                 </div>
                 <div class="pull-right">
                 </div>
             </div>
             <div class="page-content">
-                <div id="toolbarWrapper" style="padding: 10px;">
+                <div id="toolbarWrapper" style="padding: 20px;">
                     <div class="clearfix">
-                        <div class="paginator pull-right"></div>
+                        <div id="gradebookPaginator" class="paginator pull-right"></div>
                     </div>
                 </div>
 
@@ -61,8 +61,8 @@
 
 <!-- Modal templates  -->
 <script type="text/template" id="studentView">
-    <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
-        <h3 class="bbm-modal__title" style="margin-top: 0px;">{{studentViewLabel}}</h3>
+    <div class="bbm-modal__topbar" style="margin-bottom:0px;">
+        <h3 class="bbm-modal__title">{{studentViewLabel}}</h3>
 
         <div class="modal-close"
              style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
@@ -102,13 +102,16 @@
 
 <script type="text/html" id="gradebookSearch">
     <h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>
+
     <form>
-        <div class="show-mode-group form-group valamis-select valamis-row">
+        <div class="position-relative valamis-row">
             <label class="form-label h4label valamis">{{showAs}}</label>
-            <select class="show-mode form-control">
-                <option value="simpleView">{{simpleViewLabel}}</option>
-                <option value="detailedView">{{detailedViewLabel}}</option>
-            </select>
+            <div class="show-mode-group form-group valamis-select">
+                <select class="show-mode form-control">
+                    <option value="simpleView">{{simpleViewLabel}}</option>
+                    <option value="detailedView">{{detailedViewLabel}}</option>
+                </select>
+            </div>
         </div>
         <div class="form-group valamis-row">
             <label class="form-label h4label valamis">{{searchByNameLabel}}</label>
@@ -118,16 +121,29 @@
             <label class="form-label h4label valamis">{{searchByOrganizationLabel}}</label>
             <input type="text" class="search-by-org form-control text-input" placeholder="{{organizationNameLabel}}">
         </div>
-        <!-- TODO Sorting LFSCORM-753
-        <div class="form-group valamis-select valamis-row">-->
-        <!--<label class="form-label h4label valamis">{{sortBy}}</label>-->
-        <!--<select class="sorting form-control">-->
-        <!--<option value="nameAsc">{{nameAsc}}</option>-->
-        <!--<option value="nameDesc">{{nameDesc}}</option>-->
-        <!--<option value="orgAsc">{{orgAsc}}</option>-->
-        <!--<option value="orgDesc">{{orgDesc}}</option>-->
-        <!--</select>-->
-        <!--</div>-->
+        <div class="form-group position-relative valamis-row">
+            <label class="form-label h4label valamis">{{sortBy}}</label>
+            <div class="valamis-select">
+                <select class="sorting form-control">
+                    <option value="name_asc">{{nameAsc}}</option>
+                    <option value="name_desc">{{nameDesc}}</option>
+                    <option value="org_asc">{{orgAsc}}</option>
+                    <option value="org_desc">{{orgDesc}}</option>
+                    <option value="last_modified">{{lastModified}}</option>
+                </select>
+            </div>
+        </div>
+        <div id="update-time" class="form-group position-relative valamis-row">
+            <label class="form-label h4label valamis">{{updatePeriod}}</label>
+            <div class="valamis-select">
+                <select class="update-period form-control">
+                    <option value="30">{{30sec}}</option>
+                    <option value="60">{{1min}}</option>
+                    <option value="300">{{5min}}</option>
+                    <option value="600">{{10min}}</option>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group package-panel valamis-row">
             <label class="form-label h4label valamis">{{displayPackagesLabel}}</label>
@@ -191,7 +207,7 @@
         // Create a modal view class
         EditGradeViewModal = Backbone.Modal.extend({
             template: _.template(jQuery1816Gradebook('#editGradeView').html()),
-            submitEl: '.bbm-button',
+            submitEl: '.save-total-grade-button',
             cancelEl: '.modal-close',
             onRender: function () {
                 this.$('.edit-grade-view-dialog').append(this.args[0].view.render());
@@ -202,7 +218,7 @@
 // Create a modal view class
         EditPackageGradeViewModal = Backbone.Modal.extend({
             template: _.template(jQuery1816Gradebook('#editPackageGradeView').html()),
-            submitEl: '.bbm-button',
+            submitEl: '.save-package-grade-button',
             cancelEl: '.modal-close',
             onRender: function () {
                 this.$('.edit-package-grade-view-dialog').append(this.args[0].view.render());
@@ -266,7 +282,7 @@
         jQuery1816Gradebook('.gradebookBody').html(view.render());
 //        {{/isAdmin}}
 
-        Backbone.history.start();
+        if(!Backbone.History.started) Backbone.history.start();
 
     }
 

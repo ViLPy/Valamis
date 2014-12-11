@@ -1,10 +1,11 @@
+var viewportWidth = jQuery(window).width();
 var ChartStatView = Backbone.Marionette.View.extend({
     tagName: 'div',
     defaults: {
         margin: {top: 20, right: 20, bottom: 80, left: 50},
-        width: 630,
+        width: 630,//390,//630,
         height: 380,
-        animationDuration: 400
+        animationDuration: 400//280//400
     },
     modelEvents: {
         'change': 'updateData'
@@ -41,8 +42,14 @@ var ChartStatView = Backbone.Marionette.View.extend({
         return data;
     },
     initializeRender: function () {
+
+        var width = this.defaults.width;
+        if (viewportWidth <= 1199)
+            width = width - 240;
+
         this.x = d3.time.scale()
-            .range([0, this.defaults.width]);
+//            .range([0, this.defaults.width]);
+            .range([0, width]);
 
         this.y = d3.scale.linear()
             .range([this.defaults.height, 0]);
@@ -56,7 +63,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
             .orient("left");
 
         this.svg = d3.select(this.el).append("svg")
-            .attr("width", this.defaults.width + this.defaults.margin.left + this.defaults.margin.right)
+//            .attr("width", this.defaults.width + this.defaults.margin.left + this.defaults.margin.right)
+            .attr("width", width + this.defaults.margin.left + this.defaults.margin.right)
             .attr("height", this.defaults.height + this.defaults.margin.top + this.defaults.margin.bottom)
             .append("g")
             .attr("transform", "translate(" + this.defaults.margin.left + "," + this.defaults.margin.top + ")");
@@ -75,6 +83,7 @@ var ChartStatView = Backbone.Marionette.View.extend({
             .text("Amount");
     },
     render: function () {
+
         this.isClosed = false;
 
         this.triggerMethod("before:render", this);
@@ -87,12 +96,20 @@ var ChartStatView = Backbone.Marionette.View.extend({
         return this;
     },
     updateData: function () {
+        var width = this.defaults.width;
+        var animationDuration = this.defaults.animationDuration;
+        if (viewportWidth <= 1199) {
+            width = width - 240;
+            animationDuration = animationDuration - 120;
+        }
+
         var data = this.getData();
         console.log(data);
 
         var nxExtent, barWidth;
         if (data.length > 1) {
-            var barRawWidth = this.defaults.width / (d3.time[this.intervalType].range(data[0].date, data[data.length - 1].date).length + 2);
+//            var barRawWidth = this.defaults.width / (d3.time[this.intervalType].range(data[0].date, data[data.length - 1].date).length + 2);
+            var barRawWidth = width / (d3.time[this.intervalType].range(data[0].date, data[data.length - 1].date).length + 2);
             var barPadding = 5;
             barWidth = 10;//barRawWidth - (barPadding * 2);
 
@@ -115,7 +132,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
 
         this.svg.selectAll("g .x.axis")
             .transition()
-            .duration(this.defaults.animationDuration)
+//            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
             .call(this.xAxis)
             .selectAll("text")
             .style("text-anchor", "end")
@@ -125,7 +143,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
 
         this.svg.selectAll("g .y.axis")
             .transition()
-            .duration(this.defaults.animationDuration)
+//            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
             .call(this.yAxis);
 
         var bars = this.svg.selectAll(".bar")
@@ -147,7 +166,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
         }.bind(this));
 
         bars.transition()
-            .duration(this.defaults.animationDuration)
+//            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
             .attr("height", function (d) {
                 return this.defaults.height - this.y(d.amount);
             }.bind(this))

@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/1e0ed3801ce30b130be5bde03b3f9b5b
+ * (2) http://ckeditor.com/builder/7e337e23a652a1007f1ee65aa865ff07
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/1e0ed3801ce30b130be5bde03b3f9b5b
+ * (3) http://ckeditor.com/builder/download/7e337e23a652a1007f1ee65aa865ff07
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,38 +25,48 @@
  */
 
 var CKBUILDER_CONFIG = {
-  skin: 'bootstrapck',
-  preset: 'basic',
-  ignore: [
-    'dev',
-    '.gitignore',
-    '.gitattributes',
-    'README.md',
-    '.mailmap'
-  ],
-  plugins: {
-    'about': 1,
-    'basicstyles': 1,
-    'clipboard': 1,
-    'colorbutton': 1,
-    'colordialog': 1,
-    'enterkey': 1,
-    'entities': 1,
-    'floatingspace': 1,
-    'format': 1,
-    'image': 1,
-    'imagepaste': 1,
-    'imageresize': 1,
-    'indentlist': 1,
-    'link': 1,
-    'list': 1,
-    'table': 1,
-    'toolbar': 1,
-    'undo': 1,
-    'wysiwygarea': 1
-  },
-  languages: {
-    'en': 1,
-    'fi': 1
-  }
+	skin: 'bootstrapck',
+	preset: 'basic',
+	ignore: [
+		'.bender',
+		'.DS_Store',
+		'.gitignore',
+		'.gitattributes',
+		'.idea',
+		'.mailmap',
+		'bender.js',
+		'bender-err.log',
+		'bender-out.log',
+		'dev',
+		'node_modules',
+		'package.json',
+		'README.md',
+		'tests'
+	],
+	plugins : {
+		'about' : 1,
+		'basicstyles' : 1,
+		'clipboard' : 1,
+		'colorbutton' : 1,
+		'colordialog' : 1,
+		'enterkey' : 1,
+		'entities' : 1,
+		'floatingspace' : 1,
+		'format' : 1,
+		'image' : 1,
+		'imagepaste' : 1,
+		'imageresize' : 1,
+		'indentlist' : 1,
+		'link' : 1,
+		'list' : 1,
+		'sourcedialog' : 1,
+		'table' : 1,
+		'toolbar' : 1,
+		'undo' : 1,
+		'wysiwygarea' : 1
+	},
+	languages : {
+		'en' : 1,
+		'fi' : 1
+	}
 };

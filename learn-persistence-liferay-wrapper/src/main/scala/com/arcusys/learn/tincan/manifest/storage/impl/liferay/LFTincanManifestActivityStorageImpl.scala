@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.{ LFTincanManifestActLocalS
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFTincanManifestAct
 
+@deprecated
 trait LFTincanManifestActivityStorageImpl extends KeyedEntityStorage[ManifestActivity] {
 
   protected def doRenew() { LFTincanActivityLocalServiceUtil.removeAll() }

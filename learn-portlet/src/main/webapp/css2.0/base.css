@@ -7,13 +7,13 @@
 	        /*box-sizing: border-box;*/
 /*}*/
 
-html, body {
-	width: 100%;
-	margin: 0; 
+.portlet-learn-scorm html, body {
+	/*width: 100%;*/
+	margin: 0;
 	padding: 20px;
 }
 
-body {
+.portlet-learn-scorm body {
 	background: #f2f2f2;
 	color: #2c2c2c;
 	font-family: Ubuntu, sans-serif;
@@ -65,10 +65,10 @@ h4 {
 .filter-toggler {
     width: 43px;
     height: 38px;
-    margin-left: 15px !important;
+    margin-right: 15px !important;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 766px) {
     .filter-toggler {
         margin-left: 0 !important;
     }
@@ -80,9 +80,10 @@ h4 {
     position: relative;
 }
 
-.bottom-paginator .select-items-per-page {
+/*.bottom-paginator .select-items-per-page {
     display: none;
 }
 .bottom-paginator .select-element:first-child {
     display: none;
 }
+*/

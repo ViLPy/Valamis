@@ -1,12 +1,11 @@
 package com.arcusys.scorm.generator.file
 
-import java.io.{ InputStream, File, FileInputStream, FileOutputStream }
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
-import java.nio.channels.FileChannel.MapMode._
+import java.io.{ File, FileInputStream, FileOutputStream, InputStream }
+import java.util.zip.{ ZipInputStream, ZipEntry, ZipOutputStream }
 
 class ZipFile(filename: String) {
   private val zipFile = new ZipOutputStream(new FileOutputStream(filename))
+  private var filelist = new scala.collection.mutable.HashSet[String]
 
   def addEntry(entryFilename: String, entryData: String) = {
     // Add ZIP entry to output stream.
@@ -14,6 +13,8 @@ class ZipFile(filename: String) {
 
     // Transfer bytes from the data to the ZIP file
     zipFile.write(entryData.getBytes("UTF-8"))
+
+    filelist += entryFilename
     // Complete the entry
     zipFile.closeEntry()
   }
@@ -31,6 +32,8 @@ class ZipFile(filename: String) {
 
       zipFile.write(bytes)
     }
+
+    filelist += destinationFilename
     // Complete the entry
     zipFile.closeEntry()
   }
@@ -51,6 +54,7 @@ class ZipFile(filename: String) {
       case _ =>
     }
 
+    filelist += destinationFilename
     // Complete the entry
     zipFile.closeEntry()
   }
@@ -58,10 +62,38 @@ class ZipFile(filename: String) {
   def addFile(destinationFilename: String, data: Array[Byte]) {
     zipFile.putNextEntry(new ZipEntry(destinationFilename))
     zipFile.write(data)
+
+    filelist += destinationFilename
     zipFile.closeEntry()
   }
 
+  def addFilesFromZip(stream: InputStream) {
+    val input = new ZipInputStream(stream)
+    var ze = input.getNextEntry
+    val buff = new Array[Byte](1024)
+    while (ze != null) {
+      //TODO put to filename list
+      // get file name
+      var l = input.read(buff)
+      // write buffer to file
+      zipFile.putNextEntry(new ZipEntry("data/" + ze.getName))
+      while (l > 0) {
+        zipFile.write(buff, 0, l)
+        l = input.read(buff)
+      }
+      zipFile.closeEntry()
+      ze = input.getNextEntry
+    }
+    input.close()
+  }
+
+  def contains(filename: String): Boolean = {
+    filelist.contains(filename)
+  }
+
   def close() {
+    zipFile.finish()
+    zipFile.flush()
     zipFile.close()
   }
 }

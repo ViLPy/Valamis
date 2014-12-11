@@ -2,9 +2,9 @@ package com.arcusys.learn.tincan.lrs
 
 package activityprofile {
 
-  import com.arcusys.learn.tincan.storage.{ TincanActivityStorage, ActivityProfileStorage }
-  import com.arcusys.learn.tincan.model.{ ActivityProfile, Activity, Document, JSONContent, OtherContent }
   import com.arcusys.learn.tincan.lrs.utils.JsonCombiner
+  import com.arcusys.learn.tincan.model.{ Activity, ActivityProfile, Document, JSONContent, OtherContent }
+  import com.arcusys.learn.tincan.storage.{ ActivityProfileStorage, TincanActivityStorage }
   import org.joda.time.DateTime
 
   trait ActivityProfileLRS {
@@ -75,6 +75,11 @@ package activityprofile {
     def deleteActivityDocument(activityId: String, profileId: String) {
       checkArguments(activityId, profileId, "Incorrect parameters were passed to ActivityProfileLRS.deleteActivityDocument")
       activityProfileStorage.delete(activityId, profileId)
+    }
+
+    // non specification method for get activities by name (start of)
+    def getActivitiesByName(name: String): Seq[Activity] = {
+      activityStorage.getByName(name)
     }
 
     private def checkArguments(activityId: String, profileId: String, message: String = "") = {

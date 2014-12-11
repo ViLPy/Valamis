@@ -11,6 +11,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the LFPackageGradeStorage service. Represents a row in the &quot;Learn_LFPackageGradeStorage&quot; database table, with each column mapped to a property of this class.
  *
@@ -102,6 +104,20 @@ public interface LFPackageGradeStorageModel extends BaseModel<LFPackageGradeStor
      * @param comment the comment of this l f package grade storage
      */
     public void setComment(String comment);
+
+    /**
+     * Returns the date of this l f package grade storage.
+     *
+     * @return the date of this l f package grade storage
+     */
+    public Date getDate();
+
+    /**
+     * Sets the date of this l f package grade storage.
+     *
+     * @param date the date of this l f package grade storage
+     */
+    public void setDate(Date date);
 
     @Override
     public boolean isNew();

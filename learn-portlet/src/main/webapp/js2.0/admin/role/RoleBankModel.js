@@ -39,7 +39,13 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
   },
 
   createRoleMap: function (roleID, permission) {
-    return window.LearnAjax.post(Utils.getContextPath() + 'api/roles/', {'action': 'ADD', 'liferayRoleID': roleID, 'permission': permission});
+    return window.LearnAjax.post(
+            path.root + path.api.roles,
+            {
+                'action': 'ADD',
+                'liferayRoleID': roleID,
+                'permission': permission
+            });
   },
 
   drop: function (model) {
@@ -56,7 +62,7 @@ RoleBankCollectionProxy = Backbone.Collection.extend({
       }, this));
   },
   getRolesList: function (permission) {
-    return window.LearnAjax.get(Utils.getContextPath() + 'api/roles/' + permission);
+    return window.LearnAjax.get(path.root + path.api.roles + permission);
   }
 });
 

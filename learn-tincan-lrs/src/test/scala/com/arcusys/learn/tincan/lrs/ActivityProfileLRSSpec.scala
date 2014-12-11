@@ -38,7 +38,7 @@ class ActivityProfileLRSSpec extends Specification {
       result.get.source must have size 0
       result.get.target must have size 0
       result.get.steps must have size 0
-      result.get.extensions must have size 0
+      result.get.extensions must beNone
     }
 
     "return nothing if the activity for given id doesn't exist" in {
@@ -244,7 +244,7 @@ object InMemoryActivityStorage extends TincanActivityStorage {
     Activity(
       "Activity", "activityId-666",
       None, None, None, None, None,
-      Set(), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()
+      Set(), Seq(), Seq(), Seq(), Seq(), Seq(), None
     )
   )
 

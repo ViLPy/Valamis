@@ -1,5 +1,6 @@
 package com.arcusys.learn.controllers.oauth
 
+import com.arcusys.learn.service.util.Parameter
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import javax.servlet.http.HttpServletResponse
@@ -25,7 +26,7 @@ class RegistrationApiController(configuration: BindingModule) extends BaseApiCon
 
     try {
 
-      val requestType = parameter(OAuthRegistration.Request.TYPE).required
+      val requestType = Parameter(OAuthRegistration.Request.TYPE).required
       requestType match {
         case OAuthRegistration.Type.PUSH => addToStore()
         case OAuthRegistration.Type.PULL => removeFromStore()
@@ -51,12 +52,12 @@ class RegistrationApiController(configuration: BindingModule) extends BaseApiCon
   }
 
   private def addToStore(): String = {
-    val clientName = parameter(OAuthRegistration.Request.CLIENT_NAME).required
-    val redirectUrl = parameter(OAuthRegistration.Request.REDIRECT_URL).option
-    val clientIcon = parameter(OAuthRegistration.Request.CLIENT_ICON).option
-    val clientDescription = parameter(OAuthRegistration.Request.CLIENT_DESCRIPTION).option
-    val clientUrl = parameter(OAuthRegistration.Request.CLIENT_URL).option
-    val lrsScope: LrsScope = parameter(LrsScope.OAuth.NAME).required
+    val clientName = Parameter(OAuthRegistration.Request.CLIENT_NAME).required
+    val redirectUrl = Parameter(OAuthRegistration.Request.REDIRECT_URL).option
+    val clientIcon = Parameter(OAuthRegistration.Request.CLIENT_ICON).option
+    val clientDescription = Parameter(OAuthRegistration.Request.CLIENT_DESCRIPTION).option
+    val clientUrl = Parameter(OAuthRegistration.Request.CLIENT_URL).option
+    val lrsScope: LrsScope = Parameter(LrsScope.OAuth.NAME).required
 
     val clientApi = clientApiStoreManager.registration(
       clientName,

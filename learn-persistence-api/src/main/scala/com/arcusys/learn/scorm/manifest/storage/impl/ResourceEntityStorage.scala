@@ -4,6 +4,7 @@ import com.arcusys.learn.scorm.manifest.storage.ResourcesStorage
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.scorm.manifest.model.{ AssetResource, ScoResource, Resource }
 
+@deprecated
 trait ResourceEntityStorage extends ResourcesStorage with KeyedEntityStorageExt[Resource] with EntityStorageExt[Resource] {
   //  def getAll = getAll()
 

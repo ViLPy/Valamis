@@ -8,7 +8,7 @@
         <div class="valamis-tabs">
             <div class="modal-close"></div>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#questionDetails"  data-toggle="tab">{{editQuestionLabel}}</a></li>
+                <li class="active"><a href="#questionDetails" data-toggle="tab">{{editQuestionLabel}}</a></li>
                 <li><a href="#answerDetails" data-toggle="tab">{{editAnswerLabel}}</a></li>
             </ul>
 
@@ -37,8 +37,8 @@
         jQuery1816Bank(function () {
             Backbone.emulateJSON = true;
             Backbone.ajax = window.LearnAjax.ajax;
-            var defaultURL = Utils.getContextPath() + '/i18n/questionbank_en.properties';
-            var localizedURL = Utils.getContextPath() + '/i18n/questionbank_{{language}}.properties';
+            var defaultURL = Utils.getContextPath() + '/i18n/questionManager_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/questionManager_{{language}}.properties';
             Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);
         });
 
@@ -51,10 +51,14 @@
             alert('Translation resource loading failed!');
         }
 
-        function initBankView() {
-            var bankView = new QuestionBankView({
+        function createQuestionBankView() {
+            return new QuestionBankView({
                 el: jQuery1816Bank('#questionBankBody'), language: scormQuestionBankLanguageData
             });
+        }
+        function initBankView() {
+            jQuery1816Bank('#questionBankBody').html('');
+            var bankView = createQuestionBankView();
             bankView.on('questionPopup', function (model) {
                 var details = new EditQuestionModal({model: model});
                 editBankLayout.modals.show(details);
@@ -65,7 +69,16 @@
                 editBankLayout.modals.show(details);
                 details.renderEditor();
             }, this);
+            bankView.on('moveToPopup', function (options) {
+                var details = new MoveToModal({categories: options[0], questions: options[1]});
+                details.on('rerenderTree', function() {
+                    console.log('trigger cathed');
+                    bankView.render();
+                });
 
+                editBankLayout.modals.show(details);
+                details.render();
+            }, this);
         }
 
         var EditBankLayout = Backbone.Marionette.Layout.extend({
@@ -100,6 +113,7 @@
         });
         var EditCategoryModal = Backbone.Modal.extend({
             template: _.template(Mustache.to_html(jQuery('#bank-edit-category-modal-template').html(), scormQuestionBankLanguageData)),
+            className: 'edit-category-modal',
             submitEl: '.bbm-button',
             cancelEl: '.modal-close',
             initialize: function (options) {
@@ -115,6 +129,75 @@
                 this.catView.renderEditor();
             }
         });
+        var MoveToModal = Backbone.Modal.extend({
+            template: function (data) {
+                return Mustache.to_html(jQuery('#liferay-site-select-modal-template').html(), {headerTitle: scormQuestionBankLanguageData['moveToCourseLabel'] })
+            },
+            className: 'liferay-site-select-modal',
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            initialize: function (options) {
+                this.categories = options.categories;
+                this.questions = options.questions;
+            },
+            onRender: function () {
+                var dialog = new LiferaySitesContainer({language: scormQuestionBankLanguageData, singleSelect: true});
+                dialog.on('lfSiteSelected', this.moveTo, this);
+                this.$('.liferay-site-select-dialog').append(dialog.render().$el);
+            },
+            moveTo: function (course) {
+                // omg, need refactoring
+                var that = this;
+                if (this.categories != '' && this.questions != '') {
+                    window.LearnAjax.post(path.root + path.api.category + '?action=MOVETOCOURSE&' + this.categories, {
+                        'newCourseID': course.get('id'),
+                        'courseID': jQuery('#courseID').val()
+                    }).success(
+                        window.LearnAjax.post(path.root + path.api.questions + '?action=MOVETOCOURSE&' + this.questions, {
+                            'newCourseID': course.get('id'),
+                            'courseID': jQuery('#courseID').val()
+                    })).success(function () {
+                            editBankLayout.modals.close();
+//                            initBankView();
+                            that.trigger('rerenderTree', that);
+                            console.log('rerenderTree');
+                            toastr.success('{{overlayCompleteMessageLabel}}');
+                    }).fail(function () {
+                            toastr.error('{{overlayFailedMessageLabel}}');
+                    });
+                }
+
+                if (this.categories == '' && this.questions != '') {
+                    window.LearnAjax.post(path.root + path.api.questions + '?action=MOVETOCOURSE&' + this.questions, {
+                        'newCourseID': course.get('id'),
+                        'courseID': jQuery('#courseID').val()
+                    }).success(function () {
+                        editBankLayout.modals.close();
+//                        initBankView();
+                        that.trigger('rerenderTree', that);
+                        console.log('rerenderTree');
+                        toastr.success('{{overlayCompleteMessageLabel}}');
+                    }).fail(function () {
+                        toastr.error('{{overlayFailedMessageLabel}}');
+                    });
+                }
+
+                if (this.categories != '' && this.questions == '') {
+                    window.LearnAjax.post(path.root + path.api.category + '?action=MOVETOCOURSE&' + this.categories, {
+                        'newCourseID': course.get('id'),
+                        'courseID': jQuery('#courseID').val()
+                    }).success(function () {
+                        editBankLayout.modals.close();
+//                        initBankView();
+                        that.trigger('rerenderTree', that);
+                        console.log('rerenderTree');
+                        toastr.success('{{overlayCompleteMessageLabel}}');
+                    }).fail(function () {
+                        toastr.error('{{overlayFailedMessageLabel}}');
+                    });
+                }
+            }
+        });
     </script>
 </head>
 <body>
@@ -125,6 +208,7 @@
 
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
 <input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="openedCourseID" value="{{courseID}}"/>
 
 </body>
 </html>

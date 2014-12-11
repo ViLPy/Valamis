@@ -9,6 +9,7 @@ import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 import scala.collection.JavaConverters._
 import scala.Some
 
+@deprecated
 trait LFObjectiveStateStorageImpl extends EntityStorage[(Option[String], ObjectiveState)] {
   protected def doRenew() {
     LFObjectiveStateLocalServiceUtil.removeAll()

@@ -1,18 +1,22 @@
 package com.arcusys.learn.controllers.oauth
 
-import org.apache.oltu.oauth2.as.request.{ OAuthRequest }
-import com.arcusys.learn.controllers.oauth.utils.{ RSASHA1Generator, HMACSHA1Generator, SignatureGenerator }
-import org.apache.oltu.oauth2.common.OAuth
-import com.arcusys.scorm.lms.ClientApiStoreManagerContract
-import javax.servlet.http.HttpServletRequest
-import com.arcusys.learn.web.ServletBase
 import java.net.URLEncoder
+import javax.servlet.http.HttpServletRequest
+
+import com.arcusys.learn.controllers.oauth.utils.{ HMACSHA1Generator, RSASHA1Generator, SignatureGenerator }
+import com.arcusys.learn.service.util.Parameter
+import com.arcusys.scorm.lms.ClientApiStoreManagerContract
+import com.escalatesoft.subcut.inject.Injectable
+import org.apache.oltu.oauth2.as.request.OAuthRequest
+import org.apache.oltu.oauth2.common.OAuth
+import org.scalatra.ScalatraServlet
 
 //
 // Created by iliya.tryapitsin on 14.02.14.
 //
-trait SignatureValidator extends ServletBase {
+trait SignatureValidator extends ScalatraServlet with Injectable {
   val clientApiStoreManager = inject[ClientApiStoreManagerContract]
+  implicit val _scalatra = this
 
   def verifyRequest(oauthRequest: OAuthRequest)(implicit request: HttpServletRequest): Boolean = {
     val query = multiParams
@@ -24,9 +28,10 @@ trait SignatureValidator extends ServletBase {
 
     val baseString = "%s&%s&%s".format(
       request.getMethod.toUpperCase(),
-      URLEncoder.encode(request.getRequestURL()
-        .toString()
-        .toLowerCase(), "UTF-8"),
+      URLEncoder
+        .encode(request.getRequestURL()
+          .toString()
+          .toLowerCase(), "UTF-8"),
       URLEncoder.encode(query, "UTF-8"))
 
     val signature = oauthRequest.getParam("oauth_signature")
@@ -39,7 +44,7 @@ trait SignatureValidator extends ServletBase {
   }
 
   def getSignatureGenerator(): SignatureGenerator = {
-    val oauthSignatureMethod = parameter(OAuth.OAUTH_VERSION_DIFFER)
+    val oauthSignatureMethod = Parameter(OAuth.OAUTH_VERSION_DIFFER)
       .required
       .toUpperCase()
 

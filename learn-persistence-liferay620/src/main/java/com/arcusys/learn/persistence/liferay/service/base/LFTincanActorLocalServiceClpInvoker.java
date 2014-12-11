@@ -41,20 +41,20 @@ public class LFTincanActorLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
-    private String _methodName302;
-    private String[] _methodParameterTypes302;
-    private String _methodName303;
-    private String[] _methodParameterTypes303;
-    private String _methodName304;
-    private String[] _methodParameterTypes304;
-    private String _methodName305;
-    private String[] _methodParameterTypes305;
-    private String _methodName306;
-    private String[] _methodParameterTypes306;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
+    private String _methodName322;
+    private String[] _methodParameterTypes322;
+    private String _methodName323;
+    private String[] _methodParameterTypes323;
+    private String _methodName324;
+    private String[] _methodParameterTypes324;
+    private String _methodName325;
+    private String[] _methodParameterTypes325;
+    private String _methodName326;
+    private String[] _methodParameterTypes326;
 
     public LFTincanActorLocalServiceClpInvoker() {
         _methodName0 = "addLFTincanActor";
@@ -139,33 +139,33 @@ public class LFTincanActorLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFTincanActor"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
 
-        _methodName302 = "removeAll";
+        _methodName322 = "removeAll";
 
-        _methodParameterTypes302 = new String[] {  };
+        _methodParameterTypes322 = new String[] {  };
 
-        _methodName303 = "createLFTincanActor";
+        _methodName323 = "createLFTincanActor";
 
-        _methodParameterTypes303 = new String[] {  };
+        _methodParameterTypes323 = new String[] {  };
 
-        _methodName304 = "findByMemberOf";
+        _methodName324 = "findByMemberOf";
 
-        _methodParameterTypes304 = new String[] { "java.lang.String" };
+        _methodParameterTypes324 = new String[] { "java.lang.String" };
 
-        _methodName305 = "findByTincanID";
+        _methodName325 = "findByTincanID";
 
-        _methodParameterTypes305 = new String[] { "java.lang.String" };
+        _methodParameterTypes325 = new String[] { "java.lang.String" };
 
-        _methodName306 = "findAgent";
+        _methodName326 = "findAgent";
 
-        _methodParameterTypes306 = new String[] {
+        _methodParameterTypes326 = new String[] {
                 "java.lang.String", "java.lang.String", "java.lang.String",
                 "java.lang.String", "java.lang.String"
             };
@@ -260,42 +260,42 @@ public class LFTincanActorLocalServiceClpInvoker {
             return LFTincanActorLocalServiceUtil.updateLFTincanActor((com.arcusys.learn.persistence.liferay.model.LFTincanActor) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFTincanActorLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFTincanActorLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName302.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+        if (_methodName322.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
             LFTincanActorLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName303.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+        if (_methodName323.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
             return LFTincanActorLocalServiceUtil.createLFTincanActor();
         }
 
-        if (_methodName304.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
+        if (_methodName324.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
             return LFTincanActorLocalServiceUtil.findByMemberOf((java.lang.String) arguments[0]);
         }
 
-        if (_methodName305.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
+        if (_methodName325.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes325, parameterTypes)) {
             return LFTincanActorLocalServiceUtil.findByTincanID((java.lang.String) arguments[0]);
         }
 
-        if (_methodName306.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
+        if (_methodName326.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes326, parameterTypes)) {
             return LFTincanActorLocalServiceUtil.findAgent((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2],

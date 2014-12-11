@@ -2,7 +2,7 @@ package com.arcusys.learn.models
 
 import com.arcusys.learn.questionbank.model.{ Answer, Question }
 
-case class QuizResponse(id: Int, title: String, description: String, logo: String)
+case class QuizResponse(id: Int, title: String, description: String, logo: String, size: Int, maxDuration: Option[Int])
 
 case class QuizPublishStatusResponse(status: Boolean)
 
@@ -50,6 +50,7 @@ case class QuizQuestionBankResponse(
   categoryID: Option[Int],
   title: String,
   question: Question[Answer],
+  autoShowAnswer: Boolean,
   arrangementIndex: Int = 1,
   contentType: String = "question") extends QuizQuestionResponse
 
@@ -61,6 +62,32 @@ case class QuizQuestionRevealJSResponse(
   text: String,
   arrangementIndex: Int = 1,
   contentType: String = "questionRevealJS") extends QuizQuestionResponse
+
+case class QuizQuestionPDFResponse(
+  id: String,
+  lessonId: Int,
+  categoryID: Option[Int],
+  title: String,
+  filename: String,
+  arrangementIndex: Int = 1,
+  contentType: String = "questionPDF") extends QuizQuestionResponse
+
+case class QuizQuestionPPTXResponse(
+  id: String,
+  lessonId: Int,
+  categoryID: Option[Int],
+  title: String,
+  arrangementIndex: Int = 1,
+  contentType: String = "questionPPTX") extends QuizQuestionResponse
+
+case class QuizQuestionVideoDLResponse(
+  id: String,
+  lessonId: Int,
+  categoryID: Option[Int],
+  title: String,
+  uuid: String,
+  arrangementIndex: Int = 1,
+  contentType: String = "questionVideoDL") extends QuizQuestionResponse
 
 abstract class QuizQuestionPreview
 case class QuizQuestionPreviewContent(content: String) extends QuizQuestionPreview

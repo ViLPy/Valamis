@@ -1,7 +1,7 @@
 package com.arcusys.learn.tincan.storage.impl
 
 import com.arcusys.learn.storage.impl.{ EntityStorage, KeyedEntityStorageExt }
-import com.arcusys.learn.tincan.model.{ Agent, Person, _ }
+import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.tincan.storage.ActorStorage
 
 trait ActorEntityStorage extends ActorStorage with EntityStorage[Actor] with KeyedEntityStorageExt[Actor] {

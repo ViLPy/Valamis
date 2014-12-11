@@ -25,4 +25,8 @@ trait DocumentLibrarySupport {
 
     DLFolderLocalServiceUtil.addFolder(userId, groupId, groupId, false, 0, name, description, serviceContext)
   }
+
+  protected def getDLFileEntry(uuid: String, groupId: Long) = {
+    DLAppServiceUtil.getFileEntryByUuidAndGroupId(uuid, groupId)
+  }
 }

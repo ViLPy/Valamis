@@ -72,6 +72,6 @@ class LFQuizStorageSpec extends SpecificationWithJUnit with Mockito {
   }
 
   def createQuizPattern(title: String = "title", courseID: Option[Int] = Some(1)): Quiz = {
-    Quiz(0, title, "description", "welcome", "final", courseID, "")
+    Quiz(0, title, "description", "welcome", "final", courseID, "", None)
   }
 }

@@ -3,5 +3,8 @@ package com.arcusys.learn.models.Gradebook
 /**
  * Created by Iliya Tryapitsin on 17.04.2014.
  */
-case class TotalGradeResponse(value: Float,
-  comment: String)
+case class TotalGradeResponse(
+  value: Float,
+  comment: String,
+  score: Option[Double],
+  maxScore: Option[Double])

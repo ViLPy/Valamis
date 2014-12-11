@@ -2,10 +2,10 @@ var StatementModel = Backbone.Model.extend({
     defaults: {}
 });
 
-StatementModelCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+StatementModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
         'read': function (collection, options) {
-            return 'api/report?action=USER_LATEST_STATEMENTS&offset=' + (options.offset || 0) + '&amount=' + (options.amount || 5);
+            return path.api.report + '?action=USER_LATEST_STATEMENTS&offset=' + (options.offset || 0) + '&amount=' + (options.amount || 5);
         }
     }
 });

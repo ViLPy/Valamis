@@ -20,7 +20,7 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //      id = 1,
   //      title = "Achievement1",
   //      description = "Description1",
-  //      logo = "/learn-portlet/img/certificate-default.png",
+  //      logo = "/learn-portlet/img/certificate-default.jpg",
   //      activitiesRequired = List(RequiredActivity(1,"com.liferay.portlet.blogs.model.BlogsEntry", 2),RequiredActivity(2,"com.arcusys.learn.scorm.tracking.model.certificating.Certificate", 2))
   //    ))
   //
@@ -28,7 +28,7 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //      id = 2,
   //      title = "Achievement2",
   //      description = "Description2",
-  //      logo = "/learn-portlet/img/certificate-default.png",
+  //      logo = "/learn-portlet/img/certificate-default.jpg",
   //      activitiesRequired = List(RequiredActivity(3,"com.liferay.portlet.blogs.model.BlogsEntry", 3),RequiredActivity(4,"com.arcusys.learn.scorm.tracking.model.certificating.Certificate", 2))
   //    ))
   //  }
@@ -39,14 +39,14 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //      id = 1,
   //      title = "Achievement1",
   //      description = "Description1",
-  //      logo = "/learn-portlet/img/certificate-default.png",
+  //      logo = "/learn-portlet/img/certificate-default.jpg",
   //      activitiesRequired = List(RequiredActivity(1,"com.liferay.portlet.blogs.model.BlogsEntry", 2),RequiredActivity(2,"com.arcusys.learn.scorm.tracking.model.certificating.Certificate", 2))
   //    ))
   //    achievementStorage.getByID(2).get should be(Achievement(
   //      id = 2,
   //      title = "Achievement2",
   //      description = "Description2",
-  //      logo = "/learn-portlet/img/certificate-default.png",
+  //      logo = "/learn-portlet/img/certificate-default.jpg",
   //      activitiesRequired = List(RequiredActivity(3,"com.liferay.portlet.blogs.model.BlogsEntry", 3),RequiredActivity(4,"com.arcusys.learn.scorm.tracking.model.certificating.Certificate", 2))
   //    ))
   //    achievementStorage.getByID(5) should be(None)
@@ -107,7 +107,7 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //    val achievement = achievementStorage.getByID(4).get
   //    achievementStorage.addRequiredActivity(achievement, RequiredActivity(0,"com.liferay.portlet.blogs.model.BlogsEntry", 1))
   //
-  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.png",
+  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.jpg",
   //      List(
   //        RequiredActivity(9,"com.liferay.portlet.blogs.model.BlogsEntry",1),
   //        RequiredActivity(7,"com.liferay.portlet.blogs.model.BlogsEntry",5),
@@ -119,7 +119,7 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //  it should "modify required Activity" in {
   //    achievementStorage.updateRequiredActivity(RequiredActivity(9,"Easy", 9))
   //
-  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.png",
+  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.jpg",
   //      List(
   //        RequiredActivity(9,"Easy",9),
   //        RequiredActivity(7,"com.liferay.portlet.blogs.model.BlogsEntry",5),
@@ -131,7 +131,7 @@ class LFAchivementStorageTest extends FlatSpec with ShouldMatchers {
   //  it should "delete required Activity" in {
   //    achievementStorage.deleteRequiredActivity(9)
   //
-  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.png",
+  //    achievementStorage.getByID(4).get should be(Achievement(4,"Achievement4","Description4","/learn-portlet/img/certificate-default.jpg",
   //      List(
   //        RequiredActivity(7,"com.liferay.portlet.blogs.model.BlogsEntry",5),
   //        RequiredActivity(8,"com.arcusys.learn.scorm.tracking.model.certificating.Certificate",2)

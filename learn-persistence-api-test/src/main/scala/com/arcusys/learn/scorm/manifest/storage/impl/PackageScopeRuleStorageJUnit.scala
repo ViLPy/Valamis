@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
-import com.arcusys.learn.scorm.manifest.storage.{ PackagesStorage, PackageScopeRuleStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage, PackageScopeRuleStorage }
 import com.arcusys.learn.scorm.manifest.model._
 
 import org.junit.Assert._
@@ -9,7 +9,7 @@ import com.arcusys.learn.tincan.manifest.storage.TincanPackageStorage
 
 trait PackageScopeRuleStorageJUnit {
   def packagesScopeRuleStorage: PackageScopeRuleStorage
-  def packagesStorage: PackagesStorage
+  def packagesStorage: ScormPackagesStorage
   //def tincanPackagesStorage: TincanPackageStorage
 
   @Before

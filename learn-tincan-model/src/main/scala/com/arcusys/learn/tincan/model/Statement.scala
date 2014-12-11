@@ -19,17 +19,31 @@ import java.util.{ UUID, Date }
  * @param attachments Headers for attachments to the Statement
  */
 case class Statement(
-  id: UUID,
-  actor: Actor,
-  verb: Verb,
-  obj: StatementObject,
-  result: Option[Result],
-  context: Option[Context],
-  timestamp: Option[Date],
-  stored: Option[Date],
-  authority: Option[Actor],
-  version: Option[String],
-  attachments: Seq[Attachment])
+    id: UUID,
+    actor: Actor,
+    verb: Verb,
+    obj: StatementObject,
+    result: Option[Result],
+    context: Option[Context],
+    timestamp: Option[Date],
+    stored: Option[Date],
+    authority: Option[Actor],
+    version: Option[String],
+    attachments: Seq[Attachment]) {
+
+  def equalsWith(statement: Statement) = {
+    var attachmentsCheck = true
+    attachments.foreach(a => if (!a.isSignature) attachmentsCheck &= statement.attachments.contains(a))
+    statement.attachments.foreach(a => if (!a.isSignature) attachmentsCheck &= attachments.contains(a))
+
+    actor.equals(statement.actor) &&
+      verb.equals(statement.verb) &&
+      obj.equals(statement.obj) &&
+      result.equals(statement.result) &&
+      context.equals(statement.context) &&
+      attachmentsCheck
+  }
+}
 
 /**
  * A Sub-Statement is a new Statement included as part of a parent Statement.
@@ -69,7 +83,7 @@ case class Context(
   platform: Option[String],
   language: Option[String],
   statement: Option[StatementReference],
-  extensions: Seq[Extension])
+  extensions: Option[Map[String, String]])
 
 /**
  * A Statement Reference is a pointer to another pre-existing Statement.
@@ -93,7 +107,7 @@ case class Result(
   completion: Option[Boolean],
   response: Option[String],
   duration: Option[String],
-  extensions: Seq[Extension])
+  extensions: Option[Map[String, String]])
 
 /**
  *  An optional field that represents the outcome of a graded Activity achieved by an Agent.
@@ -127,10 +141,13 @@ case class Extension(key: String, value: String)
  * @param fileUrl an IRL at which the attachment data may be retrieved, or from which it used to be retrievable.
  */
 case class Attachment(
-  usageType: String,
-  display: LanguageMap,
-  description: Option[LanguageMap],
-  contentType: String,
-  length: Int,
-  sha2: String,
-  fileUrl: Option[String])
+    usageType: String,
+    display: LanguageMap,
+    description: Option[LanguageMap],
+    contentType: String,
+    length: Int,
+    sha2: String,
+    fileUrl: Option[String]) {
+
+  def isSignature = usageType.equalsIgnoreCase("http://adlnet.gov/expapi/attachments/signature")
+}

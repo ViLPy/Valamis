@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.states.storage.impl
 
 import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.manifest.storage.{ PackagesStorage, ActivitiesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage, ActivityStorage }
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.tracking.storage.UserStorage
 import com.arcusys.learn.scorm.tracking.states.storage.{ ActivityStateStorage, ActivityStateTreeStorage }
@@ -13,8 +13,8 @@ import scala.collection.mutable
 import com.arcusys.learn.scorm.tracking.storage.impl.AttemptEntityStorage
 
 trait ActivityStateTreeStorageJUnit {
-  def packagesStorage: PackagesStorage
-  def activityStorage: ActivitiesStorage
+  def packagesStorage: ScormPackagesStorage
+  def activityStorage: ActivityStorage
   def userStorage: UserStorage
   def attemptStorage: AttemptEntityStorage
   def treeStateStorage: ActivityStateTreeStorage

@@ -2,7 +2,8 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+<link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 <title>Curriculum editor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -68,13 +69,14 @@
 
 </script>
 
-
 <script type="text/javascript" language="javascript">
 var jQuery1816Curriculum = jQuery.noConflict();
 var scormLanguageDataCurriculum = {};
 window.curriculumActionURL = "{{{actionURL}}}";
 var curriculumAdminSettings = new SettingsHelper({url: window.location.href, portlet: 'curriculumadmin'});
 curriculumAdminSettings.fetch();
+
+var curriculumLogoData = new FormDataHelper();
 
 jQuery1816Curriculum(function () {
     /**
@@ -130,13 +132,14 @@ var EditCertificateModal = Backbone.Modal.extend({
         'click #editScope': 'openScopeModal',
         'click .addStatement': 'openStatementModal',
         'click .addActivity': 'openActivityModal',
-        'click #viewDetails': 'openViewDetailsModal'
+        'click #viewDetails': 'openViewDetailsModal',
+        'click .openMediaGallery': 'openMediaGalleryModal'
     },
     beforeCancel: function () {
-        window.certificateList.reloadFirstPage();
+        window.certificateList.reload();
     },
     beforeSubmit: function () {
-        window.certificateList.reloadFirstPage();
+        window.certificateList.reload();
     },
     onRender: function () {
         this.editView = new CertificateDetailsView({language: scormLanguageDataCurriculum});
@@ -146,10 +149,9 @@ var EditCertificateModal = Backbone.Modal.extend({
         this.$('.certificate-editDetails-dialog').html(this.editView.render().$el);
 
 
-        window.goalsView = new CertificateGoalsView({language: scormLanguageDataCurriculum});
+        window.goalsView = new CertificateGoalsView({el: this.$('.certificate-editGoals-dialog'), language: scormLanguageDataCurriculum});
         window.goalsView.on('closeCertificate', this.closeAndRefresh, this);
         window.goalsView.on('openMembers', this.openMembers, this);
-        this.$('.certificate-editGoals-dialog').html(window.goalsView.render().$el);
 
         window.membersView = new CertificateEditMembersDialog({language: scormLanguageDataCurriculum});
         window.membersView.on('closeCertificate', this.closeAndRefresh, this);
@@ -211,7 +213,11 @@ var EditCertificateModal = Backbone.Modal.extend({
     },
     closeAndRefresh: function () {
         editCertificateLayout.modals.close();
-        window.certificateList.reloadFirstPage();
+        window.certificateList.reload();
+    },
+    openMediaGalleryModal: function (e) {
+        e.preventDefault();
+        editCertificateLayout.modals.show(new GalleryModal());
     }
 });
 
@@ -220,7 +226,7 @@ var AddMembersModal = Backbone.Modal.extend({
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
     onRender: function () {
-        var dialog = new LiferayUserSelectDialog({language: scormLanguageDataCurriculum});
+        var dialog = new LiferayUserSelectDialog({getAllUsers: false, language: scormLanguageDataCurriculum});
         dialog.on('closeModal', function () {
             editCertificateLayout.modals.close();
             window.membersView.render();
@@ -229,32 +235,94 @@ var AddMembersModal = Backbone.Modal.extend({
     }
 });
 var CourseModal = Backbone.Modal.extend({
-    template: function(data) { return Mustache.to_html(jQuery('#certificate-add-course-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addCoursesLabel'] }) },
+    template: function (data) {
+        return Mustache.to_html(jQuery('#liferay-site-select-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addCoursesLabel'] })
+    },
+    className: 'liferay-site-select-modal',
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
     onRender: function () {
         var dialog = new LiferaySitesContainer({language: scormLanguageDataCurriculum});
-        dialog.on('closeModal', jQuery.proxy(function () {
-            window.goalsView.fetchModel();
-            editCertificateLayout.modals.close();
-        }, this));
-        this.$('.certificate-addCourse-dialog').append(dialog.render().$el);
+        dialog.on('addSelectedLfSite', this.addCourses, this);
+        this.$('.liferay-site-select-dialog').append(dialog.render().$el);
+    },
+    addCourses: function (items) {
+        var selectedSites = items.filter(function (item) {
+            return item.get('selected');
+        }).map(function (item) {
+            return item.get('id');
+        });
+        var courses = jQuery.param({'courseIds': selectedSites}, true);
+
+        window.LearnAjax.post(path.root + path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDCOURSES&' + courses).
+                done(function () {
+                    window.goalsView.fetchModel();
+                    editCertificateLayout.modals.close();
+                    toastr.success('{{overlayCompleteMessageLabel}}');
+                }).fail(function () {
+                    toastr.error('{{overlayFailedMessageLabel}}');
+                });
     }
 });
 var ScopeModal = Backbone.Modal.extend({
-    template: function(data) { return Mustache.to_html(jQuery('#certificate-add-course-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['scopeLabel'] }) },
+    template: function (data) {
+        return Mustache.to_html(jQuery('#liferay-site-select-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['scopeLabel'] })
+    },
+    className: 'liferay-site-select-modal',
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
     onRender: function () {
-        var dialog = new ScopeContainer({language: scormLanguageDataCurriculum});
+        var dialog = new LiferaySitesContainer({language: scormLanguageDataCurriculum, singleSelect: true});
+        dialog.on('lfSiteSelected', this.addScope, this);
+        this.$('.liferay-site-select-dialog').append(dialog.render().$el);
+    },
+    addScope: function (model) {
+        jQuery('#certificateScopeName').val(model.get('title'));
+        jQuery('#certificateScopeID').val(model.id);
+        editCertificateLayout.modals.close();
+    }
+});
+var GalleryModal = Backbone.Modal.extend({
+    template: function (data) {
+        return Mustache.to_html(jQuery('#liferayGallery-modal-template').html(), scormLanguageDataCurriculum)
+    },
+    submitEl: '.bbm-button',
+    cancelEl: '.modal-close',
+    onRender: function () {
+        var dialog = new GalleryContainer({
+            language: scormLanguageDataCurriculum,
+            folderID: jQuery('#selectedCertificateID').val(),
+            saveToFileStorage: !curriculumLogoData.supports() });
+        dialog.on('savedLogo', jQuery.proxy(function (data) {
+            var certId = jQuery('#selectedCertificateID').val();
+
+            // IE10+
+            if (curriculumLogoData.supports()) {
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'document-library');
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_ENTRY_ID, data.id);
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE, data.get('title'));
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_VERSION, data.get('version'));
+
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_NAME, data.get('title'));
+            }
+            // old browsers, save image immediately
+            else {
+                saveCertificateLogo(certId,  data.get('title'));
+            }
+            var src = "/documents/" + jQuery("#courseID").val() + "/0/" + data.get('title') + "/?version=" + data.get('version') + "&imageThumbnail=1";
+            jQuery("#certificateIcon_" + certId).attr('src', src);
+            editCertificateLayout.modals.close();
+        }, this), this);
         dialog.on('closeModal', jQuery.proxy(function () {
             editCertificateLayout.modals.close();
-        }, this));
-        this.$('.certificate-addCourse-dialog').append(dialog.render().$el);
+        }, this), this);
+        this.$('.lf-gallery-dialog').append(dialog.render().$el);
     }
 });
 var ActivityModal = Backbone.Modal.extend({
-    template: function(data) { return Mustache.to_html(jQuery('#certificate-add-course-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addActivitiesLabel'] }) },
+    template: function (data) {
+        return Mustache.to_html(jQuery('#certificate-add-goal-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addActivitiesLabel'] })
+    },
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
     onRender: function () {
@@ -263,22 +331,51 @@ var ActivityModal = Backbone.Modal.extend({
             window.goalsView.fetchModel();
             editCertificateLayout.modals.close();
         });
-        this.$('.certificate-addCourse-dialog').append(dialog.render().$el);
+        this.$('.certificate-addGoal-dialog').append(dialog.render().$el);
     }
 });
+
 var StatementModal = Backbone.Modal.extend({
-    template: function(data) { return Mustache.to_html(jQuery('#certificate-add-course-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addStatement'] }) },
+    template: function (data) {
+        return Mustache.to_html(jQuery('#certificate-add-goal-modal-template').html(), {headerTitle: scormLanguageDataCurriculum['addStatement'] })
+    },
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
+    events: {
+        'click .selectStatements': 'openSelectStatementModal'
+    },
     onRender: function () {
-        var dialog = new StatementContainer({language: scormLanguageDataCurriculum});
-        dialog.on('closeModal', function () {
+        this.dialog = new StatementContainer({language: scormLanguageDataCurriculum});
+        this.dialog.on('closeModal', function () {
             window.goalsView.fetchModel();
             editCertificateLayout.modals.close();
         });
-        this.$('.certificate-addCourse-dialog').append(dialog.render().$el);
+        this.$('.certificate-addGoal-dialog').append(this.dialog.render().$el);
+        this.$('.certificate-addGoal-dialog').attr("style", "overflow: visible;");
+        this.$('.bbm-modal').attr("style", "opacity: 1;overflow: visible;");
+    },
+    openSelectStatementModal: function (e) {
+        e.preventDefault();
+        editCertificateLayout.modals.show(new SelectStatementModal({parentWindow: this.dialog}));
     }
 });
+
+var SelectStatementModal = Backbone.Modal.extend({
+    template: _.template(Mustache.to_html(jQuery('#certificate-select-statements-modal-template').html(), scormLanguageDataCurriculum)),
+    submitEl: '.bbm-button',
+    cancelEl: '.modal-close',
+    initialize: function (options) {
+        this.options = options;
+    },
+    onRender: function () {
+        var dialog = new CertificateSelectStatementsDialogView({parentWindow: this.options.parentWindow, language: scormLanguageDataCurriculum});
+        dialog.on('closeModal', function () {
+            editCertificateLayout.modals.close();
+        });
+        this.$('.certificate-selectStatements-dialog').html(dialog.render().$el);
+    }
+});
+
 var ViewDetailsModal = Backbone.Modal.extend({
     template: _.template(Mustache.to_html(jQuery('#certificate-view-details-modal-template').html(), scormLanguageDataCurriculum)),
     submitEl: '.bbm-button',
@@ -300,16 +397,33 @@ var CertificateLogoLayout = Backbone.Modal.extend({
     cancelEl: '.modal-close',
     onRender: function () {
         var certId = jQuery1816Curriculum('#selectedCertificateID').val();
-        var uploader = new FileUploader({endpoint: Utils.getContextPath() + 'api/files?action=ADD&contentType=icon&folderId=' + certId});
-        uploader.on('fileuploaddone', function (data) {
-            window.LearnAjax.post(Utils.getContextPath() + 'api/certificates/' + certId + '?action=UPDATELOGO',
-                    { 'logo': data.name }, {});
-            var src = Utils.getContextPath() +
-                    "api/files/images?folderId=" + certId +
-                    "&file=" + data.name + "&date=" + Date.now();
-            jQuery("#certificateIcon_" + certId).attr('src', src);
-            editCertificateLayout.modals.close();
-        }, this);
+        var fileUploaderUrl = '';
+        if (!curriculumLogoData.supports()) {
+            fileUploaderUrl = path.root + path.api.files + '?action=ADD&contentType=icon&folderId=' + certId;
+        }
+        var uploader = new FileUploader({ endpoint: fileUploaderUrl });
+        if (curriculumLogoData.supports()) {
+            uploader.on('fileuploadadd', function (data) {
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'icon');
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE, data);
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_NAME, data.name);
+
+                curriculumLogoData.readAsDataURL(data, function (img) {
+                    jQuery("#certificateIcon_" + certId).attr('src', img);
+                });
+                editCertificateLayout.modals.close();
+            });
+        }
+        else {
+            uploader.on('fileuploaddone', function (data) {
+                saveCertificateLogo(certId, data.name);
+                var src = path.root + path.api.files +
+                        "images?folderId=" + certId +
+                        "&file=" + data.name + "&date=" + Date.now();
+                jQuery("#certificateIcon_" + certId).attr('src', src);
+                editCertificateLayout.modals.close();
+            });
+        }
         this.$('.certificate-logo-uploader-dialog').append(uploader.render().$el);
     }
 });
@@ -317,27 +431,46 @@ var CertificateLogoLayout = Backbone.Modal.extend({
 
 function initCurriculumView() {
     window.onmessage = function (e) {
-        if (e.origin == 'https://www.openbadges.me') {
+        if (e.origin == 'https://www.openbadges.me' && e.data !== 'cancelled') {
             var id = jQuery1816Curriculum('#selectedCertificateID').val();
-            window.LearnAjax.post(Utils.getContextPath() + 'api/files?action=ADD&contentType=base64-icon&folderId=' + id,
-                    { 'inputBase64': e.data },
-                    jQuery.proxy(function (data) {
-                        window.LearnAjax.post(Utils.getContextPath() + 'api/certificates/' + id + '?action=UPDATELOGO',
-                                { 'logo': data.name }, {});
 
-                        var data = e.data.split(';');
-                        var src = e.data.slice(0, -(data[data.length - 1].length + 1));
-                        jQuery('#certificateIcon_' + id).attr('src', src);
-                    }, this));
+            // for browsers which supports FormData (IE10+, etc)
+            if (curriculumLogoData.supports()) {
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'base64-icon');
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.INPUT_BASE64, e.data);
+                curriculumLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_NAME, 'icon.png');
+            }
+            // for old browsers saving images immediately
+            else {
+                var id = jQuery1816Curriculum('#selectedCertificateID').val();
+                window.LearnAjax.post(path.root + path.api.files + '?action=ADD&contentType=base64-icon&folderId=' + id,
+                        { 'inputBase64': e.data },
+                        function (data) {
+                            saveCertificateLogo(id, data.name);
+                        });
+            }
+
+            var data = e.data.split(';');
+            var src = e.data.slice(0, -(data[data.length - 1].length + 1));
+            jQuery('#certificateIcon_' + id).attr('src', src);
         }
-    }
+    };
 
 
     jQuery('body').append(editCertificateLayout.render().el);
 
     window.CurriculumAppView = Backbone.View.extend({
         initialize: function () {
-            var header = new CertificateHeaderView({el: jQuery("#curriculumContentHeader"), language: scormLanguageDataCurriculum});
+            var forcedView = ('{{forcedView}}' == 'true');
+            var portletID = '{{portletID}}';
+
+            if (forcedView) jQuery('#certificateContentWrapper_' + portletID).addClass('forced-content-wrapper');
+
+
+            var header = new CertificateHeaderView({
+                el: jQuery('#curriculumContentHeader_' + portletID),
+                language: scormLanguageDataCurriculum,
+                forcedView: forcedView});
             header.on('certificateToggleMenu', certificateToggleMenu, this);
             header.on('addCertificate', function (certificateID) {
                 var details = new EditCertificateModal();
@@ -345,20 +478,33 @@ function initCurriculumView() {
                 details.init(certificateID, 'details');
             }, this);
 
-            jQuery('#curriculumContentHeader').append("<div id='certificateSearchWrapper' class='sidebar-wrapper'></div>");
+            var searchWrapper = "<div id='certificateSearchWrapper_" + portletID + "' class='sidebar-wrapper ";
+            if (forcedView) searchWrapper = searchWrapper + "forced-sidebar-wrapper";
+            searchWrapper = searchWrapper + "'></div>";
 
-            var searchCertificate = new CertificateSearchView({el: jQuery("#certificateSearchWrapper"), language: scormLanguageDataCurriculum});
-            if (curriculumAdminSettings.get('sort')) searchCertificate.$('#certificateOrder').val(curriculumAdminSettings.get('sort'));
-            if (curriculumAdminSettings.get('scope')) searchCertificate.$('#certificateScopeFilter').val(curriculumAdminSettings.set('scope'));
+
+            jQuery('#curriculumContentHeader_' + portletID).append(searchWrapper);
+
+            var searchCertificate = new CertificateSearchView({
+                el: jQuery('#certificateSearchWrapper_' + portletID),
+                language: scormLanguageDataCurriculum,
+                portletID: portletID,
+                forcedView: forcedView});
+            if (curriculumAdminSettings.get('sort')) searchCertificate.$('#certificateOrder_' + portletID).val(curriculumAdminSettings.get('sort'));
+            if (curriculumAdminSettings.get('scope')) searchCertificate.$('#certificateScopeFilter_' + portletID).val(curriculumAdminSettings.set('scope'));
             searchCertificate.on('certificateToggleMenu', certificateToggleMenu, this);
             searchCertificate.on('filterCertificates', function () {
-                curriculumAdminSettings.set('sort', searchCertificate.$('#certificateOrder').val());
-                curriculumAdminSettings.set('scope', searchCertificate.$('#certificateScopeFilter').val());
+                curriculumAdminSettings.set('sort', searchCertificate.$('#certificateOrder_' + portletID).val());
+                curriculumAdminSettings.set('scope', searchCertificate.$('#certificateScopeFilter_' + portletID).val());
                 curriculumAdminSettings.save();
                 window.certificateList.reloadFirstPage();
             }, this);
 
-            window.certificateList = new CertificatesListView({el: jQuery("#curriculum-content"), displayType: DISPLAY_TYPE.TILES, language: scormLanguageDataCurriculum});
+            window.certificateList = new CertificatesListView({
+                el: jQuery('#curriculum-content_' + portletID),
+                displayType: DISPLAY_TYPE.TILES,
+                language: scormLanguageDataCurriculum,
+                portletID: portletID});
             window.certificateList.on('editDetails', function (certificateID) {
                 var view = new EditCertificateModal();
                 editCertificateLayout.modals.show(view);
@@ -384,7 +530,11 @@ function initCurriculumView() {
 }
 
 function certificateToggleMenu() {
-    jQuery("#certificateContentWrapper").toggleClass("active");
+    jQuery('#certificateContentWrapper_{{portletID}}').toggleClass('active');
+}
+
+function saveCertificateLogo(certId, name) {
+    window.LearnAjax.post(path.root + path.api.certificates + certId + '?action=UPDATELOGO&logo=' + name);
 }
 
 
@@ -392,19 +542,17 @@ function certificateToggleMenu() {
 </head>
 <body>
 <div class="overflow-hidden">
-    <div id="certificateContentWrapper" class="content-wrapper clearfix">
+    <div id="certificateContentWrapper_{{portletID}}" class="content-wrapper clearfix">
+
         <div class="page-content-wrapper">
-            <div class="content-header clearfix" id="curriculumContentHeader">
+            <div class="content-header clearfix" id="curriculumContentHeader_{{portletID}}">
             </div>
 
-            <div id="curriculum-content" class="page-content inset">
+            <div id="curriculum-content_{{portletID}}" class="page-content inset">
             </div>
         </div>
 
     </div>
-    <div id="CurriculumLiferaySiteDialog" title="{{liferaySiteDialogTitle}}"></div>
-    <div id="CurriculumLiferayUserDialog" title="{{liferayUserDialogTitle}}"></div>
-    <div id="CurriculumUserCourseGradeDialog" title="{{courseGradeDialogTitle}}"></div>
 
 
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>

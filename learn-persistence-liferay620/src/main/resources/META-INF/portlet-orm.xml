@@ -365,6 +365,33 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl">
+		<id-class class="com.arcusys.learn.persistence.liferay.service.persistence.LFLessonLimitPK" />
+		<attributes>
+			<id name="itemID" />
+			<id name="itemType" />
+			<basic name="passingLimit" />
+			<basic name="rerunInterval" />
+			<basic name="rerunIntervalType" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFLRSToActivitySettingModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="courseID" />
+			<basic name="title" />
+			<basic name="activityFilter" />
+			<basic name="verbFilter" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveModelImpl">
 		<attributes>
 			<id name="lfId" />
@@ -463,6 +490,10 @@
 			<basic name="comment">
 				<column name="COMMENT_" />
 			</basic>
+			<basic name="date">
+				<column name="DATE_" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -553,6 +584,16 @@
 			<basic name="welcomePageContent" />
 			<basic name="finalPageContent" />
 			<basic name="courseID" />
+			<basic name="maxDuration" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizAnswerScoreModelImpl">
+		<attributes>
+			<id name="answerId" />
+			<basic name="score" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -571,6 +612,8 @@
 			<basic name="url" />
 			<basic name="plainText" />
 			<basic name="arrangementIndex" />
+			<basic name="autoShowAnswer" />
+			<basic name="groupId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -742,6 +785,19 @@
 			<basic name="sequencingID" />
 			<basic name="completionSetByContent" />
 			<basic name="objectiveSetByContent" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFSiteDependentConfigModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="siteID" />
+			<basic name="dataKey" />
+			<basic name="dataValue" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -1070,6 +1126,17 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanURIModelImpl">
+		<attributes>
+			<id name="uri" />
+			<basic name="objID" />
+			<basic name="objType" />
+			<basic name="content" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.arcusys.learn.persistence.liferay.model.impl.LFUserModelImpl">
 		<attributes>
 			<id name="lfid" />
@@ -1178,6 +1245,14 @@
 		<table name="Learn_LFGlobalObjectiveState" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitImpl" name="LFLessonLimit">
+		<table name="Learn_LFLessonLimit" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFLRSToActivitySettingImpl" name="LFLRSToActivitySetting">
+		<table name="Learn_LFLRSToActivitySetting" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl" name="LFObjective">
 		<table name="Learn_LFObjective" />
 		<attributes />
@@ -1226,6 +1301,10 @@
 		<table name="Learn_LFQuiz" />
 		<attributes />
 	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizAnswerScoreImpl" name="LFQuizAnswerScore">
+		<table name="Learn_LFQuizAnswerScore" />
+		<attributes />
+	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl" name="LFQuizQuestion">
 		<table name="Learn_LFQuizQuestion" />
 		<attributes />
@@ -1272,6 +1351,10 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSequencingTrackingImpl" name="LFSequencingTracking">
 		<table name="Learn_LFSequencingTracking" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSiteDependentConfigImpl" name="LFSiteDependentConfig">
+		<table name="Learn_LFSiteDependentConfig" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" name="LFSocialPackage">
@@ -1348,6 +1431,10 @@
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanPackageImpl" name="LFTincanPackage">
 		<table name="Learn_LFTincanPackage" />
+		<attributes />
+	</entity>
+	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFTincanURIImpl" name="LFTincanURI">
+		<table name="Learn_LFTincanURI" />
 		<attributes />
 	</entity>
 	<entity class="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" name="LFUser">
