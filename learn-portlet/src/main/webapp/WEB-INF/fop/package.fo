@@ -1,0 +1,25 @@
+<fo:table table-layout="fixed" width="90%">
+    <fo:table-column column-width="proportional-column-width(1)"/>
+    <fo:table-body>
+        <fo:table-row height="0">
+            <fo:table-cell height="0">
+                <fo:block></fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+        {{#hasStatements}}
+        <fo:table-row>
+            <fo:table-cell padding-top="20pt">
+                <fo:block-container margin-left="10pt" width="70%" space-before="4pt" page-break-inside="avoid">
+                  <fo:block font="12pt sans-serif" color="#636362" margin-left="30pt" text-align="left" font-weight="bold">
+                    {{packageName}}
+                  </fo:block>
+                  <fo:block font="10pt sans-serif" color="#636362" margin-left="30pt" text-align="left">
+                    {{description}}
+                  </fo:block>
+                </fo:block-container>
+            </fo:table-cell>
+        </fo:table-row>
+        {{{statements}}}
+        {{/hasStatements}}
+    </fo:table-body>
+</fo:table>

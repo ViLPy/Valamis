@@ -1,0 +1,9 @@
+<section data-state="iframe_{{id}}" data-foreground-iframe="{{{src}}}">
+</section>
+
+<script>
+    TinCanCourseModules['iframe_{{id}}'] = function(tincan) {
+        var activityID = 'activity{{id}}';
+        tincan.sendStatement(GetExperiencedStatement(activityID, '{{title}}'));
+    }
+</script>

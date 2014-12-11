@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" class="decks fullscreen loaded ua-phantomjs reveal-viewport theme-font-montserrat theme-color-white-blue">
+<head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="jquery-ui-1.8.20.custom.css">
+    <link rel="stylesheet" href="skins/polaris/polaris.css">
+    <link rel="stylesheet" href="player_tincan_content.css">
+    <link rel="stylesheet" href="buttons.css">
+    <style>
+        .verticalSeparator {
+            margin-right: 50px !important;
+        }
+
+        .answers ul {
+            list-style-type: none;
+        }
+
+        .answers li {
+            background: inherit;
+        }
+
+        .answerContainer li {
+            background: inherit;
+        }
+    </style>
+
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="tincan-min.js"></script>
+    <script src="base.js"></script>
+    <script src="icheck.min.js"></script>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides" style="height: 100%; width: 100%">
+
+        {{{sections}}}
+
+    </div>
+
+</div>
+
+<script>
+    if (!('Reveal' in window)) {
+        document.write('<link rel="stylesheet" href="css/reveal.min.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/theme/default.css" id="theme"\x2f>');
+        document.write('<script src="reveal.min.js"><\x2fscript>');
+    }
+</script>
+<script>
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    //FIXME: Set scale so, that for small screens reveal.js page can be seen, for big screens positioning question(and all jquery-ui stuff) would work
+    defaultParams = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        height: "100%",
+        width: "100%",
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/zoom/linear/fade/none
+    };
+
+    if($(window).width() > 1024) Reveal.initialize($.extend({minScale: 1.0, maxScale: 1.0}, defaultParams));
+    else Reveal.initialize(defaultParams);
+
+    Reveal.addEventListener( 'slidechanged', function( event ) {
+        function gatherData(){
+            var re = /slide-(\d*)/;
+            var slideNum = re.exec(event.currentSlide.innerHTML)[1];
+            return {
+                actor: JSON.parse(jQuery("#tincanActor", parent.document).val()),
+                verb: JSON.parse('{"id":"http://adlnet.gov/expapi/verbs/experienced","display":{"en-US":"experienced"}}'),
+                object: JSON.parse('{"objectType":"Activity","id":"{id}","definition":{"name":{"en-US":"{title}"},"description":{"en-US":"{description}"},"type":"http://adlnet.gov/expapi/activities/course"}}'
+                        .replace("{id}","{{title}} slide " + slideNum)
+                        .replace("{title}", "slide " + slideNum)
+                        .replace("{description}", "slide " + slideNum))
+            };
+        }
+
+        function sendData2Tincan(data){
+            var url = "/delegate/statements/";
+
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                url: url,
+                processData: false
+            });
+        }
+
+        sendData2Tincan(gatherData());
+    });
+
+    $(document).ready(function(){
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_polaris',
+            radioClass: 'iradio_polaris',
+            increaseArea: '30%' // optional
+        });
+    });
+</script>
+</body>
+</html>

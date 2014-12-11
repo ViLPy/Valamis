@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        html,body,iframe {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var defaultActor = encodeURIComponent(JSON.stringify({"name": ["Valamis User"], "mbox": ["mailto:test@valamislearning.com"]}));
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : results[1].replace(/\+/g, " ");
+    }
+
+    var actorFromURL = getParameterByName('actor');
+    var actor = defaultActor;
+    if (actorFromURL) {
+        if (actorFromURL.charAt(actorFromURL.length - 1) === '/'){
+            actor = actorFromURL.substr(0, actorFromURL.length - 1);
+        } else {
+            actor = actorFromURL;
+        }
+    }
+
+    var endpoint = encodeURIComponent('{{{endpoint}}}/delegate');
+
+    document.write('<iframe src="data/quiz.html?endpoint='+endpoint+'&actor='+actor+'" frameborder="0"></iframe>')
+</script>
+</body>
+</html>

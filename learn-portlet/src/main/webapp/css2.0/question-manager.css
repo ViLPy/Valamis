@@ -1,0 +1,78 @@
+.isCorrectColumn {
+    width: 15% !important;
+}
+
+#questionBankBody .overflow-hidden {
+    min-height: 600px;
+}
+
+/*.questionTextColumn {*/
+    /*width: 70% !important;*/
+/*}*/
+
+
+.bank-edit-dialog .list-table {
+    border-left: 1px solid #DEDEDE;
+}
+
+#SCORMQuestionBounded.checkbox,
+#SCORMAnswerIsCorrect.checkbox,
+#SCORMQuestionCaseSensitive.checkbox{
+    margin: 0 5px 0px 0px;
+}
+
+.bank-edit-dialog #SCORMQuestionBounded.checkbox,
+.bank-edit-dialog #SCORMAnswerIsCorrect.checkbox,
+.bank-edit-dialog #SCORMQuestionCaseSensitive.checkbox{
+    margin-top: 5px;
+}
+
+.textOntheTop{
+    vertical-align: top !important;
+}
+
+.qbEntityRowSelect {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.SCORMAnswerText{
+    width: 100%;
+}
+
+
+#SCORMQuestionAnswers thead input.onlyDigits {
+    margin: 0 5px;
+}
+
+#SCORMQuestionAnswersEditors input.onlyDigits {
+    margin-right: 5px;
+}
+
+/*tbody#SCORMQuestionAnswersEditors tr td:first-child {*/
+    /*width: 20px;*/
+/*}*/
+
+/*tbody#SCORMQuestionAnswersEditors tr td:last-child {*/
+    /*width: 45px;*/
+/*}*/
+
+tbody#SCORMQuestionAnswersEditors td label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+tbody#SCORMQuestionAnswersEditors tr td:last-child button{
+    margin-right: 5px;
+}
+
+#bankContentWrapper h3.view-title {
+    font-size: 23px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+#bankContentWrapper .toolBar {
+    margin: 20px;
+    margin-top: 0px;
+}

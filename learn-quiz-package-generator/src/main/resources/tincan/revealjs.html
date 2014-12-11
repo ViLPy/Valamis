@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en" class="decks fullscreen loaded ua-phantomjs reveal-viewport theme-font-montserrat theme-color-white-blue">
+<head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="jquery-ui-1.8.20.custom.css">
+    <link rel="stylesheet" href="skins/polaris/polaris.css">
+    <link rel="stylesheet" href="player_tincan_content.css">
+    <link rel="stylesheet" href="buttons.css">
+    <style>
+        .verticalSeparator {
+            margin-right: 50px !important;
+        }
+
+        .answers ul {
+            list-style-type: none;
+        }
+
+        .answers li {
+            background: inherit;
+        }
+
+        .answerContainer li {
+            background: inherit;
+        }
+
+        .reveal h2 {
+            font-size: 1.11em !important;
+        }
+        .reveal span {
+            vertical-align: middle !important;
+        }
+        .icheckbox_polaris, .icheckbox_polaris.checked {
+            vertical-align: middle !important;
+        }
+    </style>
+
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="head.min.js"></script>
+    <script src="tincan-min.js"></script>
+    <script src="base.js"></script>
+    <script src="icheck.min.js"></script>
+    <script> {{{timerSource}}} </script>
+</head>
+
+<body onunload="onUnload()">
+<div class="reveal">
+    <div id="clock" style="position: absolute; left: 3px; font-weight: bold; font-size: large;"> </div>
+
+    <!-- all questions here before start, needed questions will be moved to displayed slides-->
+    {{#isRandomized}}
+    <div style="display: none;" class="sectionBank" >
+        {{{sections}}}
+    </div>
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+    </div>
+    {{/isRandomized}}
+    {{^isRandomized}}
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        {{{sections}}}
+    </div>
+    {{/isRandomized}}
+
+</div>
+{{#isRandomized}}
+<script>
+    (function(){
+        var initProperties = {{#initProperties}} {{{initProperties}}} {{/initProperties}} {{^initProperties}} {} {{/initProperties}};
+
+        //get all sections from sectionBank
+        var sections = $(".sectionBank>section");
+
+        //mix sections if needed
+        if (initProperties && initProperties.randomOrdering) {
+            sections = sections.sort(function (a, b) {
+                return Math.random() >= 0.5;
+            });
+            if (initProperties.questionsCount && initProperties.questionsCount > 0) {
+                sections = sections.slice(0, initProperties.questionsCount);
+            }
+        }
+
+        //append mixed sections to slides
+        $(".slides").append(sections);
+    })();
+</script>
+{{/isRandomized}}
+
+<script>
+    if (!('Reveal' in window)) {
+        document.write('<link rel="stylesheet" href="css/reveal.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/zenburn.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/theme/{{theme}}.css" id="theme"\x2f>');
+        document.write('<script src="reveal.min.js"><\x2fscript>');
+    }
+</script>
+<script>
+    var ROOT_ACTIVITY_ID = 'http://valamislearning.com/quiz/{{id}}';
+    var currentTinCanState = undefined;
+    var testObj = {
+        id: ROOT_ACTIVITY_ID,
+        definition: {
+            name: {
+                "en-US": "{{title}}"
+            },
+            description: {
+                "en-US": "{{description}}"
+            },
+            type: "http://adlnet.gov/expapi/activities/assessment"
+        }
+    };
+
+    var tincan = new TinCan (
+        {
+            url: window.location.href,
+            activity: testObj
+        }
+    );
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    //FIXME: Set scale so, that for small screens reveal.js page can be seen, for big screens positioning question(and all jquery-ui stuff) would work
+    defaultParams = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        dependencies: [
+            // Syntax highlight for <code> elements
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+    };
+
+    function onUnload() {
+        if (currentTinCanState) {
+            ProcessTinCan(currentTinCanState);
+        }
+    }
+
+    function baseScale(divA, divB, centerY) {
+        var maxWidth = divA.width();
+        var maxHeight = divA.height();
+
+        var width = divB.outerWidth();
+        var height = divB.outerHeight();
+        var scale;
+
+        // early exit
+        if(width <= maxWidth && height <= maxHeight) {
+            divB.css({
+                '-webkit-transform': '',
+                '-ms-transform': '',
+                'transform': ''
+            });
+            if (centerY) {
+                divB.css({
+                    '-webkit-transform-origin-y': '50%',
+                    '-ms-transform-origin-y': '50%',
+                    'transform-origin-y': '50%'
+                });
+            }
+            return;
+        }
+
+        scale = Math.min(maxWidth/width, maxHeight/height);
+
+        divB.css({
+            '-webkit-transform': 'scale(' + scale + ')',
+            '-ms-transform': 'scale(' + scale + ')',
+            'transform': 'scale(' + scale + ')'
+        });
+        if (centerY) {
+            divB.css({
+                '-webkit-transform-origin-y': 0,
+                '-ms-transform-origin-y': 0,
+                'transform-origin-y': 0
+            });
+        }
+    }
+
+    function doScaleOnResize() {
+        baseScale($(window), $('.slides'), false);
+    }
+
+    function doScale(slide) {
+        slide = slide || Reveal.getCurrentSlide();
+        baseScale($('.slides'), $(slide), true);
+    }
+
+    $(document).ready(function(){
+        $(window).resize(function(evt) {
+            doScaleOnResize();
+        });
+
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_polaris',
+            radioClass: 'iradio_polaris',
+            increaseArea: '30%' // optional
+        });
+
+        if($(window).width() > 1024) Reveal.initialize($.extend({minScale: 1.0, maxScale: 1.0}, defaultParams));
+        else Reveal.initialize(defaultParams);
+
+        Reveal.addEventListener( 'ready', function( event ) {
+            doScaleOnResize();
+            doScale(event.currentSlide);
+            // event.currentSlide, event.indexh, event.indexv
+            currentTinCanState = jQuery(event.currentSlide).data('state');
+        } );
+
+        Reveal.addEventListener( 'slidechanged', function( event ) {
+            doScale(event.currentSlide);
+            var prevStateID = jQuery(event.previousSlide).data('state');
+            if (prevStateID) {
+                ProcessTinCan(prevStateID);
+            }
+            currentTinCanState = jQuery(event.currentSlide).data('state');
+
+            // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+        } );
+    });
+
+    // record the results of a question
+    function GetQuestionAnswerStatement(id, questionText, title, questionType, learnerResponse, correctAnswer, wasCorrect){
+        //send question info
+        var qObj = {
+            id: 'http://valamislearning.com/quiz/{{id}}/' + id,
+            definition: {
+                type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+                name: {
+                    'en-US': title
+                },
+                description: {
+                    'en-US': questionText.replace(/<([^>]+)>/g, '')
+                },
+                interactionType: questionType,
+                correctResponsesPattern: [
+                    String(correctAnswer).replace(/<([^>]+)>/g, '')
+                ]
+            }
+        };
+
+        /*  if (questionChoices !== null && questionChoices.length > 0) {
+         var choices = [];
+         for (var i = 0; i < questionChoices.length; i++) {
+         var choice = questionChoices[i];
+         choices.push(
+         {
+         id: choice,
+         description: {
+         "en-US": choice
+         }
+         }
+         );
+         }
+         qObj.definition.choices = choices;
+         }*/
+
+        return {
+            verb: "answered",
+            object: qObj,
+            result: {
+                response: String(learnerResponse).replace(/<([^>]+)>/g, ''),
+                success: wasCorrect
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        }
+    }
+
+    function GetExperiencedStatement(activityID, title){
+        var stmt = {
+            verb: "experienced",
+            object: {
+                id: 'http://valamislearning.com/quiz/{{id}}/' + activityID,
+                definition: {
+                    type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+                    name: {
+                        'en-US': title
+                    }
+                }
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        };
+
+        return stmt;
+    }
+
+    function GetRecordTestStatement(score, success, activityId, title, questionScore){
+        // send score
+        var scaledScore = score / 100;
+
+        var stmt = {
+            verb: "completed",
+            object: {
+                id: 'http://valamislearning.com/quiz/{{id}}/' + activityId,
+                definition: {
+                    type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+                    name: {
+                        'en-US': title
+                    }
+                }
+            },
+            result: {
+                score: {
+                    scaled: scaledScore,
+                    raw: score,
+                    min: 0,
+                    max: 100
+                },
+                success: success,
+                extensions: {
+                    "http://valamislearning.com/question/score": questionScore || 0
+                }
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        };
+
+        return stmt;
+    }
+
+    function getContext(parentActivityId) {
+        var ctx = {
+            contextActivities: {
+                grouping: {
+                    id: ROOT_ACTIVITY_ID
+                }
+            }
+        };
+//  if (parentActivityId !== undefined && parentActivityId !== null) {
+//    ctx.contextActivities.parent = {
+//      id: parentActivityId
+//    };
+//  }
+        return ctx;
+    };
+</script>
+</body>
+</html>

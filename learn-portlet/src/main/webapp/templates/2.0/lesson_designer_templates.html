@@ -1,0 +1,555 @@
+<script type="template/mustache" id="articleTemplate">
+    <td>
+        {{title}}
+    </td>
+    <td>
+        <div class="position-relative">
+            <div class="valamis-select">
+                <select class="article-locale">
+                    {{#availableLocales}}
+                    <option value="{{id}}"> {{language}} - {{country}}</option>
+                    {{/availableLocales}}
+                </select>
+            </div>
+        </div>
+    </td>
+</script>
+
+<script type="template/mustache" id="articleTemplateTable">
+    <table>
+        <tbody id="articleList">
+        <tr>
+            <th class="h4label valamis">{{titleLabel}}</th>
+            <th class="h4label valamis">{{languageLabel}}</th>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+
+<script type="template/mustache" id="lessonListViewTemplate">
+    <div class="valamis-item-cover-image pull-left"
+    {{#logo}}
+    style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}')"
+    {{/logo}}>
+    </div>
+    <div class="valamis-item-content pull-left">
+        <div class="valamis-item-title padded-top">{{title}}</div>
+        <div class="valamis-item-description">{{{description}}}</div>
+    </div>
+    <div class="valamis-item-buttons pull-right">
+        <button class="edit-lesson-content button valamis big grey val-icon-edit no-text"> Edit</button>
+        <button style="margin-right: 4px;" class="delete-lesson button valamis big red val-icon-delete no-text">
+            Delete
+        </button>
+    </div>
+</script>
+
+<script type="template/mustache" id="lessonTileViewTemplate">
+    <div class="valamis-tile-item-wrapper" >
+    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <!-- For touchscreen from http://davidwalsh.name/demo/css-flip.php -->
+        <div class="flipper">
+            <div class="front">
+                <div class="valamis-item-cover-image"
+                {{#logo}}
+                style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}')"
+                {{/logo}}>
+                </div>
+                <div class="valamis-item-content">
+                    <div class="valamis-item-title">{{title}}</div>
+                    <div class="valamis-item-description">{{{description}}}</div>
+                </div>
+                <div class="valamis-item-footer">
+                    {{size}} elements
+                </div>
+            </div>
+            <div class="back">
+                <div class="hidden">
+                    <button class="edit-lesson-info button valamis medium grey val-icon-edit val-command">{{editInfo}}
+                    </button>
+                    <button class="edit-lesson-content button valamis medium grey val-icon-edit val-command">
+                        {{editContent}}
+                    </button>
+                    <button class="clone-lesson button valamis medium grey val-icon-clone val-command">{{clone}}
+                    </button>
+                    <button class="delete-lesson button valamis medium grey val-icon-delete val-command">{{delete}}
+                    </button>
+                    <button class="process-tincan-lesson button valamis medium grey val-icon-publish val-command">
+                        {{publishTinCanLabel}}
+                    </button>
+                    <button class="publish-scorm-lesson button valamis medium grey val-icon-publish val-command">
+                        {{publishSCORMLabel}}
+                    </button>
+                    <button class="download-scorm-lesson button valamis medium grey val-icon-download val-command">
+                        {{downloadSCORM}}
+                    </button>
+                    <button class="export-lesson button valamis medium grey val-icon-download val-command">
+                        {{exportLessonLabel}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</script>
+
+<script type="text/template" id="modals-template">
+    <div class="modals-container"></div>
+</script>
+
+<script type="text/template" id="modal-clear-template">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close">
+        </div>
+    </div>
+    <div class="bbm-modal__section content" style="position: relative;">
+    </div>
+</script>
+
+<script type="text/template" id="modal-template">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close close-button"></div>
+    </div>
+    <div class="bbm-modal__section content clearfix" style="position: relative;">
+
+    </div>
+    <div class="bbm-modal__bottombar buttons-row">
+        <a href="#" class="bbm-button button valamis big grey close-button">{{quizCancelUpdateButtonTooltipLabel}}</a>
+        <button class="modal-submit button valamis big green bbm-button">{{quizSaveButtonTooltipLabel}}</button>
+    </div>
+</script>
+
+<script type="text/template" id="modal-template-pptx">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close close-button"></div>
+    </div>
+    <div class="bbm-modal__section content clearfix" style="position: relative;">
+
+    </div>
+</script>
+
+<script type="text/template" id="modal-template-tincan">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{publishTinCanLabel}}</h3>
+
+        <div class="modal-close close-button"></div>
+    </div>
+    <div class="bbm-modal__section content clearfix" style="position: relative;">
+
+    </div>
+    <div class="bbm-modal__bottombar buttons-row">
+        <a href="#" class="bbm-button button valamis big grey close-button">{{quizCancelUpdateButtonTooltipLabel}}</a>
+        <button class="create-lesson button valamis big green val-icon-download bbm-button">{{downloadQuizLabel}}</button>
+        <button class="create-lesson button valamis big green val-icon-publish bbm-button">{{publishQuizLabel}}</button>
+    </div>
+</script>
+
+<script type="text/template" id="lesson-edit-info">
+    <div class="div-table">
+        <div class="logo-div div-col">
+            <div>  <!--<div style="padding: 20px;">-->
+                <h3 class="valamis hidden-xs">{{logoLabel}}</h3>
+
+                <div class="valamis-row centered-content">
+                    <img
+                    {{#logo}}
+                    src="/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}"
+                    {{/logo}}
+
+                    {{^logo}}
+                    src="/learn-portlet/img/imgo.jpg"
+                    {{/logo}}
+                    class='logo val-icon-upload'>
+                </div>
+                <button class="button valamis big green val-icon-upload wideButton logo-field">
+                    {{uploadLabel}}
+                </button>
+                <button class="button valamis big grey wideButton val-icon-doc-lib openMediaGallery">
+                    {{openMediaGalleryLabel}}
+                </button>
+            </div>
+        </div>
+
+        <div class="info-div div-col">
+            <table class="valamis list-table big-table box-sizing">
+                <tbody>
+                <tr>
+                    <td class="h4label valamis">{{titleLabel}}</td>
+                    <td class="buttons text-right">
+                        <input type="text"
+                               class="text-input valamis title-field box-sizing"
+                               value="{{title}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="h4label valamis">{{descriptionLabel}}</td>
+                    <td class="buttons text-right">
+                        <textarea rows="5"
+                                  class="textarea valamis description-field box-sizing">{{description}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="h4label valamis">{{maximumdurationlabel}}</td>
+                    <td class="label-cell">
+                        <input type="checkbox" class="pull-left max-duration-checkbox" {{#maxDuration}}checked="checked"{{/maxDuration}}>
+                        <label class="pull-left right-margined"> Duration is fixed </label>
+                        <div>
+                            <!-- Copied from http://jdewit.github.io/bootstrap-timepicker/index.html demos-->
+                            <div class="input-append bootstrap-timepicker">
+                                <input type="text" class="max-duration-picker input-small" {{^maxDuration}} disabled {{/maxDuration}}>
+                                <span class="add-on"><i class="icon-time"></i></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</script>
+
+<script type="text/template" id="lesson-edit-content">
+    <button id="toggle-sidebar" class="button valamis big grey menu-toggle val-icon-plus hidden-lg"/>
+    <div class="filter-panel sidebar-wrapper">
+        <div class="hide-filter modal-close-div"></div>
+
+        <h3 class="valamis">{{addElementsLabel}}</h3>
+
+        <div class="add-content add-category box-sizing" style="margin-bottom: 30px;">
+            {{addCategoryTreeElementButtonLabel}}
+        </div>
+
+        <div class="add-content add-question box-sizing">{{addQuestionTreeElementButtonLabel}}</div>
+        <div class="add-content add-text-article box-sizing">{{addTextArticleLabel}}</div>
+        <!--<div class="add-content add-reveal-presentation box-sizing">{{addPresentationLabel}}</div>-->
+        <div class="add-content add-pdf box-sizing">{{addPDFFileLabel}}</div>
+        <div class="add-content add-pptx box-sizing">{{addPPTXFileLabel}}</div>
+        <div class="add-content add-video box-sizing">{{addVideoLabel}}</div>
+        <div class="add-content add-external-resource box-sizing">{{addExternalTreeElementButtonLabel}}</div>
+    </div>
+    <div class="popup-content" style="min-height: 480px;">
+        <div class="lesson-content valamis list-table medium-table">
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="contentEditorPageItemView">
+    <div class="item-body">
+        <!--<div class="checkbox-container"> <input type="checkbox" /> </div>-->
+        <div style="width:0px;"></div>
+        <div class="vertical-center title-container buttons-row clearfix val-{{contentType}}">
+            <button class="button valamis medium red val-icon-delete no-text pull-right action-delete"></button>
+            {{#isEdited}}
+            <button class="button valamis medium grey val-icon-edit no-text pull-right action-edit"></button>
+            {{/isEdited}}
+            {{#isCategory}}
+            <div class="pull-left category-icon category-expand-button"/>
+            {{/isCategory}}
+            {{^isCategory}}
+            <button class="button valamis medium grey val-icon-preview no-text pull-right action-preview"></button>
+            {{/isCategory}}
+            <!--{{^isCategory}} <img class="pull-left" src="/learn-portlet/images/icon-edit.png"> {{/isCategory}}-->
+            <label> {{title}} </label>
+            {{#isQuizQuestion}}<label class="immediate-answer-flag-label">
+            <input type="checkbox" class="immediate-answer-flag" {{#autoShowAnswer}} checked {{/autoShowAnswer}} name=""
+            id=""/> show right answers
+        </label>{{/isQuizQuestion}}
+        </div>
+    </div>
+    {{#isCategory}}
+    <div class="internal-collection {{#collapsed}}collapsed{{/collapsed}}"></div>{{/isCategory}}
+</script>
+<script type="text/template" id="lesson-content-edit-inline-template">
+    <div class="item-body" data-element-id="{{id}}">
+        <div class="vertical-center title-container">
+            <button class="button valamis medium red val-icon-close no-text pull-right action-cancel"></button>
+            <button class="button valamis medium green val-icon-check no-text pull-right action-save"></button>
+            {{#isCategory}}
+            <div class="pull-left category-icon category-expand-button"/>
+            {{/isCategory}}
+            <input class="title-edit text-input valamis" type="text" value="{{title}}"/>
+        </div>
+    </div>
+    <div class="internal-collection {{#collapsed}}collapsed{{/collapsed}}"></div>
+</script>
+
+<script type="text/template" id="externalResourceTemplate">
+    <table class="valamis list-table big-table box-sizing resource-table">
+        <tbody>
+        <tr>
+            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>
+                <input type="text"
+                       class="text-input valamis title-edit box-sizing"
+                       value="{{externalResourceTitle}}"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="h4label valamis">{{resourceUrlLabel}}</td>
+            <td>
+                <input class="text-input valamis url-edit  box-sizing" type="text" value="{{url}}"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <div style="margin: 20px;">
+        <button type="button" class="button valamis medium grey val-icon-preview action-preview pull-right" style="margin: 20px 0px;">
+            {{previewLabel}}
+        </button>
+        <iframe class="content" src="{{url}}"/>
+    </div>
+
+
+
+</script>
+
+<script type="text/template" id="videoTemplate">
+    <table class="valamis list-table big-table box-sizing">
+        <tbody>
+        <tr>
+            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>
+                <input type="text"
+                       class="text-input valamis title-edit box-sizing"
+                       value="{{videoTitle}}"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <input type="radio" name="videoType" class="videoType" value="DL" checked> {{fromDLLabel}}
+                <div class="pull-right valamis-paginator" id="videoPaginator" style="margin-bottom: 5px;"></div>
+                <div id="dlVideoContainer">
+                    <table id="dlvideo" class="videoTable valamis list-table medium-table contentTable">
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <input type="radio" name="videoType" class="videoType" value="EMBED"> {{youtubeLabel}}
+
+                <textarea class="url-edit" rows="5" style="width: 100%">{{url}}</textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</script>
+
+<script type="text/template" id="liferayVideoElementView">
+    <td>{{title}}</td>
+    <td>{{mimeType}}</td>
+    <td class="checkbox-container">
+        <button class="button valamis big grey val-icon-check no-text toggleButton"></button>
+    </td>
+</script>
+
+<script type="text/template" id="revealJSViewTemplate">
+    <table class="valamis list-table big-table box-sizing resource-table">
+        <tbody>
+        <tr>
+            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>
+                <input type="text"
+                       class="text-input valamis title-edit box-sizing"
+                       value="{{presentationTitle}}"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="h4label valamis">{{presentationContentLabel}}</td>
+            <td class="file-uploader">
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="processTinCanTemplate">
+    <div class="valamis list-table big-table box-sizing div-table">
+        <div class="div-row">
+            <div class="h4label valamis div-col">themeLabel</div>
+            <div class="div-col">
+                <select class="theme-selector">
+                    {{#themes}}
+                    <option value="{{id}}">{{title}}</option>
+                    {{/themes}}
+                </select>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="h4label valamis div-col"></div>
+            <div class="div-col">
+                <div class="theme-images">
+                    {{#themes}}
+                    <img src="/learn-portlet/img/themes/{{id}}.jpg" class="image {{id}}" alt=""/>
+                    {{/themes}}
+                </div>
+            </div>
+        </div>
+        <div class="div-row" style="display: none">
+            <div class="h4label valamis div-col">
+                {{embedTinCanPlayer}}
+            </div>
+            <div class="div-col">
+                <button class="button valamis big grey val-icon-check no-text toggleButton embedTinCanPlayerToggle"></button>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="h4label valamis div-col">
+                {{randomQuestionOrdering}}
+                <button class="button valamis big grey val-icon-check no-text toggleButton randomQuestionOrderingToggle"></button>
+            </div>
+            <div class="h4label valamis div-col">
+                {{questionsCountToShow}}
+                <input type="text" disabled="disabled" class="text-input valamis title-edit box-sizing questionsCountToShowText" />
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="pdfViewTemplate">
+    <table class="valamis list-table big-table box-sizing">
+        <tbody>
+        <tr>
+            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>
+                <input type="text"
+                       class="text-input valamis title-edit box-sizing"
+                       placeholder="{{newPDFFileLabel}}" value="{{title}}"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="h4label valamis">{{pdfFileLabel}}</td>
+            <td class="file-uploader">
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="pptxViewTemplate">
+    <table class="valamis list-table big-table box-sizing">
+        <tbody>
+            <tr>
+                <td class="h4label valamis">{{pptxFileLabel}}</td>
+                <td class="file-uploader"></td>
+            </tr>
+            <tr class="slides"></tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="lessonContentPreviewTemplate">
+    <iFrame src="{{url}}"/>
+</script>
+
+<script type="text/template" id="bankQuestionSelectTemplate">
+    <div style="float: left; margin-right: 10px;">
+        <div class="root selected">_root</div>
+        <div class="categories-container"></div>
+    </div>
+    <div style="float: left; margin-left: 10px;">
+        <div class="questions-container"></div>
+    </div>
+</script>
+
+<script type="text/template" id="bankQuestionTemplate">
+    {{title}}
+</script>
+
+<script type="text/template" id="content-manager-template">
+    <div class="portlet-body overflow-hidden">
+        <div class="content-panel">
+            <div class="header clearfix">
+                <button class="show-filter-button filter-toggler button valamis grey menu-toggle val-icon-search pull-left"></button>
+                <h1 class="valamis hidden-xs pull-left">{{lessons}}</h1>
+
+                <div class="pull-right buttons-row">
+                    <button class="create-lesson button valamis big green val-icon-plus">{{createLesson}}</button>
+                </div>
+            </div>
+            <div class="filter-panel sidebar-wrapper">
+                <div class="hide-filter modal-close"></div>
+                <div class="filter-wrapper">
+                    <h3 class="hidden-sm hidden-xs">
+                        {{refineSearchLabel}}
+                    </h3>
+
+                    <div class="panelBody">
+                        <div class="searchBody valamis-row">
+                            <!--<div class="form-group">-->
+                            <label class="h4label valamis">{{searchByName}}</label>
+                            <input type="text" class="search search-by-name form-control text-input valamis box-sizing"
+                                   placeholder="Search">
+                            <!--</div>-->
+                        </div>
+
+                        <div class="sortBody valamis-row position-relative">
+                            <label class="h4label valamis"> {{sort}} </label>
+
+                            <div class="valamis-select userSearchSelect">
+                                <select class="box-sizing" id="lessonSort">
+                                    <option value="TITLE:true"> title(asc)</option>
+                                    <!-- TODO: move to model? -->
+                                    <option value="TITLE:false"> title(desc)</option>
+                                    <option value="CREATIONDATE:true"> creation date (asc)</option>
+                                    <option value="CREATIONDATE:false"> creation date (desc)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tool-panel clearfix">
+                <div class="pull-right full-width">
+                    <div id="paginatorWrapper" class="valamis-paginator pull-right"></div>
+					<span class="item-view-picker pull-right">
+						<span class="select-element-label"> {{viewsLabel}} </span>
+						<div style="margin-left: 10px; margin-right: 10px;" class="button-group">
+                            <button class="listButton button valamis medium grey val-icon-list-view no-text"></button>
+                            <button class="tileButton button valamis medium grey val-icon-grid-view no-text active"></button>
+                        </div>
+					</span>
+
+                </div>
+            </div>
+            <div class="lesson-list-container clearfix grid-view"></div>
+            <div id="bottomPaginatorWrapper" class="pull-right valamis-paginator"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="deleteConfirmationTemplate">
+    <div>{{warningDeleteLessonMessageLabel}}<br/>
+        <button class='confirmation btn-valamis btn-primary'>{{yesLabel}}</button>
+        <button class='btn-valamis' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
+    </div>
+
+</script>
+
+<script type="text/mustache" id="publishLessonTemplate">
+    <div>
+        %%%_Random ordering: <input id="randomOrdering" type="checkbox" />
+        </br />
+        %%%_Questions per user: <input id="questionsCount" type="input" class="onlyDigits" />
+        </br />
+    </div>
+</script>

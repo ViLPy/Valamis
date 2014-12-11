@@ -1,0 +1,29 @@
+<script>
+    /*{{^isPreview}}*/
+    jQuery(document).ready(function () {
+        getAPI().Initialize("");
+    });
+    /*{{/isPreview}}*/
+
+    function gatherData() {}
+</script>
+
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h1 class="SCORMPlayerQuestionTitle">{{{title}}}</h1>
+    </div>
+    <div class="playerMainArea">
+        <video width="560" height="315" controls><source src="/c/document_library/get_file?uuid={{uuid}}&groupId={{groupId}}"></video>
+    </div>
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerNext">
+            <!--{{#isPreview}}-->
+            <button class="valamis button small green icon-continue" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="valamis button small green icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/isPreview}}-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

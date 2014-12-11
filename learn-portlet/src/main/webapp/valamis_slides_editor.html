@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<style>
+    .sidebar {
+        position: absolute;
+        width: 200px;
+        top: 0;
+        bottom: 0;
+        background: #fff;
+    }
+
+    .reveal-wrapper {
+        position: absolute;
+        left: 200px;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .reveal .slides {
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        margin: auto;
+        border: 1px solid #999;
+        /*position: relative!important;*/
+    }
+
+    .reveal section {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .rj-element {
+        position: absolute;
+        cursor: pointer;
+        box-sizing: content-box;
+    }
+
+    .rj-element.active {
+        border: 1px solid red;
+    }
+
+    .toolbar-item-view {
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border: 1px solid #777;
+        margin-bottom: -1px;
+
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        cursor: pointer;
+    }
+
+    .no-select {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .rj-text {
+        min-height: 20px;
+    }
+
+    .reveal-controls {
+        margin-left: 200px;
+        z-index: 20;
+    }
+
+    .add-page {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border: 2px solid #000000;
+        border-radius: 22px;
+
+        cursor: pointer;
+    }
+
+    .add-page.right {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        z-index: 20;
+    }
+
+    .add-page.down {
+        position: absolute;
+        right: 50%;
+        bottom: 20px;
+        z-index: 20;
+    }
+
+    .slide-controls {
+        position: absolute;
+        left: 200px;
+        top:0;
+        z-index: 20;
+    }
+
+    .sidebar {
+        overflow: hidden;
+    }
+
+    .sidebar .toolbar {
+        position: relative;
+        left: 0;
+        width: 200px;
+    }
+
+    .sidebar .edit-view {
+        padding: 10px;
+        position: absolute;
+        top: 0;
+        left: 200px;
+        width: 200px;
+        background: #fff;
+        height: 100%;
+        transition: 0.3s ease all;
+    }
+    .sidebar .edit-view.active {
+        position: absolute;
+        left: 0;
+        width: 200px;
+        background: #fff;
+        top: 0;
+        height: 100%;
+        transition: 0.3s ease all;
+    }
+</style>
+
+    <link href="{{contextPath}}/css2.0/reveal.min.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="{{contextPath}}/css2.0/theme/default.css" rel="stylesheet" type="text/css"/>-->
+    <link href="{{contextPath}}/css2.0/theme/solarized.css" rel="stylesheet" type="text/css"/>
+    <link href="{{contextPath}}/css2.0/colorpicker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<div id="revealEditor" style="position: relative; height: 700px;">
+    <div class="sidebar">
+
+    </div>
+    <div class="reveal-wrapper">
+    </div>
+    <div class="reveal-controls"></div>
+</div>
+
+<script type="text/html" id="sideBarLayoutTemplate">
+    <div class="toolbar"></div>
+    <div class="edit-view"></div>
+</script>
+
+<script type="text/html" id="textToolbarView">
+    <div class="toolbar-item-view">
+        <%= title %>
+    </div>
+</script>
+
+<script type="text/html" id="textElementTemplate">
+</script>
+<script type="text/html" id="textElementEditTemplate">
+    Border:
+    <br/>
+    <input type="number" class="border-width"/>
+</script>
+
+<script type="text/html" id="imageElementTemplate">
+    <img src="http://placehold.it/350x150"/>
+</script>
+
+<script type="text/html" id="revealControlsTemplate">
+    <div class="add-page right">+</div>
+    <div class="add-page down">+</div>
+    <div class="slide-controls">
+        <button type="button" class="slide-delete">Delete slide</button>
+        <button type="button" class="change-background">Change background</button>
+    </div>
+</script>
+
+<script type="text/html" id="revealTemplate">
+    <div class="slides">
+        <section>
+            <section>
+
+            </section>
+        </section>
+    </div>
+</script>
+
+</body>
+</html>

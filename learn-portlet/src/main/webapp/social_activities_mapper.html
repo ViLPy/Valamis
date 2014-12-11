@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<table class="valamis list-table medium-table">
+    <thead>
+    <tr>
+        <th>{{activity}}</th>
+        <th>{{tinCanVerb}}</th>
+    </tr>
+    </thead>
+    <tbody class="social-activities-mapper-data"></tbody>
+</table>
+
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+
+<script>
+    var jQueryActivityMapper = jQuery.noConflict();
+
+    jQueryActivityMapper(function () {
+        Backbone.emulateJSON = true;
+        Backbone.ajax = window.LearnAjax.ajax;
+        var defaultURL = Utils.getContextPath() + '/i18n/socialActivitiesMapper_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/socialActivitiesMapper_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onActivityMapperLanguageLoad, onActivityMapperLanguageError);
+    });
+
+    function onActivityMapperLanguageError() {
+        toastr.error('Translation resource loading failed!');
+    }
+
+    function onActivityMapperLanguageLoad(lang) {
+        ActivityMapperApp.start({
+            language: lang,
+            siteID: JSON.parse('{{siteID}}')
+        });
+
+        var collection = ActivityMapperApp.request('setting:list');
+        // {{#settings}}
+        collection.add({activityID: '{{activityID}}', mappedVerb: '{{value}}'});
+        // {{/settings}}
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<script type="text/template" id="liferay-site-select-modal-template">
+    <div class="bbm-modal__topbar">    <!--add-members-modal-->
+        <h3 class="bbm-modal__title valamis">{{headerTitle}}</h3>
+
+        <div class="modal-close">
+        </div>
+    </div>
+
+    <div class="bbm-modal__section liferay-site-select-dialog certificateContent">
+    </div>
+</script>
+
+<script type="text/mustache" id="liferaySiteDialogView">
+    <div id="liferaySitesWrapper" class="content-wrapper clearfix">
+        <div class="page-content-wrapper" style="padding-top: 0px;">
+            <div class="clearfix">
+
+                <div class="popup-content-header">
+                    <div class="valamis-row no-margin">
+                        <div class="pull-left button-upload-area">
+                            <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
+                        </div>
+                        <div class="title-wrapper">
+                            <h2 class="valamis amountLabel pull-left" id="sitesListedAmount"></h2>
+                            <h2 class="valamis pull-left hidden-xs">&nbsp;{{sitesListedLabel}}</h2>
+                            <h2 class="valamis pull-left hidden-md hidden-lg">&nbsp;{{listedLabel}}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-wrapper">
+
+                    <div class="menu-toggle hidden-xs menu-close modal-close-div">
+                    </div>
+
+                    <h3>{{refineSearchLabel}}</h3>
+
+                    <div class="valamis-row">
+                        <label class="h4label valamis"> {{searchByNameLabel}} </label>
+                        <input placeholder="{{searchPlaceholderLabel}}" type="text" id="siteSearch"
+                               class="text-input valamis search"/>
+                    </div>
+                    <div class="valamis-row position-relative">
+                        <label class="h4label valamis"> {{sortLabel}} </label>
+
+                        <div class="valamis-select">
+                            <select id="sortSite" class="userSearchSelect fixed-width">
+                                <option value="true">{{sortOrderAscLabel}}</option>
+                                <option value="false">{{sortOrderDescLabel}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="sitesContainer" class="page-content"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="bbm-modal__bottombar buttons-row">
+        {{^singleSelect}}
+            <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
+            <button class="button valamis big green val-icon-plus addCourses">{{addCoursesLabel}}</button>
+        {{/singleSelect}}
+    </div>
+
+</script>
+
+<script type="text/mustache" id="liferaySiteListView">
+    <div class="pull-right valamis-paginator" id="siteListPaginator"></div>
+
+    <table class="valamis list-table medium-table contentTable">
+        <tbody id="siteList"></tbody>
+    </table>
+
+</script>
+
+<script type="text/mustache" id="liferaySiteElementView">
+
+    <td class="user-name">{{title}}</td>
+    <td class="checkbox-container">
+        <button id="toggleSiteButton" class="button valamis big grey val-icon-check no-text"></button>
+    </td>
+
+</script>

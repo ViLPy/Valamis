@@ -1,0 +1,8 @@
+<section data-state="pptx_{{id}}" data-foreground-iframe="pptx-foreground-iframe-{{{id}}}.html"> </section>
+
+<script>
+    TinCanCourseModules['pptx_{{id}}'] = function(tincan) {
+        var activityID = 'activity{{id}}';
+        tincan.sendStatement(GetExperiencedStatement(activityID, '{{title}}'));
+    }
+</script>

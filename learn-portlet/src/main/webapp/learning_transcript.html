@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div class="projectLearnGeneric">
+    <div id="transcriptWrapper">
+        <div id="userButtons" style="padding: 10px;">
+        </div>
+        <div id="transcriptData">
+        </div>
+    </div>
+
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="transcriptUserID" value="{{userID}}"/>
+    <input type="hidden" id="transcriptCompanyID" value="{{companyID}}">
+    <input type="hidden" id="transcriptCourseID" value="{{courseID}}">
+    <input type="hidden" id="transcriptIsTeacher" value="{{isTeacher}}">
+</div>
+
+
+<script type="application/javascript">
+    var jQuery1816User = jQuery.noConflict();
+    var scormLanguageDataUser = {};
+    var userCourses = new UserCoursesCollection();
+    var userCertificates = new UserCertificateCollection();
+    var transcriptCoursesView, transcriptCertificatesView;
+
+    jQuery1816User(function () {
+        Backbone.emulateJSON = true;
+        Backbone.ajax = window.LearnAjax.ajax;
+        var defaultURL = Utils.getContextPath() + '/i18n/curriculum_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onUserLanguageLoad, onUserLanguageError);
+    });
+
+    var EditCertificateLayout = Backbone.Marionette.Layout.extend({
+        template: _.template(Mustache.to_html(jQuery('#certificate-modals-template').html(), scormLanguageDataUser)),
+        regions: {
+            modals: {
+                selector: '.certificate-modals-container',
+                regionType: Backbone.Marionette.Modals
+            }
+        }
+    });
+
+    var editCertificateLayout = new EditCertificateLayout();
+
+
+    var SelectUserModal = Backbone.Modal.extend({
+        template: _.template(Mustache.to_html(jQuery('#certificate-add-members-modal-template').html(), scormLanguageDataUser)),
+        submitEl: '.bbm-button',
+        cancelEl: '.modal-close',
+        onRender: function () {
+            var dialog = new LiferayUserSelectDialog({getAllUsers: true, singleSelect: true, language: scormLanguageDataUser});
+            dialog.on('closeModal', function () {
+                editCertificateLayout.modals.close();
+            });
+            dialog.on('lfUserSelected', this.selectUser, this);
+            this.$('.certificate-addMembers-dialog').append(dialog.render().$el);
+        },
+
+        selectUser: function (model) {
+            jQuery('#transcriptUserID').val(model.id);
+            jQuery('#printLink').attr('href', '/delegate/print/?action=PRINT_TRANSCRIPT&companyID={{companyID}}&userID=' + model.id);
+            editCertificateLayout.modals.close();
+            updateUserDetails(model);
+            initUserView();
+        }
+    });
+
+    /*var userModal = new SelectUserModal();*/
+
+    function initUserDetails () {
+        var UserModel = Backbone.Model.extend({
+            defaults: {}
+        }).extend();
+        var userModel = new UserModel();
+        userModel.set({name: "{{userName}}", picture: "{{userPicture}}", pageUrl: "{{userPageUrl}}"});
+        updateUserDetails(userModel);
+    }
+
+    function updateUserDetails (model) {
+        var template = Mustache.to_html(jQuery('#transcriptUserDetailsTemplate').html(), _.extend(model.toJSON(), scormLanguageDataUser));
+        jQuery('#selectedUser').html('<tr>' + template + '</tr>');
+    }
+
+    function onUserLanguageLoad(properties) {
+        scormLanguageDataUser = properties;
+        createModalLayout();
+        initUserDetails();
+        initUserView();
+    }
+
+    function onUserLanguageError() {
+        alert('Translation resource loading failed!');
+    }
+
+    function createModalLayout () {
+        jQuery('body').append(editCertificateLayout.render().el);
+
+        var isTeacher = JSON.parse("{{isTeacher}}");
+
+        var userView = new TranscriptUsersView({el: jQuery1816User('#userButtons'), /*layout: editCertificateLayout, userModal: SelectUserModal,*/
+            language: _.extend(scormLanguageDataUser, {isTeacher: isTeacher})});
+
+        userView.on('openSelectUserModal', function () {
+            var selectUserModal = new SelectUserModal();
+            editCertificateLayout.modals.show(selectUserModal);
+        });
+    }
+
+/*TODO: Packages don't fetch (for users who have them) after trying to fetch packages for users who don't have any.    FIX!*/
+    function initUserView() {
+        jQuery('#transcriptData').empty();
+
+        if (typeof transcriptCoursesView !== 'undefined' && transcriptCoursesView !== null) {
+            transcriptCoursesView.undelegateEvents();
+            transcriptCoursesView = undefined;
+        }
+        if (typeof transcriptCertificatesView !== 'undefined' && transcriptCertificatesView !== null) {
+            transcriptCertificatesView.undelegateEvents();
+            transcriptCertificatesView = undefined;
+        }
+
+        userCourses.fetch({
+            success: function () {
+                transcriptCoursesView = new TranscriptCoursesView({el: jQuery1816User('#transcriptData'), collection: userCourses, language: scormLanguageDataUser});
+            }
+        });
+
+        userCertificates.fetch({
+            success: function () {
+                transcriptCertificatesView = new TranscriptCertificatesView({el: jQuery1816User('#transcriptData'), collection: userCertificates, language: scormLanguageDataUser});
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

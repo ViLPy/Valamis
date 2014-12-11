@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+    <script src="{{contextPath}}/js2.0/Urls.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/lodash.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone-min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/mustache.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.marionette.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.modal-bundled.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.service.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/bootstrap.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/toastr.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.model-binder.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/nestedsortable.js"></script>
+    <script src="{{contextPath}}/js2.0/file-upload.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery.fileupload.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/bootstrap-timepicker.min.js"></script>
+
+    <script src="{{contextPath}}/js2.0/widgets/valamisPaginator.js"></script>
+    <script src="{{contextPath}}/js2.0/widgets/DeleteConfirmationView.js"></script>
+    <script src="{{contextPath}}/js2.0/widgets/LiferayMediaGalleryDialog.js"></script>
+
+    <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
+    <script src="{{contextPath}}/js2.0/helpers/SettingsHelper.js"></script>
+    <script src="{{contextPath}}/js2.0/helpers/FormDataHelper.js"></script>
+
+    <script src="{{contextPath}}/js2.0/questionMain.js"></script>
+    <script src="{{contextPath}}/js2.0/quiz.js"></script>
+
+    <script src="{{contextPath}}/js2.0/lesson-designer/VideoView.js"></script>
+    <script src="{{contextPath}}/js2.0/lesson-designer/pdf-view.js"></script>
+    <script src="{{contextPath}}/js2.0/lesson-designer/pptx-view.js"></script>
+    <script src="{{contextPath}}/js2.0/lesson-designer/tincan-process-view.js"></script>
+
+    <script src="{{contextPath}}/js2.0/valamisTileResize.js"></script>
+
+</head>
+<body id="content-manager-body">
+<div class="learn-portlet content-manager"></div>
+
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+
+<script>
+    var quizSettings = new SettingsHelper({url: window.location.href, portlet: 'quiz'});
+    var quizLogoData = new FormDataHelper();
+    quizSettings.fetch();
+
+    Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+        return Mustache.compile(rawTemplate);
+    };
+    Backbone.emulateJSON = true;
+    var contentManagerActionUrl = '{{{actionURL}}}';
+    var contentManagerEvent = new Backbone.Wreqr.EventAggregator();
+    contentManagerEvent.on('lesson:created', function (lessonModelId) {
+        contentManagerView.model.fetch()
+    });
+
+    var contentManagerView = new ContentManager({el: $('.content-manager')});
+    contentManagerView.on('all', function (name) {
+
+    });
+
+    var contentManagerModals = new ModalContainer();
+    $('body').append(contentManagerModals.render().el);
+</script>
+</html>

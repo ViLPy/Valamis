@@ -1,0 +1,29 @@
+<fo:table-row>
+    <fo:table-cell display-align="before" padding-top="0">
+        <fo:block-container margin-left="10pt" width="70%" page-break-inside="avoid">
+            <fo:block height="0px"></fo:block>
+            {{#showHeader}}
+                <fo:block font="12pt sans-serif" color="#636362" font-style="italic" font-weight="bold" margin-left="40pt" text-align="left">
+                Attempt #{{which}}
+                </fo:block>
+            {{/showHeader}}
+            <fo:block font="12pt sans-serif" color="#636362" margin-left="50pt" text-align="left">
+            {{actor}} {{verb}} {{object}}
+            </fo:block>
+            <fo:block font="10pt sans-serif" color="#636362" margin-left="50pt" text-align="left">
+
+            </fo:block>
+            <fo:block font="10pt sans-serif" color="#636362" margin-left="50pt" text-align="left">
+
+            </fo:block>
+            {{#response}}
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="50pt" text-align="left">
+                with response: {{{result}}} scoring {{{score}}}
+                </fo:block>
+            {{/response}}
+            <fo:block font="10pt sans-serif" color="#636362" margin-left="50pt" text-align="left" space-after="10pt">
+            {{timestamp}}
+            </fo:block>
+        </fo:block-container>
+    </fo:table-cell>
+</fo:table-row>
