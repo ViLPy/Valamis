@@ -1,3 +1,47 @@
+VALAMIS = (function(){
+
+  var settingsMap = {};
+  var events = {};
+
+  _.extend(events, Backbone.Events);
+
+  return {
+    getListeners: function() {
+      return events._events;
+    },
+    addListener: function(event, callback) {
+      if (_.isUndefined(event)) {
+        console.warn("Failed to add listener. Event name missing!");
+        return;
+      }
+      events.on(event, callback);
+    },
+    removeListener: function(event, callback) {
+      if (_.isUndefined(event)) {
+        console.warn("Failed to remove listener(s). Event name missing!");
+        return;
+      }
+      events.off(event, callback);
+    },
+    fireEvent: function(event, payload) {
+      events.trigger(event, payload);
+    },
+    addSettings: function(settings) {
+      if (_.isUndefined(settings) ||  _.isUndefined(settings.portletID)) {
+        console.warn("Failed to save portlet settings. Settings or portletID undefined");
+        return;
+      }
+      settingsMap[settings.portletID] = settings;
+    },
+    getSettings: function(portletID) {
+      return settingsMap[portletID] || {};
+    },
+    getSettingsKeys: function() {
+      return _.keys(settingsMap);
+    }
+  }
+}());
+
 var Utils = {
   getContextPath: function () {
     var contextPath = "";
