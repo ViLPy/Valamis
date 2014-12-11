@@ -41,24 +41,24 @@ public class LFCertificateTincanStatementLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
-    private String _methodName302;
-    private String[] _methodParameterTypes302;
-    private String _methodName303;
-    private String[] _methodParameterTypes303;
-    private String _methodName304;
-    private String[] _methodParameterTypes304;
-    private String _methodName305;
-    private String[] _methodParameterTypes305;
-    private String _methodName306;
-    private String[] _methodParameterTypes306;
-    private String _methodName307;
-    private String[] _methodParameterTypes307;
-    private String _methodName308;
-    private String[] _methodParameterTypes308;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
+    private String _methodName322;
+    private String[] _methodParameterTypes322;
+    private String _methodName323;
+    private String[] _methodParameterTypes323;
+    private String _methodName324;
+    private String[] _methodParameterTypes324;
+    private String _methodName325;
+    private String[] _methodParameterTypes325;
+    private String _methodName326;
+    private String[] _methodParameterTypes326;
+    private String _methodName327;
+    private String[] _methodParameterTypes327;
+    private String _methodName328;
+    private String[] _methodParameterTypes328;
 
     public LFCertificateTincanStatementLocalServiceClpInvoker() {
         _methodName0 = "addLFCertificateTincanStatement";
@@ -151,47 +151,47 @@ public class LFCertificateTincanStatementLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFCertificateTincanStatement"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
 
-        _methodName302 = "findByCertificateID";
+        _methodName322 = "findByCertificateID";
 
-        _methodParameterTypes302 = new String[] { "java.lang.Long" };
+        _methodParameterTypes322 = new String[] { "java.lang.Long" };
 
-        _methodName303 = "findByVerb";
+        _methodName323 = "findByVerb";
 
-        _methodParameterTypes303 = new String[] { "java.lang.String" };
+        _methodParameterTypes323 = new String[] { "java.lang.String" };
 
-        _methodName304 = "findByStatementObject";
+        _methodName324 = "findByStatementObject";
 
-        _methodParameterTypes304 = new String[] { "java.lang.String" };
+        _methodParameterTypes324 = new String[] { "java.lang.String" };
 
-        _methodName305 = "findByVerbAndObject";
+        _methodName325 = "findByVerbAndObject";
 
-        _methodParameterTypes305 = new String[] {
+        _methodParameterTypes325 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
 
-        _methodName306 = "findByCertificateIDAndVerbAndObject";
+        _methodName326 = "findByCertificateIDAndVerbAndObject";
 
-        _methodParameterTypes306 = new String[] {
+        _methodParameterTypes326 = new String[] {
                 "java.lang.Long", "java.lang.String", "java.lang.String"
             };
 
-        _methodName307 = "removeByUserIDAndCertificateID";
+        _methodName327 = "removeByUserIDAndCertificateID";
 
-        _methodParameterTypes307 = new String[] {
+        _methodParameterTypes327 = new String[] {
                 "java.lang.Long", "java.lang.String", "java.lang.String"
             };
 
-        _methodName308 = "removeAll";
+        _methodName328 = "removeAll";
 
-        _methodParameterTypes308 = new String[] {  };
+        _methodParameterTypes328 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -283,55 +283,55 @@ public class LFCertificateTincanStatementLocalServiceClpInvoker {
             return LFCertificateTincanStatementLocalServiceUtil.updateLFCertificateTincanStatement((com.arcusys.learn.persistence.liferay.model.LFCertificateTincanStatement) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFCertificateTincanStatementLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName302.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+        if (_methodName322.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.findByCertificateID((java.lang.Long) arguments[0]);
         }
 
-        if (_methodName303.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+        if (_methodName323.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.findByVerb((java.lang.String) arguments[0]);
         }
 
-        if (_methodName304.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
+        if (_methodName324.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.findByStatementObject((java.lang.String) arguments[0]);
         }
 
-        if (_methodName305.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
+        if (_methodName325.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes325, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.findByVerbAndObject((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName306.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
+        if (_methodName326.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes326, parameterTypes)) {
             return LFCertificateTincanStatementLocalServiceUtil.findByCertificateIDAndVerbAndObject((java.lang.Long) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
-        if (_methodName307.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes307, parameterTypes)) {
+        if (_methodName327.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes327, parameterTypes)) {
             LFCertificateTincanStatementLocalServiceUtil.removeByUserIDAndCertificateID((java.lang.Long) arguments[0],
                 (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
 
             return null;
         }
 
-        if (_methodName308.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes308, parameterTypes)) {
+        if (_methodName328.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes328, parameterTypes)) {
             LFCertificateTincanStatementLocalServiceUtil.removeAll();
 
             return null;

@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.LFAttemptDataLocalServiceUt
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFAttemptData
 
+@deprecated
 trait LFAttemptDataStorageImpl extends EntityStorage[AttemptData] {
   protected def doRenew() { LFAttemptDataLocalServiceUtil.removeAll() }
 

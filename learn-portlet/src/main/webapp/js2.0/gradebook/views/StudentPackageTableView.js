@@ -45,7 +45,7 @@ StudentPackageTableRowView = Backbone.View.extend({
     render: function () {
         function escapeHTML(text) {
             var html = text + "";
-            return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/<([^>]+)>/g, '');
         }
 
         function truncateString(str, length) {
@@ -193,7 +193,7 @@ StudentPackageTableRowView = Backbone.View.extend({
                         verb = (stmt.result.success ? "correctly " : "incorrectly ") + verb;
                     }
                     if (stmt.result.response !== null) {
-                        answer = " with response '" + escapeHTML(truncateString(getResponseText(stmt), 30)) + "' ";
+                        answer = escapeHTML(truncateString(decodeURIComponent(getResponseText(stmt)), 30));
                     }
                 }
             }
@@ -212,11 +212,13 @@ StudentPackageTableRowView = Backbone.View.extend({
         statement.timestamp = this.model.timestamp ? moment(this.model.timestamp).format("YYYY-MM-DD HH:mm") : '';
         statement.actorName = (stmt.actor !== null ? escapeHTML(stmt.actor) : "No Actor");
         statement.objStr = ' "' + escapeHTML(stmt.target) + '"';
-        statement.verbName = escapeHTML(verb);
+        statement.verbName = verb ? escapeHTML(verb) : escapeHTML(stmt.verb.id);
         statement.resultGrade = result;
+        statement.score = (this.model.result && this.model.result.extensions && this.model.result.extensions['http://valamislearning.com/question/score']) ?
+          this.model.result.extensions['http://valamislearning.com/question/score'] : '';
         statement.answer = answer !== null ? answer : "";
-        statement.userResponse = (this.model.result && this.model.result.response) ? this.model.result.response : '';
-        statement.correctResponse = this.model.object.definition.correctResponsesPattern.length ? this.model.object.definition.correctResponsesPattern : '';
+        statement.userResponse = decodeURIComponent((this.model.result && this.model.result.response) ? this.model.result.response : '');
+        statement.correctResponse = decodeURIComponent(this.model.object.definition.correctResponsesPattern.length ? this.model.object.definition.correctResponsesPattern : '');
         statement.more = (statement.resultGrade || statement.userResponse || statement.correctResponse) ? true : false;
         var template = Mustache.to_html(jQuery("#studentViewPackageContentRowTemplate").html(), _.extend(language, statement));
         this.$el.html(jQuery(template));

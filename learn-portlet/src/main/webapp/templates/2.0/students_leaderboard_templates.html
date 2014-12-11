@@ -1,6 +1,6 @@
 <script type="text/html" id="studentViewTemplate">
     <td>
-        <img src="{{avatarUrl}}" style="width:48px;height: 48px"/>
+        <img src="{{avatarUrl}}" style="width:48px;height: 48px" class="img-circle" />
     </td>
     <td width="70%">
         <div class="statement">
@@ -15,15 +15,18 @@
 
 
 <script type="text/html" id="studentTableViewTemplate">
-    <div class="period-select form-group valamis-select">
-        <label class="form-label">{{periodLabel}}</label>
-        <select class="show-mode form-control">
-            <option value="all_time">{{allTimeLabel}}</option>
-            <option value="year">{{yearLabel}}</option>
-            <option value="month">{{monthLabel}}</option>
-            <option value="week">{{weekLabel}}</option>
-            <option value="day">{{dayLabel}}</option>
-        </select>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <div class="select-element position-relative" style="margin: 10px 10px;">
+        <div class="select-element-label form-label">{{periodLabel}}</div>
+        <div class="period-select form-group valamis-select">
+            <select class="show-mode form-control">
+                <option value="all_time">{{allTimeLabel}}</option>
+                <option value="year">{{yearLabel}}</option>
+                <option value="month">{{monthLabel}}</option>
+                <option value="week">{{weekLabel}}</option>
+                <option value="day">{{dayLabel}}</option>
+            </select>
+        </div>
     </div>
     <table class="statements valamis medium-table no-border">
         <thead>

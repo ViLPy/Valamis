@@ -1,0 +1,529 @@
+/*start content_manager_compile.css*/
+.content-manager {
+    /* Vars */
+}
+
+.bootstrap-timepicker-widget{
+    z-index: 100000!important /*Say hi liferay aui*/
+}
+
+.content-manager #bundle .filter-panel {
+    width: 300px;
+    position: absolute;
+    height: 100%;
+    z-index: 1000;
+    top: 0;
+}
+.content-manager .show-filter-button {
+    margin-left: 0 !important;
+}
+.content-manager .portlet-body {
+    position: relative;
+    overflow: hidden;
+}
+.content-manager .filter-panel {
+    background-color: #e4e4e4;
+    transition: all 0.4s ease 0s;
+    border-right: 1px solid #dedede;
+    /*box-sizing: border-box;*/
+
+}
+.content-manager .filter-panel.show {
+    padding: 20px;
+}
+
+.filter-panel.sidebar-wrapper {
+    margin-left: 0px !important;
+}
+
+.content-manager .lesson-content-edit .filter-panel {
+    width: 259px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.content-manager .content-panel {
+    transition: all 0.4s ease 0s;
+}
+.content-manager .content-panel > .header {
+    padding: 20px;
+}
+
+.content-manager .content-panel > .header h1 {
+    margin: 0;
+}
+
+.content-manager .content-panel .tool-panel {
+    padding: 20px;
+    padding-top: 0px;
+}
+.content-manager .select-action {
+    margin-bottom: 0px;
+}
+
+.content-manager .modal {
+    width: 90%;
+    margin-left: -45%;
+}
+.content-manager .next-page-button {
+    float: right;
+}
+.content-manager .previous-page-button {
+    float: left;
+}
+.content-manager .portlet-header-base .header {
+    font-size: 200%;
+}
+.content-manager .flip-container .command {
+    font-size: 200%;
+    margin: 10px;
+    cursor: pointer;
+}
+.content-manager .select-action {
+    max-width: 100px;
+}
+.content-manager .hide-filter {
+    display: none;
+    cursor: pointer;
+}
+.content-manager select {
+    margin-top: 0px !important;
+}
+.content-manager .bbm-modal {
+    width: 90% !important;
+}
+.content-manager hr {
+    margin: 3px !important;
+}
+.content-manager .popup-sidebar {
+    overflow: hidden;
+}
+.content-manager .add-content {
+    width: 100%;
+    padding-left: 60px;
+    /*background-image: url("../images/icon-edit.png");*/
+    background-position: 20px center;
+    background-repeat: no-repeat !important;
+    font-family: Ubuntu;
+    color: #777;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: small;
+    border-top: 1px solid #d3d4d5;
+    border-bottom: 1px solid #d3d4d5;
+    margin-top: -1px;
+    cursor: pointer;
+    line-height: 40px;
+}
+.content-manager .add-content:last-child {
+    border-bottom: 1px solid #d3d4d5;
+}
+
+.content-manager .title-container {
+    background-position: 10px center;
+    background-repeat: no-repeat !important;
+}
+.content-manager .title-container label {
+    padding: 8px 10px 0px 40px;
+    font-size: 16px;
+}
+.content-manager .lesson-content .item-body div.title-container button {
+    /*margin-top: 7px;*/
+    /*margin-left: 10px;*/
+}
+
+.content-manager .add-content.add-category {
+    background-image: url("../images/folder.png");
+}
+
+.content-manager .add-content.add-text-article,
+.content-manager .title-container.val-questionPlainText {
+    background-image: url("../images/book.png");
+}
+
+.content-manager .add-content.add-reveal-presentation,
+.content-manager .title-container.val-questionRevealJS {
+    background-image: url("../images/list.png");
+}
+
+.content-manager .add-content.add-question,
+.content-manager .title-container.val-question{
+    background-image: url("../img/content.png");
+}
+
+.content-manager .add-content.add-pdf,
+.content-manager .title-container.val-questionPDF {
+    background-image: url("../img/pdf.png");
+}
+
+.content-manager .add-content.add-pptx,
+.content-manager .title-container.val-questionPPTX {
+    background-image: url("../img/pptx.png");
+}
+
+.content-manager .add-content.add-video,
+.content-manager .title-container.val-questionVideoDL {
+    background-image: url("../img/video.png");
+}
+
+.content-manager .add-content.add-external-resource,
+.content-manager .title-container.val-questionExternalResource {
+    background-image: url("../images/globe.png");
+}
+
+.content-manager .popup-content {
+    left: 260px;
+}
+.content-manager .selected > .item-body {
+    background: #e4e4e4;
+}
+.content-manager .unselect-lesson {
+    display: none;
+}
+.content-manager .selected .unselect-lesson {
+    display: inline;
+}
+.content-manager .selected .select-lesson {
+    display: none;
+}
+.content-manager .lesson-content-info .bbm-modal .content {
+    padding: 0;
+}
+.content-manager .lesson-content-info .bbm-modal .content table td:first-child {
+    width: 30%;
+}
+.content-manager .lesson-content-edit .bbm-modal .bbm-modal__section {
+    padding-left: 0;
+    height: auto;
+}
+.content-manager .lesson-content-edit .bbm-modal .bbm-modal__section .popup-content {
+    left: 0;
+    margin-left: 259px;
+    position: static;
+    min-height: 480px;
+    max-height: 700px;
+    overflow: auto;
+}
+.content-manager .lesson-content-edit .bbm-modal .bbm-modal__section .popup-content .internal-collection {
+    overflow: hidden;
+}
+.content-manager .lesson-content-edit .bbm-modal .bbm-modal__section .popup-content .collapsed {
+    max-height: 0;
+}
+.content-manager .question-select-modal .content > div {
+    max-height: 490px;
+    overflow: auto;
+    /*border-bottom: 1px solid #DEDEDE;
+    border-top: 1px solid #DEDEDE;*/
+}
+.content-manager .question-select-modal .content .questionBankTree {
+    margin-top: 0px!important;
+}
+.content-manager .lesson-content .item-body {
+    background-color: #FFFFFF;
+}
+.content-manager .lesson-content .category > .item-body {
+    background-color: #f8f8f8;
+}
+.content-manager .lesson-content .category.selected > .item-body {
+    background-color: #e4e4e4;
+}
+.content-manager .lesson-content .category:last-child {
+    border-bottom: 1px solid #DEDEDE;
+}
+.content-manager .lesson-content > div:nth-child(2n+1) {
+    background: #f8f8f8;
+}
+.content-manager .lesson-content > div {
+    background: #FFFFFF;
+}
+.content-manager .lesson-content .internal-collection {
+    margin-left: 35px;
+}
+.content-manager .lesson-content .internal-collection.collapsed img,
+.content-manager .lesson-content .internal-collection.collapsed label,
+.content-manager .lesson-content .internal-collection.collapsed button,
+.content-manager .lesson-content .internal-collection.collapsed .item-body{
+    display: none;
+}
+.content-manager .lesson-content .item-body {
+    border-bottom: 1px solid #d3d4d5;
+    border-top: 1px solid #d3d4d5;
+    margin-top: -1px;
+    line-height: 40px;
+    padding: 10px;
+}
+
+.content-manager .lesson-content .item-body label {
+    line-height: 40px!important;
+    margin: 0;
+    padding-top: 0px;
+}
+.content-manager .lesson-content .item-body .button.medium {
+    margin-top: 2px;
+}
+.content-manager .lesson-content .item-body div.checkbox-container {
+    width: 75px;
+    float: left;
+    position: relative;
+    height: 74px;
+}
+.content-manager .lesson-content .item-body input {
+    margin-top: 7px;
+}
+.content-manager .liferay-article.selected {
+    background-color: #eee;
+}
+.content-manager .internal-collection {
+    min-height: 1em;
+}
+.content-manager .liferay-articles-modal table {
+    margin-top: 10px;
+    width: 100%;
+}
+.content-manager .liferay-articles-modal table td:first-child {
+    padding-right: 10px;
+}
+.content-manager .liferay-articles-modal table th:first-child {
+    padding-right: 10px;
+    text-align: left;
+    padding-left: 20px;
+}
+.content-manager .liferay-articles-modal table td:last-child {
+    padding-top: 5px;
+    padding-right: 10px;
+    width: 50%;
+    text-align: right;
+}
+.content-manager .add-presentation-modal table.valamis,
+.content-manager .add-external-resource-modal table.valamis {
+    margin-top: -1px;
+    border-left: 1px solid #DEDEDE;
+}
+.content-manager .add-presentation-modal table.valamis.resource-table td:first-child,
+.content-manager .add-external-resource-modal table.valamis.resource-table td:first-child {
+    width: 30%;
+}
+.content-manager .add-presentation-modal table.valamis.resource-table td:last-child,
+.content-manager .add-external-resource-modal table.valamis.resource-table td:last-child {
+    width: 70%;
+}
+.content-manager .add-external-resource-modal .content input[type="radio"] {
+    margin: 0px;
+}
+.content-manager .add-external-resource-modal .content iframe {
+    width: 100%;
+    height: 250px;
+}
+
+.content-manager .preview-modal .content{
+    width: 640px;
+    height: 400px;
+    display: inline-block!important;
+    -webkit-overflow-scrolling:touch !important;
+    padding: 20px;
+}
+
+.content-manager .preview-modal .content iframe {
+    width: 640px;
+    height: 400px;
+}
+
+/*end content_manager_compile.css*/
+
+.modals-container .bbm-wrapper:nth-child(2) .bbm-modal {
+    max-height: 700px;
+    max-width: 700px;
+}
+
+.upload-modal .bbm-modal .bbm-modal__section {
+    padding-top:30px;
+    padding-bottom: 30px;
+}
+
+.content button.menu-toggle{
+    padding-left: 0px!important;
+    background-position: center!important;
+    width: 42px !important;
+}
+
+.flipper img {
+    max-height: 163px;
+    max-width: 260px;
+}
+
+.internal-collection {
+    min-height: 1em;
+}
+
+.ui-state-highlight {
+    height: 1.5em;
+    line-height: 1.2em;
+    background-color: green;
+    opacity: 0.3;
+}
+
+.ui-wrong-helper {
+    background-color: red;
+    opacity: 0.3;
+}
+
+.category-expand-button {
+    width: 38px;
+    height: 38px;
+    background-image: url(/learn-portlet/images/icon-next.png);
+}
+
+.category-expand-button.category-collapsed {
+    background-image: url(/learn-portlet/images/icon-select-button.png);
+}
+
+.content-manager .immediate-answer-flag-label {
+    padding-top: 0 !important;
+}
+
+.immediate-answer-flag-label .immediate-answer-flag {
+    margin-top: 0 !important;
+}
+
+/*start content_manager_compiled.css (media)*/
+@media (max-width: 766px) {
+    .content-manager .lesson-content-edit .bbm-modal__section {
+        padding: 0px;
+    }
+    .content-manager .filter-panel {
+        background-color: #f2f2f2;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        -webkit-transition: all 0.4s ease 0s;
+        -moz-transition: all 0.4s ease 0s;
+    }
+    .content-manager .filter-panel .hide-filter {
+        display: none;
+    }
+    .content-manager .filter-panel * {
+        width: 100%;
+    }
+    .content-manager .item-view-picker {
+        display: none;
+    }
+    .content-manager .header {
+        display: block;
+    }
+    .content-manager .tablet-showable {
+        max-height: 450px;
+    }
+    .content-manager .show {
+        max-height: 400px;
+    }
+    .content-manager .content-panel {
+        margin: 0px;
+    }
+    .content-manager .header {
+        margin: 20px;
+    }
+    .content-manager .liferay-articles-modal select {
+        max-width: 150px;
+    }
+    .content-manager .lesson-content-info .bbm-modal {
+        width: 90%!important;
+    }
+    .content-manager .modals-container .bbm-wrapper:nth-child(2) .bbm-modal {
+        width: 90%!important;
+    }
+    .content-manager .lesson-content-edit .bbm-modal .popup-content {
+        margin-left: 0px!important;
+    }
+    .content-manager .lesson-content-edit .bbm-modal .sidebar-wrapper {
+        padding: 0px;
+    }
+    .content-manager .lesson-content-edit .bbm-modal .sidebar-wrapper.show {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .content-manager .content-panel {
+        margin-bottom: 25px;
+    }
+}
+@media (min-width: 767px) and (max-width: 1199px) {
+    .content-manager .lesson-content-edit .bbm-modal__section {
+        padding: 0px;
+    }
+    .content-manager .filter-panel {
+        width: 300px;
+        position: absolute;
+        height: 100%;
+        z-index: 1000;
+        top: 0;
+        left: -350px;
+    }
+    .content-manager .filter-panel.show {
+        left: 0;
+        padding: 20px;
+    }
+    .content-manager .filter-panel.show .hide-filter {
+        display: inline;
+        right: 10px;
+        top: 10px;
+    }
+    .content-manager .liferay-articles-modal select {
+        max-width: 400px;
+    }
+    .content-manager .lesson-content-info .bbm-modal {
+        width: 90%!important;
+    }
+    .content-manager .modals-container .bbm-wrapper:nth-child(2) .bbm-modal {
+        width: 90%!important;
+    }
+    .content-manager .lesson-content-edit .bbm-modal .popup-content {
+        margin-left: 0px!important;
+    }
+    .content-manager .lesson-content-edit .bbm-modal .sidebar-wrapper {
+        padding: 20px 0px 0px 0px;
+    }
+    .content-manager .preview-modal .content{
+        overflow:scroll !important;
+    }
+}
+@media (min-width: 1200px) {
+    .content-manager .filter-panel {
+        width: 300px;
+        position: absolute;
+        height: 100%;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        padding: 20px;
+    }
+    .content-manager .hide-filter {
+        display: none;
+    }
+    .content-manager .show-filter-button-showable {
+        visibility: hidden;
+    }
+    .content-manager .content-panel {
+        margin-left: 300px;
+    }
+    .content-manager .tablet-showable {
+        left: 300px;
+    }
+    .content-manager .show-filter-button {
+        display: none;
+    }
+}
+
+.videoTable td {
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+    padding-left: 5px;
+}
+
+.lesson-list-container {
+    padding: 10px;
+}
+
+#bottomPaginatorWrapper {
+    padding: 20px;
+}

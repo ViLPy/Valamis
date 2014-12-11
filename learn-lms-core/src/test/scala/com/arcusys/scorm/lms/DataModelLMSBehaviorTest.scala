@@ -1,6 +1,5 @@
 package com.arcusys.scorm.lms
 
-import com.arcusys.learn.storage.StorageFactoryContract
 import com.arcusys.learn.scorm.tracking.model._
 import com.escalatesoft.subcut.inject.NewBindingModule
 import org.scalatest.{ Matchers, FlatSpec }
@@ -9,14 +8,12 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class DataModelLMSBehaviorTest extends FlatSpec with Matchers with MockFactory {
-  private val storageFactory = mock[StorageFactoryContract]
   val someAttempt = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)
   val attemptWithoutCurrentActivity = new Attempt(id = 1, user = new User(12, "Me"), packageID = 13, organizationID = "org1", isComplete = false)
-  val configuration = new NewBindingModule({
-    implicit module =>
-      import module._
-      bind[StorageFactoryContract] toSingle storageFactory
-  })
+  //  val configuration = new NewBindingModule({
+  //    implicit module =>
+  //      import module._
+  //  })
 
   // TODO: implement with ActivityStateTree
   /*def service = new DataModelLMSBehavior(someAttempt)(configuration)

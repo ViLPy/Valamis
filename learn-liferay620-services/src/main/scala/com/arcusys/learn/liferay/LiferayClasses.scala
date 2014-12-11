@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery
 import com.liferay.portlet.asset.NoSuchEntryException
 import com.liferay.portal.service.{ BaseLocalService, ServiceContext }
 import com.liferay.portal.kernel.bean.BeanLocator
+import com.liferay.portlet.trash.DuplicateEntryException
 
 object LiferayClasses {
   type LAssetEntry = AssetEntry
@@ -58,4 +59,5 @@ object LiferayClasses {
   type LNoSuchGroupException = NoSuchGroupException
   type LNoSuchEntryException = NoSuchEntryException
   type LNoSuchLayoutException = NoSuchLayoutException
+  type LDuplicateEntryException = DuplicateEntryException
 }

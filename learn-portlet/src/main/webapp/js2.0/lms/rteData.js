@@ -15,13 +15,13 @@ SCORM2004_4API.prototype.Commit = function () {
         serialized["activityID"] = activityID;
         return serialized;
     };
-    window.LearnAjax.syncRequest(Utils.getContextPath() + "services/rte/SetValues", "post", postData(this.dataSet.getAllFieldsData()));
-    window.LearnAjax.syncRequest(Utils.getContextPath() + "services/rte/SetValues", "post", postData(this.collectionData));
+    window.LearnAjax.syncRequest(path.root + path.rte + "SetValues", "post", postData(this.dataSet.getAllFieldsData()));
+    window.LearnAjax.syncRequest(path.root + path.rte + "SetValues", "post", postData(this.collectionData));
     return 'true';
 };
 
 SCORM2004_4API.prototype.fetchDataModel = function () {
-    var baseData = this.doSyncRequest("services/rte/GetValues");
+    var baseData = this.doSyncRequest(path.rte + "GetValues");
     for (var key in baseData) {
         var fieldModel = this.dataSet.getField(this.getOriginalKeyName(key));
         // check is model field for given key exists
@@ -38,27 +38,27 @@ SCORM2004_4API.prototype.fetchCollections = function () {
         }
     };
 
-    var cmiInteractions = this.doSyncRequest("services/rte/GetValue/cmi.interactions.");
+    var cmiInteractions = this.doSyncRequest(path.rte + "GetValue/cmi.interactions.");
     if (!cmiInteractions["cmi.interactions._count"]) {
         cmiInteractions["cmi.interactions._count"] = 0;
     }
 
-    var cmiObjectives = this.doSyncRequest("services/rte/GetValue/cmi.objectives.");
+    var cmiObjectives = this.doSyncRequest(path.rte + "GetValue/cmi.objectives.");
     if (!cmiObjectives["cmi.objectives._count"]) {
         cmiObjectives["cmi.objectives._count"] = 0;
     }
 
-    var cmiCommentsFromLearner = this.doSyncRequest("services/rte/GetValue/cmi.comments_from_learner.");
+    var cmiCommentsFromLearner = this.doSyncRequest(path.rte + "GetValue/cmi.comments_from_learner.");
     if (!cmiCommentsFromLearner["cmi.comments_from_learner._count"]) {
         cmiCommentsFromLearner["cmi.comments_from_learner._count"] = 0;
     }
 
-    var cmiCommentsFromLMS = this.doSyncRequest("services/rte/GetValue/cmi.comments_from_lms.");
+    var cmiCommentsFromLMS = this.doSyncRequest(path.rte + "GetValue/cmi.comments_from_lms.");
     if (!cmiCommentsFromLMS["cmi.comments_from_lms._count"]) {
         cmiCommentsFromLMS["cmi.comments_from_lms._count"] = 0;
     }
 
-    var adlData = this.doSyncRequest("services/rte/GetValue/adl.data.");
+    var adlData = this.doSyncRequest(path.rte + "GetValue/adl.data.");
     if (!adlData["adl.data._count"]) {
         adlData["adl.data._count"] = 0;
     }

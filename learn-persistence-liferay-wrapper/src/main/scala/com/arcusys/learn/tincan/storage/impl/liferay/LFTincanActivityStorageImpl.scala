@@ -7,8 +7,7 @@ import com.arcusys.learn.persistence.liferay.model.LFTincanActivity
 import com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalServiceUtil
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.tincan.model.{ Activity, InteractionType }
-import com.arcusys.util.JsonSerializer
-import com.liferay.portal.kernel.dao.orm.{ DynamicQuery, DynamicQueryFactoryUtil, PropertyFactoryUtil }
+import com.liferay.portal.kernel.dao.orm._
 
 import scala.collection.JavaConverters._
 
@@ -108,8 +107,10 @@ trait LFTincanActivityStorageImpl extends KeyedEntityStorage[Activity] {
   def createAndGetID(parameters: (String, Any)*): Int = 0
 
   private def findBy(filterName: String): util.List[_] = {
+
     val query: DynamicQuery = DynamicQueryFactoryUtil.forClass(classOf[LFTincanActivity], "activity")
-      .add(PropertyFactoryUtil.forName("activity.name").like(":\"" + filterName + "%"))
+      .add(RestrictionsFactoryUtil.ilike("activity.name", "%:\"" + filterName.toLowerCase + "%")) //    PropertyFactoryUtil.forName("activity.name").ilike("%:\"" + filterName + "%"))
+      .addOrder(OrderFactoryUtil.asc("activity.name"))
 
     val requestList = LFTincanActivityLocalServiceUtil.dynamicQuery(query)
     return requestList

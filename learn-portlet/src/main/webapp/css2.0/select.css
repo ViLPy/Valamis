@@ -1,9 +1,9 @@
 @charset "UTF-8";
 /* CSS Document */
 
-select {
+.portlet-learn-scorm select {
 	-webkit-appearance: none;
-	border: 1px solid;
+	border: 1px solid #d4d4d4;
 	line-height: 32px;
 	font-size: 13px;
 	font-weight: bold;

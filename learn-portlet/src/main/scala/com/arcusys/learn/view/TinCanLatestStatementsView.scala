@@ -5,6 +5,7 @@ import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.util.MustacheSupport
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport, SessionSupport, TemplateCoupler }
 
 class TinCanLatestStatementsView
     extends GenericPortlet
@@ -34,9 +35,9 @@ class TinCanLatestStatementsView
 
   def generateResponse(contextPath: String, templateName: String, language: String, resURL: String = "") = {
     val translations = try {
-      getTranslation("/i18n/statementReporting_" + language)
+      getTranslation("/i18n/statementReport_" + language)
     } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/statementReporting_en")
+      case e: FileNotFoundException => getTranslation("/i18n/statementReport_en")
       case _                        => Map[String, String]()
     }
     val data = Map("contextPath" -> contextPath, "language" -> language, "resourceURL" -> resURL) ++ translations

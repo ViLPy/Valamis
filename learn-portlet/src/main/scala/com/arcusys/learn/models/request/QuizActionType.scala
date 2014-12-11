@@ -6,9 +6,9 @@ object QuizActionType extends Enumeration {
 
   val Add = Value("ADD")
   val Publish = Value("PUBLISH")
-  val Download = Value("DOWNLOAD")
   val Delete = Value("DELETE")
   val Update = Value("UPDATE")
+  val UpdateLogo = Value("UPDATELOGO")
   val Clone = Value("CLONE")
 
   val AddCategory = Value("ADDCATEGORY")
@@ -17,6 +17,8 @@ object QuizActionType extends Enumeration {
   val AddQuestionExternal = Value("ADDQUESTIONEXTERNALRESOURCE")
   val AddQuestionPlainText = Value("ADDQUESTIONPLAINTEXT")
   val AddQuestionRevealJS = Value("ADDQUESTIONREVEALJS")
+  val AddQuestionPDF = Value("ADDQUESTIONPDF")
+  val AddVideo = Value("ADDQUESTIONVIDEO")
 
   val DeleteQuestion = Value("DELETEQUESTION")
   val DeleteCategory = Value("DELETECATEGORY")
@@ -25,11 +27,16 @@ object QuizActionType extends Enumeration {
   val UpdateQuestion = Value("UPDATEQUESTION")
   val UpdateQuestionPlainText = Value("UPDATEQUESTIONPLAINTEXT")
   val UpdateQuestionRevealJS = Value("UPDATEQUESTIONREVEALJS")
+  val UpdateQuestionPDF = Value("UPDATEQUESTIONPDF")
+  val UpdateQuestionPPTX = Value("UPDATEQUESTIONPPTX")
   val UpdateQuestionExternal = Value("UPDATEQUESTIONEXTERNALRESOURCE")
+  val UpdateQuestionDLVideo = Value("UPDATEQUESTIONVIDEODL")
 
   val MoveElement = Value("MOVEELEMENT")
 
   val QuestionPreview = Value("GETQUESTIONPREVIEW")
+
+  val Import = Value("IMPORT")
 
   type QuizActionType = Value
 }

@@ -1,0 +1,22 @@
+  <fo:block-container margin-left="10pt" width="70%" page-break-inside="avoid">
+    {{#showHeader}}
+    <fo:block font="22pt sans-serif" color="#636362" text-align="left" font-weight="bold">
+      My Valamis courses
+    </fo:block>
+    <fo:block text-align="right" space-before="1pt" space-after="2pt">
+      <fo:leader color="#b4b3b4" leader-pattern="rule" rule-thickness="2.0pt" leader-length="18cm" text-align="left"/>
+    </fo:block>
+    {{/showHeader}}
+    <fo:block font="20pt sans-serif" color="#636362" margin-left="10pt" text-align="left">
+    {{title}}
+    </fo:block>
+    <fo:block font="18pt sans-serif" color="#636362" margin-left="10pt" text-align="left">
+    {{description}}
+    </fo:block>
+    <fo:block text-align="right" space-before.optimum="1pt" space-after.optimum="2pt">
+      <fo:leader color="#b4b3b4" leader-pattern="rule"  rule-thickness="2.0pt" leader-length="18cm" text-align="left"/>
+    </fo:block>
+  </fo:block-container>
+  {{#hasPackages}}
+    {{{packages}}}
+  {{/hasPackages}}

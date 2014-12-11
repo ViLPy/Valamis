@@ -3,8 +3,9 @@ package com.arcusys.learn.scorm.tracking.states.storage.impl
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.scorm.tracking.model.{ ObjectiveState, ActivityState }
 import com.arcusys.learn.scorm.tracking.states.storage.{ ObjectiveStateStorage, ActivityStateStorage }
-import com.arcusys.learn.scorm.manifest.storage.ActivitiesStorage
+import com.arcusys.learn.scorm.manifest.storage.ActivityStorage
 
+@deprecated
 trait ActivityStateFieldsMapper {
   def packageID: Int
 
@@ -30,9 +31,9 @@ trait ActivityStateFieldsMapper {
 
   def attemptCount: Int
 }
-
+@deprecated
 trait ActivityStateCreator {
-  def activitiesStorage: ActivitiesStorage
+  def activitiesStorage: ActivityStorage
 
   def objectiveStateStorage: ObjectiveStateStorage
 
@@ -56,8 +57,9 @@ trait ActivityStateCreator {
   }
 }
 
+@deprecated
 trait ActivityStateEntityStorage extends ActivityStateStorage with KeyedEntityStorageExt[ActivityState] with EntityStorageExt[ActivityState] {
-  def activitiesStorage: ActivitiesStorage
+  def activitiesStorage: ActivityStorage
 
   def objectiveStateStorage: ObjectiveStateStorage
 

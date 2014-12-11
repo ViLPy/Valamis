@@ -1,6 +1,6 @@
 package com.arcusys.learn.questionbank.storage.impl
 
-import com.arcusys.learn.questionbank.storage.{ AnswerStorage, QuestionStorage }
+import com.arcusys.learn.questionbank.storage.{ QuestionAnswerStorage, QuestionStorage }
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.questionbank.model._
 
@@ -29,7 +29,7 @@ trait QuestionFieldsMapper {
 }
 
 trait QuestionCreator {
-  def answerStorage: AnswerStorage
+  def answerStorage: QuestionAnswerStorage
 
   def createQuestion(questionType: Int, mapper: QuestionFieldsMapper): Question[Answer] = {
     import mapper._
@@ -106,13 +106,20 @@ trait QuestionCreator {
         description,
         courseID,
         arrangementIndex)
+      case 9 => new PurePlainText(questionID,
+        categoryId,
+        title,
+        description,
+        courseID,
+        arrangementIndex)
       case _ => throw new Exception("Oops! Can't create question " + questionID)
     }
   }
 }
 
+@deprecated
 trait QuestionEntityStorage extends QuestionStorage with KeyedEntityStorageExt[Question[Answer]] with EntityStorageExt[Question[Answer]] {
-  def answerStorage: AnswerStorage
+  def answerStorage: QuestionAnswerStorage
 
   override def renew() {
     doRenew()
@@ -157,38 +164,18 @@ trait QuestionEntityStorage extends QuestionStorage with KeyedEntityStorageExt[Q
     answerStorage.createForQuestion(entity.id, entity.answers)
   }
 
-  def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean) {
+  def move(id: Int, index: Int, parentID: Option[Int]) {
     val questionForUpdate = getByID(id).get
-    val oldChildren: Seq[Question[Answer]] = getByCategory(parentID, questionForUpdate.courseID)
+    val forUpdate: Seq[Question[Answer]] = getByCategory(parentID, questionForUpdate.courseID)
 
-    def doMove(forUpdate: Seq[Question[Answer]], forIndex: Seq[Question[Answer]]) {
-      forUpdate.foreach {
-        question =>
-          modify(question, "arrangementIndex" -> (question.arrangementIndex + 1))
-      }
-      modify(questionForUpdate, "arrangementIndex" -> (maxArrangementIndex(forIndex) + 1), "categoryID" -> parentID)
+    forUpdate.foreach {
+      question =>
+        modify(question, "arrangementIndex" -> (
+          question.arrangementIndex + (if (question.arrangementIndex >= index) 2 else 1)
+        ))
     }
 
-    siblingID match {
-      case None =>
-        if (!moveAfterTarget) {
-          doMove(oldChildren, Seq())
-        } else {
-          doMove(Seq(), oldChildren)
-        }
-      case Some(a: Int) => {
-        val spannedChildren = oldChildren.span(_.id != siblingID.get)
-        if (!moveAfterTarget) {
-          val forIndex = spannedChildren._1
-          val forUpdate = spannedChildren._2
-          doMove(forUpdate, forIndex)
-        } else {
-          val forIndex = spannedChildren._1 ++ spannedChildren._2.headOption
-          val forUpdate = if (spannedChildren._2.isEmpty) Nil else spannedChildren._2.tail
-          doMove(forUpdate, forIndex)
-        }
-      }
-    }
+    modify(questionForUpdate, "arrangementIndex" -> index, "categoryID" -> parentID)
   }
 
   def maxArrangementIndex(oldChildren: Seq[Question[Answer]]): Int = {

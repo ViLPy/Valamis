@@ -41,14 +41,14 @@ public class LFTincanClientApiStorageLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
-    private String _methodName302;
-    private String[] _methodParameterTypes302;
-    private String _methodName303;
-    private String[] _methodParameterTypes303;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
+    private String _methodName322;
+    private String[] _methodParameterTypes322;
+    private String _methodName323;
+    private String[] _methodParameterTypes323;
 
     public LFTincanClientApiStorageLocalServiceClpInvoker() {
         _methodName0 = "addLFTincanClientApiStorage";
@@ -133,21 +133,21 @@ public class LFTincanClientApiStorageLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFTincanClientApiStorage"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
 
-        _methodName302 = "findByToken";
+        _methodName322 = "findByToken";
 
-        _methodParameterTypes302 = new String[] { "java.lang.String" };
+        _methodParameterTypes322 = new String[] { "java.lang.String" };
 
-        _methodName303 = "findByCode";
+        _methodName323 = "findByCode";
 
-        _methodParameterTypes303 = new String[] { "java.lang.String" };
+        _methodParameterTypes323 = new String[] { "java.lang.String" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -239,25 +239,25 @@ public class LFTincanClientApiStorageLocalServiceClpInvoker {
             return LFTincanClientApiStorageLocalServiceUtil.updateLFTincanClientApiStorage((com.arcusys.learn.persistence.liferay.model.LFTincanClientApiStorage) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFTincanClientApiStorageLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFTincanClientApiStorageLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName302.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+        if (_methodName322.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
             return LFTincanClientApiStorageLocalServiceUtil.findByToken((java.lang.String) arguments[0]);
         }
 
-        if (_methodName303.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+        if (_methodName323.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
             return LFTincanClientApiStorageLocalServiceUtil.findByCode((java.lang.String) arguments[0]);
         }
 

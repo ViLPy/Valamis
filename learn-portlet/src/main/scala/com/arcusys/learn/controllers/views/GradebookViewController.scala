@@ -47,7 +47,7 @@ class GradebookViewController extends BaseController {
       case _                        => Map[String, String]()
     }
 
-    val users = userManagement.getStudentsWithAttemptsByCourseID(courseID)
+    val users = userRoleService.getStudentsWithAttemptsByCourseID(courseID)
     val packages = packageService.getPackagesWithAttemptsByCourseID(courseID, if (isAdmin) 0 else userID)
 
     val data = Map(

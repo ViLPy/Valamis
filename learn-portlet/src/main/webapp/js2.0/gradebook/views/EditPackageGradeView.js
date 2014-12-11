@@ -11,20 +11,10 @@ EditPackageGradeView = Backbone.View.extend({
         this.options = options;
         this.$el = jQuery('<div>');
         this.$el.attr("id", this.model.id);
-//        this.model.loadGrade({packageId:this.model.id}, {
-//            success: jQuery1816Gradebook.proxy(function (res) {
-//                this.model.set('grade',res.grade);
-//                this.model.set('comment',res.comment);
-//                this.render();
-//            }, this),
-//            error: function (err, res) {
-//                // do something in case of an error
-//            }
-//        });
     },
 
     render: function () {
-        var template = Mustache.to_html(jQuery("#editPackageGradeTemplate").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQuery("#editPackageGradeTemplate").html(), _.extend(this.model.toJSON(), language, {contextPath: Utils.getContextPath()}));
         this.$el.html(template);
         var gradeSelect = this.$('#totalGradeChoice');
         gradeSelect.empty();
@@ -43,12 +33,6 @@ EditPackageGradeView = Backbone.View.extend({
 
         // TODO: save data and trigger to update list
         this.model.saveGrade(
-//            {
-//            studentId:this.model.get('studentId'),
-//            packageId:this.model.id,
-//            totalGrade:this.model.get('grade'),
-//            gradeComment:this.model.get('comment')
-//        }
             {}
             ,{
                 success: jQuery1816Gradebook.proxy(function (res) {

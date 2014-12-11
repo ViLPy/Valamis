@@ -1,0 +1,45 @@
+<fo:table table-layout="fixed" width="90%">
+    <fo:table-column column-width="proportional-column-width(1)"/>
+    <fo:table-body>
+        <fo:table-row height="0">
+            <fo:table-cell height="0">
+                <fo:block></fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+        <fo:table-row>
+            <fo:table-cell padding-top="20pt">
+              <fo:block-container margin-left="10pt" width="70%" space-before="20pt" page-break-inside="avoid">
+                {{#showHeader}}
+                <fo:block font="22pt sans-serif" color="#636362" text-align="left" font-weight="bold">
+                  My Valamis certificates
+                </fo:block>
+                <fo:block text-align="left" space-before="1pt" space-after="2pt">
+                  <fo:leader color="#b4b3b4" leader-pattern="rule"  rule-thickness="2.0pt" leader-length="18cm" text-align="left"/>
+                </fo:block>
+                {{/showHeader}}
+                <fo:block font="12pt sans-serif" color="#636362" margin-left="10pt" text-align="left" font-weight="bold">
+                {{title}}
+                </fo:block>
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
+                {{description}}
+                </fo:block>
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
+                {{shortDescription}}
+                </fo:block>
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
+                {{validPeriod}}
+                </fo:block>
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
+                Issue date: {{issueDate}}
+                </fo:block>
+
+                {{#expires}}
+                <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
+                Expiration date: {{expirationDate}}
+                </fo:block>
+                {{/expires}}
+              </fo:block-container>
+            </fo:table-cell>
+        </fo:table-row>
+    </fo:table-body>
+</fo:table>

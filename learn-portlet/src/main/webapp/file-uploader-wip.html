@@ -28,8 +28,8 @@
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="js2.0/vendor/jquery.ui.widget.js"></script>
-<script src="js2.0/jquery.iframe-transport.js"></script>
-<script src="js2.0/jquery.fileupload.js"></script>
+<script src="js2.0/vendor/jquery.iframe-transport.js"></script>
+<script src="js2.0/vendor/jquery.fileupload.js"></script>
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="js2.0/cors/jquery.xdr-transport.js"></script>
 <![endif]-->
@@ -46,7 +46,7 @@
     Drop files to upload<br>(or click)
     <input id="fileupload" type="file" name="files[]" data-url="{{fileUploadEndpoint}}" multiple>
   </div>
-  <div class="progress hidden">
+  <div class="progress progress-striped hidden">
     <div class="progress-bar progress-bar-success" role="progressbar"></div>
   </div>
 </script>
@@ -54,7 +54,7 @@
   <div>
     <strong>{{filename}}</strong>
 
-    <div class="progress">
+    <div class="progress progress-striped">
       <div class="progress-bar" role="progressbar" style="width:{{progress}}%"></div>
     </div>
     <div class="info-block">
@@ -73,7 +73,7 @@
     </div>
     <strong>{{filename}}</strong>
 
-    <div class="progress">
+    <div class="progress progress-striped">
       <div class="progress-bar" role="progressbar"></div>
     </div>
   </div>

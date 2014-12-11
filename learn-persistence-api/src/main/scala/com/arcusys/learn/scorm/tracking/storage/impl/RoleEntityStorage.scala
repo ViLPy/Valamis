@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.tracking.storage.RoleStorage
  * User: Yulia.Glushonkova
  * Date: 28.03.13
  */
+@deprecated
 trait RoleEntityStorage extends RoleStorage with KeyedEntityStorageExt[Role] with EntityStorageExt[Role] {
 
   def delete(liferayRoleID: Int, permission: PermissionType.Value) {

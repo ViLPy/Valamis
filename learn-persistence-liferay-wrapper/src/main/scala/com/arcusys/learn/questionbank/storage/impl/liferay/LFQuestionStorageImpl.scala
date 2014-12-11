@@ -6,13 +6,13 @@ import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionLocalServic
 import com.arcusys.learn.persistence.liferay.model.LFQuestion
 import com.arcusys.learn.questionbank.storage.impl.QuestionFieldsMapper
 import scala.collection.JavaConverters._
-import java.lang.{ Integer => JavaInteger }
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 
 /**
  * User: dkudinov
  * Date: 15.3.2013
  */
+@deprecated
 trait LFQuestionStorageImpl extends KeyedEntityStorage[Question[Answer]] {
   protected def doRenew() { LFQuestionLocalServiceUtil.removeAll() }
 

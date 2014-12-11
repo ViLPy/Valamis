@@ -22,6 +22,7 @@ class ClientApiView extends BaseCurriculum {
       request,
       response,
       "client_api.html",
-      Map("clients" -> JsonSupport.json(clients).get))
+      Map("clients" -> JsonSupport.json(clients).get),
+      adminOnly = true)
   }
 }

@@ -9,11 +9,15 @@ import com.arcusys.learn.exceptions.BadRequestException
 class CategoryApiController(configuration: BindingModule) extends BaseApiController(configuration) {
   def this() = this(Configuration)
 
-  val categoryRequest = CategoryRequest(this)
   val categoryFacade = inject[CategoryFacadeContract]
 
-  get("/(:id)")(jsonAction {
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/categories(/)(:id)")(jsonAction {
     requireTeacherPermissions()
+    val categoryRequest = CategoryRequest(this)
 
     categoryRequest.action match {
       case None => categoryFacade.getChild(
@@ -30,8 +34,9 @@ class CategoryApiController(configuration: BindingModule) extends BaseApiControl
     }
   })
 
-  post("/(:id)")(jsonAction {
+  post("/categories(/)(:id)")(jsonAction {
     requireTeacherPermissions()
+    val categoryRequest = CategoryRequest(this)
 
     categoryRequest.action match {
       case CategoryActionType.ADD => categoryFacade.create(
@@ -51,7 +56,10 @@ class CategoryApiController(configuration: BindingModule) extends BaseApiControl
         categoryRequest.targetId,
         categoryRequest.itemType)
 
-      case CategoryActionType.DELETE => categoryFacade.delete(categoryRequest.id)
+      case CategoryActionType.MOVE_TO_COURSE => categoryRequest.categoryIds
+        .foreach(id => categoryFacade.moveToCourse(id, categoryRequest.courseId, categoryRequest.newCourseId))
+
+      case CategoryActionType.DELETE => categoryFacade.delete(categoryRequest.id, categoryRequest.courseId)
 
       case _                         => throw new BadRequestException
     }

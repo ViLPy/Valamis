@@ -1,15 +1,20 @@
 package com.arcusys.learn.view
 
 import javax.portlet.{ GenericPortlet, RenderResponse, RenderRequest }
+import com.arcusys.learn.bl.services.lesson.PackageServiceContract
+import com.arcusys.learn.bl.services.settings.SettingServiceContract
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import com.arcusys.learn.settings.model.{ SettingType, Setting }
 import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 import com.arcusys.learn.liferay.util.PortalUtilHelper
 import com.arcusys.learn.tincan.model.lrsClient.{ CommonBasicAuthorization, LrsEndpointSettings, OAuthAuthorization, UserBasicAuthorization }
 import com.arcusys.learn.util.MustacheSupport
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport, SessionSupport, TemplateCoupler }
 
 class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with SessionSupport with TemplateCoupler {
+  private lazy val settingManager = inject[SettingServiceContract]
+  private lazy val packageManager = inject[PackageServiceContract]
+
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
@@ -21,7 +26,7 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
     val courseId = themeDisplay.getScopeGroupId
     val language = LiferayHelpers.getLanguage(request)
 
-    val hasPermissions = userManagement.isAdmin(userId, courseId)
+    val hasPermissions = userRoleService.isAdmin(userId, courseId)
     if (!hasPermissions) {
       val translations = getTranslation("error", language)
       out.println(mustache(translations, "scorm_nopermissions.html"))
@@ -36,18 +41,16 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
       val translations = getTranslation("admin", language)
       val companyId = PortalUtilHelper.getCompanyId(request)
 
-      val allSettings = storageFactory.settingStorage.getAll
-      val emptySetting = new Setting(0, SettingType.IssuerName, "")
-
-      val issuerName = allSettings.find(i => i.key == SettingType.IssuerName).getOrElse(emptySetting).value
-      val issuerOrganization = allSettings.find(i => i.key == SettingType.IssuerOrganization).getOrElse(emptySetting).value
-      val issuerURL = allSettings.find(i => i.key == SettingType.IssuerURL).getOrElse(emptySetting).value
+      val issuerName = settingManager.getIssuerName()
+      val issuerOrganization = settingManager.getIssuerOrganization()
+      val issuerURL = settingManager.getIssuerURL()
+      val sendMessages = settingManager.getSendMessages()
 
       val data = Map("contextPath" -> request.getContextPath, "userID" -> userUID, "groupID" -> groupID, "isAdmin" -> true,
         "language" -> language, "courseID" -> courseId, "isPortlet" -> true, "companyID" -> companyId, "issuerName" -> issuerName,
-        "issuerURL" -> issuerURL, "issuerOrganization" -> issuerOrganization) ++ translations
+        "issuerURL" -> issuerURL, "sendMessages" -> sendMessages, "issuerOrganization" -> issuerOrganization) ++ translations
 
-      val tincanEndpointData = storageFactory.tincanLrsEndpointStorage.get match {
+      val tincanEndpointData = packageManager.getTincanEndpoint() match {
         case Some(LrsEndpointSettings(endpoint, CommonBasicAuthorization(loginName, password))) => Map(
           "tincanExternalLrs" -> true,
           "tincanLrsEndpoint" -> endpoint,
@@ -87,7 +90,7 @@ class AdminView extends GenericPortlet with ScalatraFilter with MustacheSupport 
       }
 
       out.println(getTemplate("/templates/2.0/admin_templates.html") +
-        mustache(data ++ tincanEndpointData, "valamis_admin.html"))
+        mustache(data ++ tincanEndpointData, "admin.html"))
     }
   }
 

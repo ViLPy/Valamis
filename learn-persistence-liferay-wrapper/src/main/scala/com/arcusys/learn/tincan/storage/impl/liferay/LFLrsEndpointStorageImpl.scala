@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalSer
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpoint
 import com.arcusys.learn.tincan.model.lrsClient.{ UserBasicAuthorization, OAuthAuthorization, LrsEndpointSettings, CommonBasicAuthorization }
 
+@deprecated
 trait LFLrsEndpointStorageImpl extends EntityStorage[LrsEndpointSettings] {
 
   def renew() { LFTincanLrsEndpointLocalServiceUtil.removeAll() }

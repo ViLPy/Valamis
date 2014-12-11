@@ -15,24 +15,29 @@ var CertificateDetailsView = Backbone.View.extend({
   initialize: function (options) {
     this.options = options;
     this.model = new CertificateModel();
-    this.model.on('change', this.render, this);
   },
 
   setCertificateID: function (certificateID) {
     this.model.set({ id: certificateID });
-    this.model.fetch();
+    var me = this;
+    this.model.fetch({
+      success: function(){ me.render(); }
+    });
+    curriculumLogoData.resetImageSettings(certificateID);
   },
 
   render: function () {
     this.language = this.options.language;
     var scopeName = this.language['instanceScopeLabel'];
     if (this.model.get('scope') != undefined && this.model.get('scope').title != '') scopeName = this.model.get('scope').title;
+    var description = jQuery1816Curriculum('<i>').html(decodeURIComponent(this.model.get('description'))).text();
     var renderedTemplate = _.template(
       Mustache.to_html(
         jQuery('#certificateItemEditDetailsTemplate').html(),
         _.extend(this.model.toJSON(), this.language, {
           scopeName: scopeName,
-          contextPath: Utils.getContextPath})));
+          contextPath: Utils.getContextPath,
+          description: description})));
     this.$el.html(renderedTemplate);
     if (this.model.get('isPublished')){
       this.$('#publishCertificate').hide();
@@ -117,6 +122,12 @@ var CertificateDetailsView = Backbone.View.extend({
   },
 
   saveCertificate: function (trigName) {
+    var that = this;
+    if(curriculumLogoData.supports()) {
+      curriculumLogoData.submitData(function (name) {
+      });
+      window.LearnAjax.post(path.root + path.api.certificates + that.model.id + '?action=UPDATELOGO&logo=' + curriculumLogoData.getFileName());
+    }
     var isPermanent = (this.$('input:radio[id=permanentPeriod]:checked').val() == 'true');
     var validPeriod = 0;
     var type = 'UNLIMITED';
@@ -134,7 +145,7 @@ var CertificateDetailsView = Backbone.View.extend({
       validPeriodType: type,
       scope: this.$('#certificateScopeID').val()
     });
-    var that = this;
+
     this.model.save({}, {
       success: function (model, response) {
         toastr.success(that.language['overlayCompleteMessageLabel']);

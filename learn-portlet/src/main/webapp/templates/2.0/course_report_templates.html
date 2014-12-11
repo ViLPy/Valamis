@@ -1,12 +1,14 @@
 <script type="text/html" id="reportFilter">
     <h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>
-    <form>
-        <div class="select-scope-group form-group valamis-select">
+     <form>
+        <div class="select-scope-group form-group position-relative">
             <label class="form-label">{{scopeLabel}}</label>
-            <select class="select-scope form-control">
-                <option value="instance">{{scopeInstance}}</option>
-                <option value="course">{{scopeCourse}}</option>
-            </select>
+             <div class="valamis-select">
+                <select class="select-scope form-control">
+                    <option value="instance">{{scopeInstance}}</option>
+                    <option value="course">{{scopeCourse}}</option>
+                </select>
+            </div>
         </div>
 
         <button type="button" class="button valamis medium grey text-center hidden-lg hidden-md">{{searchLabel}}</button>
@@ -14,14 +16,24 @@
 </script>
 
 <script type="text/html" id="courseViewTemplate">
-    <p style="padding-left: 10px">{{coursesLabel}} {{coursesCount}}</p>
-    <p style="padding-left: 10px">{{learnersLabel}} {{studentsCount}}</p>
-    <p style="padding-left: 10px">{{startedLabel}} {{studentsStartedCount}}</p>
-    <p style="padding-left: 10px">{{unknownLabel}} {{studentsUnknownPercentage}}% ({{studentsUnknownCount}} {{ofLabel}} {{studentsCount}})</p>
-    <p style="padding-left: 10px">{{incompletedLabel}} {{studentsIncompletedPercentage}}% ({{studentsIncompletedCount}} {{ofLabel}} {{studentsCount}})</p>
-    <p style="padding-left: 10px">{{completedLabel}} {{studentsCompletedPercentage}}% ({{studentsCompletedCount}} {{ofLabel}} {{studentsCount}})</p>
-    <p style="padding-left: 10px">{{failedLabel}} {{studentsFailedPercentage}}% ({{studentsFailedCount}} {{ofLabel}} {{studentsCount}})</p>
-    <p style="padding-left: 10px">{{PassedLabel}} {{studentsPassedPercentage}}% ({{studentsPassedCount}} {{ofLabel}} {{studentsCount}})</p>
+    <div id="course-report-frame">
+        <div class="course-report-grey" style="float: none;">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{coursesLabel}}</div><span >{{coursesCount}}</span></div>
+        <div class="course-report-white" style="float: none;">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{learnersLabel}}</div><span > {{studentsCount}}</span></div>
+        <div class="course-report-grey">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{startedLabel}}</div><span> {{studentsStartedCount}}</span></div>
+        <div class="course-report-white">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{unknownLabel}}</div><span> {{studentsUnknownPercentage}}% ({{studentsUnknownCount}} {{ofLabel}} {{studentsCount}})</span></div>
+        <div class="course-report-grey">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{incompletedLabel}}</div><span> {{studentsIncompletedPercentage}}% ({{studentsIncompletedCount}} {{ofLabel}} {{studentsCount}})</span></div>
+        <div class="course-report-white">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{completedLabel}}</div><span> {{studentsCompletedPercentage}}% ({{studentsCompletedCount}} {{ofLabel}} {{studentsCount}})</span></div>
+        <div class="course-report-grey">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{failedLabel}}</div><span> {{studentsFailedPercentage}}% ({{studentsFailedCount}} {{ofLabel}} {{studentsCount}})</span></div>
+        <div class="course-report-white">
+            <div style="padding-left: 10px; width: 120px; float: left; font-weight: bold;">{{PassedLabel}}</div><span> {{studentsPassedPercentage}}% ({{studentsPassedCount}} {{ofLabel}} {{studentsCount}})</span></div>
+    </div>
 </script>
 
 <script type="text/html" id="loadingViewTemplate">

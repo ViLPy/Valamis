@@ -1,0 +1,25 @@
+<script type="text/html" id="lrs2ActivityMapperControls">
+    <button class="button valamis medium green add-new">{{addNewLabel}}</button>
+</script>
+
+<script type="text/html" id="activitySocialMapperRow">
+    <td class="activity-filter-title title-viewer">
+        <span class="title-view">{{title}}</span>
+        <button class="pull-right title-edit button valamis medium grey val-icon-edit no-text">{{editLabel}}</button>
+    </td>
+    <td class="activity-filter-title title-editor hidden">
+        <input type="text" class="mapping-title" value="{{title}}"/>
+        <button class="button valamis medium green pull-right title-save">{{saveLabel}}</button>
+    </td>
+    <td>
+        <div class="form-group activity-mapper-filter pull-left">
+            <input type="text" class="verb-filter" placeholder="{{verbIdLabel}}" value="{{mappedVerb}}"/>
+        </div>
+        <div class="form-group activity-mapper-filter pull-left">
+            <input type="text" class="activity-filter" placeholder="{{activityIdLabel}}" value="{{mappedActivity}}"/>
+        </div>
+    </td>
+    <td>
+        <button class="button valamis medium grey val-icon-delete filter-delete">{{deleteLabel}}</button>
+    </td>
+</script>

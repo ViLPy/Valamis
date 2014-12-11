@@ -41,22 +41,22 @@ public class LFRoleLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName296;
-    private String[] _methodParameterTypes296;
-    private String _methodName297;
-    private String[] _methodParameterTypes297;
-    private String _methodName302;
-    private String[] _methodParameterTypes302;
-    private String _methodName303;
-    private String[] _methodParameterTypes303;
-    private String _methodName304;
-    private String[] _methodParameterTypes304;
-    private String _methodName305;
-    private String[] _methodParameterTypes305;
-    private String _methodName306;
-    private String[] _methodParameterTypes306;
-    private String _methodName307;
-    private String[] _methodParameterTypes307;
+    private String _methodName316;
+    private String[] _methodParameterTypes316;
+    private String _methodName317;
+    private String[] _methodParameterTypes317;
+    private String _methodName322;
+    private String[] _methodParameterTypes322;
+    private String _methodName323;
+    private String[] _methodParameterTypes323;
+    private String _methodName324;
+    private String[] _methodParameterTypes324;
+    private String _methodName325;
+    private String[] _methodParameterTypes325;
+    private String _methodName326;
+    private String[] _methodParameterTypes326;
+    private String _methodName327;
+    private String[] _methodParameterTypes327;
 
     public LFRoleLocalServiceClpInvoker() {
         _methodName0 = "addLFRole";
@@ -141,43 +141,43 @@ public class LFRoleLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFRole"
             };
 
-        _methodName296 = "getBeanIdentifier";
+        _methodName316 = "getBeanIdentifier";
 
-        _methodParameterTypes296 = new String[] {  };
+        _methodParameterTypes316 = new String[] {  };
 
-        _methodName297 = "setBeanIdentifier";
+        _methodName317 = "setBeanIdentifier";
 
-        _methodParameterTypes297 = new String[] { "java.lang.String" };
+        _methodParameterTypes317 = new String[] { "java.lang.String" };
 
-        _methodName302 = "createLFRole";
+        _methodName322 = "createLFRole";
 
-        _methodParameterTypes302 = new String[] {  };
+        _methodParameterTypes322 = new String[] {  };
 
-        _methodName303 = "findByPermission";
+        _methodName323 = "findByPermission";
 
-        _methodParameterTypes303 = new String[] { "java.lang.String" };
+        _methodParameterTypes323 = new String[] { "java.lang.String" };
 
-        _methodName304 = "findByRoleIDAndPermission";
+        _methodName324 = "findByRoleIDAndPermission";
 
-        _methodParameterTypes304 = new String[] {
+        _methodParameterTypes324 = new String[] {
                 "java.lang.Integer", "java.lang.String"
             };
 
-        _methodName305 = "findByDefaultAndPermission";
+        _methodName325 = "findByDefaultAndPermission";
 
-        _methodParameterTypes305 = new String[] {
+        _methodParameterTypes325 = new String[] {
                 "java.lang.String", "java.lang.Boolean"
             };
 
-        _methodName306 = "removeByRoleIDAndPermission";
+        _methodName326 = "removeByRoleIDAndPermission";
 
-        _methodParameterTypes306 = new String[] {
+        _methodParameterTypes326 = new String[] {
                 "java.lang.Integer", "java.lang.String"
             };
 
-        _methodName307 = "removeAll";
+        _methodName327 = "removeAll";
 
-        _methodParameterTypes307 = new String[] {  };
+        _methodParameterTypes327 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -269,50 +269,50 @@ public class LFRoleLocalServiceClpInvoker {
             return LFRoleLocalServiceUtil.updateLFRole((com.arcusys.learn.persistence.liferay.model.LFRole) arguments[0]);
         }
 
-        if (_methodName296.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes296, parameterTypes)) {
+        if (_methodName316.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
             return LFRoleLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName297.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes297, parameterTypes)) {
+        if (_methodName317.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
             LFRoleLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName302.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes302, parameterTypes)) {
+        if (_methodName322.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
             return LFRoleLocalServiceUtil.createLFRole();
         }
 
-        if (_methodName303.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes303, parameterTypes)) {
+        if (_methodName323.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
             return LFRoleLocalServiceUtil.findByPermission((java.lang.String) arguments[0]);
         }
 
-        if (_methodName304.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes304, parameterTypes)) {
+        if (_methodName324.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
             return LFRoleLocalServiceUtil.findByRoleIDAndPermission((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName305.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes305, parameterTypes)) {
+        if (_methodName325.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes325, parameterTypes)) {
             return LFRoleLocalServiceUtil.findByDefaultAndPermission((java.lang.String) arguments[0],
                 (java.lang.Boolean) arguments[1]);
         }
 
-        if (_methodName306.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes306, parameterTypes)) {
+        if (_methodName326.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes326, parameterTypes)) {
             LFRoleLocalServiceUtil.removeByRoleIDAndPermission((java.lang.Integer) arguments[0],
                 (java.lang.String) arguments[1]);
 
             return null;
         }
 
-        if (_methodName307.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes307, parameterTypes)) {
+        if (_methodName327.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes327, parameterTypes)) {
             LFRoleLocalServiceUtil.removeAll();
 
             return null;

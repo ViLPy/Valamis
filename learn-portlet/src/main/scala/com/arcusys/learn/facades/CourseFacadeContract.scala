@@ -24,8 +24,4 @@ trait CourseFacadeContract {
   def getByUserId(userId: Long): Seq[CourseResponse]
 
   def getCompanyIds: Seq[Long]
-
-  //  def getTotalGrade(courseId: Int, valamisUserId: Int): Float
-  //  def getTotalComment(courseId: Int, valamisUserId: Int): String
-  //  def getGrades(courseId: Int, valamisUserId: Int): Seq[PackageGradeResponse]
 }

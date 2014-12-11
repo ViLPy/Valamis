@@ -18,23 +18,22 @@ import com.arcusys.learn.controllers.api.BaseApiController
 //
 class BaseLrsClientApiApiController(config: BindingModule) extends BaseApiController(config) with SignatureValidator {
   private var _app: ClientApiModel = null
-
+  implicit val _controller = this
   val app = _app
 
   def isLocalClient: Boolean = {
     // TODO implement determining of local client
     // temporary solution by session user id
-    getSessionUserID != -1
+    getUserId != -1
   }
 
-  /*after() {
-    response.addHeader("Access-Control-Allow-Origin", "*")
-  }*/
-
   before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
     // TODO Basic Auth?
 
     if (!request.getMethod.equalsIgnoreCase("options")) {
+      scentry.authenticate(LIFERAY_STRATEGY_NAME)
+
       if (isLocalClient) { // local client gets exlusive privileges
         _app = ClientApiModel(null, null, null, null, 0, LrsScope.All)
       } else {
@@ -55,6 +54,19 @@ class BaseLrsClientApiApiController(config: BindingModule) extends BaseApiContro
         }
       }
     }
+  }
+
+  def OkJson(body: Any = Unit) = {
+    response.setHeader("Content-Type", "application/json; charset=UTF-8")
+    halt(HttpServletResponse.SC_OK, body, reason = "Ok")
+  }
+
+  def Ok(body: Any = Unit) = {
+    halt(HttpServletResponse.SC_OK, body, reason = "Ok")
+  }
+
+  def NoContent() = {
+    halt(HttpServletResponse.SC_NO_CONTENT, "", reason = "No Content")
   }
 
   private def authProblemHandler(e: OAuthProblemException) {

@@ -4,6 +4,7 @@ import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 import com.arcusys.learn.scorm.tracking.states.storage.GlobalObjectiveStorage
 import com.arcusys.learn.scorm.tracking.model.GlobalObjectiveState
 
+@deprecated
 trait GlobalObjectiveEntityStorage extends GlobalObjectiveStorage with EntityStorageExt[(String, GlobalObjectiveState)] {
   def create(treeID: Int, key: String, state: GlobalObjectiveState) {
     create("treeID" -> treeID, "mapKey" -> key, "satisfied" -> state.satisfied, "normalizedMeasure" -> state.normalizedMeasure, "attemptCompleted" -> state.attemptCompleted)

@@ -1,13 +1,14 @@
 package com.arcusys.learn.tincan.storage.impl.liferay
 
-import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.storage.impl.{ KeyedEntityStorage, EntityStorage }
-import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFTincanActor
-import com.arcusys.util.JsonSerializer
-import JsonSerializer._
-import scala.collection.JavaConverters._
+import com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalServiceUtil
+import com.arcusys.learn.storage.impl.{ EntityStorage, KeyedEntityStorage }
+import com.arcusys.learn.tincan.model._
 import com.arcusys.learn.tincan.storage.impl.liferay.mapper.ActorMapper
+import com.arcusys.util.JsonSerializer
+import com.arcusys.util.JsonSerializer._
+
+import scala.collection.JavaConverters._
 
 trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Actor] {
 
@@ -26,7 +27,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
       ("openid", openid: Option[String]),
       ("account", account: Option[Account])) => {
       val accountJson = if (account.isDefined) serializeAccount(account.get) else null
-      LFTincanActorLocalServiceUtil.findAgent(objectType, mbox.getOrElse(null), mbox_sha1sum.getOrElse(null), openid.getOrElse(null), accountJson)
+      LFTincanActorLocalServiceUtil.findAgent(objectType, mbox.map(mb => if (mb.startsWith("mailto:")) mb else ("mailto:" + mb)).getOrElse(null), mbox_sha1sum.getOrElse(null), openid.getOrElse(null), accountJson)
         .asScala
         .map(ActorMapper.map)
         .headOption
@@ -47,7 +48,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
       case agent: Agent => {
         lfEntity.setObjectType(agent.objectType)
         agent.name.foreach(lfEntity.setName)
-        agent.mbox.foreach(lfEntity.setMbox)
+        agent.mbox.foreach(mb => lfEntity.setMbox(if (mb.startsWith("mailto:")) mb else ("mailto:" + mb)))
         agent.mbox_sha1sum.foreach(lfEntity.setMbox_sha1sum)
         agent.openid.foreach(lfEntity.setOpenid)
         agent.account.foreach(account => lfEntity.setAccount(serializeAccount(account)))
@@ -61,7 +62,7 @@ trait LFActorStorageImpl extends EntityStorage[Actor] with KeyedEntityStorage[Ac
       case group: Group => {
         lfEntity.setObjectType(group.objectType)
         group.name.foreach(lfEntity.setName)
-        group.mbox.foreach(lfEntity.setMbox)
+        group.mbox.foreach(mb => lfEntity.setMbox(if (mb.startsWith("mailto:")) mb else ("mailto:" + mb)))
         group.mbox_sha1sum.foreach(lfEntity.setMbox_sha1sum)
         group.openid.foreach(lfEntity.setOpenid)
         group.account.foreach(account => lfEntity.setAccount(serializeAccount(account)))

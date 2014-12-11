@@ -1,8 +1,8 @@
-var ParticipantModelService = new Backbone.Service({ url: Utils.getContextPath,
+var ParticipantModelService = new Backbone.Service({ url: '/',
     sync: {
         'read': function(model, params){
 
-            return "api/report?action=PARTICIPANTS"+
+            return path.api.report + "?action=PARTICIPANTS"+
                 "&groupBy=" + params.groupBy;
         }
     }

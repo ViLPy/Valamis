@@ -46,6 +46,8 @@ public class LFQuizQuestionWrapper implements LFQuizQuestion,
         attributes.put("url", getUrl());
         attributes.put("plainText", getPlainText());
         attributes.put("arrangementIndex", getArrangementIndex());
+        attributes.put("autoShowAnswer", getAutoShowAnswer());
+        attributes.put("groupId", getGroupId());
 
         return attributes;
     }
@@ -104,6 +106,18 @@ public class LFQuizQuestionWrapper implements LFQuizQuestion,
 
         if (arrangementIndex != null) {
             setArrangementIndex(arrangementIndex);
+        }
+
+        Boolean autoShowAnswer = (Boolean) attributes.get("autoShowAnswer");
+
+        if (autoShowAnswer != null) {
+            setAutoShowAnswer(autoShowAnswer);
+        }
+
+        Integer groupId = (Integer) attributes.get("groupId");
+
+        if (groupId != null) {
+            setGroupId(groupId);
         }
     }
 
@@ -305,6 +319,46 @@ public class LFQuizQuestionWrapper implements LFQuizQuestion,
     @Override
     public void setArrangementIndex(java.lang.Integer arrangementIndex) {
         _lfQuizQuestion.setArrangementIndex(arrangementIndex);
+    }
+
+    /**
+    * Returns the auto show answer of this l f quiz question.
+    *
+    * @return the auto show answer of this l f quiz question
+    */
+    @Override
+    public java.lang.Boolean getAutoShowAnswer() {
+        return _lfQuizQuestion.getAutoShowAnswer();
+    }
+
+    /**
+    * Sets the auto show answer of this l f quiz question.
+    *
+    * @param autoShowAnswer the auto show answer of this l f quiz question
+    */
+    @Override
+    public void setAutoShowAnswer(java.lang.Boolean autoShowAnswer) {
+        _lfQuizQuestion.setAutoShowAnswer(autoShowAnswer);
+    }
+
+    /**
+    * Returns the group ID of this l f quiz question.
+    *
+    * @return the group ID of this l f quiz question
+    */
+    @Override
+    public java.lang.Integer getGroupId() {
+        return _lfQuizQuestion.getGroupId();
+    }
+
+    /**
+    * Sets the group ID of this l f quiz question.
+    *
+    * @param groupId the group ID of this l f quiz question
+    */
+    @Override
+    public void setGroupId(java.lang.Integer groupId) {
+        _lfQuizQuestion.setGroupId(groupId);
     }
 
     @Override

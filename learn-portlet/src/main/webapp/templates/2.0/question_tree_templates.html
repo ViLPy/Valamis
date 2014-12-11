@@ -1,44 +1,29 @@
 <script type="text/template" id="bankTreeTemplate">
-  <table class="questionBankTree medium-table">
-    <thead>
-      <tr class="expand" id="qbRoot">
-        <td class="expand-col">
-          <div class="expand-icon expanded" id="qbRootExpand" style="padding:0!important"/>
-          <div class="expand-text">{{treeRootElement}}</div>
-          <div id="rootqbElementsCount" class="qbElementsCount">{{childrenAmount}}</div>
-        </td>
-      </tr>
-    </thead>
-    <tbody id="questionBankGrid">
-
-    </tbody>
-  </table>
+  <ul class="questionBankTree medium-table">
+    <li class="expand expanded" id="qbRoot">
+        <span class="qbItem">
+            <div class="expand-icon" id="qbRootExpand"/>
+            <div class="qbRootItem qbItemTitle" data-count="{{childrenAmount}}">{{baseTitle}}</div>
+        </span>
+        <ul id="questionBankGrid_{{courseId}}"></ul>
+    </li>
+  </ul>
 </script>
 <script type="text/mustache" id="categoryTreeRowTemplate">
-  <td class="expand-col categoryRow">
-    <div class="expand-icon toggleCategory"/>
-      {{#multiselectEnabled}}
-        <div id="categorySelection" class="checkbox valamis" style="float: left; margin-right: 5px;"/>
-      {{/multiselectEnabled}}
-
-    <img src="../../learn-portlet/images/folder_grey.png" style="width: 20px; height: 20px; float: left"/>
-
-    <div class="categoryTitle expand-text">{{title}}</div>
-    <div class="qbElementsCount">{{childrenAmount}}</div>
-  </td>
-
-
-  </script>
+    <span class="qbCat qbItem">
+        <span class="expand-icon"/>
+        {{#multiselectEnabled}}
+            <span id="categorySelection" class="checkbox valamis" style="float: left; margin-right: 5px;"/>
+        {{/multiselectEnabled}}
+        <span class="qbItemTitle" data-count="{{childrenAmount}}">{{title}}</span>
+    </span>
+    <ul></ul>
+</script>
 <script type="text/mustache" id="questionTreeRowTemplate">
-  <td class="questionRow {{#isChild}} child parent{{categoryID}} {{/isChild}}"
-    {{^isChild}}style="padding-left: 15px;"{{/isChild}}>
-
-    {{#multiselectEnabled}}
-    <div id="questionSelection" class="checkbox valamis {{#selected}}checked{{/selected}}" style="float: left; margin-right: 5px;"/>
-    {{/multiselectEnabled}}
-    <img src="../../learn-portlet/images/question.png" style="width: 18px; height: 18px; float: left"/>
-
-    <div class="questionTitle expand-text">{{fixedTitle}}</div>
-  </td>
-
+    <span class="qbItem">
+        {{#multiselectEnabled}}
+        <span id="questionSelection" class="checkbox valamis {{#selected}}checked{{/selected}}" style="float: left; margin-right: 5px;"/>
+        {{/multiselectEnabled}}
+        <span class="qbItemTitle">{{fixedTitle}}</span>
+    </span>
 </script>

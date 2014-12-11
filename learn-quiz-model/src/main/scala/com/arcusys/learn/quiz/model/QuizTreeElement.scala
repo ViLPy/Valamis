@@ -9,3 +9,11 @@ case class QuizTreeElement(id: Int,
   isCategory: Boolean,
   parentID: Option[String],
   arrangementIndex: Int = 1)
+//{
+//  def apply(id: Int, quizID: Int, elementID: String, isCategory: Boolean, parentID: Option[String]) = {
+//    QuizTreeElement(id, quizID: Int,
+//      elementID: String,
+//      isCategory: Boolean,
+//      parentID: Option[String])
+//  }
+//}

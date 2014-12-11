@@ -1,7 +1,5 @@
 package com.arcusys.learn.models.request
 
-import com.arcusys.learn.service.util.Parameter
-
 /**
  * Created by Iliya Tryapitsin on 04.03.14.
  */
@@ -14,6 +12,7 @@ object CertificateActionType extends Enumeration {
   val ADD_ACTIVITY = Value("ADDACTIVITY")
   val ADD_ACTIVITIES = Value("ADDACTIVITIES")
   val ADD_TINCANSTMNT = Value("ADDTINCANSTMNT")
+  val ADD_TINCANSTMNTS = Value("ADDTINCANSTMNTS")
   val UPDATE = Value("UPDATE")
   val UPDATE_LOGO = Value("UPDATELOGO")
   val UPDATE_COURSE = Value("UPDATECOURSE")
@@ -36,6 +35,8 @@ object CertificateActionType extends Enumeration {
   val GET_STUDENTS = Value("GETSTUDENTS")
   val GET_NOT_CONTAINED_STUDENTS = Value("GETNOTCONTAINEDSTUDENTS")
   val SET_IMAGE = Value("SETIMAGE")
+  val MOVE_COURSE = Value("MOVECOURSE")
+  val GET_STATEMENTS = Value("GETSTATEMENTS")
 
   type CertificateActionType = Value
 

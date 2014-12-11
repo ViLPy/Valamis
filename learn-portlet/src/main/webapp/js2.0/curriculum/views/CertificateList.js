@@ -11,7 +11,10 @@ var CertificateItemView = Backbone.View.extend({
     'click .cloneCertificateCommand': 'cloneCertificate',
     'click .publishCertificateCommand': 'publishCertificate',
     'click .unpublishCertificateCommand': 'unpublishCertificate',
-    'click .deleteCertificateCommand': 'confirmDeleteCertificate'
+    'click .deleteCertificateCommand': 'confirmDeleteCertificate',
+    'click .exportCertificateCommand': 'exportCertificate',
+    'mouseenter .flip-container'   : 'hoverOn',
+    'mouseleave .flip-container'   : 'hoverOff'
   },
 
   initialize: function (options) {
@@ -22,21 +25,34 @@ var CertificateItemView = Backbone.View.extend({
   render: function () {
     var templateID = '#certificateTileItemViewTemplate';
     if (this.displayType == DISPLAY_TYPE.LIST) {
-      this.$el.addClass('certificate-list-item clearfix');
+      this.$el.addClass('valamis-list-item clearfix');
       templateID = '#certificateListItemViewTemplate';
+    }
+    else {
+      this.$el.addClass('valamis-tile-item clearfix');
     }
     if (!this.model.get('isPublished')) {
       this.$el.addClass('unpublished');
     }
 
-    var goalsCount = this.model.get('activityCount') + this.model.get('courseCount') + this.model.get('statementCount');
+    var goalsCount = this.model.get('activityCount')
+        + this.model.get('courseCount') + this.model.get('statementCount');
 
     var template = Mustache.to_html(jQuery(templateID).html(),
-      _.extend(this.model.toJSON(), this.language, {goalsCount: goalsCount, contextPath: Utils.getContextPath}));
+      _.extend(this.model.toJSON(), this.language, {
+        goalsCount: goalsCount,
+        contextPath: Utils.getContextPath,
+        description: decodeURIComponent(this.model.get('description'))}));
     this.$el.html(template);
     return this;
   },
 
+  hoverOn: function() {
+    this.$el.find('.flip-container .back > div').removeClass('hidden');
+  },
+  hoverOff: function() {
+    this.$el.find('.flip-container .back > div').addClass('hidden');
+  },
   openDetails: function () {
     this.trigger('editCertificateDetails', this.model.id);
   },
@@ -96,28 +112,15 @@ var CertificateItemView = Backbone.View.extend({
       }
     });
 
+  },
+  exportCertificate: function () {
+      window.location = path.root + path.api.files + 'export/?action=EXPORT&contentType=certificate'
+      +'&companyID=' + jQuery('#curriculumCompanyID').val()
+      +'&id=' + this.model.get('id');
   }
-
 });
 
-/*
- var DeleteConfirmationView = Backbone.View.extend({
- events: {
- 'click .confirmation': 'confirmDelete'
- },
- initialize: function (options) {
- this.language = options.language;
- },
- render: function () {
- var template = Mustache.to_html(jQuery('#deleteConfirmationTemplate').html(), this.language);
- this.$el.html(template);
- return this;
- },
- confirmDelete: function () {
- this.trigger('certificateDeleteConfirmed', this);
- }
- });
- */
+
 
 
 var CertificatesListView = Backbone.View.extend({
@@ -128,6 +131,7 @@ var CertificatesListView = Backbone.View.extend({
 
   initialize: function (options) {
     this.$el.addClass('grid-view');
+    this.portletID = options.portletID;
     this.language = options.language;
     this.itemDisplayType = options.displayType || DISPLAY_TYPE.TILES;
     this.collection = new CertificateCollection();
@@ -135,12 +139,13 @@ var CertificatesListView = Backbone.View.extend({
     this.collection.bind('reset', this.addAll, this);
     this.collection.bind('remove', this.deleteCertificate, this);
 
+    this.paginatorModel = new PageModel();
+
     var that = this;
     this.collection.on('certificateCollection:updated', function (details) {
       that.updatePagination(details, that);
     });
 
-    jQuery(window).on('resize', this.resize);
     this.render();
 
     if (curriculumAdminSettings.get('layout') === DISPLAY_TYPE.LIST) {
@@ -148,6 +153,8 @@ var CertificatesListView = Backbone.View.extend({
     } else {
       this.displayTiles();
     }
+
+    jQuery(window).on('resize', this.resize);
   },
 
   render: function () {
@@ -157,8 +164,22 @@ var CertificatesListView = Backbone.View.extend({
     this.$el.html(template);
 
     var that = this;
-    this.paginator = new ValamisPaginator({el: jQuery('#certificateListPaginator'), language: this.language});
+    this.paginator = new ValamisPaginator({
+      el: jQuery('#certificateListPaginator'),
+      language: this.language,
+      model: this.paginatorModel,
+      needDisplay: true
+    });
     this.paginator.on('pageChanged', function () {
+      that.reload();
+    });
+
+    this.paginatorBottom = new ValamisPaginator({
+      el: jQuery('#certificateListBottomPaginator'),
+      language: this.language,
+      model: this.paginatorModel
+    });
+    this.paginatorBottom.on('pageChanged', function () {
       that.reload();
     });
 
@@ -166,14 +187,22 @@ var CertificatesListView = Backbone.View.extend({
   },
 
   reloadFirstPage: function () {
-    this.collection.fetch({reset: true, currentPage: 1, itemsOnPage: this.paginator.itemsOnPage()});
+    this.collection.fetch({
+      reset: true,
+      currentPage: 1,
+      itemsOnPage: this.paginatorModel.get('itemsOnPage'),
+      portletID: this.portletID});
   },
   reloadWithMessage: function () {
     toastr.success(this.language['overlayCompleteMessageLabel']);
     this.reload();
   },
   reload: function () {
-    this.collection.fetch({reset: true, currentPage: this.paginator.currentPage(), itemsOnPage: this.paginator.itemsOnPage()});
+    this.collection.fetch({
+      reset: true,
+      currentPage: this.paginatorModel.get('currentPage'),
+      itemsOnPage: this.paginatorModel.get('itemsOnPage'),
+      portletID: this.portletID});
   },
 
   updatePagination: function (details, context) {
@@ -182,7 +211,12 @@ var CertificatesListView = Backbone.View.extend({
 
 
   addAll: function () {
+    valamisTileResize(this.$el);
     this.$('.certificate-items').html('');
+    if (this.collection.length == 0)
+      this.$('#certificateListBottomPaginator').hide();
+    else
+      this.$('#certificateListBottomPaginator').show();
     this.collection.each(this.addOne, this);
   },
   addOne: function (element) {
@@ -235,18 +269,14 @@ var CertificatesListView = Backbone.View.extend({
 
   setDisplayType: function (displayType) {
     this.itemDisplayType = displayType;
-    this.render();
+    this.reloadFirstPage();
   },
 
   resize: function () {
-    var viewportWidth = jQuery(window).width();
-    if (viewportWidth <= 767) {
-      window.certificateList.displayList();
-    }
+    valamisTileResize(window.certificateList.$el);
   },
 
   remove: function () {
-    jQuery(window).off('resize', this.resize);
     Backbone.View.prototype.remove.apply(this, arguments);
   }
 });

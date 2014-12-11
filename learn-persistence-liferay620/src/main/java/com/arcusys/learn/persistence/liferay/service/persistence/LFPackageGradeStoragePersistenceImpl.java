@@ -102,7 +102,7 @@ public class LFPackageGradeStoragePersistenceImpl extends BasePersistenceImpl<LF
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(LFPackageGradeStoragePersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "comment"
+                "comment", "date"
             });
     private static LFPackageGradeStorage _nullLFPackageGradeStorage = new LFPackageGradeStorageImpl() {
             @Override
@@ -679,6 +679,7 @@ public class LFPackageGradeStoragePersistenceImpl extends BasePersistenceImpl<LF
         lfPackageGradeStorageImpl.setPackageId(lfPackageGradeStorage.getPackageId());
         lfPackageGradeStorageImpl.setGrade(lfPackageGradeStorage.getGrade());
         lfPackageGradeStorageImpl.setComment(lfPackageGradeStorage.getComment());
+        lfPackageGradeStorageImpl.setDate(lfPackageGradeStorage.getDate());
 
         return lfPackageGradeStorageImpl;
     }

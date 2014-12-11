@@ -1,6 +1,6 @@
 package com.arcusys.learn.quiz.storage
 
-import com.arcusys.learn.questionbank.storage.{ QuestionStorage, QuestionCategoryStorage, AnswerStorage }
+import com.arcusys.learn.questionbank.storage.{ QuestionStorage, QuestionCategoryStorage, QuestionAnswerStorage }
 import org.junit.{ Before, Test }
 import org.junit.Assert._
 import com.arcusys.learn.quiz.model.{ QuestionBankQuizQuestion, QuizQuestionCategory, Quiz }
@@ -14,7 +14,7 @@ trait QuizQuestionStorageJUnitMethods {
   def quizStorage: QuizStorage
   def quizCategoryStorage: QuizQuestionCategoryStorage
   def quizQuestionStorage: QuizQuestionStorage
-  def answerStorage: AnswerStorage
+  def answerStorage: QuestionAnswerStorage
   def questionCategoryStorage: QuestionCategoryStorage
   def questionStorage: QuestionStorage
 
@@ -35,7 +35,7 @@ trait QuizQuestionStorageJUnitMethods {
 
   @Test
   def canCreate() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val categoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     val questionId = questionStorage.createAndGetID(new TextQuestion(0, None, "title", "text", "explanationText", Seq(), false, None))
     quizQuestionStorage.createFromQuestionBankAndGetID(quizId, Some(categoryId), questionId)
@@ -45,7 +45,7 @@ trait QuizQuestionStorageJUnitMethods {
 
   @Test
   def canGetByID() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val categoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     val questionId = questionStorage.createAndGetID(new TextQuestion(0, None, "title", "text", "explanationText", Seq(), false, None))
     val question = questionStorage.getByID(questionId).get
@@ -68,7 +68,7 @@ trait QuizQuestionStorageJUnitMethods {
 
   @Test
   def canDelete() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val categoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     val questionId = questionStorage.createAndGetID(new TextQuestion(0, None, "title", "text", "explanationText", Seq(), false, None))
     quizQuestionStorage.createFromQuestionBankAndGetID(quizId, Some(categoryId), questionId)
@@ -82,7 +82,7 @@ trait QuizQuestionStorageJUnitMethods {
 
   @Test
   def canCascadeDelete() {
-    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, ""))
+    val quizId = quizStorage.createAndGetID(new Quiz(0, "title1", "description1", "welcome", "final", None, "", None))
     val categoryId = quizCategoryStorage.createAndGetID(new QuizQuestionCategory(0, "title1", "description1", quizId, None))
     val questionId = questionStorage.createAndGetID(new TextQuestion(0, None, "title", "text", "explanationText", Seq(), false, None))
     quizQuestionStorage.createFromQuestionBankAndGetID(quizId, Some(categoryId), questionId)

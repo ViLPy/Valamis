@@ -32,6 +32,7 @@ trait ActivityStateTreeCreator {
   }
 }
 
+@deprecated
 trait ActivityStateTreeEntityStorage extends ActivityStateTreeStorage with KeyedEntityStorageExt[ActivityStateTree] with EntityStorageExt[ActivityStateTree] {
   def activityStateStorage: ActivityStateStorage
 

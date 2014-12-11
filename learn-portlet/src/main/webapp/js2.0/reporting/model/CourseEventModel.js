@@ -1,11 +1,11 @@
-var CourseEventModelService = new Backbone.Service({ url: Utils.getContextPath,
+var CourseEventModelService = new Backbone.Service({ url: '/',
     sync: {
         'read': function (model, params) {
             var getUTCTime = function (date) {
                 return date.getTime() - (date.getTimezoneOffset() * 60000)
             };
 
-            return "api/report?action=COURSE_EVENT" +
+            return path.api.report + "?action=COURSE_EVENT" +
                 "&groupBy=" + params.groupBy +
                 "&groupPeriod=" + params.groupPeriod +
                 "&period=" + params.period +

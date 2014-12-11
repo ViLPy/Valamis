@@ -2,23 +2,45 @@
 <html>
 <head>
     <style>
+        select, input[type='text'] {
+            width: 220px;
+        }
 
         .chart rect.blue {
             fill: steelblue;
         }
         .chart rect.red {
-            fill: red;
+            fill: rgb(205, 92, 92);
+        }
+        .chart rect.grey {
+            fill: rgba(0, 0, 0, 0.1);
         }
 
         .chart text.bar {
             fill: black;
             font: 10px sans-serif;
-            text-anchor: end;
+            /*text-anchor: end;*/
         }
         .chart text.title {
             fill: black;
             font: 10px sans-serif;
-            text-anchor: end;
+        }
+        #course_event_report_frame {
+            display: block;
+            float: left;
+            margin: 20px 20px 20px 40px;
+            border: 1px solid #d3d4d5;
+            width: 800px;
+            max-height: 410px;
+            /*width: auto;*/
+            background: #FFFFFF;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        @media (max-width: 1199px) {
+            #course_event_report_frame {
+                width: 400px;
+            }
         }
     </style>
 </head>
@@ -31,28 +53,30 @@
 
 <div class="clearfix">
     <div id="filterMenu" class="pull-left"></div>
-    <div class="pull-left" style="max-height: 400px;overflow-y: scroll;">
-        <div style="margin-bottom: 20px;margin-left: 20px;">
+    <div id="course_event_report_frame"">
+    <div class="pull-left" style="max-height: 400px; overflow-y: scroll;">
+        <div style="margin-bottom: 20px;margin-top: 20px; margin-left: 40%;">
             <span style="background-color: steelblue;color: white;">Enrollments count</span>
-            <span style="background-color: red;color: white;">Completions count</span>
+            <span style="background-color:  rgb(205, 92, 92);color: white;">Completions count</span>
         </div>
         <svg id="reportChart" class="chart"></svg>
         <div id='chartLoading'>
             <img src="{{contextPath}}/img/loading.gif" alt="Loading">
         </div>
     </div>
+    </div>
 </div>
 <script type="text/html" id="courseEventFilter">
     <div class="pull-left">
         <h3>Grouping</h3>
         <label for="group_by">Group by</label>
-        <select id="group_by">
+        <select id="group_by" style="display: block;">
             <option value="duration" selected>Duration</option>
             <option value="teacher">Teacher</option>
             <option value="organization">Organization</option>
             <option value="group">Group</option>
         </select>
-        <label id="durationLabel" for="duration">Duration</label>
+        <label id="durationLabel" for="duration" style="display: block;">Duration</label>
         <select id="duration">
             <option value="day" selected>Day</option>
             <option value="week">Week</option>
@@ -61,7 +85,7 @@
         </select>
         <h3>Filter</h3>
         <label for="period">Period</label>
-        <select id="period">
+        <select id="period" style="display: block;">
             <option value="day">Day</option>
             <option value="week">Week</option>
             <option value="month">Month</option>
@@ -69,8 +93,8 @@
             <option value="interval" selected>Custom</option>
         </select>
         <label id="fromLabel" for="from">From</label>
-        <input type="text" id="from" name="from">
-        <label id="toLabel" for="to">to</label>
+        <input type="text" id="from" name="from" style="display: block;">
+        <label id="toLabel" for="to" style="display: block;">to</label>
         <input type="text" id="to" name="to">
         <br>
         <input type="button" class="btn" value="Show" id="getData"/>

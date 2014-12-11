@@ -2,10 +2,10 @@ var StudentLeaderboardModel = Backbone.Model.extend({
     defaults: {}
 });
 
-StudentLeaderboardModelCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+StudentLeaderboardModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
         'read': function (collection, options) {
-            return 'api/report?action=LEADERBOARD&period='+jQuery('.show-mode').val()+'&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
+            return path.api.report + '?action=LEADERBOARD&period='+jQuery('.show-mode').val()+'&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
         }
     }
 });

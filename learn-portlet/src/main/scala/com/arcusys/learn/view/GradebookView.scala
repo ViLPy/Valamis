@@ -4,11 +4,12 @@ import java.io.FileNotFoundException
 import javax.portlet._
 import javax.servlet.http.Cookie
 
-import com.arcusys.learn.liferay.util.PortalUtilHelper
+import com.arcusys.learn.liferay.util.{ EncryptorUtilHelper, PortalUtilHelper }
 import com.arcusys.learn.service.util.SessionHandler
 import com.arcusys.learn.util.MustacheSupport
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import org.scalatra.ScalatraFilter
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport }
 
 class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView {
   override def destroy() {}
@@ -32,20 +33,21 @@ class GradebookView extends GenericPortlet with ScalatraFilter with MustacheSupp
     cookie.setPath("/")
     response.addProperty(cookie)
     SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
-    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userUID, courseID))
-    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userUID, courseID))
+    SessionHandler.setAttribute(sessionID, "isAdmin", userRoleService.isAdmin(userUID, courseID))
+    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userRoleService.hasTeacherPermissions(userUID, courseID))
 
     // for poller auth we encrypt company key + userID
     val company = themeDisplay.getCompany();
-    val encryptedUserId = com.liferay.util.Encryptor.encrypt(company.getKeyObj(), "" + userUID);
+    val encryptedUserId = EncryptorUtilHelper.encrypt(company.getKeyObj(), "" + userUID);
 
-    if (userManagement.isLearnUser(userUID, courseID)) {
+    if (userRoleService.isLearnUser(userUID, courseID) && (userRoleService.isStudent(userUID, courseID) || userRoleService.hasTeacherPermissions(userUID, courseID))) {
       response.getWriter.println(generateResponse(userUID,
         encryptedUserId,
         themeDisplay.getPortletDisplay.getRootPortletId,
         lang,
         request.getContextPath,
-        isAdmin = userManagement.hasTeacherPermissions(userUID, courseID), courseID = courseID)
+        isAdmin = userRoleService.hasTeacherPermissions(userUID, courseID),
+        courseID = courseID)
       )
     } else {
       response.getWriter.println(generateErrorResponse(contextPath, "scorm_nopermissions.html", lang))

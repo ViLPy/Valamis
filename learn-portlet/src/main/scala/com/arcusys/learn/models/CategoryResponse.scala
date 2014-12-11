@@ -8,4 +8,5 @@ case class CategoryResponse(id: Int,
   description: String,
   parentId: Int,
   categoryType: String = "folder",
-  childrenAmount: Int = 0)
+  childrenAmount: Int = 0,
+  arrangementIndex: Int = 0)

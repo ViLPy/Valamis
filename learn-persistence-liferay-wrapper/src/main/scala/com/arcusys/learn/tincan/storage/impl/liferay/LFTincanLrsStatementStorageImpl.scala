@@ -225,7 +225,7 @@ trait LFTincanLrsStatementStorageImpl extends EntityStorage[Statement] {
         disjunction.add(RestrictionsFactoryUtil.eq("statement.authorityID", actorID))
         val substmQuery: DynamicQuery = DynamicQueryFactoryUtil.forClass(classOf[LFTincanLrsSubStatement], "subStatement")
           .setProjection(ProjectionFactoryUtil.property("subStatement.id"))
-          .add(PropertyFactoryUtil.forName("subStatement.actorID").like(actorID))
+          .add(RestrictionsFactoryUtil.eq("subStatement.actorID", actorID)) //PropertyFactoryUtil.forName("subStatement.actorID").like(actorID))
         disjunction.add(
           RestrictionsFactoryUtil.conjunction.add(PropertyFactoryUtil.forName("statement.objID").in(substmQuery))
             .add(PropertyFactoryUtil.forName("statement.objType").like("SubStatement"))

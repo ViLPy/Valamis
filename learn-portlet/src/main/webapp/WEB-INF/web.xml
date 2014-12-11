@@ -1,82 +1,417 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!--View endpoints-->
     <filter>
         <filter-name>SCORMQuestionBankView</filter-name>
-        <filter-class>com.arcusys.learn.view.QuestionBankView</filter-class>
-    </filter>
-    <filter>
-        <filter-name>SCORMUserView</filter-name>
-        <filter-class>com.arcusys.learn.view.UserView</filter-class>
-    </filter>
-    <filter>
-        <filter-name>SCORMAdminView</filter-name>
-        <filter-class>com.arcusys.learn.view.AdminView</filter-class>
-    </filter>
-    <filter>
-        <filter-name>SCORMQuizView</filter-name>
-        <filter-class>com.arcusys.learn.view.QuizView</filter-class>
-    </filter>
-    <filter>
-        <filter-name>GradebookView</filter-name>
-        <filter-class>com.arcusys.learn.view.GradebookView</filter-class>
-    </filter>
-    <filter>
-        <filter-name>CurriculumView</filter-name>
-        <filter-class>com.arcusys.learn.view.CurriculumAdmin</filter-class>
-    </filter>
-    <filter>
-        <filter-name>CurriculumUser</filter-name>
-        <filter-class>com.arcusys.learn.view.CurriculumUser</filter-class>
-    </filter>
-
-    <filter>
-        <filter-name>MyAccountView</filter-name>
-        <filter-class>com.arcusys.learn.view.MyAccountView</filter-class>
+        <filter-class>com.arcusys.learn.view.QuestionManagerView</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SCORMQuestionBankView</filter-name>
         <url-pattern>/BankView/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>LessonViewerView</filter-name>
+        <filter-class>com.arcusys.learn.view.LessonViewerView</filter-class>
+    </filter>
     <filter-mapping>
-        <filter-name>SCORMUserView</filter-name>
-        <url-pattern>/UserView/*</url-pattern>
+        <filter-name>LessonViewerView</filter-name>
+        <url-pattern>/LessonViewerView/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>SCORMAdminView</filter-name>
+        <filter-class>com.arcusys.learn.view.AdminView</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>SCORMAdminView</filter-name>
         <url-pattern>/ScormAdmin/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>LessonDesignerView</filter-name>
+        <filter-class>com.arcusys.learn.view.LessonDesignerView</filter-class>
+    </filter>
     <filter-mapping>
-        <filter-name>SCORMQuizView</filter-name>
-        <url-pattern>/QuizView/*</url-pattern>
+        <filter-name>LessonDesignerView</filter-name>
+        <url-pattern>/LessonDesignerView/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>GradebookView</filter-name>
+        <filter-class>com.arcusys.learn.view.GradebookView</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>GradebookView</filter-name>
         <url-pattern>/GradebookView/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>CurriculumView</filter-name>
+        <filter-class>com.arcusys.learn.view.CurriculumAdmin</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>CurriculumView</filter-name>
         <url-pattern>/CurriculumView/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>CurriculumUser</filter-name>
+        <filter-class>com.arcusys.learn.view.CurriculumUser</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>CurriculumUser</filter-name>
         <url-pattern>/CurriculumUser/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>UserPortfolio</filter-name>
+        <filter-class>com.arcusys.learn.view.UserPortfolioView</filter-class>
+    </filter>
     <filter-mapping>
-        <filter-name>MyAccountView</filter-name>
-        <url-pattern>/MyAccountView/*</url-pattern>
+        <filter-name>UserPortfolio</filter-name>
+        <url-pattern>/UserPortfolio/*</url-pattern>
     </filter-mapping>
+
+    <!--Listeners-->
     <listener>
         <listener-class>com.liferay.portal.kernel.spring.context.PortletContextLoaderListener</listener-class>
     </listener>
+
+    <!--Api endpoints-->
+    <!--NB: Api endpoint url start with '/delegate' prefix-->
+    <!--Packages api endpoint-->
+    <servlet>
+        <servlet-name>packages</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.PackageApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>packages</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>packages</servlet-name>
+        <url-pattern>/packages/*</url-pattern>
+    </servlet-mapping>
+
+    <!--File api endpoint-->
+    <servlet>
+        <servlet-name>files</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.FileApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>files</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>files</servlet-name>
+        <url-pattern>/files/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Gradebook api endpoint-->
+    <servlet>
+        <servlet-name>gradebooks</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.GradebookApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>gradebooks</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>gradebooks</servlet-name>
+        <url-pattern>/gradebooks/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Courses api endpoint-->
+    <servlet>
+        <servlet-name>courses</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.CourseApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>courses</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>courses</servlet-name>
+        <url-pattern>/courses/*</url-pattern>
+    </servlet-mapping>
+
+    <!--User api endpoint-->
+    <servlet>
+        <servlet-name>users</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.UserApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>users</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>users</servlet-name>
+        <url-pattern>/users/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Role api endpoint-->
+    <servlet>
+        <servlet-name>roles</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.RoleApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>roles</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roles</servlet-name>
+        <url-pattern>/roles/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Certificate api endpoint-->
+    <servlet>
+        <servlet-name>certificates</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.CertificateApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>certificates</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>certificates</servlet-name>
+        <url-pattern>/certificates/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Printing api endpoint-->
+    <servlet>
+        <servlet-name>print</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.TranscriptPrintApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>print</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>print</servlet-name>
+        <url-pattern>/print/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Tincan statement api endpoint-->
+    <servlet>
+        <servlet-name>statements</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.tincan.TincanStatementApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>statements</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>statements</servlet-name>
+        <url-pattern>/statements/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Tincan activities api endpoint-->
+    <servlet>
+        <servlet-name>activities</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.tincan.TincanActivityApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>activities</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>activities</servlet-name>
+        <url-pattern>/activities/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Tincan agents api endpoint-->
+    <servlet>
+        <servlet-name>agents</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.tincan.TincanAgentApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>agents</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>agents</servlet-name>
+        <url-pattern>/agents/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Tincan about api endpoint-->
+    <servlet>
+        <servlet-name>about</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.tincan.TincanAboutApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>about</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>about</servlet-name>
+        <url-pattern>/about/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Administering api endpoint-->
+    <servlet>
+        <servlet-name>administering</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.AdminApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>administering</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>administering</servlet-name>
+        <url-pattern>/administering/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Category api endpoint-->
+    <servlet>
+        <servlet-name>categories</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.CategoryApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>categories</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>categories</servlet-name>
+        <url-pattern>/categories/*</url-pattern>
+    </servlet-mapping>
+
+    <!--Questions api endpoint-->
+    <servlet>
+        <servlet-name>questions</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.QuestionApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>questions</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>questions</servlet-name>
+        <url-pattern>/questions/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Call liferay actions -->
+    <servlet>
+        <servlet-name>liferay</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.LiferayApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>liferay</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>liferay</servlet-name>
+        <url-pattern>/liferay/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>manifestactivities</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.scorm.manifest.service.ActivitiesService</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>manifestactivities</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>manifestactivities</servlet-name>
+        <url-pattern>/manifestactivities/*</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>SCORMApplication Servlet</servlet-name>
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
-            <param-value>com.arcusys.learn.view.UserView</param-value>
+            <param-value>com.arcusys.learn.view.LessonViewerView</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -95,7 +430,7 @@
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
-            <param-value>com.arcusys.learn.view.QuestionBankView</param-value>
+            <param-value>com.arcusys.learn.view.QuestionManagerView</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -131,11 +466,10 @@
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
         <init-param>
             <param-name>portlet-class</param-name>
-            <param-value>com.arcusys.learn.view.MyAccountView</param-value>
+            <param-value>com.arcusys.learn.view.UserPortfolioView</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet>
         <servlet-name>ValamisSocialDashboard Servlet</servlet-name>
         <servlet-class>com.liferay.portal.kernel.servlet.PortletServlet</servlet-class>
@@ -145,6 +479,37 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+
+    <servlet>
+        <servlet-name>InitializeController</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.oauth.InitializeApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitializeController</servlet-name>
+        <url-pattern>/oauth/initiate/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TokenController</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.oauth.TokenApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TokenController</servlet-name>
+        <url-pattern>/oauth/token/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegistrationController</servlet-name>
+        <servlet-class>com.arcusys.learn.controllers.oauth.RegistrationApiController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrationController</servlet-name>
+        <url-pattern>/oauth/registration/*</url-pattern>
+    </servlet-mapping>
+
+
+
 
     <servlet-mapping>
         <servlet-name>SCORMApplication Servlet</servlet-name>
@@ -189,6 +554,7 @@
         <url-pattern>/resource/*</url-pattern>
     </servlet-mapping>
 
+
     <servlet>
         <servlet-name>FileStorageFilter</servlet-name>
         <servlet-class>com.arcusys.learn.web.FileStorageFilter</servlet-class>
@@ -198,140 +564,38 @@
         <url-pattern>/SCORMData/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>PackagesService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.manifest.service.PackagesService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PackagesService</servlet-name>
-        <url-pattern>/services/packages/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanPackagesService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.manifest.service.TincanPackagesService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanPackagesService</servlet-name>
-        <url-pattern>/services/tincan-packages/*</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>PackageApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.PackageApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PackageApiEndpoint</servlet-name>
-        <url-pattern>/api/packages/*</url-pattern>
-    </servlet-mapping>
-
 
     <servlet>
         <servlet-name>OrganizationsService</servlet-name>
         <servlet-class>com.arcusys.learn.scorm.manifest.service.OrganizationsService</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>ActivitiesService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.manifest.service.ActivitiesService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AdminService</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.AdminApiController</servlet-class>
-    </servlet>
+
 
     <servlet>
-        <servlet-name>FileApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.FileApiController</servlet-class>
+        <servlet-name>rte</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.scorm.rte.service.RunTimeEnvironment</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>rte</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FileApiEndpoint</servlet-name>
-        <url-pattern>/api/files/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CourseApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.CourseApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CourseApiEndpoint</servlet-name>
-        <url-pattern>/api/courses/*</url-pattern>
+        <servlet-name>rte</servlet-name>
+        <url-pattern>/rte/*</url-pattern>
     </servlet-mapping>
 
 
 
-    <servlet>
-        <servlet-name>GradebookApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.GradebookApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GradebookApiEndpoint</servlet-name>
-        <url-pattern>/api/gradebook/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>QuestionService</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.QuestionApiController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CategoryService</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.CategoryApiController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>GeneratorService</servlet-name>
-        <servlet-class>com.arcusys.learn.quiz.service.GeneratedPackagesService</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>RTEService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.rte.service.RunTimeEnvironment</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SequencingService</servlet-name>
-        <servlet-class>com.arcusys.learn.scorm.rte.service.SequencingService</servlet-class>
-    </servlet>
     <servlet>
         <servlet-name>LiferayJournalArticleService</servlet-name>
         <servlet-class>com.arcusys.learn.liferay.service.JournalArticleService</servlet-class>
     </servlet>
-
-    <servlet>
-        <servlet-name>LiferaySiteService</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.CourseApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LiferaySiteService</servlet-name>
-        <url-pattern>/services/liferay/site/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UserApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.UserApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserApiEndpoint</servlet-name>
-        <url-pattern>/api/users/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>LiferayRoleService</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.RoleApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LiferayRoleService</servlet-name>
-        <url-pattern>/api/roles/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CertificateApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.CertificateApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CertificateApiEndpoint</servlet-name>
-        <url-pattern>/api/certificates/*</url-pattern>
-    </servlet-mapping>
-
 
     <servlet>
         <servlet-name>ActivityController</servlet-name>
@@ -339,12 +603,21 @@
     </servlet>
 
     <servlet>
-        <servlet-name>ReportApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.ReportApiController</servlet-class>
+        <servlet-name>report</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.ReportApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>report</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ReportApiEndpoint</servlet-name>
-        <url-pattern>/api/report/*</url-pattern>
+        <servlet-name>report</servlet-name>
+        <url-pattern>/report/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -352,44 +625,31 @@
         <url-pattern>/services/organizations/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>sequencing</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.scorm.rte.service.SequencingService</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>sequencing</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>ActivitiesService</servlet-name>
-        <url-pattern>/services/activities/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AdminService</servlet-name>
-        <url-pattern>/services/administering/*</url-pattern>
+        <servlet-name>sequencing</servlet-name>
+        <url-pattern>/sequencing/*</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>QuestionService</servlet-name>
-        <url-pattern>/api/question/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CategoryService</servlet-name>
-        <url-pattern>/api/category/*</url-pattern>
-    </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>GeneratorService</servlet-name>
-        <url-pattern>/services/generator/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RTEService</servlet-name>
-        <url-pattern>/services/rte/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SequencingService</servlet-name>
-        <url-pattern>/services/sequencing/*</url-pattern>
-    </servlet-mapping>
+
 
     <servlet-mapping>
         <servlet-name>LiferayJournalArticleService</servlet-name>
         <url-pattern>/services/liferay/article/*</url-pattern>
     </servlet-mapping>
-
-
-
 
     <servlet-mapping>
         <servlet-name>ActivityController</servlet-name>
@@ -397,86 +657,77 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>InitializeController</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.oauth.InitializeApiController</servlet-class>
+        <servlet-name>quiz</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.QuizApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>quiz</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>InitializeController</servlet-name>
-        <url-pattern>/oauth/initiate/*</url-pattern>
+        <servlet-name>quiz</servlet-name>
+        <url-pattern>/quiz/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>settings-api-controller</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.SettingsApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>settings-api-controller</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>settings-api-controller</servlet-name>
+        <url-pattern>/settings-api-controller/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>TokenController</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.oauth.TokenApiController</servlet-class>
+        <servlet-name>lrs2activity-filter-api-controller</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.LRSToActivitySettingApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>lrs2activity-filter-api-controller</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>TokenController</servlet-name>
-        <url-pattern>/oauth/token/*</url-pattern>
+        <servlet-name>lrs2activity-filter-api-controller</servlet-name>
+        <url-pattern>/lrs2activity-filter-api-controller/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>RegistrationController</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.oauth.RegistrationApiController</servlet-class>
+        <servlet-name>uri</servlet-name>
+        <servlet-class>com.liferay.portal.kernel.servlet.PortalDelegateServlet</servlet-class>
+        <init-param>
+            <param-name>servlet-class</param-name>
+            <param-value>com.arcusys.learn.controllers.api.URIApiController</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sub-context</param-name>
+            <param-value>uri</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>RegistrationController</servlet-name>
-        <url-pattern>/oauth/registration/*</url-pattern>
+        <servlet-name>uri</servlet-name>
+        <url-pattern>/uri/*</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>QuizApiEndpoint</servlet-name>
-        <servlet-class>com.arcusys.learn.controllers.api.QuizApiController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>QuizApiEndpoint</servlet-name>
-        <url-pattern>/api/quiz/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanApiStatement</servlet-name>
-        <servlet-class>com.arcusys.learn.tincan.api.StatementService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanApiStatement</servlet-name>
-        <url-pattern>/TincanApi/statements/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanApiActivities</servlet-name>
-        <servlet-class>com.arcusys.learn.tincan.api.ActivitiesService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanApiActivities</servlet-name>
-        <url-pattern>/TincanApi/activities/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanApiAgent</servlet-name>
-        <servlet-class>com.arcusys.learn.tincan.api.AgentService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanApiAgent</servlet-name>
-        <url-pattern>/TincanApi/agents/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanApiState</servlet-name>
-        <servlet-class>com.arcusys.learn.tincan.api.StateService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanApiState</servlet-name>
-        <url-pattern>/TincanApi/activities/state/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TincanApiAbout</servlet-name>
-        <servlet-class>com.arcusys.learn.tincan.api.AboutService</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TincanApiAbout</servlet-name>
-        <url-pattern>/TincanApi/about/*</url-pattern>
-    </servlet-mapping>
-
 
     <session-config>
         <session-timeout>30</session-timeout>

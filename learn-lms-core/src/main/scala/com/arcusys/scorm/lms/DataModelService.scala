@@ -1,16 +1,17 @@
 package com.arcusys.scorm.lms
 
 import com.arcusys.learn.scorm.tracking.model._
-import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateStorage
+import com.arcusys.learn.scorm.tracking.storage.DataModelStorage
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import org.joda.time._
 import org.joda.time.format.DateTimeFormat
 
 class DataModelService(attempt: Attempt, activityID: String)(implicit val bindingModule: BindingModule) extends Injectable {
-  private val storageFactory = inject[StorageFactoryContract]
-  private val dataModelStorage = storageFactory.dataModelStorage
+  private val dataModelStorage = inject[DataModelStorage]
+  private val activityStateStorage = inject[ActivityStateStorage]
 
-  private val lmsBehavior = new DataModelLMSBehavior(attempt, storageFactory.activityStateStorage.getCurrentActivityStateForAttempt(attempt.id))
+  private val lmsBehavior = new DataModelLMSBehavior(attempt, activityStateStorage.getCurrentActivityStateForAttempt(attempt.id))
 
   def getValues = {
     dataModelStorage.getKeyedValues(attempt.id, activityID) ++ getLMSValues

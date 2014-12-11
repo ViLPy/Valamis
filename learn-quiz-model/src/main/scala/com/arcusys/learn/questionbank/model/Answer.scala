@@ -5,6 +5,8 @@ package com.arcusys.learn.questionbank.model
  */
 sealed trait Answer {
   def id: Int
+  def questionId: Option[Int]
+  def score: Option[Double]
 }
 
 /*
@@ -13,7 +15,10 @@ sealed trait Answer {
  * @param text  Correct answer string
  */
 
-case class TextAnswer(id: Int, text: String) extends Answer
+case class TextAnswer(id: Int = 0,
+  text: String,
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer
 
 /**
  * An option for a Positioning question
@@ -21,7 +26,11 @@ case class TextAnswer(id: Int, text: String) extends Answer
  * @param text          Option text
  * @param isCorrect     True if this option is part of the correct sequence
  */
-case class PositioningAnswer(id: Int, text: String, isCorrect: Boolean) extends Answer
+case class PositioningAnswer(id: Int = 0,
+  text: String,
+  isCorrect: Boolean,
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer
 
 /**
  * A correct answer to a Numeric question
@@ -29,7 +38,11 @@ case class PositioningAnswer(id: Int, text: String, isCorrect: Boolean) extends 
  * @param notLessThan     Lower inclusive boundary of correct answer range
  * @param notGreaterThan  Higher inclusive boundary of correct answer range
  */
-case class NumericAnswer(id: Int, notLessThan: BigDecimal, notGreaterThan: BigDecimal) extends Answer
+case class NumericAnswer(id: Int = 0,
+  notLessThan: BigDecimal,
+  notGreaterThan: BigDecimal,
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer
 
 /**
  * A key-value pair for a Matching question
@@ -37,7 +50,11 @@ case class NumericAnswer(id: Int, notLessThan: BigDecimal, notGreaterThan: BigDe
  * @param text          Value text
  * @param keyText  Key text for the key this option should match, or None if this value should not match any key and is rendered for distraction only
  */
-case class MatchingAnswer(id: Int, text: String, keyText: Option[String]) extends Answer
+case class MatchingAnswer(id: Int = 0,
+  text: String,
+  keyText: Option[String],
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer
 
 /**
  * An option for a Choice question
@@ -45,7 +62,11 @@ case class MatchingAnswer(id: Int, text: String, keyText: Option[String]) extend
  * @param text      Option text
  * @param isCorrect True if this is a correct answer
  */
-case class ChoiceAnswer(id: Int, text: String, isCorrect: Boolean) extends Answer
+case class ChoiceAnswer(id: Int = 0,
+  text: String,
+  isCorrect: Boolean,
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer
 
 /**
  * An option for a Categorization question
@@ -53,4 +74,8 @@ case class ChoiceAnswer(id: Int, text: String, isCorrect: Boolean) extends Answe
  * @param text                Option text
  * @param answerCategoryText  Category text, or None if this value should not match any category
  */
-case class CategorizationAnswer(id: Int, text: String, answerCategoryText: Option[String]) extends Answer
+case class CategorizationAnswer(id: Int = 0,
+  text: String,
+  answerCategoryText: Option[String],
+  questionId: Option[Int] = None,
+  score: Option[Double] = None) extends Answer

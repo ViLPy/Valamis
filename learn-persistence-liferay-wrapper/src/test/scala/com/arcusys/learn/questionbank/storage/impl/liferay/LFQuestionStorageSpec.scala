@@ -97,83 +97,82 @@ class LFQuestionStorageSpec extends SpecificationWithJUnit with Mockito {
     Some(Random.nextInt())
   }
 
-  "QuestionEntityStorage.move" should {
-    "move to top" in new QuestionContext {
-      val moveAfterTarget = false
-      LFStorages.questionStorage.move(questionId4.id, categoryId, None, moveAfterTarget)
+  //  "QuestionEntityStorage.move" should {
+  //    "move to top" in new QuestionContext {
+  //      LFStorages.questionStorage.move(questionId4.id, 0, categoryId)
+  //
+  //      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
+  //
+  //      checkArrangementIndex(
+  //        ExpectedIndex(questionId4, 1),
+  //        ExpectedIndex(questionId1, 2),
+  //        ExpectedIndex(questionId2, 3),
+  //        ExpectedIndex(questionId3, 4)
+  //      )
+  //    }
+  //
+  //    "move after sibling" in new QuestionContext {
+  //      val moveAfterTarget = true
+  //      LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
+  //
+  //      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
+  //
+  //      checkArrangementIndex(
+  //        ExpectedIndex(questionId4, 3),
+  //        ExpectedIndex(questionId1, 1),
+  //        ExpectedIndex(questionId2, 2),
+  //        ExpectedIndex(questionId3, 4)
+  //      )
+  //    }
+  //
+  //    "move before sibling" in new QuestionContext {
+  //      val moveAfterTarget = false
+  //      LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
+  //
+  //      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
+  //
+  //      checkArrangementIndex(
+  //        ExpectedIndex(questionId4, 2),
+  //        ExpectedIndex(questionId1, 1),
+  //        ExpectedIndex(questionId2, 3),
+  //        ExpectedIndex(questionId3, 4)
+  //      )
+  //    }
+  //
+  //    "move to botton" in new QuestionContext {
+  //      val moveAfterTarget = true
+  //      LFStorages.questionStorage.move(questionId4.id, categoryId, None, moveAfterTarget)
+  //
+  //      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
+  //
+  //      checkArrangementIndex(
+  //        ExpectedIndex(questionId4, 4),
+  //        ExpectedIndex(questionId1, 1),
+  //        ExpectedIndex(questionId2, 2),
+  //        ExpectedIndex(questionId3, 3)
+  //      )
+  //    }
 
-      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
+  //    trait QuestionContext extends Scope {
+  //      val categoryId = randomCategory
+  //      val questionId1 = QuestionId("questionId1", createQuestion(categoryId, arrangementIndex = 1))
+  //      val questionId2 = QuestionId("questionId2", createQuestion(categoryId, arrangementIndex = 2))
+  //      val questionId3 = QuestionId("questionId3", createQuestion(categoryId, arrangementIndex = 3))
+  //
+  //      val questionId4 = QuestionId("questionId4", createQuestion(None))
+  //
+  //      case class QuestionId(name: String, id: Int)
+  //      case class ExpectedIndex(question: QuestionId, arrangementIndex: Int)
+  //
+  //      def checkArrangementIndex(expected: ExpectedIndex*) {
+  //        expected.foreach(expectedIndex =>
+  //          (expectedIndex.question.name -> storage.getByID(expectedIndex.question.id).get.arrangementIndex) must beEqualTo(expectedIndex.question.name -> expectedIndex.arrangementIndex)
+  //        )
+  //      }
+  //
+  //    }
 
-      checkArrangementIndex(
-        ExpectedIndex(questionId4, 1),
-        ExpectedIndex(questionId1, 2),
-        ExpectedIndex(questionId2, 3),
-        ExpectedIndex(questionId3, 4)
-      )
-    }
-
-    "move after sibling" in new QuestionContext {
-      val moveAfterTarget = true
-      LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
-
-      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
-
-      checkArrangementIndex(
-        ExpectedIndex(questionId4, 3),
-        ExpectedIndex(questionId1, 1),
-        ExpectedIndex(questionId2, 2),
-        ExpectedIndex(questionId3, 4)
-      )
-    }
-
-    "move before sibling" in new QuestionContext {
-      val moveAfterTarget = false
-      LFStorages.questionStorage.move(questionId4.id, categoryId, Some(questionId2.id), moveAfterTarget)
-
-      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
-
-      checkArrangementIndex(
-        ExpectedIndex(questionId4, 2),
-        ExpectedIndex(questionId1, 1),
-        ExpectedIndex(questionId2, 3),
-        ExpectedIndex(questionId3, 4)
-      )
-    }
-
-    "move to botton" in new QuestionContext {
-      val moveAfterTarget = true
-      LFStorages.questionStorage.move(questionId4.id, categoryId, None, moveAfterTarget)
-
-      storage.getByID(questionId4.id).get.categoryID must beEqualTo(categoryId)
-
-      checkArrangementIndex(
-        ExpectedIndex(questionId4, 4),
-        ExpectedIndex(questionId1, 1),
-        ExpectedIndex(questionId2, 2),
-        ExpectedIndex(questionId3, 3)
-      )
-    }
-
-    trait QuestionContext extends Scope {
-      val categoryId = randomCategory
-      val questionId1 = QuestionId("questionId1", createQuestion(categoryId, arrangementIndex = 1))
-      val questionId2 = QuestionId("questionId2", createQuestion(categoryId, arrangementIndex = 2))
-      val questionId3 = QuestionId("questionId3", createQuestion(categoryId, arrangementIndex = 3))
-
-      val questionId4 = QuestionId("questionId4", createQuestion(None))
-
-      case class QuestionId(name: String, id: Int)
-      case class ExpectedIndex(question: QuestionId, arrangementIndex: Int)
-
-      def checkArrangementIndex(expected: ExpectedIndex*) {
-        expected.foreach(expectedIndex =>
-          (expectedIndex.question.name -> storage.getByID(expectedIndex.question.id).get.arrangementIndex) must beEqualTo(expectedIndex.question.name -> expectedIndex.arrangementIndex)
-        )
-      }
-
-    }
-
-  }
+  //  }
 }
 
 object LFQuestionStorageSpec {

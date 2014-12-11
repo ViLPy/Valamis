@@ -1108,6 +1108,7 @@ public class LFQuizPersistenceImpl extends BasePersistenceImpl<LFQuiz>
         lfQuizImpl.setWelcomePageContent(lfQuiz.getWelcomePageContent());
         lfQuizImpl.setFinalPageContent(lfQuiz.getFinalPageContent());
         lfQuizImpl.setCourseID(lfQuiz.getCourseID());
+        lfQuizImpl.setMaxDuration(lfQuiz.getMaxDuration());
 
         return lfQuizImpl;
     }

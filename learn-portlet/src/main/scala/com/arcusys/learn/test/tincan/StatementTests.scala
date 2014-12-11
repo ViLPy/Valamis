@@ -39,9 +39,9 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
   val statement1 = Statement(
     UUID.fromString("fdf01fb5-25c0-4c15-b481-74ba0fbc1111"),
-    Agent("Agent", Some("agent_test1"), Some("mailto:test@test.com"), None, None, None),
+    Agent("Agent", Some("agent_test1"), Some("mailto:test1@test.com"), None, None, None),
     Verb("verbId_test1", Map.empty[String, String]),
-    new Activity("Activity", "activityId", Option(Map("en" -> "Test Activity")), None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
+    new Activity("Activity", "activityId", Option(Map("en" -> "Test Activity")), None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), None),
     None,
     None,
     Some(future),
@@ -56,17 +56,17 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     Agent("Agent", Some("agent1"), Option("mailto:test@test.com"), None, None, None),
     Verb("verbId_test1", Map.empty[String, String]),
     new SubStatement(
-      Agent("Agent", Some("agent_sub"), Option("mailto:test@test.com"), None, None, None),
+      Agent("Agent", Some("agent_sub"), Option("mailto:test-sub@test.com"), None, None, None),
       Verb("verbId_test1", Map.empty[String, String]),
-      new Activity("Activity", "activitySubId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), Seq()),
+      new Activity("Activity", "activitySubId", None, None, None, None, None, Set(""), Seq(), Seq(), Seq(), Seq(), Seq(), None),
       "SubStatement", None),
     None,
     Some(new Context(Some(UUID.fromString("fdf01666-25c0-4c15-b481-74ba0fbc3123")),
-      Some(Agent("Agent", Some("agent_instructor"), Option("mailto:test@test.com"), None, None, None)),
+      Some(Agent("Agent", Some("agent_instructor"), Option("mailto:test-in@test.com"), None, None, None)),
       Some(new Group("Group", Some("Team1"),
-        Some(Seq(Agent("Agent", Some("agent_team"), Option("mailto:test@test.com"), None, None, None))),
-        None, None, None, None)),
-      Option(new ContextActivities(Set(), Set(), Set(), Set(), None)), None, None, None, None, Seq())),
+        Some(Seq(Agent("Agent", Some("agent_team"), Option("mailto:test-team@test.com"), None, None, None))),
+        Option("mailto:group@test.com"), None, None, None)),
+      Option(new ContextActivities(Set(), Set(), Set(), Set(), None)), None, None, None, None, None)),
     Some(future),
     Some(future),
     None,
@@ -262,7 +262,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
   def testGetById() {
     val result = statementLRS.getStatements(StatementFilter(Some(statement.id.toString), None, None, None, None, None, None, None)).statements
     if (result.size != 1) throw new Exception()
-    if (!result.head.id.equals(statement1.id)) throw new Exception()
+    if (!result.head.id.equals(statement.id)) throw new Exception()
 
     writer.write("get only one statement by Id: success <br>")
   }
@@ -301,13 +301,13 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     result = statementLRS.getStatements(StatementFilter(None, None,
-      Some(Agent("Agent", None, Some("mailto:test@test.com"), None, None, None)),
+      Some(Agent("Agent", None, Some("mailto:test1@test.com"), None, None, None)),
       None, None, None, None, None)).statements
     if (result.size != 1) throw new Exception()
     if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     result = statementLRS.getStatements(StatementFilter(None, None,
-      Some(Agent("Agent", None, Some("mailto:test1@test.com"), None, None, None)),
+      Some(Agent("Agent", None, Some("mailto:test2@test.com"), None, None, None)),
       None, None, None, None, None)).statements
     if (result.size != 0) throw new Exception()
 
@@ -342,7 +342,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
     // since: since the specified timestamp (exclusive)
     val result1 = statementLRS.getStatements(StatementFilter(None, None, None, None, None, None, Some(future), None)).statements
-    if (result1.size != 0) throw new Exception()
+    if (result1.size != 1) throw new Exception()
 
     writer.write("get statements by boundary dates: success <br>")
   }
@@ -359,7 +359,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     if (!result.head.id.equals(statement1.id)) throw new Exception()
 
     val result1 = statementLRS.getStatements(StatementFilter(None, None, Some(statement.actor), None, Some("activityId"), None, None, None)).statements
-    if (result1.size != 0) throw new Exception()
+    if (result1.size != 1) throw new Exception()
 
     writer.write("get statements by activity and agent: success <br>")
   }
@@ -465,7 +465,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     try {
       statementLRS.getStatements(StatementFilter(
         Some("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"), None,
-        Some(Agent("Agent", None, None, None, None, None)),
+        Some(Agent("Agent", Some("Test"), Some("sp@s.com"), None, None, None)),
         None, None, None, None, None))
       throw new Exception()
     } catch {
@@ -553,7 +553,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
     try {
       statementLRS.getStatements(StatementFilter(
         None, Some("fdf01fb5-25c0-4c15-b481-74ba0fbc3584"),
-        Some(Agent("Agent", None, None, None, None, None)),
+        Some(Agent("Agent", Some("Test"), Some("vp@p.com"), None, None, None)),
         None, None, None, None, None))
       throw new Exception()
     } catch {
@@ -662,13 +662,13 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
   def testGetWithRelativeAgent() {
     var result = statementLRS.getStatements(StatementFilter(
       None, None,
-      Some(Agent("Agent", Some("agent_sub"), None, None, None, None)), None, None, None, None,
+      Some(Agent("Agent", Some("agent_sub"), Option("mailto:test-sub@test.com"), None, None, None)), None, None, None, None,
       None, None, Some(false))).statements
     if (result.size != 0) throw new Exception()
 
     result = statementLRS.getStatements(StatementFilter(
       None, None,
-      Some(Agent("Agent", Some("agent_sub"), None, None, None, None)), None, None, None, None,
+      Some(Agent("Agent", Some("agent_sub"), Option("mailto:test-sub@test.com"), None, None, None)), None, None, None, None,
       None, None, Some(true))).statements
     if (result.size != 1) throw new Exception()
     if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
@@ -676,7 +676,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
     result = statementLRS.getStatements(StatementFilter(
       None, None,
-      Some(Agent("Agent", Some("agent_instructor"), None, None, None, None)), None, None, None, None,
+      Some(Agent("Agent", Some("agent_instructor"), Option("mailto:test-in@test.com"), None, None, None)), None, None, None, None,
       None, None, Some(true))).statements
     if (result.size != 1) throw new Exception()
     if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))
@@ -684,7 +684,7 @@ class StatementTests(writer: PrintWriter, statementLRS: StatementLRS) {
 
     result = statementLRS.getStatements(StatementFilter(
       None, None,
-      Some(Agent("Agent", Some("agent_team"), None, None, None, None)), None, None, None, None,
+      Some(Agent("Group", Some("Team1"), Option("mailto:group@test.com"), None, None, None)), None, None, None, None,
       None, None, Some(true))).statements
     if (result.size != 1) throw new Exception()
     if (!result.head.id.toString.equalsIgnoreCase(statementWithSubStatement.id.toString))

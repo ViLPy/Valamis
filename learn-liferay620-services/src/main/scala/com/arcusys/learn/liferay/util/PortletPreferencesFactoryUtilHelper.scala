@@ -1,7 +1,7 @@
 package com.arcusys.learn.liferay.util
 
 import com.liferay.portal.model.Layout
-import javax.portlet.PortletPreferences
+import javax.portlet.{ PortletRequest, PortletPreferences }
 import com.liferay.portlet.PortletPreferencesFactoryUtil
 
 object PortletPreferencesFactoryUtilHelper {
@@ -12,4 +12,8 @@ object PortletPreferencesFactoryUtilHelper {
 
   def getLayoutPortletSetup(layout: Layout, portletId: String): PortletPreferences =
     PortletPreferencesFactoryUtil.getLayoutPortletSetup(layout, portletId)
+
+  def getPortletSetup(request: PortletRequest) =
+    PortletPreferencesFactoryUtil.getPortletSetup(request)
+
 }

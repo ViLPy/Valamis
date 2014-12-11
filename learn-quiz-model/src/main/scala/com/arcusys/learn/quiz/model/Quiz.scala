@@ -16,4 +16,5 @@ case class Quiz(
   welcomePageContent: String,
   finalPageContent: String,
   courseID: Option[Int],
-  logo: String)
+  logo: String,
+  maxDuration: Option[Int])

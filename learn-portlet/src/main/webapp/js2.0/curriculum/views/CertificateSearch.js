@@ -3,13 +3,15 @@
  */
 var CertificateSearchView = Backbone.View.extend({
   events: {
-    'keyup #certificateFilter': 'filterCertificates',
-    'change #certificateOrder': 'filterCertificates',
-    'change #certificateScopeFilter': 'filterCertificates',
+    'keyup .certificateFilter': 'filterCertificates',
+    'change .certificateOrder': 'filterCertificates',
+    'change .certificateScopeFilter': 'filterCertificates',
     'click .menu-close': 'closeSearchMenuToggle'
   },
   initialize: function (options) {
     this.options = options;
+    this.portletID = options.portletID;
+    this.forcedView = options.forcedView;
     this.inputTimeout = null;
     this.filterValue = null;
     this.render(options.scopeAvailable);
@@ -21,7 +23,9 @@ var CertificateSearchView = Backbone.View.extend({
     var language = this.options.language;
     var renderedTemplate = Mustache.to_html(jQuery('#curriculumSearchTemplate').html(), _.extend({
       scopeAvailable: scopeAvailable,
-      currentCertificateID: jQuery('#courseID').val()
+      currentCertificateID: jQuery('#courseID').val(),
+      portletID: this.portletID,
+      forcedView: this.forcedView
     }, language));
     this.$el.html(renderedTemplate);
   },
@@ -39,7 +43,7 @@ var CertificateSearchView = Backbone.View.extend({
     this.trigger('certificateToggleMenu', e);
   },
   setDefault: function () {
-    jQuery("#certificateFilter").val("");
-    jQuery('#certificateOrder option[value="name:true"]').prop('selected', true);
+    this.$el.find(".certificateFilter").val("");
+    this.$el.find('.certificateOrder option[value="name:true"]').prop('selected', true);
   }
 });

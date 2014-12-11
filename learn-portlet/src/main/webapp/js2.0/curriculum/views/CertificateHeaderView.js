@@ -6,11 +6,12 @@ var CertificateHeaderView = Backbone.View.extend({
   initialize: function (options) {
     this.options = options;
     this.language = this.options.language;
+    this.forcedView = options.forcedView;
     this.render();
   },
 
   render: function () {
-    var renderedTemplate = _.template(Mustache.to_html(jQuery('#curriculumHeaderTemplate').html(), this.language));
+    var renderedTemplate = _.template(Mustache.to_html(jQuery('#curriculumHeaderTemplate').html(), _.extend({forcedView: this.forcedView}, this.language)));
     this.$el.html(renderedTemplate);
 
     return this;

@@ -35,7 +35,7 @@ case class Activity(
   source: Seq[InteractionComponent],
   target: Seq[InteractionComponent],
   steps: Seq[InteractionComponent],
-  extensions: Seq[Extension],
+  extensions: Option[Map[String, String]],
   storedId: Option[Int] = None) extends StatementObject
 
 /**

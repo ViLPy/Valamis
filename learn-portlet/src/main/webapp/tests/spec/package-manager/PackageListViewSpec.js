@@ -66,7 +66,7 @@ describe('PackageManagerItemView', function () {
     it('should render model with "visible" and "default" flags checked correctly', function () {
       var flagState = true;
 
-      var model = new PackageManagerPackageModel({isDefault: flagState, isVisible: flagState});
+      var model = new PackageManagerPackageModel({isDefault: flagState, visibility: flagState});
       var view = new PackageManagerItemView({model: model});
       var rendered = view.render().$el;
 
@@ -77,7 +77,7 @@ describe('PackageManagerItemView', function () {
     it('should render model with "visible" and "default" flags un-checked correctly', function () {
       var flagState = false;
 
-      var model = new PackageManagerPackageModel({isDefault: flagState, isVisible: flagState});
+      var model = new PackageManagerPackageModel({isDefault: flagState, visibility: flagState});
       var view = new PackageManagerItemView({model: model});
       var rendered = view.render().$el;
 
@@ -91,7 +91,7 @@ describe('PackageManagerItemView', function () {
       // create fixture to make events work
       $("<div>").attr("id", "fixture").css("display", "none").appendTo("body");
 
-      this.model = new PackageManagerPackageModel({isDefault: false, isVisible: false});
+      this.model = new PackageManagerPackageModel({isDefault: false, visibility: false});
       var view = new PackageManagerItemView({model: this.model});
       this.rendered = view.render().$el;
       $("#fixture").append(this.rendered);
@@ -102,9 +102,9 @@ describe('PackageManagerItemView', function () {
     });
 
     it('should update model if visibility changes', function () {
-      expect(this.model.get('isVisible')).toBe(false);
+      expect(this.model.get('visibility')).toBe(false);
       this.rendered.find('.package-visibility-flag').click();
-      expect(this.model.get('isVisible')).toBe(true);
+      expect(this.model.get('visibility')).toBe(true);
     });
 
     it('should update model if default flag changes', function () {

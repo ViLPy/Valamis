@@ -1,22 +1,26 @@
 package com.arcusys.learn.test.tincan
 
 import java.io.PrintWriter
-import com.arcusys.learn.tincan.model._
-import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.tincan.storage.{ ActivityProfileStorage, TincanActivityStorage }
+
+import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.tincan.lrs.activityprofile.ActivityProfileLRS
+import com.arcusys.learn.tincan.model._
+import com.arcusys.learn.tincan.storage.{ ActivityProfileStorage, DocumentStorage, TincanActivityStorage }
+import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
-class ActivityProfileTests(writer: PrintWriter, storageFactory: StorageFactoryContract) {
-
+class ActivityProfileTests(writer: PrintWriter) extends Injectable {
+  override implicit def bindingModule: BindingModule = Configuration
   private val activityProfileLrs = new ActivityProfileLRS {
-    val activityStorage: TincanActivityStorage = storageFactory.tincanLrsActivityStorage
-    val activityProfileStorage: ActivityProfileStorage = storageFactory.tincanLrsActivityProfileStorage
+    val activityStorage: TincanActivityStorage = inject[TincanActivityStorage]
+    val activityProfileStorage: ActivityProfileStorage = inject[ActivityProfileStorage]
   }
 
+  private val tincanLrsDocumentStorage = inject[DocumentStorage]
+
   def renew() {
-    storageFactory.tincanLrsActivityStorage.renew()
-    storageFactory.tincanLrsActivityProfileStorage.renew()
-    storageFactory.tincanLrsDocumentStorage.renew()
+    activityProfileLrs.activityStorage.renew()
+    activityProfileLrs.activityProfileStorage.renew()
+    tincanLrsDocumentStorage.renew()
   }
 
   def createAndReadTest() {
@@ -33,4 +37,5 @@ class ActivityProfileTests(writer: PrintWriter, storageFactory: StorageFactoryCo
     }
     writer.write("activity profile document, createAndRead SUCCESS <br>")
   }
+
 }

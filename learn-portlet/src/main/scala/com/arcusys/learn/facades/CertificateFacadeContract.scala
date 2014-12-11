@@ -1,21 +1,24 @@
 package com.arcusys.learn.facades
 
-import com.arcusys.learn.models.request.CertificateSortBy.CertificateSortBy
-import com.arcusys.learn.scorm.tracking.model.certificating.PeriodType._
+import java.io.InputStream
+
+import com.arcusys.learn.bl.models.BadgeResponse
+import com.arcusys.learn.bl.models.certificates.CertificateSortBy.CertificateSortBy
+import com.arcusys.learn.models.response.CollectionResponse
+import com.arcusys.learn.scorm.manifest.model.PeriodType
+import PeriodType._
 import com.arcusys.learn.models._
-import com.arcusys.learn.models.response.certificates.{ CertificateResponseContract }
-import com.arcusys.learn.models.StatementResponse
+import com.arcusys.learn.models.response.certificates._
 import com.arcusys.learn.models.response.users.UserResponseWithCertificateStatus
-import com.arcusys.learn.models.ActivityResponse
-import com.arcusys.learn.models.ValidPeriod
 import com.arcusys.learn.models.response.users.UserShortResponse
-import com.arcusys.learn.models.BadgeResponse
 
 trait CertificateFacadeContract {
   def getAll(companyID: Int, skip: Int, take: Int, filter: String,
     sortBy: CertificateSortBy, isSortDirectionAsc: Boolean, isShortResult: Boolean): Seq[Any]
 
   def getGoalsStatuses(certificateId: Int, userId: Int): GoalsStatusResponse
+
+  def getGoalsDeadlines(certificateId: Int, userId: Int): GoalsDeadlineResponse
 
   def getCertificatesByUserWithOpenBadges(companyID: Int,
     skip: Int,
@@ -88,7 +91,8 @@ trait CertificateFacadeContract {
   def change(id: Int,
     title: String,
     description: String,
-    validPeriod: ValidPeriod,
+    validPeriodType: String,
+    validPeriodValue: Option[Int],
     isOpenBadgesIntegration: Boolean,
     shortDescription: String = "",
     companyId: Int,
@@ -136,10 +140,15 @@ trait CertificateFacadeContract {
     isOnlyPublished: Boolean,
     scope: Option[Long]): Seq[CertificateResponseContract]
 
-  def forUserCount(companyID: Int, userId: Int): Int
+  def forUserCount(
+    companyID: Int,
+    filter: String,
+    userId: Int,
+    isOnlyPublished: Boolean): Int
 
   def availableForUserCount(companyID: Int,
     userId: Int,
+    filter: String,
     isOnlyPublished: Boolean,
     scope: Option[Long]): Int
 
@@ -152,4 +161,15 @@ trait CertificateFacadeContract {
   def publish(certificateId: Int): CertificateResponseContract
 
   def unpublish(certificateId: Int): CertificateResponseContract
+
+  def moveCourse(certificateId: Int, courseIDs: Seq[Int])
+
+  def exportCertificate(companyId: Int, certificateId: Int): InputStream
+
+  def exportCertificates(companyId: Int): InputStream
+
+  def importCertificates(filename: String, companyID: Int): Unit
+
+  def getAvailableStatements(page: Int, skip: Int, take: Int, filter: String,
+    isSortDirectionAsc: Boolean): CollectionResponse[AvailableStatementResponse]
 }

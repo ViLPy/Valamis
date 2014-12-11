@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div class="lrs2activity-controls"></div>
+<table class="table valamis table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>{{ruleName}}</th>
+        <th>{{tinCanVerb}}</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody class="social-activities-mapper-data"></tbody>
+</table>
+
+<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+
+<script>
+    var jQueryLRS2ActivityMapper = jQuery.noConflict();
+
+    jQueryLRS2ActivityMapper(function () {
+        Backbone.emulateJSON = true;
+        Backbone.ajax = window.LearnAjax.ajax;
+        var defaultURL = Utils.getContextPath() + '/i18n/lrsToActivitiesMapper_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/lrsToActivitiesMapper_{{language}}.properties';
+        Utils.i18nLoader(localizedURL, defaultURL, onLRS2ActivityLanguageLoad, onLRS2ActivityLanguageError);
+    });
+
+    function onLRS2ActivityLanguageError() {
+        toastr.error('Translation resource loading failed!');
+    }
+
+    function onLRS2ActivityLanguageLoad(lang) {
+        LRS2ActivityMapperApp.start({
+            language: lang,
+            siteID: JSON.parse('{{courseID}}')
+        });
+    }
+</script>
+</body>
+</html>

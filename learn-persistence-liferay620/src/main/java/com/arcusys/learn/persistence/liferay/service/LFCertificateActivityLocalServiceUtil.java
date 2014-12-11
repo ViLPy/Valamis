@@ -263,6 +263,12 @@ public class LFCertificateActivityLocalServiceUtil {
         return getService().invokeMethod(name, parameterTypes, arguments);
     }
 
+    public static com.arcusys.learn.persistence.liferay.model.LFCertificateActivity createLFCertificateActivity(
+        java.lang.Long certificateID, java.lang.String activityName) {
+        return getService()
+                   .createLFCertificateActivity(certificateID, activityName);
+    }
+
     public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateActivity> findByCertificateID(
         java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {

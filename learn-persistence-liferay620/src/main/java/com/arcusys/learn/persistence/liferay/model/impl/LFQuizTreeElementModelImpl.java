@@ -67,8 +67,9 @@ public class LFQuizTreeElementModelImpl extends BaseModelImpl<LFQuizTreeElement>
                 "value.object.column.bitmask.enabled.com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement"),
             true);
     public static long ELEMENTID_COLUMN_BITMASK = 1L;
-    public static long QUIZID_COLUMN_BITMASK = 2L;
-    public static long ID_COLUMN_BITMASK = 4L;
+    public static long PARENTID_COLUMN_BITMASK = 2L;
+    public static long QUIZID_COLUMN_BITMASK = 4L;
+    public static long ID_COLUMN_BITMASK = 8L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement"));
     private static ClassLoader _classLoader = LFQuizTreeElement.class.getClassLoader();
@@ -83,6 +84,7 @@ public class LFQuizTreeElementModelImpl extends BaseModelImpl<LFQuizTreeElement>
     private String _originalElementID;
     private Boolean _isCategory;
     private String _parentID;
+    private String _originalParentID;
     private Integer _arrangementIndex;
     private long _columnBitmask;
     private LFQuizTreeElement _escapedModel;
@@ -242,7 +244,17 @@ public class LFQuizTreeElementModelImpl extends BaseModelImpl<LFQuizTreeElement>
 
     @Override
     public void setParentID(String parentID) {
+        _columnBitmask |= PARENTID_COLUMN_BITMASK;
+
+        if (_originalParentID == null) {
+            _originalParentID = _parentID;
+        }
+
         _parentID = parentID;
+    }
+
+    public String getOriginalParentID() {
+        return _originalParentID;
     }
 
     @Override
@@ -346,6 +358,8 @@ public class LFQuizTreeElementModelImpl extends BaseModelImpl<LFQuizTreeElement>
         lfQuizTreeElementModelImpl._setOriginalQuizID = false;
 
         lfQuizTreeElementModelImpl._originalElementID = lfQuizTreeElementModelImpl._elementID;
+
+        lfQuizTreeElementModelImpl._originalParentID = lfQuizTreeElementModelImpl._parentID;
 
         lfQuizTreeElementModelImpl._columnBitmask = 0;
     }

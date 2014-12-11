@@ -40,6 +40,7 @@ trait QuestionCategoryStorage {
    * @param moveAfterSibling True -> place category after the given sibling (after all siblings if siblingID = None), false -> place category before the given sibling (before all siblings if siblingID = None)
    */
   def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterSibling: Boolean)
+  def moveToCourse(id: Int, courseID: Option[Int])
 
   /** Delete a category by ID */
   def delete(id: Int)

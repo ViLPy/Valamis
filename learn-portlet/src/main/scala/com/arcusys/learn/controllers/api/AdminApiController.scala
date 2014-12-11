@@ -1,11 +1,15 @@
 package com.arcusys.learn.controllers.api
 
 import java.io._
+import com.arcusys.learn.bl.services.lesson.PackageServiceContract
+import com.arcusys.learn.bl.services.settings.SettingServiceContract
+import com.arcusys.learn.bl.utils.TemplateUpgradeProcess
+import com.arcusys.learn.storage.StorageFactoryContract
+import com.arcusys.learn.web.ServletBase
 import com.arcusys.scorm.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.settings.model.SettingType
-import com.arcusys.learn.service.util.{ LrsEndpointUtil, TemplateUpgradeProcess }
+import com.arcusys.learn.service.util.LrsEndpointUtil
 import com.arcusys.learn.scorm.tracking.model.achivements.AchievementActivity
 import scala.collection.JavaConverters._
 import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
@@ -15,36 +19,36 @@ import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.tincan.model.lrsClient._
 import com.arcusys.learn.scorm.tracking.model.certificating.Certificate
 import com.arcusys.learn.tincan.model.lrsClient.CommonBasicAuthorization
-import scala.Some
 import com.arcusys.learn.tincan.model.lrsClient.LrsEndpointSettings
-import com.arcusys.learn.tincan.lrsEndpoint.TincanLrsEndpointStorage
 import com.arcusys.learn.models.request.{ AdminActionType, AdminRequest }
-import com.arcusys.learn.setting.storage.SettingStorage
 
-class AdminApiController(configuration: BindingModule) extends BaseApiController(configuration) {
+class AdminApiController(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
-  def tincanLrsEndpointStorage: TincanLrsEndpointStorage = inject[TincanLrsEndpointStorage]
-  def settingStorage: SettingStorage = inject[SettingStorage]
 
-  get("/TincanLrsSettings") {
-    val settings = tincanLrsEndpointStorage.get
+  lazy val packageManager = inject[PackageServiceContract]
+  lazy val settingsManager = inject[SettingServiceContract]
+
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/administering/TincanLrsSettings") {
+    val settings = packageManager.getTincanEndpoint()
     jsonAction(new LrsEndpointUtil().getEnpointData(settings))
   }
 
-  post("/demo/templates")(action {
+  post("/administering/demo/templates")(action {
     requireAdmin()
     val templates = new TemplateUpgradeProcess
     templates.doUpgrade()
   })
 
-  post("/TincanLrsSettings")(jsonAction {
-    //val user = getLiferayUser
-
+  post("/administering/TincanLrsSettings")(jsonAction {
     requireAdmin()
 
     val adminRequest = AdminRequest(this)
     if (!adminRequest.isExternalLrs) {
-      tincanLrsEndpointStorage.set(None)
+      packageManager.removeTincanEndpoint()
     } else {
       val settings = adminRequest.authType match {
 
@@ -60,26 +64,27 @@ class AdminApiController(configuration: BindingModule) extends BaseApiController
           adminRequest.clientSecret)
       }
 
-      tincanLrsEndpointStorage.set(Some(
-        LrsEndpointSettings(adminRequest.endPoint, settings)))
-
+      packageManager.setTincanEndpoint(
+        LrsEndpointSettings(adminRequest.endPoint, settings)
+      )
       true
     }
   })
 
-  post("/")(action {
+  post("/administering(/)")(action {
     requireAdmin()
 
     val adminRequest = AdminRequest(this)
     adminRequest.actionType match {
       case AdminActionType.RENEW_DATABASE         => renewDatabase()
       case AdminActionType.UPDATE_ISSUER_SETTINGS => updateIssuerSettings(adminRequest)
+      case AdminActionType.UPDATE_EMAIL_SETTINGS  => updateEmailSettings(adminRequest)
     }
   })
 
   private def renewDatabase() = {
     contentType = "text/plain"
-    storageFactory.renewWholeStorage()
+    inject[StorageFactoryContract].renewWholeStorage
     SocialActivityLocalServiceHelper
       .getActivities(classOf[Certificate].getName, 0, Int.MaxValue)
       .toArray
@@ -98,9 +103,13 @@ class AdminApiController(configuration: BindingModule) extends BaseApiController
   }
 
   private def updateIssuerSettings(adminRequest: AdminRequest.Model) = {
-    settingStorage.modify(SettingType.IssuerName, adminRequest.issuerName)
-    settingStorage.modify(SettingType.IssuerOrganization, adminRequest.issuerOrganization)
-    settingStorage.modify(SettingType.IssuerURL, adminRequest.issuerUrl)
+    settingsManager.setIssuerName(adminRequest.issuerName)
+    settingsManager.setIssuerOrganization(adminRequest.issuerOrganization)
+    settingsManager.setIssuerURL(adminRequest.issuerUrl)
+  }
+
+  private def updateEmailSettings(adminRequest: AdminRequest.Model) = {
+    settingsManager.setSendMessages(adminRequest.sendMessages.toBoolean)
   }
 
   private def emptyDir(dir: File): Boolean = {

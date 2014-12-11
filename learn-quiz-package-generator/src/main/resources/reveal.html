@@ -1,11 +1,3 @@
-<!--{{^isPreview}}-->
-<link rel="stylesheet" href="css/reveal.min.css">
-<link rel="stylesheet" href="css/theme/default.css" id="theme">
-<!--{{/isPreview}}-->
-<!--{{#isPreview}}-->
-<link rel="stylesheet" href="/learn-portlet/preview-resources/common/css/reveal.min.css">
-<link rel="stylesheet" href="/learn-portlet/preview-resources/common/css/theme/default.css" id="theme">
-<!--{{/isPreview}}-->
 <script type="text/javascript">
     /*{{^isPreview}}*/
     jQuery(document).ready(function () {
@@ -17,31 +9,38 @@
 </script>
 <div class="SCORMPlayerContentDisplay">
   <div class="reveal">
-  {{{data}}}
+      <div class="slides">
+        {{{data}}}
+      </div>
   </div>
 </div>
-<!--{{^isPreview}}-->
-<script src="reveal.min.js"></script>
-<!--{{/isPreview}}-->
-<!--{{#isPreview}}-->
-<script src="/learn-portlet/preview-resources/common/reveal.min.js"></script>
-<!--{{/isPreview}}-->
+
 <script>
+    if (!('Reveal' in window)) {
+        <!--{{^isPreview}}-->
+        document.write('<link rel="stylesheet" href="css/reveal.min.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/theme/default.css" id="theme"\x2f>');
+        document.write('<script src="head.min.js"><\x2fscript>');
+        document.write('<script src="reveal.min.js"><\x2fscript>');
+        <!--{{/isPreview}}-->
+        <!--{{#isPreview}}-->
+        document.write('<link rel="stylesheet" href="/learn-portlet/preview-resources/common/css/reveal.min.css"\x2f>');
+        document.write('<link rel="stylesheet" href="/learn-portlet/preview-resources/common/css/theme/default.css" id="theme"\x2f>');
+        document.write('<script src="/learn-portlet/preview-resources/common/head.min.js"><\x2fscript>');
+        document.write('<script src="/learn-portlet/preview-resources/common/reveal.min.js"><\x2fscript>');
+        <!--{{/isPreview}}-->
+    }
+</script>
+<script>
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
 
-  // Full list of configuration options available here:
-  // https://github.com/hakimel/reveal.js#configuration
-  Reveal.initialize({
-    controls: true,
-    progress: true,
-    history: true,
-    center: true,
-
-    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-    transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/zoom/linear/fade/none
-
-    // Parallax scrolling
-    // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-    // parallaxBackgroundSize: '2100px 900px',
-  });
-
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default' // default/cube/page/concave/zoom/linear/fade/none
+    });
 </script>

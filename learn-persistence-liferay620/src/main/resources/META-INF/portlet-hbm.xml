@@ -26,6 +26,8 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFCourse" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFFileStorage" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFLessonLimit" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFLRSToActivitySetting" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFObjective" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveMap" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFObjectiveState" />
@@ -38,6 +40,7 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestion" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuestionCategory" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuiz" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizAnswerScore" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestion" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement" />
@@ -50,6 +53,7 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencing" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSequencingTracking" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFSiteDependentConfig" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSocialPackage" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFSocialPackageTag" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanActivity" />
@@ -69,6 +73,7 @@
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanLrsSubStatement" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanManifestAct" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanPackage" />
+	<import class="com.arcusys.learn.persistence.liferay.model.LFTincanURI" />
 	<import class="com.arcusys.learn.persistence.liferay.model.LFUser" />
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFAchievementImpl" table="Learn_LFAchievement">
 		<id name="id" column="id_" type="long">
@@ -298,6 +303,24 @@
 		<property name="mapKey" type="org.hibernate.type.StringType" />
 		<property name="treeID" type="org.hibernate.type.IntegerType" />
 	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitImpl" table="Learn_LFLessonLimit">
+		<composite-id name="primaryKey" class="com.arcusys.learn.persistence.liferay.service.persistence.LFLessonLimitPK">
+			<key-property name="itemID" type="org.hibernate.type.LongType" />
+			<key-property name="itemType" type="org.hibernate.type.StringType" />
+		</composite-id>
+		<property name="passingLimit" type="org.hibernate.type.IntegerType" />
+		<property name="rerunInterval" type="org.hibernate.type.IntegerType" />
+		<property name="rerunIntervalType" type="org.hibernate.type.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFLRSToActivitySettingImpl" table="Learn_LFLRSToActivitySetting">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="courseID" type="org.hibernate.type.IntegerType" />
+		<property name="title" type="org.hibernate.type.StringType" />
+		<property name="activityFilter" type="org.hibernate.type.StringType" />
+		<property name="verbFilter" type="org.hibernate.type.StringType" />
+	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFObjectiveImpl" table="Learn_LFObjective">
 		<id name="lfId" type="long">
 			<generator class="assigned" />
@@ -367,6 +390,7 @@
 		</composite-id>
 		<property name="grade" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="comment" type="com.liferay.portal.dao.orm.hibernate.StringType" column="comment_" />
+		<property name="date" type="org.hibernate.type.TimestampType" column="date_" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl" table="Learn_LFPackageScopeRule">
 		<id name="id" column="id_" type="long">
@@ -427,6 +451,13 @@
 		<property name="welcomePageContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="finalPageContent" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
+		<property name="maxDuration" type="org.hibernate.type.IntegerType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizAnswerScoreImpl" table="Learn_LFQuizAnswerScore">
+		<id name="answerId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="score" type="org.hibernate.type.DoubleType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl" table="Learn_LFQuizQuestion">
 		<id name="id" column="id_" type="long">
@@ -440,6 +471,8 @@
 		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="plainText" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="arrangementIndex" type="org.hibernate.type.IntegerType" />
+		<property name="autoShowAnswer" type="org.hibernate.type.BooleanType" />
+		<property name="groupId" type="org.hibernate.type.IntegerType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl" table="Learn_LFQuizQuestionCategory">
 		<id name="id" column="id_" type="long">
@@ -554,6 +587,14 @@
 		<property name="sequencingID" type="org.hibernate.type.IntegerType" />
 		<property name="completionSetByContent" type="org.hibernate.type.BooleanType" />
 		<property name="objectiveSetByContent" type="org.hibernate.type.BooleanType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSiteDependentConfigImpl" table="Learn_LFSiteDependentConfig">
+		<id name="id" column="id_" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="siteID" type="org.hibernate.type.IntegerType" />
+		<property name="dataKey" type="org.hibernate.type.StringType" />
+		<property name="dataValue" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl" table="Learn_LFSocialPackage">
 		<id name="id" column="id_" type="long">
@@ -765,6 +806,14 @@
 		<property name="assetRefID" type="org.hibernate.type.LongType" />
 		<property name="courseID" type="org.hibernate.type.IntegerType" />
 		<property name="logo" type="org.hibernate.type.StringType" />
+	</class>
+	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFTincanURIImpl" table="Learn_LFTincanURI">
+		<id name="uri" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="objID" type="org.hibernate.type.StringType" />
+		<property name="objType" type="org.hibernate.type.StringType" />
+		<property name="content" type="org.hibernate.type.StringType" />
 	</class>
 	<class name="com.arcusys.learn.persistence.liferay.model.impl.LFUserImpl" table="Learn_LFUser">
 		<id name="lfid" type="long">

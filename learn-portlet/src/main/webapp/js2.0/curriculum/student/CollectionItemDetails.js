@@ -15,11 +15,13 @@ var CollectionItemDetailsView = Backbone.View.extend({
 
   render: function () {
     this.language = this.options.language;
-
+    var description = jQuery1816Curriculum('<i>').html(decodeURIComponent(this.model.get('description'))).text();
     var renderedTemplate = _.template(
       Mustache.to_html(
         jQuery('#userCertificateItemEditDetailsTemplate').html(),
-        _.extend(this.model.toJSON(), this.language, {contextPath: Utils.getContextPath})));
+        _.extend(this.model.toJSON(), this.language, {
+          contextPath: Utils.getContextPath,
+          description: description})));
     this.$el.html(renderedTemplate);
 
     this.setValidPeriod();
@@ -42,8 +44,7 @@ var CollectionItemDetailsView = Backbone.View.extend({
 
   },
   issueBadge: function () {
-    OpenBadges.issue(['http://' + jQuery('#rootUrl').val() + Utils.getContextPath() +
-      'api/certificates/' + this.model.id + '?action=GETISSUEBADGE&userID=' + jQuery('#curriculumStudentID').val() + '&rootUrl=' + jQuery('#rootUrl').val() ],
+    OpenBadges.issue(['http://' + jQuery('#rootUrl').val() + path.root + path.api.certificates +  this.model.id + '?action=GETISSUEBADGE&userID=' + jQuery('#curriculumStudentID').val() + '&rootUrl=' + jQuery('#rootUrl').val() ],
       function (errors, successes) {
       });
   }

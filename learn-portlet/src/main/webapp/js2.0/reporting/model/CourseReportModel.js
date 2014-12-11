@@ -1,7 +1,7 @@
 var CourseReportTargets = {
     load: {
         path: function (model) {
-            var url = "api/report?action=COURSE";
+            var url = path.api.report + "?action=COURSE";
             if(jQuery1816Report('.select-scope').val() == 'instance')
                 url+="&scope=instance";
             else
@@ -12,7 +12,7 @@ var CourseReportTargets = {
     }
 };
 
-CourseReportService = new Backbone.Service({ url: Utils.getContextPath,targets: CourseReportTargets});
+CourseReportService = new Backbone.Service({ url: '/',targets: CourseReportTargets});
 
 var CourseReportModel = Backbone.Model.extend({
     defaults: {

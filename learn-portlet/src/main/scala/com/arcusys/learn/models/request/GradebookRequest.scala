@@ -6,8 +6,9 @@ import com.arcusys.learn.models.request.GradebookActionType._
 import java.util.UUID
 
 object GradebookRequest extends BaseCollectionFilteredRequest with BaseRequest {
-  val STUDENT_ID = "studentId"
   val COURSE_ID = "courseId"
+
+  val STUDENT_ID = "studentId"
   val STUDENT_NAME_FILTER = "studentName"
   val ORGANIZATION_NAME_FILTER = "organizationName"
   val RESULT_AS = "resultAs"
@@ -17,6 +18,7 @@ object GradebookRequest extends BaseCollectionFilteredRequest with BaseRequest {
   val STATEMENT_ID = "statementId"
   val STATEMENT_GRADE = "statementGrade"
   val PACKAGE_ID = "packageId"
+  val SORT = "sort"
 
   val SHORT_RESULT_VALUE = "short"
 
@@ -45,7 +47,7 @@ object GradebookRequest extends BaseCollectionFilteredRequest with BaseRequest {
       case None        => true
     }
 
-    def selectedPackages = Parameter(SELECTED_PACKAGES).multiRequired.map(x => x.toInt).toSeq
+    def selectedPackages = Parameter(SELECTED_PACKAGES).multiWithEmpty.map(x => x.toInt).toSeq
 
     def gradeComment = Parameter(GRADE_COMMENT).option
 
@@ -56,6 +58,8 @@ object GradebookRequest extends BaseCollectionFilteredRequest with BaseRequest {
     def packageId = Parameter(PACKAGE_ID).intRequired
 
     def statementGrade = Parameter(STATEMENT_GRADE).intRequired
+
+    def sortBy = Parameter(SORT).required
   }
 }
 

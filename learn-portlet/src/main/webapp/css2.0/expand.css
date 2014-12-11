@@ -1,17 +1,27 @@
-.expand > .expand-col > .expand-icon {
+.expand > .expand-col > .expand-icon,
+.expand .expand-icon {
     background-image: url(../images/icon-next.png);
-    width: 12px;
-    height: 12px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     display: inline-block !important;
-    padding: 6px 15px 3px 5px;
+    padding: 0px;
     background-position: center center;
     background-repeat: no-repeat;
     float: left;
 }
 
-.expand > .expand-col > .expand-icon.expanded {
+.expand .expand-icon.expand-plus {
+    background-image: url(../images/icon-expand.png);
+}
+
+.expand > .expand-col > .expand-icon.expanded,
+.expand .expand-icon.expanded {
     background-image: url(../images/icon-select-button.png) !important;
+}
+
+.expand .expand-icon.expand-plus.expanded {
+    background-image: url(../images/icon-collapse.png) !important;
 }
 
 .expand-text {

@@ -1,6 +1,6 @@
-var TinCanOverallByTimeModelService = new Backbone.Service({ url: Utils.getContextPath,
+var TinCanOverallByTimeModelService = new Backbone.Service({ url: '/',
     sync: {
-        'read': "api/report?action=OVERALL_BY_TIME"
+        'read': path.api.report + "?action=OVERALL_BY_TIME"
     }
 });
 

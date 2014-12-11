@@ -65,7 +65,10 @@ trait LFQuizTreeStorageImpl extends KeyedEntityStorage[QuizTreeElement] {
 
   override def getAll(parameters: (String, Any)*): Seq[QuizTreeElement] = parameters match {
     case Seq(("quizID", quizID: Int)) => {
-      LFQuizTreeElementLocalServiceUtil.getLFQuizTreeElements(-1, -1).asScala.map(extract)
+      LFQuizTreeElementLocalServiceUtil.findByQuizID(quizID).asScala.map(extract)
+    }
+    case Seq(("quizID", quizID: Int), ("parentID", parentID: String)) => {
+      LFQuizTreeElementLocalServiceUtil.findByQuizAndParentID(quizID, parentID).asScala.map(extract)
     }
     case _ => Nil
   }

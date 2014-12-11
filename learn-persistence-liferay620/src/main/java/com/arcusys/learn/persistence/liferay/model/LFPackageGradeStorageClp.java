@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
     private Long _packageId;
     private String _grade;
     private String _comment;
+    private Date _date;
     private BaseModel<?> _lfPackageGradeStorageRemoteModel;
 
     public LFPackageGradeStorageClp() {
@@ -69,6 +71,7 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
         attributes.put("packageId", getPackageId());
         attributes.put("grade", getGrade());
         attributes.put("comment", getComment());
+        attributes.put("date", getDate());
 
         return attributes;
     }
@@ -97,6 +100,12 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
 
         if (comment != null) {
             setComment(comment);
+        }
+
+        Date date = (Date) attributes.get("date");
+
+        if (date != null) {
+            setDate(date);
         }
     }
 
@@ -188,6 +197,28 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
         }
     }
 
+    @Override
+    public Date getDate() {
+        return _date;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        _date = date;
+
+        if (_lfPackageGradeStorageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageGradeStorageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDate", Date.class);
+
+                method.invoke(_lfPackageGradeStorageRemoteModel, date);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFPackageGradeStorageRemoteModel() {
         return _lfPackageGradeStorageRemoteModel;
     }
@@ -261,6 +292,7 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
         clone.setPackageId(getPackageId());
         clone.setGrade(getGrade());
         clone.setComment(getComment());
+        clone.setDate(getDate());
 
         return clone;
     }
@@ -300,7 +332,7 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{userId=");
         sb.append(getUserId());
@@ -310,6 +342,8 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
         sb.append(getGrade());
         sb.append(", comment=");
         sb.append(getComment());
+        sb.append(", date=");
+        sb.append(getDate());
         sb.append("}");
 
         return sb.toString();
@@ -317,7 +351,7 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(16);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("<model><model-name>");
         sb.append(
@@ -339,6 +373,10 @@ public class LFPackageGradeStorageClp extends BaseModelImpl<LFPackageGradeStorag
         sb.append(
             "<column><column-name>comment</column-name><column-value><![CDATA[");
         sb.append(getComment());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>date</column-name><column-value><![CDATA[");
+        sb.append(getDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

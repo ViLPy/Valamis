@@ -5,6 +5,7 @@ import org.scalatra.ScalatraFilter
 import java.io.FileNotFoundException
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.learn.util.MustacheSupport
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport, SessionSupport }
 
 class TinCanStatementViewerView
     extends GenericPortlet
@@ -24,7 +25,7 @@ class TinCanStatementViewerView
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val courseID = themeDisplay.getLayout.getGroupId
     val userID = themeDisplay.getUser.getUserId
-    val hasTeacherPermissions = userManagement.hasTeacherPermissions(userID, courseID)
+    val hasTeacherPermissions = userRoleService.hasTeacherPermissions(userID, courseID)
 
     if (hasTeacherPermissions)
       out.println(generateResponse(contextPath, "statement_viewer.html", language, courseID))

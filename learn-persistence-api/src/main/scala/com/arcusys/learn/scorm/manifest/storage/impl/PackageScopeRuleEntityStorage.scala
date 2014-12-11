@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.manifest.model.{ ScopeType, PackageScopeRule }
  * User: dkudinov
  * Date: 3.4.2013
  */
+@deprecated
 trait PackageScopeRuleEntityStorage extends PackageScopeRuleStorage with EntityStorageExt[PackageScopeRule] {
 
   def getAll(packageID: Int, scope: ScopeType.Value, scopeID: Option[String]) = {

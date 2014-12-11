@@ -1,13 +1,15 @@
 package com.arcusys.learn.models.request
 
+import com.arcusys.learn.bl.models.certificates.CertificateSortBy
+import com.arcusys.learn.controllers.api.BaseApiController
+import com.arcusys.learn.scorm.manifest.model.PeriodType
 import org.scalatra.ScalatraBase
 import com.arcusys.learn.service.util.{ SessionHandlerContract, Parameter }
 import com.arcusys.learn.models.{ ValidPeriod }
 import scala.util.Try
-import com.arcusys.learn.scorm.tracking.model.certificating.PeriodType
 import com.arcusys.learn.models.request.CertificateActionType.CertificateActionType
 
-object CertificateSortBy extends Enumeration {
+/*object CertificateSortBy extends Enumeration {
   type CertificateSortBy = Value
   val Name, Description, CreationDate, UserJoined = Value
   def apply(v: String): CertificateSortBy = v.toLowerCase() match {
@@ -17,7 +19,7 @@ object CertificateSortBy extends Enumeration {
     case "userjoined"   => UserJoined
     case _              => throw new IllegalArgumentException()
   }
-}
+}*/
 
 object CertificateRequest extends BaseCollectionFilteredRequest with BaseRequest {
   val USER_ID = "userID"
@@ -41,9 +43,12 @@ object CertificateRequest extends BaseCollectionFilteredRequest with BaseRequest
   val ACTIVITY_NAME = "activityId"
   val ACTIVITY_COUNT = "activityCount"
   val ACTIVITY_NAMES = "activityIds"
+  val NAME = "name"
+  val NAMES = "names"
   val TINCAN_STMNT_VERB = "tincanStmntVerb"
   val TINCAN_STMNT_OBJ = "tincanStmntObj"
   val TINCAN_STMNT_VALUE = "tincanStmntValue"
+  val TINCAN_STMNTS = "tincanStmnts"
   val PERIOD_VALUE = "periodValue"
   val PERIOD_TYPE = "periodType"
   val SCOPE = "scope"
@@ -75,32 +80,32 @@ object CertificateRequest extends BaseCollectionFilteredRequest with BaseRequest
     def courseId = Parameter(COURSE_ID).intRequired
     def courseIds = Parameter(COURSE_IDS).multiRequired.map(x => Try(x.toInt).get)
     def userId = Parameter(USER_ID).intRequired
-    def userIds = Parameter(USER_IDS).multiRequired.map(x => Try(x.toInt).get)
+    def userIds = Parameter(USER_IDS).multiWithEmpty.map(x => Try(x.toInt).get)
     def imageId = Parameter(IMAGE_ID).intRequired
-    def action(implicit sessionHandler: SessionHandlerContract): CertificateActionType = {
+    def action(controller: BaseApiController): CertificateActionType = {
       val action = CertificateActionType(Parameter(ACTION).required)
       action match {
-        case CertificateActionType.ADD                => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_COURSE         => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_COURSES        => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_USERS          => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_ACTIVITY       => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_ACTIVITIES     => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.ADD_TINCANSTMNT    => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UPDATE             => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UPDATE_LOGO        => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UPDATE_COURSE      => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UPDATE_ACTIVITY    => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UPDATE_STMNT       => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE             => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE_COURSE      => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE_USERS       => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE_ACTIVITY    => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE_ACTIVITIES  => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.DELETE_TINCANSTMNT => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.CLONE              => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.PUBLISH            => sessionHandler.requireTeacherPermissions()
-        case CertificateActionType.UNPUBLISH          => sessionHandler.requireTeacherPermissions()
+        case CertificateActionType.ADD                => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_COURSE         => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_COURSES        => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_USERS          => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_ACTIVITY       => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_ACTIVITIES     => controller.requireTeacherPermissions()
+        case CertificateActionType.ADD_TINCANSTMNT    => controller.requireTeacherPermissions()
+        case CertificateActionType.UPDATE             => controller.requireTeacherPermissions()
+        case CertificateActionType.UPDATE_LOGO        => controller.requireTeacherPermissions()
+        case CertificateActionType.UPDATE_COURSE      => controller.requireTeacherPermissions()
+        case CertificateActionType.UPDATE_ACTIVITY    => controller.requireTeacherPermissions()
+        case CertificateActionType.UPDATE_STMNT       => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE             => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE_COURSE      => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE_USERS       => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE_ACTIVITY    => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE_ACTIVITIES  => controller.requireTeacherPermissions()
+        case CertificateActionType.DELETE_TINCANSTMNT => controller.requireTeacherPermissions()
+        case CertificateActionType.CLONE              => controller.requireTeacherPermissions()
+        case CertificateActionType.PUBLISH            => controller.requireTeacherPermissions()
+        case CertificateActionType.UNPUBLISH          => controller.requireTeacherPermissions()
         case _                                        => Unit
       }
 
@@ -121,7 +126,10 @@ object CertificateRequest extends BaseCollectionFilteredRequest with BaseRequest
 
       (activityName, activityCount, value, periodType)
     }
-    def activityNames = Parameter(ACTIVITY_NAMES).multiRequired
+    def activityNames = Parameter(ACTIVITY_NAMES).multiWithEmpty
+
+    def name = Parameter(NAME).required
+    def names = Parameter(NAMES).multiWithEmpty
 
     def course = {
       val courseId = Parameter(COURSE_ID).intRequired
@@ -130,6 +138,8 @@ object CertificateRequest extends BaseCollectionFilteredRequest with BaseRequest
 
       (courseId, value, periodType)
     }
+
+    def tincanStatements = Parameter(TINCAN_STMNTS).required
 
     def tincanStatement = {
       val verbs = Parameter(TINCAN_STMNT_VERB).required

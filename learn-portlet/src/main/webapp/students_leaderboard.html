@@ -12,8 +12,8 @@
 </div>
 <script type="text/javascript">
     // upload translations
-    var defaultURL = Utils.getContextPath() + 'i18n/statementReporting_en.properties';
-    var localizedURL = Utils.getContextPath() + 'i18n/statementReporting_{{language}}.properties';
+    var defaultURL = Utils.getContextPath() + 'i18n/statementReport_en.properties';
+    var localizedURL = Utils.getContextPath() + 'i18n/statementReport_{{language}}.properties';
     Utils.i18nLoader(localizedURL, defaultURL, onReportLanguageLoad, onReportLanguageError);
     moment.lang('{{language}}');
 

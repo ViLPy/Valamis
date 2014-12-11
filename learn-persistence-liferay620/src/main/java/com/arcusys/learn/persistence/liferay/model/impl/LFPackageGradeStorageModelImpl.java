@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +45,10 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
             { "userId", Types.BIGINT },
             { "packageId", Types.BIGINT },
             { "grade", Types.VARCHAR },
-            { "comment_", Types.VARCHAR }
+            { "comment_", Types.VARCHAR },
+            { "date_", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageGradeStorage (userId LONG not null,packageId LONG not null,grade VARCHAR(75) null,comment_ VARCHAR(75) null,primary key (userId, packageId))";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageGradeStorage (userId LONG not null,packageId LONG not null,grade VARCHAR(75) null,comment_ VARCHAR(75) null,date_ DATE null,primary key (userId, packageId))";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackageGradeStorage";
     public static final String ORDER_BY_JPQL = " ORDER BY lfPackageGradeStorage.id.userId ASC, lfPackageGradeStorage.id.packageId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFPackageGradeStorage.userId ASC, Learn_LFPackageGradeStorage.packageId ASC";
@@ -78,6 +80,7 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
     private boolean _setOriginalPackageId;
     private String _grade;
     private String _comment;
+    private Date _date;
     private long _columnBitmask;
     private LFPackageGradeStorage _escapedModel;
 
@@ -123,6 +126,7 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
         attributes.put("packageId", getPackageId());
         attributes.put("grade", getGrade());
         attributes.put("comment", getComment());
+        attributes.put("date", getDate());
 
         return attributes;
     }
@@ -151,6 +155,12 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
 
         if (comment != null) {
             setComment(comment);
+        }
+
+        Date date = (Date) attributes.get("date");
+
+        if (date != null) {
+            setDate(date);
         }
     }
 
@@ -226,6 +236,16 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
         _comment = comment;
     }
 
+    @Override
+    public Date getDate() {
+        return _date;
+    }
+
+    @Override
+    public void setDate(Date date) {
+        _date = date;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -248,6 +268,7 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
         lfPackageGradeStorageImpl.setPackageId(getPackageId());
         lfPackageGradeStorageImpl.setGrade(getGrade());
         lfPackageGradeStorageImpl.setComment(getComment());
+        lfPackageGradeStorageImpl.setDate(getDate());
 
         lfPackageGradeStorageImpl.resetOriginalValues();
 
@@ -326,12 +347,20 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
             lfPackageGradeStorageCacheModel.comment = null;
         }
 
+        Date date = getDate();
+
+        if (date != null) {
+            lfPackageGradeStorageCacheModel.date = date.getTime();
+        } else {
+            lfPackageGradeStorageCacheModel.date = Long.MIN_VALUE;
+        }
+
         return lfPackageGradeStorageCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(9);
+        StringBundler sb = new StringBundler(11);
 
         sb.append("{userId=");
         sb.append(getUserId());
@@ -341,6 +370,8 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
         sb.append(getGrade());
         sb.append(", comment=");
         sb.append(getComment());
+        sb.append(", date=");
+        sb.append(getDate());
         sb.append("}");
 
         return sb.toString();
@@ -348,7 +379,7 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(16);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("<model><model-name>");
         sb.append(
@@ -370,6 +401,10 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
         sb.append(
             "<column><column-name>comment</column-name><column-value><![CDATA[");
         sb.append(getComment());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>date</column-name><column-value><![CDATA[");
+        sb.append(getDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

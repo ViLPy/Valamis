@@ -1,0 +1,144 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+    <script type="text/javascript">
+      var jQuerySettings_{{portletID}} = jQuery.noConflict();
+      var checkBoxID = '#hideSearchValue_' + '{{portletID}}';
+      //  var scormPlayerSettingsLanguageData = {};
+
+      jQuerySettings_{{portletID}}(function () {
+            if ('{{hideSearchPanel}}' == 'true'){
+                jQuery(checkBoxID).addClass('checked');
+            }
+            /*Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
+            var defaultURL = Utils.getContextPath() + '/i18n/lessonViewer_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/lessonViewer_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onPlayerSettingsLanguageLoad, onPlayerSettingsLanguageError);*/
+
+        });
+     /*
+        function onPlayerSettingsLanguageLoad(properties) {
+            scormPlayerSettingsLanguageData = properties;
+            initPlayerSettings();
+        }
+
+        function onPlayerSettingsLanguageError() {
+            alert('Translation resource loading failed!');
+        }
+
+*/
+
+        function saveHidePanelSetting() {
+            jQuery(checkBoxID).toggleClass('checked');
+            window.LearnAjax.post('{{certificateActionURL}}', {
+                hideSearchValue: jQuery(checkBoxID).hasClass('checked')
+            }).done(function () {
+                    }
+            );
+
+    }
+
+    </script>
+
+    <script src="{{contextPath}}/js2.0/Urls.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/lodash.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone-min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/mustache.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.marionette.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.modal-bundled.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/bootstrap.min.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/toastr.min.js"></script>
+    <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/backbone.model-binder.min.js"></script>
+    <script src="{{contextPath}}/js2.0/file-upload.js"></script>
+    <script src="{{contextPath}}/js2.0/vendor/jquery.fileupload.js"></script>
+
+    <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
+    <script src="{{contextPath}}/js2.0/helpers/SettingsHelper.js"></script>
+
+    <script type="text/template" id="certificate-settings-modals-template">
+        <div class="modals-container"></div>
+    </script>
+
+    <script type="text/template" id="certificate-settings-import-modal-template">
+        <div class="bbm-modal__topbar add-members-modal">
+            <h3 class="bbm-modal__title valamis">{{import}}</h3>
+
+            <div class="modal-close">
+            </div>
+        </div>
+
+        <div class="bbm-modal__section upload-content" style="position: relative;">
+        </div>
+
+    </script>
+
+    <script type="text/javascript">
+        var SettingsLayout = Backbone.Marionette.Layout.extend({
+            template: _.template(Mustache.to_html(jQuery('#certificate-settings-modals-template').html())),
+            regions: {
+                modals: {
+                    selector: '.modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
+            }
+        });
+
+        var settingsLayout = new SettingsLayout();
+        jQuery('body').append(settingsLayout.render().el);
+
+        var UploadImportModal = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQuery('#certificate-settings-import-modal-template').html())),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            className: 'upload-modal',
+            onRender: function () {
+                var me = this;
+                var uploader = new FileUploader({
+                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-certificate&companyID=' + '{{companyID}}'
+                });
+
+                uploader.on('fileuploaddone', function (data) {
+                    me.trigger('modal:close');
+                    me.close();
+                });
+
+                this.$('.upload-content').append(uploader.render().$el);
+            }
+        });
+
+        function exportAllCertificates() {
+            window.location = path.root + path.api.files + 'export/?action=EXPORTALL&contentType=certificate'
+                    + '&companyID=' + '{{companyID}}';
+        }
+        function importCertificates() {
+            var importModal = new UploadImportModal();
+            settingsLayout.modals.show(importModal);
+            importModal.render();
+        }
+    </script>
+
+</head>
+<body >
+<div style="height: 100px; padding: 10px;">
+    <div class="checkbox valamis"  onclick="saveHidePanelSetting()" id="hideSearchValue_{{portletID}}" ></div>
+    Hide search panel
+
+    <br/>
+    <button class="button valamis big green val-icon-download export-packages" onclick="exportAllCertificates()">
+        {{exportAll}}
+    </button>
+    <button class="button valamis big green val-icon-upload import-packages" onclick="importCertificates()">
+        {{import}}
+    </button>
+</div>
+
+
+
+</body>
+</html>

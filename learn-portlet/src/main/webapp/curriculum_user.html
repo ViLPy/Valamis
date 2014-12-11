@@ -3,7 +3,8 @@
 <html>
 <head>
     <script src="https://backpack.openbadges.org/issuer.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <title>Curriculum editor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
@@ -50,15 +51,15 @@
             Backbone.ajax = window.LearnAjax.ajax;
             var defaultURL = Utils.getContextPath() + '/i18n/curriculum_en.properties';
             var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
-            Utils.i18nLoader(localizedURL, defaultURL, onCurriculumLanguageLoad, onCurriculumLanguageError);
+            Utils.i18nLoader(localizedURL, defaultURL, onUserCurriculumLanguageLoad, onUserCurriculumLanguageError);
 
         });
 
-        function onCurriculumLanguageLoad(properties) {
+        function onUserCurriculumLanguageLoad(properties) {
             scormLanguageDataCurriculum = properties;
-            initCurriculumView();
+            initUserCurriculumView();
         }
-        function onCurriculumLanguageError() {
+        function onUserCurriculumLanguageError() {
             alert('Translation resource loading failed!');
         }
 
@@ -86,8 +87,7 @@
                 this.detailsView = new CollectionItemDetailsView({language: scormLanguageDataCurriculum});
                 this.$('.certificate-editDetails-dialog').html(this.detailsView.render().$el);
 
-                this.goalsView = new ViewUserDetailsDialog({language: scormLanguageDataCurriculum});
-                this.$('.certificate-editGoals-dialog').html(this.goalsView.render().$el);
+                this.goalsView = new ViewUserDetailsDialog({el: this.$('.certificate-editGoals-dialog'), language: scormLanguageDataCurriculum});
             },
             init: function (data, view, isUserMember) {
                 jQuery1816Curriculum('#selectedUserCertificateID').val(data.id);
@@ -106,52 +106,61 @@
         });
 
 
-        function initCurriculumView() {
+        function initUserCurriculumView() {
 
             jQuery('body').append(viewCertificateLayout.render().el);
 
             window.CurriculumAppView = Backbone.View.extend({
                 initialize: function () {
-                    var view = new CertificateCollectionView({el: jQuery("#curriculum-content"), language: scormLanguageDataCurriculum});
-                    jQuery("#curriculum-content").addClass('certificates-collection');
+                    var forcedView = ('{{forcedView}}' == 'true');
+                    var portletID = '{{portletID}}';
+
+                    if (forcedView) jQuery('#certificateContentWrapper_' + portletID).addClass('forced-content-wrapper');
+
+                    var view = new CertificateCollectionView({el: jQuery('#curriculum-content_' + portletID),
+                        language: scormLanguageDataCurriculum,
+                        portletID: portletID,
+                        forcedView: forcedView});
+                    jQuery('#curriculum-content_' + portletID).addClass('certificates-collection');
                     view.on('certificateToggleMenu', certificateToggleMenu, this);
-                    view.on('changeTab', function(){
-                        this.search.setDefault();
-                        if (!jQuery(".myCertificates-dialog").hasClass('active')){
-                            return window.myCollection.reloadFirstPage();
-                        }
-                        else{
-                            return window.availableCollection.reloadFirstPage();
-                        }
-                    }, this);
 
                     jQuery('#certificateCollectionTabs a[href="#myCertificates"]').on('show.bs.tab', jQuery.proxy(function () {
+                        this.search.setDefault();
                         this.search.updateScopeSetting(false);
-                        if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder').val(curriculumUserSettings.get('sort'));
-                        if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter').val(curriculumUserSettings.get('scope'));
+                        if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder_' + portletID).val(curriculumUserSettings.get('sort'));
+                        if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter_' + portletID).val(curriculumUserSettings.get('scope'));
                         this.search.filterCertificates();
                     }, this));
                     jQuery('#certificateCollectionTabs a[href="#availableCertificates"]').on('show.bs.tab', jQuery.proxy(function () {
+                        this.search.setDefault();
                         this.search.updateScopeSetting(true);
-                        if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder').val(curriculumUserSettings.get('sort'));
-                        if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter').val(curriculumUserSettings.get('scope'));
+                        if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder_' + portletID).val(curriculumUserSettings.get('sort'));
+                        if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter_' + portletID).val(curriculumUserSettings.get('scope'));
                         this.search.filterCertificates();
                     }, this));
 
 
-                    this.search = new CertificateSearchView({el: jQuery("#certificateSearchWrapper"), scopeAvailable: false, language: scormLanguageDataCurriculum});
-                    if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder').val(curriculumUserSettings.get('sort'));
-                    if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter').val(curriculumUserSettings.get('scope'));
+                    this.search = new CertificateSearchView({
+                        el: jQuery('#certificateSearchWrapper_' + portletID),
+                        scopeAvailable: false, language: scormLanguageDataCurriculum,
+                        portletID: portletID,
+                        forcedView: forcedView});
+                    if (curriculumUserSettings.get('sort')) this.search.$('#certificateOrder_' + portletID).val(curriculumUserSettings.get('sort'));
+                    if (curriculumUserSettings.get('scope')) this.search.$('#certificateScopeFilter_' + portletID).val(curriculumUserSettings.get('scope'));
                     this.search.on('certificateToggleMenu', certificateToggleMenu, this);
                     var _this = this;
                     this.search.on('filterCertificates', function () {
-                        curriculumUserSettings.set('sort', _this.search.$('#certificateOrder').val());
-                        if (_this.search.$('#certificateScopeFilter').length) curriculumUserSettings.set('scope', _this.search.$('#certificateScopeFilter').val());
+                        curriculumUserSettings.set('sort', _this.search.$('#certificateOrder_' + portletID).val());
+                        if (_this.search.$('#certificateScopeFilter_' + portletID).length) curriculumUserSettings.set('scope', _this.search.$('#certificateScopeFilter_' + portletID).val());
                         curriculumUserSettings.save();
                         getActiveCollection().reloadFirstPage();
                     }, this);
 
-                    window.myCollection = new MyCertificateListView({displayType: DISPLAY_TYPE.TILES, language: scormLanguageDataCurriculum});
+                    window.myCollection = new MyCertificateListView({
+                        el: jQuery('.myCertificates-dialog'),
+                        displayType: DISPLAY_TYPE.TILES,
+                        language: scormLanguageDataCurriculum,
+                        portletID: portletID});
                     window.myCollection.on('editDetails', function (data) {
                         var modal = new ViewCertificateModal();
                         viewCertificateLayout.modals.show(modal);
@@ -162,10 +171,14 @@
                         viewCertificateLayout.modals.show(modal);
                         modal.init(data, 'goals', true);
                     }, this);
-                    jQuery('.myCertificates-dialog').html(window.myCollection.render().$el);
+                    window.myCollection.render();
                     window.myCollection.reloadFirstPage();
 
-                    window.availableCollection = new AvailableCertificateListView({displayType: DISPLAY_TYPE.TILES, language: scormLanguageDataCurriculum});
+                    window.availableCollection = new AvailableCertificateListView({
+                        el: jQuery('.availableCertificates-dialog'),
+                        displayType: DISPLAY_TYPE.TILES,
+                        language: scormLanguageDataCurriculum,
+                        portletID: portletID});
                     window.availableCollection.on('editDetails', function (certificateID) {
                         var modal = new ViewCertificateModal();
                         viewCertificateLayout.modals.show(modal);
@@ -176,9 +189,9 @@
                         viewCertificateLayout.modals.show(modal);
                         modal.init(certificateID, 'goals', false);
                     }, this);
-                    jQuery('.availableCertificates-dialog').html(window.availableCollection.render().$el);
-                    window.availableCollection.reloadFirstPage();
+                    window.availableCollection.render();
 
+                    jQuery(window).on('resize', curriculumUserResize);
                 }
             });
 
@@ -186,18 +199,19 @@
         }
 
         function certificateToggleMenu() {
-            jQuery("#certificateContentWrapper").toggleClass("active");
+            jQuery('#certificateContentWrapper_{{portletID}}').toggleClass('active');
         }
 
-        function showAlert() {
-            alert("etdjhkhkhgu");
-        }
 
         function getActiveCollection() {
-            if (jQuery(".myCertificates-dialog").hasClass('active'))
-                return window.myCollection
+            if (jQuery('.myCertificates-dialog').hasClass('active'))
+                return window.myCollection;
             else
-                return window.availableCollection
+                return window.availableCollection;
+        }
+
+        function curriculumUserResize() {
+            valamisTileResize(getActiveCollection().$el);
         }
 
     </script>
@@ -205,20 +219,14 @@
 
 <body>
 <div class="overflow-hidden">
-    <div id="certificateContentWrapper" class="content-wrapper clearfix">
+    <div id="certificateContentWrapper_{{portletID}}"  class="content-wrapper clearfix">
         <div class="page-content-wrapper">
-            <div class="content-header clearfix" id="curriculumContentHeader">
-            </div>
 
-            <div id="curriculum-content" class="page-content inset">
+            <div id="curriculum-content_{{portletID}}" class="page-content inset">
             </div>
         </div>
 
     </div>
-    <div id="CurriculumLiferaySiteDialog" title="{{liferaySiteDialogTitle}}"></div>
-    <div id="CurriculumLiferayUserDialog" title="{{liferayUserDialogTitle}}"></div>
-    <div id="CurriculumUserCourseGradeDialog" title="{{courseGradeDialogTitle}}"></div>
-
 
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
     <input type="hidden" id="courseID" value="{{courseID}}"/>

@@ -22,11 +22,11 @@ CourseReportView = Backbone.View.extend({
 
     render: function () {
         var result = new Object();
-        result.studentsUnknownPercentage = (this.model.get('studentsUnknownCount') * 100 / this.model.get('studentsCount')).toFixed(0);
-        result.studentsIncompletedPercentage = (this.model.get('studentsIncompletedCount') * 100 / this.model.get('studentsCount')).toFixed(0);
-        result.studentsCompletedPercentage = (this.model.get('studentsCompletedCount') * 100 / this.model.get('studentsCount')).toFixed(0);
-        result.studentsFailedPercentage = (this.model.get('studentsFailedCount') * 100 / this.model.get('studentsCount')).toFixed(0);
-        result.studentsPassedPercentage = (this.model.get('studentsPassedCount') * 100 / this.model.get('studentsCount')).toFixed(0);
+        result.studentsUnknownPercentage = this.model.get('studentsCount')?(this.model.get('studentsUnknownCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
+        result.studentsIncompletedPercentage = this.model.get('studentsCount')?(this.model.get('studentsIncompletedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
+        result.studentsCompletedPercentage = this.model.get('studentsCount')?(this.model.get('studentsCompletedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
+        result.studentsFailedPercentage = this.model.get('studentsCount')?(this.model.get('studentsFailedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
+        result.studentsPassedPercentage = this.model.get('studentsCount')?(this.model.get('studentsPassedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
         var template = Mustache.to_html(jQuery("#courseViewTemplate").html(), _.extend(this.model.toJSON(), language, result));
 
         this.$('.report-content').html(template);

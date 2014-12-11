@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    var data = {{{answers}}};
+    var data = JSON.parse('{{{answers}}}');
     var mappedData = [];
 
     jQuery(document).ready(function () {
@@ -19,11 +19,11 @@
         /*{{/isPreview}}*/
     });
 
-    function gatherData() {
-        /*{{^isPreview}}*/
+    function collectAnswers() {
         var mappedRightAnswers = [];
         var userAnswers = [];
         var answerIDs = jQuery("#sortable").sortable('toArray');
+        var score = 0;
 
         var isPassed = true;
         for (var i = 0; i < data.length; i++) {
@@ -34,12 +34,29 @@
             userAnswers.push(mappedData[answerIDs[i]]);
         }
 
+        if (isPassed) score = ('{{score}}'.length > 0)?JSON.parse('{{score}}'):null;
+
+        return {
+            learnerResponse: userAnswers.join("[,]"),
+            correctResponse: mappedRightAnswers.join("[,]"),
+            isPassed: isPassed,
+            score: score
+        }
+    }
+
+    function gatherData() {
+        /*{{^isPreview}}*/
+        /*{{^autoShowAnswer}}*/
+
+        var answers = collectAnswers();
+
         // this will check is user answer right
         getAPI().SetValue("cmi.interactions.0.type", "sequencing");
-        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
-        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", mappedRightAnswers.join("[,]"));
+        getAPI().SetValue("cmi.interactions.0.learner_response", answers.learnerResponse);
+        getAPI().SetValue("cmi.interactions.0.weighting", answers.score);
+        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", answers.correctResponse);
 
-        if (isPassed) {
+        if (answers.isPassed) {
             getAPI().SetValue("cmi.completion_status", "completed");
             getAPI().SetValue("cmi.success_status", "passed");
             getAPI().SetValue("cmi.score.scaled", "1.0");
@@ -48,27 +65,96 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/autoShowAnswer}}*/
         /*{{/isPreview}}*/
     }
+
+    /*{{#autoShowAnswer}}*/
+    function showAnswers() {
+        var answers = collectAnswers();
+
+        jQuery("#checkAnswerButton").hide();
+        jQuery('#nextQuestionButton').show();
+        jQuery(".answers").show();
+        jQuery(".playerHeader").hide();
+        jQuery(".playerMainArea").hide();
+        var correct = answers.isPassed;
+        var correctness = (correct) ? "correct" : "incorrect";
+        jQuery("#answerCorrectness").html(correctness);
+        if (!correct) {
+            jQuery("#answerComparison").show();
+
+            var learnerResponse = answers.learnerResponse;
+            var correctPattern = answers.correctResponse;
+
+            var learnerResponseLines = learnerResponse.split("[,]");
+            for (var i = 0; i < learnerResponseLines.length; i++) {
+                addMatchedLine(jQuery("#usersAnswers"), learnerResponseLines[i]);
+            }
+
+            var correctPatternLines = correctPattern.split("[,]");
+            for (var i = 0; i < data.length; i++) {
+                addMatchedLine(jQuery("#correctAnswers"), data[i].text);
+            }
+        }
+    }
+
+    function addMatchedLine(target, line) {
+        var newLI = jQuery("<li>");
+        newLI.addClass("ui-state-default");
+        newLI.html(line);
+        target.append(newLI);
+    }
+    /*{{/autoShowAnswer}}*/
 </script>
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
         <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
-
-        <h2 class="SCORMPlayerQuestionSubtitle">Place this collection by using "drag and drop":</h2>
     </div>
     <div class="playerMainArea">
         <div class="playerPlacingAnswers">
             <ul id="sortable"></ul>
         </div>
     </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers" style="display: none;">
+        <h1>Your answer is <span id="answerCorrectness"></span></h1>
+
+        <div id="answerComparison" style="display: none;">
+            <div style="float: left;" class="verticalSeparator playerPlacingAnswers">
+                <h2>Your answers:</h2>
+
+                <ul id="usersAnswers"></ul>
+            </div>
+            <div style="float: left;" class="playerPlacingAnswers">
+                <h2>Correct answers:</h2>
+
+                <ul id="correctAnswers"></ul>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
     <!-- Navigation -->
     <div class="playerPageNavigation">
         <div class="playerNext">
             <!--{{#isPreview}}-->
             <button class="valamis button small green icon-continue" type="button">Next</button>
             <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <!--{{#autoShowAnswer}} -->
+            <button class="valamis button small green icon-continue" type="button" id="checkAnswerButton" onclick="showAnswers()">Check</button>
+            <button class="valamis button small green icon-continue" style="display: none" type="button" id="nextQuestionButton" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
+            <!--{{^autoShowAnswer}} -->
             <button class="valamis button small green icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
             <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>

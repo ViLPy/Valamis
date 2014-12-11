@@ -64,7 +64,8 @@ var CategorizationAnswerView = AnswerView.extend({
         for (key in this.optionsList) {
           categorizationModel = new CategorizationAnswer({
             answerText: categoryName,
-            matchingText: this.optionsList[key].getOptionText()
+            matchingText: this.optionsList[key].getOptionText(),
+            score: this.optionsList[key].getScore()
           });
           answerModels.push(categorizationModel.toJSON())
         }
@@ -80,9 +81,10 @@ var CategorizationAnswerView = AnswerView.extend({
     });
   },
 
-  addOption: function (option) {
+  addOption: function (option, score) {
     var view = new CategorizationOptionView({
       optionText: option,
+      score: score,
       language: this.language,
       renderType: this.renderType
     });
@@ -99,18 +101,20 @@ var CategorizationAnswerView = AnswerView.extend({
   },
 
   onAddOption: function () {
-    this.addOption('');
+    this.addOption('', '');
   }
 });
 
 var CategorizationOptionView = Backbone.View.extend({
   events: {
-    'click #SCORMButtonRemoveOption': 'destroy'
+    'click #SCORMButtonRemoveOption': 'destroy',
+    'keypress .onlyDigits': 'preventNonDigits'
   },
 
   initialize: function (options) {
     this.$el = jQuery('<tr>');
     this.optionText = options.optionText;
+    this.score = options.score;
     this.language = options.language;
     this.renderType = options.renderType;
   },
@@ -124,6 +128,7 @@ var CategorizationOptionView = Backbone.View.extend({
     var templateName = (this.renderType == 'edit') ? '#categorizationOptionEdit' : '#categorizationOption';
     var template = Mustache.to_html(jQuery(templateName).html(), _.extend({
       text: decodeURIComponent(this.optionText),
+      score: this.score,
       cid: this.cid
     }, this.language));
     this.$el.empty().append(template);
@@ -143,9 +148,17 @@ var CategorizationOptionView = Backbone.View.extend({
     this.optionText = encodeURIComponent(this.editor.getData());
     return this.optionText;
   },
+  getScore: function(){
+    return this.$el.find('#SCORMAnswerScore').val();
+  },
 
   updateText: function () {
     this.optionText = encodeURIComponent(this.editor.getData());
+  },
+  preventNonDigits: function (e) {
+    if (e.keyCode != 46 && e.keyCode != 8 && e.keyCode != 9) {
+      if (String.fromCharCode(e.charCode).match(/[^0-9]/g)) return false;
+    }
   }
 
 });

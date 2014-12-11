@@ -236,6 +236,9 @@ public interface LFCertificateActivityLocalService extends BaseLocalService,
         java.lang.String[] parameterTypes, java.lang.Object[] arguments)
         throws java.lang.Throwable;
 
+    public com.arcusys.learn.persistence.liferay.model.LFCertificateActivity createLFCertificateActivity(
+        java.lang.Long certificateID, java.lang.String activityName);
+
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateActivity> findByCertificateID(
         java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException;

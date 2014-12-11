@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.tracking.storage
 
 import com.arcusys.learn.scorm.tracking.model.{ Attempt, User }
-import com.arcusys.learn.scorm.manifest.storage.{ ActivitiesStorage, PackagesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ActivityStorage, ScormPackagesStorage }
 import com.arcusys.learn.scorm.tracking.storage.impl.{ AttemptEntityStorage, DataModelEntityStorage }
 import com.arcusys.learn.scorm.manifest.model._
 
@@ -10,9 +10,9 @@ import org.junit.{ Test, Before }
 
 trait DataModelStorageJUnit {
   def dataModelStorage: DataModelEntityStorage
-  def packagesStorage: PackagesStorage
+  def packagesStorage: ScormPackagesStorage
   def attemptStorage: AttemptEntityStorage
-  def activityStorage: ActivitiesStorage
+  def activityStorage: ActivityStorage
   def userStorage: UserStorage
 
   @Before

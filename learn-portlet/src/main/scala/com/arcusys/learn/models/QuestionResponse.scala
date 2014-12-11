@@ -13,5 +13,6 @@ case class QuestionResponse(id: Int,
   isCaseSensitive: Boolean,
   answers: Seq[AnswerResponse],
   questionType: Int,
-  categoryID: Int)
+  categoryID: Int,
+  arrangementIndex: Int = 0)
 

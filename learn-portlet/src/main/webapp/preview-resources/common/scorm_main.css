@@ -1,5 +1,9 @@
 /* ------------ BASIC LAYOUT ----------------*/
 
+video::-webkit-media-controls-fullscreen-button {
+    display: none!important;
+}
+
 * {
   margin: 0;
   padding: 0;

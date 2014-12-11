@@ -7,7 +7,7 @@ LiferaySiteModel = Backbone.Model.extend({
   }
 });
 
-LiferaySiteCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+LiferaySiteCollectionService = new Backbone.Service({ url: '/',
   sync: {
     'read': function (collection, options) {
       var filter = '';
@@ -17,19 +17,11 @@ LiferaySiteCollectionService = new Backbone.Service({ url: Utils.getContextPath,
       if (jQuery('#sortSite').val() != undefined)
         sort = jQuery('#sortSite').val();
 
-      return 'api/courses' + '?companyID=' + jQuery('#curriculumCompanyID').val() +
+      return path.api.courses + '?companyID=' + jQuery('#curriculumCompanyID').val() +
         '&filter=' + filter +
         '&sortAscDirection=' + sort +
         '&page=' + options.currentPage +
         '&count=' + options.itemsOnPage;
-    }
-  },
-  targets: {
-    'saveToCertificate': {
-      'path': function (model, options) {
-        return 'api/certificates/' + jQuery('#selectedCertificateID').val() + '?action=ADDCOURSES&' + options.courseIds ;
-      },
-      method: 'post'
     }
   }
 });
@@ -56,6 +48,7 @@ LiferaySiteListElement = Backbone.View.extend({
     return this;
   },
   toggleThis: function () {
+    this.trigger('lfSiteSelected', this.model);  // TODO: do it only if single select
     var alreadySelected = this.model.get('selected');
     if (alreadySelected) {
       this.model.set({selected: false });
@@ -109,25 +102,10 @@ LiferaySitesView = Backbone.View.extend({
   },
   addSite: function (site) {
     var view = new LiferaySiteListElement({model: site});
+    view.on('lfSiteSelected', function (item) {
+      this.trigger('lfSiteSelected', item);
+    }, this);
     this.$('#siteList').append(view.render().$el);
-  },
-
-  addCourses: function () {
-    var selectedSites = this.collection.filter(function (item) {
-      return item.get('selected');
-    }).map(function (item) {
-        return item.get('id');
-      });
-    var courses = jQuery.param({'courseIds': selectedSites}, true);
-    var that = this;
-
-    that.collection.saveToCertificate({}, {courseIds: courses}).then(function (res) {
-      that.trigger('sitesAdded', that);
-      toastr.success(that.language['overlayCompleteMessageLabel']);
-    }, function (err, res) {
-      toastr.error(that.language['overlayFailedMessageLabel']);
-    });
-
   }
 
 });
@@ -142,14 +120,16 @@ LiferaySitesContainer = Backbone.View.extend({
   },
   initialize: function (options) {
     this.language = options.language;
-
+    this.singleSelect = options.singleSelect;
   },
   render: function () {
-    var template = Mustache.to_html(jQuery('#liferaySiteDialogView').html(), this.language);
+    var template = Mustache.to_html(jQuery('#liferaySiteDialogView').html(), _.extend({singleSelect: this.singleSelect}, this.language));
     this.$el.html(template);
 
     this.listView = new LiferaySitesView({el: this.$('#sitesContainer'), language: this.language});
-    this.listView.on('sitesAdded', this.trigCloseModal, this);
+    this.listView.on('lfSiteSelected', function (item) {
+      this.trigger('lfSiteSelected', item);
+    }, this);
     this.fetchSites();
     return this;
   },
@@ -160,12 +140,9 @@ LiferaySitesContainer = Backbone.View.extend({
     e.preventDefault();
     jQuery('#liferaySitesWrapper').toggleClass('active');
   },
-  trigCloseModal: function () {
-    this.trigger('closeModal', this)
-  },
 
   addCourses: function () {
-    this.listView.addCourses();
+    this.trigger('addSelectedLfSite', this.listView.collection);
   },
 
   filterUsers: function () {

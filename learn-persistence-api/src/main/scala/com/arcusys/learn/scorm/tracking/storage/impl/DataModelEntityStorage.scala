@@ -4,6 +4,7 @@ import com.arcusys.learn.storage.impl.{ EntityStorageExt, EntityStorage }
 import com.arcusys.learn.scorm.tracking.storage.DataModelStorage
 import com.arcusys.learn.scorm.tracking.model.AttemptData
 
+@deprecated
 trait DataModelEntityStorage extends DataModelStorage with EntityStorageExt[AttemptData] {
   def getKeyedValues(attemptID: Int, activityID: String): Map[String, Option[String]] =
     getAll("attemptID" -> attemptID, "activityID" -> activityID).map(data => (data.dataKey -> data.dataValue)).toMap

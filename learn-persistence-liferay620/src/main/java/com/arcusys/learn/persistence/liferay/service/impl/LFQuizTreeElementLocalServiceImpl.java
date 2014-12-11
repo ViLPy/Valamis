@@ -42,6 +42,10 @@ public class LFQuizTreeElementLocalServiceImpl
         }
     }
 
+    public java.util.List<LFQuizTreeElement> findByQuizAndParentID(Integer quizID, String parentId) throws SystemException {
+        return lfQuizTreeElementPersistence.findByQuizAndParentID(quizID, parentId);
+    }
+
     public void removeAll() throws SystemException {
         lfQuizTreeElementPersistence.removeAll();
     }

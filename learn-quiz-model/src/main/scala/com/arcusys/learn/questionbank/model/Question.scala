@@ -41,6 +41,39 @@ sealed trait Question[+AnswerType <: Answer] {
   def arrangementIndex: Int
 }
 
+sealed trait QuestionEx {
+  /**
+   * Integer representation of question type
+   */
+  def questionTypeCode: Int
+  /**
+   * Unique internal ID of question
+   */
+  def id: Int
+  /**
+   * ID of the category the question belongs to (None if question is in root of bank)
+   */
+  def categoryID: Option[Int]
+  /**
+   *  Title of question (used mostly for admin purposes to quickly find question in list)
+   */
+  def title: String
+  /**
+   *  Question text. Formulates the problem to the user.
+   */
+  def text: String
+  /**
+   *  Explanation text. Describes what answer is correct and why. Not to be displayed when asking answer from user
+   */
+  def explanationText: String
+  /**
+   * Course ID
+   */
+  def courseID: Option[Int]
+
+  def arrangementIndex: Int
+}
+
 /**
  * Consist of a passage of text (in specific format) that has  various answers embedded within it,
  * including multiple choice, text answers and numerical answers.
@@ -243,6 +276,38 @@ case class PlainText(
     title: String,
     text: String,
     courseID: Option[Int],
+    arrangementIndex: Int = 1) extends Question[Nothing] {
+  val questionTypeCode = 8
+  val answers = Nil
+  val explanationText = ""
+}
+
+/**
+ * PlainText - just plain text page
+ */
+case class PurePlainText(
+    id: Int,
+    categoryID: Option[Int],
+    title: String,
+    text: String,
+    courseID: Option[Int],
+    arrangementIndex: Int = 1) extends Question[Nothing] {
+  val questionTypeCode = 9
+  val answers = Nil
+  val explanationText = ""
+}
+
+/**
+ * DLVideo - video from document library
+ */
+case class DLVideo(
+    id: Int,
+    categoryID: Option[Int],
+    title: String,
+    text: String,
+    courseID: Option[Int],
+    uuid: String,
+    groupId: Option[Int],
     arrangementIndex: Int = 1) extends Question[Nothing] {
   val questionTypeCode = 8
   val answers = Nil

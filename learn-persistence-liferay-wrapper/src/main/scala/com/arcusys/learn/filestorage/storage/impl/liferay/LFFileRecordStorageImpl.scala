@@ -1,38 +1,51 @@
 package com.arcusys.learn.filestorage.storage.impl.liferay
 
-import com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalServiceUtil
+import com.arcusys.learn.liferay.util.Base64Helper
 import com.arcusys.learn.persistence.liferay.model.LFFileStorage
-import collection.JavaConverters._
+import com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalServiceUtil
 import com.arcusys.learn.scorm.tracking.model.FileRecord
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.liferay.util.Base64Helper
+
+import scala.collection.JavaConverters._
 
 /**
  * User: dkudinov
  * Date: 8.3.2013
  */
+@deprecated
 trait LFFileRecordStorageImpl extends EntityStorage[FileRecord] {
-  protected def doRenew() { LFFileStorageLocalServiceUtil.removeAll() }
+  protected def doRenew() {
+    LFFileStorageLocalServiceUtil.removeAll()
+  }
 
   def getOne(parameters: (String, Any)*) = {
     val searchResult = parameters match {
       case Seq(("filename", value: String)) => LFFileStorageLocalServiceUtil.findByFilename(value, 0, 1)
     }
-    searchResult.asScala.headOption map { extract }
+    searchResult.asScala.headOption map {
+      extract
+    }
   }
 
-  def extract(entity: LFFileStorage) = FileRecord(entity.getFilename,
-    Base64Helper.stringToObject(entity.getContent) match {
-      case null           => None
-      case x: Array[Byte] => Some(x)
-    })
+  def extract(entity: LFFileStorage) = {
+    FileRecord(entity.getFilename,
+      if (entity.getContent == null || entity.getContent.isEmpty)
+        None
+      else
+        Base64Helper.stringToObject(entity.getContent) match {
+          case null           => None
+          case x: Array[Byte] => Some(x)
+        })
+  }
 
   def getAll(parameters: (String, Any)*) = {
     val searchResult = parameters match {
       case Seq(("filename", value: String))  => LFFileStorageLocalServiceUtil.findByFilename(value)
       case Seq(("directory", value: String)) => LFFileStorageLocalServiceUtil.findByDirectory(value)
     }
-    searchResult.asScala map { extract }
+    searchResult.asScala map {
+      extract
+    }
   }
 
   def create(parameters: (String, Any)*) {

@@ -2,10 +2,10 @@ var StudentStatementModel = Backbone.Model.extend({
     defaults: {}
 });
 
-StudentStatementModelCollectionService = new Backbone.Service({ url: Utils.getContextPath,
+StudentStatementModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
         'read': function (collection, options) {
-            return 'api/report?action=STUDENTS_LATEST_STATEMENTS&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
+            return path.api.report + '?action=STUDENTS_LATEST_STATEMENTS&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
         }
     }
 });

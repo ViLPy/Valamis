@@ -44,18 +44,11 @@ create index IX_1D257E9F on Learn_LFCertificateCourse (certificateID);
 create index IX_B452A7C9 on Learn_LFCertificateCourse (certificateID, courseID);
 create index IX_ECD5704D on Learn_LFCertificateCourse (courseID);
 
-create index IX_FE9A5473 on Learn_LFCertificateSite (certificateID);
-create index IX_35A1E709 on Learn_LFCertificateSite (certificateID, siteID);
-
 create index IX_6B35B606 on Learn_LFCertificateTincanStatement (certificateID);
 create index IX_9ADBD0CC on Learn_LFCertificateTincanStatement (certificateID, verb, object);
 create index IX_59F13A8F on Learn_LFCertificateTincanStatement (object);
 create index IX_64A8ABEF on Learn_LFCertificateTincanStatement (verb);
 create index IX_9DBABFE2 on Learn_LFCertificateTincanStatement (verb, object);
-
-create index IX_1B0AF534 on Learn_LFCertificateToUser (certificateID);
-create index IX_CD480048 on Learn_LFCertificateToUser (userID);
-create index IX_5BA26BDA on Learn_LFCertificateToUser (userID, certificateID);
 
 create index IX_128B606F on Learn_LFCertificateUser (certificateID);
 create index IX_2471F16D on Learn_LFCertificateUser (userID);
@@ -76,6 +69,10 @@ create index IX_3FD4D2B on Learn_LFFileStorage (filename);
 create index IX_90049AA3 on Learn_LFGlobalObjectiveState (treeID);
 create index IX_218DD1BA on Learn_LFGlobalObjectiveState (treeID, mapKey);
 
+create index IX_8CF8305E on Learn_LFLRSToActivitySetting (courseID);
+
+create index IX_6197E577 on Learn_LFLessonLimit (itemID, itemType);
+
 create index IX_B0A8C0B1 on Learn_LFObjective (sequencingID, isPrimary);
 create index IX_7FF8180E on Learn_LFObjective (sequencingID, isPrimary, identifier);
 
@@ -89,7 +86,6 @@ create index IX_FD0817C1 on Learn_LFPackage (courseID);
 
 create index IX_1C6A5550 on Learn_LFPackageComment (socialPackageID);
 
-create index IX_12D73E15 on Learn_LFPackageGradeStorage (userId);
 create index IX_6A5D823C on Learn_LFPackageGradeStorage (userId, packageId);
 
 create index IX_5E072CCC on Learn_LFPackageScopeRule (packageID);
@@ -117,6 +113,7 @@ create index IX_43EB0DB1 on Learn_LFQuizQuestionCategory (quizId, parentId);
 
 create index IX_5328A41E on Learn_LFQuizTreeElement (quizID);
 create index IX_7C8C5429 on Learn_LFQuizTreeElement (quizID, elementID);
+create index IX_CAD38397 on Learn_LFQuizTreeElement (quizID, parentID);
 
 create index IX_BEED6D51 on Learn_LFRequiredActivity (achievementId);
 
@@ -139,6 +136,10 @@ create index IX_22BC4F76 on Learn_LFSequencing (packageID, activityID);
 create index IX_E922EFC4 on Learn_LFSequencingPermissions (sequencingID);
 
 create index IX_546EB23D on Learn_LFSequencingTracking (sequencingID);
+
+create index IX_5B99B8FA on Learn_LFSiteDependentConfig (dataKey);
+create index IX_E1971E41 on Learn_LFSiteDependentConfig (siteID);
+create index IX_7E566724 on Learn_LFSiteDependentConfig (siteID, dataKey);
 
 create index IX_90D71444 on Learn_LFSocialPackage (authorID);
 
@@ -181,5 +182,7 @@ create index IX_50F04E03 on Learn_LFTincanManifestAct (tincanID);
 
 create index IX_7A257452 on Learn_LFTincanPackage (assetRefID);
 create index IX_F334E16A on Learn_LFTincanPackage (courseID);
+
+create index IX_B6F136A5 on Learn_LFTincanURI (objID, objType);
 
 create index IX_CBB67CEE on Learn_LFUser (id_);

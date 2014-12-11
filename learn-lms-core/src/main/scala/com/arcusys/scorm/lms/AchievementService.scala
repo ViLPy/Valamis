@@ -1,7 +1,7 @@
 package com.arcusys.scorm.lms
 
+import com.arcusys.learn.scorm.Archivements.{ AchievementUserStorage, AchievementStorage, AchievementRequiredStorage, AchievementActivityStorage }
 import com.arcusys.learn.scorm.tracking.model.achivements._
-import com.arcusys.learn.storage.StorageFactoryContract
 import scala.collection.JavaConverters._
 import com.arcusys.learn.scorm.tracking.model.achivements.AchievementUser
 import com.arcusys.learn.scorm.tracking.model.achivements.RequiredActivity
@@ -11,11 +11,10 @@ import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
 import com.arcusys.learn.liferay.constants.QueryUtilHelper._
 
 class AchievementServiceBL(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val achievementStorage = storageFactory.achievementStorage
-  val achievementRequiredStorage = storageFactory.achievementRequiredStorage
-  val achievementActivityStorage = storageFactory.achievementActivityStorage
-  val achievementUserStorage = storageFactory.achievementUserStorage
+  val achievementStorage = inject[AchievementStorage]
+  val achievementRequiredStorage = inject[AchievementRequiredStorage]
+  val achievementActivityStorage = inject[AchievementActivityStorage]
+  val achievementUserStorage = inject[AchievementUserStorage]
 
   val achievementsOnPage = 3 //TODO 10? For test reasons this value.
 
@@ -63,8 +62,7 @@ class AchievementServiceBL(implicit val bindingModule: BindingModule) extends In
 }
 
 class AchievementUserServiceBL(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val achievementUserStorage = storageFactory.achievementUserStorage
+  val achievementUserStorage = inject[AchievementUserStorage]
 
   def createAchievementUser(achievementUser: AchievementUser): AchievementUser = {
     val id = achievementUserStorage.createAndGetIDAchievementUser(achievementUser)
@@ -87,10 +85,9 @@ class AchievementUserServiceBL(implicit val bindingModule: BindingModule) extend
 }
 
 class RequiredActivityServiceBL(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val achievementStorage = storageFactory.achievementStorage
-  val achievementRequiredStorage = storageFactory.achievementRequiredStorage
-  val achievementActivityStorage = storageFactory.achievementActivityStorage
+  val achievementStorage = inject[AchievementStorage]
+  val achievementRequiredStorage = inject[AchievementRequiredStorage]
+  val achievementActivityStorage = inject[AchievementActivityStorage]
 
   def getById(requiredActivityId: Int, achievementId: Int) = {
     achievementRequiredStorage.getRequiredAchievementActivities(achievementId).filter(_.id == requiredActivityId).apply(0)
@@ -127,10 +124,9 @@ class RequiredActivityServiceBL(implicit val bindingModule: BindingModule) exten
 }
 
 class AchievementActivityServiceBL(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val achievementStorage = storageFactory.achievementStorage
-  val achievementRequiredStorage = storageFactory.achievementRequiredStorage
-  val achievementActivityStorage = storageFactory.achievementActivityStorage
+  val achievementStorage = inject[AchievementStorage]
+  val achievementRequiredStorage = inject[AchievementRequiredStorage]
+  val achievementActivityStorage = inject[AchievementActivityStorage]
 
   def ifUserCompletedAchievement(achievementId: Int, userId: Int) = {
     !achievementActivityStorage.getByAchievementAndUserIds(achievementId, userId).isEmpty
@@ -169,7 +165,7 @@ class TestAchievementServiceBL(implicit val bindingModule: BindingModule) extend
       id = -1,
       title = "New achievement",
       description = "Achievement info",
-      logo = "/learn-portlet/img/certificate-default.png"
+      logo = "/learn-portlet/img/certificate-default.jpg"
     )
 
     //Depends on each other

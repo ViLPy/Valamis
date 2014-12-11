@@ -1,15 +1,16 @@
 package com.arcusys.scorm.deployer
 
 import java.io._
+import com.arcusys.learn.filestorage.storage.FileStorage
 import com.arcusys.learn.scorm.manifest.parser.ManifestParser
 import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.scorm.manifest.storage._
 import scala.xml.XML
 import com.arcusys.scorm.util.FileSystemUtil
 import com.arcusys.scorm.util.FileProcessing
 import com.arcusys.learn.util.TreeNode
 import java.util.zip.{ ZipEntry, ZipFile }
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
-import com.arcusys.learn.storage.StorageFactoryContract
 
 object PackageProcessor {
   def isValidPackage(packageTmpUUID: String) = {
@@ -19,11 +20,11 @@ object PackageProcessor {
 }
 
 class PackageProcessor(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val packageStorage = storageFactory.packageStorage
-  val resourceStorage = storageFactory.resourceStorage
-  val activityStorage = storageFactory.activityStorage
-  val fileStorage = storageFactory.fileStorage
+  val packageRepository = inject[ScormPackagesStorage]
+  val resourceRepository = inject[ResourcesStorage]
+  val activityRepository = inject[ActivityStorage]
+  val fileStorage = inject[FileStorage]
+  val packageScopeRuleRepository = inject[PackageScopeRuleStorage]
 
   def processPackageAndGetID(packageTitle: String,
     packageSummary: String,
@@ -36,20 +37,20 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
 
     val root = XML.loadFile(new File(packageTempDirectory + "imsmanifest.xml"))
     val doc = new ManifestParser(root, packageTitle, packageSummary).parse
-    val packageID = packageStorage.createAndGetID(doc.manifest.copy(logo = logo), courseID)
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, true, false)
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), true, false)
+    val packageID = packageRepository.createAndGetID(doc.manifest.copy(logo = logo), courseID)
+    packageScopeRuleRepository.create(packageID, ScopeType.Instance, None, true, false)
+    packageScopeRuleRepository.create(packageID, ScopeType.Site, courseID.map(_.toString), true, false)
 
     for (organizationNode <- doc.organizations) {
-      activityStorage.create(packageID, organizationNode.item)
+      activityRepository.create(packageID, organizationNode.item)
       createActivities(organizationNode.children)
     }
 
-    for (resource <- doc.resources) resourceStorage.createForPackageAndGetID(packageID, resource)
+    for (resource <- doc.resources) resourceRepository.createForPackageAndGetID(packageID, resource)
 
     def createActivities(activities: Seq[TreeNode[Activity]]) {
       for (node <- activities) {
-        activityStorage.create(packageID, node.item)
+        activityRepository.create(packageID, node.item)
         createActivities(node.children)
       }
     }

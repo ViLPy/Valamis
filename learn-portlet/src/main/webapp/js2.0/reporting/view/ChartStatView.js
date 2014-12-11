@@ -1,3 +1,4 @@
+var viewportWidth = jQuery(window).width();
 var ChartStatView = Backbone.Marionette.View.extend({
     tagName: 'div',
     defaults: {
@@ -55,6 +56,10 @@ var ChartStatView = Backbone.Marionette.View.extend({
     initializeRender: function () {
         var margin = this.defaults.margin;
         this.width = this.defaults.width - margin.left - margin.right;
+
+        if (viewportWidth <= 1199)
+            this.width = this.width - 100;
+
         this.height = this.defaults.height - margin.top - margin.bottom;
 
         this.x0 = d3.scale.ordinal()
@@ -158,9 +163,14 @@ var ChartStatView = Backbone.Marionette.View.extend({
             });
         })]);
 
+        var animationDuration = this.defaults.animationDuration;
+        if (viewportWidth <= 1199)
+            animationDuration = animationDuration - 120;
+
         this.svg.selectAll("g .x.axis")
             .transition()
-            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
+//            .duration(this.defaults.animationDuration)
             .call(this.xAxis);
         this.svg.selectAll("g .x.axis").selectAll("text")
             .style("text-anchor", "end")
@@ -170,7 +180,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
 
         this.svg.selectAll("g .y.axis")
             .transition()
-            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
+//            .duration(this.defaults.animationDuration)
             .call(this.yAxis);
 
         var state = this.svg.selectAll(".state")
@@ -206,7 +217,8 @@ var ChartStatView = Backbone.Marionette.View.extend({
             }.bind(this));
 
         subState.transition()
-            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
+//            .duration(this.defaults.animationDuration)
             .attr("height", function (d) {
                 return this.height - this.y(d.value);
             }.bind(this))
@@ -216,13 +228,15 @@ var ChartStatView = Backbone.Marionette.View.extend({
 
         state.exit().selectAll('rect')
             .transition()
-            .duration(this.defaults.animationDuration)
+            .duration(animationDuration)
+//            .duration(this.defaults.animationDuration)
             .attr('height', 0)
             .attr("y", this.height)
             .remove();
         state.exit()
             .transition()
-            .delay(this.defaults.animationDuration)
+            .delay(animationDuration)
+//            .delay(this.defaults.animationDuration)
             .remove();
     },
     highlight: function (type) {

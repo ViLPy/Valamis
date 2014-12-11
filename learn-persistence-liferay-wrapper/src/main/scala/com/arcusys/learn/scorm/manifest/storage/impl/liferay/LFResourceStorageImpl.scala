@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFResource
 
+@deprecated
 trait LFResourceStorageImpl extends KeyedEntityStorage[Resource] {
   protected def doRenew() { LFResourceLocalServiceUtil.removeAll() }
 

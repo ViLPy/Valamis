@@ -1,8 +1,10 @@
 package com.arcusys.learn.notifications
 
+import com.arcusys.learn.bl.services.settings.SettingServiceContract
 import com.arcusys.learn.facades.{ CertificateFacadeContract, CourseFacadeContract, PackageFacadeContract, UserFacadeContract }
 import com.arcusys.learn.models.CourseResponse
 import com.arcusys.learn.models.response.certificates.CertificateResponse
+import com.arcusys.learn.notifications.MessageTemplateLoader.MessageTemplate
 import com.arcusys.learn.scorm.manifest.model.BaseManifest
 import com.arcusys.learn.scorm.tracking.model.PermissionType
 import com.arcusys.learn.tincan.model.Statement
@@ -10,7 +12,7 @@ import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.joda.time.{ DateTime, Days }
 
 trait CourseMessageService extends Injectable with MessageSender {
-  import CourseMessageService._
+  import com.arcusys.learn.notifications.CourseMessageService._
 
   implicit def bindingModule: BindingModule
 
@@ -19,75 +21,125 @@ trait CourseMessageService extends Injectable with MessageSender {
   private val users = inject[UserFacadeContract]
   private val courses = inject[CourseFacadeContract]
   private val certificates = inject[CertificateFacadeContract]
+  private val settingsManager = inject[SettingServiceContract]
 
-  lazy val students = users.byPermission(PermissionType.STUDENT)
-  lazy val teachers = users.byPermission(PermissionType.TEACHER)
-  lazy val companyIds = courses.getCompanyIds
+  private lazy val students = users.byPermission(PermissionType.STUDENT).view
+  private lazy val teachers = users.byPermission(PermissionType.TEACHER).view
 
-  def sendEnrolledStudentMessage() {
-    val template = templates.getFor(MessageType.EnrolledStudent)
+  def sendCourseMessages() {
+    val enrollmentTemplate = templates.getFor(MessageType.EnrolledStudent)
+    val learningTemplate = templates.getFor(MessageType.FinishedLearningModule)
 
-    val startedCourses = coursesWithPackages map {
+    val coursesWithPackages = (courses.all map { course =>
+      (course, packages.getPackagesByCourse(course.id.toInt).filter(_.getVisibility == Some(true)))
+    }).toMap.view
+
+    val startedCourses = (coursesWithPackages map {
       case (course, pkgs) => (course.id, pkgs.flatMap(pkg => getEnrolledStudents(pkg)).toSet)
-    }
+    }).toMap
+
+    val finishedPackages = (students flatMap { student =>
+      coursesWithPackages map {
+        case (course, pkgs) =>
+          (course.id, student.name,
+            pkgs.collect { case pkg if isFinishedPackage(student.id.toInt, pkg.getId) => pkg.getTitle }
+          )
+      }
+    }) filter (p => p._3.nonEmpty)
 
     teachers foreach { teacher =>
-      val data = getTeacherCourses(teacher.id) collect {
-        case course if startedCourses.get(course.id).isDefined
-          && !startedCourses.get(course.id).get.isEmpty =>
-          StudentRenderView(course.title, startedCourses.get(course.id).get.map(_.name).toSeq)
+
+      val data = getTeacherCourses(teacher.id).foldLeft(Seq[StudentRenderView](), Seq[PackagesRenderView]()) {
+        (views, course) =>
+          (
+            if (startedCourses.get(course.id).isDefined && startedCourses.get(course.id).get.nonEmpty)
+              views._1 :+ StudentRenderView(course.title, startedCourses.get(course.id).get.map(_.name).toSeq)
+            else
+              views._1,
+            if (finishedPackages.filter(p => p._1 == course.id).nonEmpty)
+              views._2 ++ finishedPackages.filter(p => p._1 == course.id).map(p => PackagesRenderView(p._2, p._3.toList))
+            else
+              views._2
+          )
       }
 
-      for {
-        email <- teacher.email
-        tpl <- template
-        if data.nonEmpty
-      } yield {
-        val body = templates.render(tpl, Map("data" -> data, "date" -> todayFormatted))
-        send Message ("New students enrolled in your course", body, email)
-      }
+      sendMessage(teacher.email, enrollmentTemplate, data._1)
+      sendMessage(teacher.email, learningTemplate, data._2)
     }
   }
 
-  def sendCertificateExpirationMessage() {
-    val template = templates.getFor(MessageType.CourseCertificateExpiration)
+  def sendCertificateMessages() {
+    val expirationTemplate = templates.getFor(MessageType.CourseCertificateExpiration)
+    val deadlineTemplate = templates.getFor(MessageType.CourseCertificateDeadline)
+    val companies = courses.getCompanyIds
 
     students foreach { student =>
-      val cs = companyIds flatMap { companyId =>
-        certificates.getForUser(companyId.toInt, student.id.toInt, isShortResult = false) collect { case cr: CertificateResponse => cr }
+      val cs = (companies flatMap { companyId =>
+        certificates.getForUser(companyId.toInt, student.id.toInt, isShortResult = false)
+          .collect { case cr: CertificateResponse => cr }
+      }).view
+
+      val expirationData = cs collect {
+        case certificate if isExpiringSoon(certificate.expirationDate) =>
+          ExpirationRenderView(
+            title = certificate.title,
+            days = difference(today, certificate.expirationDate).toString,
+            date = certificate.expirationDate.toString("EEEE, MMMM d")
+          )
       }
 
-      val toBeExpired = cs filter (c => isExpiringSoon(c.expirationDate))
+      val deadlineData = cs map { certificate =>
+        val goals = certificates.getGoalsDeadlines(certificate.id, student.id.toInt)
 
-      val data = toBeExpired map { c =>
-        CertificateRenderView(c.title, difference(today, c.expirationDate).toString, c.expirationDate.toString("EEEE, MMMM d"))
-      }
+        val tobeDeadlined = (
+          goals.activities.filter(a => isDeadlineComing(a.deadline)).view,
+          goals.courses.filter(c => isDeadlineComing(c.deadline)).view,
+          goals.statements.filter(s => isDeadlineComing(s.deadline)).view
+        )
 
-      for {
-        email <- student.email
-        tpl <- template
-        if data.nonEmpty
-      } yield {
-        val body = templates.render(tpl, Map("data" -> data, "date" -> todayFormatted))
-        send Message ("Warning! Certificates are about to expire", body, email)
-      }
+        DeadlineRenderView(
+          title = certificate.title,
+          activities = tobeDeadlined._1.map(r => Deadline(r.name, difference(today, r.deadline.get), r.deadline.get)).toList,
+          courses = tobeDeadlined._2.map(c => Deadline(courses.getCourse(c.id).title, difference(today, c.deadline.get), c.deadline.get)).toList,
+          statements = tobeDeadlined._3.map(s => Deadline(s"${s.obj} ${s.verb}", difference(today, s.deadline.get), s.deadline.get)).toList
+        )
+      } filter (cv => cv.activities.nonEmpty && cv.courses.nonEmpty && cv.statements.nonEmpty)
+
+      sendMessage(student.email, deadlineTemplate, deadlineData.toList)
+      sendMessage(student.email, expirationTemplate, expirationData.toList)
     }
-
   }
 
-  private def coursesWithPackages = (courses.all map { course =>
-    (course, packages.getPackagesByCourse(course.id.toInt).filter(_.getVisibility == Some(true)))
-  }).toMap
+  private def sendMessage[T](emailAddress: Option[String], tpl: Option[MessageTemplate], data: Seq[T]) {
+    for {
+      email <- emailAddress
+      tpl <- tpl
+      if data.nonEmpty && isSendable
+    } yield {
+      val body = templates.render(tpl, Map("data" -> data, "date" -> todayFormatted))
+      send Message (tpl.subject, body, email)
+    }
+  }
 
-  private def getEnrolledStudents(pkg: BaseManifest) = students filter { student =>
+  private def isSendable = settingsManager.getSendMessages()
+
+  private def getEnrolledStudents(pkg: BaseManifest) = (students filter { student =>
     val statement = packages.getStatements(pkg.getId, student.id.toInt).headOption
     statement collect { case s => isNewlyStarted(s) } getOrElse false
+  }).toList
+
+  private def getTeacherCourses(userId: Long): Seq[CourseResponse] = courses.getByUserId(userId)
+
+  private def isDeadlineComing(date: Option[DateTime]) = date.fold(false)(isExpiringSoon)
+
+  private def isNewlyStarted(s: Statement) = s.stored.fold(false) { date => isValid(new DateTime(date)) }
+
+  private def isFinishedPackage(userId: Int, packageId: Int) = {
+    val grade = packages.getPackageGrade(userId, packageId)
+    grade.fold(false) { g => g.date exists isValid }
   }
 
-  private def isNewlyStarted(s: Statement) =
-    s.stored.fold(false) { date =>
-      (date.getTime > yesterday.getMillis) && (date.getTime < today.getMillis)
-    }
+  private def isValid(date: DateTime) = (date.getMillis > yesterday.getMillis) && (date.getMillis < today.getMillis)
 
   private def isExpiringSoon(expirationDate: DateTime) = {
     if (expirationDate.getMillis < today.getMillis) false
@@ -97,18 +149,18 @@ trait CourseMessageService extends Injectable with MessageSender {
     }
   }
 
-  private def difference(start: DateTime, end: DateTime) =
-    Days.daysBetween(start, end).getDays
-
-  private def getTeacherCourses(userId: Long): Seq[CourseResponse] = courses.getByUserId(userId)
+  private def difference(start: DateTime, end: DateTime) = Days.daysBetween(start, end).getDays
 
   private def today = new DateTime
   private def todayFormatted = today.toString("EEEE, MMMM d")
   private def yesterday = today minusDays 1
-
 }
 
 object CourseMessageService {
   case class StudentRenderView(courseName: String, enrolledStudents: Seq[String])
-  case class CertificateRenderView(title: String, days: String, date: String)
+  case class PackagesRenderView(studentName: String, finishedPackages: Seq[String])
+  case class ExpirationRenderView(title: String, days: String, date: String)
+
+  case class DeadlineRenderView(title: String, activities: Seq[Deadline], courses: Seq[Deadline], statements: Seq[Deadline])
+  case class Deadline(name: String, days: Int, date: DateTime)
 }

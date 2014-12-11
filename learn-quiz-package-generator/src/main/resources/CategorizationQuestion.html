@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    var dataToCompare = {{{answers}}};
+    var dataToCompare = JSON.parse('{{{answers}}}');
     jQuery(document).ready(function () {
         /*{{^isPreview}}*/
         getAPI().Initialize("");
@@ -7,28 +7,45 @@
         PrepareCategorizationQuestionView();
     });
 
-    function gatherData() {
-        /*{{^isPreview}}*/
+    function collectAnswers() {
         // this will check is user answer right
-        var userAnswers = [];
-        var patterAnswers = [];
-        var answers = jQuery(".categorizationAnswerBoxs").each(function (index, element) {
+        var userAnswers = [],
+            patterAnswers = [],
+            hasScore = false,
+            score = 0,
+            learnerResponse = [];
+
+        var groupedAnswers = {},
+            groupedResponse = {};
+
+        jQuery(".categorizationAnswerBoxs").each(function (index, element) {
             var group = jQuery.trim(jQuery("th", jQuery(element)).html().toString());
             var answers = jQuery("ul > li", jQuery(element));
             answers.each(function (answerIndex, answerElement) {
                 var answer = jQuery.trim(jQuery(answerElement).html().toString());
-                userAnswers.push([group, answer].join("[.]"));
+                learnerResponse.push([group, answer].join("[.]"));
+                var answerObject = {text: group, matchingText: answer};
+                userAnswers.push(answerObject);
+
+                if (!groupedResponse.hasOwnProperty(group)) groupedResponse[group] = [];
+                groupedResponse[group].push(answerObject);
             });
         });
 
         var isPassed = true;
         for (var i = 0; i < dataToCompare.length; i++) {
+            var group = decodeURIComponent(dataToCompare[i].text);
+            if (!groupedAnswers.hasOwnProperty(group)) groupedAnswers[group] = [];
+            groupedAnswers[group].push(dataToCompare[i]);
+
             if(dataToCompare[i].matchingText == null || decodeURIComponent(dataToCompare[i].matchingText) == "") continue; // We are trying to compare to an empty category -> always true
             var cmpString = decodeURIComponent(dataToCompare[i].text) + "[.]" + decodeURIComponent(dataToCompare[i].matchingText);
             patterAnswers.push(cmpString);
             var found = false;
             for (var j = 0; j < userAnswers.length; j++) {
-                if (cmpString.toLowerCase() == userAnswers[j].toLowerCase()) {
+                var userAnswer = userAnswers[j].text + '[.]' + userAnswers[j].matchingText;
+                if (cmpString.toLowerCase() == userAnswer.toLowerCase() ||
+                        jQuery('<textarea />').html(cmpString).text().toLowerCase() == userAnswer.toLowerCase()) {
                     found = true;
                     break;
                 }
@@ -36,15 +53,45 @@
             if (!found) {
                 isPassed = false;
             }
-
         }
-        var mergedAnswers = userAnswers.join("[,]");
+
+        for (var key in groupedAnswers) {
+            if (groupedResponse.hasOwnProperty(key)) {
+                var userResponses = groupedResponse[key],
+                    correctResponses = groupedAnswers[key];
+
+                for (var i = 0; i<correctResponses.length; i++){
+                    var correct = decodeURIComponent(correctResponses[i].matchingText);
+                    for (var j = 0; j<userResponses.length; j++) {
+                        var user = decodeURIComponent(userResponses[j].matchingText);
+                        if (user === correct && correctResponses[i].score) {
+                            hasScore = true;
+                            score += correctResponses[i].score;
+                        }
+                    }
+                }
+            }
+        }
+
+        return {
+            learnerResponse: learnerResponse.join("[,]"),
+            correctResponse: patterAnswers.join("[,]"),
+            isPassed: isPassed,
+            score: (hasScore)?score:null
+        }
+    }
+
+    function gatherData() {
+        /*{{^isPreview}}*/
+        /*{{^autoShowAnswer}}*/
+        var answers = collectAnswers();
 
         getAPI().SetValue("cmi.interactions.0.type", "matching");
-        getAPI().SetValue("cmi.interactions.0.learner_response", userAnswers.join("[,]"));
-        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", patterAnswers.join("[,]"));
+        getAPI().SetValue("cmi.interactions.0.learner_response", answers.learnerResponse);
+        getAPI().SetValue("cmi.interactions.0.weighting", answers.score);
+        getAPI().SetValue("cmi.interactions.0.correct_responses.0.pattern", answers.correctResponse);
 
-        if (isPassed) {
+        if (answers.isPassed) {
             getAPI().SetValue("cmi.completion_status", "completed");
             getAPI().SetValue("cmi.success_status", "passed");
             getAPI().SetValue("cmi.score.scaled", "1.0");
@@ -53,14 +100,72 @@
             getAPI().SetValue("cmi.success_status", "failed");
             getAPI().SetValue("cmi.score.scaled", "0.0");
         }
+        /*{{/autoShowAnswer}}*/
         /*{{/isPreview}}*/
     }
+
+    /*{{#autoShowAnswer}}*/
+    function showAnswers() {
+        var answers = collectAnswers();
+        jQuery("#checkAnswerButton").hide();
+        jQuery("#nextQuestionButton").show();
+        jQuery(".answers").show();
+        jQuery(".playerHeader").hide();
+        jQuery(".playerMainArea").hide();
+        var correct = answers.isPassed;
+        var correctness = (correct) ? "correct" : "incorrect";
+        jQuery("#answerCorrectness").html(correctness);
+        if (!correct) {
+            jQuery("#answerComparison").show();
+
+            var learnerResponse = answers.learnerResponse;
+            var correctPattern = answers.correctResponse;
+
+            var learnerResponseData = {};
+
+            var learnerResponseLines = learnerResponse.split("[,]");
+            for (var i = 0; i < learnerResponseLines.length; i++) {
+                var learnerResponseAnswer = learnerResponseLines[i].split("[.]");
+                if (!learnerResponseData[learnerResponseAnswer[0]]) {
+                    learnerResponseData[learnerResponseAnswer[0]] = [];
+                }
+                learnerResponseData[learnerResponseAnswer[0]].push(learnerResponseAnswer[1]);
+            }
+            addMatchedLine(jQuery("#usersAnswers"), learnerResponseData);
+
+            var correctPatternData = {};
+
+            var correctPatternLines = correctPattern.split("[,]");
+            for (var i = 0; i < correctPatternLines.length; i++) {
+                var correctPatterAnswer = correctPatternLines[i].split("[.]");
+                if (!correctPatternData[correctPatterAnswer[0]]) {
+                    correctPatternData[correctPatterAnswer[0]] = [];
+                }
+                correctPatternData[correctPatterAnswer[0]].push(correctPatterAnswer[1]);
+            }
+            addMatchedLine(jQuery("#correctAnswers"), correctPatternData);
+        }
+    }
+
+    function addMatchedLine(target, data) {
+        for (var key in data) {
+            var table = jQuery('#tableTemplate').children().clone();
+            jQuery(".tableTitle", table).html(key);
+            for (var i = 0; i<data[key].length; i++) {
+                var li = jQuery("<li>");
+                li.addClass("ui-state-default");
+                li.html(data[key][i]);
+                jQuery(".answerContainer", table).append(li);
+            }
+            table.show();
+            target.append(table);
+        }
+    }
+    /*{{/autoShowAnswer}}*/
 </script>
 <div class="SCORMPlayerContentDisplay">
     <div class="playerHeader">
         <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
-
-        <h2 class="SCORMPlayerQuestionSubtitle">Distribute items to categories by using "drag and drop":</h2>
     </div>
     <div class="playerMainArea">
         <div class="playerCategorizeAnswers">
@@ -86,6 +191,31 @@
             {{/answerText}}
         </div>
     </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers" style="display: none;">
+        <h1>Your answer is <span id="answerCorrectness"></span></h1>
+
+        <div id="answerComparison" style="display: none;">
+            <div style="float: left;" class="verticalSeparator">
+                <h2>Your answers:</h2>
+
+                <div id="usersAnswers"></div>
+            </div>
+            <div style="float: left;">
+                <h2>Correct answers:</h2>
+
+                <div id="correctAnswers"></div>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
     <div class="clear"></div>
     <!-- Navigation -->
     <div class="playerPageNavigation">
@@ -93,9 +223,29 @@
             <!--{{#isPreview}}-->
             <button class="valamis button small green icon-continue" type="button">Next</button>
             <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <!--{{#autoShowAnswer}} -->
+            <button class="valamis button small green icon-continue" type="button" id="checkAnswerButton" onclick="showAnswers()">Check</button>
+            <button class="valamis button small green icon-continue" style="display: none" type="button" id="nextQuestionButton" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
+            <!--{{^autoShowAnswer}} -->
             <button class="valamis button small green icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
+
             <!--{{/isPreview}}-->
         </div>
         <div class="clear"></div>
     </div>
+</div>
+<!-- template -->
+<div id="tableTemplate" style="display: none;">
+    <table class="categorizationAnswerBoxs">
+        <tr>
+            <th class="tableTitle"></th>
+        </tr>
+        <tr>
+            <td>
+                <ul class="answerContainer"></ul>
+            </td>
+        </tr>
+    </table>
 </div>

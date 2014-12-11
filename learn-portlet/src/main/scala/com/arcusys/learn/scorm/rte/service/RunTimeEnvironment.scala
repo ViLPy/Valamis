@@ -1,116 +1,77 @@
 package com.arcusys.learn.scorm.rte.service
 
-import org.scalatra.CookieSupport
-import com.arcusys.scorm.lms.DataModelService
-
-import com.escalatesoft.subcut.inject.BindingModule
-import com.arcusys.learn.web.ServletBase
+import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
+import com.arcusys.learn.controllers.api.BaseApiController
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.scorm.tracking.model.{ ActivityStateTree, ActivityStateNode, ObjectiveState, ActivityState }
-import com.arcusys.learn.service.util.{ AntiSamyHelper, SessionHandler }
+import com.arcusys.learn.scorm.tracking.model.{ ActivityState, ActivityStateNode, ObjectiveState }
+import com.arcusys.learn.service.util.AntiSamyHelper
+import com.arcusys.learn.web.ServletBase
+import com.arcusys.scorm.lms.DataModelService
+import com.escalatesoft.subcut.inject.BindingModule
+import org.scalatra.{ CookieSupport, SinatraRouteMatcher }
 
-class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(configuration) with CookieSupport {
+class RunTimeEnvironment(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase with CookieSupport {
   def this() = this(Configuration)
+  //next line fixes 404
+  implicit override def string2RouteMatcher(path: String) = new SinatraRouteMatcher(path)
 
-  import storageFactory._
+  private val activityManager = inject[ActivityServiceContract]
 
   before() {
-    response.setHeader("Cache-control", "must-revalidate,no-cache,no-store")
-    response.setHeader("Expires", "-1")
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
   }
 
-  post("/Initialize") {
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
-
+  post("/rte/Initialize") {
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
     val organizationID = parameter("organizationID").required
-    val currentAttempt = attemptStorage.getActive(userID, packageID) match {
-      case Some(attempt) => attempt
-      case None => {
-        attemptStorage.createAndGetID(userID, packageID, organizationID)
-        attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Okay. Check DB connection."))
-      }
-    }
-    val stateTree = activityStateTreeStorage.get(currentAttempt.id)
+    val currentAttempt = activityManager.getActiveAttempt(userID, packageID, organizationID)
+
+    val stateTree = activityManager.getActivityStateTreeForAttemptOption(currentAttempt)
     if (stateTree.isEmpty) {
-      val stateTree = ActivityStateTree(activityStorage.getOrganizationTree(currentAttempt.packageID, currentAttempt.organizationID), None, true, None)
-      activityStateTreeStorage.create(currentAttempt.id, stateTree)
+      activityManager.createActivityStateTreeForAttempt(currentAttempt)
       json("status" -> false).get
     } else {
       json("status" -> true).get
     }
   }
 
-  get("/GetValue/:key") {
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
-
+  get("/rte/GetValue/:key") {
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
-    val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val currentAttempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val dataModel = new DataModelService(currentAttempt, activityID)
     json(dataModel.getValue(parameter("key").required)).get
   }
 
-  get("/GetValues") {
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
-
+  get("/rte/GetValues") {
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
-    val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val currentAttempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val dataModel = new DataModelService(currentAttempt, activityID)
     json(dataModel.getValues).get
   }
 
-  post("/SetValue") {
+  post("/rte/SetValue") {
+    val userID = getUserId.toInt
     val value = AntiSamyHelper.sanitize(parameter("value").required)
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401, userID + " not found") // check if user
-
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
-    val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val currentAttempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val dataModel = new DataModelService(currentAttempt, activityID)
     dataModel.setValue(parameter("key").required, value)
   }
 
-  post("/SetValues") {
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
-
+  post("/rte/SetValues") {
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
     val activityID = parameter("activityID").required
-    val currentAttempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val currentAttempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
 
     val amount = parameter("amount").intRequired
     val dataModel = new DataModelService(currentAttempt, activityID)
@@ -119,7 +80,7 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     })
   }
 
-  get("/ActivityInformation/:activityID") {
+  get("/rte/ActivityInformation/:activityID") {
     def serializeObjective(id: Option[String], state: ObjectiveState) = {
       Some(
         Map("identifier" -> id,
@@ -141,18 +102,10 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
       }
     }
 
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
-
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
-    val attempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
-    val tree = activityStateTreeStorage.get(attempt.id).getOrElse(throw new Exception("Activity tree should exist!"))
-    //val tree = ActivityStateTree(activityStorage.getOrganizationTree(attempt.packageID, attempt.organizationID), attempt.currentActivityID, currentActive = false, suspendedActivityID = attempt.suspendedActivityID)
+    val attempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val tree = activityManager.getActivityStateTreeForAttemptOption(attempt).get //OrElse(throw new Exception("Activity tree should exist!"))
     val activity = tree(parameter("activityID").required)
     json(Map("attemptProgressStatus" -> activity.get.item.getCompletionStatus().isEmpty,
       "attemptCompletionStatus" -> activity.get.item.getCompletionStatus(),
@@ -164,7 +117,7 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     )).get
   }
 
-  post("/ActivityInformation/:activityID") {
+  post("/rte/ActivityInformation/:activityID") {
     def deserializeObjective(base: String, state: ObjectiveState) {
       state.setSatisfiedStatus(parameter(base + "[objectiveProgressStatus]").booleanOption("null"))
       state.setNormalizedMeasure(parameter(base + "[objectiveNormalizedMeasure]").bigDecimalOption("null"))
@@ -186,18 +139,10 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
       deserializeObjective("activityObjectives[" + index + "]", objectiveState)
     }
 
-    val userID = try {
-      request.getHeader("scormUserID").toInt
-    } catch {
-      case n: NumberFormatException => -1
-    } // default id is -1, for guests
-
-    if (userID > 0 && getSessionUserID != userID) halt(401) // check if user
-
+    val userID = getUserId.toInt
     val packageID = parameter("packageID").intRequired
-    val attempt = attemptStorage.getLast(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
-    val tree = activityStateTreeStorage.get(attempt.id).getOrElse(throw new Exception("Activity tree should exist!"))
-    //ActivityStateTree(activityStorage.getOrganizationTree(attempt.packageID, attempt.organizationID), attempt.currentActivityID, currentActive = false, suspendedActivityID = attempt.suspendedActivityID)
+    val attempt = activityManager.getLastAttempltOption(userID, packageID).getOrElse(halt(404, "Attempt not found for this SCO and user"))
+    val tree = activityManager.getActivityStateTreeForAttemptOption(attempt).getOrElse(throw new Exception("Activity tree should exist!"))
     val activity = tree(parameter("activityID").required)
 
     activity.get.item.setCompletionStatus(parameter("attemptCompletionStatus").booleanOption("null"))
@@ -206,10 +151,10 @@ class RunTimeEnvironment(configuration: BindingModule) extends ServletBase(confi
     val activityObjectivesCount = parameter("activityObjectivesCount").intRequired
     deserializePrimaryObjective(activity.get)
     (0 until activityObjectivesCount).foreach(index => deserializeNonPrimaryObjective(activity.get, index.toString))
-    activityStateTreeStorage.modify(attempt.id, tree)
+    activityManager.updateActivityStateTree(attempt.id, tree)
   }
 
-  post("/Commit") {
+  post("/rte/Commit") {
 
   }
 }

@@ -1,14 +1,19 @@
 package com.arcusys.learn.web
 
+import com.arcusys.learn.bl.services.{ FileServiceContract }
+import com.arcusys.learn.controllers.api.BaseApiController
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.scorm.util.FileSystemUtil
 import org.scalatra.servlet.FileUploadSupport
+import org.scalatra.SinatraRouteMatcher
 
-class FileStorageFilter(configuration: BindingModule) extends ServletBase(configuration) with FileUploadSupport {
+class FileStorageFilter(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase with FileUploadSupport {
   def this() = this(Configuration)
+  //next line fixes 404
+  implicit override def string2RouteMatcher(path: String) = new SinatraRouteMatcher(path)
 
-  import storageFactory._
+  private val fileService = inject[FileServiceContract]
 
   get("/*.*") {
     val filename = multiParams("splat").mkString(".")
@@ -18,11 +23,16 @@ class FileStorageFilter(configuration: BindingModule) extends ServletBase(config
       case "htm"  => "text/html"
       case "html" => "text/html"
       case "js"   => "application/javascript"
+      case "png"  => "image/png"
+      case "jpg"  => "image/jpeg"
+      case "jpeg" => "image/jpeg"
+      case "gif"  => "image/gif"
+      case "swf"  => "application/x-shockwave-flash"
       case _      => FileSystemUtil.getMimeType(filename)
     }
-    val fileContentOption = fileStorage.getFile(filename)
+    val fileContentOption = fileService.getFileContentOption(filename)
     if (fileContentOption.isDefined) {
-      response.getOutputStream.write(fileContentOption.get.content.getOrElse(halt(405)))
+      response.getOutputStream.write(fileContentOption.getOrElse(halt(405)))
     } else halt(404)
   }
 }

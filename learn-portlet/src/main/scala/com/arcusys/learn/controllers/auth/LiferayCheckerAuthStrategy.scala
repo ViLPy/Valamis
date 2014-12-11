@@ -1,25 +1,26 @@
 package com.arcusys.learn.controllers.auth
 
-import org.scalatra.ScalatraBase
-import com.liferay.portal.security.auth.{ CompanyThreadLocal, PrincipalThreadLocal }
-import scala.util.Try
-import com.liferay.portal.security.permission.{ PermissionCheckerFactoryUtil, PermissionThreadLocal }
-import com.liferay.portal.util.PortalUtil
 import javax.servlet.http.{ HttpServletRequest, HttpServletResponse }
-import com.arcusys.learn.view.liferay.LiferayHelpers
+
+import com.arcusys.learn.exceptions.NotAuthorizedException
+import com.arcusys.learn.liferay.services.UserLocalServiceHelper
+import com.liferay.portal.security.auth.{ CompanyThreadLocal, PrincipalThreadLocal }
+import com.liferay.portal.security.permission.{ PermissionCheckerFactoryUtil, PermissionThreadLocal }
+import com.liferay.portal.service.UserLocalServiceUtil
+import com.liferay.portal.util.PortalUtil
+import org.scalatra.ScalatraBase
+import org.scalatra.auth.strategy.BasicAuthStrategy
+
+import scala.util.Try
 
 /**
  * Created by Iliya Tryapitsin on 04.04.2014.
  */
-class LiferayCheckerAuthStrategy(protected val app: ScalatraBase) extends LiferayAuthStrategy {
+class LiferayCheckerAuthStrategy(protected val app: ScalatraBase)(implicit request: HttpServletRequest, response: HttpServletResponse) extends LiferayAuthStrategy {
 
   def authenticate()(implicit request: HttpServletRequest, response: HttpServletResponse) = {
     def findUserAndSetupPermissions = {
-      val cookies = request.getCookies()
-
-      cookies.foreach(cookie => request.setAttribute(cookie.getName, cookie.getValue))
-
-      val user = PortalUtil.getUser(request)
+      val user = getUserByRequest()
 
       val permissionChecker = PermissionCheckerFactoryUtil.create(user)
 
@@ -27,10 +28,20 @@ class LiferayCheckerAuthStrategy(protected val app: ScalatraBase) extends Lifera
       PrincipalThreadLocal.setName(user.getUserId)
       CompanyThreadLocal.setCompanyId(user.getCompanyId)
 
-      LiferayAuthUser(user.getEmailAddress)
+      LiferayAuthUser(user.getUserId, user)
     }
 
     Try(findUserAndSetupPermissions).toOption
+  }
+
+  def getUserByRequest()(implicit request: HttpServletRequest) = {
+
+    val user = PortalUtil.getUser(request)
+    if (user == null) {
+      val defaultCompanyId = PortalUtil.getDefaultCompanyId()
+      UserLocalServiceUtil.getDefaultUser(defaultCompanyId)
+    } else user
+
   }
 }
 

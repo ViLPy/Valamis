@@ -146,6 +146,20 @@ public interface LFQuizModel extends BaseModel<LFQuiz> {
      */
     public void setCourseID(Integer courseID);
 
+    /**
+     * Returns the max duration of this l f quiz.
+     *
+     * @return the max duration of this l f quiz
+     */
+    public Integer getMaxDuration();
+
+    /**
+     * Sets the max duration of this l f quiz.
+     *
+     * @param maxDuration the max duration of this l f quiz
+     */
+    public void setMaxDuration(Integer maxDuration);
+
     @Override
     public boolean isNew();
 

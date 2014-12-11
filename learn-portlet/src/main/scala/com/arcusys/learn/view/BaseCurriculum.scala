@@ -17,6 +17,7 @@ import com.arcusys.learn.liferay.constants.QueryUtilHelper
 import com.arcusys.learn.liferay.util.PortalUtilHelper
 import com.liferay.portlet.PortletURLUtil
 import com.arcusys.learn.util.{ JsonSupport, MustacheSupport }
+import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport }
 
 class BaseCurriculum extends GenericPortlet
     with ScalatraFilter
@@ -51,8 +52,8 @@ class BaseCurriculum extends GenericPortlet
     response.addProperty(cookie)
 
     SessionHandler.setAttribute(sessionID, "userID", request.getRemoteUser)
-    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userManagement.hasTeacherPermissions(userID, courseID))
-    SessionHandler.setAttribute(sessionID, "isAdmin", userManagement.isAdmin(userID, courseID))
+    SessionHandler.setAttribute(sessionID, "hasTeacherPermissions", userRoleService.hasTeacherPermissions(userID, courseID))
+    SessionHandler.setAttribute(sessionID, "isAdmin", userRoleService.isAdmin(userID, courseID))
     SessionHandler.setAttribute(sessionID, "language", language)
 
     httpServletRequest.getSession.setAttribute("userID", userID)
@@ -60,7 +61,7 @@ class BaseCurriculum extends GenericPortlet
     val data = Map(
       "rootUrl" -> url,
       "contextPath" -> path,
-      "isAdmin" -> userManagement.hasTeacherPermissions(userID, courseID), //isAdmin(userID, courseID), TODO: change isAdmin to hasTeacherPermissions in template
+      "isAdmin" -> userRoleService.hasTeacherPermissions(userID, courseID), //isAdmin(userID, courseID), TODO: change isAdmin to hasTeacherPermissions in template
       "companyID" -> companyId,
       "translations" -> JsonSupport.json(translations).get,
       "users" -> JsonSupport.json(users).get
@@ -121,13 +122,14 @@ class BaseCurriculum extends GenericPortlet
     request: RenderRequest,
     response: RenderResponse,
     viewTemplateName: String,
-    dataMap: Map[String, Any]) = {
+    dataMap: Map[String, Any],
+    adminOnly: Boolean = false) = {
 
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
     val userID = getUserId(request)
     val courseID = themeDisplay.getScopeGroupId
 
-    val (html, data) = if (userManagement.hasTeacherPermissions(userID, courseID)) {
+    val (html, data) = if ((!adminOnly && userRoleService.hasTeacherPermissions(userID, courseID)) || userRoleService.isAdmin(userID, courseID)) {
       (viewTemplateName,
         doViewHelper(
           request: RenderRequest,

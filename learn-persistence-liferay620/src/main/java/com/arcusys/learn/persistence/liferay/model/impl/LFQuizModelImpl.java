@@ -50,9 +50,10 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
             { "logo", Types.VARCHAR },
             { "welcomePageContent", Types.CLOB },
             { "finalPageContent", Types.CLOB },
-            { "courseID", Types.INTEGER }
+            { "courseID", Types.INTEGER },
+            { "maxDuration", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null,maxDuration INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuiz";
     public static final String ORDER_BY_JPQL = " ORDER BY lfQuiz.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFQuiz.id_ ASC";
@@ -83,6 +84,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
     private Integer _courseID;
     private Integer _originalCourseID;
     private boolean _setOriginalCourseID;
+    private Integer _maxDuration;
     private long _columnBitmask;
     private LFQuiz _escapedModel;
 
@@ -130,6 +132,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         attributes.put("welcomePageContent", getWelcomePageContent());
         attributes.put("finalPageContent", getFinalPageContent());
         attributes.put("courseID", getCourseID());
+        attributes.put("maxDuration", getMaxDuration());
 
         return attributes;
     }
@@ -177,6 +180,12 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
         if (courseID != null) {
             setCourseID(courseID);
+        }
+
+        Integer maxDuration = (Integer) attributes.get("maxDuration");
+
+        if (maxDuration != null) {
+            setMaxDuration(maxDuration);
         }
     }
 
@@ -282,6 +291,16 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         return _originalCourseID;
     }
 
+    @Override
+    public Integer getMaxDuration() {
+        return _maxDuration;
+    }
+
+    @Override
+    public void setMaxDuration(Integer maxDuration) {
+        _maxDuration = maxDuration;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -320,6 +339,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         lfQuizImpl.setWelcomePageContent(getWelcomePageContent());
         lfQuizImpl.setFinalPageContent(getFinalPageContent());
         lfQuizImpl.setCourseID(getCourseID());
+        lfQuizImpl.setMaxDuration(getMaxDuration());
 
         lfQuizImpl.resetOriginalValues();
 
@@ -424,12 +444,14 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
         lfQuizCacheModel.courseID = getCourseID();
 
+        lfQuizCacheModel.maxDuration = getMaxDuration();
+
         return lfQuizCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(15);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -445,6 +467,8 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         sb.append(getFinalPageContent());
         sb.append(", courseID=");
         sb.append(getCourseID());
+        sb.append(", maxDuration=");
+        sb.append(getMaxDuration());
         sb.append("}");
 
         return sb.toString();
@@ -452,7 +476,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(25);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuiz");
@@ -485,6 +509,10 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
         sb.append(
             "<column><column-name>courseID</column-name><column-value><![CDATA[");
         sb.append(getCourseID());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>maxDuration</column-name><column-value><![CDATA[");
+        sb.append(getMaxDuration());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

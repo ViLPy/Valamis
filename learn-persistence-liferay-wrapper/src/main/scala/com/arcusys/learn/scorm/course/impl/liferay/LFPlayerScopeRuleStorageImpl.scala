@@ -10,6 +10,7 @@ import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule
  * User: Yulia.Glushonkova
  * Date: 26.03.13
  */
+@deprecated
 trait LFPlayerScopeRuleStorageImpl extends EntityStorage[PlayerScopeRule] {
   protected def doRenew() { LFPlayerScopeRuleLocalServiceUtil.removeAll() }
 

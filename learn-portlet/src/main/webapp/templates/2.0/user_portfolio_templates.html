@@ -1,0 +1,108 @@
+<script type="text/mustache" id="liferayAccountInfoView">
+    <div id="UserCertificateInfo">
+        <div style="width:100px; float:left; padding-top: 10px; margin-left: 10px">
+            <img src="{{picture}}" alt="{{name}}" width="90px"/>
+        </div>
+        <div style="margin-left: 105px; padding-top: 15px; font-size: 14px;">
+            <b>{{name}}</b>
+            <br>
+            {{email}}
+        </div>
+
+        <div id="UserCertificateTitle">{{curriculumMyTabsHeaderLabel}}</div>
+
+        <div id="valamisCertificates">
+            <div id="userCertificatesList" class="grid-view badge-list SCORMAddNewButton clearfix package-items js-package-items">
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/mustache" id="userCertificateTileItemView" class="availableQuizItem">
+    <div class="valamis-tile-item">
+        <div class="valamis-tile-item-wrapper viewCertificateGoalsCommand" data-certificate="{{id}}" >
+            <div class="ribbon-wrapper">
+                <div class="valamis-item-cover-image"
+                {{#logo}}
+                style="background-image: url('{{logo}}')"
+                {{/logo}}>
+            </div>
+        </div>
+        <div class="valamis-item-content">
+            <div class="valamis-item-title">{{title}}</div>
+            <div class="valamis-item-description">{{description}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="userCertificateListItemView" class="availableQuizItem">
+    <div class="valamis-list-item">
+        <div class="valamis-tile-item-wrapper viewCertificateGoalsCommand" data-certificate="{{id}}" >
+            <div class="valamis-item-cover-image pull-left"
+                {{#logo}}
+                style="background-image: url('{{logo}}')"
+                {{/logo}}></div>
+            <div class="valamis-item-content pull-left">
+                <div class="valamis-item-title padded-top">{{title}}</div>
+                <div class="valamis-item-description">{{{description}}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="certificate-modals-template">
+    <div class="certificate-modals-container"></div>
+</script>
+
+
+<script type="text/mustache" id="certificateGoalsListTemplate">
+    <div class="valamis-row">
+        <table class="valamis list-table medium-table">
+            <tbody id="certificateCoursesTable">
+            <tr>
+                <th colspan="4">{{coursesLabel}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="valamis-row">
+        <table class="valamis list-table medium-table">
+            <tbody id="certificateStatementsTable">
+            <tr>
+                <th colspan="4">{{tincanstatementsLabel}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="valamis-row">
+        <table class="valamis list-table medium-table">
+            <tbody id="certificateActivitiesTable">
+            <tr>
+                <th colspan="5">{{activitiesLabel}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+
+
+<script type="text/mustache" id="goalRowTemplate">
+    <td class="checkbox-container">
+        {{#canDelete}}
+        <div class="checkbox valamis"></div>
+        {{/canDelete}}
+    </td>
+    {{#isActivity}}
+    <td class="amount"><input type="text" class="onlyDigits" id="goalsAmount" value="{{activityCount}}"/></td>
+    {{/isActivity}}
+    <td class="user-name">{{title}}</td>
+
+    <td class="duringPeriod">
+    </td>
+    <td class="buttons text-right" style="width:150px; overflow:visible; padding-right: 5px;">
+        {{dateFinish}}
+    </td>
+</script>

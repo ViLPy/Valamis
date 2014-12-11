@@ -4,7 +4,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
     <portlet>
         <portlet-name>SCORMApplication</portlet-name>
-        <portlet-class>com.arcusys.learn.view.UserView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.LessonViewerView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
@@ -17,6 +17,15 @@
         <portlet-info>
             <title>Lesson Viewer</title>
         </portlet-info>
+
+
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
+
     </portlet>
 
     <portlet>
@@ -37,13 +46,14 @@
 
     <portlet>
         <portlet-name>PackageManager</portlet-name>
-        <portlet-class>com.arcusys.learn.view.PackageManagerView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.LessonManagerView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
@@ -53,29 +63,31 @@
 
     <portlet>
         <portlet-name>SCORMQuestionBank</portlet-name>
-        <portlet-class>com.arcusys.learn.view.QuestionBankView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.QuestionManagerView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
-            <title>Question management</title>
+            <title>Content management</title>
         </portlet-info>
     </portlet>
 
     <portlet>
         <portlet-name>SCORMQuizes</portlet-name>
-        <portlet-class>com.arcusys.learn.view.QuizView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.LessonDesignerView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
@@ -97,6 +109,17 @@
         <portlet-info>
             <title>Gradebook viewer</title>
         </portlet-info>
+
+        <security-role-ref>
+            <role-name>guest</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
+
     </portlet>
 
     <portlet>
@@ -108,6 +131,7 @@
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
@@ -125,17 +149,28 @@
         <supports>
             <mime-type>text/html</mime-type>
             <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
         </supports>
 
         <portlet-info>
             <title>Curriculum Viewer</title>
         </portlet-info>
+
+        <security-role-ref>
+            <role-name>guest</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
     </portlet>
 
 
     <portlet>
         <portlet-name>SCORMUserAccount</portlet-name>
-        <portlet-class>com.arcusys.learn.view.MyAccountView</portlet-class>
+        <portlet-class>com.arcusys.learn.view.UserPortfolioView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
@@ -147,6 +182,17 @@
         <portlet-info>
             <title>Valamis User Learning Portfolio</title>
         </portlet-info>
+
+        <security-role-ref>
+            <role-name>guest</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
+
     </portlet>
 
     <portlet>
@@ -182,8 +228,8 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanReportingView</portlet-name>
-        <portlet-class>com.arcusys.learn.view.TinCanReportingView</portlet-class>
+        <portlet-name>TinCanReportViewer</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanReportViewerView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
@@ -198,8 +244,8 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanReportingByPeriodView</portlet-name>
-        <portlet-class>com.arcusys.learn.view.TinCanReportingByPeriodView</portlet-class>
+        <portlet-name>TinCanReportByPeriod</portlet-name>
+        <portlet-class>com.arcusys.learn.view.TinCanReportByPeriodView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
 
@@ -214,7 +260,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>CourseEventReportView</portlet-name>
+        <portlet-name>CourseEventReport</portlet-name>
         <portlet-class>com.arcusys.learn.view.CourseEventReportView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -230,7 +276,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>ParticipantReportView</portlet-name>
+        <portlet-name>ParticipantReport</portlet-name>
         <portlet-class>com.arcusys.learn.view.ParticipantReportView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -246,7 +292,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanLatestStatementsView</portlet-name>
+        <portlet-name>TinCanLatestStatements</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanLatestStatementsView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -259,10 +305,17 @@
         <portlet-info>
             <title>Valamis TinCan Latest statements</title>
         </portlet-info>
+
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanStudentsLatestStatementsView</portlet-name>
+        <portlet-name>TinCanStudentsLatestStatements</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanStudentsLatestStatementsView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -278,7 +331,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanMostActiveStudentsView</portlet-name>
+        <portlet-name>TinCanMostActiveStudents</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanMostActiveStudentsView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -294,7 +347,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanStudentsLeaderboardView</portlet-name>
+        <portlet-name>TinCanStudentsLeaderboard</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanStudentsLeaderboardView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -310,7 +363,7 @@
     </portlet>
 
     <portlet>
-        <portlet-name>TinCanCourseReportView</portlet-name>
+        <portlet-name>TinCanCourseReport</portlet-name>
         <portlet-class>com.arcusys.learn.view.TinCanCourseReportView</portlet-class>
 
         <expiration-cache>0</expiration-cache>
@@ -325,4 +378,75 @@
         </portlet-info>
     </portlet>
 
+    <portlet>
+        <portlet-name>SocialActivitiesTinCanMapper</portlet-name>
+        <portlet-class>com.arcusys.learn.view.SocialActivitiesTinCanMapperView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Social Activities TinCan Mapper</title>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <portlet-name>LearningTranscript</portlet-name>
+        <portlet-class>com.arcusys.learn.view.LearningTranscriptView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>Valamis Learning Transcript</title>
+        </portlet-info>
+
+        <security-role-ref>
+            <role-name>power-user</role-name>
+        </security-role-ref>
+        <security-role-ref>
+            <role-name>user</role-name>
+        </security-role-ref>
+    </portlet>
+
+    <portlet>
+        <portlet-name>LRSToActivityMapper</portlet-name>
+        <portlet-class>com.arcusys.learn.view.LRSToActivityMapperView</portlet-class>
+
+        <expiration-cache>0</expiration-cache>
+
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+
+        <portlet-info>
+            <title>LRS to Activity Mapper View</title>
+        </portlet-info>
+    </portlet>
+
+    <!--<portlet>-->
+        <!--<portlet-name>ValamisSlidesEditor</portlet-name>-->
+        <!--<portlet-class>com.arcusys.learn.view.ValamisSlidesEditor</portlet-class>-->
+
+        <!--<expiration-cache>0</expiration-cache>-->
+
+        <!--<supports>-->
+            <!--<mime-type>text/html</mime-type>-->
+            <!--<portlet-mode>view</portlet-mode>-->
+        <!--</supports>-->
+
+        <!--<portlet-info>-->
+            <!--<title>Valamis slides editor</title>-->
+        <!--</portlet-info>-->
+    <!--</portlet>-->
 </portlet-app>

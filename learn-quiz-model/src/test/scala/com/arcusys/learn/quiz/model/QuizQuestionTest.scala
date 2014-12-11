@@ -18,7 +18,7 @@ class QuizQuestionTest extends FlatSpec with ShouldMatchers {
 
   "Quiz question" can "be constructed" in {
     val question = someQuestion
-    val quizQuestion = new QuestionBankQuizQuestion(1, quizID = 13, categoryID = Some(10), title = None, question = question)
+    val quizQuestion = new QuestionBankQuizQuestion(1, quizID = 13, categoryID = Some(10), title = None, question = question, autoShowAnswer = true)
     quizQuestion.id should equal(1)
     quizQuestion.quizID should equal(13)
     quizQuestion.categoryID should equal(Some(10))
@@ -27,7 +27,7 @@ class QuizQuestionTest extends FlatSpec with ShouldMatchers {
 
   it can "be constructed with empty category" in {
     val question = someQuestion
-    val quizQuestion = new QuestionBankQuizQuestion(1, quizID = 13, categoryID = None, title = None, question = question)
+    val quizQuestion = new QuestionBankQuizQuestion(1, quizID = 13, categoryID = None, title = None, question = question, autoShowAnswer = true)
     quizQuestion.id should equal(1)
     quizQuestion.quizID should equal(13)
     quizQuestion.categoryID should equal(None)

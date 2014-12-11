@@ -1,9 +1,9 @@
 package com.arcusys.learn.quiz.storage.impl
 
+import com.arcusys.learn.questionbank.storage.QuestionStorage
 import com.arcusys.learn.quiz.storage.QuizQuestionStorage
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.quiz.model._
-import com.arcusys.learn.questionbank.storage.QuestionStorage
 
 /**
  * User: dkudinov
@@ -18,7 +18,9 @@ trait QuizQuestionFieldsMapper {
   def url: String
   def text: String
   def questionId: Int
+  def autoShowAnswer: Boolean
   def arrangementIndex: Int
+  def groupId: Option[Int]
 }
 
 trait QuizQuestionCreator {
@@ -50,6 +52,7 @@ trait QuizQuestionCreator {
           title,
           questionStorage.getByID(questionId).getOrElse(
             throw new IllegalArgumentException("Can't get real question from DB")),
+          autoShowAnswer,
           arrangementIndex
         )
       case QuizQuestionType.RevealJS =>
@@ -59,6 +62,34 @@ trait QuizQuestionCreator {
           categoryId,
           title,
           text,
+          arrangementIndex
+        )
+      case QuizQuestionType.PDF =>
+        new PDFQuizQuestion(
+          id,
+          quizId,
+          categoryId,
+          title,
+          text,
+          arrangementIndex
+        )
+      case QuizQuestionType.PPTX =>
+        new PPTXQuizQuestion(
+          id,
+          quizId,
+          categoryId,
+          title,
+          text,
+          arrangementIndex
+        )
+      case QuizQuestionType.DLVideo =>
+        new DLVideoQuizQuestion(
+          id,
+          quizId,
+          categoryId,
+          title,
+          text,
+          groupId,
           arrangementIndex
         )
       case _ => throw new IllegalArgumentException("Illegal quiz question type in quiz question extractor")
@@ -76,12 +107,16 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
     modify("id" -> id, "title" -> title, "url" -> url)
   }
 
-  def modifyRevealJS(id: Int, title: String, content: String) {
-    modify("id" -> id, "title" -> title, "text" -> content)
+  def modifyRevealJS(id: Int, title: String) {
+    modify("id" -> id, "title" -> title)
   }
 
-  def modify(id: Int, title: String) {
+  def modifyTitle(id: Int, title: String) {
     modify("id" -> id, "title" -> title)
+  }
+
+  def modify(id: Int, title: String, autoShowAnswer: Boolean) {
+    modify("id" -> id, "title" -> title, "autoShowAnswer" -> autoShowAnswer)
   }
 
   def createFromQuestionBankAndGetID(quizID: Int, categoryID: Option[Int], questionID: Int): Int =
@@ -107,12 +142,37 @@ trait QuizQuestionEntityStorage extends QuizQuestionStorage with KeyedEntityStor
       "questionType" -> QuizQuestionType.RevealJS.toString,
       "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
 
+  def createPDFAndGetID(quizID: Int, categoryID: Option[Int], title: String, filename: String): Int =
+    createAndGetID("quizID" -> quizID,
+      "categoryID" -> categoryID,
+      "title" -> title,
+      "text" -> filename,
+      "questionType" -> QuizQuestionType.PDF.toString,
+      "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
+
+  def createPPTXAndGetID(quizID: Int, categoryID: Option[Int], title: String, content: String): Int =
+    createAndGetID("quizID" -> quizID,
+      "categoryID" -> categoryID,
+      "title" -> title,
+      "text" -> content,
+      "questionType" -> QuizQuestionType.PPTX.toString,
+      "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
+
   def createPlainAndGetID(quizID: Int, categoryID: Option[Int], title: String, text: String): Int =
     createAndGetID("quizID" -> quizID,
       "categoryID" -> categoryID,
       "title" -> title,
       "text" -> text,
       "questionType" -> QuizQuestionType.PlainText.toString,
+      "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
+
+  def createDLAndGetID(quizID: Int, categoryID: Option[Int], title: String, uuid: String, groupId: Int): Int =
+    createAndGetID("quizID" -> quizID,
+      "categoryID" -> categoryID,
+      "title" -> title,
+      "text" -> uuid,
+      "groupId" -> groupId,
+      "questionType" -> QuizQuestionType.DLVideo.toString,
       "arrangementIndex" -> (maxArrangementIndex(getByCategory(quizID, categoryID)) + 1))
 
   def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): QuizQuestion = {

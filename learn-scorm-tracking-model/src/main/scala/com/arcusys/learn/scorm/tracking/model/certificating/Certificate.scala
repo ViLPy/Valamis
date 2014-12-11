@@ -1,7 +1,8 @@
 package com.arcusys.learn.scorm.tracking.model.certificating
 
+import com.arcusys.learn.scorm.manifest.model.PeriodType
 import org.joda.time.DateTime
-import com.arcusys.learn.scorm.tracking.model.certificating.PeriodType.PeriodType
+import PeriodType.PeriodType
 
 /**
  * Certificate to be passed by user. Contains list of sites.

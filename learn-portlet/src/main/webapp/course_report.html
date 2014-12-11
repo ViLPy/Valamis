@@ -12,14 +12,14 @@
         <div class="page-content-wrapper">
             <div class="content-header clearfix">
                 <div class="pull-left button-upload-area">
-                    <button class="filter-toggler button valamis big grey menu-toggle">
+                    <button class="filter-toggler button valamis big grey menu-toggle val-icon-search">
                     </button>
                 </div>
 
 
 
                 <!-- Sidebar -->
-                <div class="sidebar-wrapper">
+                <div class="sidebar-wrapper" style="padding-left: 10px; padding-right: 5px">
                     <div class="menu-toggle hidden-xs modal-close-div">
                     </div>
                     <div class="pull-right">
@@ -57,8 +57,8 @@
 
     jQuery1816Report(function () {
         // upload translations
-        var defaultURL = Utils.getContextPath() + '/i18n/courseReporting_en.properties';
-        var localizedURL = Utils.getContextPath() + '/i18n/courseReporting_{{language}}.properties';
+        var defaultURL = Utils.getContextPath() + '/i18n/courseReport_en.properties';
+        var localizedURL = Utils.getContextPath() + '/i18n/courseReport_{{language}}.properties';
         Utils.i18nLoader(localizedURL, defaultURL, onLanguageLoad, onLanguageError);
 
         jQuery1816Report(".menu-toggle").click(function (e) {
@@ -79,7 +79,7 @@
         });
         //view.render();
 
-        Backbone.history.start();
+        if(!Backbone.History.started) Backbone.history.start();
 
     }
 

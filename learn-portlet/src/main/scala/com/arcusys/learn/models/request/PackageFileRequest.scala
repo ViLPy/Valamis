@@ -7,13 +7,14 @@ import com.arcusys.learn.web.FileUploading
  * Created by Iliya Tryapitsin on 17.03.14.
  */
 object PackageFileRequest {
-  val TITLE = "title"
-  val SUMMARY = "summary"
-  val IMAGE_ID = "imageId"
-  val SCORM_USER_ID = "scormUserID"
+
   val LIFERAY_GROUP_ID = "liferayGroupID"
   val COURSE_ID = "courseID"
   val SCOPE = "scope"
+
+  val TITLE = "title"
+  val SUMMARY = "summary"
+  val IMAGE_ID = "imageId"
 
   val DEFAULT_PACKAGE_TITLE = "New package"
   val DEFAULT_PACKAGE_DESCRIPTION = ""
@@ -33,10 +34,6 @@ object PackageFileRequest {
         case None        => None
       }
     }
-
-    def userID = Parameter(SCORM_USER_ID)
-      .withDefault(DEFAULT_INT)
-      .toLong
 
     def groupID = Parameter(LIFERAY_GROUP_ID)
       .withDefault(DEFAULT_LIFERAY_GROUP_ID)

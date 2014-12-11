@@ -5,7 +5,7 @@ import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.models.request.UserRequest
 import com.arcusys.learn.exceptions.AccessDeniedException
 import com.arcusys.learn.models.response.CollectionResponse
-import com.arcusys.learn.facades.{ CertificateFacadeContract, UserFacadeContract }
+import com.arcusys.learn.facades.{ CourseFacadeContract, CertificateFacadeContract, UserFacadeContract }
 
 /**
  * Created by Iliya Tryapitsin on 12.03.14.
@@ -18,21 +18,26 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
 
   val certificateFacade = inject[CertificateFacadeContract]
   val userFacade = inject[UserFacadeContract]
+  val courseFacade = inject[CourseFacadeContract]
 
-  get("/(:userID)")(jsonAction {
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/users(/)(:userID)")(jsonAction {
     val userRequest = UserRequest(this)
-    if (userRequest.hasId) {
-      if (userRequest.isShortResult && !hasTeacherPermissions && userRequest.id != getSessionUserID)
+    if (userRequest.isUserIdRequest) {
+      if (userRequest.isShortResult && !isTeacher)
         throw new AccessDeniedException
 
       userFacade.byId(
-        userRequest.id,
+        userRequest.requestedUserId,
         userRequest.isShortResult,
         userRequest.withOpenBadges)
 
     } else {
       val users = userFacade.all(
-        userRequest.companyId,
+        getCompanyId.toInt,
         userRequest.orgId,
         userRequest.skip,
         userRequest.count,
@@ -40,7 +45,7 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
         userRequest.isSortDirectionAsc)
 
       val total = userFacade.count(
-        userRequest.companyId,
+        getCompanyId.toInt,
         userRequest.orgId,
         userRequest.filter)
 
@@ -48,31 +53,38 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
     }
   })
 
-  get("/orgs")(jsonAction {
+  get("/users/orgs")(jsonAction {
     userFacade.orgs()
   })
 
-  get("/:userID/certificates(/)")(jsonAction {
+  get("/users/:userID/certificates(/)")(jsonAction {
+
     val userRequest = UserRequest(this)
+    //    val permissionChecker = PermissionCheckerFactoryUtil.create(getLiferayUser)
+    //
+    //    PermissionThreadLocal.setPermissionChecker(permissionChecker)
+    //    PrincipalThreadLocal.setName(getUserId)
+
     // only teachers and admins can see result of other people
-    if (!hasTeacherPermissions && userRequest.id != getSessionUserID)
+    if (!isTeacher && userRequest.requestedUserId != getUserId)
       throw new AccessDeniedException
 
     if (userRequest.available) {
       val certificates = certificateFacade.getAvailableForUser(
-        userRequest.companyId.toInt,
+        getCompanyId.toInt,
         userRequest.skip,
         userRequest.count,
         userRequest.filter,
         userRequest.isSortDirectionAsc,
-        userRequest.id,
+        userRequest.requestedUserId,
         userRequest.isShortResult,
         userRequest.isOnlyPublished,
         userRequest.scope)
 
       val total = certificateFacade.availableForUserCount(
-        userRequest.companyId.toInt,
-        userRequest.id,
+        getCompanyId.toInt,
+        userRequest.requestedUserId,
+        userRequest.filter,
         userRequest.isOnlyPublished,
         userRequest.scope)
 
@@ -85,32 +97,36 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
 
       val certificates = if (userRequest.withOpenBadges)
         certificateFacade.getCertificatesByUserWithOpenBadges(
-          userRequest.companyId.toInt,
+          getCompanyId.toInt,
           userRequest.skip,
           userRequest.count,
           userRequest.filter,
           userRequest.isSortDirectionAsc,
-          userRequest.id,
+          userRequest.requestedUserId,
           userRequest.isOnlyPublished)
       else
         certificateFacade.getForUserWithStatus(
-          userRequest.companyId.toInt,
+          getCompanyId.toInt,
           userRequest.skip,
           userRequest.count,
           userRequest.filter,
           userRequest.isSortDirectionAsc,
-          userRequest.id,
+          userRequest.requestedUserId,
           userRequest.isShortResult,
           userRequest.isOnlyPublished)
 
       val total = if (userRequest.withOpenBadges)
         certificateFacade.getCertificatesCountByUserWithOpenBadges(
-          getCompanyId,
+          getCompanyId.toInt,
           userRequest.filter,
-          userRequest.id,
+          userRequest.requestedUserId,
           userRequest.isOnlyPublished)
       else
-        certificateFacade.forUserCount(getCompanyId, userRequest.id)
+        certificateFacade.forUserCount(
+          getCompanyId.toInt,
+          userRequest.filter,
+          userRequest.requestedUserId,
+          userRequest.isOnlyPublished)
 
       CollectionResponse(
         userRequest.page,
@@ -119,8 +135,13 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
     }
   })
 
-  get("/:userID/certificates/:certificateId/goals(/)")(jsonAction {
+  get("/users/:userID/certificates/:certificateId/goals(/)")(jsonAction {
     val userRequest = UserRequest(this)
-    certificateFacade.getGoalsStatuses(userRequest.certificateId, userRequest.id)
+    certificateFacade.getGoalsStatuses(userRequest.certificateId, userRequest.requestedUserId)
+  })
+
+  get("/users/:userID/courses")(jsonAction {
+    val userRequest = UserRequest(this)
+    courseFacade.getByUserId(userRequest.requestedUserId);
   })
 }

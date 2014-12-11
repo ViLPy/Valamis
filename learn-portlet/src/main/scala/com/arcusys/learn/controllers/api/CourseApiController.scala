@@ -12,18 +12,22 @@ import com.arcusys.learn.models.response.CollectionResponse
  */
 class CourseApiController(configuration: BindingModule) extends BaseApiController(configuration) {
   def this() = this(Configuration)
-
   val courseFacade = inject[CourseFacadeContract]
 
-  get("/")(jsonAction {
+  before() {
+    scentry.authenticate(LIFERAY_STRATEGY_NAME)
+  }
+
+  get("/courses(/)")(jsonAction {
     val courseRequest = CourseRequest(this)
-    val courses = courseFacade.all(courseRequest.companyId,
+    val courses = courseFacade.all(
+      getCompanyId,
       courseRequest.skip,
       courseRequest.count,
       courseRequest.filter,
       courseRequest.isSortDirectionAsc)
 
-    val count = courseFacade.count(courseRequest.companyId, courseRequest.filter)
+    val count = courseFacade.count(getCompanyId, courseRequest.filter)
 
     CollectionResponse(courseRequest.page, courses, count)
   })

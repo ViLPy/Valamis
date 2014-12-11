@@ -1,6 +1,6 @@
 package com.arcusys.learn.scorm.manifest.storage.impl
 
-import com.arcusys.learn.scorm.manifest.storage.{ ActivitiesStorage, PackagesStorage }
+import com.arcusys.learn.scorm.manifest.storage.{ ActivityStorage, ScormPackagesStorage }
 import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.storage.impl.KeyedEntityStorageExt
 
@@ -8,8 +8,8 @@ import org.junit._
 import Assert._
 
 trait OrganizationsStorageJUnitMethods {
-  def packagesStorage: PackagesStorage
-  def organizationsStorage: ActivitiesStorage
+  def packagesStorage: ScormPackagesStorage
+  def organizationsStorage: ActivityStorage
 
   @Before
   def setUp() {

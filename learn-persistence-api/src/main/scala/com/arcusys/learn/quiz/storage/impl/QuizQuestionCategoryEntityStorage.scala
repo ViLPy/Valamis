@@ -29,6 +29,7 @@ trait QuizQuestionCategoryEntityStorage extends QuizQuestionCategoryStorage with
         questionCategory =>
           modify("id" -> questionCategory.id, "arrangementIndex" -> (questionCategory.arrangementIndex + 1))
       }
+
       if (moveAfterTarget)
         modify("id" -> questionCategoryForUpdate.id, "arrangementIndex" -> (maxArrangementIndex(forUpdate) + 1), "parentID" -> parentID)
       else

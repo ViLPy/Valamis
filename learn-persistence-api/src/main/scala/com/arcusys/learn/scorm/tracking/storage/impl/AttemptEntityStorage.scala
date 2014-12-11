@@ -3,7 +3,7 @@ package com.arcusys.learn.scorm.tracking.storage.impl
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
 import com.arcusys.learn.scorm.tracking.model.{ User, Attempt }
 import com.arcusys.learn.scorm.tracking.storage.{ UserStorage, AttemptStorage }
-import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
+import com.arcusys.learn.scorm.manifest.storage.ScormPackagesStorage
 
 trait AttemptFieldsMapper {
   def id: Int
@@ -23,19 +23,21 @@ trait AttemptCreator {
   def createAttempt(mapper: AttemptFieldsMapper): Attempt = {
     Attempt(
       mapper.id,
-      userStorage.getByID(mapper.userID).getOrElse(throw new Exception("User not found!")),
+      userStorage.getByID(mapper.userID).getOrElse(new User(mapper.userID, "guest")), //.getOrElse(throw new Exception("User not found!")),
       mapper.packageID,
       mapper.organizationID,
       mapper.isComplete)
   }
 }
 
+@deprecated
 trait AttemptEntityStorage extends AttemptStorage with KeyedEntityStorageExt[Attempt] with EntityStorageExt[Attempt] {
   def userStorage: UserStorage
 
-  def packageStorage: PackagesStorage
+  def packageStorage: ScormPackagesStorage
 
   def getActive(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "isComplete" -> false)
+  def getAllComplete(userID: Int, packageID: Int) = getAll("userID" -> userID, "packageID" -> packageID, "isComplete" -> true)
 
   def getLast(userID: Int, packageID: Int, complete: Boolean = false) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true, "isComplete" -> complete)
 

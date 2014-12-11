@@ -5,16 +5,16 @@ import com.arcusys.learn.models.Gradebook.{ PackageGradeResponse, TotalGradeResp
 /**
  * Created by Iliya Tryapitsin on 15.04.2014.
  */
-abstract trait GradebookFacadeContract {
+trait GradebookFacadeContract {
   private[facades] def getTotalGrade(courseId: Int, valamisUserId: Int): Float
-  private[facades] def getPacketGradeWithStatements(packetId: Int, valamisUserId: Int, packageIds: Option[Seq[Int]]): Seq[PackageGradeResponse]
+  private[facades] def getPacketGradeWithStatements(packetId: Int, valamisUserId: Int, packageIds: Option[Seq[Int]], sortAsc: Boolean = false): Seq[PackageGradeResponse]
 
   def getStudents(courseId: Int,
     page: Int,
     count: Int,
     nameFilter: String,
     orgNameFilter: String,
-    sortAscDirection: Boolean): Seq[StudentResponse]
+    sortBy: String): Seq[StudentResponse]
 
   def getStudentsCount(courseId: Int,
     nameFilter: String,
@@ -26,13 +26,13 @@ abstract trait GradebookFacadeContract {
     nameFilter: String,
     orgNameFilter: String,
     packageIds: Seq[Int],
-    sortAscDirection: Boolean): Seq[StudentResponse]
+    sortBy: String): Seq[StudentResponse]
 
   def getGradesForStudent(studentId: Int,
     courseID: Int,
     page: Int,
     count: Int,
-    sortAscDirection: Boolean): StudentResponse
+    sortAsc: Boolean = false): StudentResponse
 
   def getTotalGradeForStudent(studentId: Int,
     courseID: Int): TotalGradeResponse

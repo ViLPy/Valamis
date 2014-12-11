@@ -6,6 +6,7 @@
     min-height:14px;
     height: 14px;
     background-color: #e4e4e4;
+    background-position: center;
     border: 1px solid #d4d4d4;
     border-radius: 1px;
     cursor: pointer;
@@ -22,8 +23,19 @@
 
 .checkbox.valamis.checked {
     background-image: url(../images/checkbox-checked.png);
-    background-position: center;
     background-repeat: no-repeat;
+}
+
+.valamis-checkbox-row {
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    color: #777777;
+}
+
+.valamis-checkbox-row .checkbox {
+    margin-top: 7px;
+    margin-right: 8px;
 }
 
 .text-input.valamis, .textarea.valamis {
@@ -33,12 +45,17 @@
     line-height: 20px!important;
     /*height:38px!important;*/
     padding: 8px 10px!important;
-    font-size: 15px!important;
+    margin-bottom: 0!important;
+    font-size: 14px!important;
     color: #777777!important;
     width: 300px;
+    font-family: "Ubuntu", Ubuntu, sans-serif;
     -webkit-transition: 0.05s all linear;
     -moz-transition: 0.05s all linear;
     transition: 0.05s all linear;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
 }
 
 .textarea.valamis {
@@ -50,6 +67,7 @@
     background: #FFFFFF!important;
     border-color: #a9cb4f!important;
     color: #2c2c2c!important;
+
 }
 
 .form-label.valamis {
@@ -60,7 +78,13 @@
     font-weight: bold;
     color: #777777;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+}
+
+@-moz-document url-prefix()
+{
+	.form-label.valamis{
+        letter-spacing: 0;
+	}
 }
 
 .form-label.inline.valamis {
@@ -75,4 +99,30 @@
     float: left;
     margin-left: 10px;
 }
-	
+
+input.onlyDigits {
+    width: 24px;
+    height: 24px !important;
+    margin: 0!important;
+    padding: 4px 4px!important;
+    background: #FAFAFA !important;
+    border: 1px solid #d4d4d4 !important;
+    border-radius: 1px !important;
+    line-height: 20px !important;
+    font-size: 15px !important;
+    color: #777777 !important;
+    font-family: "Ubuntu", Ubuntu, sans-serif;
+    text-align: center;
+    -webkit-transition: 0.05s all linear;
+    -moz-transition: 0.05s all linear;
+    transition: 0.05s all linear;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+}
+
+input.onlyDigits:focus {
+    background: #FFFFFF !important;
+    border-color: #a9cb4f !important;
+    color: #2c2c2c !important;
+}

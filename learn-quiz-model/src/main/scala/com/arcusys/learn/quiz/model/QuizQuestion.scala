@@ -4,7 +4,7 @@ import com.arcusys.learn.questionbank.model._
 
 object QuizQuestionType extends Enumeration {
   type QuizQuestionType = Value
-  val External, QuestionBank, PlainText, RevealJS = Value
+  val External, QuestionBank, PlainText, RevealJS, PDF, PPTX, DLVideo = Value
 }
 
 /**
@@ -40,6 +40,7 @@ case class QuestionBankQuizQuestion(id: Int,
   categoryID: Option[Int],
   title: Option[String],
   question: Question[Answer],
+  autoShowAnswer: Boolean,
   arrangementIndex: Int = 1) extends QuizQuestion
 
 case class RevealJSQuizQuestion(id: Int,
@@ -47,4 +48,33 @@ case class RevealJSQuizQuestion(id: Int,
   categoryID: Option[Int],
   title: Option[String],
   content: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
+
+case class PDFQuizQuestion(id: Int,
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  filename: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
+
+case class PPTXQuizQuestion(id: Int,
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  file: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
+
+case class PlainRevealJSQuizQuestion(id: Int,
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  content: String,
+  arrangementIndex: Int = 1) extends QuizQuestion
+
+case class DLVideoQuizQuestion(id: Int,
+  quizID: Int,
+  categoryID: Option[Int],
+  title: Option[String],
+  uuid: String,
+  groupId: Option[Int],
   arrangementIndex: Int = 1) extends QuizQuestion

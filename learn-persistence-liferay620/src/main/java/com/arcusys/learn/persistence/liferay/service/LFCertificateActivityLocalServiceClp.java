@@ -53,6 +53,8 @@ public class LFCertificateActivityLocalServiceClp
     private String[] _methodParameterTypes21;
     private String _methodName22;
     private String[] _methodParameterTypes22;
+    private String _methodName23;
+    private String[] _methodParameterTypes23;
 
     public LFCertificateActivityLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -156,23 +158,29 @@ public class LFCertificateActivityLocalServiceClp
 
         _methodParameterTypes17 = new String[] { "java.lang.String" };
 
-        _methodName19 = "findByCertificateID";
+        _methodName19 = "createLFCertificateActivity";
 
-        _methodParameterTypes19 = new String[] { "java.lang.Long" };
-
-        _methodName20 = "findByActivityName";
-
-        _methodParameterTypes20 = new String[] { "java.lang.String" };
-
-        _methodName21 = "findByCertificateIDAndActivityName";
-
-        _methodParameterTypes21 = new String[] {
+        _methodParameterTypes19 = new String[] {
                 "java.lang.Long", "java.lang.String"
             };
 
-        _methodName22 = "removeAll";
+        _methodName20 = "findByCertificateID";
 
-        _methodParameterTypes22 = new String[] {  };
+        _methodParameterTypes20 = new String[] { "java.lang.Long" };
+
+        _methodName21 = "findByActivityName";
+
+        _methodParameterTypes21 = new String[] { "java.lang.String" };
+
+        _methodName22 = "findByCertificateIDAndActivityName";
+
+        _methodParameterTypes22 = new String[] {
+                "java.lang.Long", "java.lang.String"
+            };
+
+        _methodName23 = "removeAll";
+
+        _methodParameterTypes23 = new String[] {  };
     }
 
     @Override
@@ -708,14 +716,41 @@ public class LFCertificateActivityLocalServiceClp
     }
 
     @Override
+    public com.arcusys.learn.persistence.liferay.model.LFCertificateActivity createLFCertificateActivity(
+        java.lang.Long certificateID, java.lang.String activityName) {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19,
+                    new Object[] {
+                        ClpSerializer.translateInput(certificateID),
+                        
+                    ClpSerializer.translateInput(activityName)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (com.arcusys.learn.persistence.liferay.model.LFCertificateActivity) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFCertificateActivity> findByCertificateID(
         java.lang.Long certificateID)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19,
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
                     new Object[] { ClpSerializer.translateInput(certificateID) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -742,8 +777,8 @@ public class LFCertificateActivityLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+            returnObj = _invokableLocalService.invokeMethod(_methodName21,
+                    _methodParameterTypes21,
                     new Object[] { ClpSerializer.translateInput(activityName) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -771,8 +806,8 @@ public class LFCertificateActivityLocalServiceClp
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
+            returnObj = _invokableLocalService.invokeMethod(_methodName22,
+                    _methodParameterTypes22,
                     new Object[] {
                         ClpSerializer.translateInput(certificateID),
                         
@@ -804,8 +839,8 @@ public class LFCertificateActivityLocalServiceClp
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         try {
-            _invokableLocalService.invokeMethod(_methodName22,
-                _methodParameterTypes22, new Object[] {  });
+            _invokableLocalService.invokeMethod(_methodName23,
+                _methodParameterTypes23, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

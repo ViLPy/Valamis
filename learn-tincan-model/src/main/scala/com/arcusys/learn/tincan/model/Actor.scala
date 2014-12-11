@@ -54,7 +54,7 @@ case class Agent(
   def getStoredId = storedId
   def isAgent: Boolean = true
 
-  def getObjectType = objectType
+  def getObjectType = StatementObjectType.Agent.toString
   def getName: Option[String] = name
   def getMbox: Option[String] = mbox
   def getMbox_sha1sum: Option[String] = mbox_sha1sum
@@ -89,7 +89,7 @@ case class Group(
   def getStoredId = storedId
   def isAgent: Boolean = false
 
-  def getObjectType = objectType
+  def getObjectType = StatementObjectType.Group.toString
   def getName: Option[String] = name
   def getMbox: Option[String] = mbox
   def getMbox_sha1sum: Option[String] = mbox_sha1sum

@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.tracking.storage
 
 import com.arcusys.learn.scorm.tracking.model.User
 import com.arcusys.learn.scorm.manifest.model.Manifest
-import com.arcusys.learn.scorm.manifest.storage.PackagesStorage
+import com.arcusys.learn.scorm.manifest.storage.ScormPackagesStorage
 import com.arcusys.learn.scorm.tracking.storage.impl.AttemptEntityStorage
 import com.arcusys.learn.scorm.manifest.model.Organization
 
@@ -10,7 +10,7 @@ import org.junit.Assert._
 import org.junit.{ Test, Before }
 
 trait AttemptStorageJUnit {
-  val packagesStorage: PackagesStorage
+  val packagesStorage: ScormPackagesStorage
   val attemptStorage: AttemptStorage
   val userStorage: UserStorage
 

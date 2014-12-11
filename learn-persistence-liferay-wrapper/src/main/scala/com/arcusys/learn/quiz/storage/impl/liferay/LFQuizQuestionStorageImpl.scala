@@ -88,7 +88,9 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
               case ("url", url: String)                        => lfEntity.setUrl(url)
               case ("questionType", questionType: String)      => lfEntity.setQuestionType(questionType)
               case ("text", text: String)                      => lfEntity.setPlainText(text)
+              case ("autoShowAnswer", flag: Boolean)           => lfEntity.setAutoShowAnswer(flag)
               case ("arrangementIndex", arrangementIndex: Int) => lfEntity.setArrangementIndex(arrangementIndex)
+              case ("groupId", groupId: Int)                   => lfEntity.setGroupId(groupId)
             }
         }
         update(lfEntity)
@@ -107,7 +109,9 @@ trait LFQuizQuestionStorageImpl extends KeyedEntityStorage[QuizQuestion] {
       def url = entity.getUrl
       def text = entity.getPlainText
       def questionId = entity.getQuestionId
+      def autoShowAnswer = Option(entity.getAutoShowAnswer).map(_.asInstanceOf[Boolean]).getOrElse(false)
       def arrangementIndex = entity.getArrangementIndex
+      def groupId = Option(entity.getGroupId)
     })
   }
 

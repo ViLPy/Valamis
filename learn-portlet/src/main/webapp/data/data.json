@@ -1,0 +1,14 @@
+[{
+    "childPages": [{
+        "pageElements": [
+            {
+                "elementType": "TextElementModule",
+                "width": 300,
+                "left": 505,
+                "top": 90,
+                "content": "Single Horizontal Slide",
+                "borderWidth": 0
+            }
+        ]
+    }]
+}]

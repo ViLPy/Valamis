@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.{ LFCertificateLocalService
 import com.arcusys.learn.persistence.liferay.model.LFRole
 import scala.collection.JavaConverters._
 
+@deprecated
 trait LFRoleStorageImpl extends KeyedEntityStorage[Role] {
   protected def doRenew() {
     LFRoleLocalServiceUtil.removeAll()

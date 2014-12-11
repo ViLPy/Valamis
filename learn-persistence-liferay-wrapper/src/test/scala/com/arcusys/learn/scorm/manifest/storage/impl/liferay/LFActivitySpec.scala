@@ -74,7 +74,8 @@ class LFActivitySpec extends SpecificationWithJUnit with Mockito with ThrownExpe
     val activityService = ActivityEntityContainer.mockLocalService
     val activityStorage: EntityStorage[Activity] = new LFActivityStorageImpl with ActivityCreator {
       val sequencingStorage = LFStorages.sequencingStorage
-      val dataStorage = LFStorages.dataStorage
+      // TODO resolve
+      val activityDataRepository = LFStorages.dataStorage
     }
 
   }

@@ -8,6 +8,7 @@ import com.arcusys.learn.scorm.tracking.storage.UserStorage
  * User: Yulia.Glushonkova
  * Date: 28.03.13
  */
+@deprecated
 trait UserEntityStorage extends UserStorage with EntityStorageExt[User] {
   def createAndGetID(user: User): Int = {
     create(user)

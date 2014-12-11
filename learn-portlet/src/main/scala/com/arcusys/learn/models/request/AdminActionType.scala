@@ -8,4 +8,6 @@ object AdminActionType extends Enumeration {
 
   val RENEW_DATABASE = Value("RENEWDATABASE")
   val UPDATE_ISSUER_SETTINGS = Value("UPDATEISSUERSETTINGS")
+  val UPDATE_EMAIL_SETTINGS = Value("UPDATEEMAILSETTINGS")
+
 }

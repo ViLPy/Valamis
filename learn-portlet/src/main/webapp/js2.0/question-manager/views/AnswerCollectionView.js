@@ -1,6 +1,9 @@
 AnswerCollectionView = Backbone.View.extend({
   events: {
-    'click #SCORMButtonAddAnswer': 'createAnswer'
+    'click #SCORMButtonAddAnswer': 'createAnswer',
+    'keypress .onlyDigits': 'preventNonDigits',
+    'keypress #SCORMAnswerRangeFrom': 'preventNonDigits',
+    'keypress #SCORMAnswerRangeTo': 'preventNonDigits'
   },
 
   initialize: function (options) {
@@ -9,11 +12,14 @@ AnswerCollectionView = Backbone.View.extend({
 
     this.answerModel = options.answerModel;
     this.answerViewCollection = [];
+    this.isPositioning = options.isPositioning;
     this.$el = jQuery('<div>');
   },
 
   render: function () {
     var template = Mustache.to_html(jQuery('#answerCollectionView').html(), _.extend({
+      isPositioning: this.isPositioning,
+      readOnly: this.renderType == 'view',
       cid: this.cid
     }, this.language));
     this.$el.empty().append(template);
@@ -66,12 +72,16 @@ AnswerCollectionView = Backbone.View.extend({
     if (this.renderType == 'edit') {
       this.$('#SCORMQuestionAnswersEditors').sortable('refresh');
     }
+
+    if (this.isPositioning && model.get('score')!=null){
+      this.$('#positioningAnswerScore').val(model.get('score'));
+    }
     return answerView;
   },
 
   getAnswers: function () {
     var answers = new Backbone.Collection;
-    var sortedAnswers = this.$('#SCORMQuestionAnswersEditors').sortable('toArray')
+    var sortedAnswers = this.$('#SCORMQuestionAnswersEditors').sortable('toArray');
     for (var i = 0; i < sortedAnswers.length; i++) {
       var view = this.answerViewCollection[sortedAnswers[i]];
       if (!(view instanceof AnswerView)) continue;
@@ -102,6 +112,11 @@ AnswerCollectionView = Backbone.View.extend({
       this.answerViewCollection[key].destroy();
     }
     this.answerViewCollection = [];
+  },
+  preventNonDigits: function (e) {
+    if (e.keyCode != 46 && e.keyCode != 8 && e.keyCode != 9) {
+      if (String.fromCharCode(e.charCode).match(/[^0-9]/g)) return false;
+    }
   }
 });
 
@@ -148,7 +163,7 @@ CategorizationAnswerCollectionView = AnswerCollectionView.extend({
 
     if (categoryView && categoryName.length > 0) {
       // in case if already have this category, but don't have this option
-      categoryView.addOption(model.get('matchingText'));
+      categoryView.addOption(model.get('matchingText'), model.get('score'));
     } else {
       var answerView = new CategorizationAnswerView({
         model: model,
@@ -164,7 +179,7 @@ CategorizationAnswerCollectionView = AnswerCollectionView.extend({
       this.answerViewCollection[answerView.cid] = answerView;
       this.categoryToCIDMap[categoryName] = answerView.cid;
       // append answer after! rendering
-      if (model.get('matchingText') != '') answerView.addOption(model.get('matchingText'));
+      if (model.get('matchingText') != '') answerView.addOption(model.get('matchingText'), model.get('score'));
 
       return answerView;
     }

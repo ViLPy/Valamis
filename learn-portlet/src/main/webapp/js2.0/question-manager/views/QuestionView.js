@@ -15,6 +15,7 @@ var QuestionView = Backbone.View.extend({
     this.answerCollectionView = null;
     this.categoryChild = options.categoryChild;
     this.categoryTitle = options.categoryTitle;
+    this.baseTitle = options.baseTitle;
     this.resetTemporaryModel();
     this.renderView();
   },
@@ -28,14 +29,16 @@ var QuestionView = Backbone.View.extend({
       toastr.warning(this.language['overlayWarningMessageLabel']);
       return false;
     }
+    var type = parseInt(this.$('#SCORMQuestionType').val().replace('type', ''));
     this.temporaryModel.set({
       title: this.$('#SCORMQuestionTitleEdit').val(),
       text: encodeURIComponent(CKEDITOR.instances.SCORMQuestionTextView.getData()),
-      explanationText: encodeURIComponent(this.$('#SCORMExplanationTextView').html()),
-      questionType: parseInt(this.$('#SCORMQuestionType').val().replace('type', '')),
+      explanationText: encodeURIComponent(this.$('#SCORMExplanationTextView').val()),
+      questionType: type,
       forceCorrectCount: this.$('#SCORMQuestionBounded').hasClass('checked'),
       isCaseSensitive: this.$('#SCORMQuestionCaseSensitive').hasClass('checked'),
-      answers: JSON.stringify(this.answerCollectionView.getAnswers())
+      answers: JSON.stringify(this.answerCollectionView.getAnswers()),
+      type: this.language['typeLabel' + type]
     });
     return true;
   },
@@ -45,8 +48,8 @@ var QuestionView = Backbone.View.extend({
 
     this.model.save(this.temporaryModel.toJSON(), {
       success: jQuery.proxy(function () {
-        this.trigger('qb-entity-updated', this);
-        toastr.success(this.language['overlayCompleteMessageLabel']);
+          this.trigger('qb-entity-updated', this);
+          toastr.success(this.language['overlayCompleteMessageLabel']);
       }, this),
       error: jQuery.proxy(function () {
         this.trigger('qb-entity-updated', this);
@@ -67,7 +70,8 @@ var QuestionView = Backbone.View.extend({
       explanationText: decodeURIComponent(this.model.get('explanationText')),
       questionTypeString: this.model.getStringType(),
       categoryChild: this.categoryChild,
-      categoryTitle: this.categoryTitle
+      categoryTitle: this.categoryTitle,
+      baseTitle: this.baseTitle
     }, this.language)));
 
     this.$el.empty().append(template);
@@ -121,6 +125,7 @@ var QuestionView = Backbone.View.extend({
         this.$('#SCORMQuestionIsCaseSensitive').show();
         break;
       case QuestionType.PlainText:
+      case QuestionType.PurePlainText:
       case QuestionType.EssayQuestion:
       case QuestionType.EmbeddedAnswerQuestion:
         this.$('#SCORMQuestionAnswers').hide();
@@ -143,7 +148,8 @@ var QuestionView = Backbone.View.extend({
       this.answerCollectionView = new AnswerCollectionView({
         answerModel: this.temporaryModel.answerModel,
         renderType: renderType,
-        language: this.language
+        language: this.language,
+        isPositioning: (this.temporaryModel.get('questionType') == QuestionType.PositioningQuestion)
       });
     }
 

@@ -279,6 +279,12 @@ public class LFQuizTreeElementLocalServiceUtil {
         return getService().findByQuizAndElementID(quizID, elementId);
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement> findByQuizAndParentID(
+        java.lang.Integer quizID, java.lang.String parentId)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByQuizAndParentID(quizID, parentId);
+    }
+
     public static void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException {
         getService().removeAll();

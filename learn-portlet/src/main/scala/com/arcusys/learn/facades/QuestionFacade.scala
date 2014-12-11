@@ -1,50 +1,57 @@
 package com.arcusys.learn.facades
 
-import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
+import java.io.InputStream
+
+import com.arcusys.learn.bl.services.QuestionServiceContract
+import com.arcusys.learn.export.question.{ QuestionImportProcessor, QuestionExportProcessor }
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.models.{ AnswerResponse, QuestionResponse }
-import com.arcusys.learn.questionbank.storage.{ QuestionStorage, QuestionCategoryStorage }
-import com.arcusys.learn.questionbank.model._
-import com.arcusys.learn.questionbank.model.MatchingQuestion
-import com.arcusys.learn.questionbank.model.CategorizationQuestion
-import com.arcusys.learn.questionbank.model.EssayQuestion
-import com.arcusys.learn.questionbank.model.NumericQuestion
-import com.arcusys.learn.questionbank.model.ChoiceQuestion
-import com.arcusys.learn.questionbank.model.TextQuestion
-import com.arcusys.learn.questionbank.model.PositioningQuestion
-import com.arcusys.learn.questionbank.model.EmbeddedAnswerQuestion
+import com.arcusys.learn.questionbank.model.{ CategorizationQuestion, ChoiceQuestion, EmbeddedAnswerQuestion, EssayQuestion, MatchingQuestion, NumericQuestion, PositioningQuestion, TextQuestion, _ }
+import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
-/**
- * User: Yulia.Glushonkova
- * Date: 05.05.14
- */
+import scala.util.Try
+
 class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContract with Injectable {
   def this() = this(Configuration)
 
   implicit val bindingModule = configuration
-  val questionStorage = inject[QuestionStorage]
-  val questionCategoryStorage = inject[QuestionCategoryStorage]
+
+  val questionService = inject[QuestionServiceContract]
 
   def buildQuestion(question: Question[Answer]) = {
 
     // buildAnswersData method using in the QuestionResponse. May be should encapsulate?
     def buildAnswersData = {
+
       question match {
         case e: ChoiceQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(answer.text, answer.isCorrect)
+          e.answers.map(answer => {
+            new AnswerResponse(answerText = answer.text, isCorrect = answer.isCorrect, questionId = e.id, score = answer.score)
+          })
         case e: TextQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(answer.text)
+          e.answers.map(answer => {
+            new AnswerResponse(answerText = answer.text, questionId = e.id, score = answer.score)
+          })
         case e: NumericQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(rangeFrom = answer.notLessThan, rangeTo = answer.notGreaterThan)
+          e.answers.map(answer => {
+            new AnswerResponse(rangeFrom = answer.notLessThan, rangeTo = answer.notGreaterThan, questionId = e.id, score = answer.score)
+          })
         case e: PositioningQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(answerText = answer.text, isCorrect = answer.isCorrect)
+          e.answers.map(answer => {
+            new AnswerResponse(answerText = answer.text, isCorrect = answer.isCorrect, questionId = e.id, score = answer.score)
+          })
         case e: MatchingQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(answerText = answer.text, matchingText = answer.keyText.getOrElse(""))
+          e.answers.map(answer => {
+            new AnswerResponse(answerText = answer.text, matchingText = answer.keyText.getOrElse(""), questionId = e.id, score = answer.score)
+          })
         case e: CategorizationQuestion =>
-          for (answer <- e.answers) yield new AnswerResponse(answerText = answer.text, matchingText = answer.answerCategoryText.getOrElse(""))
+          e.answers.map(answer => {
+            new AnswerResponse(answerText = answer.text, matchingText = answer.answerCategoryText.getOrElse(""), questionId = e.id, score = answer.score)
+          })
         case e: EssayQuestion          => Seq[AnswerResponse]()
         case e: EmbeddedAnswerQuestion => Seq[AnswerResponse]()
         case e: PlainText              => Seq[AnswerResponse]()
+        case e: PurePlainText          => Seq[AnswerResponse]()
         case _                         => throw new Exception("Service: Oops! Can't recognize question type")
       }
     }
@@ -73,17 +80,15 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
       categoryID = question.categoryID.getOrElse(-1))
   }
 
-  def getByID(id: Int): QuestionResponse = {
-    val question = questionStorage.getByID(id).get
-    buildQuestion(question)
+  def getQuestion(id: Int): QuestionResponse = {
+    buildQuestion(questionService.getQuestion(id))
   }
 
-  def getChildren(id: Option[Int], courseID: Option[Int]): Seq[QuestionResponse] = {
-    val items = questionStorage.getByCategory(id, courseID)
-    items map buildQuestion
+  def getChildren(categoryID: Option[Int], courseID: Option[Int]): Seq[QuestionResponse] = {
+    questionService.getQuestionsByCategory(categoryID, courseID) map buildQuestion
   }
 
-  def create(categoryID: Option[Int],
+  def createQuestion(categoryID: Option[Int],
     questionType: Int,
     title: String,
     text: String,
@@ -103,12 +108,12 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
       case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText, courseID)
       case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
       case 8 => new PlainText(0, categoryID, title, text, courseID)
+      case 9 => new PurePlainText(0, categoryID, title, text, courseID)
     }
-    val question = questionStorage.getByID(questionStorage.createAndGetID(entity)).get
-    buildQuestion(question)
+    buildQuestion(questionService.createQuestion(entity))
   }
 
-  def update(id: Int,
+  def updateQuestion(id: Int,
     categoryID: Option[Int],
     questionType: Int,
     title: String,
@@ -117,8 +122,6 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
     forceCorrectCount: Boolean,
     isCaseSensitive: Boolean,
     courseID: Option[Int],
-
-    // Remove response model from request
     answers: List[AnswerResponse]): QuestionResponse = {
 
     // Duplicate: May be should create enum for a questionType?
@@ -132,45 +135,114 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
       case 6 => new EmbeddedAnswerQuestion(id, categoryID, title, text, explanationText, courseID)
       case 7 => new CategorizationQuestion(id, categoryID, title, text, explanationText, answers.map(parseCategorizationAnswer(_)), courseID)
       case 8 => new PlainText(id, categoryID, title, text, courseID)
+      case 9 => new PurePlainText(id, categoryID, title, text, courseID)
     }
-    questionStorage.modify(entity)
-    buildQuestion(entity)
+    var question = questionService.updateQuestion(entity)
+
+    buildQuestion(question)
   }
 
-  def delete(id: Int) {
-    questionStorage.delete(id)
+  def deleteQuestion(id: Int) {
+    questionService.deleteQuestion(id)
   }
 
-  def move(id: Int,
-    // Duplicate: Exist DndModeType object
-    dndMode: String,
-    targetID: Option[Int],
-    itemType: String) {
-    val moveAfterTarget = dndMode == "after"
-
-    val siblingID = if (dndMode == "last" || (dndMode == "after" && itemType == "folder")) None
-    else targetID
-
-    val parentID = if (targetID != None && dndMode == "last") targetID
-    else if (targetID != None && (dndMode == "after" && itemType == "folder")) questionCategoryStorage.getByID(targetID.get).get.parentID
-    else if (siblingID != None) questionStorage.getByID(targetID.get).get.categoryID
-    else None
-
-    questionStorage.move(id, parentID, siblingID, moveAfterTarget)
-    buildQuestion(questionStorage.getByID(id).get)
+  def move(id: Int, index: Int, parentID: Option[Int]) {
+    var question = questionService.moveQuestion(id, index, parentID)
+    buildQuestion(question)
   }
 
-  private def parseChoiceAnswer(data: AnswerResponse) = new ChoiceAnswer(0, data.answerText, data.isCorrect)
+  def moveToCourse(id: Int, courseID: Option[Int]) {
+    questionService.moveQuestionToCourse(id, courseID, true)
+  }
 
-  private def parseTextAnswer(data: AnswerResponse) = new TextAnswer(0, data.answerText)
+  //  def createAnswer(
+  //    questionId: Long,
+  //    answerText: String,
+  //    isCorrect: Boolean,
+  //    rangeFrom: BigDecimal,
+  //    rangeTo: BigDecimal,
+  //    matchingText: String,
+  //    score: Option[Double]): AnswerResponse = {
+  //
+  //    val question = questionStorage.getByID(questionId.toInt).get
+  //
+  //    val entity = question.questionTypeCode match {
+  //      case 0 => new ChoiceAnswer(0, answerText, isCorrect, Some(questionId.toInt))
+  //      case 1 => new TextAnswer(0, answerText, Some(questionId.toInt))
+  //      case 2 => new NumericAnswer(0, rangeFrom, rangeTo, Some(questionId.toInt))
+  //      case 3 => new PositioningAnswer(0, answerText, isCorrect, Some(questionId.toInt))
+  //      case 4 => new MatchingAnswer(0, answerText, Some(matchingText), Some(questionId.toInt))
+  //      case 7 => new CategorizationAnswer(0, answerText, Some(matchingText), Some(questionId.toInt))
+  //    }
+  //    val answer = answerRepository.create(entity)
+  //
+  //    score.foreach(value => answerScoreRepository.create(
+  //      new AnswerScore(answer.id, value)))
+  //
+  //    AnswerResponse(entity.id, answerText, isCorrect, rangeFrom, rangeTo, matchingText, score)
+  //  }
+  //
+  //  def updateAnswer(answerId: Long,
+  //    answerText: String,
+  //    isCorrect: Boolean,
+  //    rangeFrom: BigDecimal,
+  //    rangeTo: BigDecimal,
+  //    matchingText: String,
+  //    score: Option[Double]): AnswerResponse = {
+  //    val answer = answerRepository.get(answerId)
+  //    val question = questionStorage.getByID(answer.questionId.get).get
+  //
+  //    val entity = question.questionTypeCode match {
+  //      case 0 => new ChoiceAnswer(0, answerText, isCorrect)
+  //      case 1 => new TextAnswer(0, answerText)
+  //      case 2 => new NumericAnswer(0, rangeFrom, rangeTo)
+  //      case 3 => new PositioningAnswer(0, answerText, isCorrect)
+  //      case 4 => new MatchingAnswer(0, answerText, Some(matchingText))
+  //      case 7 => new CategorizationAnswer(0, answerText, Some(matchingText))
+  //    }
+  //
+  //    answerRepository.modify(entity)
+  //
+  //    score.foreach(value => {
+  //      val answerScore = answerScoreRepository.getScoreEntity(answerId)
+  //      answerScoreRepository.modify(answerScore.copy(score = value))
+  //    })
+  //
+  //    AnswerResponse(entity.id, answerText, isCorrect, rangeFrom, rangeTo, matchingText, score)
+  //  }
+  //
+  //  def deleteAnswer(answerId: Long) = {
+  //    val answer = answerRepository.get(answerId)
+  //    answerRepository.delete(answer)
+  //
+  //    Try {
+  //      val answerScore = answerScoreRepository.getScoreEntity(answerId)
+  //      answerScoreRepository.delete(answerScore)
+  //    }
+  //  }
 
-  private def parseNumericAnswer(data: AnswerResponse) = new NumericAnswer(0, data.rangeFrom, data.rangeTo)
+  private def parseChoiceAnswer(data: AnswerResponse) = new ChoiceAnswer(0, data.answerText, data.isCorrect, score = data.score)
 
-  private def parsePositioningAnswer(data: AnswerResponse) = new PositioningAnswer(0, data.answerText, data.isCorrect)
+  private def parseTextAnswer(data: AnswerResponse) = new TextAnswer(0, data.answerText, score = data.score)
 
-  private def parseMatchingAnswer(data: AnswerResponse) = new MatchingAnswer(0, data.answerText, Some(data.matchingText))
+  private def parseNumericAnswer(data: AnswerResponse) = new NumericAnswer(0, data.rangeFrom, data.rangeTo, score = data.score)
 
-  private def parseCategorizationAnswer(data: AnswerResponse) = new CategorizationAnswer(0, data.answerText, Some(data.matchingText))
+  private def parsePositioningAnswer(data: AnswerResponse) = new PositioningAnswer(0, data.answerText, data.isCorrect, score = data.score)
+
+  private def parseMatchingAnswer(data: AnswerResponse) = new MatchingAnswer(0, data.answerText, Some(data.matchingText), score = data.score)
+
+  private def parseCategorizationAnswer(data: AnswerResponse) = new CategorizationAnswer(0, data.answerText, Some(data.matchingText), score = data.score)
+
+  override def exportAllQuestionsBase(courseID: Option[Int]): InputStream = {
+    new QuestionExportProcessor().exportAll(courseID)
+  }
+
+  override def importQuestions(filename: String, courseID: Int): Unit = {
+    new QuestionImportProcessor().importItems(filename, courseID)
+  }
+
+  override def exportQuestions(categoryIds: Seq[Int], questionIds: Seq[Int], courseID: Option[Int]): InputStream = {
+    new QuestionExportProcessor().exportIds(categoryIds, questionIds, courseID)
+  }
 
 }
-

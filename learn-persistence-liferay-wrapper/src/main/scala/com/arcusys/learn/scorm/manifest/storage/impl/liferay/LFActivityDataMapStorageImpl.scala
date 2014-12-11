@@ -6,6 +6,7 @@ import com.arcusys.learn.persistence.liferay.service.LFActivityDataMapLocalServi
 import com.arcusys.learn.persistence.liferay.model.LFActivityDataMap
 import scala.collection.JavaConverters._
 
+@deprecated
 trait LFActivityDataMapStorageImpl extends EntityStorage[ActivityDataMap] {
   protected def doRenew() { LFActivityDataMapLocalServiceUtil.removeAll() }
 

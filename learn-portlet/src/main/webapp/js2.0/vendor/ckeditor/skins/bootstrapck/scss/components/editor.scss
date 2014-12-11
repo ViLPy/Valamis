@@ -16,23 +16,32 @@ other files.
 
 /* Config files, where variables are defined */
 @import "../config/config";
+
 /* "Reset" styles, necessary to avoid the editor UI being broken by external CSS. */
 @import "reset";
+
 /* Styles the main interface structure (holding box). */
 @import "mainui";
+
 /* Styles all "panels", which are the floating elements that appear when
    opening toolbar combos, menu buttons, context menus, etc. */
 @import "panel";
+
 /* Styles the color panel displayed by the color buttons. */
 @import "colorpanel";
+
 /* Styles to toolbar. */
 @import "toolbar";
+
 /* Styles menus, which are lists of selectable items (context menu, menu button). */
 @import "menu";
+
 /* Styles toolbar combos. */
 @import "richcombo";
+
 /* Styles the elements path bar, available at the bottom of the editor UI.*/
 @import "elementspath";
+
 /* Contains hard-coded presets for "configurable-like" options of the UI
    (e.g. display labels on specific buttons) */
 @import "presets";
@@ -41,7 +50,7 @@ other files.
    To avoid showing the editor UI while its styles are still not available, the
    editor creates it with visibility:hidden. Here, we restore the UI visibility. */
 .cke_chrome {
-  visibility: inherit;
+    visibility: inherit;
 }
 
 /* For accessibility purposes, several "voice labels" are present in the UI.
@@ -49,9 +58,9 @@ other files.
    used by screen-readers to announce other elements. Here, we hide these
    <spans>, in fact. */
 .cke_voice_label {
-  display: none;
+    display: none;
 }
 
 legend.cke_voice_label {
-  display: none;
+    display: none;
 }

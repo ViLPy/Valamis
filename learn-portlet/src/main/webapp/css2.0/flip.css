@@ -1,195 +1,79 @@
-/* entire container, keeps perspective */
-/*.flip-container {
-    background: #f8f8f8;
-    perspective: 1000px;
-    -webkit-perspective: 1000px;
-    -moz-perspective: 1000px;
-    -ms-perspective: 1000px;
-    -ms-transform: perspective(1000px);
-    -moz-transform: perspective(1000px);
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    border: 1px solid #ccc;
-    transform-style: preserve-3d;
-}
-
-.flip-container:hover .back {
-    -ms-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-}
-
-.flip-container:hover .front {
-    -ms-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-}
-
-/* flip the pane when hovered */
-/*.flip-container:hover .flipper,
-.flip-container.hover .flipper {
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    -o-transform: rotateY(180deg);
-}
-
 .flip-container,
-.front,
-.back {
-    background: #f8f8f8;
-    width: 260px;
-    height: 308px;
-}
-
-/* flip speed goes here */
-/*.flipper {
-    background: #f8f8f8;
-    position: relative;
-    transition: 1s;
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
-    -o-transition: 1s;
-    -ms-transition: 1s;
-    transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-}
-
-/* hide back of pane during swap */
-/*.front,
-.back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    transition: 1s;
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
-    -o-transition: 1s;
-    -ms-transition: 1s;
-    transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-}
-
-/* front pane, placed above back */
-/*.front {
-    z-index: 2;
-    -webkit-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-}
-
-/* back, initially hidden pane */
-/*.back {
-    background-color: #DDDDDD;
-    transform: rotateY(-180deg);
-    -webkit-transform: rotateY(-180deg);
-    -moz-transform: rotateY(-180deg);
-    -o-transform: rotateY(-180deg);
-    -ms-transform: rotateY(-180deg);
-} */
-
-/*
-
-    Add flipping on hover
-
-*/
-/* entire container, keeps perspective */
-.flip-container {
-  perspective: 1000px;
-  -webkit-perspective: 1000px;
-  -moz-perspective: 1000px;
-  -ms-perspective: 1000px;
-  -ms-transform: perspective(1000px);
-  -moz-transform: perspective(1000px);
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
+.flip-container .front,
+.flip-container .back {
+    height: 300px;
 }
 
 
-/*.flip-container:hover .back {*/
-    /*-ms-transform: rotateY(0deg);*/
-    /*-moz-transform: rotateY(0deg);*/
-    /*transform: rotateY(0deg);*/
-/*}*/
-
-/*.flip-container:hover .front {*/
-    /*-ms-transform: rotateY(180deg);*/
-    /*-moz-transform: rotateY(180deg);*/
-    /*transform: rotateY(180deg);*/
-/*}*/
-
-/* flip the pane when hovered */
-.flip-container:hover .flipper,
-.flip-container.hover .flipper {
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-}
-.flip-container,
-.front,
-.back {
-  width: 260px;
-  height: 310px;
-}
 /* flip speed goes here */
 .flipper {
-  position: relative;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
-  -ms-transition: 0.5s;
-  transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
+    transition: 0.8s;
+    transform-style: preserve-3d;
+    position: relative;
 }
-/* hide back of pane during swap */
-.front,
-.back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -o-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
-  -ms-transition: 0.5s;
-  transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
+
+.flip-container .front,
+.flip-container .back {
+    -moz-backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-transition: -moz-transform 500ms;
+    -o-transition: -o-transform 500ms;
+    -webkit-transition: -webkit-transform 500ms;
+    transition: transform 500ms;
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
-/* front pane, placed above back */
-.front {
-  z-index: 2;
-  -webkit-transform: rotateY(0deg);
-  -ms-transform: rotateY(0deg);
+.flip-container .front {
+    -moz-transform: perspective(1000) rotateY(0);
+    -webkit-transform: perspective(1000) rotateY(0);
+    transform: perspective(1000) rotateY(0);
+    z-index: 4;
 }
-/* back, initially hidden pane */
-.back {
-  background-color: #DDDDDD;
-  transform: rotateY(-180deg);
-  -webkit-transform: rotateY(-180deg);
-  -moz-transform: rotateY(-180deg);
-  -o-transform: rotateY(-180deg);
-  -ms-transform: rotateY(-180deg);
+.flip-container .back {
+    -moz-transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+    z-index: 3;
+
 }
+.flip-container:hover .front {
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -moz-transform: perspective(300) rotateY(180deg);
+    -webkit-transform: perspective(300) rotateY(180deg);
+    transform: perspective(300) rotateY(180deg);
+}
+.flip-container:hover .back {
+    z-index: 5;
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    -moz-transform: perspective(1000) rotateY(0deg);
+    -webkit-transform: perspective(1000) rotateY(0deg);
+    transform: perspective(1000) rotateY(0deg);
+    *zoom: 1;
+    background-color: #ddd !important;
+
+}
+.flip-container .front {
+    *zoom: 1;
+    box-sizing: border-box;
+    background-color: #f8f8f8 !important;
+}
+.flip-container .back {
+    display: block;
+    height: 300px;
+    *zoom: 1;
+    box-sizing: border-box;
+    background-color: #ddd !important;
+}
+
+

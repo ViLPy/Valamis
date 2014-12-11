@@ -29,10 +29,12 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
     public String url;
     public String plainText;
     public Integer arrangementIndex;
+    public Boolean autoShowAnswer;
+    public Integer groupId;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(23);
 
         sb.append("{id=");
         sb.append(id);
@@ -52,6 +54,10 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         sb.append(plainText);
         sb.append(", arrangementIndex=");
         sb.append(arrangementIndex);
+        sb.append(", autoShowAnswer=");
+        sb.append(autoShowAnswer);
+        sb.append(", groupId=");
+        sb.append(groupId);
         sb.append("}");
 
         return sb.toString();
@@ -91,6 +97,8 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         }
 
         lfQuizQuestionImpl.setArrangementIndex(arrangementIndex);
+        lfQuizQuestionImpl.setAutoShowAnswer(autoShowAnswer);
+        lfQuizQuestionImpl.setGroupId(groupId);
 
         lfQuizQuestionImpl.resetOriginalValues();
 
@@ -108,6 +116,8 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         url = objectInput.readUTF();
         plainText = objectInput.readUTF();
         arrangementIndex = objectInput.readInt();
+        autoShowAnswer = objectInput.readBoolean();
+        groupId = objectInput.readInt();
     }
 
     @Override
@@ -143,5 +153,7 @@ public class LFQuizQuestionCacheModel implements CacheModel<LFQuizQuestion>,
         }
 
         objectOutput.writeInt(arrangementIndex);
+        objectOutput.writeBoolean(autoShowAnswer);
+        objectOutput.writeInt(groupId);
     }
 }

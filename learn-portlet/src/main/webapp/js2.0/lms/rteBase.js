@@ -26,7 +26,7 @@ var SCORM2004_4API = function () {
 };
 
 SCORM2004_4API.prototype.doSyncRequest = function (url, methodType) {
-    return window.LearnAjax.syncRequest(Utils.getContextPath() + url, methodType, {
+    return window.LearnAjax.syncRequest(path.root + url, methodType, {
         activityID:this.currentActivityID,
         packageID:this.currentPackageID,
         organizationID:this.currentOrganizationID
@@ -54,7 +54,7 @@ SCORM2004_4API.prototype.Initialize = function (param) {
 
     this.errorCode = "0";
     if (param == "") {
-        var initResponse = this.doSyncRequest("services/rte/Initialize", "POST");
+        var initResponse = this.doSyncRequest(path.rte + "Initialize", "POST");
         if (!initResponse.status) {
             this.errorCode = "102";
             return "false";
@@ -89,7 +89,7 @@ SCORM2004_4API.prototype.setActivity = function (packageID, organizationID, acti
 };
 
 SCORM2004_4API.prototype.initActivity = function () {
-    var data = this.doSyncRequest("services/rte/ActivityInformation/" + this.currentActivityID, "GET");
+    var data = this.doSyncRequest(path.rte + "ActivityInformation/" + this.currentActivityID, "GET");
 
     this.isActivitySuspended = data.isActivitySuspended;
     this.activityObjectives = data.activityObjectives;
@@ -100,7 +100,7 @@ SCORM2004_4API.prototype.initActivity = function () {
 };
 
 SCORM2004_4API.prototype.commitActivity = function () {
-    window.LearnAjax.post(Utils.getContextPath() + "services/rte/ActivityInformation/" + this.currentActivityID, {
+    window.LearnAjax.post(path.root + path.rte + "ActivityInformation/" + this.currentActivityID, {
         isActivitySuspended:this.isActivitySuspended,
         activityObjectives:this.activityObjectives,
         activityObjectivesCount:this.activityObjectives.length,

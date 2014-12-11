@@ -1,14 +1,16 @@
 package com.arcusys.learn.scorm.manifest.service
 
+import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
+import com.arcusys.learn.controllers.api.BaseApiController
 import com.arcusys.learn.scorm.manifest.model._
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 
-class OrganizationsService(configuration: BindingModule) extends ServletBase(configuration) {
+class OrganizationsService(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
-  import storageFactory._
+  val activityManager = inject[ActivityServiceContract]
 
   val jsonModel = new JsonModelBuilder[Organization](organization => Map("id" -> organization.id, "title" -> organization.title))
 
@@ -19,6 +21,6 @@ class OrganizationsService(configuration: BindingModule) extends ServletBase(con
 
   get("/package/:packageID") {
     val packageID = parameter("packageID").intRequired
-    jsonModel(activityStorage getAllOrganizations packageID)
+    jsonModel(activityManager.getAllOrganizations(packageID))
   }
 }

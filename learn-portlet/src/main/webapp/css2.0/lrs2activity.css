@@ -1,0 +1,32 @@
+.activity-mapper-filter {
+    margin-right: 10px;
+}
+
+.activity-filter-title {
+    width: 30%;
+}
+
+input.verb-filter, input.activity-filter {
+    color: #333 !important;
+}
+
+.activity-filter-title > .title-view {
+    width: calc(100% - 60px);
+    width: -webkit-calc(100% - 60px);
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.lrs2activity-controls {
+    margin-bottom: 10px;
+}
+
+.name-filter {
+    margin: 0 !important;
+    height: 24px !important;
+}
+
+tbody.social-activities-mapper-data td {
+    padding: 5px;
+}

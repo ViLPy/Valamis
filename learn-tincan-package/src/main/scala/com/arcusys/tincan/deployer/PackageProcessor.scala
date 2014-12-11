@@ -2,12 +2,15 @@ package com.arcusys.tincan.deployer
 
 import java.io._
 import java.util.zip.{ ZipEntry, ZipFile }
+import com.arcusys.learn.filestorage.storage.FileStorage
+import com.arcusys.learn.scorm.manifest.storage.{ PackageScopeRuleStorage, ResourcesStorage }
+import com.arcusys.learn.tincan.manifest.storage.{ TincanManifestActivityStorage, TincanPackageStorage }
+import com.arcusys.learn.tincan.storage.TincanActivityStorage
 import com.arcusys.scorm.util.{ FileProcessing, FileSystemUtil }
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
-import com.arcusys.learn.storage.StorageFactoryContract
 import scala.xml.XML
 import com.arcusys.tincan.manifest.parser.ActivitiesParser
-import com.arcusys.learn.tincan.manifest.model.Manifest
+import com.arcusys.learn.tincan.manifest.model.TincanManifest
 import com.arcusys.learn.scorm.manifest.model.ScopeType
 
 object PackageProcessor {
@@ -20,11 +23,11 @@ object PackageProcessor {
 }
 
 class PackageProcessor(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val packageStorage = storageFactory.tincanPackageStorage
-  val activityStorage = storageFactory.tincanActivityStorage
-  val resourceStorage = storageFactory.resourceStorage
-  val fileStorage = storageFactory.fileStorage
+  val tincanPackageRepository = inject[TincanPackageStorage]
+  val tincanManifestActivityStorage = inject[TincanManifestActivityStorage]
+  val resourceRepository = inject[ResourcesStorage]
+  val fileStorage = inject[FileStorage]
+  val packageScopeRuleRepository = inject[PackageScopeRuleStorage]
 
   def processPackageAndGetID(packageTitle: String, packageSummary: String, packageTmpUUID: String, courseID: Option[Int]) = {
     val packageZipName = FileSystemUtil.getRealPath(FileSystemUtil.getTmpDir + packageTmpUUID + ".zip")
@@ -36,14 +39,14 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
 
     if (activities.find(_.launch.isDefined).isEmpty) throw new RuntimeException("launch not found")
 
-    val manifest = Manifest(-1, packageTitle, Some(packageSummary), courseID, None, isDefault = false)
+    val manifest = TincanManifest(-1, packageTitle, Some(packageSummary), courseID, None, isDefault = false)
 
-    val packageID = packageStorage.createAndGetID(manifest, courseID)
+    val packageID = tincanPackageRepository.createAndGetID(manifest, courseID)
 
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Instance, None, visibility = true, isDefault = false)
-    storageFactory.packageScopeRuleStorage.create(packageID, ScopeType.Site, courseID.map(_.toString), visibility = true, isDefault = false)
+    packageScopeRuleRepository.create(packageID, ScopeType.Instance, None, visibility = true, isDefault = false)
+    packageScopeRuleRepository.create(packageID, ScopeType.Site, courseID.map(_.toString), visibility = true, isDefault = false)
 
-    activities.map(_.copy(packageId = packageID)).foreach(activityStorage.createAndGetID)
+    activities.map(_.copy(packageId = packageID)).foreach(tincanManifestActivityStorage.createAndGetID)
 
     //    for (resource <- doc.resources) resourceStorage.createForPackageAndGetID(packageID, resource)
 
@@ -51,7 +54,6 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
     unzip(packageDirectory, packageZipName)
     deleteFile(new File(packageZipName))
     deleteFile(new File(packageTempDirectory))
-
     packageID
   }
 
@@ -65,9 +67,10 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
         if (entry.isDirectory) {
           fileStorage.store(directory + entry.getName)
         } else {
-          val contentSource = scala.io.Source.fromInputStream(zipFile.getInputStream(entry))(scala.io.Codec.ISO8859)
-          val content = contentSource.map(_.toByte).toArray
-          contentSource.close()
+          //val contentSource = scala.io.Source.fromInputStream(zipFile.getInputStream(entry))(scala.io.Codec.ISO8859)
+          //val content = contentSource.map(_.toByte).toArray
+          // contentSource.close()
+          val content = streamToByteArray(zipFile.getInputStream(entry))
           fileStorage.store(directory + entry.getName, content)
         }
       }
@@ -83,5 +86,22 @@ class PackageProcessor(implicit val bindingModule: BindingModule) extends Inject
         f => deleteFile(f)
       }
     file.delete
+  }
+
+  private def streamToByteArray(input: InputStream) = {
+    val buffer = new Array[Byte](2048)
+    val baos = new ByteArrayOutputStream
+
+    def copy() {
+      val read = input.read(buffer)
+      if (read >= 0) {
+        baos.write(buffer, 0, read)
+        copy()
+      }
+    }
+    copy()
+
+    input.close()
+    baos.toByteArray
   }
 }

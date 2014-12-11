@@ -3,6 +3,7 @@ package com.arcusys.learn.liferay
 import com.arcusys.learn.scorm.manifest.model._
 import javax.portlet.PortletRequest
 import com.arcusys.learn.liferay.service.utils.PortletKeys
+import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage }
 import service.SCORMPackageAssetRenderer
 import com.arcusys.learn.ioc.InjectableFactory
 import com.arcusys.learn.liferay.LiferayClasses._
@@ -14,9 +15,10 @@ object SCORMPackageAssetRendererFactory {
   final val TYPE: String = "package"
 }
 
+// TODO refactor, remove repository
 class SCORMPackageAssetRendererFactory extends LBaseAssetRendererFactory with InjectableFactory {
   def getAssetRenderer(classPK: Long, assetType: Int) = {
-    val pkg = storageFactory.packageStorage.getByRefID(classPK).getOrElse(throw new Exception("Can't find package with refID " + classPK))
+    val pkg = inject[ScormPackagesStorage].getByRefID(classPK).getOrElse(throw new Exception("Can't find package with refID " + classPK))
     new SCORMPackageAssetRenderer(pkg)
   }
 

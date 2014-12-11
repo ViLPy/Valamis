@@ -1,10 +1,8 @@
-
-
 .container { padding-bottom: 40px; }
 
 #theStatements table { width: 100%; }
 
-.statement {margin:3px 0;}
+.statement {margin:3px 0; word-wrap:break-word; cursor:pointer; width: 76%;}
 
 .statement table {width:100%;}
 .statementRow td {vertical-align:top;padding:2px;}
@@ -24,7 +22,6 @@
 .statement .object {color:#222222;}
 .statement .score {font-weight:bold;}
 
-.statement {cursor:pointer;}
 .tc_rawdata{display:none; font-size:.8em; width:800px; word-wrap:break-word;}
 
 #showAllStatements, #refreshHighScores {margin-top:20px;}
@@ -73,9 +70,20 @@ table#courseLocations td.location .description {font-size:.8em;color:#888888;}
 table#courseLocations td.metric {}
 
 #searchBox { padding-bottom: 20px; }
-.searchBoxTable td { padding-right:14px; }
+.searchBoxTable td { padding-right:8px; }
+.searchBoxTable div { padding-right:8px; margin-bottom: 5px; float: left;}
+.searchBoxTable input {float: none}
 
-#TCAPIQueryText { width: 80%; }
+.labelsRelated {float: left; margin-right: 10px;}
+.lastDiv {float: none !important;}
+
+#TCAPIQueryText { width: 76%; margin-bottom: 5px;}
 
 #statementsLoading { padding-left:20px; padding-top:10px; display:none; }
 #showAllStatements { display:none; }
+
+@media (max-width: 1199px) {
+    .searchBoxTable div { float: inherit;}
+    #TCAPIQueryText { width: 58%; }
+    .statement {width: 45%}
+}

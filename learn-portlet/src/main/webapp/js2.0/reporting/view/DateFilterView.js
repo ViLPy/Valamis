@@ -8,7 +8,7 @@ var DateFilterView = Backbone.Marionette.ItemView.extend({
         this.$('#from').datepicker({
             defaultDate: 0,
             changeMonth: true,
-            numberOfMonths: 3,
+            numberOfMonths: 1,
             onClose: function (selectedDate) {
                 this.$('#to').datepicker('option', 'minDate', selectedDate);
                 localStorage.setItem('valamisReportDateFrom', this.$('#from').datepicker('getDate').getTime());
@@ -17,7 +17,7 @@ var DateFilterView = Backbone.Marionette.ItemView.extend({
         this.$('#to').datepicker({
             defaultDate: 0,
             changeMonth: true,
-            numberOfMonths: 3,
+            numberOfMonths: 1,
             onClose: function (selectedDate) {
                 this.$('#from').datepicker('option', 'maxDate', selectedDate);
                 localStorage.setItem('valamisReportDateTo', this.$('#to').datepicker('getDate').getTime());

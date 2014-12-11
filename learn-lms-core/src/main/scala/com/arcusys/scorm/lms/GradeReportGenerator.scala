@@ -1,20 +1,22 @@
 package com.arcusys.scorm.lms
 
+import com.arcusys.learn.questionbank.storage.QuestionStorage
+import com.arcusys.learn.quiz.storage.QuizQuestionStorage
+import com.arcusys.learn.scorm.manifest.storage.ActivityStorage
 import com.arcusys.learn.scorm.tracking.model._
 import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.scorm.tracking.states.storage.ActivityStateTreeStorage
+import com.arcusys.learn.scorm.tracking.storage.{ AttemptStorage, DataModelStorage }
 import com.arcusys.learn.util.TreeNode
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
-import com.arcusys.learn.storage.StorageFactoryContract
-import com.arcusys.learn.questionbank.model.ChoiceAnswer
 
 class GradeReportGenerator(implicit val bindingModule: BindingModule) extends Injectable {
-  val storageFactory = inject[StorageFactoryContract]
-  val activityStorage = storageFactory.activityStorage
-  val activityTreeStorage = storageFactory.activityStateTreeStorage
-  val attemptStorage = storageFactory.attemptStorage
-  val dataModelStorage = storageFactory.dataModelStorage
-  val questionStorage = storageFactory.questionStorage
-  val quizQuestionStorage = storageFactory.quizQuestionStorage
+  val activityRepository = inject[ActivityStorage]
+  val activityTreeStorage = inject[ActivityStateTreeStorage]
+  val attemptStorage = inject[AttemptStorage]
+  val dataModelStorage = inject[DataModelStorage]
+  val questionStorage = inject[QuestionStorage]
+  val quizQuestionStorage = inject[QuizQuestionStorage]
 
   private def get(attempt: Attempt, organizationID: String) = {
     val grades = dataModelStorage.getValuesByKey(attempt.id, "cmi.success_status") ++ dataModelStorage.getValuesByKey(attempt.id, "cmi.core.lesson_status")
@@ -76,13 +78,13 @@ class GradeReportGenerator(implicit val bindingModule: BindingModule) extends In
         packID = attempt.packageID,
         responseTypes.get(leaf.id).getOrElse(Some("")))
     }
-    parseActivity(activityStorage.getOrganizationTree(attempt.packageID, organizationID))
+    parseActivity(activityRepository.getOrganizationTree(attempt.packageID, organizationID))
   }
 
   def getForCurrentAttempt(userID: Int, packageID: Int) = {
     attemptStorage.getLast(userID, packageID, complete = true).map {
       activeAttempt =>
-        val organizations = activityStorage.getAllOrganizations(activeAttempt.packageID)
+        val organizations = activityRepository.getAllOrganizations(activeAttempt.packageID)
         //TODO: doesn't work for multiple organizations yet
         if (organizations.size != 1) throw new IllegalStateException
         get(activeAttempt, organizations.head.id)
