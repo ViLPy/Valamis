@@ -1,12 +1,20 @@
 # Valamis - eLearning for Liferay
 
-**http://www.valamislearning.com**
+**http://valamis.arcusys.com/**
 
 [![build status](https://api.travis-ci.org/arcusys/JSCORM.png)](http://travis-ci.org/arcusys/JSCORM)
 
-Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn using Liferay platform. You can use it as your organizations social learning environment.
+###This is Valamis CE version - No support - No warranty
+###To get supported Valamis Enterprise Edition contact us in http://valamis.arcusys.com/get-valamis
+###Or buy straight from Liferay Marketplace http://www.liferay.com/marketplace/-/mp/application/35268197
+####The following features are not supported in the CE version
+#####-Competences
+#####-Phenomenizer
+#####-Mobile application
 
-Supported Liferay version is currently 6.2 SP1 since release 1.6.6. Older versions has support of 6.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
+Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn. You can use Valamis as your organization's social learning environment.
+
+Supported Liferay version is currently 6.2.
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -29,7 +37,7 @@ If you need to customize it, settings can be found in admin portlet on settings 
 TinCan LRS OAuth endpoint is: `<your-domain>/learn-portlet/oauth`
 
 ### Download 
-Github has deprecated the Download section. You can download the latest distributable from Liferay Marketplace
+Download Valamis CE source code from this repository and compile the application yourself
 
 ###Post-deployment process
 Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
@@ -39,6 +47,17 @@ Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student an
 
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
+
+## Version 2.4 Update 26.6.2015
+ - New Valamis login page with new design
+ - Valamis site automatically created with Dashboard page when application is deployed
+ - Content management portlet has a new design with added functionality: You can now create subcategories, duplicate questions and add custom correct and incorrect answer texts
+ - New Lesson Studio portlet added with a wysiwyg slide editor for lessons: Add text, images, videos, PDF files, embedded content, pptx files, questions or math functions to slides
+ - Lesson Designer lessons can be exported to new Lesson Studio portlet
+ - New dashboard landing page for students: Displays statistical information concerning your learning courses, certificates, learning paths and activities
+ - Removed file size limit of 15mb for uploaded lesson packages
+ - Padding lessons created in Lesson Studio on mobile device fixed
+ - Needed fixes for reports done
 
 ## Version 2.2 Update 11.12.2014
  - Uploading pptx presentation as TinCan package
