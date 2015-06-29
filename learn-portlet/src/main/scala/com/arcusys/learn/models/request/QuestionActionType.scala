@@ -5,13 +5,13 @@ package com.arcusys.learn.models.request
  * Date: 05.05.14
  */
 object QuestionActionType extends Enumeration {
-  val ADD = Value("ADD")
-  val UPDATE = Value("UPDATE")
-  val DELETE = Value("DELETE")
-  val MOVE = Value("MOVE")
-  val GET_BY_ID = Value("GETBYID")
-  val GET_CHILDREN = Value("GETCHILDREN")
-  val MOVE_TO_COURSE = Value("MOVETOCOURSE")
+  val Add = Value("ADD")
+  val Update = Value("UPDATE")
+  val Delete = Value("DELETE")
+  val Move = Value("MOVE")
+  val GetById = Value("GETBYID")
+  val GetChildren = Value("GETCHILDREN")
+  val MoveToCourse = Value("MOVETOCOURSE")
 
   type QuestionActionType = Value
 }

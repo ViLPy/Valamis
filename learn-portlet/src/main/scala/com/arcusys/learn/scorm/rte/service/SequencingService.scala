@@ -1,24 +1,27 @@
 package com.arcusys.learn.scorm.rte.service
 
-import com.arcusys.learn.bl.services.LessonLimitChecker
-import com.arcusys.learn.bl.services.lesson.{ PackageServiceContract, ActivityServiceContract, PackageService }
 import com.arcusys.learn.controllers.api.BaseApiController
+import com.arcusys.learn.liferay.permission.PermissionUtil
+import com.arcusys.learn.models.request.OAuthRequest
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ ResourceUrl, LeafActivity }
+import com.arcusys.valamis.lesson.scorm.model.sequencing.{ ProcessorResponseEndSession, ProcessorResponseDelivery }
+import com.arcusys.valamis.lesson.scorm.service.sequencing.SequencingProcessor
+import com.arcusys.valamis.lesson.service.{ ValamisPackageService, ActivityServiceContract, LessonLimitChecker }
+import com.arcusys.valamis.lrs.service.LrsClientManager
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
 import java.net.URLDecoder
-import com.arcusys.learn.scorm.manifest.model.{ ResourceUrl, LeafActivity }
-import com.arcusys.scorm.util.FileSystemUtil
-import com.arcusys.learn.scorm.tracking.model.sequencing._
-import com.arcusys.learn.service.util.LrsEndpointUtil
+import PermissionUtil._
 
 class SequencingService(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)
 
   val passingLimitChecker = inject[LessonLimitChecker]
 
-  val packageManager = inject[PackageServiceContract]
+  val packageManager = inject[ValamisPackageService]
   val activityManager = inject[ActivityServiceContract]
+  val lrsReader = inject[LrsClientManager]
 
   before() {
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
@@ -35,9 +38,11 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
   post("/sequencing/Tincan/:packageID") {
     val packageID = parameter("packageID").intRequired
 
-    val mainFileName = packageManager.getTincanLaunchWithLimitTest(packageID, getLiferayUser)
+    val params = OAuthRequest(this)
+    val mainFileName = lrsReader.statementApi(packageManager.getTincanLaunchWithLimitTest(packageID, getLiferayUser, _),
+      params.lrsAuth)
 
-    json(Map("launchURL" -> mainFileName) ++ getEnpointData).get
+    json(Map("launchURL" -> mainFileName)).get
   }
 
   get("/sequencing/NavigationRequest/:currentScormPackageID/:currentOrganizationID/:sequencingRequest") {
@@ -45,8 +50,12 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
     val packageID = parameter("currentScormPackageID").intRequired
     val organizationID = parameter("currentOrganizationID").required
 
-    if (passingLimitChecker.checkScormPackage(getLiferayUser, packageID)) {
+    val params = OAuthRequest(this)
+    val isAvaliable = lrsReader.statementApi(passingLimitChecker.checkScormPackage(getLiferayUser, packageID, _),
+      params.lrsAuth)
 
+    if (!isAvaliable) ""
+    else {
       val currentAttempt = activityManager.getActiveAttempt(userID, packageID, organizationID)
       val tree = activityManager.getActivityStateTreeForAttemptOrCreate(currentAttempt)
 
@@ -58,13 +67,13 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
         case ProcessorResponseDelivery(tree) => {
           activityManager.updateActivityStateTree(currentAttempt.id, tree)
           val currentActivityID = tree.currentActivity.map(_.item.activity.id).getOrElse("")
-          Map("currentActivity" -> currentActivityID, "endSession" -> false) ++ getActivityData(packageID, currentActivityID) ++ getEnpointData
+          Map("currentActivity" -> currentActivityID, "endSession" -> false) ++ getActivityData(packageID, currentActivityID)
         }
         case ProcessorResponseEndSession(tree) => {
           activityManager.updateActivityStateTree(currentAttempt.id, tree)
           activityManager.markAsComplete(currentAttempt.id)
           val currentActivityID = tree.currentActivity.map(_.item.activity.id).getOrElse("")
-          Map("currentActivity" -> currentActivityID, "endSession" -> true) ++ getActivityData(packageID, currentActivityID) ++ getEnpointData
+          Map("currentActivity" -> currentActivityID, "endSession" -> true) ++ getActivityData(packageID, currentActivityID)
         }
       }).get
 
@@ -100,9 +109,6 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
         </head>
         <body onload="init()"></body>
       </html>
-
-    } else {
-      ""
     }
   }
 
@@ -133,7 +139,7 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
           resource.href.get
         } else {
           val manifestRelativeResourceUrl = ResourceUrl(manifest.base, manifest.resourcesBase, resource.base, resource.href.get, leafActivity.resourceParameters)
-          servletContext.getContextPath + "/" + FileSystemUtil.contextRelativeResourceURL(packageID, manifestRelativeResourceUrl)
+          servletContext.getContextPath + "/" + contextRelativeResourceURL(packageID, manifestRelativeResourceUrl)
         }
         Map("activityURL" -> resultedURL,
           "activityTitle" -> leafActivity.title,
@@ -143,5 +149,7 @@ class SequencingService(configuration: BindingModule) extends BaseApiController(
     } else Map()
   }
 
-  private def getEnpointData = new LrsEndpointUtil().getEnpointData(packageManager.getTincanEndpoint())
+  //todo: is it deprecate
+  private def contextRelativeResourceURL(packageID: Int, manifestRelativeResourceUrl: String): String =
+    "SCORMData/data/" + packageID.toString + "/" + manifestRelativeResourceUrl
 }

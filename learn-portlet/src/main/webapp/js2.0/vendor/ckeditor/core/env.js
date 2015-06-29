@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -149,7 +149,7 @@ if ( !CKEDITOR.env ) {
 		 * @property {Boolean} chrome
 		 */
 
-		 /**
+		/**
 		 * Indicates that CKEditor is running in Safari (including the mobile version).
 		 *
 		 *		if ( CKEDITOR.env.safari )
@@ -256,6 +256,9 @@ if ( !CKEDITOR.env ) {
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )
 		 *			alert( 'Your browser is pretty cool!' );
+		 *
+		 * See the [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments)
+		 * article for more information.
 		 *
 		 * @property {Boolean}
 		 */

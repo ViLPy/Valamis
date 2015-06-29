@@ -6,8 +6,8 @@ package com.arcusys.learn.models.request
 object DndModeType extends Enumeration {
   type DndModeType = Value
 
-  val LAST = Value("LAST")
-  val BEFORE = Value("BEFORE")
-  val INSIDE = Value("INSIDE")
-  val AFTER = Value("AFTER")
+  val Last = Value("LAST")
+  val Before = Value("BEFORE")
+  val Inside = Value("INSIDE")
+  val After = Value("AFTER")
 }

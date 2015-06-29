@@ -1,8 +1,8 @@
 package com.arcusys.learn.quiz.storage.impl
 
-import com.arcusys.learn.quiz.model.QuizQuestionCategory
-import com.arcusys.learn.quiz.storage.QuizQuestionCategoryStorage
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
+import com.arcusys.valamis.quiz.model.QuizQuestionCategory
+import com.arcusys.valamis.quiz.storage.QuizQuestionCategoryStorage
 
 /**
  * User: dkudinov

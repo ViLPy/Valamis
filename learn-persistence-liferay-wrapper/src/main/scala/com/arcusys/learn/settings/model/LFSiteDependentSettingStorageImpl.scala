@@ -2,15 +2,17 @@ package com.arcusys.learn.settings.model
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFSiteDependentConfigLocalServiceUtil
+import com.arcusys.valamis.settings.model
+import com.arcusys.valamis.settings.model.{ SiteDependentSetting, Setting }
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFSiteDependentConfig
 
-trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependentSetting] {
+trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[model.SiteDependentSetting] {
   protected def doRenew() {
     LFSiteDependentConfigLocalServiceUtil.removeAll()
   }
 
-  def extract(entity: LFSiteDependentConfig) = new SiteDependentSetting(
+  def extract(entity: LFSiteDependentConfig) = new model.SiteDependentSetting(
     entity.getId.toInt,
     entity.getSiteID,
     entity.getDataKey,
@@ -23,7 +25,7 @@ trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependent
           val lfEntity = LFSiteDependentConfigLocalServiceUtil.findBySiteIDAndDataKey(siteID, key)
           if (lfEntity == null) None else Option(extract(lfEntity))
         } catch {
-          case _ => None
+          case _: Exception => None
         }
     }
   }
@@ -43,7 +45,7 @@ trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependent
     throw new UnsupportedOperationException
   }
 
-  def create(entity: Setting, parameters: (String, Any)*) {
+  def create(entity: model.Setting, parameters: (String, Any)*) {
     throw new UnsupportedOperationException
   }
 
@@ -55,7 +57,7 @@ trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependent
     parameters match {
       case Seq(("siteID", siteID: Int), ("key", key: String), ("value", value: Option[String])) =>
         val lfentity = LFSiteDependentConfigLocalServiceUtil.findBySiteIDAndDataKey(siteID, key)
-        lfentity.setDataValue(value.getOrElse(null))
+        lfentity.setDataValue(value.orNull)
         LFSiteDependentConfigLocalServiceUtil.updateLFSiteDependentConfig(lfentity)
     }
   }
@@ -80,11 +82,11 @@ trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependent
     throw new UnsupportedOperationException
   }
 
-  def createAndGetID(entity: SiteDependentSetting, parameters: (String, Any)*) = {
+  def createAndGetID(entity: model.SiteDependentSetting, parameters: (String, Any)*) = {
     val lfEntity = LFSiteDependentConfigLocalServiceUtil.createLFSiteDependentConfig()
     lfEntity.setSiteID(entity.siteID)
     lfEntity.setDataKey(entity.key.toString)
-    entity.value.map(lfEntity.setDataValue)
+    entity.value.foreach(lfEntity.setDataValue)
     LFSiteDependentConfigLocalServiceUtil.addLFSiteDependentConfig(lfEntity).getId.toInt
   }
 
@@ -92,7 +94,7 @@ trait LFSiteDependentSettingStorageImpl extends KeyedEntityStorage[SiteDependent
     throw new UnsupportedOperationException
   }
 
-  override def modify(entity: SiteDependentSetting, parameters: (String, Any)*): Unit = throw new UnsupportedOperationException
+  override def modify(entity: model.SiteDependentSetting, parameters: (String, Any)*): Unit = throw new UnsupportedOperationException
 
   override def create(entity: SiteDependentSetting, parameters: (String, Any)*): Unit = throw new UnsupportedOperationException
 }

@@ -1,0 +1,101 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+    <script type="text/template" id="questionsettings-modals-template">
+        <div class="questionsettings-modals-container"></div>
+    </script>
+
+    <script type="text/template" id="questionsettings-import-modal-template">
+        <div class="bbm-modal__topbar">
+            <h3 class="bbm-modal__title">{{importLabel}}</h3>
+
+            <div class="modal-close val-icon-exit">
+            </div>
+        </div>
+
+        <div class="qm-modal-content">
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        var jQuerySettings = jQuery.noConflict();
+
+        var QuestionSettingsLayout = Backbone.Marionette.LayoutView.extend({
+            template: _.template(Mustache.to_html(jQuery('#questionsettings-modals-template').html())),
+            regions: {
+                modals: {
+                    selector: '.questionsettings-modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
+            }
+        });
+
+
+        var questionSettingsLayout = new QuestionSettingsLayout();
+
+        var UploadQuestionImportModal = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQuery('#questionsettings-import-modal-template').html())),
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            className: 'val-modal',
+            onRender: function () {
+                var me = this;
+                var uploader = new FileUploader({
+                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-question&courseId=' + Utils.getCourseId(),
+                    message: '{{importMessage}}'
+                });
+
+                uploader.on('fileuploaddone', function (data) {
+                    me.triggerCancel();
+                });
+
+                this.$('.qm-modal-content').append(uploader.render().$el);
+            }
+        });
+
+        jQuerySettings(function () {
+            jQuery('#qm-settings-layout').append(questionSettingsLayout.render().el);
+            if ('{{showGlobalBase}}' == 'true'){
+                jQuery('#showGlobalBase').attr('checked', 'checked');
+            }
+        });
+
+        function saveShowGlobalBaseSetting() {
+            window.LearnAjax.post('{{actionURL}}', {
+                    showGlobalBase: jQuery("#showGlobalBase").is(':checked')
+                    }).done(function () { });
+        }
+
+        function exportQuestions() {
+            window.location = path.root + path.api.files + 'export/?action=EXPORTALL&contentType=question'
+                    + '&courseId=' + Utils.getCourseId();
+        }
+        function importQuestions() {
+            var importModal = new UploadQuestionImportModal();
+            questionSettingsLayout.modals.show(importModal);
+            importModal.render();
+        }
+
+    </script>
+</head>
+<body >
+
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+<div style="padding: 10px;">
+    <button class="button big primary bbm-button val-icon-download" onclick="exportQuestions()">
+        {{exportAllLabel}}
+    </button>
+    <button class="button big primary bbm-button val-icon-upload" onclick="importQuestions()">
+        {{importLabel}}
+    </button>
+</div>
+<div style="padding: 10px;">
+    <input type="checkbox" id="showGlobalBase" class="val-checkbox" onChange="saveShowGlobalBaseSetting()"/>
+    <label class="checkbox-label shift-left" for="showGlobalBase"></label>
+    <label for="showGlobalBase"> {{showGlobalBaseLabel}} </label>
+</div>
+<div id="qm-settings-layout"></div>
+</body>
+</html>

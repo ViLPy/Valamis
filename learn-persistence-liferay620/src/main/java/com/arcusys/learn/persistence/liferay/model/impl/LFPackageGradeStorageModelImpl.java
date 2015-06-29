@@ -48,7 +48,7 @@ public class LFPackageGradeStorageModelImpl extends BaseModelImpl<LFPackageGrade
             { "comment_", Types.VARCHAR },
             { "date_", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageGradeStorage (userId LONG not null,packageId LONG not null,grade VARCHAR(75) null,comment_ VARCHAR(75) null,date_ DATE null,primary key (userId, packageId))";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackageGradeStorage (userId LONG not null,packageId LONG not null,grade VARCHAR(512) null,comment_ VARCHAR(512) null,date_ DATE null,primary key (userId, packageId))";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackageGradeStorage";
     public static final String ORDER_BY_JPQL = " ORDER BY lfPackageGradeStorage.id.userId ASC, lfPackageGradeStorage.id.packageId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFPackageGradeStorage.userId ASC, Learn_LFPackageGradeStorage.packageId ASC";

@@ -1,9 +1,9 @@
 package com.arcusys.learn.facades
 
-import com.arcusys.learn.bl.services.CourseServiceContract
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.models.CourseResponse
+import com.arcusys.valamis.gradebook.service.CourseGradeService
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
 /**
@@ -14,10 +14,14 @@ class CourseFacade(configuration: BindingModule) extends CourseFacadeContract wi
 
   implicit val bindingModule = configuration
 
-  val courseService = inject[CourseServiceContract]
+  val courseService = inject[CourseGradeService]
 
   def getAllCourses(companyId: Long): Seq[LGroup] =
     courseService.getAllCourses(companyId)
+
+  def getGroupIdsForAllCourses(companyId: Long): Seq[Long] = courseService.getGroupIdsForAllCourses(companyId)
+
+  def getGroupIdsForAllCoursesFromAllCompanies: Seq[Long] = courseService.getGroupIdsForAllCoursesFromAllCompanies
 
   def all(companyId: Long,
     skip: Int,
@@ -44,7 +48,7 @@ class CourseFacade(configuration: BindingModule) extends CourseFacadeContract wi
 
   def count(companyId: Long, filter: String): Int = courseService.count(companyId, filter)
 
-  def getCourse(siteId: Int): CourseResponse = {
+  def getCourse(siteId: Long): CourseResponse = {
     val course = courseService.getCourse(siteId)
     CourseResponse(
       siteId,

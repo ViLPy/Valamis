@@ -1,7 +1,5 @@
 package com.arcusys.learn.models.Gradebook
 
-import com.arcusys.learn.tincan.model.{ Verb, StatementObject, Result }
-
 /**
  * Statement Grade model fo response
  */

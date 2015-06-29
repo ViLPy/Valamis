@@ -1,29 +1,41 @@
 package com.arcusys.learn.facades
 
-import java.io.{ FileInputStream, InputStream }
-
-import com.arcusys.learn.bl.exceptions.EntityNotFoundException
+import java.io.{ File, FileInputStream, InputStream }
+import java.util.UUID
 import com.arcusys.learn.exceptions.BadRequestException
 import com.arcusys.learn.export.quiz.{ QuizExportProcessor, QuizImportProcessor }
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.models._
 import com.arcusys.learn.models.request.PackagePublishType
 import com.arcusys.learn.models.response.CollectionResponse
-import com.arcusys.learn.models._
-import com.arcusys.learn.questionbank.model.{ DLVideo, PlainText }
-import com.arcusys.learn.quiz.model.{ ExternalQuizQuestion, PlainTextQuizQuestion, QuestionBankQuizQuestion, Quiz, QuizQuestionCategory, RevealJSQuizQuestion, _ }
-import com.arcusys.learn.util.JsonSupport
-import com.arcusys.scorm.generator.file.ScormPackageGenerator
-import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
-import com.arcusys.scorm.util.FileSystemUtil
-import com.arcusys.tincan.generator.file.TinCanQuizPackageGenerator
+import com.arcusys.valamis.exception.EntityNotFoundException
+import com.arcusys.valamis.lesson.generator.QuizPublishManager
+import com.arcusys.valamis.lesson.generator.scorm.ScormPackageGenerator
+import com.arcusys.valamis.lesson.generator.scorm.file.html.QuestionViewGenerator
+import com.arcusys.valamis.lesson.generator.tincan.TinCanPackageGeneratorProperties
+import com.arcusys.valamis.lesson.generator.tincan.file.TinCanQuizPackageGenerator
+import com.arcusys.valamis.questionbank.model.{ DLVideo, PlainText }
+import com.arcusys.valamis.quiz.model._
+import com.arcusys.valamis.quiz.service.QuizService
+import com.arcusys.valamis.slide.model.SlideSetModel
+import com.arcusys.valamis.slide.service.SlideSetServiceContract
+import com.arcusys.valamis.slide.service.export.SlideSetPublisherContract
+import com.arcusys.valamis.uri.model.ValamisURIType
+import com.arcusys.valamis.uri.service.URIServiceContract
+import com.arcusys.valamis.utils.JsonSupport
+import com.arcusys.valamis.utils.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
 class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with Injectable with JsonSupport {
-  def this() = this(Configuration)
-
+  lazy val quizService = inject[QuizService]
   implicit val bindingModule = configuration
 
-  lazy val quizService = inject[com.arcusys.learn.bl.services.QuizServiceContract]
+  def this() = this(Configuration)
+
+  private val uriService = inject[URIServiceContract]
+  private lazy val quizPublisher = new QuizPublishManager
+  private lazy val slideSetService = inject[SlideSetServiceContract]
+  private lazy val slideSetPublisher = inject[SlideSetPublisherContract]
 
   def getAll(courseID: Int, filter: String, sortBy: String, sortDirectionAsc: Boolean, pageNumber: Int, pageSize: Int): CollectionResponse[QuizResponse] = {
 
@@ -38,7 +50,7 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
 
     CollectionResponse(
       pageNumber,
-      rangeResult.items map toQuizResponse toSeq,
+      rangeResult.items map toQuizResponse,
       rangeResult.total
     )
   }
@@ -46,45 +58,6 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
   private def toQuizResponse(q: Quiz): QuizResponse = {
     QuizResponse(q.id, q.title, q.description, q.logo, quizService.getQuestionsCount(q.id), q.maxDuration)
   }
-
-  private def toQuestionResponse(question: QuizQuestion) = {
-    val arrangementIndex = quizService.getQuestionIndex(question.quizID, question.id)
-    question match {
-      case q: QuestionBankQuizQuestion => QuizQuestionBankResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.question.title, q.question, q.autoShowAnswer, arrangementIndex // TODO: convert answer
-      )
-      case q: PlainTextQuizQuestion => QuizQuestionPlainTextResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.text, arrangementIndex
-      )
-      case q: ExternalQuizQuestion => QuizQuestionExternalResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.url, arrangementIndex
-      )
-      case q: RevealJSQuizQuestion => QuizQuestionRevealJSResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.content, arrangementIndex
-      )
-      case q: PDFQuizQuestion => QuizQuestionPDFResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.filename, arrangementIndex
-      )
-      case q: PPTXQuizQuestion => QuizQuestionPPTXResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), arrangementIndex
-      )
-      case q: DLVideoQuizQuestion => QuizQuestionVideoDLResponse(
-        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.uuid, arrangementIndex
-      )
-      case _ => throw new Exception("Unknown type of question")
-    }
-  }
-
-  private def toCategoryResponse(c: QuizQuestionCategory, qs: Seq[QuizQuestion]) = {
-    val arrangementIndex = quizService.getCategoryIndex(c.quizID, c.id)
-    QuizCategoryResponse(
-      "c_" + c.id, c.quizID, c.title, arrangementIndex, qs.map(q => toQuestionResponse(q))
-    )
-  }
-
-  private def idFromCategory(id: String) = id.replace("c_", "").toInt
-
-  private def idFromQuestion(id: String) = id.replace("q_", "").toInt
 
   def create(title: String, description: String, logo: String, courseID: Int, maxDuration: Option[Int]): QuizResponse = {
     val quiz = quizService.createQuiz(title, description, logo, courseID, maxDuration)
@@ -95,33 +68,44 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
     quizService.deleteQuiz(quizId)
   }
 
-  def publish(quizId: Int, userID: Long, groupIDOption: Option[Long], publishType: PackagePublishType.Value,
-    theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): QuizPublishStatusResponse = {
+  def publish(quizId: Int, userId: Long, courseId: Long, publishType: PackagePublishType.Value,
+    theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double]): QuizPublishStatusResponse = {
 
     publishType match {
-      case PackagePublishType.SCORM  => quizService.publishQuizAsScorm(quizId, userID, groupIDOption, randomOrdering, questionsPerUser)
-      case PackagePublishType.TinCan => quizService.publishQuizAsTincan(quizId, theme, randomOrdering, questionsPerUser)
+      case PackagePublishType.Scorm =>
+        quizPublisher.publishQuizAsScorm(quizId, userId, courseId)
+      case PackagePublishType.TinCan =>
+        val properties = new TinCanPackageGeneratorProperties(theme, randomOrdering, questionsPerUser, scoreLimit)
+        quizPublisher.publishQuizAsTincan(quizId, userId, courseId, properties)
     }
     QuizPublishStatusResponse(status = true)
   }
 
-  def download(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): InputStream = {
+  def download(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double]): InputStream = {
     val quiz = quizService.getQuiz(quizID)
 
     val generator = publishType match {
-      case PackagePublishType.SCORM  => new ScormPackageGenerator(quiz)
-      case PackagePublishType.TinCan => new TinCanQuizPackageGenerator(quiz, theme)
+      case PackagePublishType.Scorm => new ScormPackageGenerator(quiz)
+      case PackagePublishType.TinCan =>
+        val properties = new TinCanPackageGeneratorProperties(theme, randomOrdering, questionsPerUser, scoreLimit)
+        val uriContent = Option(JsonHelper.toJson(new QuizInfo(quiz)))
+        val rootActivityId = uriService.getOrCreate(uriService.getLocalURL(), UUID.randomUUID.toString, ValamisURIType.Course, uriContent)
+        new TinCanQuizPackageGenerator(quiz, rootActivityId.uri, properties)
     }
 
-    val filename = generator.generateZip(Some(courseID.toInt), randomOrdering, questionsPerUser)
-    new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
+    val zipFile = generator.generateZip(Some(courseID.toInt))
+    new FileInputStream(zipFile)
   }
 
-  def downloadExternal(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], portalURL: String): InputStream = {
+  def downloadExternal(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double], portalURL: String): InputStream = {
     val quiz = quizService.getQuiz(quizID)
-    val generator = new TinCanQuizPackageGenerator(quiz, theme, Some(portalURL))
-    val filename = generator.generateZip(Some(courseID.toInt), randomOrdering, questionsPerUser)
-    new FileInputStream(FileSystemUtil.getRealTmpDir + filename)
+    val properties = new TinCanPackageGeneratorProperties(theme, randomOrdering, questionsPerUser, scoreLimit)
+    val uriContent = Option(JsonHelper.toJson(new QuizInfo(quiz)))
+    val rootActivityId = uriService.getOrCreate(uriService.getLocalURL(), UUID.randomUUID.toString, ValamisURIType.Course, uriContent)
+    val generator = new TinCanQuizPackageGenerator(quiz, rootActivityId.uri, properties, Some(portalURL))
+
+    val zipFile = generator.generateZip(Some(courseID.toInt))
+    new FileInputStream(zipFile)
   }
 
   def update(quizId: Int, newTitle: String, newDescription: String, maxDuration: Option[Int]) = {
@@ -136,6 +120,20 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
     quizService.cloneQuiz(quizId, " (copy)")
   }
 
+  def convert(quizId: Int, courseId: Long): Unit = {
+    val quiz = quizService.getQuiz(quizId)
+    val createdSlideSet = slideSetService.create(
+      SlideSetModel(
+        None,
+        quiz.title,
+        quiz.description,
+        Some(courseId),
+        None,
+        List())
+    )
+    slideSetPublisher.importFromQuiz(createdSlideSet.id.get, quizId)
+  }
+
   def getContent(quizId: Int): Seq[QuizContentResponse] = {
     val rootCategories = quizService.getCategories(quizId, None)
       .map(c => toCategoryResponse(c, quizService.getQuestionsByCategory(quizId, Some(c.id))))
@@ -145,6 +143,13 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
 
     //TODO: add not root categories
     rootContent.sortBy(_.arrangementIndex)
+  }
+
+  private def toCategoryResponse(c: QuizQuestionCategory, qs: Seq[QuizQuestion]) = {
+    val arrangementIndex = quizService.getCategoryIndex(c.quizID, c.id)
+    QuizCategoryResponse(
+      "c_" + c.id, c.quizID, c.title, arrangementIndex, qs.map(q => toQuestionResponse(q))
+    )
   }
 
   def getQuestionPreview(quizID: Int, questionId: String): QuizQuestionPreview = {
@@ -172,6 +177,7 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
       case Some(q: DLVideoQuizQuestion) => QuizQuestionPreviewContent(
         gen.getHTMLByQuestionId(new DLVideo(q.id, q.categoryID, q.title.getOrElse(""), q.uuid, q.categoryID, q.uuid, q.groupId), false, context)
       )
+      case _ => throw new Exception("unsupport question type")
     }
   }
 
@@ -207,8 +213,38 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
     toQuestionResponse(question)
   }
 
-  def addVideo(quizID: Int, categoryID: Option[String], title: String, url: String, fromDL: Boolean, uuid: Option[String], groupId: Option[Long]): QuizQuestionResponse = {
-    val question = if (fromDL) quizService.createQuestionDocumentLibrary(quizID, categoryID.map(idFromCategory), title, uuid.get, groupId.get.toInt)
+  private def toQuestionResponse(question: QuizQuestion) = {
+    val arrangementIndex = quizService.getQuestionIndex(question.quizID, question.id)
+    question match {
+      case q: QuestionBankQuizQuestion => QuizQuestionBankResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.question.title, q.question, q.autoShowAnswer, arrangementIndex, q.question.questionTypeCode // TODO: convert answer
+      )
+      case q: PlainTextQuizQuestion => QuizQuestionPlainTextResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.text, arrangementIndex
+      )
+      case q: ExternalQuizQuestion => QuizQuestionExternalResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.url, arrangementIndex
+      )
+      case q: RevealJSQuizQuestion => QuizQuestionRevealJSResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.content, arrangementIndex
+      )
+      case q: PDFQuizQuestion => QuizQuestionPDFResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.filename, arrangementIndex
+      )
+      case q: PPTXQuizQuestion => QuizQuestionPPTXResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), arrangementIndex
+      )
+      case q: DLVideoQuizQuestion => QuizQuestionVideoDLResponse(
+        "q_" + q.id, q.quizID, q.categoryID, q.title.getOrElse(""), q.uuid, arrangementIndex
+      )
+      case _ => throw new Exception("Unknown type of question")
+    }
+  }
+
+  private def idFromCategory(id: String) = id.replace("c_", "").toInt
+
+  def addVideo(quizID: Int, categoryID: Option[String], title: String, url: String, fromDL: Boolean, uuid: Option[String], groupId: Long): QuizQuestionResponse = {
+    val question = if (fromDL) quizService.createQuestionDocumentLibrary(quizID, categoryID.map(idFromCategory), title, uuid.get, groupId.toInt)
     else {
       val r = """(?i)(?<=src=")(.+?)(?=")""".r
       val iframeURL = r.findAllIn(url).toSeq
@@ -230,6 +266,8 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
 
   def updateQuestionPlainText(quizID: Int, questionID: String, title: String): Unit =
     quizService.updateQuestionPlainText(idFromQuestion(questionID), title)
+
+  private def idFromQuestion(id: String) = id.replace("q_", "").toInt
 
   def updateQuestionRevealJS(quizID: Int, questionID: String, title: String): Unit =
     quizService.updateQuestionRevealJS(idFromQuestion(questionID), title)
@@ -281,8 +319,8 @@ class QuizFacade(configuration: BindingModule) extends QuizFacadeContract with I
     new QuizExportProcessor().exportItems(quizzes)
   }
 
-  override def importLessons(filename: String, courseID: Int): Unit = {
-    new QuizImportProcessor().importItems(filename, courseID)
+  override def importLessons(file: File, courseID: Int): Unit = {
+    new QuizImportProcessor().importItems(file, courseID)
   }
 
 }

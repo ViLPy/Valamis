@@ -9,10 +9,15 @@ case class QuestionResponse(id: Int,
   title: String,
   text: String,
   explanationText: String,
+  rightAnswerText: String,
+  wrongAnswerText: String,
   forceCorrectCount: Boolean,
   isCaseSensitive: Boolean,
   answers: Seq[AnswerResponse],
   questionType: Int,
-  categoryID: Int,
-  arrangementIndex: Int = 0)
+  categoryID: Option[Int],
+  arrangementIndex: Int = 0,
+  contentType:String = "question",
+  uniqueId: String,
+  courseId: Int) extends ContentResponse
 

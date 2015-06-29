@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -10,14 +10,14 @@
  */
 CKEDITOR.plugins.add( 'colorbutton', {
 	requires: 'panelbutton,floatpanel',
+	// jscs:disable maximumLineLength
 	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	// jscs:enable maximumLineLength
 	icons: 'bgcolor,textcolor', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		var config = editor.config,
 			lang = editor.lang.colorbutton;
-
-		var clickFn;
 
 		if ( !CKEDITOR.env.hc ) {
 			addButton( 'TextColor', 'fore', lang.textColorTitle, 10 );
@@ -98,22 +98,25 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			} );
 		}
 
-
 		function renderColors( panel, type, colorBoxId ) {
 			var output = [],
-				colors = config.colorButton_colors.split( ',' );
+				colors = config.colorButton_colors.split( ',' ),
+				// Tells if we should include "More Colors..." button.
+				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
+				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
+				// screen readers doesn't play nice with table, based layouts (#12097).
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
+				var applyColorStyle = arguments.callee;
+				function onColorDialogClose( evt ) {
+					this.removeListener( 'ok', onColorDialogClose );
+					this.removeListener( 'cancel', onColorDialogClose );
+
+					evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
+				}
+
 				if ( color == '?' ) {
-					var applyColorStyle = arguments.callee;
-
-					function onColorDialogClose( evt ) {
-						this.removeListener( 'ok', onColorDialogClose );
-						this.removeListener( 'cancel', onColorDialogClose );
-
-						evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
-					}
-
 					editor.openDialog( 'colordialog', function() {
 						this.on( 'ok', onColorDialogClose );
 						this.on( 'cancel', onColorDialogClose );
@@ -155,7 +158,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				' title="', lang.auto, '"' +
 				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
 				' href="javascript:void(\'', lang.auto, '\')"' +
-				' role="option">' +
+				' role="option" aria-posinset="1" aria-setsize="', total, '">' +
 				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 					'<tr>' +
 						'<td>' +
@@ -188,21 +191,21 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
-						' role="option">' +
+						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
 					'</td>' );
 			}
 
 			// Render the "More Colors" button.
-			if ( editor.plugins.colordialog && config.colorButton_enableMore === undefined || config.colorButton_enableMore ) {
+			if ( moreColorsEnabled ) {
 				output.push( '</tr>' +
 					'<tr>' +
 						'<td colspan=8 align=center>' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="', lang.more, '"' +
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
-								' href="javascript:void(\'', lang.more, '\')"', ' role="option">', lang.more, '</a>' +
+								' href="javascript:void(\'', lang.more, '\')"', ' role="option" aria-posinset="', total, '" aria-setsize="', total, '">', lang.more, '</a>' +
 						'</td>' ); // tr is later in the code.
 			}
 

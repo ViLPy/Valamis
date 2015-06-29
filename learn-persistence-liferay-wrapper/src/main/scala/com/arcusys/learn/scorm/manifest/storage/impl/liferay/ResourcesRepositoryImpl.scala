@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFResource
 import com.arcusys.learn.persistence.liferay.service.LFResourceLocalServiceUtil
-import com.arcusys.learn.scorm.manifest.model.{ AssetResource, ScoResource, Resource }
-import com.arcusys.learn.scorm.manifest.storage.ResourcesStorage
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ AssetResource, ScoResource, Resource }
+import com.arcusys.valamis.lesson.scorm.storage.ResourcesStorage
 import scala.collection.JavaConverters._
 
 /**
@@ -15,12 +15,12 @@ class ResourcesRepositoryImpl extends ResourcesStorage {
     LFResourceLocalServiceUtil.removeAll()
   }
 
-  override def createForPackageAndGetID(packageID: Int, entity: Resource): Int = {
+  override def createForPackageAndGetID(packageId: Long, entity: Resource): Int = {
     val newEntity = LFResourceLocalServiceUtil.createLFResource()
 
     newEntity.setResourceID(entity.id)
-    newEntity.setBase(entity.base.getOrElse(null))
-    newEntity.setHref(entity.href.getOrElse(null))
+    newEntity.setBase(entity.base.orNull)
+    newEntity.setHref(entity.href.orNull)
 
     newEntity.setScormType(entity match {
       case s: ScoResource   => "sco"
@@ -28,25 +28,25 @@ class ResourcesRepositoryImpl extends ResourcesStorage {
       case _                => throw new UnsupportedOperationException("Unknown resource type")
     })
 
-    newEntity.setPackageID(packageID)
+    newEntity.setPackageID(packageId.toInt)
     LFResourceLocalServiceUtil.addLFResource(newEntity).getPrimaryKey.toInt
   }
 
-  override def delete(packageID: Int): Unit = {
-    LFResourceLocalServiceUtil.deleteLFResource(packageID)
+  override def delete(packageId: Long): Unit = {
+    LFResourceLocalServiceUtil.deleteLFResource(packageId.toInt)
   }
 
   override def getAll: Seq[Resource] = {
     LFResourceLocalServiceUtil.getLFResources(-1, -1).asScala map extract
   }
 
-  override def getByID(packageID: Int, resourceID: String): Option[Resource] = {
-    LFResourceLocalServiceUtil.findByPackageIDAndResourceID(packageID, resourceID, 0, 1).asScala
+  override def getByID(packageId: Long, resourceID: String): Option[Resource] = {
+    LFResourceLocalServiceUtil.findByPackageIDAndResourceID(packageId.toInt, resourceID, 0, 1).asScala
       .headOption.map(extract)
   }
 
-  override def getByPackageID(packageID: Int): Seq[Resource] = {
-    LFResourceLocalServiceUtil.findByPackageID(packageID).asScala
+  override def getByPackageID(packageId: Long): Seq[Resource] = {
+    LFResourceLocalServiceUtil.findByPackageID(packageId.toInt).asScala
       .map(extract)
   }
 

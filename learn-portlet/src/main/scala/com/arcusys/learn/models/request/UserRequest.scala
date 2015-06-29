@@ -1,56 +1,64 @@
 package com.arcusys.learn.models.request
 
 import com.arcusys.learn.service.util.Parameter
+import com.arcusys.valamis.model.SkipTake
 import org.scalatra.ScalatraBase
 import com.arcusys.learn.models.BaseCollectionRequest
 
-/**
- * Created by Iliya Tryapitsin on 12.03.14.
- */
 object UserRequest extends BaseCollectionRequest {
-  val USER_ID = "userID"
-  val RESULT_AS = "resultAs"
-  val COMPANY_ID = "companyID"
-  val ORG_ID = "orgId"
-  val SCOPE = "scope"
+  val UserId = "userID"
+  val ResultAs = "resultAs"
+  val CompanyId = "companyID"
+  val OrgId = "orgId"
+  val Scope = "scope"
 
-  val MODULE_ID = "moduleId"
-  val AVAILABLE = "available"
-  val IS_ONLY_PUBLISHED = "isOnlyPublished"
-  val CERTIFICATE_ID = "certificateId"
-  val WITH_OPENBADGES = "withOpenBadges"
+  val ModuleId = "moduleId"
+  val Available = "available"
+  val IsOnlyPublished = "isOnlyPublished"
+  val CertificateId = "certificateId"
+  val WithOpenbadges = "withOpenBadges"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
-  class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
-    def requestedUserId = Parameter(USER_ID).intRequired
+  class Model(val scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) with OAuthModel {
+    def requestedUserId = Parameter(UserId).intRequired
 
-    def isUserIdRequest = Parameter(USER_ID).option.isDefined
+    def isUserIdRequest = Parameter(UserId).option.isDefined
 
-    def orgId = Parameter(ORG_ID).longRequired
+    def skipTake = {
+      val page = Parameter(Page).option
+      val count = Parameter(Count).intOption
 
-    def moduleID = Parameter(MODULE_ID).intRequired
+      if (page.isDefined && count.isDefined)
+        Some(SkipTake(skip, count.get))
+      else
+        None
+    }
 
-    def isShortResult = Parameter(RESULT_AS).option match {
+    def orgId = Parameter(OrgId).longOption.filterNot(_ == -1)
+
+    def moduleID = Parameter(ModuleId).intRequired
+
+    def isShortResult = Parameter(ResultAs).option match {
       case Some(value) => value == "short"
       case None        => true
     }
 
-    def available = Parameter(AVAILABLE).booleanOption match {
+    def available = Parameter(Available).booleanOption match {
       case Some(value) => value
       case None        => false
     }
 
-    def scope = Parameter(SCOPE).longOption
+    def scope = Parameter(Scope).longOption
 
-    def isOnlyPublished = Parameter(IS_ONLY_PUBLISHED).booleanOption match {
+    def isOnlyPublished = Parameter(IsOnlyPublished).booleanOption match {
       case Some(value) => value
       case None        => true
     }
 
-    def certificateId = Parameter(CERTIFICATE_ID).intRequired
+    def certificateId = Parameter(CertificateId).intRequired
 
-    def withOpenBadges = Parameter(WITH_OPENBADGES).booleanOption match {
+    def withOpenBadges = Parameter(WithOpenbadges).booleanOption match {
       case Some(value) => value
       case None        => false
     }

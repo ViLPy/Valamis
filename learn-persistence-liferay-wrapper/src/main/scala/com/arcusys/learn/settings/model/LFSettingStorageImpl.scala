@@ -1,8 +1,9 @@
 package com.arcusys.learn.settings.model
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.settings.model.Setting
 import com.arcusys.learn.persistence.liferay.service.LFConfigLocalServiceUtil
+import com.arcusys.valamis.settings.model
+import com.arcusys.valamis.settings.model.{ SettingType, Setting }
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFConfig
 
@@ -10,12 +11,12 @@ import com.arcusys.learn.persistence.liferay.model.LFConfig
  * User: Yulia.Glushonkova
  * Date: 02.10.13
  */
-trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
+trait LFSettingStorageImpl extends KeyedEntityStorage[model.Setting] {
   protected def doRenew() {
     LFConfigLocalServiceUtil.removeAll()
   }
 
-  def extract(entity: LFConfig) = new Setting(
+  def extract(entity: LFConfig) = new model.Setting(
     entity.getId.toInt,
     SettingType.withName(entity.getDataKey),
     entity.getDataValue)
@@ -37,7 +38,7 @@ trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
     throw new UnsupportedOperationException
   }
 
-  def create(entity: Setting, parameters: (String, Any)*) {
+  def create(entity: model.Setting, parameters: (String, Any)*) {
     throw new UnsupportedOperationException
   }
 
@@ -56,7 +57,7 @@ trait LFSettingStorageImpl extends KeyedEntityStorage[Setting] {
 
   }
 
-  def modify(entity: Setting, parameters: (String, Any)*) {
+  def modify(entity: model.Setting, parameters: (String, Any)*) {
     throw new UnsupportedOperationException
   }
 

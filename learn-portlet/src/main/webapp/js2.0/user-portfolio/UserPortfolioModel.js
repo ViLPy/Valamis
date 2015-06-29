@@ -1,9 +1,17 @@
 var UserAccountService = new Backbone.Service({ url: path.root,
     sync:{
         'read':{
-            'path':function (model) {
-                return path.api.users + jQuery("#userID").val() + "?withOpenBadges=true&resultAs=none";
-            }
+            path: function (model, options) {
+                return path.api.users + options.data.userId;
+            },
+            'data': function () {
+                return {
+                    withOpenBadges: 'true',
+                    resultAs: 'none',
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'get'
         }
     }
 });

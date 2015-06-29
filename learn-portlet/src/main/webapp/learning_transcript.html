@@ -2,8 +2,6 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -15,12 +13,12 @@
         <div id="transcriptData">
         </div>
     </div>
+    <div id="transcript-modals-layout"></div>
 
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
     <input type="hidden" id="transcriptUserID" value="{{userID}}"/>
     <input type="hidden" id="transcriptCompanyID" value="{{companyID}}">
-    <input type="hidden" id="transcriptCourseID" value="{{courseID}}">
-    <input type="hidden" id="transcriptIsTeacher" value="{{isTeacher}}">
+    <input type="hidden" id="transcriptIsTeacher" value="{{viewAllPermission}}">
 </div>
 
 
@@ -53,41 +51,52 @@
 
 
     var SelectUserModal = Backbone.Modal.extend({
-        template: _.template(Mustache.to_html(jQuery('#certificate-add-members-modal-template').html(), scormLanguageDataUser)),
+        template: function (data) {
+            return Mustache.to_html(jQuery('#certificate-common-modal-template').html(), {certificateModalTitle: scormLanguageDataUser['selectUserLabel'] })
+        },
         submitEl: '.bbm-button',
         cancelEl: '.modal-close',
+        className: 'val-modal',
         onRender: function () {
             var dialog = new LiferayUserSelectDialog({getAllUsers: true, singleSelect: true, language: scormLanguageDataUser});
             dialog.on('closeModal', function () {
                 editCertificateLayout.modals.close();
             });
             dialog.on('lfUserSelected', this.selectUser, this);
-            this.$('.certificate-addMembers-dialog').append(dialog.render().$el);
+            this.$('.certificate-modal-content').append(dialog.render().$el);
         },
 
         selectUser: function (model) {
             jQuery('#transcriptUserID').val(model.id);
-            jQuery('#printLink').attr('href', '/delegate/print/?action=PRINT_TRANSCRIPT&companyID={{companyID}}&userID=' + model.id);
             editCertificateLayout.modals.close();
+            model.set({
+                userID: model.id,
+                courseId: Utils.getCourseId(),
+                companyID: '{{companyID}}'
+            });
             updateUserDetails(model);
             initUserView();
         }
     });
-
-    /*var userModal = new SelectUserModal();*/
 
     function initUserDetails () {
         var UserModel = Backbone.Model.extend({
             defaults: {}
         }).extend();
         var userModel = new UserModel();
-        userModel.set({name: "{{userName}}", picture: "{{userPicture}}", pageUrl: "{{userPageUrl}}"});
+        userModel.set({
+            name: '{{userName}}',
+            picture: '{{{userPicture}}}',
+            pageUrl: '{{{userPageUrl}}}',
+            companyID: '{{companyID}}',
+            userID: '{{userID}}',
+            courseId: Utils.getCourseId()});
         updateUserDetails(userModel);
     }
 
     function updateUserDetails (model) {
         var template = Mustache.to_html(jQuery('#transcriptUserDetailsTemplate').html(), _.extend(model.toJSON(), scormLanguageDataUser));
-        jQuery('#selectedUser').html('<tr>' + template + '</tr>');
+        jQuery('#transcriptSelectedUser').html(template);
     }
 
     function onUserLanguageLoad(properties) {
@@ -102,12 +111,12 @@
     }
 
     function createModalLayout () {
-        jQuery('body').append(editCertificateLayout.render().el);
+        jQuery('#transcript-modals-layout').append(editCertificateLayout.render().el);
 
-        var isTeacher = JSON.parse("{{isTeacher}}");
+        var viewAllPermission = JSON.parse("{{viewAllPermission}}");
 
         var userView = new TranscriptUsersView({el: jQuery1816User('#userButtons'), /*layout: editCertificateLayout, userModal: SelectUserModal,*/
-            language: _.extend(scormLanguageDataUser, {isTeacher: isTeacher})});
+            language: _.extend(scormLanguageDataUser, {isTeacher: viewAllPermission})});
 
         userView.on('openSelectUserModal', function () {
             var selectUserModal = new SelectUserModal();

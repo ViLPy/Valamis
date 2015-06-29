@@ -1,21 +1,19 @@
 <html>
 <head>
+
 </head>
 <body>
-<div id="divProjectLearnCourseIsCompleted">
-    <div id="projectLearnCourseIsCompleted">{{courseIsCompleted}}</div>
-</div>
-<div class="projectLearnGeneric" id="projectLearnGenericPlaceholder">
+<div class="projectLearnGeneric val-portlet" id="projectLearnGenericPlaceholder">
     <div id="SCORMPlayerContainer">
         <div id="packagePlayerList" class="SCORMPackageList"></div>
     </div>
     <div id="SCORMPlayerView"></div>
 </div>
+<div id="player-modals-layout"></div>
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-<input type="hidden" id="packageId" value="{{packageId}}"/>
-<input type="hidden" id="packageTitle" value="{{packageTitle}}"/>
-<input type="hidden" id="packageType" value="{{packageType}}"/>
-<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="playerPackageId" value="{{packageId}}"/>
+<input type="hidden" id="playerPackageTitle" value="{{packageTitle}}"/>
+<input type="hidden" id="playerPackageType" value="{{packageType}}"/>
 <input type="hidden" id="pageID" value="{{pageID}}"/>
 <input type="hidden" id="playerID" value="{{playerID}}"/>
 <input type="hidden" id="isCompleteByUser" value="{{isCompleteByUser}}">
@@ -26,78 +24,55 @@
 <input type="hidden" id="tincanLrsNotConfiguredMessage" value="{{tincanLrsNotConfigured}}">
 
 </body>
-<script type="text/template" id="player-modal-template">
-    <div class="bbm-modal__topbar">
-        <h3 class="bbm-modal__title valamis">{{pageSubTitleLabel}}</h3>
-
-        <div class="modal-close">
-        </div>
-    </div>
-
-    <div class="bbm-modal__section player-dialog">
-    </div>
-
-</script>
 <!--tincanLrsUserCredentials-->
 <script type="text/template" id="tincan-credentials-modal-template">
     <div class="bbm-modal__topbar">
         <h3 class="bbm-modal__title valamis">{{tincanLrsCredentialsDialogLabel}}</h3>
 
-        <div class="modal-close">
+        <div class="modal-close val-icon-exit">
         </div>
     </div>
 
-    <div class="bbm-modal__section">
-        {{tincanLrsCredentialsDialogMessage}}<br/>
-        <input id="tincanLaunchUrlCredentialsDialog" type="hidden"/>
-        <input id="tincanEndpointCredentialsDialog" type="hidden"/>
+    <div class="bbm-modal__section val-row shifted">
+        <h5> {{tincanLrsCredentialsDialogMessage}}</h5>
 
-        <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogLoginLabel}}</lable>
-        <input class="issuerSettingValue" id="tincanLoginCredentialsDialog" type="text"/><br/>
+        <label class="issuerSettingLabel" for="tincanLoginCredentialsDialog">{{tincanLrsCredentialsDialogLoginLabel}}</label>
+        <input class="issuerSettingValue form-input" id="tincanLoginCredentialsDialog" type="text" />
 
-        <lable class="issuerSettingLabel">{{tincanLrsCredentialsDialogPasswordLabel}}</lable>
-        <input class="issuerSettingValue" id="tincanPasswordCredentialsDialog" type="password"/><br/>
-
-        <input type="button" value="{{tincanLrsCredentialsDialogButtonLable}}"
-               onclick="openTincanPackageFromCredentialsDialog()"/>
+        <label class="issuerSettingLabel" for="tincanPasswordCredentialsDialog">{{tincanLrsCredentialsDialogPasswordLabel}}</label>
+        <input class="issuerSettingValue form-input" id="tincanPasswordCredentialsDialog" type="password"/>
     </div>
 
+    <div class="bbm-modal__bottombar">
+        <input type="button" class="button big primary" value="{{tincanLrsCredentialsDialogButtonLable}}"
+               onclick="setLRSFromCredentialsDialog()"/>
+    </div>
 </script>
 <script type="text/javascript" language="javascript">
-var jQuery1816Player = jQuery.noConflict();
+
 var scormPlayerPackages = new PlayerPackageModelCollection();
 var scormPlayer;
 var scormPlayerPackagesView;
 var scormPlayerLanguageData = {};
-var playerForcedView = false;
 var router;
+var endpointData = {{{endpointData}}};
+
+var permissionActionsLessonViewer = {
+    LV_SHARE: eval("{{permissionSharePackage}}")
+};
+
+TincanHelper.SetActor(JSON.parse(jQueryValamis("#tincanActor").val()));
+TincanHelper.SetLRS(endpointData);
 
 var playerSettings = new SettingsHelper({url: window.location.href, portlet: 'player'});
 playerSettings.fetch();
 
-//document.addEventListener("fullscreenchange", function () {
-//    scormPlayer.cancelFullscreenEscape(document.fullscreen);
-//}, false);
-//document.addEventListener("mozfullscreenchange", function () {
-//    scormPlayer.cancelFullscreenEscape(document.mozFullScreen);
-//}, false);
-//document.addEventListener("webkitfullscreenchange", function () {
-//    scormPlayer.cancelFullscreenEscape(document.webkitCurrentFullScreenElement != null);
-//}, false);
-//document.addEventListener("webkitendfullscreen", function () {
-//    scormPlayer.cancelFullscreenEscape(document.webkitCurrentFullScreenElement != null);
-//}, false);
-
-jQuery1816Player(function () {
+jQueryValamis(function () {
     Backbone.emulateJSON = true;
     Backbone.ajax = window.LearnAjax.ajax;
-    jQuery1816Player("#packageId").val("{{packageId}}");
-    jQuery("#divProjectLearnCourseIsCompleted").hide();
-    jQuery("#projectLearnCourseIsCompleted").hide();
-    jQuery("#projectLearnGenericPlaceholder").hide();
+    jQueryValamis("#playerPackageId").val("{{packageId}}");
     window.API_1484_11 = new SCORM2004_4API();
     window.API = new SCORM12API();
-    playerForcedView = ('{{forcedView}}' == 'true');
 
     // upload translations
     var defaultURL = Utils.getContextPath() + '/i18n/lessonViewer_en.properties';
@@ -119,162 +94,110 @@ function onPlayerLanguageError() {
 }
 
 function initPlayerView() {
-    if (!checkIfNeedToHidePlayer()) {
-        scormPlayer = new PlayerView({el: jQuery1816Player("#SCORMPlayerView"), language: scormPlayerLanguageData});
-        jQuery1816Player("#SCORMPlayerView").hide();
-        scormPlayer.on('exit', exit);
-        scormPlayer.on('suspend', suspend);
-        scormPlayer.on('endSession', endSession);
-        scormPlayer.on('exitfromyourfullscreen', function() {scormPlayer.cancelFullscreenEscape(false); scormPlayer.fullscreenChange();});
-        window.scormPlayerView = scormPlayer;
+    scormPlayer = new PlayerView({el: jQueryValamis("#SCORMPlayerView"), language: scormPlayerLanguageData});
+    jQueryValamis("#SCORMPlayerView").hide();
+    scormPlayer.on('player:suspend', endSession);
+    scormPlayer.on('player:endSession', endSession);
+    window.scormPlayerView = scormPlayer;
 
-        scormPlayerPackagesView = new PlayerPackageListView({
-            el: jQuery1816Player("#packagePlayerList"),
-            collection: scormPlayerPackages,
-            language: scormPlayerLanguageData,
-            forcedView: playerForcedView});
-        scormPlayerPackagesView.on('start', startPackage);
-        scormPlayerPackagesView.on('resume', resumePackage);
-        scormPlayerPackages.on('packageCollection:updated', function(obj){
-            scormPlayerPackagesView.paginator.updateItems(obj.total);
-        });
-        scormPlayerPackages.fetch({
-            reset: true,
-            currentPage: 1,
-            itemsOnPage: scormPlayerPackagesView.paginatorModel.get('itemsOnPage'),
-            success: jQuery1816Player.proxy(function (arg) {
-                //This code shouldn't work, because this callback previously wasn't called. Ever. But I'm afraid to remove it.
-                var packageToOpen = parseInt("{{entryID}}");
-                if (packageToOpen) {
-                    startPackage(scormPlayerPackages.get(packageToOpen));
+    scormPlayerPackagesView = new PlayerPackageListView({
+        el: jQueryValamis("#packagePlayerList"),
+        collection: scormPlayerPackages,
+        language: scormPlayerLanguageData,
+        permissions: permissionActionsLessonViewer
+    });
+    scormPlayerPackages.on('packageCollection:updated', function(obj){
+        scormPlayerPackagesView.paginator.updateItems(obj.total);
+    });
+    scormPlayerPackagesView.on('showSharePackageModal', function(model){
+        var view = new SharePackageModal(model);
+        window.playerLayout.modals.show(view);
+    });
+    scormPlayerPackages.fetch({
+        reset: true,
+        currentPage: 1,
+        itemsOnPage: scormPlayerPackagesView.paginatorModel.get('itemsOnPage'),
+        success: jQueryValamis.proxy(function (arg) {
+            //This code shouldn't work, because this callback previously wasn't called. Ever. But I'm afraid to remove it.
+//                var packageToOpen = parseInt("{{entryID}}");
+//                if (packageToOpen) {
+//                    startPackage(scormPlayerPackages.get(packageToOpen));
+//                }
+            //END of theoretically not working code section.
+
+            if(window.localStorage.getItem('playerSettings') !== null){
+                var pdata = JSON.parse(window.localStorage.getItem('playerSettings'));
+
+                var idList = arg.map(function(x){ return x.id; });
+                var pdataId = parseInt(pdata.id);
+                if(_.contains(idList, pdataId)){
+                    window.location.hash = '/lesson/'+pdata['id']+'/'+ pdata['type'] + '/' + pdata['title'] + '/' + pdata['isSuspended'];
+                } else {
+                    window.localStorage.removeItem('playerSettings');
                 }
-                //END of theoretically not working code section.
-
-                if(window.localStorage.getItem('playerSettings') !== null){
-                    var pdata = JSON.parse(window.localStorage.getItem('playerSettings'));
-
-                    var idList = arg.map(function(x){ return x.id; });
-                    if(_.contains(idList, pdata.id)){
-                        window.location.hash = '/lesson/'+pdata['id']+'/'+ pdata['type'] + '/' + pdata['title'];
-                    } else {
-                        window.localStorage.removeItem('playerSettings');
-                    }
+            }
+            else {
+                if (jQueryValamis("#playerPackageId").val()) {
+                    window.location.hash = '/lesson/' + jQueryValamis("#playerPackageId").val() + '/' + jQueryValamis("#playerPackageType").val() + '/' + jQueryValamis("#playerPackageTitle").val() +'/false';
                 }
-                window.location.hash = '/lesson/'+jQuery("#packageId").val()+'/'+ jQuery("#packageType").val() + '/' + jQuery("#packageTitle").val();
-        }, this)});
-    }
+            }
+
+    }, this)});
 
     window.playerLayout = new PlayerLayout();
-    jQuery('body').append(playerLayout.render().el);
+    jQueryValamis('#player-modals-layout').append(playerLayout.render().el);
     window.tincanModal = new TincanModal();
 }
 
-function suspend() {
-    clearParameters();
-    scormPlayerPackagesView.reloadPackageList();
-    togglePlayer();
-    router.navigate('/');
-    scormPlayerPackagesView.resize();
-}
-
-function exit() {
-    clearParameters();
-    scormPlayerPackagesView.reloadPackageList();
-    scormPlayerPackagesView.resize();
-}
-
-function openTincanPackageFromCredentialsDialog() {
-    var login = jQuery("#tincanLoginCredentialsDialog").val();
-    var password = jQuery("#tincanPasswordCredentialsDialog").val();
-    var endpoint = jQuery("#tincanEndpointCredentialsDialog").val();
-    var launchUrl = jQuery("#tincanLaunchUrlCredentialsDialog").val();
-
-    //jQuery1816Player('#tincanLrsUserCredentials').dialog('close');
-    window.tincanModal.close();
-    scormPlayer.openTincanPackage(launchUrl, endpoint, "Basic " + btoa(login + ":" + password))
-}
-
 function setLRSFromCredentialsDialog() {
-    var login = jQuery("#tincanLoginCredentialsDialog").val();
-    var password = jQuery("#tincanPasswordCredentialsDialog").val();
-    var endpoint = jQuery("#tincanEndpointCredentialsDialog").val();
+    var login = jQueryValamis("#tincanLoginCredentialsDialog").val();
+    var password = jQueryValamis("#tincanPasswordCredentialsDialog").val();
 
-    //jQuery1816Player('#tincanLrsUserCredentials').dialog('close');
+    //jQueryValamis('#tincanLrsUserCredentials').dialog('close');
     window.tincanModal.close();
-    SetLRS(endpoint, "Basic " + btoa(login + ":" + password))
+    TincanHelper.SetLRSAuth("Basic " + btoa(login + ":" + password))
 }
 
-function startPackage(data) {
-    var mode = jQuery('#playerShowMode').val();
-
-    var packageTitle = data.get('title');
-    var packageId = data.id;
-    var packageType = data.get('packageType');
-    jQuery("#packageId").val(packageId);
-    jQuery("#packageTitle").val(packageTitle);
-    jQuery("#packageType").val(packageType);
-    saveParameters(packageId, packageTitle, packageType);
-
-    if (mode == "newWindow"){
-        window.location.hash = '/';
-        window.open(window.location.href + 'lesson/'+packageId+'/'+packageType + '/'+packageTitle, '_blank');
-    }
-    else {
-        window.location.hash = '/lesson/'+packageId+'/'+packageType + '/'+packageTitle;
-    }
-}
-
-function packageStart(packageId, packageTitle, packageType) {
+function packageStart(packageId, packageTitle, packageType, isSuspended) {
     if (packageId) {
-        scormPlayer.setName(packageTitle);
-        scormPlayer.load(packageId, packageType, packageTitle);
-        togglePlayer();
+        TincanHelper.SetActor(JSON.parse(jQueryValamis("#tincanActor").val()));
+        TincanHelper.initialize(function () {
+            saveParameters(packageId, packageTitle, packageType, isSuspended);
+            scormPlayer.setName(packageTitle);
+            if (isSuspended == "true") {
+                scormPlayer.loadAndResume(packageId, packageType, packageTitle);
+            }
+            else {
+                scormPlayer.load(packageId, packageType, packageTitle);
+            }
+            showLessonContent();
+        });
     }
-}
-function checkIfNeedToHidePlayer() {
-    jQuery("#divProjectLearnCourseIsCompleted").hide();
-    jQuery("#projectLearnCourseIsCompleted").hide();
-    jQuery("#projectLearnGenericPlaceholder").show();
-    return false;
 }
 
 function saveSessionParameters(id, title, type) {
-    jQuery.ajax({
+    jQueryValamis.ajax({
         type: 'POST',
         url: path.root + path.sequencing + "setSession",
-        data: {id: id, type: type, title: title, playerID: jQuery("#playerID").val()}
+        data: {id: id, type: type, title: title, playerID: jQueryValamis("#playerID").val()}
 
     });
 }
 
 function clearSessionParameters() {
-    jQuery.ajax({
+    jQueryValamis.ajax({
         type: 'POST',
         url: path.root + path.sequencing + "clearSession"
     });
 }
 
-function saveParameters(id, title, type){
-    var pdata = {id: id, type: type, title: title, playerID: jQuery("#playerID").val()};
+function saveParameters(id, title, type, isSuspended){
+    var pdata = {id: id, type: type, title: title, isSuspended: isSuspended, playerID: jQueryValamis("#playerID").val()};
     localStorage.setItem('playerSettings', JSON.stringify(pdata));
 }
 
 function clearParameters(){
     localStorage.removeItem('playerSettings');
-}
-
-function resumePackage(data) {
-    var packageTitle = data.get('title');
-    var packageType = data.get('packageType');
-    var packageId = data.id;
-
-    router.navigate('/lesson/'+packageId+'/'+packageType + '/' + packageTitle);
-    saveParameters(packageId, packageTitle, packageType);
-    scormPlayer.setName(packageTitle);
-    scormPlayer.loadAndResume(packageId, packageType, packageTitle);
-
-    togglePlayer();
-
 }
 
 function scormGetNext() {
@@ -288,19 +211,25 @@ function scormJump(target) {
 }
 
 function endSession() {
-    togglePlayer();
+    showLessonList();
     clearParameters();
     router.navigate('/');
+    scormPlayerPackagesView.reloadPackageList();
 }
 
-function togglePlayer() {
-    jQuery1816Player("#SCORMPlayerContainer").toggle();
-    jQuery1816Player("#SCORMPlayerView").toggle();
+function showLessonList() {
+    jQueryValamis("#SCORMPlayerContainer").show();
+    jQueryValamis("#SCORMPlayerView").hide();
 }
 
+function showLessonContent() {
+    jQueryValamis("#SCORMPlayerContainer").hide();
+    jQueryValamis("#SCORMPlayerView").show();
+    jQueryValamis('#SCORMDataOutput').focus();
+}
 
 var PlayerLayout = Backbone.Marionette.Layout.extend({
-    template: _.template(Mustache.to_html(jQuery('#player-modals-template').html(), scormPlayerLanguageData)),
+    template: _.template(Mustache.to_html(jQueryValamis('#player-modals-template').html(), scormPlayerLanguageData)),
     regions: {
         modals: {
             selector: '.player-modals-container',
@@ -311,25 +240,50 @@ var PlayerLayout = Backbone.Marionette.Layout.extend({
 
 
 var TincanModal = Backbone.Modal.extend({
-    template: _.template(Mustache.to_html(jQuery('#tincan-credentials-modal-template').html(), scormPlayerLanguageData)),
+    template: _.template(Mustache.to_html(jQueryValamis('#tincan-credentials-modal-template').html(), scormPlayerLanguageData)),
     submitEl: '.bbm-button',
     cancelEl: '.modal-close',
     initialize: function (options) {
     }
 });
 
+var SharePackageModal = Backbone.Modal.extend({
+    template: function() {
+        return Mustache.to_html(jQueryValamis('#player-modal-template').html(), {playerModalLabel: scormPlayerLanguageData['packageCommentLabel'] })
+    },
+    className: 'val-modal',
+    submitEl: '.js-post-share-package',
+    cancelEl: '.modal-close',
+    initialize: function (model) {
+        this.packageModel = model;
+    },
+    onRender: function () {
+        var dialog = new SharePackageModalView({
+            language: scormPlayerLanguageData
+        });
+        this.$('.player-dialog').html(dialog.render().$el);
+    },
+    submit: function() {
+        this.packageModel.sharePackage({}, {comment: this.$('.js-package-comment').val()}).then(function (result) {
+            toastr.success(scormPlayerLanguageData['overlayCompleteMessageLabel']);
+        }, function (err, res) {
+            toastr.error(scormPlayerLanguageData['overlayFailedMessageLabel']);
+        });
+    }
+});
+
 var Router = Backbone.Router.extend({
     routes: {
         ''     : 'index',
-        'lesson/:id/:type/:title' : 'lesson'
+        'lesson/:id/:type/:title/:isSuspended' : 'lesson'
     },
 
     index: function(){
 
     },
 
-    lesson: function(id, type, title){
-        packageStart(id, title, type);
+    lesson: function(id, type, title, isSuspended){
+        packageStart(id, title, type, isSuspended);
     }
 });
 

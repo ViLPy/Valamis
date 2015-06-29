@@ -1,449 +1,269 @@
-<!-- Region container -->
-<script type="text/template" id="package-manager-modals-template">
-    <div class="modals-container"></div>
-</script>
+<script type="text/template" id="lessonManagerLayoutTemplate">
+    <div id="lessonManagerToolbar"></div>
+    <div id="lessonManagerPackages"></div>
+    <div id="lessonManagerPaginator" class="val-paginator text-center"></div>
 
-<!-- Modal templates  -->
-<script type="text/template" id="package-manager-fileupload-modal-template">
-    <div class="bbm-modal__topbar">
-        <h3 class="bbm-modal__title">{{fileUploadModalHeader}}</h3>
-
-        <div class="modal-close"></div>
+    <div id="lessonManagerEditModalRegion"></div>
+    <div id="lessonManagerModalRegion">
     </div>
-    <div class="bbm-modal__section package-uploader-dialog"></div>
 </script>
 
-<script type="text/template" id="packageManagerFileUploader">
-    <div class="pull-right button-upload-area">
-        <button class="button valamis big green val-icon-upload js-file-upload">
-            {{fileUploadOpenDialogButtonLabel}}
+<script type="text/template" id="packageManagerToolbarTemplate">
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" class="js-search" placeholder="{{searchLabel}}">
+        </div>
+        <div class="dropdown filter-element shift-left js-category-filter" id="lessonManagerTags" data-value="">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{allCategoriesLabel}}</span>
+                <span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected js-category" data-value="">{{allCategoriesLabel}}</li>
+                {{#categories}}
+                <li class="js-category" data-value="{{id}}">{{text}}</li>
+                {{/categories}}
+            </ul>
+        </div>
+        <div class="dropdown filter-element shift-left js-display-filter">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{searchFormDisplayAllPackagesOption}} </span>
+                <span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="js-display" data-value="" >{{searchFormDisplayAllPackagesOption}} </li>
+                <li class="js-display" data-value="tincan">{{searchFormDisplayTincanPackagesOption}} </li>
+                <li class="js-display" data-value="scorm">{{searchFormDisplayScormPackagesOption}} </li>
+            </ul>
+        </div>
+        <div class="dropdown filter-element shift-left js-scope-filter">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{searchFormScopeSiteScope}}</span>
+                <span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="js-scope" data-value="site"> {{searchFormScopeSiteScope}} </li>
+                <li class="js-scope" data-value="instance"> {{searchFormScopeInstanceScope}} </li>
+            </ul>
+        </div>
+
+        {{#LM_MODIFY}}
+        {{#LM_CAN_UPLOAD}}
+        <div class="filter-element shift-right">
+            <button class="button medium primary shift-right js-package-upload">
+                <span class="val-icon-upload"></span>{{fileUploadOpenDialogButtonLabel}}
+            </button>
+        </div>
+        {{/LM_CAN_UPLOAD}}
+        {{/LM_MODIFY}}
+    </div>
+
+    <div class="val-row filters-row">
+        <div class="shift-left filter-element paging-showing-label" id="lessonManagerToolbarShowing"></div>
+
+        <div class="dropdown filter-element shift-right js-sort-filter">
+            <button class="button medium simple ">
+                <span class="dropdown-text"> {{byNameAscLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                <li class="js-sort" data-value="nameAsc"> {{byNameAscLabel}} </li>
+                <li class="js-sort" data-value="nameDesc"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+        <button class="button medium simple no-text hide-s shift-right js-display-option js-tile-view">
+            <span class="val-icon-grid-view">Grid View</span>
+        </button>
+        <button class="button medium simple no-text hide-s shift-right js-display-option js-list-view active">
+            <span class="val-icon-list-view">List View</span>
         </button>
     </div>
+
 </script>
 
-<script type="text/template" id="packageManagerToolbar">
-        <!--<button class="button valamis medium grey val-icon-check">Select All</button>-->
-        <!--<button class="button valamis medium grey dropdown-button active">Action</button>-->
-        <div class="valamis-paginator pull-right" id="pagingWrapper">
+<script type="text/html" id="packageManagerItemView">
+    <div class="tile-content with-action">
+        <div class="image"
+             {{#logo}}
+                 style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
+             {{/logo}}
+             {{^logo}}
+                 style="background-image: url('/learn-portlet/img/imgo.jpg')"
+             {{/logo}}>
+
         </div>
+    <ul>
+        <li class="title">{{title}}</li>
+        <li class="description">{{description}}</li>
+        <li class="categories">{{tagsList}}</li>
 
-        <div class="pull-right hidden-xs">
-            <div class="select-element-label">{{toolbarViewsLabel}}</div>
-            <div class="button-group">
-                <button class="button valamis medium grey val-icon-list-view no-text js-list-view js-display-option"
-                        id="packageManagerListView">
-                    {{toolbarViewsOptionListLabel}}
-                </button>
-                <button class="button valamis medium grey val-icon-grid-view no-text active js-tile-view js-display-option"
-                        id="packageManagerTilesView">
-                    {{toolbarViewsOptionGridLabel}}
-                </button>
-            </div>
-        </div>
-</script>
+        <li class="list-flags-view">
+            <input type="checkbox" id="lmPackageVisibility{{id}}" name="check" class="js-visible val-checkbox"
+            {{#visibility}}checked{{/visibility}}
+            {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}
+            {{^LM_SET_VISIBLE}} disabled="disabled" {{/LM_SET_VISIBLE}} />
+            <label for="lmPackageVisibility{{id}}" class="checkbox-label">{{packageItemIsVisibleLabel}}</label>
+        </li>
 
-<script type="text/html" id="packageManagerSearch">
-    <h3 class="hidden-sm hidden-xs">{{searchFormHeader}}</h3>
 
-    <form>
-        <div class="valamis-row">
-            <label class="h4label valamis">{{searchFormSearchByNameLabel}}</label>
-            <input type="text" class="text-input valamis box-sizing js-search"
-                   placeholder="{{searchFormSearchByNamePlaceholder}}" name="enteredFilter">
-        </div>
-        <div class="valamis-row position-relative">
-            <label class="h4label valamis">{{searchFormSortLabel}}</label>
+        <li class="list-flags-view">
+            <input type="checkbox" id="lmPackageDefault{{id}}" name="check" class="js-default val-checkbox"
+            {{#isDefault}}checked{{/isDefault}}
+            {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}
+            {{^LM_SET_DEFAULT}}  disabled="disabled" {{/LM_SET_DEFAULT}}/>
 
-            <div class="valamis-select">
-                <select class="box-sizing js-sorting" name="sort">
-                    <option value="nameAsc">{{searchFormSortByNameAscOption}}</option>
-                    <option value="nameDesc">{{searchFormSortByNameDescOption}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="valamis-row position-relative">
-            <label class="h4label valamis">{{searchFormDisplayLabel}}</label>
-
-            <div class="valamis-select">
-                <select class="box-sizing js-display" name="display">
-                    <option value="all">{{searchFormDisplayAllPackagesOption}}</option>
-                    <option value="tincan">{{searchFormDisplayTincanPackagesOption}}</option>
-                    <option value="scorm">{{searchFormDisplayScormPackagesOption}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="valamis-row position-relative">
-            <label class="h4label valamis">{{searchFormScopeLabel}}</label>
-
-            <div class="valamis-select">
-                <select class="box-sizing js-scope" name="scope">
-                    <option value="site">{{searchFormScopeSiteScope}}</option>
-                    <option value="instance">{{searchFormScopeInstanceScope}}</option>
-                </select>
-            </div>
-        </div>
-    </form>
-</script>
-
-<script type="text/template" id="package-manager-package-list">
-    <div class="package-items clearfix js-package-items">
+            <label for="lmPackageDefault{{id}}" class="checkbox-label">{{packageItemIsDefaultLabel}}</label>
+        </li>
+    </ul>
+    <div class="dropdown actions shift-right">
+        <button class="button medium neutral">
+            <span class="dropdown-text">{{actions}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li class="js-package-edit" data-value="1">
+                {{#LM_MODIFY}} {{packageItemEditButtonLabel}} {{/LM_MODIFY}}
+                {{^LM_MODIFY}} {{packageItemViewButtonLabel}} {{/LM_MODIFY}}
+            </li>
+            {{#LM_MODIFY}}
+            <li class="js-package-delete" data-value="2"> {{packageItemDeleteButtonLabel}} </li>
+            {{/LM_MODIFY}}
+            {{#LM_CAN_EXPORT}}
+            <li class="js-package-export" data-value="3"> {{exportLabel}} </li>
+            {{/LM_CAN_EXPORT}}
+        </ul>
     </div>
 </script>
 
-<script type="text/html" id="packageManagerListItemView">
-    <div class="valamis-item-cover-image pull-left"
-    {{#logo}}
-    style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
-    {{/logo}}>
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-green">{{packageType}}</div>
-        </div>
-    </div>
-    <div class="valamis-item-content pull-left">
-        <div class="valamis-item-title padded-top">{{title}}</div>
-        <div class="valamis-item-description">{{description}}</div>
-    </div>
-
-    <div class="package-settings package-settings-list">
-        <div class="checkboxes hidden-xs">
-            <div class="checkbox-element">
-                <div class="package-flags">
-                    <div class="checkbox valamis js-package-visibility-flag {{#visibility}} checked {{/visibility}} "></div>
-                    <label>
-                        {{packageItemIsVisibleLabel}}
-                    </label>
-                </div>
-                <div class="package-flags">
-                    <div class="checkbox valamis js-package-default-flag {{#isDefault}} checked {{/isDefault}}"></div>
-                    <label>
-                        {{packageItemIsDefaultLabel}}</label>
-                </div>
-            </div>
-        </div>
-        <div class="buttons buttons-row">
-            <button class="button valamis medium grey val-icon-edit no-text js-package-edit">
-                {{packageItemEditButtonLabel}}
-            </button>
-            <button class="button valamis medium red val-icon-delete no-text js-package-delete">
-                {{packageItemDeleteButtonLabel}}
-            </button>
-        </div>
-    </div>
+<script type="text/template" id="packageManagerPackageList">
 </script>
 
-<script type="text/html" id="packageManagerTileItemView">
-    <div class="valamis-tile-item-wrapper" >
-    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-        <div class="flipper">
-            <div class="front">
+<script type="text/template" id="packageManagerEmptyModalTemplate">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
 
-                <div class="ribbon-wrapper">
-                    <div class="valamis-item-cover-image "
-                    {{#logo}}
-                    style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
-                    {{/logo}}>
-                        <div class="ribbon-wrapper-green">
-                            <div class="ribbon-green">{{packageType}}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="valamis-item-content">
-                    <div class="valamis-item-title">{{title}}</div>
-                    <div class="valamis-item-description">{{description}}</div>
-                </div>
-                <div class="valamis-item-footer">
-                    {{#visibility}} <img class="pull-left" src="/learn-portlet/images/icon-publish.png"> {{packageItemIsVisibleLabel}} {{/visibility}}
-                    {{^visibility}} <img class="pull-left" src="/learn-portlet/images/icon-unpublish.png"> {{packageItemIsInvisibleLabel}} {{/visibility}}
-                </div>
-
-            </div>
-            <div class="back">
-                <div class="hidden">
-                    <button class="button valamis medium grey val-icon-edit val-command js-package-edit">
-                        {{packageItemEditButtonLabel}}
-                    </button>
-                    <button class="button valamis medium grey val-icon-delete val-command js-package-delete">
-                        {{packageItemDeleteButtonLabel}}
-                    </button>
-                    <button class="button valamis medium grey val-icon-download val-command js-package-export">
-                        {{exportLabel}}
-                    </button>
-
-                    <div class="package-settings package-settings-tile">
-                        <div class="checkboxes">
-                            <div class="checkbox-element">
-                                <div class="package-flags">
-                                    <div class="checkbox valamis js-package-visibility-flag {{#visibility}} checked {{/visibility}} "></div>
-                                    <label>{{packageItemIsVisibleLabel}}</label>
-                                </div>
-                                <div class="package-flags">
-                                    <div class="checkbox valamis js-package-default-flag {{#isDefault}} checked {{/isDefault}}"></div>
-                                    <label>{{packageItemIsDefaultLabel}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="modal-close val-icon-exit"></div>
     </div>
-    </div>
-</script>
+    <div class="bbm-modal__section modal-content">
 
-<script type="text/template" id="deleteConfirmationTemplate">
-    <div>{{warningDeletePackageMessageLabel}}<br/>
-        <button class='confirmation btn btn-primary'>{{yesLabel}}</button>
-        <button class='btn' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
     </div>
 </script>
 
 <script type="text/template" id="packageManagerEditItemView">
-
-    <div class="bbm-modal__topbar">
-        <h3 class="bbm-modal__title">{{editPackageItemHeader}}</h3>
-
-        <div class="modal-close"></div>
-    </div>
-
-    <div class="bbm-modal__section bank-edit-dialog clearfix">
-        <div class="div-table">
-            <div class="logo-div div-col">
-                <div>
-                    <h2 class="valamis hidden-xs">{{logoLabel}}</h2>
-
-                    <div class="valamis-row centered-content">
-                        <img
-                        {{#logo}}
-                        src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}"
-                        {{/logo}}
-
-                        {{^logo}}
-                        src="/learn-portlet/img/imgo.jpg"
-                        {{/logo}}
-                        class='logo val-icon-upload'>
-                    </div>
-                    <button class="button valamis big green val-icon-upload wideButton js-upload-image">
-                        {{editPackageUploadImageButtonLabel}}
-                    </button>
-                    <button class="button valamis big grey val-icon-doc-lib wideButton js-openMediaGallery">
-                        {{openMediaGalleryLabel}}
-                    </button>
+        <div class="div-table val-info-table">
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemTitleLabel}}</div>
+                <div class="div-col content-col">
+                    <input type='text' class="js-package-title text-input box-sizing" value='{{title}}' {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}/>
                 </div>
             </div>
-
-            <div class="info-div div-col">
-                <table class="valamis list-table big-table box-sizing package-info-table">
-                    <tbody>
-                    <tr>
-                        <td class="h4label valamis">{{editPackageItemTitleLabel}}</td>
-                        <td class="buttons text-right">
-                            <input type='text' class="text-input valamis title-field box-sizing" id='packageTitleEdit'
-                                   value='{{title}}'/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="h4label valamis">{{editPackageItemDescriptionLabel}}</td>
-                        <td class="buttons text-right">
-                            <textarea id='packageEditDescription' rows="5"
-                                      class="textarea valamis description-field box-sizing">{{description}}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="h4label valamis">{{editPackageItemPassingLimitToggleLabel}}</td>
-                        <td class="buttons text-right">
-                            <div class="package-flags">
-                                <div class="checkbox valamis js-toggle-passing-limit checked"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="passing-limit-block">
-                        <td class="h4label valamis">{{editPackageItemPassingLimitLabel}}</td>
-                        <td class="buttons text-right">
-                            <input type='text' class="text-input valamis title-field box-sizing"
-                                   id='packagePassingLimitEdit'
-                                   value='{{passingLimit}}' placeholder="{{editPackageItemPassingLimitPlaceholder}}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="h4label valamis">{{editPackageItemRerunIntervalToggleLabel}}</td>
-                        <td class="buttons text-right">
-                            <div class="package-flags">
-                                <div class="checkbox valamis js-toggle-rerun-interval checked"></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="rerun-interval-block">
-                        <td class="h4label valamis">{{editPackageItemRerunIntervalLabel}}</td>
-                        <td class="buttons input-select-group text-right">
-                            <input type="text" class="onlyDigits pull-left" id="rerunIntervalValue"
-                                   value="{{rerunInterval}}"/>
-
-                            <div class="valamis-select" class="userSearchSelect">
-                                <select id="rerunIntervalType" class="pull-left">
-                                    <option value="DAYS">{{daysLabel}}</option>
-                                    <option value="WEEKS">{{weeksLabel}}</option>
-                                    <option value="MONTH">{{monthLabel}}</option>
-                                    <option value="YEAR">{{yearLabel}}</option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{editPackageCancelButtonLabel}}</a>
-        <button class="button valamis big green js-save-package">{{editPackageSubmitButtonLabel}}</button>
-    </div>
-
-</script>
-
-<script type="text/template" id="packageManagerUploadPackagePreView">
-
-    <div class="bbm-modal__topbar">
-        <h3 class="bbm-modal__title">{{newPackageItemHeader}}</h3>
-
-        <div class="modal-close">
-        </div>
-    </div>
-
-    <div class="bbm-modal__section bank-edit-dialog clearfix">
-        <div class="logo-div pull-left">
-            <div>
-                <h2 class="valamis hidden-xs" style="margin-bottom:0px;">{{logoLabel}}</h2>
-
-                <div class="centered-content">
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemCoverImage}}</div>
+                <div class="div-col content-col">
                     <img
-                            src="/learn-portlet/img/imgo.jpg"
-                            class='logo val-icon-upload'>
+                            {{#logo}}
+                            src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}"
+                            {{/logo}}
+
+                    {{^logo}}
+                    src="/learn-portlet/img/imgo.jpg"
+                    {{/logo}}
+                    class='js-logo shift-left val-img-logo {{#LM_MODIFY}} js-upload-image {{/LM_MODIFY}}'>
+                    <div class="button-block shift-left">
+                        {{#LM_MODIFY}}
+                        <button class="button big primary js-upload-image">
+                            {{editPackageUploadImageButtonLabel}}
+                        </button>
+                        <button class="button big neutral js-select-from-media-gallery">
+                            {{openMediaGalleryLabel}}
+                        </button>
+                        {{/LM_MODIFY}}
+                    </div>
+                </div>
+            </div>
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemDescriptionLabel}}</div>
+                <div class=" div-col content-col buttons">
+                            <textarea rows="5" class="js-package-description textarea box-sizing" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}>{{description}}</textarea>
+                </div>
+            </div>
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemPassingLimitToggleLabel}}</div>
+                <div class="div-col content-col buttons">
+                    <div  class="shift-left">
+                        <input type="checkbox" id="passingLimitCheckbox" class="js-passing-limit-enable val-checkbox" checked {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}/>
+                        <label class="checkbox-label" for="passingLimitCheckbox"></label>
+                    </div>
+                    <div class="js-plus-minus js-passing-limit shift-left"></div>
+                </div>
+            </div>
+            <div class="div-row without-bottom-border">
+                <div class="div-col name-col">{{ableToRun}}</div>
+                <div class="div-col content-col buttons">
+                    <div class="">
+                        <input type="checkbox" id="isAbleToRunCheckbox" class="js-able-to-run-enable val-checkbox" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}/>
+                        <label class="checkbox-label" for="isAbleToRunCheckbox"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="div-row">
+                <div class="div-col name-col"></div>
+                <div class="div-col content-col able-to-run-container">
+                    <label class="shift-left" for="isAbleToRunFrom">{{from}}</label>
+                    <input type="text" class="js-is-able-from shift-left" id="isAbleToRunFrom" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}} />
+                    <label class="shift-left" for="isAbleToRunTo">{{to}}</label>
+                    <input type="text" class="js-is-able-to shift-left" id="isAbleToRunTo" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}} />
+                </div>
+            </div>
+            <div class="div-row without-bottom-border">
+                <div class="div-col name-col">{{editPackageItemRerunIntervalToggleLabel}}</div>
+                <div class="div-col content-col buttons">
+                        <input type="checkbox" id="rerunIntervalCheckbox" class="js-rerun-interval-enable val-checkbox" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}/>
+                        <label class="checkbox-label" for="rerunIntervalCheckbox"></label>
+                </div>
+            </div>
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemRerunIntervalLabel}}</div>
+                <div class="div-col content-col">
+                    <div class="js-plus-minus js-rerun-interval shift-left"></div>
+                    <div class="val-select shift-left">
+                        <select class="js-rerun-interval-type" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}>
+                            <option value="DAYS">{{daysLabel}}</option>
+                            <option value="WEEKS">{{weeksLabel}}</option>
+                            <option value="MONTH">{{monthLabel}}</option>
+                            <option value="YEAR">{{yearLabel}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="div-row">
+                <div class="div-col name-col">{{editPackageItemTagsLabel}}</div>
+                <div class="div-col content-col">
+                    <input type="text" id="input-tags" class="val-tags demo-default selectized" title="Valamis package tags" tabindex="-1" style="display: none;" {{^LM_MODIFY}} disabled="disabled" {{/LM_MODIFY}}>
                 </div>
             </div>
         </div>
-
-        <div class="info-div pull-right">
-            <table class="valamis list-table big-table box-sizing">
-                <tbody>
-                <tr>
-                    <td class="h4label valamis">{{editPackageItemTitleLabel}}</td>
-                    <td class="buttons text-right">
-                        <input type='text' class="text-input valamis title-field box-sizing" id='packageTitleEdit'
-                               value='{{title}}'/>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="h4label valamis">{{editPackageItemDescriptionLabel}}</td>
-                    <td class="buttons text-right">
-                        <textarea id='packageEditDescription' rows="5"
-                                  class="textarea valamis description-field box-sizing">{{description}}</textarea>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="bbm-modal__bottombar">
+            <button class="button big neutral modal-close">{{editPackageCancelButtonLabel}}</button>
+            {{#LM_MODIFY}}<button class="button big primary js-save-package js-submit-button">{{editPackageSubmitButtonLabel}}</button>{{/LM_MODIFY}}
         </div>
-    </div>
-
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{editPackageCancelButtonLabel}}</a>
-        <button class="button valamis big green js-upload-package">{{newPackageUploadButtonLabel}}</button>
-    </div>
-
 </script>
 
-<script type="text/template" id="packagesPageContentTemplate">
-    <div class="content-header clearfix">
-        <div class="pull-left button-upload-area">
-            <button class="filter-toggler button valamis big grey menu-toggle val-icon-search"></button>
-        </div>
+<script type="text/template" id="packageManagerNewPackageList">
+    <table class="val-table medium list new-packages-list-table">
+        <tbody class="js-new-package-items">
 
-        <h3 class="content-header-padded pull-left hidden-sm hidden-xs">
-            {{packagesHeader}}
-        </h3>
-
-        <div id="package-manager-fileupload-region"></div>
-
-        <!-- Sidebar -->
-        <div id="packagesSearchWrapper" class="sidebar-wrapper">
-            <div class="menu-toggle hidden-xs modal-close">
-            </div>
-            <div class="pull-right">
-            </div>
-            <div id="package-manager-search-region"></div>
-        </div>
-    </div>
-    <!-- Keep all page content within the page-content inset div! -->
-
-    <div class="page-content inset">
-        <div id="toolbarWrapper"></div>
-        <div id="packageManagerMainRegion"></div>
-        <div id="bottomPaging" class="pull-right valamis-paginator"></div>
-
-    </div>
-</script>
-
-
-
-
-
-
-
-<!--<script type="text/template" id="packageManagerUploadPackagesItemPreView">-->
-    <!--<div class="logo-div pull-left">-->
-        <!--<div>-->
-            <!--<h2 class="valamis hidden-xs" style="margin-bottom:0px;">{{logoLabel}}</h2>-->
-            <!--<div class="centered-content">-->
-                <!--<img-->
-                        <!--src="/learn-portlet/img/certificate-default.jpg"-->
-                        <!--class='logo val-icon-upload'>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="info-div pull-right">-->
-        <!--<table class="valamis list-table big-table box-sizing">-->
-            <!--<tbody>-->
-            <!--<tr>-->
-                <!--<td class="h4label valamis">{{editPackageItemTitleLabel}}</td>-->
-                <!--<td class="buttons text-right">-->
-                    <!--<input type='text' class="text-input valamis title-field box-sizing" id='packageTitleEdit' value='{{title}}'/>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--<tr>-->
-                <!--<td class="h4label valamis">{{editPackageItemDescriptionLabel}}</td>-->
-                <!--<td class="buttons text-right">-->
-                    <!--<textarea id='packageEditDescription' rows="5" class="textarea valamis description-field box-sizing">{{description}}</textarea>-->
-                <!--</td>-->
-            <!--</tr>-->
-            <!--</tbody>-->
-        <!--</table>-->
-    <!--</div>-->
-<!--</script>-->
-
-<script type="text/template" id="packageManagerUploadPackagesPreView">
-
-    <div class="bbm-modal__topbar">
-        <h3 class="bbm-modal__title">{{uploadPackagesLabel}}</h3>
-        <div class="modal-close">
-        </div>
-    </div>
-
-    <div  class="bbm-modal__section bank-edit-dialog clearfix">
-        <div class="new-packages-container"></div>
-    </div>
-
+        </tbody>
+    </table>
     <div class="bbm-modal__bottombar">
-        <a href="#" class="bbm-button button valamis big grey js-cancel-upload-data">Cancel</a>
-        <button class="button valamis big green js-save-packages-data">Save</button>
-    </div>
+        <a href="#" class="button big neutral modal-close js-cancel-upload-data">Cancel</a>
+        <button class="button big primary js-save-packages-data js-submit-button">Save</button>
 
+    </div>
 </script>
 
 <script type="text/html" id="packageManagerNewPackagesItemView">
-    <td>
-        <div class="package-cover-image" style="position: relative; margin: 10px;">
+        <td>
             <img
             {{#logo}}
             src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}"
@@ -453,69 +273,46 @@
             src="/learn-portlet/img/imgo.jpg"
             {{/logo}}
 
-            class="logo-mini">
-
-            <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-                <div class="ribbon-green">{{packageType}}</div>
-            </div>
-
-            <div class="package-settings package-settings-list"
-                 style="position: absolute;top: 25px; display:none; left: -5px;">
-                <div class="buttons">
-                    <button class="button valamis big green js-upload-logo">{{newPackageUploadButtonLabel}}</button>
-                </div>
-            </div>
-        </div>
-    </td>
-    <td>
-        <div class="package-list-content" style="margin: 10px;">
-            <div class="div-table">
-                <div class="div-row">
-                    <div class="div-col h4label valamis">{{editPackageItemFilenameLabel}}</div>
-                    <div class="div-col">{{filename}}</div>
+            class="val-img-logo js-logo js-upload-image" />
+        </td>
+        <td>
+            <div class="div-table val-info-table">
+                <div class="div-row without-bottom-border">
+                    <div class="div-col name-col">{{editPackageItemFilenameLabel}}</div>
+                    <div class="div-col content-col">{{filename}}</div>
                 </div>
                 <div class="div-row">
-                    <div class="div-col h4label valamis">{{editPackageItemTitleLabel}}</div>
-                    <div class="div-col"><input type='text' class="text-input valamis box-sizing no-margin js-new-package-title" value='{{title}}' placeholder="New lesson"/></div>
+                    <div class="div-col name-col">{{editPackageItemTitleLabel}}</div>
+                    <div class="div-col content-col">
+                        <input type='text' class="js-new-package-title text-input box-sizing no-margin" value='{{title}}' placeholder="New lesson"/>
+                    </div>
                 </div>
             </div>
-        </div>
-    </td>
-
+        </td>
 </script>
 
 
-<script type="text/template" id="packageManagerNewPackagesItemView1">
-    <div class="logo-div pull-left">
-        <div>
-            <h2 class="valamis hidden-xs" style="margin-bottom:0px;">{{logoLabel}}</h2>
-            <div class="centered-content package-cover-image pull-left">
-                <img
-                        src="/learn-portlet/img/imgo.jpg"
-                        class='logo-mini val-icon-upload'>
-            </div>
-        </div>
+<!--//TODO extract this -->
+<script type="text/template" id="deleteConfirmationTemplate">
+    <div class="confirmation-question">{{warningDeletePackageMessageLabel}}</div>
+    <div>
+        <button class='confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
     </div>
-    <div class="info-div pull-right">
-        <table class="valamis list-table small-table box-sizing">
-            <tbody>
-            <tr>
-                <td colspan="2" class="h4label valamis">{{filename}}</td>
-            </tr>
-            <tr>
-                <td class="h4label valamis">{{editPackageItemTitleLabel}}</td>
-                <td class="buttons text-right">
-                    <input type='text' class="text-input valamis title-field box-sizing" id='newPackageTitleEdit' value='{{title}}'/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
 </script>
 
-<script type="text/template" id="packageManagerNewPackageList">
-    <table class="valamis list-table large-table box-sizing new-package-table">
-        <tbody class="js-new-package-items"></tbody>
-    </table>
+<script type="text/template" id="valamisAppLayoutTemplate">
+    <div id="valamisAppModalRegion" class="portlet-body"></div>
+</script>
+
+
+<script type="text/template" id="valamisAppModalTemplate">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit"></div>
+    </div>
+    <div class="bbm-modal__section modal-content">
+
+    </div>
 </script>

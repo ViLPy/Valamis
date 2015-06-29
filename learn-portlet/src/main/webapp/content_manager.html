@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Content manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <style>
+        .min-height400 {
+            min-height: 400px;
+            height: 100%;
+        }
+
+        .active-item {
+            background: none repeat scroll 0 0 #2974a6 !important;
+        }
+
+        .content-preview {
+            font-size: x-small !important;
+            background-color:  #f2f2f2; !important;
+            height: 100%;
+        }
+
+        .content-preview .preview-controls {
+            padding: 10px;
+        }
+        .content-preview table tr td{
+            background-color:  #f2f2f2; !important;
+        }
+
+        .val-tree .ui-state-highlight {
+            /*margin-left: 10px;!important;*/
+            /*padding-left: 100px;!important;*/
+            background-color: dimgrey;!important;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        jQueryValamis(function () {
+
+            if (!valamisApp.started) {
+                valamisApp.start();
+            }
+
+            /**
+             * Mobile IE10 hack
+             */
+            if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                        document.createTextNode("@-ms-viewport{width:auto!important}")
+                );
+                document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+            }
+            /** Mobile IE10 hack */
+
+
+
+            var questionManagerPermissions = {
+                CM_MODIFY: eval('{{permissionToModify}}')
+            };
+
+            var showGlobalBase = ('{{showGlobalBase}}' == 'true');
+
+            var contentManagerOptions = {
+                language: '{{language}}',
+                resourceName: 'questionManager',
+                permissions: questionManagerPermissions,
+                app: contentManager,
+                appOptions: {showGlobalBase: showGlobalBase}
+            };
+
+            valamisApp.execute('subapp:start', contentManagerOptions);
+
+        });
+    </script>
+</head>
+<body>
+
+
+<div class="overflow-hidden val-portlet" id="questionBankBody">
+    <div id="contentManagerAppRegion"></div>
+
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="courseId" value="{{courseId}}"/>
+</div>
+
+</body>
+</html>

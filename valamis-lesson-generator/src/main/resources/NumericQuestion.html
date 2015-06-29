@@ -1,0 +1,169 @@
+<script type="text/javascript">
+    var dataToCompare = JSON.parse('{{{answers}}}');
+    /*{{^isPreview}}*/
+    jQuery(document).ready(function () {
+        getAPI().Initialize("");
+        jQuery("#showQuestionButton").hide();
+    });
+    /*{{/isPreview}}*/
+
+    function collectAnswers() {
+        // this will check is user answer right
+        var userAnswer = parseFloat(jQuery("#scormAnswer").val());
+
+        var isPassed = false,
+            correctResponses = [],
+            hasScore = false,
+            score = 0;
+
+        for (var j = 0; j < dataToCompare.length; j++) {
+            if ((userAnswer >= dataToCompare[j].from) && (userAnswer <= dataToCompare[j].to)) {
+                isPassed = true;
+                if (dataToCompare[j].score) hasScore = true;
+                score = dataToCompare[j].score;
+            }
+            correctResponses.push(dataToCompare[j].from + "[:]" + dataToCompare[j].to);
+        }
+
+        return {
+            learnerResponse: userAnswer,
+            correctResponse: correctResponses,
+            isPassed: isPassed,
+            score: (hasScore)?score:null
+        }
+    }
+
+    function gatherData() {
+        /*{{^isPreview}}*/
+        /*{{^autoShowAnswer}}*/
+        var answers = collectAnswers();
+
+        // this will check is user answer right
+        var userAnswer = parseFloat(jQuery("#scormAnswer").val());
+        getAPI().SetValue("cmi.interactions.0.type", "numeric");
+        getAPI().SetValue("cmi.interactions.0.weighting", answers.score);
+        getAPI().SetValue("cmi.interactions.0.learner_response", answers.learnerResponse);
+
+        for (var j = 0; j < answers.correctResponse.length; j++) {
+            getAPI().SetValue("cmi.interactions.0.correct_responses." + j + ".pattern", answers.correctResponse[j]);
+        }
+
+        if (answers.isPassed) {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "passed");
+            getAPI().SetValue("cmi.score.scaled", "1.0");
+        } else {
+            getAPI().SetValue("cmi.completion_status", "completed");
+            getAPI().SetValue("cmi.success_status", "failed");
+            getAPI().SetValue("cmi.score.scaled", "0.0");
+        }
+        /*{{/autoShowAnswer}}*/
+        /*{{/isPreview}}*/
+    }
+
+    /*{{#autoShowAnswer}}*/
+    function showQuestion() {
+        jQuery(".answers").hide();
+        jQuery("#checkAnswerButton").show();
+        jQuery(".playerHeader").show();
+        jQuery(".playerMainArea").show();
+        jQuery("#showQuestionButton").hide();
+        jQuery(".playerPrevious .button:not(#showQuestionButton)").show();
+    }
+
+    function showAnswers() {
+        var answers = collectAnswers();
+        jQuery("#checkAnswerButton").hide();
+        jQuery('#nextQuestionButton').show();
+        jQuery(".answers").show();
+        jQuery(".playerHeader").hide();
+        jQuery(".playerMainArea").hide();
+        jQuery(".playerPrevious .button:not(#showQuestionButton)").hide();
+        jQuery("#showQuestionButton").show();
+
+        var correct = answers.isPassed;
+        var correctness = (correct) ? '{{rightAnswerText}}' : '{{wrongAnswerText}}';
+        if (!correctness) correctness = (correct) ? 'Your answer is correct' : 'Your answer is incorrect';
+
+        jQuery("#answerCorrectness").html(correctness);
+        if (!correct) {
+            jQuery("#answerComparison").show();
+
+            var learnerResponse = answers.learnerResponse;
+            if (isNaN(learnerResponse)) {
+                jQuery("#usersAnswers").html('<i>No answer</i>');
+            } else {
+                jQuery("#usersAnswers").html(learnerResponse);
+            }
+
+            for (var j = 0; j < dataToCompare.length; j++) {
+                addMatchedLine(jQuery("#correctAnswers"), dataToCompare[j].from, dataToCompare[j].to);
+            }
+        }
+    }
+
+    function addMatchedLine(target, from, to) {
+        if (from === to)
+            target.append(jQuery("<div>").addClass("matchedLine").html(from));
+        else
+            target.append(jQuery("<div>").addClass("matchedLine").html("from " + from + " to " + to + ""));
+    }
+    /*{{/autoShowAnswer}}*/
+</script>
+<div class="SCORMPlayerContentDisplay">
+    <div class="playerHeader">
+        <h1 class="SCORMPlayerQuestionTitle">{{{text}}}</h1>
+    </div>
+    <div class="playerMainArea">
+        <input class="playerShortAnswerField" id="scormAnswer" type="text" value=""/>
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers" style="display: none;">
+        <h1><span id="answerCorrectness"></span></h1>
+
+        <div id="answerComparison" style="display: none;">
+            <h2>Your answers: <span id="usersAnswers"></span></h2>
+
+            <div>
+                <h2>Correct:</h2>
+
+                <div id="correctAnswers"></div>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerPrevious">
+            <!--{{#autoShowAnswer}} -->
+            <button class="valamis button big grey icon-continue" type="button" id="showQuestionButton" onclick="showQuestion()">Previous</button>
+            <!--{{/autoShowAnswer}} -->
+            <!--{{#isPreview}}-->
+            <button class="valamis button big grey icon-continue" type="button">Previous</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <button class="valamis button big grey icon-continue" type="button" onclick="scormQuizGotoPrevious()">Previous</button>
+            <!--{{/isPreview}}-->
+        </div>
+        <div class="playerNext">
+            <!--{{#isPreview}}-->
+            <button class="valamis button big grey icon-continue" type="button">Next</button>
+            <!--{{/isPreview}}--><!--{{^isPreview}}-->
+            <!--{{#autoShowAnswer}} -->
+            <button class="valamis button big grey icon-continue" type="button" id="checkAnswerButton" onclick="showAnswers()">Check</button>
+            <button class="valamis button big grey icon-continue" style="display: none" type="button" id="nextQuestionButton" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
+            <!--{{^autoShowAnswer}} -->
+            <button class="valamis button big grey icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
+            <!--{{/autoShowAnswer}} -->
+            <!--{{/isPreview}}-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

@@ -2,6 +2,7 @@ package com.arcusys.learn.settings.model
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFLRSToActivitySettingLocalServiceUtil
+import com.arcusys.valamis.settings.model.LRSToActivitySetting
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFLRSToActivitySetting
 import scala.util.Try
@@ -21,8 +22,8 @@ trait LFLRSToActivitySettingStorageImpl extends KeyedEntityStorage[LRSToActivity
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
 
   def getAll(parameters: (String, Any)*) = parameters match {
-    case Seq(("courseID", courseID: Int)) =>
-      LFLRSToActivitySettingLocalServiceUtil.findByCourseID(courseID).asScala.map(extract)
+    case Seq(("courseID", courseId: Int)) =>
+      LFLRSToActivitySettingLocalServiceUtil.findByCourseID(courseId).asScala.map(extract)
     case _ =>
       LFLRSToActivitySettingLocalServiceUtil.getLFLRSToActivitySettings(-1, -1).asScala.map(extract)
   }
@@ -48,7 +49,7 @@ trait LFLRSToActivitySettingStorageImpl extends KeyedEntityStorage[LRSToActivity
 
   def modify(entity: LRSToActivitySetting, parameters: (String, Any)*) {
     val lfEntity = LFLRSToActivitySettingLocalServiceUtil.getLFLRSToActivitySetting(entity.id)
-    lfEntity.setCourseID(entity.courseID)
+    lfEntity.setCourseID(entity.courseId)
     lfEntity.setTitle(entity.title)
     if (entity.mappedActivity.isDefined && entity.mappedActivity.get.nonEmpty)
       entity.mappedActivity.foreach(lfEntity.setActivityFilter)
@@ -79,7 +80,7 @@ trait LFLRSToActivitySettingStorageImpl extends KeyedEntityStorage[LRSToActivity
 
   def createAndGetID(entity: LRSToActivitySetting, parameters: (String, Any)*) = {
     val lfEntity = LFLRSToActivitySettingLocalServiceUtil.createLFLRSToActivitySetting()
-    lfEntity.setCourseID(entity.courseID)
+    lfEntity.setCourseID(entity.courseId)
     lfEntity.setTitle(entity.title)
 
     if (entity.mappedActivity.isDefined && entity.mappedActivity.get.nonEmpty)

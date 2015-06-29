@@ -46,18 +46,21 @@ var FileUploader = Backbone.View.extend({
     options = options || {};
     this.fileUploadEndpoint = options.endpoint;
     this.itemViewClass = options.itemView || FileUploaderItemView;
+    this.fileUploadAdditionalInfo = options.message || "";
     this.amount = 0;
     this.uploadsData = [];
   },
   render: function () {
-    this.$el.html(Mustache.render(jQuery('#fileUploaderDropZone').html(), this));
-
+    this.$el.html(Mustache.render(jQuery('#fileUploaderDropZone').html(), {
+        fileUploadEndpoint: this.fileUploadEndpoint,
+        fileUploadAdditionalInfo: this.fileUploadAdditionalInfo
+    }));
     this.$('#fileupload').fileupload({
       dataType: 'json',
       dropZone: this.$('#dropzone')
     }).bind('fileuploaddone', jQuery.proxy(this.onDone, this)).
-      bind('fileuploadprogress', jQuery.proxy(this.onProgress,this)).
-      bind('fileuploadprogressall', jQuery.proxy(this.onProgressAll,this)).
+      bind('fileuploadprogress', jQuery.proxy(this.onProgress, this)).
+      bind('fileuploadprogressall', jQuery.proxy(this.onProgressAll, this)).
       bind('fileuploadadd', jQuery.proxy(this.onAdd, this));
 
     // TODO: for testing with CORS on IE only, remove in production

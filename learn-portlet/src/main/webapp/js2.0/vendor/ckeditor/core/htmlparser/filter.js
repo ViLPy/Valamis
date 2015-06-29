@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -344,7 +344,7 @@
 
 					// Update currentValue and corresponding argument in args array.
 					// Updated values will be used in next for-loop step.
-					if ( ret != undefined )
+					if ( ret != null )
 						args[ 0 ] = currentValue = ret;
 
 					// ret == undefined will continue loop as nothing has happened.

@@ -1,8 +1,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;">
-<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-
+    <link href="{{contextPath}}/css2.0/valamis.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="overflow-hidden gradebookBody clearfix" style="min-height: 600px">
@@ -28,31 +27,22 @@
                 </div>
             </div>
             <div class="page-content">
-                <div id="toolbarWrapper" style="padding: 20px;">
-                    <div class="clearfix">
-                        <div id="gradebookPaginator" class="paginator pull-right"></div>
-                    </div>
-                </div>
+                <div class="student-grades clearfix"></div>
 
-                <div class="student-grades clearfix">
-
-
-                </div>
-
-
+                <div id="gradebookPaginator" class="val-paginator text-center"></div>
             </div>
         </div>
 
     </div>
 
 </div>
+<div id="gradebook-modal-layout"></div>
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-<input type="hidden" id="portletID" value="{{portletID}}"/>
-<input type="hidden" id="courseID" value="{{courseID}}"/>
+<input type="hidden" id="portletID" value="{{portletId}}"/>
 <input type="hidden" id="userID" value="{{userID}}"/>
 <input type="hidden" id="encryptUserID" value="{{encryptUserID}}"/>
 <input type="hidden" id="isAdmin" value="{{isAdmin}}"/>
-
+<input type="hidden" id="tincanActor" value="{{tincanActor}}"/>
 
 <!-- Region container -->
 <script type="text/template" id="modals-template">
@@ -64,8 +54,7 @@
     <div class="bbm-modal__topbar" style="margin-bottom:0px;">
         <h3 class="bbm-modal__title">{{studentViewLabel}}</h3>
 
-        <div class="modal-close"
-             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        <div class="modal-close  val-icon-exit">
         </div>
     </div>
     <div class="bbm-modal__section student-view-dialog" style="position: relative;">
@@ -78,8 +67,7 @@
     <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
         <h3 class="bbm-modal__title" style="margin-top: 0px;">{{editTotalGradeLabel}}</h3>
 
-        <div class="modal-close"
-             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        <div class="modal-close  val-icon-exit">
         </div>
     </div>
     <div class="bbm-modal__section edit-grade-view-dialog" style="position: relative;">
@@ -91,8 +79,7 @@
     <div class="bbm-modal__topbar header-view" style="margin-bottom:0px;">
         <h3 class="bbm-modal__title" style="margin-top: 0px;">{{editPackageGradeLabel}}</h3>
 
-        <div class="modal-close"
-             style="position: absolute; top:0px; right: 0px; width: 43px; height: 38px; padding: 15px; cursor: pointer">
+        <div class="modal-close  val-icon-exit">
         </div>
     </div>
     <div class="bbm-modal__section edit-package-grade-view-dialog" style="position: relative;">
@@ -101,11 +88,11 @@
 </script>
 
 <script type="text/html" id="gradebookSearch">
-    <h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>
+    <!--<h3 class="hidden-sm hidden-xs">{{searchTitleLabel}}</h3>-->
 
     <form>
         <div class="position-relative valamis-row">
-            <label class="form-label h4label valamis">{{showAs}}</label>
+            <label class="form-label  valamis">{{showAs}}</label>
             <div class="show-mode-group form-group valamis-select">
                 <select class="show-mode form-control">
                     <option value="simpleView">{{simpleViewLabel}}</option>
@@ -114,27 +101,27 @@
             </div>
         </div>
         <div class="form-group valamis-row">
-            <label class="form-label h4label valamis">{{searchByNameLabel}}</label>
+            <label class="form-label  valamis">{{searchByNameLabel}}</label>
             <input type="text" class="search-by-name form-control text-input" placeholder="{{studentNameLabel}}">
         </div>
         <div class="form-group valamis-row">
-            <label class="form-label h4label valamis">{{searchByOrganizationLabel}}</label>
+            <label class="form-label  valamis">{{searchByOrganizationLabel}}</label>
             <input type="text" class="search-by-org form-control text-input" placeholder="{{organizationNameLabel}}">
         </div>
         <div class="form-group position-relative valamis-row">
-            <label class="form-label h4label valamis">{{sortBy}}</label>
+            <label class="form-label  valamis">{{sortBy}}</label>
             <div class="valamis-select">
                 <select class="sorting form-control">
-                    <option value="name_asc">{{nameAsc}}</option>
-                    <option value="name_desc">{{nameDesc}}</option>
-                    <option value="org_asc">{{orgAsc}}</option>
-                    <option value="org_desc">{{orgDesc}}</option>
-                    <option value="last_modified">{{lastModified}}</option>
+                    <option value="name:true">{{byNameAscLabel}}</option>
+                    <option value="name:false">{{byNameDescLabel}}</option>
+                    <option value="org:true">{{orgAsc}}</option>
+                    <option value="org:false">{{orgDesc}}</option>
+                    <option value="last_modified:false">{{lastModified}}</option>
                 </select>
             </div>
         </div>
         <div id="update-time" class="form-group position-relative valamis-row">
-            <label class="form-label h4label valamis">{{updatePeriod}}</label>
+            <label class="form-label  valamis">{{updatePeriod}}</label>
             <div class="valamis-select">
                 <select class="update-period form-control">
                     <option value="30">{{30sec}}</option>
@@ -146,11 +133,11 @@
         </div>
 
         <div class="form-group package-panel valamis-row">
-            <label class="form-label h4label valamis">{{displayPackagesLabel}}</label>
+            <label class="form-label  valamis">{{displayPackagesLabel}}</label>
 
             <div id="package-multiselect" class="multiselect-container">
                 {{#packages}}
-                <input type="checkbox" class="checkbox-group check-package" value="{{getId}}" checked="checked">{{getTitle}}</input>
+                <input type="checkbox" class="checkbox-group check-package" value="{{id}}" checked="checked">{{title}}</input>
                 <br/>
                 {{/packages}}
             </div>
@@ -162,30 +149,37 @@
 </script>
 
 <script>
-    var jQuery1816Gradebook = jQuery.noConflict();
+
+    var permissionActionsGradebook = {
+        VIEW_ALL: eval("{{permissionToViewAll}}")
+    };
+
+
     var previewData = [];
     var currentActivityID;
     var language;
     var gradebookView;
     var myLayout;
     var StudentViewModal;
+    var endpointData = {{{endpointData}}};
 
     moment.lang('{{language}}');
 
-    jQuery1816Gradebook(function () {
-        var loader = new TemplateLoader(function () {});
-        loader.fetch("templates/2.0/gradebook_templates.html");
-        loader.fetch("templates/2.0/paginator.html");
+
+    TincanHelper.SetActor(JSON.parse(jQueryValamis("#tincanActor").val()));
+    TincanHelper.SetLRS(endpointData);
+
+    jQueryValamis(function () {
 
         // upload translations
-        var defaultURL = Utils.getContextPath() + '/i18n/gradebook_en.properties';
-        var localizedURL = Utils.getContextPath() + '/i18n/gradebook_{{language}}.properties';
+        var defaultURL = Utils.getContextPath() + 'i18n/gradebook_en.properties';
+        var localizedURL = Utils.getContextPath() + 'i18n/gradebook_{{language}}.properties';
         Utils.i18nLoader(localizedURL, defaultURL, onGradebookLanguageLoad, onGradebookLanguageError);
 
 
         // Create a layout class
-        var Layout = Backbone.Marionette.Layout.extend({
-            template: _.template(jQuery1816Gradebook('#modals-template').html()),
+        var Layout = Marionette.LayoutView.extend({
+            template: _.template(jQueryValamis('#modals-template').html()),
             regions: {
                 modals: {
                     selector: '.modals-container',
@@ -195,10 +189,11 @@
         });
 
 // Create a modal view class
-        StudentViewModal = Backbone.Modal.extend({
-            template: _.template(jQuery1816Gradebook('#studentView').html()),
+         StudentViewModal = Backbone.Modal.extend({
+            template: _.template(jQueryValamis('#studentView').html()),
             submitEl: '.bbm-button',
             cancelEl: '.modal-close',
+            className: 'val-modal',
             onRender: function () {
                 this.$('.student-view-dialog').append(this.args[0].view.render());
             }
@@ -206,9 +201,10 @@
 
         // Create a modal view class
         EditGradeViewModal = Backbone.Modal.extend({
-            template: _.template(jQuery1816Gradebook('#editGradeView').html()),
+            template: _.template(jQueryValamis('#editGradeView').html()),
             submitEl: '.save-total-grade-button',
             cancelEl: '.modal-close',
+            className: 'val-modal',
             onRender: function () {
                 this.$('.edit-grade-view-dialog').append(this.args[0].view.render());
                 this.$('.bbm-modal').addClass('review');
@@ -217,9 +213,10 @@
 
 // Create a modal view class
         EditPackageGradeViewModal = Backbone.Modal.extend({
-            template: _.template(jQuery1816Gradebook('#editPackageGradeView').html()),
+            template: _.template(jQueryValamis('#editPackageGradeView').html()),
             submitEl: '.save-package-grade-button',
             cancelEl: '.modal-close',
+            className: 'val-modal',
             onRender: function () {
                 this.$('.edit-package-grade-view-dialog').append(this.args[0].view.render());
                 this.$('.bbm-modal').addClass('review');
@@ -228,9 +225,10 @@
 
 // Create a modal view class
         ReviewModal = Backbone.Modal.extend({
-            template: _.template(jQuery1816Gradebook('#reviewView').html()),
+            template: _.template(jQueryValamis('#reviewView').html()),
             submitEl: '.bbm-button',
             cancelEl: '.modal-close',
+            className: 'val-modal',
             onRender: function () {
                 this.$('.review-view-dialog').append(this.args[0].view.render());
                 this.$('.bbm-modal').addClass('review');
@@ -240,8 +238,8 @@
 
 // Render the layout
         myLayout = new Layout();
-        jQuery1816Gradebook('body').append(myLayout.render().el);
-//        jQuery('.student-click').click(function(){
+        jQueryValamis('#gradebook-modal-layout').append(myLayout.render().el);
+//        jQueryValamis('.student-click').click(function(){
 //            myLayout.modals.show(new Modal1());
 //        });
 
@@ -257,9 +255,9 @@
         }
         /** Mobile IE10 hack */
 
-        jQuery1816Gradebook(".menu-toggle").click(function (e) {
+        jQueryValamis(".menu-toggle").click(function (e) {
             e.preventDefault();
-            jQuery1816Gradebook(".content-wrapper").toggleClass("active");
+            jQueryValamis(".content-wrapper").toggleClass("active");
         });
 
 
@@ -274,12 +272,12 @@
 //        {{/isAdmin}}
 
 //        {{^isAdmin}}
-        this.model=new GradebookStudentModel({id:jQuery1816Gradebook("#userID").val()});
+        this.model=new GradebookStudentModel({id:jQueryValamis("#userID").val()});
         var view = new StudentView({
             model: this.model,
             language: language
         });
-        jQuery1816Gradebook('.gradebookBody').html(view.render());
+        jQueryValamis('.gradebookBody').html(view.render());
 //        {{/isAdmin}}
 
         if(!Backbone.History.started) Backbone.history.start();
@@ -287,6 +285,7 @@
     }
 
     function onGradebookLanguageLoad(properties) {
+        Backbone.emulateJSON = true;
         language = properties;
         initView();
     }
@@ -296,19 +295,19 @@
     }
 
     function onGradeListChanged() {
-        if (gradebookView != null && jQuery("#detailed").val() != 'true')
+        if (gradebookView != null && jQueryValamis("#detailed").val() != 'true')
             gradebookView.reloadGradeList(); //uncomment to reactive
     }
 
     function getCheckedPackages(all){
-        var listPackages = jQuery1816Gradebook('#package-multiselect input'+(all?'':':checked')).map(function(){
+        var listPackages = jQueryValamis('#package-multiselect input'+(all?'':':checked')).map(function(){
             return this.value;
         }).get();
 
         return listPackages;
 
 //        var listPackages = [];
-//        jQuery1816Gradebook("#package-multiselect input").each(function (i) {
+//        jQueryValamis("#package-multiselect input").each(function (i) {
 //            if(all || this.checked)
 //                listPackages.push({selectedPackages:this.value});
 //        });

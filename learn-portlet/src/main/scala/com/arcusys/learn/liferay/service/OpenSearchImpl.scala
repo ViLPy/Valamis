@@ -1,8 +1,8 @@
 package com.arcusys.learn.liferay.service
 
-import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.liferay.LiferayClasses.LHitsOpenSearchImpl
 import com.arcusys.learn.liferay.util.IndexerRegistryUtilHelper
+import com.arcusys.valamis.lesson.scorm.model.manifest.Manifest
 
 class OpenSearchImpl extends LHitsOpenSearchImpl {
   val SEARCH_PATH = "/c/projectlearn/open_search"

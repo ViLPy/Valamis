@@ -1,11 +1,11 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.scorm.manifest.model.Sequencing
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFSequencing
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.SequencingFieldsMapper
+import com.arcusys.valamis.lesson.scorm.model.manifest.Sequencing
 
 /**
  * User: Yulia.Glushonkova

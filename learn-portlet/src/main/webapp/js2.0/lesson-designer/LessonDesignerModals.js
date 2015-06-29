@@ -1,12 +1,12 @@
-var ModalContainer = Backbone.Marionette.Layout.extend({
-  template: _.template($('#modals-template').html()),
+var ModalContainer = Backbone.Marionette.LayoutView.extend({
+  template: _.template(jQueryValamis('#modals-template').html()),
   className: 'content-manager',
   initialize: function () {
     this.listenTo(contentManagerEvent, 'modals:show:editLessonInfoView', this.ShowEditLessonInfoView);
     this.listenTo(contentManagerEvent, 'modals:show:editLessonContentView', this.ShowEditLessonContentView);
     this.listenTo(contentManagerEvent, 'modals:show:addTextArticleView', this.ShowAddTextArticleView);
     this.listenTo(contentManagerEvent, 'modals:show:addExternalResourceView', this.ShowAddExternalResourceView);
-    this.listenTo(contentManagerEvent, 'modals:show:addRevealJSView', this.ShowAddRevealJSView);
+//    this.listenTo(contentManagerEvent, 'modals:show:addRevealJSView', this.ShowAddRevealJSView);    is not supported now
     this.listenTo(contentManagerEvent, 'modals:show:lessonContentPreviewView', this.ShowLessonContentPreview);
     this.listenTo(contentManagerEvent, 'modals:show:bankQuestionSelect', this.ShowBankQuestionSelect);
     this.listenTo(contentManagerEvent, 'modals:show:uploadLessonLogoView', this.ShowUploadLessonLogo);
@@ -33,29 +33,39 @@ var ModalContainer = Backbone.Marionette.Layout.extend({
     }));
   },
   ShowAddTextArticleView: function (lessonModel) {
-    this.modals.show(new AddTextArticleModal({
+    lessonDesigner.commands.execute('modal:show', new AddTextArticleModal({
       model: lessonModel
     }));
   },
   ShowAddExternalResourceView: function (externalResourceModel) {
-    this.modals.show(new ExternalResourceModal({
+    lessonDesigner.commands.execute('modal:show', new ExternalResourceModal({
       model: externalResourceModel
     }));
   },
-  ShowAddRevealJSView: function (model) {
-    this.modals.show(new RevealJSModal({
-      model: model
-    }));
-  },
+//  ShowAddRevealJSView: function (model) {
+//    this.modals.show(new RevealJSModal({
+//      model: model
+//    }));
+//  },
+
   ShowLessonContentPreview: function (model) {
-    this.modals.show(new LessonContentPreviewModal({
-      model: model
-    }));
+      lessonDesigner.commands.execute('modal:show', new LessonContentPreviewModal({
+          model: model
+      }));
+    //this.modals.show(new LessonContentPreviewModal({
+    //  model: model
+    //}));
   },
   ShowBankQuestionSelect: function (lessonModel) {
-    this.modals.show(new BankQuestionSelectModal({
-      model: lessonModel
-    }));
+
+      var modalView = new BankQuestionSelectModal({
+          model: lessonModel
+      });
+      lessonDesigner.commands.execute('modal:show', modalView);
+
+    //this.modals.show(new BankQuestionSelectModal({
+    //  model: lessonModel
+    //}));
   },
   ShowUploadLessonLogo: function (uploadModel) {
     this.modals.show(new UploadLessonLogoModal({
@@ -68,19 +78,35 @@ var ModalContainer = Backbone.Marionette.Layout.extend({
     }));
   },
   ShowAddVideoView: function (videoModel) {
-    this.modals.show(new VideoModal({
-      model: videoModel
-    }));
+
+      lessonDesigner.commands.execute('modal:show', new VideoModal({
+          model: videoModel
+      }));
+
+    //  this.modals.show(new VideoModal({
+    //  model: videoModel
+    //}));
   },
   ShowAddPDFView: function(model) {
-    this.modals.show(new PDFModal({
-      model: model
-    }));
+
+      lessonDesigner.commands.execute('modal:show', new PDFModal({
+          model: model
+      }));
+
+    //  this.modals.show(new PDFModal({
+    //  model: model
+    //}));
   },
   ShowAddPPTXView: function(model) {
-    this.modals.show(new PPTXModal({
-      model: model
-    }));
+      var pptxModal = new PPTXModal({model: model});
+      pptxModal.on('pptx-modal-cancel', function(){
+        lessonDesigner.commands.execute('modal:close', pptxModal);
+      });
+
+      lessonDesigner.commands.execute('modal:show', pptxModal);
+    //this.modals.show(new PPTXModal({
+    //  model: model
+    //}));
   },
   ShowTinCanProcessView: function(model) {
     this.modals.show(new TinCanProcessModal({

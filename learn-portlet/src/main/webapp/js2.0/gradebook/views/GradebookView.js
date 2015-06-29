@@ -15,13 +15,21 @@ GradebookView = Backbone.View.extend({
     initialize: function (options) {
         this.periodTimeout = null;
         this.options = options;
-        this.$el = jQuery('.gradebookBody');
+        this.$el = jQueryValamis('.gradebookBody');
         this.inputTimeout = null;
 
         this.searchView = new GradebookSearchView();
 
         this.model = new GradebookModel();
+
         this.model.get('paginatorModel').on('pageChanged', this.reloadGradeList, this);
+        this.model.on('getValueTotalElements', function(totalElements) {
+
+        if(totalElements > this.attributes.paginatorModel.get('itemsOnPage'))
+            jQueryValamis('#gradebookPaginator').show();
+        else
+            jQueryValamis('#gradebookPaginator').hide();
+        });
 
         this.showSimpleView();
     },
@@ -74,14 +82,14 @@ GradebookView = Backbone.View.extend({
     applyFilterName: function () {
         clearTimeout(this.inputTimeout);
         this.model.set('namePattern',this.$('.search-by-name').val());
-        this.reloadFGradeList();
+        this.reloadGradeList();
     },
     applyFilterOrg: function () {
         clearTimeout(this.inputTimeout);
         this.model.set('orgPattern',this.$('.search-by-org').val());
         this.reloadGradeList();
     },
-    onShowModeChanged: function (res) {
+    onShowModeChanged: function () {
         this.model.set('showMode',this.$('.show-mode').val());
         if(this.model.get('showMode') == 'simpleView')
             this.showSimpleView();

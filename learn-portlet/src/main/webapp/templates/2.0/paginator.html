@@ -1,25 +1,50 @@
 <script type="text/mustache" id="paginatorTemplate">
-    <div id="paginatorDisplay" class="select-element hidden-xs position-relative"></div>
-    <div class="pagination-group pull-right">
-        <div class="select-element-label-wrapper pull-left ">
-            <div class="select-element-label page-display">{{startElementNumber}}-{{endElementNumber}} {{ofLabel}}
-                {{totalElements}}
-            </div>
-        </div>
-        <div class="button-group">
-            <button class="paginator-previous-page button valamis medium grey val-icon-previous no-text"></button>
-            <button class="paginator-next-page button valamis medium grey val-icon-next no-text"></button>
-        </div>
+    <div class="paginator-showing"></div>
+    <div class="pagination-group">
+            <ul>
+            {{#isPrevVisible}}
+            <li><button class="button medium neutral js-paginator-previous-page">Previous</button></li>
+            {{/isPrevVisible}}
+
+            {{#leftDots}}
+            {{#firstPage}}
+             <li class="full-view">
+                <button class="button medium neutral
+                {{#isActive}} active-page{{/isActive}}
+                js-paginator-change-page" data-id="{{page}}">{{page}}</button>
+             </li>
+            {{/firstPage}}
+            <li class="full-view">...</li>
+            {{/leftDots}}
+
+            {{#navbuttons}}
+            <li class="full-view">
+                <button class="button medium neutral
+                {{#isActive}} active-page{{/isActive}}
+                js-paginator-change-page" data-id="{{page}}">{{page}}</button>
+            </li>
+            {{/navbuttons}}
+
+            {{#rightDots}}
+            <li class="full-view">...</li>
+            {{#lastPage}}
+             <li class="full-view">
+                <button class="button medium neutral
+                {{#isActive}} active-page{{/isActive}}
+                js-paginator-change-page" data-id="{{page}}">{{page}}</button>
+            </li>
+            {{/lastPage}}
+            {{/rightDots}}
+
+            {{#isNextVisible}}
+            <li><button class="button medium neutral js-paginator-next-page">Next</button></li>
+            {{/isNextVisible}}
+            </ul>
     </div>
 </script>
 
-<script type="text/mustache" id="paginatorDisplayTemplate">
-    <div class="select-element-label">{{displayLabel}}</div>
-    <div class="valamis-select">
-        <select class="paginator-items-per-page">
-            {{#options}}
-            <option value="{{.}}"> {{.}} </option>
-            {{/options}}
-        </select>
-    </div>
+<script type="text/mustache" id="paginatorShowingTemplate">
+            <span>{{showingLabel}} {{startElementNumber}} - {{endElementNumber}} {{ofLabel}}
+                {{totalElements}}
+            </span>
 </script>

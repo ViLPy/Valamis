@@ -1,18 +1,19 @@
 <html>
 <head>
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+    <script type="text/template" id="lvsettings-modals-template">
+        <div class="player-settings-modals-container"></div>
+    </script>
     <script type="text/template" id="player-settings-modal-template">
-        <div class="bbm-modal__topbar add-members-modal">
-            <h3 class="bbm-modal__title valamis">{{packageAddFromPersonalSite}}</h3>
+        <div class="bbm-modal__topbar">
+            <h3 class="bbm-modal__title">{{packageAddFromPersonalSite}}</h3>
 
-            <div class="modal-close">
+            <div class="modal-close val-icon-exit">
             </div>
         </div>
-        <div class="bbm-modal__section player-settings-dialog">
+
+        <div class="player-settings-dialog">
         </div>
-        <div class="bbm-modal__bottombar"></div>
     </script>
 
     <script type="text/javascript">
@@ -21,7 +22,46 @@
         var scormPersonalPackages = new ScopeRuleModelCollection();
         var scormPlayerSettingsLanguageData = {};
 
+        var PlayerSettingsLayout = Backbone.Marionette.Layout.extend({
+            template: _.template(Mustache.to_html(jQuery('#lvsettings-modals-template').html())),
+            regions: {
+                modals: {
+                    selector: '.player-settings-modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
+            }
+        });
+
+        var playerSettingsLayout = new PlayerSettingsLayout();
+
+        var PersonalModal = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQuery('#player-settings-modal-template').html(), scormPlayerSettingsLanguageData)),
+            className: 'val-modal',
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            initialize: function () {
+
+            },
+            onRender: function () {
+                var packagesWithoutPlayerScope = _.reject(scormPersonalPackages.models,
+                    function(personalPackage) {
+                        return scormPackageScopeRules.where({ id: personalPackage.get('id') }).length > 0
+                    }
+                );
+                var personalPackagesView = new PersonalPackageList({
+                    collection: new ScopeRuleModelCollection(packagesWithoutPlayerScope),
+                    language: scormPlayerSettingsLanguageData
+                });
+                this.$('.player-settings-dialog').append(personalPackagesView.render().$el);
+                personalPackagesView.addAll();
+                personalPackagesView.on('add-package', scormPackageScopeRules.add, scormPackageScopeRules);
+                personalPackagesView.on('qb-entity-updated', this.close, this);
+            }
+        });
+
         jQuerySettings(function () {
+            jQuery('#lessonViewerSettingsModalPlaceholder').append(playerSettingsLayout.render().el);
+
             Backbone.emulateJSON = true;
             Backbone.ajax = window.LearnAjax.ajax;
             var defaultURL = Utils.getContextPath() + '/i18n/lessonViewer_en.properties';
@@ -31,15 +71,9 @@
             jQuerySettings('#PackageAddFromPersonalSiteButton').on('click', function () {
                 var personal = new PersonalModal();
                 playerSettingsLayout.modals.show(personal);
-            })
+            });
 
-            if ('{{hideSearchPanel}}' == 'true'){
-                jQuery('#playerHideSearchValue').attr('checked', 'checked');
-            }
 
-            if ('{{enableAnonymousUser}}' == 'true'){
-                jQuery('#playerAnonimousUserValue').attr('checked', 'checked');
-            }
         });
 
         function onPlayerSettingsLanguageLoad(properties) {
@@ -57,6 +91,8 @@
             jQuerySettings("#scopeOptions").val(selected);
             updatePersonalPackageVisibility();
 
+
+
             var packageScopeRuleView = new PlayerSettingsListView({el: jQuerySettings("#packageScopeRuleList"), collection: scormPackageScopeRules, language: scormPlayerSettingsLanguageData});
             jQuerySettings("#playerSettingsSearch").keyup(function () {
                 packageScopeRuleView.filterPackages(jQuerySettings("#playerSettingsSearch").val());
@@ -68,7 +104,7 @@
         }
 
         function updatePersonalPackageVisibility() {
-            if (jQuerySettings("#scopeOptions").val() == "playerScope")
+            if (jQuerySettings("#scopeOptions").val() == "player")
                 jQuerySettings("#PackageAddFromPersonalSiteButton").show();
             else
                 jQuerySettings("#PackageAddFromPersonalSiteButton").hide();
@@ -79,74 +115,24 @@
 
             window.LearnAjax.post(path.root + path.api.packages + "updatePlayerScope", {
                 playerID: jQuerySettings("#playerID").val(),
-                scope: jQuerySettings("#scopeOptions").val()
+                scope: jQuerySettings("#scopeOptions").val(),
+                courseId: Utils.getCourseId()
             }).done(function () {
                         scormPackageScopeRules.fetch({reset: true});
                     }
             );
         }
 
-        var PlayerSettingsLayout = Backbone.Marionette.Layout.extend({
-            template: _.template(Mustache.to_html(jQuery('#settings-modals-template').html())),
-            regions: {
-                modals: {
-                    selector: '.personalPackageList',
-                    regionType: Backbone.Marionette.Modals
-                }
-            }
-        });
-
-
-        var playerSettingsLayout = new PlayerSettingsLayout();
-        jQuery('body').append(playerSettingsLayout.render().el);
-
-        var PersonalModal = Backbone.Modal.extend({
-            template: _.template(Mustache.to_html(jQuery('#player-settings-modal-template').html(), scormPlayerSettingsLanguageData)),
-            submitEl: '.bbm-button',
-            cancelEl: '.modal-close',
-            initialize: function () {
-
-            },
-            onRender: function () {
-                var personalPackagesView = new PersonalPackageList({collection: scormPersonalPackages, language: scormPlayerSettingsLanguageData});
-                this.$('.player-settings-dialog').append(personalPackagesView.render().$el);
-                personalPackagesView.addAll();
-                personalPackagesView.on('add-package', scormPackageScopeRules.add, scormPackageScopeRules);
-                personalPackagesView.on('qb-entity-updated', this.close, this);
-            }
-        });
 
 
 
-        function saveHidePanelSetting() {
-            window.LearnAjax.post('{{portletSettingsActionURL}}', {
-                hideSearchPanel: jQuery("#playerHideSearchValue").is(':checked')
-            }).done(function () {
-                    }
-            );
 
-        }
 
-        function saveAnonymousUserSetting() {
-            window.LearnAjax.post('{{portletSettingsActionURL}}', {
-                enableAnonymousUser: jQuery("#playerAnonimousUserValue").is(':checked')
-            }).done(function () {
-                    }
-            );
-
-        }
     </script>
 </head>
-<body id="SCORMBankLayout">
-<div class="projectLearnGeneric" id="projectLearnGeneric" style="padding: 10px">
-    <div class="SCORMTitle">{{settingsSubTitleLabel}}</div>
-    <br clear="all"/>
-
-    <input type="checkbox" onclick="saveHidePanelSetting()" id="playerHideSearchValue" /> {{hideSearchPanelLabel}} <br>
-    <input type="checkbox" onclick="saveAnonymousUserSetting()" id="playerAnonimousUserValue" /> {{enableAnonymousLabel}} <br>
-    <br/>
-    <div class="SCORMWell">
-        <div style="float: left">
+<body>
+<div   style="padding: 10px">
+        <div style="float: left; margin-right: 20px;">
             <input placeholder="{{searchPlaceholderLabel}}" type="text" id="playerSettingsSearch" class="SCORMSearch"/>
         </div>
         <div class="select-element position-relative">
@@ -160,18 +146,16 @@
         </div>
         </div>
         <div style="float: right">
-            <button id="PackageAddFromPersonalSiteButton" class="button valamis big green val-icon-plus">
+            <button id="PackageAddFromPersonalSiteButton" class="button big primary  val-icon-plus">
                 {{packageAddFromPersonalSite}}
             </button>
         </div>
         <br style="clear: both"/>
 
         <div id="packageScopeRuleList" class="SCORMPackageList"></div>
-    </div>
 
 </div>
-
-<input type="hidden" id="courseID" value="{{courseID}}"/>
+<div id="lessonViewerSettingsModalPlaceholder"></div>
 <input type="hidden" id="pageID" value="{{pageID}}"/>
 <input type="hidden" id="selectedScope" value="{{selectedScope}}"/>
 <input type="hidden" id="playerID" value="{{playerID}}"/>

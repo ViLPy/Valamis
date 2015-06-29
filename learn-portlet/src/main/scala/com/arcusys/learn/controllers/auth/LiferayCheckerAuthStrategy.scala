@@ -2,14 +2,11 @@ package com.arcusys.learn.controllers.auth
 
 import javax.servlet.http.{ HttpServletRequest, HttpServletResponse }
 
-import com.arcusys.learn.exceptions.NotAuthorizedException
-import com.arcusys.learn.liferay.services.UserLocalServiceHelper
-import com.liferay.portal.security.auth.{ CompanyThreadLocal, PrincipalThreadLocal }
-import com.liferay.portal.security.permission.{ PermissionCheckerFactoryUtil, PermissionThreadLocal }
+import com.arcusys.learn.liferay.services.PermissionHelper
+import com.liferay.portal.security.auth.CompanyThreadLocal
 import com.liferay.portal.service.UserLocalServiceUtil
 import com.liferay.portal.util.PortalUtil
 import org.scalatra.ScalatraBase
-import org.scalatra.auth.strategy.BasicAuthStrategy
 
 import scala.util.Try
 
@@ -22,13 +19,10 @@ class LiferayCheckerAuthStrategy(protected val app: ScalatraBase)(implicit reque
     def findUserAndSetupPermissions = {
       val user = getUserByRequest()
 
-      val permissionChecker = PermissionCheckerFactoryUtil.create(user)
-
-      PermissionThreadLocal.setPermissionChecker(permissionChecker)
-      PrincipalThreadLocal.setName(user.getUserId)
+      PermissionHelper.preparePermissionChecker(user)
       CompanyThreadLocal.setCompanyId(user.getCompanyId)
 
-      LiferayAuthUser(user.getUserId, user)
+      AuthUser(user.getUserId, user)
     }
 
     Try(findUserAndSetupPermissions).toOption

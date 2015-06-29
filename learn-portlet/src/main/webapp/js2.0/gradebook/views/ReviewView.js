@@ -9,7 +9,7 @@ ReviewView = Backbone.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        //this.$el = jQuery('<div>');
+        //this.$el = jQueryValamis('<div>');
         //this.$el.attr("id", this.model.id);
     },
 
@@ -17,7 +17,7 @@ ReviewView = Backbone.View.extend({
         var result = this.model.result.score?this.model.result.score.scaled*100+'%':'';
         var userResponse = "user response";
         var correctResponse = "correct response";
-        var template = Mustache.to_html(jQuery("#reviewTemplate").html(), _.extend(this.model, language,
+        var template = Mustache.to_html(jQueryValamis("#reviewTemplate").html(), _.extend(this.model, language,
             {resultGrade: result,userResponse:userResponse,correctResponse:correctResponse}));
         this.$el.html(template);
 

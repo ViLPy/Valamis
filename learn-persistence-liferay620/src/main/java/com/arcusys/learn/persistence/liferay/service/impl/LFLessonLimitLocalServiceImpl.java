@@ -5,6 +5,8 @@ import com.arcusys.learn.persistence.liferay.model.LFLessonLimit;
 import com.arcusys.learn.persistence.liferay.service.base.LFLessonLimitLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.SystemException;
 
+import java.util.List;
+
 /**
  * The implementation of the l f lesson limit local service.
  *
@@ -28,5 +30,9 @@ public class LFLessonLimitLocalServiceImpl
      */
     public LFLessonLimit findByID(Long itemID, String itemType) throws SystemException, NoSuchLFLessonLimitException{
         return lfLessonLimitPersistence.findByItemIDAndItemType(itemID, itemType);
+    }
+
+    public List<LFLessonLimit> findByIDs(Long[] ids) throws SystemException {
+        return lfLessonLimitPersistence.findByIDs(ids);
     }
 }

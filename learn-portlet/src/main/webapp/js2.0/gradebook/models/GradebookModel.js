@@ -1,20 +1,25 @@
 var GradebookTargets = {
-    loadList: {
-        path: function (model) {
-            var url = path.api.gradebooks + "?action=ALL&courseId="
-                +jQuery1816Gradebook('#courseID').val()
+    'loadList': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            var sortBy = model.get('sorting').split(':')[0];
+            var asc = model.get('sorting').split(':')[1];
+            var res = {
+                action: 'ALL',
+                courseId: Utils.getCourseId(),
+                studentName: model.get('namePattern'),
+                organizationName: model.get('orgPattern'),
+                page: model.get('paginatorModel').get('currentPage'),
+                count: model.get('paginatorModel').get('itemsOnPage'),
+                sortBy: sortBy,
+                sortAscDirection: asc
+            };
 
-                +"&studentName="+model.get('namePattern')
-                +"&organizationName="+model.get('orgPattern')
-                +"&page="+model.get('paginatorModel').get('currentPage')
-                +"&count="+model.get('paginatorModel').get('itemsOnPage')
-                + "&sort=" + model.get('sorting');
             if (model.get('showMode') == 'detailedView') {
-                url += "&resultAs=detailed";
                 var s={selectedPackages:getCheckedPackages()};
-                url += "&"+jQuery1816Gradebook.param(s);
+                res = _.extend(res, {resultAs: 'detailed'}, s);
             }
-            return url;
+            return res;
         },
         method:'GET'
     }
@@ -24,9 +29,9 @@ GradebookService = new Backbone.Service({ url: path.root, targets: GradebookTarg
 
 var GradebookModel = Backbone.Model.extend({
     parse: function(response){
+        //Seems that this code is never executed.
         this.get('paginatorModel').set({totalElements: response.total, currentPage: response.page});
         this.set('records',new GradebookStudentCollection(response.records));
-
     },
     initialize: function(){
         this.set({
@@ -37,7 +42,7 @@ var GradebookModel = Backbone.Model.extend({
             page: 0,
             records: new GradebookStudentCollection(),
             total: 0,
-            sorting: 'name_asc',
+            sorting: 'name:true',
             showMode: 'simpleView'
         });
     }

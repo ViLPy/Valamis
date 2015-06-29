@@ -7,12 +7,14 @@ var TinCanProcessModel = LessonContentModel.extend({
 });
 
 var TinCanProcessView = Backbone.View.extend({
-  template: $('#processTinCanTemplate').html(),
+  DEFAULT_SCORE: 0.7,
   events: {
     'click .embedTinCanPlayerToggle':'toggleEmbedTinCanPlayer',
     'change .theme-selector': 'updateThemeImage',
-    'click .randomQuestionOrderingToggle': 'toggleRandomQuestionOrdering',
-    'keypress .questionsCountToShowText': 'questionsCountKeyPress'
+    'change .js-toggle-random': 'toggleRandomQuestionOrdering',
+    'keypress .js-questionsCountToShowText': 'questionsCountKeyPress',
+    'click .js-download-action': 'download',
+    'click .js-publish-action': 'publish'
   },
   initialize: function() {
     this.asExternal = false;
@@ -24,6 +26,9 @@ var TinCanProcessView = Backbone.View.extend({
   },
   render: function () {
     var themes = [{
+      id: 'slides',
+      title: 'Lesson studio theme'
+    }, {
       id: 'default',
       title: 'Default theme'
     },{
@@ -55,7 +60,11 @@ var TinCanProcessView = Backbone.View.extend({
     var mustacheAccumulator = {themes: themes};
     _.extend(mustacheAccumulator, this.model.toJSON(), GLOBAL_translations);
 
-    this.$el.html(Mustache.render(this.template, mustacheAccumulator));
+    this.$el.html(Mustache.render(jQueryValamis('#processTinCanTemplate').html(), mustacheAccumulator));
+    this.$('.js-plus-minus').valamisPlusMinus({
+        min: 0, max: 1, step: 0.05
+    });
+    this.$('.js-plus-minus').valamisPlusMinus('value', this.DEFAULT_SCORE);
 
     this.updateThemeImage();
 
@@ -69,12 +78,10 @@ var TinCanProcessView = Backbone.View.extend({
   toggleRandomQuestionOrdering:function() {
     this.randomOrdering = !this.randomOrdering;
     if (this.randomOrdering) {
-      this.$('.randomQuestionOrderingToggle').addClass('selected');
-      this.$('.questionsCountToShowText').removeAttr('disabled');
+      this.$('.js-questionsCountToShowText').removeAttr('disabled');
     }
     else {
-      this.$('.randomQuestionOrderingToggle').removeClass('selected');
-      this.$('.questionsCountToShowText').attr('disabled','disabled');
+      this.$('.js-questionsCountToShowText').attr('disabled','disabled');
     }
   },
   questionsCountKeyPress: function(e){
@@ -88,11 +95,11 @@ var TinCanProcessView = Backbone.View.extend({
     window.location = path.root + path.api.files + 'export/?action=' + action
       + '&contentType=lesson'
       + '&id=' + this.model.id
-      + '&courseID=' + GLOBAL_courseID
+      + '&courseId=' + Utils.getCourseId()
       + '&theme=' + selectedTheme
       + '&publishType=tincan'
       + '&randomOrdering=' + this.randomOrdering
-      + '&questionsCount=' + this.$('.questionsCountToShowText').val();
+      + '&questionsCount=' + this.$('.js-questionsCountToShowText').val();
     this.trigger('publishDownloadClose');
   },
   publish: function() {
@@ -103,7 +110,8 @@ var TinCanProcessView = Backbone.View.extend({
       publishType: 'tincan',
       theme: selectedTheme,
       randomOrdering: this.randomOrdering,
-      questionsCount: this.$('.questionsCountToShowText').val()
+      questionsCount: this.$('.js-questionsCountToShowText').val(),
+        scoreLimit:  this.$('.js-plus-minus').valamisPlusMinus('value')
     }).then(function (response) {
       if (response.status) {
         toastr.success(GLOBAL_translations['overlayCompleteMessageLabel']);
@@ -118,30 +126,24 @@ var TinCanProcessView = Backbone.View.extend({
 });
 
 var TinCanProcessModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-template-tincan').html(), _.extend({header: GLOBAL_translations['addPresentationLabel']}, GLOBAL_translations))),
-  events: {
-    'click .val-icon-download': 'download',
-    'click .download-external': 'downloadExternal',
-    'click .val-icon-publish': 'publish'
+  template: function (data) {
+    return Mustache.to_html(jQueryValamis('#valamisEmptyModalTemplate').html(), _.extend({header: GLOBAL_translations['publishTinCanLabel']}))
   },
-  cancelEl: '.close-button',
-  className: 'add-presentation-modal',
+  events: {
+
+  },
+  cancelEl: '.modal-close',
+  className: 'val-modal',
   onRender: function () {
     var me = this;
     this.view = new TinCanProcessView({
       model: this.model,
-      el: this.$('.content')
+      el: this.$('.js-modal-content')
     });
     this.view.render();
     this.view.on('publishDownloadClose', function() {
        me.trigger('modal:close');
-       me.close();
+       //me.close();
     });
-  },
-  download: function(){
-    if (this.view) this.view.download();
-  },
-  publish: function(){
-      if (this.view) this.view.publish();
   }
 });

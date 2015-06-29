@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 6.1.0//EN" "http://www.liferay.com/dtd/liferay-display_6_1_0.dtd">
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 6.2.0//EN" "http://www.liferay.com/dtd/liferay-display_6_2_0.dtd">
 <display>
     <category name="Valamis Analytics">
         <portlet id="TinCanStatementViewer">Valamis TinCan Statement Viewer</portlet>
@@ -19,21 +19,33 @@
         <portlet id="Curriculum">Curriculum</portlet>
         <portlet id="CurriculumUser">Curriculum user</portlet>
         <portlet id="SCORMUserAccount">My Account</portlet>
+        <portlet id="CompetencesAdmin">Competences administration</portlet>
+        <portlet id="CompetencesUser">My Competences</portlet>
+        <portlet id="PhenomenizerStudio">Phenomenizer Studio</portlet>
+        <portlet id="PhenomenizerReport">Phenomenizer Report</portlet>
     </category>
 
     <category name="Valamis Lesson tools">
         <portlet id="SCORMApplication">SCORMApplication</portlet>
         <portlet id="Gradebook">Gradebook</portlet>
         <portlet id="SCORMQuizes">SCORMQuizes</portlet>
-        <portlet id="SCORMQuestionBank">SCORMQuestionBank</portlet>
+        <portlet id="ContentManager">ContentManager</portlet>
         <portlet id="PackageManager">PackageManager</portlet>
-        <!--<portlet id="ValamisSlidesEditor">ValamisSlidesEditor</portlet>-->
+        <portlet id="ValamisSlidesEditor">ValamisSlidesEditor</portlet>
     </category>
 
     <category name="Valamis Administration">
         <portlet id="SCORMApplicationAdmin">SCORMApplicationAdmin</portlet>
-        <portlet id="TinCanAPIClientManager">Valamis TinCan API Client Manager</portlet>
         <portlet id="SocialActivitiesTinCanMapper">Valamis TinCan Social Activity Mapper</portlet>
         <portlet id="LRSToActivityMapper">Valamis LRS To Activity Mapper</portlet>
+    </category>
+
+    <category name="Valamis Dashboard">
+        <portlet id="AchievedCertificates">Achieved Certificates</portlet>
+        <portlet id="LearningPaths">Learning Paths</portlet>
+        <portlet id="MyLessons">Lessons</portlet>
+        <portlet id="ValamisActivities">Valamis Activities</portlet>
+        <portlet id="RecentLessons">Recent</portlet>
+        <portlet id="ValamisStudySummary">Valamis Study Summary</portlet>
     </category>
 </display>

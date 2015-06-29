@@ -5,31 +5,15 @@ var UserAccountView = Backbone.View.extend({
   },
 
   events: {
-    'click .viewCertificateGoalsCommand': 'openGoals'
+    'click .js-open-goals': 'openGoals'
   },
 
   addOne: function (element) {
-    var logo = '../../learn-portlet/img/certificate-default.jpg';
-    if (element.id == -1) logo = element.logo;
-    else if (element.logo != '') logo = path.root + path.api.files + 'images?folderId=' + element.id + '&file=' + element.logo;
+    var template = Mustache.to_html(jQuery('#userCertificateTileItemView').html(), _.extend({
+      decodedDescription: element.description
+    }, element, this.language));
 
-//    var viewportWidth = jQuery(window).width();
-//    if (viewportWidth <= 767) {
-//      var template = '#userCertificateListItemView';
-//    } else {
-//      var template = '#userCertificateTileItemView';
-//    }
-
-      var template = '#userCertificateTileItemView';
-
-    var template = Mustache.to_html(jQuery(template).html(), _.extend(element, _.extend({
-      description: decodeURIComponent(element.description),
-      logo: logo
-    }, this.language)));
-
-    var id = '#userCertificatesList';
-    this.$(id).append(template);
-
+    this.$('.js-certificates-list').append(template);
   },
 
   openGoals: function (e) {
@@ -37,14 +21,23 @@ var UserAccountView = Backbone.View.extend({
   },
 
   render: function () {
-    var template = Mustache.to_html(jQuery('#liferayAccountInfoView').html(), _.extend(this.model.toJSON(), _.extend({
-      description: decodeURIComponent(this.model.get('description'))}, this.language)));
+    var template = Mustache.to_html(jQuery('#liferayAccountInfoView').html(), _.extend({},
+      this.model.toJSON(),
+      this.language
+    ));
     this.$el.append(template);
 
     if (this.model.get('certificates') != null &&
-      this.model.get('certificates') != undefined) {
-      for (var i = 0; i < this.model.get('certificates').length; i++) {
-        this.addOne(this.model.get('certificates')[i]);
+      this.model.get('certificates') != undefined)
+    {
+      for (var i = 0; i < this.model.get('certificates').length; i++)
+      {
+        var model = this.model.get('certificates')[i];
+        /*Some certificate images are not on local server
+         * We need to check this.
+         */
+        model.isLocal = !(model.id == -1);
+        this.addOne(model);
       }
     }
     return this;

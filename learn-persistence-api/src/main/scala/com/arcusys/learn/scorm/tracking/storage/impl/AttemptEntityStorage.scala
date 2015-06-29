@@ -1,9 +1,11 @@
 package com.arcusys.learn.scorm.tracking.storage.impl
 
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
-import com.arcusys.learn.scorm.tracking.model.{ User, Attempt }
-import com.arcusys.learn.scorm.tracking.storage.{ UserStorage, AttemptStorage }
-import com.arcusys.learn.scorm.manifest.storage.ScormPackagesStorage
+import com.arcusys.valamis.lesson.scorm.model.tracking.Attempt
+import com.arcusys.valamis.lesson.scorm.storage.ScormPackagesStorage
+import com.arcusys.valamis.lesson.scorm.storage.tracking.AttemptStorage
+import com.arcusys.valamis.user.model.User
+import com.arcusys.valamis.user.storage.UserStorage
 
 trait AttemptFieldsMapper {
   def id: Int
@@ -27,28 +29,5 @@ trait AttemptCreator {
       mapper.packageID,
       mapper.organizationID,
       mapper.isComplete)
-  }
-}
-
-@deprecated
-trait AttemptEntityStorage extends AttemptStorage with KeyedEntityStorageExt[Attempt] with EntityStorageExt[Attempt] {
-  def userStorage: UserStorage
-
-  def packageStorage: ScormPackagesStorage
-
-  def getActive(userID: Int, packageID: Int) = getOne("userID" -> userID, "packageID" -> packageID, "isComplete" -> false)
-  def getAllComplete(userID: Int, packageID: Int) = getAll("userID" -> userID, "packageID" -> packageID, "isComplete" -> true)
-
-  def getLast(userID: Int, packageID: Int, complete: Boolean = false) = getOne("userID" -> userID, "packageID" -> packageID, "getLast" -> true, "isComplete" -> complete)
-
-  def createAndGetID(userID: Int, packageID: Int, organizationID: String) = createAndGetID(Attempt(0, User(userID), packageID, organizationID, isComplete = false))
-
-  def markAsComplete(id: Int) {
-    execute("_setcomplete", "id" -> id, "isComplete" -> true)
-  }
-
-  def checkIfComplete(userID: Int, packageID: Int) = {
-    val attempt = getAll("userID" -> userID, "packageID" -> packageID, "isComplete" -> true)
-    !attempt.isEmpty
   }
 }

@@ -52,10 +52,6 @@ public class LFTincanPackageLocalServiceImpl
         return list;
     }
 
-    public  java.util.List<LFTincanPackage> findAll() throws  SystemException{
-        return lfTincanPackagePersistence.findAll();
-    }
-
     public  java.util.List<LFTincanPackage> findByInstance(Integer[] courseIDs) throws  SystemException{
         return lfTincanPackagePersistence.findByInstance(courseIDs);
     }
@@ -64,8 +60,12 @@ public class LFTincanPackageLocalServiceImpl
         return lfTincanPackagePersistence.findByCourseID(courseID);
     }
 
-    public void removeAll() throws SystemException {
-        lfTincanPackagePersistence.removeAll();
+    public java.util.List<LFTincanPackage> findByTitleAndCourseID(String titlePattern, Integer[] courseIDs) throws  SystemException{
+        return lfTincanPackagePersistence.findByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
+    public int countByTitleAndCourseID(String titlePattern, Integer[] courseIDs) throws  SystemException{
+        return lfTincanPackagePersistence.countByTitleAndCourseID(titlePattern, courseIDs);
     }
 
     @Override

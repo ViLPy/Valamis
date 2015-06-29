@@ -9,6 +9,10 @@ import com.arcusys.learn.models.CourseResponse
 trait CourseFacadeContract {
   def getAllCourses(companyId: Long): Seq[LGroup]
 
+  def getGroupIdsForAllCourses(companyId: Long): Seq[Long]
+
+  def getGroupIdsForAllCoursesFromAllCompanies: Seq[Long]
+
   def all(companyId: Long,
     skip: Int,
     take: Int,
@@ -19,7 +23,7 @@ trait CourseFacadeContract {
 
   def count(companyId: Long, filter: String): Int
 
-  def getCourse(siteId: Int): CourseResponse
+  def getCourse(siteId: Long): CourseResponse
 
   def getByUserId(userId: Long): Seq[CourseResponse]
 

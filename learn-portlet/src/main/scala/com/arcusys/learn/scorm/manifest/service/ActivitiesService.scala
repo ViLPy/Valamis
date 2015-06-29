@@ -1,13 +1,15 @@
 package com.arcusys.learn.scorm.manifest.service
 
-import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
 import com.arcusys.learn.controllers.api.BaseApiController
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.liferay.permission.PermissionUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ LeafActivity, Activity }
+import com.arcusys.valamis.lesson.scorm.model.tracking.ActivityStateNode
+import com.arcusys.valamis.lesson.service.ActivityServiceContract
+import com.arcusys.valamis.util.TreeNode
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.util.TreeNode
-import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
+import PermissionUtil._
 
 class ActivitiesService(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
   def this() = this(Configuration)

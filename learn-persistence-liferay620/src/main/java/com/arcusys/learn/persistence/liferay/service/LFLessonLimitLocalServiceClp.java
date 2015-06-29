@@ -46,6 +46,8 @@ public class LFLessonLimitLocalServiceClp implements LFLessonLimitLocalService {
     private String[] _methodParameterTypes17;
     private String _methodName19;
     private String[] _methodParameterTypes19;
+    private String _methodName20;
+    private String[] _methodParameterTypes20;
 
     public LFLessonLimitLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -154,6 +156,10 @@ public class LFLessonLimitLocalServiceClp implements LFLessonLimitLocalService {
         _methodParameterTypes19 = new String[] {
                 "java.lang.Long", "java.lang.String"
             };
+
+        _methodName20 = "findByIDs";
+
+        _methodParameterTypes20 = new String[] { "java.lang.Long[][]" };
     }
 
     @Override
@@ -709,5 +715,33 @@ public class LFLessonLimitLocalServiceClp implements LFLessonLimitLocalService {
         }
 
         return (com.arcusys.learn.persistence.liferay.model.LFLessonLimit) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFLessonLimit> findByIDs(
+        java.lang.Long[] ids)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName20,
+                    _methodParameterTypes20,
+                    new Object[] { ClpSerializer.translateInput(ids) });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFLessonLimit>) ClpSerializer.translateOutput(returnObj);
     }
 }

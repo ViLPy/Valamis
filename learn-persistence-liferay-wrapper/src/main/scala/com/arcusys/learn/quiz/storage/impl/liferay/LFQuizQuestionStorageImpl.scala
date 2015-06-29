@@ -1,11 +1,11 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.quiz.model.QuizQuestion
 import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestion
+import com.arcusys.valamis.questionbank.storage.QuestionStorage
+import com.arcusys.valamis.quiz.model.QuizQuestion
 import scala.collection.JavaConverters._
-import com.arcusys.learn.questionbank.storage.QuestionStorage
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 import com.arcusys.learn.quiz.storage.impl.QuizQuestionFieldsMapper
 

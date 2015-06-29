@@ -46,7 +46,7 @@ public class LFLessonLimitModelImpl extends BaseModelImpl<LFLessonLimit>
             { "rerunInterval", Types.INTEGER },
             { "rerunIntervalType", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFLessonLimit (itemID LONG not null,itemType VARCHAR(75) not null,passingLimit INTEGER null,rerunInterval INTEGER null,rerunIntervalType VARCHAR(75) null,primary key (itemID, itemType))";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFLessonLimit (itemID LONG not null,itemType VARCHAR(75) not null,passingLimit INTEGER null,rerunInterval INTEGER null,rerunIntervalType VARCHAR(512) null,primary key (itemID, itemType))";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFLessonLimit";
     public static final String ORDER_BY_JPQL = " ORDER BY lfLessonLimit.id.itemID ASC, lfLessonLimit.id.itemType ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFLessonLimit.itemID ASC, Learn_LFLessonLimit.itemType ASC";

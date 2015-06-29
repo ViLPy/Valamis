@@ -1,9 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{ RuleConditionStorage, RollupRuleStorage }
 import com.arcusys.learn.storage.impl.{ KeyedEntityStorageExt, EntityStorageExt }
-import com.arcusys.learn.scorm.manifest.model._
-import scala.Some
+import com.arcusys.valamis.lesson.scorm.model.manifest._
+import com.arcusys.valamis.lesson.scorm.storage.sequencing.{ RuleConditionStorage, RollupRuleStorage }
 
 /**
  * User: Yulia.Glushonkova

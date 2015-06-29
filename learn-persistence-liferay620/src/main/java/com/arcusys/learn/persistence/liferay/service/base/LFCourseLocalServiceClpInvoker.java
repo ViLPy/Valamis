@@ -41,20 +41,20 @@ public class LFCourseLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName316;
-    private String[] _methodParameterTypes316;
-    private String _methodName317;
-    private String[] _methodParameterTypes317;
-    private String _methodName322;
-    private String[] _methodParameterTypes322;
-    private String _methodName323;
-    private String[] _methodParameterTypes323;
-    private String _methodName324;
-    private String[] _methodParameterTypes324;
-    private String _methodName325;
-    private String[] _methodParameterTypes325;
-    private String _methodName326;
-    private String[] _methodParameterTypes326;
+    private String _methodName216;
+    private String[] _methodParameterTypes216;
+    private String _methodName217;
+    private String[] _methodParameterTypes217;
+    private String _methodName222;
+    private String[] _methodParameterTypes222;
+    private String _methodName223;
+    private String[] _methodParameterTypes223;
+    private String _methodName224;
+    private String[] _methodParameterTypes224;
+    private String _methodName225;
+    private String[] _methodParameterTypes225;
+    private String _methodName226;
+    private String[] _methodParameterTypes226;
 
     public LFCourseLocalServiceClpInvoker() {
         _methodName0 = "addLFCourse";
@@ -139,37 +139,37 @@ public class LFCourseLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFCourse"
             };
 
-        _methodName316 = "getBeanIdentifier";
+        _methodName216 = "getBeanIdentifier";
 
-        _methodParameterTypes316 = new String[] {  };
+        _methodParameterTypes216 = new String[] {  };
 
-        _methodName317 = "setBeanIdentifier";
+        _methodName217 = "setBeanIdentifier";
 
-        _methodParameterTypes317 = new String[] { "java.lang.String" };
+        _methodParameterTypes217 = new String[] { "java.lang.String" };
 
-        _methodName322 = "createLFCourse";
+        _methodName222 = "createLFCourse";
 
-        _methodParameterTypes322 = new String[] {  };
+        _methodParameterTypes222 = new String[] {  };
 
-        _methodName323 = "findByCourseIdAndUserId";
+        _methodName223 = "findByCourseIdAndUserId";
 
-        _methodParameterTypes323 = new String[] {
+        _methodParameterTypes223 = new String[] {
                 "java.lang.Integer", "java.lang.Integer"
             };
 
-        _methodName324 = "fetchByCourseIdAndUserId";
+        _methodName224 = "fetchByCourseIdAndUserId";
 
-        _methodParameterTypes324 = new String[] {
+        _methodParameterTypes224 = new String[] {
                 "java.lang.Integer", "java.lang.Integer"
             };
 
-        _methodName325 = "removeAll";
+        _methodName225 = "removeAll";
 
-        _methodParameterTypes325 = new String[] {  };
+        _methodParameterTypes225 = new String[] {  };
 
-        _methodName326 = "getLFCourse";
+        _methodName226 = "getLFCourse";
 
-        _methodParameterTypes326 = new String[] { "long" };
+        _methodParameterTypes226 = new String[] { "long" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -261,44 +261,44 @@ public class LFCourseLocalServiceClpInvoker {
             return LFCourseLocalServiceUtil.updateLFCourse((com.arcusys.learn.persistence.liferay.model.LFCourse) arguments[0]);
         }
 
-        if (_methodName316.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
+        if (_methodName216.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes216, parameterTypes)) {
             return LFCourseLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName317.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
+        if (_methodName217.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes217, parameterTypes)) {
             LFCourseLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName322.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
+        if (_methodName222.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes222, parameterTypes)) {
             return LFCourseLocalServiceUtil.createLFCourse();
         }
 
-        if (_methodName323.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
+        if (_methodName223.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes223, parameterTypes)) {
             return LFCourseLocalServiceUtil.findByCourseIdAndUserId((java.lang.Integer) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName324.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
+        if (_methodName224.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes224, parameterTypes)) {
             return LFCourseLocalServiceUtil.fetchByCourseIdAndUserId((java.lang.Integer) arguments[0],
                 (java.lang.Integer) arguments[1]);
         }
 
-        if (_methodName325.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes325, parameterTypes)) {
+        if (_methodName225.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes225, parameterTypes)) {
             LFCourseLocalServiceUtil.removeAll();
 
             return null;
         }
 
-        if (_methodName326.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes326, parameterTypes)) {
+        if (_methodName226.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes226, parameterTypes)) {
             return LFCourseLocalServiceUtil.getLFCourse(((Long) arguments[0]).longValue());
         }
 

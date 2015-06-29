@@ -1,8 +1,0 @@
-<div class="welcomebox">
-    #if($Header1 && $Header1.data!="")
-    <h2>$!Header1.data</h2>
-    #end
-    #if($Header2 && $Header2.data!="")
-    <h3>$!Header2.data</h3>
-    #end
-</div>

@@ -7,48 +7,47 @@ import com.arcusys.learn.exceptions.BadRequestException
 
 object ReportRequest extends BaseCollectionFilteredRequest with BaseRequest {
 
-  val COURSE_ID = "courseId"
-  val SCOPE = "scope"
+  val Scope = "scope"
 
-  val OFFSET = "offset"
-  val AMOUNT = "amount"
-  val PERIOD = "period"
-  val FROM = "from"
-  val TO = "to"
-  val GROUP_BY = "groupBy"
-  val GROUP_PERIOD = "groupPeriod"
+  val Offset = "offset"
+  val Amount = "amount"
+  val Period = "period"
+  val From = "from"
+  val To = "to"
+  val GroupBy = "groupBy"
+  val GroupPeriod = "groupPeriod"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
-  class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
+  class Model(val scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) with OAuthModel {
 
-    def actionType: ReportActionType = ReportActionType.withName(Parameter(ACTION).required.toUpperCase)
+    def actionType: ReportActionType = ReportActionType.withName(Parameter(Action).required.toUpperCase)
 
     def offset = try {
-      Parameter(OFFSET).withDefault("0").toInt
+      Parameter(Offset).withDefault("0").toInt
     } catch {
       case n: NumberFormatException => throw new BadRequestException //("Invalid number format for offset")
     }
 
     def amount = try {
-      Parameter(AMOUNT).withDefault("5").toInt
+      Parameter(Amount).withDefault("5").toInt
     } catch {
       case n: NumberFormatException => throw new BadRequestException //("Invalid number format for amount")
     }
 
-    def courseID = Parameter(COURSE_ID).intOption
+    def courseId = Parameter(CourseId).intOption
 
-    def groupBy = Parameter(GROUP_BY).required
+    def groupBy = Parameter(GroupBy).required
 
-    def groupPeriod = Parameter(GROUP_PERIOD).option
+    def groupPeriod = Parameter(GroupPeriod).option
 
-    def period = Parameter(PERIOD).required
+    def period = Parameter(Period).required
 
-    def from = Parameter(FROM).longRequired
+    def from = Parameter(From).longRequired
 
-    def to = Parameter(TO).longRequired
+    def to = Parameter(To).longRequired
 
-    def isInstanceScope = Parameter(SCOPE).option match {
+    def isInstanceScope = Parameter(Scope).option match {
       case Some(value) => value == "instance"
       case None        => false
     }

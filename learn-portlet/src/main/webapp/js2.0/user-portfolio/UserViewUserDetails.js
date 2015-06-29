@@ -1,14 +1,22 @@
 var GOAL_TYPE = {
   COURSE: 1,
   STATEMENT: 2,
-  ACTIVITY: 3
+  ACTIVITY: 3,
+  PACKAGE: 4
 };
 CertificateService = new Backbone.Service({ url: '/',
     sync: {
         'read': {
-            'path': function (model) {
-                return path.api.certificates + model.id + '?action=GETBYID';
+          'path': function (model) {
+            return path.api.certificates + model.id
+          },
+          'data': function (model) {
+            return {
+              action: 'GETBYID',
+              courseId: Utils.getCourseId()
             }
+          },
+          'method': 'get'
         }
     }
 });
@@ -20,8 +28,11 @@ var CertificateModel = Backbone.Model.extend({
 var CertificateGoalStatusService = new Backbone.Service({
   url: path.root,
   sync: {
-    'read': function (e, options) {
-      return path.api.users + options.userID + '/certificates/' + options.certificateID + '/goals';
+    'read':{
+      path: function (e, options) {
+        return path.api.users + options.userID + '/certificates/' + options.certificateID + '/goals';
+      },
+      'method': 'get'
     }
   }
 });
@@ -97,12 +108,18 @@ var ViewUserDetailsDialog = Backbone.View.extend({
     this.renderGoals(this.model.get('courses'), this.statuses.get('courses'), GOAL_TYPE.COURSE);
     this.renderGoals(this.model.get('statements'), this.statuses.get('statements'), GOAL_TYPE.STATEMENT);
     this.renderGoals(this.model.get('activities'), this.statuses.get('activities'), GOAL_TYPE.ACTIVITY);
+    this.renderGoals(this.model.get('packages'), this.statuses.get('packages'), GOAL_TYPE.PACKAGE);
   },
   renderGoals: function (goals, statuses, type) {
     if (goals != undefined) {
       for (var i = 0; i < goals.length; i++) {
         var params;
         var item = new CertificateGoalStatus(goals[i]);
+
+        if (type == GOAL_TYPE.ACTIVITY) {
+          item.set({isActivity: true });
+        }
+
         if (statuses != undefined) {
           if (type == GOAL_TYPE.ACTIVITY) {
             params = statuses.filter(function (i) {
@@ -110,7 +127,6 @@ var ViewUserDetailsDialog = Backbone.View.extend({
             }).map(function (i) {
                 return [i.status, i.dateFinish];
               });
-            item.set({isActivity: true });
           }
           else if (type == GOAL_TYPE.STATEMENT) {
             params = statuses.filter(function (i) {
@@ -126,6 +142,13 @@ var ViewUserDetailsDialog = Backbone.View.extend({
                 return [i.status, i.dateFinish];
               });
           }
+          else if (type == GOAL_TYPE.PACKAGE) {
+            params = statuses.filter(function (i) {
+              return i.packageId == item.get('packageId')
+            }).map(function (i) {
+              return [i.status, i.dateFinish];
+            });
+          }
         }
 
         var view = new GoalStatusView({model: item, status: params[0][0], certificateID: this.model.id, type: type, language: this.options.language, dateFinish: params[0][1]});
@@ -139,6 +162,9 @@ var ViewUserDetailsDialog = Backbone.View.extend({
         }
         else if (type == GOAL_TYPE.ACTIVITY) {
           this.$('#certificateActivitiesTable').append(template);
+        }
+        else if (type == GOAL_TYPE.PACKAGE) {
+          this.$('#lessonGoalsTable').append(template);
         }
       }
     }

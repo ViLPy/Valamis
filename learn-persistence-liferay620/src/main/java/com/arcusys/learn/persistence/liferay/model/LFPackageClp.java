@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
     private Long _assetRefID;
     private Integer _courseID;
     private String _logo;
+    private Date _beginDate;
+    private Date _endDate;
     private BaseModel<?> _lfPackageRemoteModel;
 
     public LFPackageClp() {
@@ -76,6 +79,8 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
         attributes.put("logo", getLogo());
+        attributes.put("beginDate", getBeginDate());
+        attributes.put("endDate", getEndDate());
 
         return attributes;
     }
@@ -135,6 +140,18 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
         if (logo != null) {
             setLogo(logo);
+        }
+
+        Date beginDate = (Date) attributes.get("beginDate");
+
+        if (beginDate != null) {
+            setBeginDate(beginDate);
+        }
+
+        Date endDate = (Date) attributes.get("endDate");
+
+        if (endDate != null) {
+            setEndDate(endDate);
         }
     }
 
@@ -337,6 +354,50 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         }
     }
 
+    @Override
+    public Date getBeginDate() {
+        return _beginDate;
+    }
+
+    @Override
+    public void setBeginDate(Date beginDate) {
+        _beginDate = beginDate;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBeginDate", Date.class);
+
+                method.invoke(_lfPackageRemoteModel, beginDate);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public Date getEndDate() {
+        return _endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        _endDate = endDate;
+
+        if (_lfPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setEndDate", Date.class);
+
+                method.invoke(_lfPackageRemoteModel, endDate);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFPackageRemoteModel() {
         return _lfPackageRemoteModel;
     }
@@ -413,6 +474,8 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         clone.setAssetRefID(getAssetRefID());
         clone.setCourseID(getCourseID());
         clone.setLogo(getLogo());
+        clone.setBeginDate(getBeginDate());
+        clone.setEndDate(getEndDate());
 
         return clone;
     }
@@ -458,7 +521,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(23);
 
         sb.append("{id=");
         sb.append(getId());
@@ -478,6 +541,10 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         sb.append(getCourseID());
         sb.append(", logo=");
         sb.append(getLogo());
+        sb.append(", beginDate=");
+        sb.append(getBeginDate());
+        sb.append(", endDate=");
+        sb.append(getEndDate());
         sb.append("}");
 
         return sb.toString();
@@ -485,7 +552,7 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(31);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFPackage");
@@ -526,6 +593,14 @@ public class LFPackageClp extends BaseModelImpl<LFPackage> implements LFPackage 
         sb.append(
             "<column><column-name>logo</column-name><column-value><![CDATA[");
         sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>beginDate</column-name><column-value><![CDATA[");
+        sb.append(getBeginDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>endDate</column-name><column-value><![CDATA[");
+        sb.append(getEndDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

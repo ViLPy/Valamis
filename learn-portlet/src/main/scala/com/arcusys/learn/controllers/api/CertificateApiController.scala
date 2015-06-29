@@ -1,175 +1,207 @@
 package com.arcusys.learn.controllers.api
 
-import com.arcusys.learn.bl.models.certificates.CertificateSortBy
 import com.arcusys.learn.exceptions.BadRequestException
 import com.arcusys.learn.facades.CertificateFacadeContract
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.models.request.{ CertificateActionType, CertificateRequest }
+import com.arcusys.learn.liferay.permission.{ModifyPermission, PermissionUtil, PortletName, ViewPermission}
+import com.arcusys.learn.models.CertificateStatementGoalRequest
+import com.arcusys.learn.models.request.{CertificateActionType, CertificateRequest}
 import com.arcusys.learn.models.response.CollectionResponse
+import com.arcusys.learn.models.response.certificates.AvailableStatementResponse
+import com.arcusys.valamis.certificate.model.CertificateSortBy
+import com.arcusys.valamis.lrs.service.LrsClientManager
+import com.arcusys.valamis.model.RangeResult
 import com.escalatesoft.subcut.inject.BindingModule
-import org.json4s.{ Formats, DefaultFormats, Extraction, CustomSerializer }
-import org.json4s.JsonAST.JValue
-import org.json4s.jackson.JsonMethods._
-import com.arcusys.learn.models.response.CollectionResponse
 
-class CertificateApiController(configuration: BindingModule) extends BaseApiController(configuration) {
-  def this() = this(Configuration)
+import scala.util.{Failure, Success}
 
-  case class TincanStmnt(verb: String, obj: String)
-
-  class TincanStmntSerializer extends CustomSerializer[TincanStmnt](implicit format => ({
-    case jValue: JValue =>
-      TincanStmnt(
-        jValue.\("verb").extract[String],
-        jValue.\("obj").extract[String]
-      )
-  }, {
-    case pack: TincanStmnt => render(Extraction.decompose(pack)(DefaultFormats))
-
-  }))
+class CertificateApiController(
+    configuration: BindingModule)
+  extends BaseApiController(configuration) {
 
   val certificateFacade = inject[CertificateFacadeContract]
+  private val lrsReader = inject[LrsClientManager]
+
+  def this() = this(Configuration)
 
   before() {
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
   }
 
+  implicit val serializationFormats = CertificateRequest.serializationFormats
+
   get("/certificates(/)(:id)")(jsonAction {
 
     val parameters = CertificateRequest(this)
 
+    //OpenBadges do not need permission check
+    if(parameters.action(this) != CertificateActionType.GetIssuerBadge)
+      PermissionUtil.requirePermissionApi(ViewPermission,
+        PortletName.CertificateManager,
+        PortletName.CertificateViewer,
+        PortletName.LearningTranscript,
+        PortletName.AchievedCertificates,
+        PortletName.LearningPaths
+      )
+
     parameters.action(this) match {
-      case CertificateActionType.GET_ALL => {
-        requireTeacherPermissions()
-        val certificates = certificateFacade.getAll(
-          getCompanyId.toInt,
-          parameters.skip,
+      case CertificateActionType.GetAll =>
+        certificateFacade.getAll(
+          PermissionUtil.getCompanyId.toInt,
+          parameters.scope,
+          parameters.page,
           parameters.count,
           parameters.filter,
           parameters.sortBy,
           parameters.isSortDirectionAsc,
           parameters.isShortResult)
 
-        val total = certificateFacade.allCount(
-          getCompanyId.toInt,
-          parameters.filter)
+      case CertificateActionType.GetById => certificateFacade.getById(parameters.id)
 
-        CollectionResponse(
-          parameters.page,
-          certificates,
-          total)
-      }
-
-      case CertificateActionType.GET_BY_ID => certificateFacade.getById(parameters.id)
-
-      case CertificateActionType.GET_ISSUE_BADGE => certificateFacade.getIssuerBadge(
+      case CertificateActionType.GetIssuerBadge => certificateFacade.getIssuerBadge(
         parameters.id,
-        getUserId.toInt,
+        parameters.userId,
         parameters.rootUrl)
 
-      case CertificateActionType.GET_STATEMENTS =>
-        certificateFacade.getAvailableStatements(parameters.page,
-          parameters.skip,
-          parameters.count,
-          parameters.filter,
-          parameters.isSortDirectionAsc)
+      case CertificateActionType.GetStatements =>
+        lrsReader.verbApi(
+          api => {
+            api.getWithActivities(
+              Some(parameters.filter),
+              parameters.count,
+              parameters.page * parameters.skip,
+              parameters.isSortDirectionAsc)
+            match {
+              case Success(v) =>
+                val stmntResp = v.seq map { case ((verb, (id, disp))) =>
+                  AvailableStatementResponse(verb.id, verb.display, id, disp)
+                }
+                CollectionResponse(parameters.page, stmntResp, v.count)
+
+              case Failure(e) => throw e
+            }
+          },
+        parameters.lrsAuth)
+
+      case CertificateActionType.GetCertificateStates =>
+        val userId = parameters.userIdOpt.getOrElse(parameters.userIdServer)
+        val statuses = parameters.statuses
+
+        certificateFacade.getStatesBy(userId, statuses)
 
       case _ => throw new BadRequestException
     }
   })
 
   get("/certificates(/):id/users(/)")(jsonAction {
-    requireTeacherPermissions()
 
     val certificateRequest = CertificateRequest(this)
-
-    certificateRequest.action(this) match {
-      case CertificateActionType.GET_STUDENTS => {
-        val result = certificateFacade.getJoinedUsers(
-          certificateRequest.id,
-          certificateRequest.filter,
-          certificateRequest.orgId, /// ???
-          certificateRequest.sortBy,
-          certificateRequest.isSortDirectionAsc,
-          certificateRequest.skip,
-          certificateRequest.count)
-
-        CollectionResponse(
-          certificateRequest.page,
-          result,
-          certificateFacade.getJoinedUsersCount(
+    PermissionUtil.requirePermissionApi(ViewPermission, PortletName.CertificateManager, PortletName.CertificateViewer)
+    lrsReader.statementApi(statementApi => {
+      certificateRequest.action(this) match {
+        case CertificateActionType.GetStudents =>
+          val result = certificateFacade.getJoinedUsers(
+            statementApi,
             certificateRequest.id,
             certificateRequest.filter,
-            certificateRequest.orgId))
-      }
+            certificateRequest.orgId, /// ???
+            certificateRequest.sortBy,
+            certificateRequest.isSortDirectionAsc,
+            certificateRequest.skip,
+            certificateRequest.count)
 
-      case CertificateActionType.GET_NOT_CONTAINED_STUDENTS => {
-        val result = certificateFacade.getFreeStudents(
-          certificateRequest.id,
-          certificateRequest.filter,
-          certificateRequest.orgId,
-          CertificateSortBy.Name,
-          certificateRequest.isSortDirectionAsc,
-          certificateRequest.skip,
-          certificateRequest.count)
+          CollectionResponse(
+            certificateRequest.page,
+            result,
+            certificateFacade.getJoinedUsersCount(
+              certificateRequest.id,
+              certificateRequest.filter,
+              certificateRequest.orgId))
 
-        CollectionResponse(
-          certificateRequest.page,
-          result,
-          certificateFacade.getFreeStudentsCount(
+        case CertificateActionType.GetNotContainedStudents =>
+          val result = certificateFacade.getFreeStudents(
             certificateRequest.id,
+            certificateRequest.filter,
             certificateRequest.orgId,
-            certificateRequest.filter))
+            CertificateSortBy.Name,
+            certificateRequest.isSortDirectionAsc,
+            certificateRequest.skip,
+            certificateRequest.count)
+
+          CollectionResponse(
+            certificateRequest.page,
+            result,
+            certificateFacade.getFreeStudentsCount(
+              certificateRequest.id,
+              certificateRequest.orgId,
+              certificateRequest.filter))
+        case _ => throw new BadRequestException
       }
-      case _ => throw new BadRequestException
+    }, certificateRequest.lrsAuth)
+  })
+
+  get("/certificates/activities(/)(:name)")(action {
+    response.setHeader("Content-Type", "application/json; charset=UTF-8")
+    val parameters = CertificateRequest(this)
+    PermissionUtil.requirePermissionApi(ViewPermission, PortletName.CertificateManager, PortletName.CertificateViewer, PortletName.LearningTranscript)
+    lrsReader.activityProfileApi(_.getActivities(parameters.activityName), parameters.lrsAuth) match {
+      case Success(value) => value
+      case Failure(value) =>
+        println("Fail:" + value)
+        ""
     }
   })
 
   post("/certificates(/)(:id)(/)")(jsonAction {
     val certificateRequest = CertificateRequest(this)
     val action = certificateRequest.action(this)
-    if (action == CertificateActionType.ADD_USER ||
-      action == CertificateActionType.DELETE_USER) {
-      requireCurrentLoggedInUser(certificateRequest.userId)
-    } else requireTeacherPermissions()
+    if (action == CertificateActionType.AddUser ||
+      action == CertificateActionType.DeleteUser) {
+      PermissionUtil.requireCurrentLoggedInUser(certificateRequest.userId)
+    } else {
+      PermissionUtil.requirePermissionApi(ModifyPermission, PortletName.CertificateManager, PortletName.CertificateViewer)
+    }
 
     certificateRequest.action(this) match {
-      case CertificateActionType.ADD => certificateFacade.create(
-        getCompanyId.toInt,
-        CertificateRequest.DEFAULT_TITLE,
-        CertificateRequest.DEFAULT_DESCRIPTION)
+      case CertificateActionType.Add => certificateFacade.create(
+        PermissionUtil.getCompanyId.toInt,
+        CertificateRequest.DefaultTitle,
+        CertificateRequest.DefaultDescription)
 
-      case CertificateActionType.ADD_COURSE => certificateFacade.addCourse(
-        certificateRequest.id,
-        certificateRequest.courseId)
-
-      case CertificateActionType.ADD_COURSES => certificateRequest.courseIds
+      case CertificateActionType.AddCourses => certificateRequest.courseGoalIds
         .foreach(courseId => certificateFacade.addCourse(certificateRequest.id, courseId))
 
-      case CertificateActionType.ADD_USER => certificateFacade.addUser(
+      case CertificateActionType.AddUser => certificateFacade.addUser(
         certificateRequest.id,
         certificateRequest.userId)
 
-      case CertificateActionType.ADD_USERS => certificateRequest.userIds
+      case CertificateActionType.AddUsers => certificateRequest.userIds
         .foreach(userId => certificateFacade.addUser(certificateRequest.id, userId))
 
-      case CertificateActionType.ADD_ACTIVITY => certificateFacade.addActivity(certificateRequest.id, certificateRequest.activityName, 1)
+      case CertificateActionType.AddActivity => certificateFacade.addActivity(certificateRequest.id, certificateRequest.activityId, 1)
 
-      case CertificateActionType.ADD_ACTIVITIES => certificateRequest.activityNames
+      case CertificateActionType.AddActivities => certificateRequest.activityNames
         .foreach(activity => certificateFacade.addActivity(certificateRequest.id, activity, 1))
 
-      case CertificateActionType.ADD_TINCANSTMNT => certificateFacade.addStatementObj(
+      case CertificateActionType.AddTincanStmnt => certificateFacade.addStatementObj(
         certificateRequest.id,
         certificateRequest.tincanStatement._1,
         certificateRequest.tincanStatement._2)
 
-      case CertificateActionType.ADD_TINCANSTMNTS => {
-        implicit val fs: Formats = DefaultFormats + new TincanStmntSerializer
-        val items = parseJson[Seq[TincanStmnt]](certificateRequest.tincanStatements).get
+      case CertificateActionType.AddTincanStmnts =>
+        val items = parseJson[Seq[CertificateStatementGoalRequest]](certificateRequest.tincanStatements).get
         items.foreach(st => certificateFacade.addStatementObj(certificateRequest.id, st.verb, st.obj))
-      }
 
-      case CertificateActionType.UPDATE => certificateFacade.change(
+      case CertificateActionType.AddPackage => certificateFacade.addPackageGoal(
+        certificateRequest.id,
+        certificateRequest.packageId
+      )
+
+      case CertificateActionType.AddPackages =>
+        val certificateId = certificateRequest.id
+        certificateRequest.packageIds.foreach(certificateFacade.addPackageGoal(certificateId, _))
+
+      case CertificateActionType.Update => certificateFacade.change(
         certificateRequest.id,
         certificateRequest.title,
         certificateRequest.description,
@@ -177,63 +209,75 @@ class CertificateApiController(configuration: BindingModule) extends BaseApiCont
         certificateRequest.validPeriod.value,
         certificateRequest.isPublishBadge,
         certificateRequest.shortDescription,
-        getCompanyId.toInt,
+        PermissionUtil.getCompanyId.toInt,
         certificateRequest.scope)
 
-      case CertificateActionType.UPDATE_LOGO => certificateFacade.changeLogo(
+      case CertificateActionType.UpdateLogo => certificateFacade.changeLogo(
         certificateRequest.id,
         certificateRequest.logo)
 
-      case CertificateActionType.UPDATE_COURSE => certificateFacade.changeCourse(
+      case CertificateActionType.UpdateCourse => certificateFacade.changeCourse(
         certificateRequest.id,
         certificateRequest.course._1,
         certificateRequest.course._2,
         certificateRequest.course._3)
 
-      case CertificateActionType.UPDATE_ACTIVITY => certificateFacade.changeActivity(
+      case CertificateActionType.UpdateActivity => certificateFacade.changeActivity(
         certificateRequest.id,
         certificateRequest.activity._1,
         certificateRequest.activity._2,
         certificateRequest.activity._3,
         certificateRequest.activity._4)
 
-      case CertificateActionType.UPDATE_STMNT => certificateFacade.changeStatementObjPeriod(
+      case CertificateActionType.UpdateStmnt => certificateFacade.changeStatementObjPeriod(
         certificateRequest.id,
         certificateRequest.tincanStatement._1,
         certificateRequest.tincanStatement._2,
         certificateRequest.tincanStatement._3,
         certificateRequest.tincanStatement._4)
 
-      case CertificateActionType.DELETE => certificateFacade.delete(certificateRequest.id)
-
-      case CertificateActionType.DELETE_COURSE => certificateFacade.deleteCourse(
+      case CertificateActionType.UpdatePackage => certificateFacade.changePackagePeriod(
         certificateRequest.id,
-        certificateRequest.courseId)
+        certificateRequest.packageId,
+        certificateRequest.periodValue,
+        certificateRequest.periodType
+      )
 
-      case CertificateActionType.DELETE_USER => certificateFacade.deleteUser(
+      case CertificateActionType.Delete => certificateFacade.delete(certificateRequest.id)
+
+      case CertificateActionType.DeleteCourse => certificateFacade.deleteCourse(
+        certificateRequest.id,
+        certificateRequest.courseGoalId)
+
+      case CertificateActionType.DeleteUser => certificateFacade.deleteUser(
         certificateRequest.id,
         certificateRequest.userId)
 
-      case CertificateActionType.DELETE_USERS => certificateRequest.userIds
+      case CertificateActionType.DeleteUsers => certificateRequest.userIds
         .foreach(userId => certificateFacade.deleteUser(certificateRequest.id, userId))
 
-      case CertificateActionType.DELETE_ACTIVITY => certificateFacade.deleteActivity(certificateRequest.id, certificateRequest.activityName)
+      case CertificateActionType.DeleteActivity => certificateFacade.deleteActivity(certificateRequest.id, certificateRequest.activityId)
 
-      case CertificateActionType.DELETE_ACTIVITIES => certificateRequest.activityNames
+      case CertificateActionType.DeleteActivities => certificateRequest.activityNames
         .foreach(activity => certificateFacade.deleteActivity(certificateRequest.id, activity))
 
-      case CertificateActionType.DELETE_TINCANSTMNT => certificateFacade.deleteStatementObj(
+      case CertificateActionType.DeleteTincanStmnt => certificateFacade.deleteStatementObj(
         certificateRequest.id,
         certificateRequest.tincanStatement._1,
         certificateRequest.tincanStatement._2)
 
-      case CertificateActionType.CLONE       => certificateFacade.clone(certificateRequest.id)
+      case CertificateActionType.DeletePackage => certificateFacade.deletePackageGoal(
+        certificateRequest.id,
+        certificateRequest.packageId
+      )
 
-      case CertificateActionType.PUBLISH     => certificateFacade.publish(certificateRequest.id)
+      case CertificateActionType.Clone       => certificateFacade.clone(certificateRequest.id)
 
-      case CertificateActionType.UNPUBLISH   => certificateFacade.unpublish(certificateRequest.id)
+      case CertificateActionType.Publish     => certificateFacade.publish(certificateRequest.id)
 
-      case CertificateActionType.MOVE_COURSE => certificateFacade.moveCourse(certificateRequest.id, certificateRequest.courseIds)
+      case CertificateActionType.Unpublish   => certificateFacade.unpublish(certificateRequest.id)
+
+      case CertificateActionType.MoveCourse => certificateFacade.moveCourse(certificateRequest.id, certificateRequest.courseGoalIds)
     }
   })
 }

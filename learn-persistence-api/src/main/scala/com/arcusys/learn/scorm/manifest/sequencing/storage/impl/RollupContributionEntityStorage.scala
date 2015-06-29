@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage.RollupContributionStorage
 import com.arcusys.learn.storage.impl.EntityStorageExt
-import com.arcusys.learn.scorm.manifest.model.RollupContribution
+import com.arcusys.valamis.lesson.scorm.model.manifest.RollupContribution
+import com.arcusys.valamis.lesson.scorm.storage.sequencing.RollupContributionStorage
 
 /**
  * User: Yulia.Glushonkova

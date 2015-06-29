@@ -3,20 +3,20 @@ package com.arcusys.learn.storage.impl.liferay
 import java.lang.{ Integer => JavaInteger }
 import java.lang.{ Long => JavaLong }
 import java.lang.{ Double => JavaDouble }
+import java.lang.{ Boolean => JavaBoolean }
 import java.math
 
-/**
- * User: dkudinov
- * Date: 22.3.2013
- */
 object LiferayCommon {
-  //  val nullInteger: JavaInteger = new JavaInteger(0)
   val nullInteger: JavaInteger = null
   val nullDouble: JavaDouble = null
   val nullLong: JavaLong = null
+  def nullBoolean: JavaBoolean = null
+  val nullString: String = null
 
   implicit def optionToNullableInteger(value: Option[Int]): JavaInteger = value.map(new JavaInteger(_)).getOrElse(nullInteger)
   implicit def optionToNullableLong(value: Option[Long]): JavaLong = value.map(new JavaLong(_)).getOrElse(nullLong)
+  implicit def optionToNullableBoolean(value: Option[Boolean]): JavaBoolean = value.map(new JavaBoolean(_)).getOrElse(nullBoolean)
+  implicit def optionToNullableString(value: Option[String]): String = value.getOrElse(nullString)
   implicit def toBigDecimal(value: scala.BigDecimal): java.math.BigDecimal = {
     if (value == null) null else new math.BigDecimal(value.toString())
   }
@@ -27,6 +27,7 @@ object LiferayCommon {
 
   implicit def javaIntegerToOption(value: java.lang.Integer) = new {
     def toOption: Option[Int] = if (value == null) None else Some(value.intValue())
+    def toScalaOrZero: Int = if (value == null) 0 else value.intValue()
   }
 
   implicit def stringToOption(value: String) = new {

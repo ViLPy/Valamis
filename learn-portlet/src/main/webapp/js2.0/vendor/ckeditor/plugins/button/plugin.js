@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -47,7 +47,7 @@
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
-		lang: 'ca,cs,de,el,en,en-gb,eo,fa,fi,fr,gl,he,hu,it,ja,km,nb,nl,pl,pt,pt-br,ro,ru,sl,sv,tt,uk,vi,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ca,cs,da,de,el,en,en-gb,eo,fa,fi,fr,gl,he,hu,it,ja,km,ku,lt,nb,nl,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
 		}
@@ -85,7 +85,7 @@
 	};
 
 	/**
-	 * Represents button handler object.
+	 * Represents the button handler object.
 	 *
 	 * @class
 	 * @singleton
@@ -111,10 +111,28 @@
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance which this button is
 		 * to be used by.
-		 * @param {Array} output The output array to which append the HTML relative
-		 * to this button.
+		 * @param {Array} output The output array to which the HTML code related to
+		 * this button should be appended.
 		 */
 		render: function( editor, output ) {
+			function updateState() {
+				// "this" is a CKEDITOR.ui.button instance.
+				var mode = editor.mode;
+
+				if ( mode ) {
+					// Restore saved button state.
+					var state = this.modes[ mode ] ? modeStates[ mode ] !== undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+
+					state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
+
+					this.setState( state );
+
+					// Let plugin to disable button.
+					if ( this.refresh )
+						this.refresh();
+				}
+			}
+
 			var env = CKEDITOR.env,
 				id = this._.id = CKEDITOR.tools.getNextId(),
 				stateName = '',
@@ -165,33 +183,18 @@
 					editor.unlockSelection( 1 );
 					selLocked = 0;
 				}
-
 				instance.execute();
+
+				// Fixed iOS focus issue when your press disabled button (#12381).
+				if ( env.iOS ) {
+					editor.focus();
+				}
 			} );
 
 
 			// Indicate a mode sensitive button.
 			if ( this.modes ) {
 				var modeStates = {};
-
-				function updateState() {
-					// "this" is a CKEDITOR.ui.button instance.
-
-					var mode = editor.mode;
-
-					if ( mode ) {
-						// Restore saved button state.
-						var state = this.modes[ mode ] ? modeStates[ mode ] != undefined ? modeStates[ mode ] : CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-
-						state = editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state;
-
-						this.setState( state );
-
-						// Let plugin to disable button.
-						if ( this.refresh )
-							this.refresh();
-					}
-				}
 
 				editor.on( 'beforeModeUnload', function() {
 					if ( editor.mode && this._.state != CKEDITOR.TRISTATE_DISABLED )
@@ -275,7 +278,10 @@
 		},
 
 		/**
-		 * @todo
+		 * Sets the button state.
+		 *
+		 * @param {Number} state Indicates the button state. One of {@link CKEDITOR#TRISTATE_ON},
+		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
 		setState: function( state ) {
 			if ( this._.state == state )
@@ -304,14 +310,18 @@
 				}
 
 				return true;
-			} else
+			} else {
 				return false;
+			}
 		},
 
 		/**
-		 * @todo
+		 * Gets the button state.
+		 *
+		 * @returns {Number} The button state. One of {@link CKEDITOR#TRISTATE_ON},
+		 * {@link CKEDITOR#TRISTATE_OFF}, or {@link CKEDITOR#TRISTATE_DISABLED}.
 		 */
-		getState: function( state ) {
+		getState: function() {
 			return this._.state;
 		},
 
@@ -320,10 +330,10 @@
 		 *
 		 * It may be this button instance if it has at least one of
 		 * `allowedContent` and `requiredContent` properties. Otherwise,
-		 * if command is bound to this button by `command` property, then
+		 * if a command is bound to this button by the `command` property, then
 		 * that command will be returned.
 		 *
-		 * This method implements {@link CKEDITOR.feature#toFeature} interface method.
+		 * This method implements the {@link CKEDITOR.feature#toFeature} interface method.
 		 *
 		 * @since 4.1
 		 * @param {CKEDITOR.editor} Editor instance.
@@ -355,6 +365,10 @@
 	 * @member CKEDITOR.ui
 	 * @param {String} name The button name.
 	 * @param {Object} definition The button definition.
+	 * @param {String} definition.label The textual part of the button (if visible) and its tooltip.
+	 * @param {String} definition.command The command to be executed once the button is activated.
+	 * @param {String} definition.toolbar The {@link CKEDITOR.config#toolbarGroups toolbar group} into which
+	 * the button will be added. An optional index value (separated by a comma) determines the button position within the group.
 	 */
 	CKEDITOR.ui.prototype.addButton = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_BUTTON, definition );

@@ -12,5 +12,6 @@ case class CertificateWithUserStatusResponse(id: Int,
   courseCount: Int,
   statementCount: Int,
   activityCount: Int,
+  packageCount: Int,
   userCount: Int,
   status: String) extends CertificateResponseContract

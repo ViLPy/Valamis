@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveState
 import com.arcusys.learn.persistence.liferay.service._
-import com.arcusys.learn.scorm.tracking.model.ObjectiveState
-import com.arcusys.learn.scorm.tracking.states.storage.ObjectiveStateStorage
+import com.arcusys.valamis.lesson.scorm.model.tracking.ObjectiveState
+import com.arcusys.valamis.lesson.scorm.storage.tracking.ObjectiveStateStorage
 import scala.collection.JavaConverters._
 import java.math
 

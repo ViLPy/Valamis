@@ -2,15 +2,12 @@ package com.arcusys.learn.controllers.api
 
 import com.arcusys.learn.facades.QuestionFacadeContract
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.liferay.permission.{ PortletName, PermissionUtil, ModifyPermission, ViewPermission }
 import com.arcusys.learn.models.{ AnswerSerializer, AnswerResponse }
 import com.arcusys.learn.models.request.{ QuestionActionType, QuestionRequest }
 import com.escalatesoft.subcut.inject.BindingModule
 import org.json4s.{ DefaultFormats, Formats }
 
-/**
- * User: Yulia.Glushonkova
- * Date: 05.05.14
- */
 class QuestionApiController(configuration: BindingModule) extends BaseApiController(configuration) {
   lazy val questionFacade = inject[QuestionFacadeContract]
 
@@ -21,58 +18,67 @@ class QuestionApiController(configuration: BindingModule) extends BaseApiControl
   }
 
   get("/questions(/)(:id)")(jsonAction {
-    requireTeacherPermissions()
     val questionRequest = QuestionRequest(this)
+    PermissionUtil.requirePermissionApi(ViewPermission,
+      PortletName.ContentManager,
+      PortletName.LessonDesigner,
+      PortletName.SlidesEditor)
     questionRequest.action match {
-      case QuestionActionType.GET_BY_ID => questionFacade.getQuestion(questionRequest.id)
+      case QuestionActionType.GetById => questionFacade.getQuestion(questionRequest.id)
 
-      case QuestionActionType.GET_CHILDREN =>
-        questionFacade.getChildren(questionRequest.idOption, questionRequest.courseID)
+      case QuestionActionType.GetChildren =>
+        questionFacade.getChildren(questionRequest.idOption, questionRequest.courseId)
     }
   })
 
   post("/questions(/)(:id)")(jsonAction {
-    requireTeacherPermissions()
     val questionRequest = QuestionRequest(this)
+    PermissionUtil.requirePermissionApi(ModifyPermission, PortletName.ContentManager)
     val result = questionRequest.action match {
-      case QuestionActionType.ADD => questionFacade.createQuestion(
-        questionRequest.categoryID,
-        questionRequest.questionType,
-        questionRequest.title,
-        questionRequest.text,
-        questionRequest.explanationText,
-        questionRequest.forceCorrectCount,
-        questionRequest.isCaseSensitive,
-        questionRequest.courseID
-      )
-      case QuestionActionType.UPDATE => {
+
+      case QuestionActionType.Add =>
+        implicit val fs: Formats = DefaultFormats + new AnswerSerializer
+        val answers = parseJson[List[AnswerResponse]](questionRequest.answers).get
+
+        questionFacade.createQuestion(
+          questionRequest.categoryId,
+          questionRequest.questionType,
+          questionRequest.title,
+          questionRequest.text,
+          questionRequest.explanationText,
+          questionRequest.rightAnswerText,
+          questionRequest.wrongAnswerText,
+          questionRequest.forceCorrectCount,
+          questionRequest.isCaseSensitive,
+          questionRequest.courseId,
+          answers
+        )
+      case QuestionActionType.Update =>
         implicit val fs: Formats = DefaultFormats + new AnswerSerializer
         val answers = parseJson[List[AnswerResponse]](questionRequest.answers).get
 
         questionFacade.updateQuestion(
           questionRequest.id,
-          questionRequest.categoryID,
+          questionRequest.categoryId,
           questionRequest.questionType,
           questionRequest.title,
           questionRequest.text,
           questionRequest.explanationText,
+          questionRequest.rightAnswerText,
+          questionRequest.wrongAnswerText,
           questionRequest.forceCorrectCount,
           questionRequest.isCaseSensitive,
-          questionRequest.courseID,
+          questionRequest.courseId,
           answers
         )
-      }
-
-      case QuestionActionType.DELETE => questionFacade.deleteQuestion(questionRequest.id)
-      case QuestionActionType.MOVE => questionFacade.move(
+      case QuestionActionType.Delete => questionFacade.deleteQuestion(questionRequest.id)
+      case QuestionActionType.Move => questionFacade.move(
         questionRequest.id,
         questionRequest.index,
-        questionRequest.parentID)
-
-      case QuestionActionType.MOVE_TO_COURSE => questionRequest.questionIds
+        questionRequest.parentId)
+      case QuestionActionType.MoveToCourse => questionRequest.questionIds
         .foreach(id => questionFacade.moveToCourse(id, questionRequest.newCourseId))
     }
     result
   })
-
 }

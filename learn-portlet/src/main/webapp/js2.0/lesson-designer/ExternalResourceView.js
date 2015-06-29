@@ -2,30 +2,30 @@ var ExternalResourceModel = LessonContentModel.extend({
   defaults: {
     contentType: 'questionExternalResource',
     title: '',
-    url: ''
+    url: '',
+      icon: 'globe'
   }
 });
 
 var ExternalResourceView = Backbone.View.extend({
-  template: $('#externalResourceTemplate').html(),
   events: {
-    'click .action-preview': 'preview'
+    'click .js-action-preview': 'preview'
   },
   render: function () {
     var mustacheAccumulator = {};
     _.extend(mustacheAccumulator, this.model.toJSON(), GLOBAL_translations);
 
-    this.$el.html(Mustache.render(this.template, mustacheAccumulator));
+    this.$el.html(Mustache.render(jQueryValamis('#externalResourceTemplate').html(), mustacheAccumulator));
 
     return this;
   },
   preview: function () {
-    this.$('.content').attr('src', this.$('.url-edit').val());
+    this.$('.js-resource-content').attr('src', this.$('.js-url-edit').val());
   },
   submit: function () {
     this.model.set({
-      title: this.$('.title-edit').val() ||  'New resource',
-      url: this.$('.url-edit').val()
+      title: this.$('.js-title-edit').val() ||  'New resource',
+      url: this.$('.js-url-edit').val()
     });
     this.model.save();
     contentManagerEvent.trigger('question:added', this.model);
@@ -33,14 +33,17 @@ var ExternalResourceView = Backbone.View.extend({
 });
 
 var ExternalResourceModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-template').html(), _.extend({header: GLOBAL_translations['addExternalResourceLabel']}, GLOBAL_translations))),
-  submitEl: '.modal-submit',
-  cancelEl: '.close-button',
-  className: 'add-external-resource-modal',
+  template: function (data) {
+    return Mustache.to_html(jQueryValamis('#lessonDesignerEmptyModalTemplate').html(),
+      _.extend({header: GLOBAL_translations['addExternalResourceLabel']}, GLOBAL_translations))
+  },
+  submitEl: '.bbm-button',
+  cancelEl: '.modal-close',
+  className: 'val-modal external-resource-modal',
   onRender: function () {
     this.view = new ExternalResourceView({
       model: this.model,
-      el: this.$('.content')
+      el: this.$('.js-modal-content')
     });
     this.view.render();
   },

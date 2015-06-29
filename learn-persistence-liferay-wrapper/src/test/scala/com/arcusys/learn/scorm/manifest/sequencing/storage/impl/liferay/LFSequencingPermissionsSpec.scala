@@ -6,8 +6,8 @@ import org.specs2.matcher.ThrownExpectations
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay.LFSequencingPermissionsStorageImpl
-import com.arcusys.learn.scorm.manifest.model.SequencingPermissions
-import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalServiceUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest._
+import com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalServiceUtil
 
 /**
  * User: Yulia.Glushonkova
@@ -17,7 +17,7 @@ class LFSequencingPermissionsSpec extends SpecificationWithJUnit with Mockito wi
 
   "Mockito" should {
     "mock service method" in new Context {
-      LFSequencingPermissionsLocalServiceUtil.createLFSequencingPermissions() must not(throwA[Exception])
+      LFSeqPermissionsLocalServiceUtil.createLFSequencingPermissions() must not(throwA[Exception])
       there was atLeastOne(trackingService).createLFSequencingPermissions()
     }
   }

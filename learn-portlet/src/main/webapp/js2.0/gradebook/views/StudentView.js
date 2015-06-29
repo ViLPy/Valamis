@@ -7,22 +7,16 @@ StudentTableRowView = Backbone.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        this.$el = jQuery('<tr>');
+        this.$el = jQueryValamis('<tr>');
         this.$el.attr("id", this.model.id);
-        var statementResult = JSON.parse(this.model.get('statements'));
-        if (statementResult.statements.length > 0) {
-            this.$el.addClass('expand');
-            this.tableView = new StudentPackageTableView({
-                language: this.options.language,
-                model: statementResult
-            });
-        }
-        //this.activities = new StudentGradesCollection(this.model.get('activities'));
+        this.threadPool = this.options.threadPool
+
+        this.threadPool.addTask(jQueryValamis.proxy(this.loadStatements, this));
     },
 
     render: function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#studentViewTablePackageRowTemplate").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQueryValamis("#studentViewTablePackageRowTemplate").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
 
         return this.$el;
@@ -44,16 +38,37 @@ StudentTableRowView = Backbone.View.extend({
     // Edit package grade modal
     editGrade: function () {
         var view = new EditPackageGradeView({
-            $el: jQuery('.edit-package-grade-view-dialog'),
+            $el: jQueryValamis('.edit-package-grade-view-dialog'),
             model: this.model,
             language: this.language
         });
-        view.on('refreshPackageGrade', jQuery1816Gradebook.proxy(function () {
+        view.on('refreshPackageGrade', jQueryValamis.proxy(function () {
             this.render();
             this.trigger('refreshTotalGrade');
         }, this));
 
         myLayout.modals.show(new EditPackageGradeViewModal({view: view}));
+    },
+
+
+    loadStatements: function() {
+        var that = this;
+        this.model.loadStatements({}).then(function(res){
+            that.model.set('gradeAuto', res.gradeAuto);
+            that.model.set('statements', res.statements);
+            var statementResult = JSON.parse(that.model.get('statements'));
+            if (statementResult.statements.length > 0) {
+                that.$el.addClass('expand');
+                that.tableView = new StudentPackageTableView({
+                    language: that.options.language,
+                    model: statementResult,
+                    activityIds:that.model.get('activityIds')
+                });
+                that.$el.after(that.tableView.render());
+            }
+            that.render();
+            that.threadPool.taskCompleted();
+        });
     }
 });
 
@@ -64,36 +79,70 @@ StudentView = Backbone.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        this.$el = jQuery('<div>');
+        var template = Mustache.to_html(jQueryValamis("#studentViewTemplate").html(), _.extend(this.model.toJSON(), language));
+        this.$el.html(template);
+        var windowHeight = jQueryValamis(window).height() - 200;
+        this.$('.page-content-div').height(windowHeight);
+
         this.$el.attr("id", this.model.id);
         this.collection = new StudentGradesCollection();
 
-        this.model.loadStudentInfo({
-            studentId: this.model.id,
-            courseId: jQuery1816Gradebook('#courseID').val(),
-            page: '0',
-            count: '10',
-            sortAscDirection: 'true'
-        }, {
-            success: jQuery1816Gradebook.proxy(function (res) {
+        this.threadPool = new ThreadPool(3);
+
+        var that = this;
+        this.paginator = new ValamisPaginator({
+            el: this.$el.find("#packageGradesListPaginator"),
+            language: this.options.language,
+            model: this.model.get('paginatorModel')
+        });
+        this.paginator.on('pageChanged', function () {
+            that.reloadList();
+        });
+
+        this.paginatorShowing = new ValamisPaginatorShowing({
+            el: this.$el.find("#packageGradesPagingShowing"),
+            language: this.options.language,
+            model: this.paginator.model
+        });
+
+        this.reloadList();
+    },
+
+    reloadList: function () {
+
+        this.$("#studentGradeGrid").empty();
+
+        this.showLoading();
+
+        this.model.loadStudentInfo({}, {
+            success: jQueryValamis.proxy(function (res) {
+                this.hideLoading();
                 this.model = new GradebookStudentModel(res);
                 this.collection = new StudentGradesCollection(res.packageGrades);
-                //this.collection.parse(res.packageGrades);
-                this.render();
+                this.addGradesFromCollection();
+                this.paginator.updateItems(res.packagesCount);
+                //this.render();
             }, this),
             error: function (err, res) {
+                this.hideLoading();
+                this.$("#studentGradeGrid").empty();
                 // do something in case of an error
                 toastr.error(language['loadFailed']);
             }
         });
     },
+    showLoading: function() {
+        this.$('#loading-packages').html(Mustache.to_html(jQueryValamis("#loadingGradebookTableTemplate").html(), this.options.language));
+    },
+    hideLoading: function() {
+        this.$('#loading-packages').empty();
+    },
 
     render: function () {
-        var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#studentViewTemplate").html(), _.extend(this.model.toJSON(), language));
-        //this.studentGradeList = this.$("#studentGradeGrid").List();
-        this.$el.html(template);
-        this.addGradesFromCollection();
+        this.paginator.render();
+        var template = Mustache.to_html(jQueryValamis("#studentTotalGradeViewTemplate").html(), _.extend(this.model.toJSON(), language));
+        this.$('#studentTotalGrade').html(template);
+
         return this.$el;
     },
 
@@ -102,26 +151,21 @@ StudentView = Backbone.View.extend({
         var view = new StudentTableRowView({
             model: grade,
             language: this.options.language,
-            isActivity: false
+            isActivity: false,
+            threadPool: this.threadPool
         });
-        view.on('refreshTotalGrade', jQuery1816Gradebook.proxy(function () {
+        view.on('refreshTotalGrade', jQueryValamis.proxy(function () {
             var countCompleted = 0;
             this.collection.each(function (grade) {
                 if (grade.get('grade') != 0) countCompleted++;
-            }, this)
+            }, this);
             this.model.set('completedPackagesCount', countCompleted);
             this.trigger('refreshTotalGrade', this);
 
         }, this));
         var renderedView = view.render();
-        //var gradeJSON = grade.toJSON();
-        var filterData = {};
-        // this.studentGradeList.add(grade.id, renderedView, filterData);
         this.$("#studentGradeGrid").append(renderedView);
-        if (view.tableView) {
-            var templateTable = view.tableView.render();
-            this.$("#studentGradeGrid").append(templateTable);
-        }
+
     },
 
     addGradesFromCollection: function () {
@@ -135,7 +179,7 @@ StudentView = Backbone.View.extend({
             model: this.model,
             language: this.language
         });
-        view.on('refreshTotalGrade', jQuery1816Gradebook.proxy(function () {
+        view.on('refreshTotalGrade', jQueryValamis.proxy(function () {
             this.render();
             this.trigger('refreshTotalGrade', this);
         }, this));

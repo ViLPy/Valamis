@@ -1,9 +1,9 @@
 package com.arcusys.learn.facades
 
-import java.io.InputStream
+import java.io.{ File, InputStream }
 
 import com.arcusys.learn.models.{ AnswerResponse, QuestionResponse }
-import com.arcusys.learn.questionbank.model.{ Answer, Question }
+import com.arcusys.valamis.questionbank.model.{ Question, Answer }
 
 /**
  * User: Yulia.Glushonkova
@@ -19,9 +19,12 @@ trait QuestionFacadeContract {
     title: String,
     text: String,
     explanationText: String,
+    rightAnswerText: String,
+    wrongAnswerText: String,
     forceCorrectCount: Boolean,
     isCaseSensitive: Boolean,
-    courseID: Option[Int]): QuestionResponse
+    courseID: Option[Int],
+    answers: Seq[AnswerResponse]): QuestionResponse
 
   def updateQuestion(id: Int,
     categoryId: Option[Int],
@@ -29,6 +32,8 @@ trait QuestionFacadeContract {
     title: String,
     text: String,
     explanationText: String,
+    rightAnswerText: String,
+    wrongAnswerText: String,
     forceCorrectCount: Boolean,
     isCaseSensitive: Boolean,
     courseID: Option[Int],
@@ -46,9 +51,9 @@ trait QuestionFacadeContract {
 
   def exportQuestions(categoryIds: Seq[Int], questionIds: Seq[Int], courseID: Option[Int]): InputStream
 
-  def importQuestions(filename: String, courseID: Int): Unit
+  def importQuestions(file: File, courseID: Int): Unit
 
-  def buildQuestion(question: Question[Answer]): QuestionResponse
+  def buildQuestionResponse(question: Question[Answer]): QuestionResponse
   //  def createAnswer(
   //    questionId: Long,
   //    answerText: String,

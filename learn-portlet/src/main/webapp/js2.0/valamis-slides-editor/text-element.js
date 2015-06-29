@@ -1,77 +1,81 @@
-MyApp.module('TextElementModule', {
+var textElementModule = slidesApp.module('TextElementModule', {
     moduleClass: GenericEditorItemModule,
-    define: function(TextElementModule, MyApp, Backbone, Marionette, $, _){
+    define: function(TextElementModule, slidesApp, Backbone, Marionette, $, _){
         TextElementModule.startWithParent = false;
-
-        TextElementModule.Model = Backbone.Model.extend({
-            defaults: {
-                width: 300,
-                top: 0,
-                left: 0,
-                content: 'New Text Element',
-                'borderWidth': 0
-            }
-        });
-
-        TextElementModule.EditView = Marionette.ItemView.extend({
-            template: '#textElementEditTemplate',
-            events: {
-                'change .border-width':'updateBorder'
-            },
-            onRender: function() {
-                this.$('.border-width').val(this.model.get('borderWidth'));
-            },
-            updateBorder: function() {
-                this.model.set('borderWidth', this.$('.border-width').val());
-            }
-        });
 
         TextElementModule.View = this.BaseView.extend({
             template: '#textElementTemplate',
             className: 'rj-element rj-text no-select',
             events: _.extend({}, this.BaseView.prototype.events, {
                 'dblclick': 'initEditor',
-                'click': 'showEdit',
-                'blur': 'destroyEditor'
+                'blur': 'destroyEditor',
+                'click  .js-item-select-liferay-article': 'selectLiferayArticle'
             }),
-            initialize: function() {
-                this.listenTo(this.model, 'change', this.updateEl);
-            },
             updateEl: function() {
-                this.$el.css('width', this.model.get('width'));
-                this.$el.css('top', this.model.get('top'));
-                this.$el.css('left', this.model.get('left'));
-                //this.$('.text-content').css('border', this.model.get('borderWidth') + 'px solid #333');
-                this.$el.html(this.model.get('content'));
+                this.constructor.__super__.updateEl.apply(this, arguments);
+                this.content.html(this.model.get('content'));
             },
             onRender: function() {
-                this.updateEl();
+                var self = this;
+                this.constructor.__super__.onRender.apply(this, arguments);
+                this.model.on('sync', function () {
+                    self.destroyEditor();
+                });
             },
             initEditor: function() {
-                this.el.contentEditable = true;
-                this.editor = CKEDITOR.inline(this.el, {
-                    enterMode: CKEDITOR.ENTER_BR
+                this.undelegateEvents();
+                this.content[0].contentEditable = true;
+                var self = this;
+                this.editor = CKEDITOR.inline(this.content[0], {
+                    enterMode: CKEDITOR.ENTER_BR,
+                    on:{
+                        blur: function(event){
+                            self.destroyEditor();
+                        },
+                        change: function (event) {
+                            if(slidesApp.isSaved)
+                                toggleSavedState();
+                        }
+                    }
                 });
-                this.el.focus();
+                this.content[0].focus();
                 this.$el.removeClass('no-select');
+                slidesApp.isEditing = true;
+                slidesApp.RevealModule.fitContentScrollInit();
             },
             destroyEditor: function() {
-                this.model.set('content', this.$el.html());
-                this.el.contentEditable = false;
-                this.editor.destroy();
+
+                if(this.editor && this.editor.focusManager.hasFocus)
+                {
+                    slidesApp.commands.execute('item:focus', this);
+                    return;
+                }
+
+                slidesApp.oldValue = {contentType: 'text', content: this.model.get('content')};
+                this.model.set('content', this.content.html());
+                this.content[0].contentEditable = false;
+                if(this.editor) {
+                    this.editor.destroy();
+                    this.editor = undefined;
+                }
                 this.$el.addClass('no-select');
+                this.wrapperUpdate();
+
+                this.delegateEvents();
+                slidesApp.isEditing = false;
+
+                slidesApp.viewId = this.cid;
+                slidesApp.actionType = 'itemContentChanged';
+                slidesApp.newValue = {contentType: 'text', content: this.model.get('content')};
+                slidesApp.commands.execute('action:push');
             },
-            showEdit: function() {
-                var model = this.model;
-                _.debounce(function(){
-                    MyApp.commands.execute('toolbar:edit:show', TextElementModule.moduleName, model);
-                }, 200)();
+            selectLiferayArticle: function() {
+                slidesApp.commands.execute('fileupload:show:modal', TextElementModule.moduleName);
             }
         });
-
-        TextElementModule.addInitializer(function(){
-            MyApp.commands.execute('toolbar:item:add', {title: 'Text element', moduleName: TextElementModule.moduleName});
-        });
-
     }
+});
+
+textElementModule.on('start', function() {
+    slidesApp.commands.execute('toolbar:item:add', {title: 'Text', slideEntityType: 'text'});
 });

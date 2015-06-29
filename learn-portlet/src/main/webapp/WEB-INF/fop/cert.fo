@@ -29,9 +29,11 @@
                 <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
                 {{validPeriod}}
                 </fo:block>
+
                 <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">
                 Issue date: {{issueDate}}
                 </fo:block>
+
 
                 {{#expires}}
                 <fo:block font="10pt sans-serif" color="#636362" margin-left="20pt" text-align="left">

@@ -1,29 +1,33 @@
 <script type="text/template" id="bankTreeTemplate">
-  <ul class="questionBankTree medium-table">
-    <li class="expand expanded" id="qbRoot">
-        <span class="qbItem">
-            <div class="expand-icon" id="qbRootExpand"/>
-            <div class="qbRootItem qbItemTitle" data-count="{{childrenAmount}}">{{baseTitle}}</div>
+    <ul class="val-tree">
+        <li class="expanded" id="qbRoot">
+        <span class="js-tree-item js-tree-root-item tree-item tree-root-item active">
+            <span class="js-tree-item-icon tree-item-icon"></span>
+            <span class="js-tree-item-title tree-parent-title tree-item-title" data-count="{{childrenAmount}}">{{baseTitle}}</span>
         </span>
-        <ul id="questionBankGrid_{{courseId}}"></ul>
-    </li>
-  </ul>
+            <ul id="questionBankGrid_{{courseId}}" class="sortable tree-items"></ul>
+        </li>
+    </ul>
 </script>
+
 <script type="text/mustache" id="categoryTreeRowTemplate">
-    <span class="qbCat qbItem">
-        <span class="expand-icon"/>
+    <span class="js-tree-category js-tree-item tree-item">
+        <span class="js-tree-item-icon tree-item-icon"></span>
         {{#multiselectEnabled}}
-            <span id="categorySelection" class="checkbox valamis" style="float: left; margin-right: 5px;"/>
+            <input type="checkbox" id="categoryCheckbox{{id}}" class="val-checkbox"/>
+            <label class="checkbox-label" for="categoryCheckbox{{id}}"></label>
         {{/multiselectEnabled}}
-        <span class="qbItemTitle" data-count="{{childrenAmount}}">{{title}}</span>
+        <span class="js-tree-item-title tree-parent-title tree-item-title" data-count="{{childrenAmount}}">{{title}}</span>
     </span>
-    <ul></ul>
+    <ul class="tree-items"></ul>
 </script>
+
 <script type="text/mustache" id="questionTreeRowTemplate">
-    <span class="qbItem">
+    <span class="js-tree-item tree-item">
         {{#multiselectEnabled}}
-        <span id="questionSelection" class="checkbox valamis {{#selected}}checked{{/selected}}" style="float: left; margin-right: 5px;"/>
+        <input type="checkbox" id="questionCheckbox{{id}}" class="val-checkbox" {{#selected}}checked="checked"{{/selected}}/>
+        <label class="checkbox-label" for="questionCheckbox{{id}}"></label>
         {{/multiselectEnabled}}
-        <span class="qbItemTitle">{{fixedTitle}}</span>
+        <span class="js-tree-item-title tree-item-title">{{fixedTitle}}</span>
     </span>
 </script>

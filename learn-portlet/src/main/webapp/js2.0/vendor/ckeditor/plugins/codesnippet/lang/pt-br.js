@@ -1,5 +1,5 @@
-/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+﻿/**
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'codesnippet', 'pt-br', {
 	emptySnippetError: 'Um fragmento de código não pode ser vazio',
 	language: 'Idioma',
 	title: 'Fragmento de código',
-	pathName: 'code snippet' // MISSING
+	pathName: 'fragmento de código'
 } );

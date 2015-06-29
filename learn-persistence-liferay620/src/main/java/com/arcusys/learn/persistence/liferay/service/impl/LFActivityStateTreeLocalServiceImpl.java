@@ -7,8 +7,6 @@ import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 
-import java.util.List;
-
 /**
  * The implementation of the l f activity state tree local service.
  *

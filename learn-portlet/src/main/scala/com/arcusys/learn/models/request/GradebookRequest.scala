@@ -1,65 +1,72 @@
 package com.arcusys.learn.models.request
 
-import com.arcusys.learn.service.util.Parameter
+import com.arcusys.learn.liferay.permission.PermissionUtil
+import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
+import com.arcusys.valamis.gradebook.model.GradebookUserSortBy
 import org.scalatra.ScalatraBase
 import com.arcusys.learn.models.request.GradebookActionType._
 import java.util.UUID
 
 object GradebookRequest extends BaseCollectionFilteredRequest with BaseRequest {
-  val COURSE_ID = "courseId"
 
-  val STUDENT_ID = "studentId"
-  val STUDENT_NAME_FILTER = "studentName"
-  val ORGANIZATION_NAME_FILTER = "organizationName"
-  val RESULT_AS = "resultAs"
-  val SELECTED_PACKAGES = "selectedPackages"
-  val GRADE = "totalGrade"
-  val GRADE_COMMENT = "gradeComment"
-  val STATEMENT_ID = "statementId"
-  val STATEMENT_GRADE = "statementGrade"
-  val PACKAGE_ID = "packageId"
-  val SORT = "sort"
+  val StudentId = "studentId"
+  val StudentNameFilter = "studentName"
+  val OrganisationNameFilter = "organizationName"
+  val ResultAs = "resultAs"
+  val SelectedPackages = "selectedPackages"
+  val Grade = "totalGrade"
+  val GradeComment = "gradeComment"
+  val StatementId = "statementId"
+  val StatementGrade = "statementGrade"
+  val PackageId = "packageId"
+  val StudyCourseId = "studyCourseId"
+  val WithStatements = "withStatements"
 
   val SHORT_RESULT_VALUE = "short"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
-  class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
+  class Model(val scalatra: ScalatraBase) extends BaseSortableCollectionFilteredRequestModel(scalatra, GradebookUserSortBy.apply)
+    with OAuthModel {
 
-    def actionType: GradebookActionType = GradebookActionType.withName(Parameter(ACTION).required.toUpperCase)
+    def actionType: GradebookActionType = GradebookActionType.withName(Parameter(Action).required.toUpperCase)
 
-    def studentId = Parameter(STUDENT_ID).intRequired
+    def studentId = Parameter(StudentId).intRequired
 
-    def courseId = Parameter(COURSE_ID).intRequired
+    def userIdServer = PermissionUtil.getUserId
 
-    def organizationName = Parameter(ORGANIZATION_NAME_FILTER).option match {
+    def courseId = Parameter(CourseId).intRequired
+
+    def studyCourseId = Parameter(StudyCourseId).intRequired
+
+    def withStatements = Parameter(WithStatements).booleanOption.getOrElse(true)
+
+    def organizationName = Parameter(OrganisationNameFilter).option match {
       case Some(value) => value
       case None        => ""
     }
 
-    def studentName = Parameter(STUDENT_NAME_FILTER).option match {
+    def studentName = Parameter(StudentNameFilter).option match {
       case Some(value) => value
       case None        => ""
     }
 
-    def isShortResult = Parameter(RESULT_AS).option match {
+    def isShortResult = Parameter(ResultAs).option match {
       case Some(value) => value != "detailed"
       case None        => true
     }
 
-    def selectedPackages = Parameter(SELECTED_PACKAGES).multiWithEmpty.map(x => x.toInt).toSeq
+    def selectedPackages = Parameter(SelectedPackages).multiWithEmpty.map(x => x.toInt)
 
-    def gradeComment = Parameter(GRADE_COMMENT).option
+    def gradeComment = Parameter(GradeComment).option.map(AntiSamyHelper.sanitize)
 
-    def grade = Parameter(GRADE).required
+    def grade = AntiSamyHelper.sanitize(Parameter(Grade).required)
 
-    def statementId = UUID.fromString(Parameter(STATEMENT_ID).required)
+    def statementId = UUID.fromString(Parameter(StatementId).required)
 
-    def packageId = Parameter(PACKAGE_ID).intRequired
+    def packageId = Parameter(PackageId).intRequired
 
-    def statementGrade = Parameter(STATEMENT_GRADE).intRequired
-
-    def sortBy = Parameter(SORT).required
+    def statementGrade = Parameter(StatementGrade).intRequired
   }
 }
 

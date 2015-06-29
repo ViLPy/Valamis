@@ -1,10 +1,12 @@
 package com.arcusys.learn.controllers.api
 
-import com.arcusys.learn.exceptions.{ AccessDeniedException, BadRequestException }
+import com.arcusys.learn.exceptions.BadRequestException
 import com.arcusys.learn.facades.GradebookFacadeContract
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.liferay.permission.{ PortletName, PermissionUtil, ViewAllPermission, ViewPermission }
 import com.arcusys.learn.models.request.{ GradebookActionType, GradebookRequest }
 import com.arcusys.learn.models.response.CollectionResponse
+import com.arcusys.valamis.lrs.service.LrsClientManager
 import com.escalatesoft.subcut.inject.BindingModule
 import com.liferay.portal.kernel.json.JSONFactoryUtil
 import com.liferay.portal.kernel.poller.{ PollerProcessor, PollerRequest, PollerResponse }
@@ -12,11 +14,11 @@ import com.liferay.portal.kernel.poller.{ PollerProcessor, PollerRequest, Poller
 // Documentation: https://confluence.intra.arcusys.fi/display/VAL/Web+API+specification%3A+Gradebook
 
 class GradebookApiController(configuration: BindingModule) extends BaseApiController(configuration) with PollerProcessor {
-  def this() = this(Configuration)
-
   val gradebookFacade = inject[GradebookFacadeContract]
-
+  val lrsReader = inject[LrsClientManager]
   var hashCollection = 0
+
+  def this() = this(Configuration)
 
   before() {
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
@@ -24,71 +26,90 @@ class GradebookApiController(configuration: BindingModule) extends BaseApiContro
 
   get("/gradebooks(/)")(jsonAction {
     val gradebookRequest = GradebookRequest(this)
-    gradebookRequest.actionType match {
-      case GradebookActionType.ALL => {
-        requireTeacherPermissions()
+    lrsReader.statementApi(statementApi => {
+      gradebookRequest.actionType match {
+        case GradebookActionType.All =>
+          PermissionUtil.requirePermissionApi(ViewAllPermission, PortletName.GradeBook)
 
-        val students = if (gradebookRequest.isShortResult)
-          gradebookFacade.getStudents(
+          val detailed = !gradebookRequest.isShortResult
+          val students = gradebookFacade.getStudents(
+            statementApi,
             gradebookRequest.courseId,
             gradebookRequest.skip,
             gradebookRequest.count,
             gradebookRequest.studentName,
             gradebookRequest.organizationName,
-            gradebookRequest.sortBy)
-        else
-          gradebookFacade.getExtStudents(
+            gradebookRequest.sortBy,
+            gradebookRequest.isSortDirectionAsc,
+            detailed,
+            if (detailed) gradebookRequest.selectedPackages else Seq())
+
+          val studentsCount = gradebookFacade.getStudentsCount(
             gradebookRequest.courseId,
-            gradebookRequest.skip,
-            gradebookRequest.count,
             gradebookRequest.studentName,
-            gradebookRequest.organizationName,
-            gradebookRequest.selectedPackages,
-            gradebookRequest.sortBy)
+            gradebookRequest.organizationName)
 
-        val studentsCount = gradebookFacade.getStudentsCount(
-          gradebookRequest.courseId,
-          gradebookRequest.studentName,
-          gradebookRequest.organizationName)
+          CollectionResponse(gradebookRequest.page, students, studentsCount)
 
-        CollectionResponse(gradebookRequest.page, students, studentsCount)
+        case GradebookActionType.Grades =>
+          PermissionUtil.requirePermissionApi(ViewPermission, PortletName.GradeBook, PortletName.LearningTranscript)
+            gradebookFacade.getGradesForStudent(
+              statementApi,
+              gradebookRequest.studentId,
+              gradebookRequest.studyCourseId,
+              gradebookRequest.skip,
+              gradebookRequest.count,
+              gradebookRequest.isSortDirectionAsc,
+              gradebookRequest.withStatements
+            )
+        case GradebookActionType.GradedPackage =>
+          gradebookFacade.getUnfinishedPackages(
+            statementApi,
+            gradebookRequest.userIdServer
+          )
+        case GradebookActionType.TotalGrade =>
+          PermissionUtil.requirePermissionApi(ViewPermission, PortletName.GradeBook)
+          gradebookFacade.getTotalGradeForStudent(
+            gradebookRequest.studentId,
+            gradebookRequest.courseId)
+
+        case GradebookActionType.LastModified =>
+          PermissionUtil.requirePermissionApi(ViewPermission, PortletName.GradeBook)
+          gradebookFacade.getLastModified(
+            statementApi,
+            gradebookRequest.courseId,
+            gradebookRequest.studentId)
+
+        case GradebookActionType.Statements =>
+          PermissionUtil.requirePermissionApi(ViewPermission, PortletName.GradeBook)
+          gradebookFacade.getPackageGradeWithStatements(
+            statementApi,
+            gradebookRequest.studentId,
+            gradebookRequest.packageId)
+
+        case _ => throw new BadRequestException()
       }
-
-      case GradebookActionType.GRADES => gradebookFacade.getGradesForStudent(
-        gradebookRequest.studentId,
-        gradebookRequest.courseId,
-        gradebookRequest.skip,
-        gradebookRequest.count,
-        gradebookRequest.isSortDirectionAsc)
-
-      case GradebookActionType.TOTAL_GRADE => gradebookFacade.getTotalGradeForStudent(
-        gradebookRequest.studentId,
-        gradebookRequest.courseId)
-
-      case _ => throw new BadRequestException()
-    }
+    }, gradebookRequest.lrsAuth)
   })
 
   post("/gradebooks(/)")(jsonAction {
     val gradebookRequest = GradebookRequest(this)
     gradebookRequest.actionType match {
-      case GradebookActionType.TOTAL_GRADE => {
-        requireTeacherPermissions()
+      case GradebookActionType.TotalGrade =>
+        PermissionUtil.requirePermissionApi(ViewAllPermission, PortletName.GradeBook)
         gradebookFacade.changeTotalGrade(
           gradebookRequest.studentId,
           gradebookRequest.courseId,
           gradebookRequest.grade,
           gradebookRequest.gradeComment)
-      }
 
-      case GradebookActionType.GRADES => {
-        requireTeacherPermissions()
+      case GradebookActionType.Grades =>
+        PermissionUtil.requirePermissionApi(ViewAllPermission, PortletName.GradeBook)
         gradebookFacade.changePackageGrade(
           gradebookRequest.studentId,
           gradebookRequest.packageId,
           gradebookRequest.grade,
           gradebookRequest.gradeComment)
-      }
 
       case _ => throw new BadRequestException()
     }

@@ -1,52 +1,41 @@
 package com.arcusys.learn.view
 
-import java.io.FileNotFoundException
-import javax.portlet.{ GenericPortlet, RenderRequest, RenderResponse }
+import javax.portlet.{GenericPortlet, RenderRequest, RenderResponse}
 
+import com.arcusys.learn.liferay.permission._
 import com.arcusys.learn.liferay.util.PortalUtilHelper
-import com.arcusys.learn.util.MustacheSupport
-import com.arcusys.learn.view.extensions.{ ConfigurableView, SessionSupport, TemplateCoupler, i18nSupport }
+import com.arcusys.learn.view.extensions.BaseView
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import org.scalatra.ScalatraFilter
 
-class LessonManagerView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with SessionSupport with TemplateCoupler {
+class LessonManagerView extends GenericPortlet with BaseView {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
-    setupSession(request: RenderRequest, response: RenderResponse)
     val out = response.getWriter
 
-    val themeDisplay = LiferayHelpers.getThemeDisplay(request)
-    val userId = themeDisplay.getUser.getUserId
-    val courseId = themeDisplay.getScopeGroupId
     val language = LiferayHelpers.getLanguage(request)
+    val securityScope = getSecurityData(request)
 
-    val hasPermissions = userRoleService.hasTeacherPermissions(userId, courseId)
-    if (!hasPermissions) {
-      val translations = getTranslation("error", language)
-      out.println(mustache(translations, "scorm_nopermissions.html"))
-    } else {
+    val translations = getTranslation("lessonManager", language)
+    val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
+    httpServletRequest.getSession.setAttribute("userID", securityScope.userId)
 
-      val userUID = request.getRemoteUser
-      val themeDisplay = LiferayHelpers.getThemeDisplay(request)
+    val data = Map(
+      "isAdmin" -> true,
+      "language" -> language,
+      "permissionSetDefault" -> PermissionUtil.hasPermission(securityScope.courseId, securityScope.portletId, securityScope.primaryKey, SetDefaultPermission),
+      "permissionExport" -> PermissionUtil.hasPermission(securityScope.courseId, securityScope.portletId, securityScope.primaryKey, ExportPermission),
+      "permissionUpload" -> PermissionUtil.hasPermission(securityScope.courseId, securityScope.portletId, securityScope.primaryKey, UploadPermission),
+      "permissionSetVisible" -> PermissionUtil.hasPermission(securityScope.courseId, securityScope.portletId, securityScope.primaryKey, SetVisiblePermission)
+    ) ++ translations ++ securityScope.data
 
-      val httpServletRequest = PortalUtilHelper.getHttpServletRequest(request)
-      httpServletRequest.getSession.setAttribute("userID", userUID)
+    out.println(getTemplate("/templates/2.0/lesson_manager_templates.html") +
+      getTemplate("/templates/2.0/file_uploader.html") +
+      getTemplate("templates/2.0/paginator.html") +
+      getTemplate("/templates/2.0/common_templates.html") +
+      getTemplate("/templates/2.0/image_gallery_templates.html") +
+      mustache(data, "lesson_manager.html"))
 
-      val language = LiferayHelpers.getLanguage(request)
-      val groupID = themeDisplay.getScopeGroupId
-      val translations = getTranslation("lessonManager", language)
-      val companyId = PortalUtilHelper.getCompanyId(request)
-
-      val data = Map("contextPath" -> request.getContextPath, "userID" -> userUID, "groupID" -> groupID, "isAdmin" -> true,
-        "language" -> language, "courseID" -> courseId, "isPortlet" -> true, "companyID" -> companyId) ++ translations
-
-      out.println(getTemplate("/templates/2.0/lesson_manager_templates.html") +
-        getTemplate("/templates/2.0/file_uploader.html") +
-        getTemplate("templates/2.0/paginator.html") +
-        getTemplate("/templates/2.0/image_gallery_templates.html") +
-        mustache(data, "lesson_manager.html"))
-    }
   }
 
   override def doEdit(request: RenderRequest, response: RenderResponse) {
@@ -55,20 +44,10 @@ class LessonManagerView extends GenericPortlet with ScalatraFilter with Mustache
     val themeDisplay = LiferayHelpers.getThemeDisplay(request)
 
     val data = Map("contextPath" -> request.getContextPath,
-      "courseID" -> themeDisplay.getLayout.getGroupId,
       "pageID" -> themeDisplay.getLayout.getPrimaryKey,
       "language" -> language) ++ getTranslation("lessonManager", language)
     out.println(getTemplate("/templates/2.0/file_uploader.html") +
-      mustache(data, "lesson_manager_settings.html"))
+      mustache(data ++ getSecurityData(request).data, "lesson_manager_settings.html"))
 
-  }
-
-  private def getTranslation(view: String, language: String): Map[String, String] = {
-    try {
-      getTranslation("/i18n/" + view + "_" + language)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-      case _                        => Map[String, String]()
-    }
   }
 }

@@ -297,6 +297,18 @@ public class LFPackageLocalServiceUtil {
         getService().removeAll();
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
+    public static int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().countByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
     public static void clearService() {
         _service = null;
     }

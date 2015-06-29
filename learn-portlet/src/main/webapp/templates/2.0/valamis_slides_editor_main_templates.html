@@ -1,0 +1,272 @@
+<script type="text/template" id="slidesFileUploaderTemplate">
+    <div class="pull-right button-upload-area">
+        <button class="button valamis big green val-icon-upload js-file-upload">
+            {{fileUploadOpenDialogButtonLabel}}
+        </button>
+    </div>
+</script>
+<script type="text/html" id="slide-editor">
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="slidesetFilter" placeholder="{{searchLabel}}">
+        </div>
+        <div class="filter-element shift-right">
+            <button class="button medium primary js-create-slideset">
+                <span class="val-icon-plus"></span>{{createSlideSetLabel}}
+            </button>
+        </div>
+    </div>
+
+    <div class="val-row filters-row">
+        <div class="shift-left filter-element paging-showing-label js-pagination-container-showing"></div>
+
+        <div id="slidesetOrder" class="dropdown filter-element shift-right" data-value="date:false">
+            <button class="button medium simple">
+                <span class="dropdown-text"> {{byNameAscLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+
+        <button class="button medium simple no-text hide-s shift-right js-tile-view">
+            <span class="val-icon-grid-view">Grid View</span>
+        </button>
+        <button class="button medium simple no-text hide-s shift-right js-list-view active">
+            <span class="val-icon-list-view">List View</span>
+        </button>
+    </div>
+
+    <div class="js-slideset-items val-row list"></div>
+    <div class="js-pagination-container val-paginator text-center"></div>
+
+    <div class="js-slide-modal-container"></div>
+
+    <div class="slideset-editor js-slideset-editor">
+        <div class="slides-editor-topbar js-slides-editor-topbar">
+            <div class="val-row">
+                <div class="s-2 m-2 l-2 no-padding">
+                    <div class="shift-left mode-switcher">
+                        <div class="button-group">
+                            <button class="button big slides-primary active button-tooltip js-editor-edit-mode">
+                                <span class="val-icon-edit"></span>
+                                <span class="val-badge bottom">Edit</span>
+                            </button>
+                            <button class="button big slides-dark button-tooltip js-editor-arrange-mode">
+                                <span class="val-icon-arrange"></span>
+                                <span class="val-badge bottom">Arrange</span>
+                            </button>
+                            <button class="button big slides-dark button-tooltip js-editor-preview-mode">
+                                <span class="val-icon-preview"></span>
+                                <span class="val-badge bottom">Preview</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="shift-left slides-editor-undo">
+                        <button class="button medium slides-gray js-undo">
+                            Undo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="s-8 m-8 l-8">
+                    <div class="val-row">
+                        <div class="s-6 m-6 l-6 no-padding">
+                            <div class="presentation-title js-presentation-title shift-right"></div>
+                        </div>
+                        <div class="s-6 m-6 l-6">
+                            <div class="presentation-unsaved shift-left">&ndash; Unsaved</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="s-2 m-2 l-2 no-padding">
+                    <div class="val-icon-exit no-margin shift-right close-slideset"></div>
+                    <div class="shift-right slides-editor-save-container js-editor-save-container">
+                        <button class="button medium slides-gray no-margin slides-editor-changes-saved">
+                            Changes saved
+                        </button>
+                        <button class="button medium primary no-margin slides-editor-save">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editor-wrapper js-editor-wrapper">
+            <iframe class="slideset-iframe js-slideset-iframe" src="" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock"></iframe>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="slide-set-tile-element">
+    <div class="val-tile-item-wrapper" style="float:left; margin: 10px;">
+        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+            <div class="flipper">
+                <div class="front">
+                    <div class="ribbon-wrapper">
+                        <img src="/learn-portlet/img/imgo.jpg" />
+                        <div class="val-item-content">
+                            <div class="val-item-title">{{title}}</div>
+                            <div class="val-item-description">{{description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                        <button class="button valamis medium grey val-icon-edit val-command js-edit">
+                            {{EditButtonLabel}}
+                        </button>
+                        <button class="button valamis medium grey val-icon-edit val-command js-compose">
+                            {{ComposeButtonLabel}}
+                        </button>
+                        <button class="button valamis medium grey val-icon-delete val-command js-delete">
+                            {{DeleteButtonLabel}}
+                        </button>
+                        <button class="button valamis medium grey val-icon-download val-command js-export">
+                            {{publishTincanLabel}}
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="search-panel">
+    <div class="sidebar-wrapper">
+        <div class="menu-toggle hidden-xs menu-close modal-close-div"></div>
+        <h3>{{searchLabel}}</h3>
+        <div class="val-row">
+            <label class="h4label valamis"> {{searchByNameLabel}} </label>
+            <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" class="js-title-search text-input valamis search"/>
+        </div>
+        <div class="val-row position-relative">
+            <label class="h4label valamis"> {{sortLabel}} </label>
+            <div class="val-select">
+                <select class="js-sort-ordering-select fixed-width">
+                    <option value="true">{{byNameAscLabel}}</option>
+                    <option value="false">{{byNameDescLabel}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="modal-clear-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title valamis">{{headerLabel}}</h3>
+
+        <div class="modal-close val-icon-exit">
+        </div>
+    </div>
+
+    <div class="bbm-modal__section js-content-area"></div>
+</script>
+<script type="text/template" id="upload-logo-dialog">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{uploadLabel}}</h3>
+
+        <div class="modal-close"></div>
+    </div>
+    <div class="bbm-modal__section image-uploader-dialog"></div>
+</script>
+<script type="text/template" id="slide-edit-modal">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{editSlideLabel}}</h3>
+
+        <div class="modal-close val-icon-exit">
+        </div>
+    </div>
+
+    <div class="bbm-modal__section js-edit-slide-area"></div>
+    <div class="bbm-modal__bottombar">
+        <button class="button big neutral js-cancel-slide">
+            {{cancelLabel}}
+        </button>
+        <button class="button big primary js-save-slide">
+            {{saveLabel}}
+        </button>
+    </div>
+</script>
+<script type="text/template" id="edit-slide-dialog">
+    <div class="div-row">
+        <div class="div-col name-col">{{lessonTitleLabel}}</div>
+        <div class="div-col content-col">
+            <label>
+                <input type="text"
+                       placeholder="{{defaultLessonTitleLabel}}"
+                       class="js-title-field"
+                       value="{{title}}" />
+            </label>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col">{{slidesetLogoLabel}}</div>
+        <div class="div-col content-col">
+            <img
+                {{#logo}} src="/delegate/files/images?folderId=slideset_logo_{{id}}&file={{logo}}" {{/logo}}
+                {{^logo}} src="/learn-portlet/img/imgo.jpg" {{/logo}}
+            class='val-icon-upload val-img-logo shift-left js-upload-img'>
+            <div class="button-block shift-left">
+                <button class="button medium primary js-upload-button">
+                    {{uploadLabel}}
+                </button>
+                <button class="button medium neutral js-media-gallery">
+                    {{selectFromMediaGalleryLabel}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col">{{slidesetDescriptionLabel}}</div>
+        <div class="div-col content-col">
+            <label>
+                <textarea class="js-description-field" placeholder="{{slideDescriptionGoesHereLabel}}">{{description}}</textarea>
+            </label>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="slide-modals">
+    <div class="js-slide-extra-modal-container"></div>
+</script>
+<script type="text/html" id="slideEditorTileItemView">
+    <div class="tile-content with-action">
+        <div class="image js-start-package"
+        {{#logo}}
+        style="background-image: url('/delegate/files/images?folderId=slideset_logo_{{id}}&file={{logo}}')"
+        {{/logo}}>
+        <a href="javascript:void(0)"></a>
+    </div>
+    <ul>
+        <li class="title js-start-package"><a href="javascript:void(0)">{{title}}</a></li>
+        <li class="description">{{description}}</li>
+        <li class="categories"> {{slidesCount}} {{elementsLabel}}</li>
+    </ul>
+    <div class="dropdown actions shift-right js-slideset-actions" data-value="date:false">
+        <button class="button medium neutral">
+            <span class="dropdown-text"> {{actionsButtonLabel}} </span>
+            <span class="val-icon-arrow-down val-icon-right"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li class="js-edit-slideset" data-value="edit:true"> {{editButtonLabel}} </li>
+            <li class="js-compose-slideset" data-value="compose:true"> {{composeButtonLabel}} </li>
+            <li class="js-delete-slideset" data-value="delete:true"> {{deleteButtonLabel}} </li>
+            <li class="js-publish-slideset" data-value="publish:true"> {{publishTincanLabel}} </li>
+            <li class="js-export" data-value="publish:true"> {{exportLabel}} </li>
+        </ul>
+    </div>
+    </div>
+</script>
+<script type="text/template" id="saveConfirmationTemplate">
+    <div class="confirmation-question">{{warningSaveSlidesetLabel}}</div>
+    <div>
+        <button class="confirmation btn-primary">{{saveLabel}}</button>
+        <button class="decline btn-primary">{{dontSaveLabel}}</button>
+        <button>{{cancelLabel}}</button>
+    </div>
+</script>
+<script type="text/template" id="deleteConfirmationTemplate">
+    <div class="confirmation-question">{{warningDeleteSlidesetMessageLabel}} </div>
+    <div>
+        <button class='confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
+    </div>
+</script>

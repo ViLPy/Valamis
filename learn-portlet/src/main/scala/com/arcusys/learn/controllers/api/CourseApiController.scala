@@ -1,5 +1,6 @@
 package com.arcusys.learn.controllers.api
 
+import com.arcusys.learn.liferay.permission.PermissionUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.facades.CourseFacadeContract
@@ -21,13 +22,13 @@ class CourseApiController(configuration: BindingModule) extends BaseApiControlle
   get("/courses(/)")(jsonAction {
     val courseRequest = CourseRequest(this)
     val courses = courseFacade.all(
-      getCompanyId,
+      PermissionUtil.getCompanyId,
       courseRequest.skip,
       courseRequest.count,
       courseRequest.filter,
       courseRequest.isSortDirectionAsc)
 
-    val count = courseFacade.count(getCompanyId, courseRequest.filter)
+    val count = courseFacade.count(PermissionUtil.getCompanyId, courseRequest.filter)
 
     CollectionResponse(courseRequest.page, courses, count)
   })

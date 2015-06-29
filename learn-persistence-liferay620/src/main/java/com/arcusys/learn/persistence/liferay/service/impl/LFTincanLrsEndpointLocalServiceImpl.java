@@ -43,7 +43,7 @@ public class LFTincanLrsEndpointLocalServiceImpl
     }
 
     public void setEndpoint(String endpoint, String authType, String key, String secret) throws SystemException {
-        lfTincanLrsEndpointPersistence.removeAll();
+        //lfTincanLrsEndpointPersistence.removeAll();
 
         LFTincanLrsEndpoint newEntity = lfTincanLrsEndpointPersistence.create(counterLocalService.increment(LFTincanLrsEndpoint.class.getName()));
 

@@ -1,9 +1,9 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.scorm.manifest.model.{ ChildrenSelectionTake, RandomizationTimingType, ChildrenSelection }
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ RandomizationTimingType, ChildrenSelectionTake, ChildrenSelection }
 import scala.collection.JavaConverters._
 
 /**

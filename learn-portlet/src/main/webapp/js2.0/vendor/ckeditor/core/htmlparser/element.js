@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -41,7 +41,9 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 		prefixed = realName.match( /^cke:(.*)/ );
 	prefixed && ( realName = prefixed[ 1 ] );
 
-	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] || CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] || CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
+	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] ||
+		CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] ||
+		CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
 
 	this.isEmpty = !!CKEDITOR.dtd.$empty[ name ];
 	this.isUnknown = !CKEDITOR.dtd[ name ];
@@ -232,8 +234,9 @@ CKEDITOR.htmlParser.cssStyle = function() {
 						delete attributes[ a ];
 						a = newAttrName;
 						continue;
-					} else
+					} else {
 						break;
+					}
 				}
 
 				if ( newAttrName ) {
@@ -461,8 +464,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 * @param {String} className The class name to be removed.
 		 */
 		removeClass: function( className ) {
-			var classes = this.attributes[ 'class' ],
-				index;
+			var classes = this.attributes[ 'class' ];
 
 			if ( !classes )
 				return;

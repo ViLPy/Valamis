@@ -28,7 +28,7 @@ public class LFTincanManifestActLocalServiceImpl
      */
 
     public void removeAll() throws SystemException {
-        lfTincanActivityPersistence.removeAll();
+        lfTincanManifestActPersistence.removeAll();
     }
 
     public LFTincanManifestAct createLFTincanManifestActivity() throws SystemException {

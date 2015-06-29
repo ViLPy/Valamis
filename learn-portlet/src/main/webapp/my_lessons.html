@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <title>My lessons</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+<div id="myLessonsAppRegion">
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+
+<script type="text/javascript">
+
+    var Valamis = Valamis || {};
+    Valamis.currentUserId = parseInt("{{userID}}");
+    Valamis.currentCompanyId = parseInt("{{companyID}}");
+
+    jQueryValamis(document).ready(function () {
+
+        if (!valamisApp.started) { valamisApp.start(); }
+
+        var myLessonsPermission = { };
+
+        var myLessonsOptions = {
+            language: '{{language}}',
+            resourceName: 'dashboard',
+            permissions: myLessonsPermission,
+            app: myLessons,
+            appOptions: {}
+        };
+
+        valamisApp.execute('subapp:start', myLessonsOptions);
+
+    });
+
+</script>
+
+</html>

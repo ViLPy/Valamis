@@ -41,16 +41,16 @@ public class LFConfigLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName316;
-    private String[] _methodParameterTypes316;
-    private String _methodName317;
-    private String[] _methodParameterTypes317;
-    private String _methodName322;
-    private String[] _methodParameterTypes322;
-    private String _methodName323;
-    private String[] _methodParameterTypes323;
-    private String _methodName324;
-    private String[] _methodParameterTypes324;
+    private String _methodName216;
+    private String[] _methodParameterTypes216;
+    private String _methodName217;
+    private String[] _methodParameterTypes217;
+    private String _methodName222;
+    private String[] _methodParameterTypes222;
+    private String _methodName223;
+    private String[] _methodParameterTypes223;
+    private String _methodName224;
+    private String[] _methodParameterTypes224;
 
     public LFConfigLocalServiceClpInvoker() {
         _methodName0 = "addLFConfig";
@@ -135,25 +135,25 @@ public class LFConfigLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFConfig"
             };
 
-        _methodName316 = "getBeanIdentifier";
+        _methodName216 = "getBeanIdentifier";
 
-        _methodParameterTypes316 = new String[] {  };
+        _methodParameterTypes216 = new String[] {  };
 
-        _methodName317 = "setBeanIdentifier";
+        _methodName217 = "setBeanIdentifier";
 
-        _methodParameterTypes317 = new String[] { "java.lang.String" };
+        _methodParameterTypes217 = new String[] { "java.lang.String" };
 
-        _methodName322 = "createLFConfig";
+        _methodName222 = "createLFConfig";
 
-        _methodParameterTypes322 = new String[] {  };
+        _methodParameterTypes222 = new String[] {  };
 
-        _methodName323 = "findByKey";
+        _methodName223 = "findByKey";
 
-        _methodParameterTypes323 = new String[] { "java.lang.String" };
+        _methodParameterTypes223 = new String[] { "java.lang.String" };
 
-        _methodName324 = "removeAll";
+        _methodName224 = "removeAll";
 
-        _methodParameterTypes324 = new String[] {  };
+        _methodParameterTypes224 = new String[] {  };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -245,30 +245,30 @@ public class LFConfigLocalServiceClpInvoker {
             return LFConfigLocalServiceUtil.updateLFConfig((com.arcusys.learn.persistence.liferay.model.LFConfig) arguments[0]);
         }
 
-        if (_methodName316.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
+        if (_methodName216.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes216, parameterTypes)) {
             return LFConfigLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName317.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
+        if (_methodName217.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes217, parameterTypes)) {
             LFConfigLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName322.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
+        if (_methodName222.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes222, parameterTypes)) {
             return LFConfigLocalServiceUtil.createLFConfig();
         }
 
-        if (_methodName323.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes323, parameterTypes)) {
+        if (_methodName223.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes223, parameterTypes)) {
             return LFConfigLocalServiceUtil.findByKey((java.lang.String) arguments[0]);
         }
 
-        if (_methodName324.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes324, parameterTypes)) {
+        if (_methodName224.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes224, parameterTypes)) {
             LFConfigLocalServiceUtil.removeAll();
 
             return null;

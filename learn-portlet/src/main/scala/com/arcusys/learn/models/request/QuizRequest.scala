@@ -1,67 +1,75 @@
 package com.arcusys.learn.models.request
 
+import com.arcusys.learn.liferay.permission.PermissionCredentials
+import com.arcusys.learn.models.request.QuestionRequest._
 import org.scalatra.ScalatraBase
 import com.arcusys.learn.service.util.Parameter
 import scala.util.Try
 
 object QuizRequest extends BaseCollectionFilteredRequest with BaseRequest {
 
-  val COURSE_ID = "courseID"
-  val CATEGORY_ID = "categoryId"
+  val CategoryId = "categoryId"
 
-  val ID = "id"
-  val LESSON_ID = "lessonId"
-  val LESSON_IDS = "lessonIds"
-  val NAME_PATTERN = "namePattern"
-  val TITLE = "title"
-  val DESCRIPTION = "description"
-  val TEXT = "text"
-  val URL = "url"
-  val LOGO = "logo"
-  val BANK_QUESTION_ID = "bankQuestionId"
-  val BANK_QUESTION_IDS = "bankQuestionIds"
-  val INDEX = "index"
-  val LIFERAY_GROUP_ID = "liferayGroupID"
-  val PUBLISH_TYPE = "publishType"
-  val AUTO_SHOW_ANSWER = "autoShowAnswer"
-  val THEME = "theme"
-  val RANDOM_ORDERING = "randomOrdering"
-  val QUESTIONS_COUNT = "questionsCount"
-  val MAX_DURATION = "maxDuration"
-  val VIDEO_FROM_DOCLIBRARY = "fromDocLibrary"
-  val UUID = "uuid"
-  val GROUP_ID = "groupID"
+  val Id = "id"
+  val LessonId = "lessonId"
+  val LessonIds = "lessonIds"
+  val NamePattern = "namePattern"
+  val Title = "title"
+  val Description = "description"
+  val Text = "text"
+  val Url = "url"
+  val Logo = "logo"
+  val BankQuestionId = "bankQuestionId"
+  val BankQuestionIds = "bankQuestionIds"
+  val Index = "index"
+  val LiferayGroupId = "liferayGroupId"
+  val PublishType = "publishType"
+  val AutoShowAnswer = "autoShowAnswer"
+  val Theme = "theme"
+  val RandomOrdering = "randomOrdering"
+  val QuestionsCount = "questionsCount"
+  val ScoreLimit = "scoreLimit"
+  val MaxDuration = "maxDuration"
+  val VideoFromDocLibrary = "fromDocLibrary"
+  val UUId = "uuid"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
   class Model(scalatra: ScalatraBase) extends BaseSortableCollectionFilteredRequestModel(scalatra, s => s) {
     implicit val httpRequest = scalatra.request
 
-    def id = Parameter(ID).intRequired
-    def idString = Parameter(ID).required
-    def lessonId = Parameter(LESSON_ID).intRequired
-    def lessonIds = Parameter(LESSON_IDS).multiRequired.map(x => Try(x.toInt).get)
-    def action = Parameter(ACTION).required
+    def id = Parameter(Id).intRequired
+    def idString = Parameter(Id).required
+    def lessonId = Parameter(LessonId).intRequired
+    def lessonIds = Parameter(LessonIds).multiRequired.map(x => Try(x.toInt).get)
+
     def actionType = QuizActionType.withName(action.toUpperCase)
-    def namePattern = Parameter(NAME_PATTERN).required
-    def title = Parameter(TITLE).required
-    def description = Parameter(DESCRIPTION).required
-    def text = Parameter(TEXT).required
-    def url = Parameter(URL).required
-    def logo = Parameter(LOGO).required
-    def courseID = Parameter(COURSE_ID).intRequired
-    def categoryIdOption = Parameter(CATEGORY_ID).option
-    def bankQuestionId = Parameter(BANK_QUESTION_ID).intRequired
-    def bankQuestionIds = Parameter(BANK_QUESTION_IDS).multiRequired.map(x => Try(x.toInt).get)
-    def index = Parameter(INDEX).intRequired
-    def groupID = Parameter(GROUP_ID).intOption.map(_.toLong)
-    def publishType = PackagePublishType.withName(Parameter(PUBLISH_TYPE).required)
-    def autoShowAnswer = Parameter(AUTO_SHOW_ANSWER).booleanOption
-    def theme = Parameter(THEME).option
-    def randomOrdering = Parameter(RANDOM_ORDERING).booleanOption.getOrElse(false)
-    def questionPerUser = Parameter(QUESTIONS_COUNT).intOption
-    def maxDuration = Parameter(MAX_DURATION).intOption
-    def videoFromDL = Parameter(VIDEO_FROM_DOCLIBRARY).booleanRequired
-    def uuid = Parameter(UUID).option
+
+    def action = Parameter(Action).required
+
+    def namePattern = Parameter(NamePattern).required
+    def title = Parameter(Title).required
+    def description = Parameter(Description).required
+    def text = Parameter(Text).required
+    def url = Parameter(Url).required
+    def logo = Parameter(Logo).required
+    def logoOption = Parameter(Logo).option
+
+    def courseId = Parameter(CourseId).longRequired
+
+    def courseIdOption = Parameter(CourseId).longOption
+    def categoryIdOption = Parameter(CategoryId).option
+    def bankQuestionId = Parameter(BankQuestionId).intRequired
+    def bankQuestionIds = Parameter(BankQuestionIds).multiRequired.map(x => Try(x.toInt).get)
+    def index = Parameter(Index).intRequired
+    def publishType = PackagePublishType.withName(Parameter(PublishType).required)
+    def autoShowAnswer = Parameter(AutoShowAnswer).booleanOption
+    def theme = Parameter(Theme).option
+    def randomOrdering = Parameter(RandomOrdering).booleanOption.getOrElse(false)
+    def questionPerUser = Parameter(QuestionsCount).intOption
+    def scoreLimit = Parameter(ScoreLimit).doubleOption
+    def maxDuration = Parameter(MaxDuration).intOption
+    def videoFromDL = Parameter(VideoFromDocLibrary).booleanRequired
+    def uuid = Parameter(UUId).option
   }
 }

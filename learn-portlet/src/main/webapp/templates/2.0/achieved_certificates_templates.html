@@ -1,0 +1,28 @@
+<script type="text/template" id="achievedCertificatesLayoutTemplate">
+    <div class="js-list-view list">
+        <div class="div-table no-content-table js-no-certificates hidden">
+            <div class="div-col div-col-center">{{noAchievedCertificatesLabel}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="achievedCertificatesItemViewTemplate">
+    <div class="tile-content">
+        <div class="image certificate img-square"
+        {{#logo}}
+        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+        {{/logo}}>
+        </div>
+        <ul>
+            <li class="title">{{title}}</li>
+            <li class="through-label">
+            {{#dateString}}
+                {{validThroughLabel}} {{dateString}}
+            {{/dateString}}
+            {{^dateString}}
+                {{permanentLabel}}
+            {{/dateString}}
+            </li>
+        </ul>
+    </div>
+</script>

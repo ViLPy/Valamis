@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
 import com.arcusys.learn.storage.impl.EntityStorageExt
-import com.arcusys.learn.scorm.manifest.model.SequencingTracking
-import com.arcusys.learn.scorm.manifest.sequencing.storage.SequencingTrackingStorage
+import com.arcusys.valamis.lesson.scorm.model.manifest.SequencingTracking
+import com.arcusys.valamis.lesson.scorm.storage.sequencing.SequencingTrackingStorage
 
 /**
  * User: Yulia.Glushonkova

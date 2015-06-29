@@ -1,222 +1,318 @@
-<script type="text/mustache" id="gradebookRow">
+<script type="text/html" id="gradebookRow">
                 <td class="user-img user-name student-click">
-                    <div class="user-img pull-left">
-                        <img src="{{avatarUrl}}" class="user-img img-circle" />
-                    </div>
-                    <div class="user-name-wrapper pull-left">
-                        <div class="user-name">
-                            {{fullname}} <br/>
-                            <small style="font-size: 10px;">{{lastModifiedDate}}</small>
-                        </div>
+                    <img src="{{avatarUrl}}" class="user-img img-circle shift-left" />
+
+                    <div class="shift-left" style="margin-left: 10px;">
+                        <div> {{fullname}} </div>
+                        <div style="font-size: 10px; line-height: 10px;">{{lastModifiedDate}}</div>
                     </div>
                 </td>
                 <td class="organization"> {{organizationNames}} </td>
                 <td class="center-text"> {{completedPackagesCount}}/{{packagesCount}} </td>
                 <td class="grade center-text"> {{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}
                 </td> 
-                <td class="edit-button-td"><button class="button valamis medium grey val-icon-edit no-text"> {{{grade}}} </button>
+                <td class="edit-button-td">
+                    <button class="button medium neutral no-text">
+                        <span class="val-icon-edit"></span>
+                        {{{grade}}}
+                    </button>
                 </td>
 </script>
 
 <script type="text/mustache" id="gradebookPackageRow">
       <input type="checkbox" class="checkbox-group" id={{id}}> {{packageName}}</input> <br />
-
 </script>
 
-<script type="text/mustache" id="studentViewTemplate">
-<div class="clearfix content-wrapper">
-    <!-- Page content -->
-    <div class="page-content-wrapper" style="padding-top: 0px;">
-        <div class="content-header clearfix hidden-xl-desktop border-bottom">
-            <div class="pull-left">
-                <div class="student-name-label menu-toggle">
-                        <img src="{{avatarUrl}}" class="img-circle" style="width:64px;height:64px;"/>
+<script type="text/html" id="studentViewTemplateOld">
+    <div class="clearfix content-wrapper">
+        <!-- Page content -->
+        <div class="page-content-wrapper" style="padding-top: 0px;">
+            <div class="content-header clearfix hidden-xl-desktop border-bottom">
+                <div class="pull-left">
+                    <div class="student-name-label menu-toggle">
+                            <img src="{{avatarUrl}}" class="img-circle" style="width:64px;height:64px;"/>
+                            <h3 style="padding-left: 10px;">{{fullname}}</h3>
+                    </div>
+                </div>
+                <div class="menu-toggle student-info-label pull-right">
+                       <span>{{totalGradeLabel}}: <b>{{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}</b>
+                       {{#isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{editLabel}}} </button>{{/isAdmin}}
+                       {{^isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{viewLabel}}} </button>{{/isAdmin}}</span>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar-wrapper">
+                <div class="menu-toggle hidden-xs modal-close-div val-icon-exit">
+                </div>
+                <div class="pull-right">
+                </div>
+                <div class="student-info">
+                    <div class="student-name-label clearfix">
+                        <img src="{{avatarUrl}}" class="img-circle" style="width:64px;height:64px;float:left;margin-right:10px;"/>
                         <h3 style="padding-left: 10px;">{{fullname}}</h3>
+                    </div>
+                    {{#address.length}}
+                    <div class="student-info-label">
+                        <span class="address-icon" /><span>{{address}}</span>
+                    </div>
+                    {{/address.length}}
+                    {{#organizationNames.length}}
+                    <div class="student-info-label">
+                        <span class="org-icon" /><span>{{organizationNames}}</span>
+                    </div>
+                    {{/organizationNames.length}}
+                    <div class="student-info-label">
+                        <span>{{totalGradeLabel}}: <b>{{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}</b>
+                            <button class="button valamis medium grey edit-total-grade">
+                                {{#isAdmin}}{{{editLabel}}}{{/isAdmin}}
+                                {{^isAdmin}}{{{viewLabel}}}{{/isAdmin}}
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div class="menu-toggle student-info-label pull-right">
-                   <span>{{totalGradeLabel}}: <b>{{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}</b>
-                   {{#isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{editLabel}}} </button>{{/isAdmin}}
-                   {{^isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{viewLabel}}} </button>{{/isAdmin}}</span>
+
+            <div class="page-content">
+                <div class="page-content-div">
+                    <table class="valamis medium-table grade-table no-top-border">
+                        <thead>
+                            <tr>
+                                <th style="width:50%;">{{packageColumnName}}</th>
+                                <th>{{gradeAutoColumnName}}</th>
+                                <th colspan="2">{{gradeColumnName}}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentGradeGrid">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-        <!-- Sidebar -->
-        <div class="sidebar-wrapper">
-            <div class="menu-toggle hidden-xs modal-close-div">
-            </div>
-            <div class="pull-right">
-            </div>
-            <div class="student-info">
-                <div class="student-name-label clearfix">
-                    <img src="{{avatarUrl}}" class="img-circle" style="width:64px;height:64px;float:left;margin-right:10px;"/>
-                    <h3 style="padding-left: 10px;">{{fullname}}</h3>
-                </div>
-                {{#address}}
-                <div class="student-info-label">
-                    <span class="address-icon" /><span>{{address}}</span>
-                </div>
-                {{/address}}
-                {{#organizationNames}}
-                <div class="student-info-label">
-                    <span class="org-icon" /><span>{{organizationNames}}</span>
-                </div>
-                {{/organizationNames}}
-                <div class="student-info-label">
-                    <span>{{totalGradeLabel}}: <b>{{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}</b>
-                    {{#isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{editLabel}}} </button>{{/isAdmin}}
-                    {{^isAdmin}}<button class="button valamis medium grey edit-total-grade"> {{{viewLabel}}} </button>{{/isAdmin}}</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="page-content">
-            <div style="overflow-y: scroll;height: 450px;">
-                <table class="valamis medium-table grade-table no-top-border">
-                    <thead>
-                        <tr>
-                            <th style="width:60%;">{{packageColumnName}}</th>
-                            <th colspan="2">{{gradeColumnName}}</th>
-                        </tr>
-                    </thead>
-                    <tbody  id="studentGradeGrid">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
     </div>
-</div>
 </script>
 
-<script type="text/mustache" id="studentViewPackageContentTableTemplate">
-         <tr class="statementTable"><td colspan="3"  style="background-color: #f2f2f2!important;">
-            <div class="GridTimeline">
-                <div id="statementsGrid" class="GridTimeline-items">
+<script type="text/html" id="studentTotalGradeViewTemplate">
+    <div>{{totalGradeLabel}}: <b>{{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}</b></div>
+    <button class="button medium neutral edit-total-grade">
+
+        {{#isAdmin}}{{{editLabel}}}{{/isAdmin}}
+        {{^isAdmin}}{{{viewLabel}}}{{/isAdmin}}
+    </button>
+</script>
+
+<script type="text/html" id="studentViewTemplate">
+    <table class="val-table medium no-border">
+        <tbody>
+        <tr>
+            <td style="width:1%;">
+                <img src="{{avatarUrl}}" class="img-circle" style="max-width:64px;max-height:64px;"/>
+            </td>
+            <td>
+                <h3>{{fullname}}</h3>
+                {{#address.length}}
+                <div class="student-info-label">
+                    <span class="address-icon"/>
+                    <span>{{address}}</span>
                 </div>
-            </div>
-         </td></tr><tr></tr>
+                {{/address.length}}
+                {{#organizationNames.length}}
+                <div class="student-info-label">
+                    <span class="org-icon"/>
+                    <span>{{organizationNames}}</span>
+                </div>
+                {{/organizationNames.length}}
+            </td>
+            <td class="text-right" id="studentTotalGrade">
 
+            </td>
+        </tr>
+        </tbody>
 
+    </table>
+    <div class="shift-left filter-element paging-showing-label" id="packageGradesPagingShowing"> </div>
+    <table class="val-table medium grade-table">
+        <thead>
+        <tr>
+            <th style="width:50%;">{{packageColumnName}}</th>
+            <th>{{gradeAutoColumnName}}</th>
+            <th colspan="2">{{gradeColumnName}}</th>
+        </tr>
+        </thead>
+        <tbody id="studentGradeGrid">
+        </tbody>
+    </table>
+    <div id="loading-packages"> </div>
+    <div class="val-paginator text-center" id="packageGradesListPaginator"></div>
 </script>
 
-<script type="text/mustache" id="studentViewPackageContentRowTemplate">
-<div class="Grid">
-    <div class="Grid-cell u-mb10 StreamItem ProfileTweet u-textBreak ProfileTweet--high ProfileTweet-header u-textMute">
-        <span>
-              <span>{{timestamp}} {{actorName}}</span>
-        </span>
-        {{#more}}
-        <button class="button valamis medium green more-button pull-right">{{moreLabel}}</button>
-        {{/more}}
+<script type="text/html" id="studentViewPackageContentTableTemplate">
+    <tr class="statementTable">
+        <td colspan="4"  style="background-color: #f2f2f2!important;">
+            <div class="GridTimeline">
+                <div id="statementsGrid" class="GridTimeline-items"></div>
+            </div>
+        </td>
+    </tr>
+    <tr></tr>
+</script>
 
+<script type="text/html" id="studentViewPackageContentRowTemplate">
+    <div class="Grid">
+        <div class="Grid-cell u-mb10 StreamItem ProfileTweet u-textBreak ProfileTweet--high ProfileTweet-header u-textMute">
+            <span>
+                  <span>{{timestamp}} {{actorName}}</span>
+            </span>
+            {{#more}}
+            <button class="button medium neutral more-button pull-right">{{moreLabel}}</button>
+            {{/more}}
+
+            <p class="ProfileTweet-text u-dir">
+                <span class="verb">{{verbName}}</span>
+                <span class="obj">{{objStr}}</span>
+                {{#answer}}
+                <span class="obj">, {{responseLabel}} '{{{answer}}}'</span>
+                {{/answer}}
+                {{#resultGrade}}
+                <span class="obj">, {{gradeLabel}} {{{resultGrade}}}</span>
+                {{/resultGrade}}
+                {{#score}}
+                <span class="obj">, {{scoreLabel}} {{{score}}}</span>
+                {{/score}}
+            </p>
+
+            <div id="more-info-section">
+                {{#correctResponse}}
+                <div id="correctResponsePlaceholder">
+                    <span>{{correctResponseLabel}}</span>
+                    <textarea rows="3" style="width: 100%;" id="correctResponse" readonly="readonly">{{{correctResponse}}}</textarea>
+                </div>
+                {{/correctResponse}}
+                {{#userResponse}}
+                <div id="userResponsePlaceholder">
+                    <span>{{userResponseLabel}}</span>
+                    <textarea rows="3" style="width: 100%;" id="userResponse" readonly="readonly">{{{userResponse}}}</textarea>
+                </div>
+                {{/userResponse}}
+                <label>
+                    {{#resultGrade}}{{gradeLabel}}: <b>{{resultGrade}}</b>{{/resultGrade}}
+                    {{#score}}{{scoreLabel}}: <b>{{score}}</b>{{/score}}
+                </label>
+            </div>
+            <div>
+                <a href="#" class="comment-link">{{commentLabel}}</a>
+                <span class="link-separator" style="display: none;">|</span>
+                <a href="#" class="show-comments" style="display: none;">{{showCommentsLabel}}</a>
+                <a href="#" class="hide-comments" style="display: none;">{{hideCommentsLabel}}</a>
+                <span class="count-comments" style="display: none;"></span>
+            </div>
+        </div>
+        <div class="comment-list" style="display: none;">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="commentRowTemplate">
+    <div class="comment Grid-cell u-mb10 StreamItem ProfileTweet u-textBreak ProfileTweet--high ProfileTweet-header u-textMute">
+        <span>
+              <span>{{timestamp}} {{actorName}} {{commentedLabel}}</span>
+        </span>
+
+        {{^isNew}}
         <p class="ProfileTweet-text u-dir">
-            <span class="verb">{{verbName}}</span>
-            <span class="obj">{{objStr}}</span>
-            {{#answer}}
-            <span class="obj">, {{responseLabel}} '{{answer}}'</span>
-            {{/answer}}
-            {{#resultGrade}}
-            <span class="obj">, {{gradeLabel}} {{resultGrade}}</span>
-            {{/resultGrade}}
-            {{#score}}
-            <span class="obj">, {{scoreLabel}} {{score}}</span>
-            {{/score}}
+            <span class="verb">{{userComment}}</span>
         </p>
 
-        <div id="more-info-section">
-            {{#correctResponse}}
-            <div id="correctResponsePlaceholder">
-                <span>{{correctResponseLabel}}</span>
-                <textarea rows="3" style="width: 100%;" id="correctResponse" readonly="readonly">{{correctResponse}}</textarea>
-            </div>
-            {{/correctResponse}}
-            {{#userResponse}}
-            <div id="userResponsePlaceholder">
-                <span>{{userResponseLabel}}</span>
-                <textarea rows="3" style="width: 100%;" id="userResponse" readonly="readonly">{{userResponse}}</textarea>
-            </div>
-            {{/userResponse}}
-            <label>
-                {{#resultGrade}}{{gradeLabel}}: <b>{{resultGrade}}</b>{{/resultGrade}}
-                {{#score}}{{scoreLabel}}: <b>{{score}}</b>{{/score}}
-            </label>
+        <div>
+            <a href="#" class="comment-link">{{commentLabel}}</a>
         </div>
+        {{/isNew}}
+
+        {{#isNew}}
+        <textarea rows="3" id="comment" style="margin-bottom: 10px;"></textarea>
+        <div class="text-right">
+            <button class="button medium neutral cancel-comment">{{cancelButtonLabel}}</button>
+            <button class="button medium neutral save-comment">{{saveButtonLabel}}</button>
+        </div>
+        {{/isNew}}
     </div>
-</div>
+    <div class="comment-list">
+
+    </div>
 </script>
 
-<script type="text/mustache" id="studentViewTablePackageRowTemplate">
-            <td class="expand-col">
-                <div class="expand-icon" />
-                <div class="expand-text">{{packageName}}</div>
-            </td>
-            <td class="grade center-text">
-                {{grade}}{{#grade}}%{{/grade}}
-            </td>
-            <td class="edit-button-td">
-            {{#isAdmin}}<button class="button valamis medium grey no-text val-icon-edit edit-button">{{editLabel}}</button>{{/isAdmin}}
-            {{^isAdmin}}<button class="button valamis medium grey no-text val-icon-edit edit-button">{{viewLabel}}</button>{{/isAdmin}}</td>
-
-
+<script type="text/html" id="studentViewTablePackageRowTemplate">
+    <td class="expand-col">
+        <div class="expand-icon" />
+        <div class="expand-text">{{packageName}}</div>
+    </td>
+    <td class="autograde center-text">
+        {{gradeAuto}}{{#gradeAuto}}%{{/gradeAuto}}
+    </td>
+    <td class="grade center-text">
+        {{grade}}{{#grade}}%{{/grade}}
+    </td>
+    <td class="edit-button-td">
+        <button class="button medium neutral no-text edit-button">
+        {{#isAdmin}}<span class="val-icon-edit"></span>{{/isAdmin}}
+        {{^isAdmin}}<span class="val-icon-preview"></span>{{/isAdmin}}
+        </button>
+    </td>
 </script>
 
-<script type="text/mustache" id="editTotalGradeTemplate">
+<script type="text/html" id="editTotalGradeTemplateOld">
 <div class="content-wrapper clearfix">
     <!-- Page content -->
     <div class="page-content-wrapper padded">
-        <div class="valamis-row clearfix hidden-xl-desktop">
+        <div class="val-row clearfix hidden-xl-desktop">
             <div class="pull-left">
                 <div class="student-name-label menu-toggle">
                     <div class="student-img pull-left">
-                        <img src="{{avatarUrl}}" class="img-circle" style="width:60px;height:60x;"/>
+                        <img src="{{avatarUrl}}" class="img-circle avatar-medium"/>
                     </div>
                     <div class="student-name pull-left">
-                        <h3 style="padding-left: 10px;">{{fullname}}</h3>
+                        <h3 class="student-name-title">{{fullname}}</h3>
                     </div>
                 </div>
             </div>
         </div>
             <!-- Sidebar -->
             <div class="sidebar-wrapper">
-                <div class="menu-toggle hidden-xs modal-close-div">
+                <div class="menu-toggle hidden-xs modal-close-div val-icon-exit">
                 </div>
                 <div class="pull-right">
                 </div>
                 <div class="student-info">
                     <div class="student-name-label clearfix">
-                        <img src="{{avatarUrl}}" class="img-circle"
-                             style="width:64px;height:64px;float:left;margin-right:10px;"/>
+                        <img src="{{avatarUrl}}" class="img-circle avatar-large"/>
 
-                        <h3 style="padding-left: 10px;">{{fullname}}</h3>
+                        <h3 class="student-name-title">{{fullname}}</h3>
                     </div>
-                    {{#address}}
+                    {{#address.length}}
                     <div class="student-info-label">
                         <span class="address-icon"/><span>{{address}}</span>
                     </div>
-                    {{/address}}
-                    {{#organizationNames}}
+                    {{/address.length}}
+                    {{#organizationNames.length}}
                     <div class="student-info-label">
                         <span class="org-icon"/><span>{{organizationNames}}</span>
                     </div>
-                    {{/organizationNames}}
+                    {{/organizationNames.length}}
                 </div>
             </div>
-        <div class="page-content" style="margin-bottom: 20px;">
-            <div class="valamis-row" id="courseCommentPlaceholder">
+        <div class="page-content clearfix" style="margin-bottom: 20px;">
+            <div class="val-row" id="courseCommentPlaceholder">
                 <span>{{courseWholeCommentLabel}}</span>
                 <textarea class="valamis" rows="10" style="width: 100%;" id="courseComment" {{^isAdmin}}disabled=disabled{{/isAdmin}}>{{commentTotal}}</textarea>
             </div>
-            <label>{{gradeLabel}}</label>
 
-            <div class="valamis-row position-relative" style="display:table;">
-                <div id="courseGradePlaceholder" class="valamis-select">
-                    <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}>
-                    </select>
+            <div class="val-row position-relative pull-right" style="display:table;">
+            <label>{{gradeLabel}}</label>
+                <div id="courseGradePlaceholder" class="val-select">
+                    <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}></select>
                 </div>
                 {{#isAdmin}}
-                    <input type="button" class="save-total-grade-button button valamis medium green"value="{{saveButtonLabel}}"/>
+                    <input type="button" class="save-total-grade-button button valamis medium green pull-right"value="{{saveButtonLabel}}"/>
                 {{/isAdmin}}
             </div>
         </div>
@@ -224,167 +320,244 @@
 </div>
 </script>
 
-<script type="text/mustache" id="editPackageGradeTemplate">
-<div class="content-wrapper clearfix">
-
-            <!-- Page content -->
-            <div class="page-content-wrapper padded">
-                <div class="valamis-row clearfix hidden-xl-desktop">
-                    <div class="pull-left">
-                        <!--<button class="filter-toggler button valamis big grey menu-toggle">-->
-                        <!--<i class="fa fa-search fa-lg"></i>-->
-                        <!--</button>-->
-                        <div class="package-name-label menu-toggle" style="padding-bottom: 10px;">
-                            <img
-                            {{#packageLogo}}
-                             src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{packageLogo}}}"
-                            {{/packageLogo}}
-
-                            {{^packageLogo}}
-                            src="{{contextPath}}img/imgo.jpg"
-                            {{/packageLogo}}
-
-                            style="width: 48px; height: 48px;"/>
-
-                            <h3 style="padding-left: 10px;">{{packageName}}</h3>
-                        </div>
-                    </div>
+<script type="text/html" id="editTotalGradeTemplate">
+    <table class="val-table medium no-border">
+        <tbody>
+        <tr>
+            <td style="width:1%;">
+                <img src="{{avatarUrl}}" class="img-circle" style="max-width:64px;max-height:64px;"/>
+            </td>
+            <td>
+                <h3>{{fullname}}</h3>
+                {{#address.length}}
+                <div class="student-info-label">
+                    <span class="address-icon"/>
+                    <span>{{address}}</span>
                 </div>
+                {{/address.length}}
+                {{#organizationNames.length}}
+                <div class="student-info-label">
+                    <span class="org-icon"/>
+                    <span>{{organizationNames}}</span>
+                </div>
+                {{/organizationNames.length}}
+            </td>
+            <td class="text-right" style="width:12%;">
+                <label>{{gradeLabel}}</label>
+                <div id="courseGradePlaceholder" class="val-select">
+                    <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}></select>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <div class="val-row" id="courseCommentPlaceholder" style="margin:20px;">
+        <span>{{courseWholeCommentLabel}}</span>
+        <textarea rows="5" style="width: 100%;" id="courseComment" {{^isAdmin}}disabled=disabled{{/isAdmin}}>{{commentTotal}}</textarea>
+    </div>
 
 
-                    <!-- Sidebar -->
-                    <div class="sidebar-wrapper">
-                        <div class="menu-toggle hidden-xs modal-close-div">
-                        </div>
-                        <div class="pull-right">
-                        </div>
-                        <div class="package-info">
-                            <div class="package-name-label clearfix">
-                                <img {{#packageLogo}}
-                                 src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{packageLogo}}}"
-                                {{/packageLogo}}
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelButtonLabel}}</a>
+        {{#isAdmin}}
+        <button class="save-total-grade-button button big primary">
+            {{saveButtonLabel}}
+        </button>
+        {{/isAdmin}}
+    </div>
+</script>
 
-                                {{^packageLogo}}
-                                src="{{contextPath}}img/imgo.jpg"
-                                {{/packageLogo}}
+<script type="text/html" id="editPackageGradeTemplateOld">
+<div class="content-wrapper clearfix">
+    <!-- Page content -->
+    <div class="page-content-wrapper padded">
+        <div class="val-row clearfix hidden-xl-desktop">
+            <div class="pull-left">
+                <div class="package-name-label menu-toggle" style="padding-bottom: 10px;">
+                    <img
+                    {{#packageLogo}}
+                     src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{packageLogo}}}"
+                    {{/packageLogo}}
 
-                                style="float:left;"/>
+                    {{^packageLogo}}
+                    src="{{contextPath}}img/imgo.jpg"
+                    {{/packageLogo}}
 
-                                <h3 class="no-margin">{{packageName}}</h3>
-                                <div class="package-info-label">
-                                    <span>{{description}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="page-content" style="margin-bottom: 20px;">
+                    class="package-logo-medium"/>
 
-                    <div class="valamis-row" id="courseCommentPlaceholder">
-                        <span>{{coursePackageCommentLabel}}</span>
-                        <textarea rows="10" style="width: 100%;" id="courseComment"
-                        {{^isAdmin}}disabled=disabled{{/isAdmin}}>{{comment}}</textarea>
-                    </div>
+                    <h3 class="package-name-title">{{packageName}}</h3>
+                </div>
+            </div>
+        </div>
 
-                    <div class="valamis-row position-relative" style="display:table;">
-                        <label>{{gradeLabel}}</label>
-                        <div id="courseGradePlaceholder" class="valamis-select">
-                            <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}>
-                            </select>
-                        </div>
-                    {{#isAdmin}}<input type="button" class="save-package-grade-button button valamis medium green"
-                                       value="{{saveButtonLabel}}"/>{{/isAdmin}}
+        <!-- Sidebar -->
+        <div class="sidebar-wrapper">
+            <div class="menu-toggle hidden-xs modal-close-div val-icon-exit"></div>
+            <div class="pull-right"></div>
+            <div class="package-info">
+                <div class="package-name-label clearfix">
+                    <img {{#packageLogo}}
+                         src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{packageLogo}}}"
+                        {{/packageLogo}}
+
+                        {{^packageLogo}}
+                        src="{{contextPath}}img/imgo.jpg"
+                        {{/packageLogo}}
+
+                        class="package-logo-large"/>
+
+                    <h3 class="no-margin">{{packageName}}</h3>
+                    <div class="package-info-label">
+                        <span>{{description}}</span>
                     </div>
                 </div>
             </div>
-
         </div>
+        <div class="page-content clearfix" style="margin-bottom: 20px;">
+            <div class="val-row" id="courseCommentPlaceholder">
+                <span>{{coursePackageCommentLabel}}</span>
+                <textarea rows="10" style="width: 100%;" id="courseComment"
+                {{^isAdmin}}disabled=disabled{{/isAdmin}}>{{comment}}</textarea>
+            </div>
 
-
+            <div class="val-row position-relative pull-right" style="display:table;">
+                <label>{{gradeLabel}}</label>
+                <div id="courseGradePlaceholder" class="val-select">
+                    <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}>
+                    </select>
+                </div>
+                {{#isAdmin}}<input type="button" class="save-package-grade-button button valamis medium green pull-right"
+                               value="{{saveButtonLabel}}"/>{{/isAdmin}}
+            </div>
+        </div>
+    </div>
+</div>
 </script>
 
-<script type="text/mustache" id="simpleTableTemplate">
-    <table id="GradeTable" class="valamis medium-table grade-table">
-        <thead>
+<script type="text/html" id="editPackageGradeTemplate">
+    <table class="val-table medium no-border">
+        <tbody>
         <tr>
-            <th scope="col" ref="name" style="width:35%" class="sortable">{{userNameLabel}}</th>
-            <th scope="col" style="width:25%" class="sortable">{{userOrgLabel}}</th>
-            <th scope="col" style="width:20%" class="center-text">{{coursesDoneLabel}}</th>
-            <th scope="col" style="width:20%" colspan="2">{{totalGradeLabel}}</th>
+            <td style="width:1%;">
+                <img
+                {{#packageLogo}}
+                src="/delegate/files/images?folderId=package_logo_{{id}}&file={{{packageLogo}}}"
+                {{/packageLogo}}
+
+                {{^packageLogo}}
+                src="{{contextPath}}img/imgo.jpg"
+                {{/packageLogo}}
+
+                style="max-width:64px;max-height:64px;" />
+            </td>
+            <td>
+                <h3 class="package-name-title">{{packageName}}</h3>
+                <div class="package-info-label">
+                    <span>{{description}}</span>
+                </div>
+            </td>
+            <td class="text-right" style="width:12%;">
+                <label>{{gradeLabel}}</label>
+                <div id="courseGradePlaceholder" class="val-select">
+                    <select id="totalGradeChoice" {{^isAdmin}}disabled=disabled{{/isAdmin}}>
+                    </select>
+                </div>
+            </td>
         </tr>
-            </thead>
-            <tbody id="gradeGrid">
-            </tbody>
+        </tbody>
+
     </table>
 
+    <div class="val-row" id="courseCommentPlaceholder" style="margin:20px;">
+        <span>{{coursePackageCommentLabel}}</span>
+        <textarea rows="5" style="width: 100%;" id="courseComment"
+        {{^isAdmin}}disabled=disabled{{/isAdmin}}>{{comment}}</textarea>
+    </div>
 
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelButtonLabel}}</a>
+        {{#isAdmin}}
+        <button class="save-package-grade-button button big primary">
+            {{saveButtonLabel}}
+        </button>
+        {{/isAdmin}}
+    </div>
 </script>
 
-<script type="text/mustache" id="detailedTableStudentHeaderTemplate">
+<script type="text/html" id="simpleTableTemplate">
+    <table id="GradeTable" class="val-table medium grade-table">
+        <thead>
+            <tr>
+                <th scope="col" ref="name" style="width:35%;" class="sortable">{{userNameLabel}}</th>
+                <th scope="col" style="width:25%;" class="sortable">{{userOrgLabel}}</th>
+                <th scope="col" style="width:15%;" class="center-text">{{coursesDoneLabel}}</th>
+                <th scope="col" style="width:25%; word-break: initial;" colspan="2">{{totalGradeLabel}}</th>
+            </tr>
+        </thead>
+        <tbody id="gradeGrid">
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="detailedTableStudentHeaderTemplate">
     <tr id="{{id}}" class="package-row">
-    <td class="detailed-row-header user-img user-name student-click">
-        <img src="{{avatarUrl}}" class="user-img img-circle" style="float: left;margin-right:10px;width:48px;height:48px;" />  {{fullname}} <br/><small style="font-size: 10px;">{{lastModifiedDate}}</small>
-    </td>
+        <td class="detailed-row-header user-img user-name student-click">
+            <img src="{{avatarUrl}}" class="user-img img-circle avatar-small" />
+            {{fullname}} <br/>
+            <small style="font-size: 10px;">{{lastModifiedDate}}</small>
+        </td>
         <td class="detailed-row-header center-text detailed-column-total-grade-header">
             {{gradeTotal}}{{#gradeTotal}}%{{/gradeTotal}}
         </td>
     </tr>
-
-
 </script>
 
-<script type="text/mustache" id="detailedTablePackageHeaderTemplate">
+<script type="text/html" id="detailedTablePackageHeaderTemplate">
     <th scope="col" class="detailed-column-header center-text" id="{{id}}">{{packageName}} </th>
-
-
 </script>
 
-<script type="text/mustache" id="detailedTableCellTemplate">
+<script type="text/html" id="detailedTableCellTemplate">
     <td class="detailed-cell center-text"> {{grade}}{{#grade}}%{{/grade}}</td>
-
-
 </script>
 
-<script type="text/mustache" id="detailedTableTemplate">
-
+<script type="text/html" id="detailedTableTemplate">
     <div id="detailedTableWrapper">
-    <table style="width: 100%; padding: 0px; margin: 0px;">
-    <tr>
-    <td id="tdHeader" style="width: 30%; padding: 0px; margin: 0px;vertical-align: top;">
-            <div style="border-right: 2px solid #d3d4d5">
-                <table id="GradeDetailedTableFixed" class="valamis table" style="width: 100%; padding: 0px; margin: 0px;">
-                    <thead>
-                    <tr>
-                        <th scope="col">{{studentPackageColumnName}}</th>
-                        <th scope="col" class="center-text">{{totalGradeLabel}}</th>
-                    </tr>
-                    </thead>
-
-                    <tbody id="studentGrid">
-
-                    </tbody>
-                </table>
-        </div>
-        </td>
-        <td id="tdContent" style="width: 70%; padding: 0px; margin: 0px;vertical-align: top;">
-
-        <div class="scrollBody" style="overflow-x: scroll; width: 650px;">
-            <table id="GradeDetailedTable" class="valamis table"  style="width: 100%; padding: 0px; margin: 0px;">
-                <thead>
-                <tr id="packageNames">
-
-                </tr>
-                </thead>
-
-                <tbody id="detailedGradeGrid">
-
-                </tbody>
-            </table>
-        </div>
-        </td>
-        </tr>
+        <table style="width: 100%; padding: 0px; margin: 0px;">
+            <tr>
+                <td id="tdHeader" style="width: 30%; padding: 0px; margin: 0px;vertical-align: top;">
+                    <div style="border-right: 2px solid #d3d4d5">
+                        <table id="GradeDetailedTableFixed" class="valamis table" style="width: 100%; padding: 0px; margin: 0px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{studentPackageColumnName}}</th>
+                                    <th scope="col" class="center-text">{{totalGradeLabel}}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentGrid">
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td id="tdContent" style="width: 70%; padding: 0px; margin: 0px;vertical-align: top;">
+                    <div class="scrollBody" style="overflow-x: scroll; width: 650px;">
+                        <table id="GradeDetailedTable" class="valamis table"  style="width: 100%; padding: 0px; margin: 0px;">
+                            <thead>
+                                <tr id="packageNames">
+                                </tr>
+                            </thead>
+                            <tbody id="detailedGradeGrid">
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
         </table>
     </div>
+</script>
 
-
-
+<script type="text/html" id="loadingGradebookTableTemplate">
+    <p style="padding-left: 10px">{{loadingLabel}}...</p>
 </script>

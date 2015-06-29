@@ -1,6 +1,6 @@
 package com.arcusys.learn.models.report
 
-case class OverallByTimeResponse(averageScore: Double,
+case class OverallByTimeResponse(
   startedData: Any,
   completedData: Any,
-  passedData: Any)
+  experiencedData: Any)

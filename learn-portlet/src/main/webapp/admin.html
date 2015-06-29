@@ -38,48 +38,28 @@
 
             var modalLayout = new Layout();
             jQuery('body').append(modalLayout.render().el);
-
-            // Create a modal view class
-            var roleModal = Backbone.Modal.extend({
-                template: _.template(Mustache.to_html(jQuery('#modal-template-roles').html(),scormAdminLanguageData)),
-                submitEl: '.bbm-button',
-                cancelEl: '.modal-close',
-                onRender: function () {
-                    this.$('.select-role-dialog').html(window.RolesDialog.render().$el);
-                }
-            });
-
-            this.rolesView = new ManageRolesDialog({el: jQuery1816Admin('#rolesManagement'), language: scormAdminLanguageData});
-
-            this.rolesView.on('clickAddTeacher', function () {
-                modalLayout.modals.show(new roleModal())
-            }, this);
-            this.rolesView.on('clickAddStudent', function () {
-                modalLayout.modals.show(new roleModal())
-            }, this);
-            this.rolesView.on('modalClose', function () {
-                modalLayout.modals.close()
-            }, this);
-
-            if (!window.RolesDialog) {
-                window.RolesDialog = new LiferayRoleSelectDialog({languageID: '{{language}}'});
-            }
-
-            tincanLrsCommonCredentialsChanged();
+            jQuery(window).trigger('portlet-ready');
             tincanLrsIsExternalChanged();
 
         }
 
         function tincanLrsIsExternalChanged() {
             if (jQuery1816Admin('#tincanLrsIsExternalCheckbox').is(':checked')) {
-                jQuery1816Admin('#tincanLrsExernalPanel').show();
+                jQuery1816Admin('#tincanLrsExternalPanel').show();
+                jQuery1816Admin('#tincanAuthPanel').show();
+                tincanAuthChanged();
             }
             else {
-                jQuery1816Admin('#tincanLrsExernalPanel').hide();
+                jQuery1816Admin('#tincanLrsExternalPanel').hide();
+                jQuery1816Admin('#tincanAuthPanel').hide();
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanelPassword').hide();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanelPassword').hide();
             }
         }
 
-        function tincanLrsCommonCredentialsChanged() {
+        function tincanLrsCommonCredentialsChanged() { // unused
             if (jQuery1816Admin('#tincanLrsCommonCredentialsCheckbox').is(':checked')) {
                 jQuery1816Admin('#tincanLrsCommonCredentialsPanel').show();
                 jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').hide();
@@ -92,11 +72,28 @@
             }
         }
 
+        function tincanAuthChanged() {
+            if (jQuery1816Admin('#tincanBasicAuth').is(':checked')) {
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanel').show();
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanelPassword').show();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanelPassword').hide();
+                jQuery1816Admin('#tincanLrsAuthType').val('BASIC');
+            }
+            else {
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanel').hide();
+                jQuery1816Admin('#tincanLrsBasicCredentialsPanelPassword').hide();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanel').show();
+                jQuery1816Admin('#tincanLrsOAuthCredentialsPanelPassword').show();
+                jQuery1816Admin('#tincanLrsAuthType').val('OAUTH');
+            }
+        }
+
         function saveTincanLrsSettings() {
 
-            if (jQuery('#tincanLrsCommonCredentialsCheckbox').is(':checked')) {
-                var loginNameValue = jQuery('#tincanLrsCommonCredentialsLoginName').val();
-                var passwordValue = jQuery('#tincanLrsCommonCredentialsPassword').val();
+            if (jQuery('#tincanBasicAuth').is(':checked')) {
+                var loginNameValue = jQuery('#tincanLrsBasicCredentialsLoginName').val();
+                var passwordValue = jQuery('#tincanLrsBasicCredentialsPassword').val();
             }
             else {
                 var loginNameValue = jQuery('#tincanLrsOAuthCredentialsLoginName').val();
@@ -108,22 +105,26 @@
                         'isExternalLrs': jQuery('#tincanLrsIsExternalCheckbox').is(':checked'),
                         'endpoint': jQuery('#tincanEndpoint').val(),
                         'authType': jQuery('#tincanLrsAuthType').val(),
-                        'commonCredentials': jQuery('#tincanLrsCommonCredentialsCheckbox').is(':checked'),
+                        'commonCredentials': jQuery('#tincanBasicAuth').is(':checked'),
                         'loginName': loginNameValue,
                         'password': passwordValue,
                         'client_id': loginNameValue,
-                        'client_secret': passwordValue
+                        'client_secret': passwordValue,
+                        'courseId': Utils.getCourseId()
                     },
                     jQuery.proxy(function () {
                     }, this)
             ).done(function () {
                         toastr.success('{{overlayCompleteMessageLabel}}');
+                    }).fail(function () {
+                        toastr.error('{{overlayFailedMessageLabel}}');
                     });
         }
 
         function sendEmailChanged() {
             window.LearnAjax.post(path.root + path.api.administrering,
                     {
+                        'courseId': Utils.getCourseId(),
                         'action': 'UPDATEEMAILSETTINGS',
                         'sendMessages': jQuery('#sendEmail').is(':checked')
                     }).done(function () {
@@ -134,30 +135,13 @@
 
         }
 
-        function renewDatabase() {
-            var confirmView = new DeleteConfirmationView({language: scormAdminLanguageData});
-            confirmView.on('deleteConfirmed', function () {
-                window.LearnAjax.post(path.root + path.api.administrering, {'action': 'RENEWDATABASE'}).done(function () {
-                    toastr.success('{{renewDatabaseCompleteLabel}}');
-                }).fail(function () {
-                            toastr.error('{{overlayFailedMessageLabel}}');
-                        });
-            });
-            toastr.info(confirmView.render().$el, '{{deleteConfirmationTitle}}',
-                    {
-                        "positionClass": "toast-center",
-                        "timeOut": "0",
-                        "showDuration": "0",
-                        "hideDuration": "0",
-                        "extendedTimeOut": "0"
-                    });
-        }
-
         function saveIssuerSettings() {
             if (validateURL(jQuery('#issuerUrl').val())) {
 
                 window.LearnAjax.post(path.root + path.api.administrering,
-                        {   'action': 'UPDATEISSUERSETTINGS',
+                        {
+                            'courseId': Utils.getCourseId(),
+                            'action': 'UPDATEISSUERSETTINGS',
                             'issuerName': jQuery('#issuerName').val(),
                             'issuerUrl': jQuery('#issuerUrl').val(),
                             'issuerOrganization': jQuery('#issuerOrganization').val()
@@ -175,10 +159,20 @@
             }
         }
 
-        function createSiteTemplates() {
-            window.LearnAjax.post(path.root + path.api.administrering + 'demo/templates').done(function () {
-                toastr.success('{{overlayCompleteMessageLabel}}');
-            }).fail(function () {
+        function saveGoogleAPISettings() {
+            window.LearnAjax.post(path.root + path.api.administrering,
+                    {
+                        'courseId': Utils.getCourseId(),
+                        'action': 'UPDATEGOOGLEAPISETTINGS',
+                        'googleApiKey': jQuery('#googleApiKey').val(),
+                        'googleAppId': jQuery('#googleAppId').val(),
+                        'googleClientId': jQuery('#googleClientId').val()
+                    },
+                    jQuery.proxy(function () {
+                    }, this)
+            ).done(function () {
+                        toastr.success('{{overlayCompleteMessageLabel}}');
+                    }).fail(function () {
                         toastr.error('{{overlayFailedMessageLabel}}');
                     });
         }
@@ -199,134 +193,226 @@
 <body>
 <div class="projectLearnGeneric" id="projectLearnGeneric">
 
-    <div id="adminTabs" class="valamis-tabs">
+    <div id="adminTabs" class="val-tabs">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#rolesTabMenu" data-toggle="tab">{{rolesDialogTitleLabel}}</a></li>
-            <li><a href="#badgesTabMenu" data-toggle="tab">{{openBadgesTooltipLabel}}</a></li>
+            <li class="active"><a href="#badgesTabMenu" data-toggle="tab">{{openBadgesTooltipLabel}}</a></li>
             <li><a href="#tincanTabMenu" data-toggle="tab">{{tincanTooltipLabel}}</a></li>
+            <li><a href="#googleAPITabMenu" data-toggle="tab">{{googleAPITooltipLabel}}</a></li>
             <li><a href="#settingsTabMenu" data-toggle="tab">{{optionalTooltipLabel}}</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="rolesTabMenu">
-                <div id="rolesManagement" class="SCORMPackageList"></div>
+            <div class="tab-pane active" id="badgesTabMenu">
+                <div class="filters-row">
+                    <h4 id="issuerSettingsTitle">{{issuerSettingsHeaderLabel}}</h4>
+                </div>
+
+                <div class="div-table val-info-table settings-table">
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="issuerName">{{issuerNameLabel}}</label>
+                        </div>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="issuerName" value="{{issuerName}}"/>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="issuerUrl">{{issuerUrlLabel}}</label>
+                        </div>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="issuerUrl" value="{{{issuerURL}}}" onblur="onUrlChanged()"/>
+                            <label id="issuerUrlError" style="display: none; color: red;">!{{invalidUrl}}</label>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="issuerOrganization">{{issuerOrganizationLabel}}</label>
+                        </div>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="issuerOrganization" value="{{issuerOrganization}}"/>
+                        </div>
+                    </div>
+
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <button onclick="saveIssuerSettings()" class="button big primary">
+                                {{adminDialogSaveButtonLabel}}
+                            </button>
+                        </div>
+                        <div class="div-col content-col">
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="tab-pane" id="badgesTabMenu">
-                <h4 id="issuerSettingsTitle" class="valamis">{{issuerSettingsHeaderLabel}}</h4>
 
-                <div class="issuerSettingLine">
-                    <label class="form-label valamis issuerSettingLabel">{{issuerNameLabel}}</label>
-                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerName"
-                           value="{{issuerName}}"/>
-                </div>
-                <div class="issuerSettingLine">
-                    <label class="form-label valamis issuerSettingLabel">{{issuerUrlLabel}}</label>
-                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerUrl"
-                           value="{{{issuerURL}}}" onblur="onUrlChanged()"/>
-                    <label id="issuerUrlError" class="invalid" style="display: none;">!{{invalidUrl}}</label>
-                </div>
-                <div class="issuerSettingLine">
-                    <label class="form-label valamis issuerSettingLabel">{{issuerOrganizationLabel}}</label>
-                    <input class="text-input valamis issuerSettingValue" type="text" id="issuerOrganization"
-                           value="{{issuerOrganization}}"/>
-                </div>
-
-                <div>
-                    <button onclick="saveIssuerSettings()" class="button valamis big green val-icon-check">
-                        {{adminDialogSaveButtonLabel}}
-                    </button>
-                </div>
-            </div>
-
-
-            <div class="tab-pane" id="tincanTabMenu">
-
+          <div class="tab-pane" id="tincanTabMenu">
+              <div class="filters-row">
                 <h4 class="valamis">{{adminSettingsTincanLrsEndpointSectionLabel}}</h4>
+              </div>
 
-                <form id="tincanLrsSettingsForm" method="post">
-                    <div class="issuerSettingLine">
-                        <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanExternalEndpointLabel}}</label>
-                        <input class="issuerSettingValue" id="tincanLrsIsExternalCheckbox" type="checkbox"
-                               name="isExternalLrs" onchange="tincanLrsIsExternalChanged()"
-                        {{#tincanExternalLrs}}checked{{/tincanExternalLrs}}/>
+              <form id="tincanLrsSettingsForm" method="post">
+                  <div class="div-table val-info-table settings-table">
+                      <div class="div-row">
+                          <div class="div-col name-col">
+                              <label for="tincanLrsIsExternalCheckbox">{{adminSettingsTincanExternalEndpointLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input id="tincanLrsIsExternalCheckbox" type="checkbox" name="isExternalLrs"  class="val-checkbox"
+                                     onchange="tincanLrsIsExternalChanged()" {{#tincanExternalLrs}}checked{{/tincanExternalLrs}}/>
+                              <label class="checkbox-label" for="tincanLrsIsExternalCheckbox"></label>
+                          </div>
+                      </div>
+                      <div class="div-row" id="tincanLrsExternalPanel">
+                          <div class="div-col name-col">
+                              <label for="tincanEndpoint">{{adminSettingsTincanEndpointLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input class="fixed-width" id="tincanEndpoint" type="text"
+                                     name="endpoint" value="{{tincanLrsEndpoint}}"/>
+                          </div>
+                      </div>
+
+                      <div class="div-row" id="tincanAuthPanel">
+                          <div class="div-col name-col">
+                              <label> {{authenticationTypeLabel}} </label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input type="radio" name="authType" class="shift-left" id="tincanBasicAuth" onchange="tincanAuthChanged()"
+                                {{#tincanLrsIsBasicAuth}}checked{{/tincanLrsIsBasicAuth}}>
+                              <label for="tincanBasicAuth">{{basicAuthLabel}}</label>
+
+                              <input type="radio" name="authType" class="shift-left" id="tincanOAuth" onchange="tincanAuthChanged()"
+                                {{#tincanLrsIsOAuth}}checked{{/tincanLrsIsOAuth}}>
+                              <label for="tincanOAuth">{{oauthLabel}}</label>
+
+                              <input type="hidden" name="authType" id="tincanLrsAuthType"/>
+                          </div>
+                      </div>
+
+                      <div class="div-row" id="tincanLrsBasicCredentialsPanel">
+                          <div class="div-col name-col">
+                              <label for="tincanLrsBasicCredentialsLoginName">{{adminSettingsTincanLoginLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input class="fixed-width" id="tincanLrsBasicCredentialsLoginName" type="text"
+                                     name="loginName" value="{{tincanLrsLoginName}}"/>
+                          </div>
+                      </div>
+
+                      <div class="div-row" id="tincanLrsBasicCredentialsPanelPassword">
+                          <div class="div-col name-col">
+                              <label for="tincanLrsBasicCredentialsPassword">{{adminSettingsTincanPasswordLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input class="fixed-width" id="tincanLrsBasicCredentialsPassword" type="text"
+                                     name="password" value="{{tincanLrsPassword}}"/>
+                          </div>
+                      </div>
+
+                      <div class="div-row" id="tincanLrsOAuthCredentialsPanel">
+                          <div class="div-col name-col">
+                              <label for="tincanLrsOAuthCredentialsLoginName">{{clienIdLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input class="fixed-width" id="tincanLrsOAuthCredentialsLoginName" type="text"
+                                     name="client_id" value="{{tincanLrsLoginName}}"/><br/>
+                          </div>
+                      </div>
+
+                      <div class="div-row" id="tincanLrsOAuthCredentialsPanelPassword">
+                          <div class="div-col name-col">
+                              <label for="tincanLrsOAuthCredentialsPassword">{{clientSecretLabel}}</label>
+                          </div>
+                          <div class="div-col content-col">
+                              <input class="fixed-width" id="tincanLrsOAuthCredentialsPassword" type="text"
+                                     name="client_secret" value="{{tincanLrsPassword}}"/>
+                          </div>
+                      </div>
+
+                      <div class="div-row">
+                          <div class="div-col name-col">
+                              <input type="button" id="TincanSaveLrsSettings" class="button big primary"
+                                     onclick="saveTincanLrsSettings()" value="{{adminSettingsTincanSaveButtonLabel}}"/>
+                          </div>
+                          <div class="div-col content-col"></div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+
+            <div class="tab-pane" id="googleAPITabMenu">
+                <div class="filters-row">
+                    <h4 id="googleAPISettingsTitle">{{googleApiSettingsHeaderLabel}}</h4>
+                </div>
+
+                <div class="div-table val-info-table settings-table">
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="clientId">{{googleClientIdLabel}}</label>
+                        </div>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="googleClientId" value="{{{googleClientId}}}"/>
+                            <label id="clientIdNote">{{googleClientIdNote}}</label>
+                        </div>
                     </div>
-                    <br>
 
-                    <div id="tincanLrsExternalPanel" class="issuerSettingLine">
-                        <div class="issuerSettingLine">
-                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanEndpointLabel}}</label>
-                            <input class="text-input valamis issuerSettingValue" id="tincanEndpoint" type="text"
-                                   name="endpoint"
-                                   value="{{tincanLrsEndpoint}}"/><br/>
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="appId">{{googleAppIdLabel}}</label>
                         </div>
-
-                        <div class="issuerSettingLine">
-                            <label class="form-label valamis issuerSettingLabel"
-                                   for="tincanLrsCommonCredentialsCheckbox">{{adminSettingsTincanCommonCredentialsLabel}}</label>
-                            <input class="issuerSettingValue" id="tincanLrsCommonCredentialsCheckbox" type="checkbox"
-                                   name="commonCredentials" onchange="tincanLrsCommonCredentialsChanged()"
-                            {{#commonCredentials}}checked{{/commonCredentials}} /> <br/>
-                            <input type="hidden" name="authType" id="tincanLrsAuthType"/>
-                        </div>
-                        <br>
-
-                        <div class="clear"></div>
-                        <div id="tincanLrsCommonCredentialsPanel" class="issuerSettingLine">
-                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanLoginLabel}}</label>
-                            <input class="text-input valamis issuerSettingValue"
-                                   id="tincanLrsCommonCredentialsLoginName" type="text"
-                                   name="loginName"
-                                   value="{{tincanLrsLoginName}}"/><br/>
-                            <label class="form-label valamis issuerSettingLabel">{{adminSettingsTincanPasswordLabel}}</label>
-                            <input class="text-input valamis issuerSettingValue" id="tincanLrsCommonCredentialsPassword"
-                                   type="text"
-                                   name="password"
-                                   value="{{tincanLrsPassword}}"/><br/>
-                        </div>
-                        <div id="tincanLrsOAuthCredentialsPanel" class="issuerSettingLine">
-                            <label class="form-label valamis issuerSettingLabel">Client ID</label>
-                            <input class="text-input valamis issuerSettingValue" id="tincanLrsOAuthCredentialsLoginName"
-                                   type="text"
-                                   name="client_id"
-                                   value="{{tincanLrsLoginName}}"/><br/>
-                            <label class="form-label valamis issuerSettingLabel">Client Secret</label>
-                            <input class="text-input valamis issuerSettingValue" id="tincanLrsOAuthCredentialsPassword"
-                                   type="text"
-                                   name="client_secret"
-                                   value="{{tincanLrsPassword}}"/><br/>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="googleAppId" value="{{googleAppId}}"/>
+                            <label id="clientIdNote">{{googleAppIdNote}}</label>
                         </div>
                     </div>
 
-                    <div>
-                        <input type="button" id="TincanSaveLrsSettings" class="button valamis big green val-icon-check"
-                               onclick="saveTincanLrsSettings()" value="{{adminSettingsTincanSaveButtonLabel}}"/>
-
-                        <div class="clear"></div>
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <label for="apiKey">{{googleApiKeyLabel}}</label>
+                        </div>
+                        <div class="div-col content-col">
+                            <input class="fixed-width" type="text" id="googleApiKey" value="{{googleApiKey}}"/>
+                            <label id="clientIdNote">{{googleApiKeyNote}}</label>
+                        </div>
                     </div>
-                </form>
 
-            </div>
+                    <div class="div-row">
+                        <div class="div-col name-col">
+                            <button onclick="saveGoogleAPISettings()" class="button big primary">
+                                {{adminDialogSaveButtonLabel}}
+                            </button>
+                        </div>
+                        <div class="div-col content-col">
+                        </div>
+                    </div>
 
-            <div class="tab-pane" id="settingsTabMenu">
-                <div class="SCORMAddNewButton">
-                    <button onclick="renewDatabase()" class="button valamis big red">{{reinitDatabaseLabel}}</button>
-                    <hr>
-                    <button onclick="createSiteTemplates()" class="button valamis big green">
-                        {{adminDialogSiteTemplatesCreateLabel}}
-                    </button>
-                    <hr>
-                    <label class="form-label valamis issuerSettingLabel">{{sendEmailLabel}}</label>
-                    <input class="text-input valamis issuerSettingValue" id="sendEmail"
-                           type="checkbox" onchange="sendEmailChanged()"
-                    {{#sendMessages}}checked{{/sendMessages}}/>
                 </div>
             </div>
 
-            <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-            <input type="hidden" id="courseID" value="{{courseID}}"/>
-            <input type="hidden" id="companyID" value="{{companyID}}">
-        </div>
-    </div>
+          <div class="tab-pane" id="settingsTabMenu">
+              <div class="div-table val-info-table settings-table">
+                  <div class="div-row">
+                      <div class="div-col name-col">
+                          <label for="sendEmail">{{sendEmailLabel}}</label>
+                      </div>
+                      <div class="div-col content-col">
+                          <input id="sendEmail" type="checkbox" value="None" class="val-checkbox"
+                                 onchange="sendEmailChanged()" {{#sendMessages}}checked{{/sendMessages}}/>
+                          <label class="checkbox-label" for="sendEmail"></label>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+
+          <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+          <input type="hidden" id="companyID" value="{{companyID}}">
+      </div>
+  </div>
 </div>
 
 </body>

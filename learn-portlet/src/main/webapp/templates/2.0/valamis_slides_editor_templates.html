@@ -1,0 +1,953 @@
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<script type="text/html" id="sideBarLayoutTemplate">
+    <div class="toolbar"></div>
+</script>
+<script type="text/html" id="itemToolbarView">
+    <button class="button slides-big slides-dark slides-big-dark">
+        <span class="val-icon-<% if(slideEntityType === 'math'){ %>plus<%}else{%><%=title.toLowerCase()%><%} %>"></span>
+        <span class=""><%= title %></span>
+    </button>
+</script>
+<script type="text/html" id="textElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content shift-left">
+        <%= content %>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-select-liferay-article">
+                <span class="val-icon-book"></span>
+                <span class="val-badge">Select Liferay article</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip correct js-item-link">
+                <span class="val-icon-link"></span>
+                <span class="val-badge">Link to another slide</span>
+                <div class="linked-slide-thumbnail"></div>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-duplicate">
+                <span class="val-icon-duplicate"></span>
+                <span class="val-badge">Duplicate</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="mathElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content shift-left math-item">
+        <div class="math-content"></div>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="math-edit-panel slide-popup-panel">
+            <div class="arrow-down"></div>
+            <button class="button medium simple no-text no-margin shift-right close-slide-popup-panel js-close-slide-popup-panel">
+                <span class="val-icon-exit"></span>Exit
+            </button>
+            <div class="val-row">
+                <label for="math-expr">
+                    Math expression in TeX format
+                </label>
+                <textarea name="math-expr" class="math-expr"><%= content %></textarea>
+            </div>
+            <div class="val-row">
+                <button class="button medium primary shift-right js-update-math-expr">
+                    OK
+                </button>
+                <button class="button medium neutral shift-right js-close-slide-popup-panel">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-edit-math-expression">
+                <span class="val-icon-plus"></span>
+                <span class="val-badge">Edit math expression</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip correct js-item-link">
+                <span class="val-icon-link"></span>
+                <span class="val-badge">Link to another slide</span>
+                <div class="linked-slide-thumbnail"></div>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-duplicate">
+                <span class="val-icon-duplicate"></span>
+                <span class="val-badge">Duplicate</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="imageElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content shift-left img-item">
+        <div class="content-icon-image">
+            <span class="val-icon-image"></span>
+        </div>
+        <iframe class="no-pointer-events" width="100%" height="100%" style="display: none"></iframe>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-image-upload">
+                <span class="val-icon-upload"></span>
+                <span class="val-badge">Upload image</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-select-mediagallery-image">
+                <span class="val-icon-image"></span>
+                <span class="val-badge">Select from media gallery</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-select-google-image">
+                <span class="val-icon-globe"></span>
+                <span class="val-badge">Select from Drive/Search</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip correct item-link-button js-item-link">
+                <span class="val-icon-link"></span>
+                <span class="val-badge">Link to another slide</span>
+                <div class="linked-slide-thumbnail"></div>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-duplicate">
+                <span class="val-icon-duplicate"></span>
+                <span class="val-badge">Duplicate</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="iframeElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content shift-left iframe-item">
+        <div class="content-icon-iframe">
+            <span class="val-icon-iframe"></span>
+        </div>
+        <div class="content-icon-pdf">
+            <span class="val-icon-pdf"></span>
+        </div>
+        <iframe class="iframe-item no-pointer-events" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock" src="<%= content %>"></iframe>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="iframe-edit-panel slide-popup-panel">
+            <div class="arrow-right"></div>
+            <button class="button medium simple no-text no-margin shift-right close-slide-popup-panel js-close-slide-popup-panel">
+                <span class="val-icon-exit"></span>Exit
+            </button>
+            <div class="val-row">
+                <label for="iframe-url">
+                    Iframe source
+                </label>
+                <textarea name="iframe-url" class="iframe-url"><%= content %></textarea>
+            </div>
+            <div class="val-row">
+                <button class="button medium primary shift-right js-update-iframe-url">
+                    OK
+                </button>
+                <button class="button medium neutral shift-right js-close-slide-popup-panel">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-edit-iframe-url">
+                <span class="val-icon-edit"></span>
+                <span class="val-badge">Edit IFrame URL</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-upload-pdf">
+                <span class="val-icon-upload"></span>
+                <span class="val-badge">Upload PDF</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-duplicate">
+                <span class="val-icon-duplicate"></span>
+                <span class="val-badge">Duplicate</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="videoElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content video-item shift-left">
+        <div class="content-icon-video">
+            <span class="val-icon-video"></span>
+        </div>
+        <iframe class="no-pointer-events" width="100%" height="100%" style="display: none"></iframe>
+        <video class="video-js vjs-default-skin no-pointer-events" width="100%" height="100%">
+            <source src=""/>
+        </video>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-select-mediagallery-video">
+                <span class="val-icon-video"></span>
+                <span class="val-badge">Select from media gallery</span>
+            </button>
+        </div>
+        <% if(googleClientApiAvailable == true) {
+        %><div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-select-google-video">
+                <span class="val-icon-globe"></span>
+                <span class="val-badge">Select from Drive/Youtube/Search</span>
+            </button>
+        </div><% } %>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-duplicate">
+                <span class="val-icon-duplicate"></span>
+                <span class="val-badge">Duplicate</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="questionElementTemplate">
+    <div class="item-border no-pointer-events"></div>
+    <div class="ui-resizable-handle ui-resizable-n"></div>
+    <div class="ui-resizable-handle ui-resizable-e"></div>
+    <div class="ui-resizable-handle ui-resizable-s"></div>
+    <div class="ui-resizable-handle ui-resizable-w"></div>
+    <div class="ui-resizable-handle ui-resizable-ne"></div>
+    <div class="ui-resizable-handle ui-resizable-se"></div>
+    <div class="ui-resizable-handle ui-resizable-sw"></div>
+    <div class="ui-resizable-handle ui-resizable-nw"></div>
+    <div class="item-content shift-left question-item">
+        <div class="content-icon-question">
+            <span class="val-icon-question"></span>
+        </div>
+    </div>
+    <div class="item-controls shift-right">
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-select-question">
+                <span class="val-icon-edit"></span>
+                <span class="val-badge">Select question</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip correct item-link-button js-item-link">
+                <span class="val-icon-checkbutton"></span>
+                <span class="val-badge">Link to correct answer</span>
+                <div class="linked-slide-thumbnail"></div>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip incorrect item-link-button js-item-link-incorrect">
+                <span class="val-icon-exit"></span>
+                <span class="val-badge">Link to incorrect answer</span>
+                <div class="linked-slide-thumbnail"></div>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-notify-correct <% if(notifyCorrectAnswer) { %>active-button<% } %>">
+                <span class="val-icon-bell"></span>
+                <span class="val-badge">Notify about correct answer</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button medium slides-dark-opacity medium slides-with-margin button-tooltip js-item-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="revealControlsTemplate">
+    <button class="button big slides-round slides-dark-opacity button-tooltip js-add-page-right right">
+        <span class="val-icon-plus"></span>
+        <span class="val-badge left">Add page</span>
+    </button>
+    <button class="button big slides-round slides-dark-opacity button-tooltip js-add-page-down down">
+        <span class="val-icon-plus"></span>
+        <span class="val-badge">Add page</span>
+    </button>
+    <div id="slide-controls">
+        <div class="val-row">
+            <button class="button slides-dark-opacity medium slides-with-margin button-tooltip js-edit-slide-title">
+                <span class="val-icon-edit"></span>
+                <span class="val-badge">Page title</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button slides-dark-opacity medium slides-with-margin button-tooltip js-edit-slide-statement">
+                <span class="val-icon-content"></span>
+                <span class="val-badge">Page statement</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button slides-dark-opacity medium slides-with-margin button-tooltip js-change-slide-background">
+                <span class="val-icon-drop"></span>
+                <span class="val-badge">Background color</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button slides-dark-opacity medium slides-with-margin button-tooltip js-change-slide-background-image">
+                <span class="val-icon-image-bg"></span>
+                <span class="val-badge">Background image</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button slide-delete slides-dark-opacity medium slides-with-margin button-tooltip js-slide-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete page</span>
+            </button>
+        </div>
+
+        <div class="slide-title-edit-panel slide-popup-panel">
+            <div class="arrow-right"></div>
+            <button class="button medium simple no-text no-margin shift-right close-slide-popup-panel js-close-slide-popup-panel">
+                <span class="val-icon-exit"></span>
+            </button>
+            <div class="val-row">
+                <div class="s-12 m-12 l-12">
+                    <div class="val-row">
+                        <label for="js-slide-title">Page title</label>
+                        <input type="text" id="js-slide-title" placeholder="">
+                    </div>
+                    <div class="val-row">
+                        <button class="button medium primary shift-right js-confirm-slide-title">
+                            OK
+                        </button>
+                        <button class="button medium neutral shift-right js-cancel-slide-title">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-statement-edit-panel slide-popup-panel">
+            <div class="arrow-right"></div>
+            <button class="button medium simple no-text no-margin shift-right close-slide-popup-panel js-close-slide-popup-panel">
+                <span class="val-icon-exit"></span>Exit
+            </button>
+            <div class="val-row">
+                <div class="s-12 m-12 l-12">
+                    <div class="val-row">
+                        <label for="page-statement-verb-selector">Verb</label>
+                        <select name="" id="page-statement-verb-selector"></select>
+                    </div>
+                    <div class="val-row">
+                        <label for="js-slide-statement-object">Object</label>
+                        <input type="text" id="js-slide-statement-object" placeholder="">
+                    </div>
+                    <div class="val-row">
+                        <label for="page-statement-category-selector">Topic</label>
+                        <select name="" id="page-statement-category-selector"></select>
+                    </div>
+                    <div class="val-row">
+                        <button class="button medium primary shift-right js-confirm-slide-statement">
+                            OK
+                        </button>
+                        <button class="button medium neutral shift-right js-cancel-slide-statement">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="image-upload-panel slide-popup-panel">
+            <div class="arrow-right"></div>
+            <button class="button medium simple no-text no-margin shift-right close-slide-popup-panel js-close-slide-popup-panel">
+                <span class="val-icon-exit"></span>Exit
+            </button>
+            <div class="val-row">
+                <div class="s-12 m-12 l-12">
+                    <div class="val-row">
+                            Slide background image
+                        <div id="slide-background-image-thumbnail"></div>
+                        <div class="background-image-uploader"></div>
+                    </div>
+                    <div class="val-row">
+                        <label for="background-image-selector">Image size</label>
+                        <div class="val-select">
+                            <select name="" id="background-image-selector">
+                                <option value="cover">Stretch</option>
+                                <option value="contain">Fit</option>
+                                <option value="initial">Original</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="val-row">
+                        <button class="button medium primary shift-left js-select-mediagallery-image">
+                            <span class="val-icon-image"></span> Media gallery
+                        </button>
+                        <button class="button medium danger shift-right js-remove-background-image">
+                            <span class="val-icon-trash"></span> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="revealTemplate">
+    <div class="slides">
+        <section>
+            <section></section>
+        </section>
+        <div class="slides-grid">
+            <canvas id="grid-canvas" width="960" height="700"></canvas>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="arrangeTemplate">
+    <tr></tr>
+</script>
+<script type="text/html" id="arrangeListTemplate">
+</script>
+<script type="text/html" id="arrangeTileTemplate">
+    <div class="arrange-tile-controls js-arrange-tile-controls shift-right">
+        <div class="val-row hidden">
+            <button class="button arrange-tile-preview medium slides-dark-opacity medium slides-with-margin button-tooltip js-arrange-tile-select">
+                <span class="val-icon-checkbox"></span>
+                <span class="val-badge">Check</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button arrange-tile-preview medium slides-dark-opacity medium slides-with-margin button-tooltip js-arrange-tile-preview">
+                <span class="val-icon-preview"></span>
+                <span class="val-badge">Preview</span>
+            </button>
+        </div>
+        <div class="val-row">
+            <button class="button arrange-tile-delete medium slides-dark-opacity medium slides-with-margin button-tooltip js-arrange-tile-delete">
+                <span class="val-icon-trash"></span>
+                <span class="val-badge">Delete</span>
+            </button>
+        </div>
+    </div>
+    <div class="arrange-tile-cover"></div>
+</script>
+<script type="text/html" id="slideThumbnailTemplate">
+    <div></div>
+</script>
+<script type="text/template" id="slides-editor-fileupload-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{fileUploadModalHeader}}</h3>
+
+        <div class="modal-close"></div>
+    </div>
+    <div class="bbm-modal__section image-uploader-dialog"></div>
+</script>
+<script type="text/template" id="slides-editor-modals-template">
+    <div class="slides-editor-modals-container"></div>
+</script>
+<script type="text/template" id="image-upload-modal-template">
+    <div class="bbm-modal__topbar" >
+        <h3 class="bbm-modal__title">{{imageUploadModalHeader}}</h3>
+
+        <div class="modal-close val-icon-exit close-button"></div>
+    </div>
+    <div class="bbm-modal__section image-modal-content clearfix" style="position: relative;">
+
+    </div>
+    <div class="bbm-modal__bottombar buttons-row">
+    </div>
+</script>
+<script type="text/template" id="question-select-modal-template">
+    <div class="bbm-modal__topbar" >
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit close-button"></div>
+    </div>
+    <div class="bbm-modal__section js-modal-content clearfix" style="position: relative;">
+
+    </div>
+    <div class="bbm-modal__bottombar buttons-row">
+    </div>
+</script>
+<script type="text/template" id="iframeErrorTemplate">
+    <div>{{errorIframeLabel}}</div>
+    <div>
+        <button class="btn" style="margin: 0 8px 0 8px">{{cancelLabel}}</button>
+    </div>
+</script>
+<script type="text/template" id="valamisEmptyModalTemplate">
+    <div class="bbm-modal__topbar" >
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit"></div>
+    </div>
+    <div class="bbm-modal__section js-modal-content">
+
+    </div>
+</script>
+<script type="text/template" id="CategorizationQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            <div class="playerCategorizeAnswers">
+
+                <table>
+                    <tr>
+                        {{#categories}}
+                        <td class="categorizationAnswerBoxs{{id}}" style="padding-bottom: 40px;">
+                            <div class="categorizationAnswerBox">
+                                {{{categoryText}}}
+                                <ul class="answerContainer container{{id}} ui-droppable"></ul>
+                            </div>
+
+                        </td>
+                        {{/categories}}
+                    </tr>
+
+                    {{#randomAnswers}}
+                    <tr>
+                        {{#.}}
+                        <td>
+                            <ul id="sortable" class="categorizationAnswerElements">
+                                <li class="ui-state-default acceptable categorization{{answerId}}">
+                                    <span class="val-icon-drag"></span>
+                                    <span>{{#.}} {{{matchingText}}} {{/.}}</span>
+                                </li>
+                            </ul>
+                        </td>
+                        {{/.}}
+                    </tr>
+                    {{/randomAnswers}}
+
+                </table>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['categorizationShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <div style="display: none" class="verticalSeparator">
+                <strong>Your answers:</strong>
+
+                <div id="usersAnswers{{id}}"></div>
+            </div>
+            <div style="display: inline-block;">
+                <strong>Correct answers:</strong>
+
+                <div id="correctAnswers{{id}}"></div>
+            </div>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+
+    <!-- template -->
+    <div id="tableTemplate" style="display: none;">
+        <table class="categorizationAnswerBoxs">
+            <tr>
+                <th class="tableTitle"></th>
+            </tr>
+            <tr>
+                <td>
+                    <ul class="answerContainer"></ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>
+<script type="text/template" id="ChoiceQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea playerMainArea{{id}}">
+            {{#answers}}
+            {{#multipleChoice}}
+            <span class="choiceAnswer">
+                    <div>
+                        <input type="checkbox" id="scormAnswer{{answerId}}" class="checkbox" style="display: none;" data-score="{{score}}"/>
+                        <label class="choiceTextContainer" id="scormAnswerText{{answerId}}" for="scormAnswer{{answerId}}">
+                            <span>{{{answerText}}}</span>
+                        </label>
+                    </div>
+            </span>
+            {{/multipleChoice}}
+            {{^multipleChoice}}
+            <span class="choiceAnswer">
+                    <div>
+                        <input type="radio" id="scormAnswer{{answerId}}" name="scormGroup1" class="radio" style="display: none;" data-score="{{score}}"/>
+                        <label class="choiceTextContainer" id="scormAnswerText{{answerId}}" for="scormAnswer{{answerId}}">
+                            <span>{{{answerText}}}</span>
+                        </label>
+                    </div>
+            </span>
+            {{/multipleChoice}}
+            {{/answers}}
+        </div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['choiceShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <div style="display: none" class="verticalSeparator">
+                <h3>Your answers:</h3>
+                <div id="usersAnswers{{id}}">
+                    {{#answers}}
+                    {{#multipleChoice}}
+                    <div style="float: left;">
+                        <input type="checkbox" class="scormAnswer{{answerId}} checkbox" style="margin-right: 15px;" disabled/>
+                    </div>
+                    <div class="choiceTextContainer">
+                        <label>{{{answerText}}}</label>
+                    </div>
+
+                    {{/multipleChoice}}
+                    {{^multipleChoice}}
+                    <div style="float: left;">
+                        <input type="radio" class="scormAnswer{{answerId}} radio" name="scormGroup2" style="margin-right: 15px;" disabled/>
+                    </div>
+                    <div class="choiceTextContainer">
+                        <label>{{{answerText}}}</label>
+                    </div>
+
+                    {{/multipleChoice}}
+                    {{/answers}}
+                </div>
+            </div>
+            <div>
+                <h3>Correct answers:</h3>
+
+                <div id="correctAnswers{{id}}">
+                    {{#answers}}
+                    {{#multipleChoice}}
+                    <div style="float: left;">
+                        <input type="checkbox" class="scormAnswer{{answerId}} checkbox" style="margin-right: 15px;" disabled/>
+                    </div>
+                    <div class="choiceTextContainer">
+                        <label>{{{answerText}}}</label>
+                    </div>
+                    {{/multipleChoice}}
+                    {{^multipleChoice}}
+                    <div style="float: left;">
+                        <input type="radio" class="scormAnswer{{answerId}} radio" name="scormGroup3" style="margin-right: 15px;" disabled/>
+                    </div>
+                    <div class="choiceTextContainer">
+                        <label>{{{answerText}}}</label>
+                    </div>
+
+                    {{/multipleChoice}}
+                    {{/answers}}
+                </div>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>
+<script type="text/template" id="EssayQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            <textarea class="playerLongAnswerField" id="scormAnswer{{id}}" rows="15" cols="60" placeholder="{{typeYourAnswerLabel}}"></textarea>
+        </div>
+    </div>
+</script>
+<script type="text/template" id="MatchingQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+
+            <div class="playerMatchingAnswers" id="scormQuestionData{{id}}">
+                <div class =maschingQuestionBlock>
+                    <div class="matchingAnswerBox matchingAnswerBoxs{{id}}">
+                        <div class="matchingQuestionVariant">
+                            <!--{{{answerText}}}-->
+                        </div>
+                        <ul class="answerContainer container{{id}} ui-droppable" id="containerTemp">
+                            {{#answers}}
+                            {{#matchingText}}
+                            <li class="ui-state-default acceptable categorization{{id}} matchingQuestion val-icon-drag">{{{matchingText}}}</li>
+                            {{/matchingText}}
+                            {{/answers}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class =maschingAnswerBlock>
+
+
+                    {{#answers}}
+                    {{#answerText}}
+
+
+                    <ul class="matchingAnswerBox matchingAnswerBoxs{{id}}">
+                        <li>
+                            <div class="matchingQuestionVariant">
+                                {{{answerText}}}
+                            </div>
+                            <ul class="answerContainer container{{id}} ui-droppable"></ul>
+
+                        </li>
+                    </ul>
+
+                    {{/answerText}}
+                    {{/answers}}
+
+                </div>
+            </div>
+        </div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['matchingShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <div style="display: none;" class="verticalSeparator">
+                <div><strong>Your answers:</strong></div>
+
+                <div id="usersAnswers{{id}}"></div>
+            </div>
+            <div style="display: inline-block;">
+                <div><strong>Correct answers:</strong></div>
+
+                <div id="correctAnswers{{id}}"></div>
+            </div>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>
+<script type="text/template" id="NumericQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            <input class="playerShortAnswerField" id="scormNumericAnswer{{id}}" type="text" value="" placeholder="{{typeYourAnswerLabel}}"/>
+        </div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['numericShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <p>Your answers: <span id="usersAnswers{{id}}"></span></p>
+
+            <div>
+                <p>Correct:</p>
+
+                <div id="correctAnswers{{id}}"></div>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>
+<script type="text/template" id="PlainTextQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{title}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            {{{text}}}
+        </div>
+    </div>
+</script>
+<script type="text/template" id="PositioningQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            <div class="playerPlacingAnswers">
+                {{#answers}}
+                <ul id="sortable{{id}}">
+                    {{#answerText}}
+                    <li class="ui-state-default" id="{{id}}">
+                        <div class="val-icon-sort"></div>
+                        <div><!--{{{.}}}-->{{{answerText}}}</div></li>
+                    {{/answerText}}
+                </ul>
+                {{/answers}}
+            </div>
+        </div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['positioningShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <div style="display: none;" class="verticalSeparator playerPlacingAnswers">
+                <div><strong>Your answers:</strong></div>
+
+                <ul id="usersAnswers{{id}}"></ul>
+            </div>
+            <div style="display: inline-block;" class="playerPlacingAnswers">
+                <div><strong>Correct answers:</strong></div>
+
+                <ul id="correctAnswers{{id}}"></ul>
+            </div>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>
+<script type="text/template" id="PurePlainTextQuestionTemplate">
+    {{{data}}}
+</script>
+<script type="text/template" id="ShortAnswerQuestionTemplate">
+    <div class="SCORMPlayerContentDisplay content{{id}}">
+        <div class="playerHeader">
+            <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+        </div>
+        <div class="playerMainArea">
+            <input class="playerShortAnswerField" id="scormShortAnswer{{id}}" type="text" value="" placeholder="{{typeYourAnswerLabel}}"/>
+        </div>
+        <!--{{#autoShowAnswer}} -->
+        <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['shortShowAnswers_{{id}}']()">Check</button>
+        <!--{{/autoShowAnswer}} -->
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <div class="answers answers{{id}}" style="display: none;">
+        <h2>Your answer is <span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+        <div id="answerComparison{{id}}" style="display: none;">
+            <strong>Your answer is <span id="usersAnswers{{id}}"></span></strong>
+            <div>
+                <!-- {{#isCaseSensitive}} -->
+                <p>But correct answers (case sensitive):</p>
+                <!-- {{/isCaseSensitive}} -->
+                <!-- {{^isCaseSensitive}} -->
+                <p>But correct answers:</p>
+                <!-- {{/isCaseSensitive}} -->
+                <div id="correctAnswers{{id}}"></div>
+            </div>
+            <br class="clear"/>
+            <br>
+        </div>
+        {{#hasExplanation}}
+        <h4>Explanation:</h4>
+
+        <div id="explanation">{{{explanation}}}</div>
+        {{/hasExplanation}}
+    </div>
+    <!--{{/autoShowAnswer}} -->
+</script>

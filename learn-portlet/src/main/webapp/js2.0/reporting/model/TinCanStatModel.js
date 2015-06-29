@@ -1,6 +1,14 @@
 var TinCanOverallByTimeModelService = new Backbone.Service({ url: '/',
     sync: {
-        'read': path.api.report + "?action=OVERALL_BY_TIME"
+        'read': {
+            path: path.api.report,
+            'data': function () {
+                return {
+                    action: 'OVERALL_BY_TIME'
+                }
+            },
+            'method': 'get'
+        }
     }
 });
 
@@ -12,7 +20,7 @@ var TinCanOverallByTimeModel = Backbone.Model.extend({
     defaults: {
         startedData: [],
         completedData: [],
-        passedData: [],
+        experiencedData: [],
         averageScore: 0
     }
 }).extend(TinCanOverallByTimeModelService);

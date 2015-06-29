@@ -9,14 +9,14 @@ CourseReportView = Backbone.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        this.$el = jQuery('.reportBody');
-        var templateFilter = Mustache.to_html(jQuery("#reportFilter").html(), _.extend(this.model.toJSON(), language));
+        this.$el = jQueryValamis('.reportBody');
+        var templateFilter = Mustache.to_html(jQueryValamis("#reportFilter").html(), _.extend(this.model.toJSON(), language));
         this.$('.sidebar-wrapper').append(templateFilter);
         this.onScopeChange();
     },
 
     loadView: function () {
-        var template = Mustache.to_html(jQuery("#loadingViewTemplate").html(), language);
+        var template = Mustache.to_html(jQueryValamis("#loadingViewTemplate").html(), language);
         this.$('.report-content').html(template);
     },
 
@@ -27,7 +27,7 @@ CourseReportView = Backbone.View.extend({
         result.studentsCompletedPercentage = this.model.get('studentsCount')?(this.model.get('studentsCompletedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
         result.studentsFailedPercentage = this.model.get('studentsCount')?(this.model.get('studentsFailedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
         result.studentsPassedPercentage = this.model.get('studentsCount')?(this.model.get('studentsPassedCount') * 100 / this.model.get('studentsCount')).toFixed(0):0;
-        var template = Mustache.to_html(jQuery("#courseViewTemplate").html(), _.extend(this.model.toJSON(), language, result));
+        var template = Mustache.to_html(jQueryValamis("#courseViewTemplate").html(), _.extend(this.model.toJSON(), language, result));
 
         this.$('.report-content').html(template);
 
@@ -38,7 +38,7 @@ CourseReportView = Backbone.View.extend({
         //model.set('scope', this.$('.select-scope').val())
         this.loadView();
         this.model.load({}, {
-            success: jQuery1816Report.proxy(function (res) {
+            success: jQueryValamis.proxy(function (res) {
                 this.model = new CourseReportModel(res);
                 this.render();
             }, this),

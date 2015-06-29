@@ -48,7 +48,7 @@ public class LFConfigModelImpl extends BaseModelImpl<LFConfig>
             { "dataKey", Types.VARCHAR },
             { "dataValue", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFConfig (id_ LONG not null primary key,dataKey VARCHAR(75) null,dataValue VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFConfig (id_ LONG not null primary key,dataKey VARCHAR(512) null,dataValue VARCHAR(512) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFConfig";
     public static final String ORDER_BY_JPQL = " ORDER BY lfConfig.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFConfig.id_ ASC";

@@ -1,9 +1,9 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionLocalServiceUtil, LFQuizQuestionCategoryLocalServiceUtil }
-import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory
-import com.arcusys.learn.quiz.model.QuizQuestionCategory
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestCatLocalServiceUtil, LFQuizQuestionLocalServiceUtil }
+import com.arcusys.learn.persistence.liferay.model.LFQuizQuestCat
+import com.arcusys.valamis.quiz.model.QuizQuestionCategory
 import scala.collection.JavaConverters._
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
 import com.arcusys.learn.liferay.constants.QueryUtilHelper._
@@ -14,7 +14,7 @@ import com.arcusys.learn.liferay.constants.QueryUtilHelper._
  */
 trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionCategory] {
   protected def doRenew() {
-    LFQuizQuestionCategoryLocalServiceUtil.removeAll()
+    LFQuizQuestCatLocalServiceUtil.removeAll()
   }
 
   def getOne(parameters: (String, Any)*) = throw new UnsupportedOperationException
@@ -23,12 +23,12 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
     parameters match {
       case Seq(("quizID", quizId: Int), ("parentID", parentId: Int)) =>
         val parentIdForSearch = if (parentId == -1) nullInteger else new Integer(parentId)
-        LFQuizQuestionCategoryLocalServiceUtil.findByQuizIdAndParentId(quizId, parentIdForSearch).asScala.map {
+        LFQuizQuestCatLocalServiceUtil.findByQuizIdAndParentId(quizId, parentIdForSearch).asScala.map {
           extract
         }.sortBy(_.arrangementIndex)
       case Seq(("parentID", parentId: Int)) =>
         throw new UnsupportedOperationException("Quiz ID should be declared!")
-      case _ => LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategories(ALL_POS, ALL_POS).asScala.map(extract).sortBy(_.arrangementIndex)
+      case _ => LFQuizQuestCatLocalServiceUtil.getLFQuizQuestCats(ALL_POS, ALL_POS).asScala.map(extract).sortBy(_.arrangementIndex)
     }
   }
 
@@ -50,15 +50,15 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
 
   def delete(parameters: (String, Any)*) {
     idParam(parameters: _*).foreach(id => {
-      val category = LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategory(id)
+      val category = LFQuizQuestCatLocalServiceUtil.getLFQuizQuestCat(id)
       if (category != null) {
         val quizID = category.getQuizId
         val questions = LFQuizQuestionLocalServiceUtil.findByQuizAndCategory(quizID, category.getId.toInt).asScala
         questions.foreach(q => LFQuizQuestionLocalServiceUtil.deleteLFQuizQuestion(q.getId))
-        val children = LFQuizQuestionCategoryLocalServiceUtil.findByQuizIdAndParentId(quizID, id).asScala
+        val children = LFQuizQuestCatLocalServiceUtil.findByQuizIdAndParentId(quizID, id).asScala
         children.foreach(c => delete("id" -> c.getId.toInt))
       }
-      LFQuizQuestionCategoryLocalServiceUtil.deleteLFQuizQuestionCategory(id)
+      LFQuizQuestCatLocalServiceUtil.deleteLFQuizQuestCat(id)
     })
   }
 
@@ -66,23 +66,23 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
     idParam(parameters: _*).flatMap {
       getLFEntityById
     }.foreach {
-      lfEntity => doUpdateEntity(null, lfEntity, LFQuizQuestionCategoryLocalServiceUtil.updateLFQuizQuestionCategory, parameters: _*)
+      lfEntity => doUpdateEntity(null, lfEntity, LFQuizQuestCatLocalServiceUtil.updateLFQuizQuestCat, parameters: _*)
     }
   }
 
-  private def getLFEntityById(id: Int) = Option(LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategory(id))
+  private def getLFEntityById(id: Int) = Option(LFQuizQuestCatLocalServiceUtil.getLFQuizQuestCat(id))
 
   def createAndGetID(entity: QuizQuestionCategory, parameters: (String, Any)*) = {
     doCreate(entity, parameters: _*).getId.toInt
   }
 
   private def doCreate(entity: QuizQuestionCategory, parameters: (String, Any)*) = {
-    doUpdateEntity(entity, LFQuizQuestionCategoryLocalServiceUtil.createLFQuizQuestionCategory(), LFQuizQuestionCategoryLocalServiceUtil.addLFQuizQuestionCategory, parameters: _*)
+    doUpdateEntity(entity, LFQuizQuestCatLocalServiceUtil.createLFQuizQuestionCategory(), LFQuizQuestCatLocalServiceUtil.addLFQuizQuestCat, parameters: _*)
   }
 
-  private def doUpdateEntity(entity: QuizQuestionCategory, lfEntity: LFQuizQuestionCategory,
-    update: (LFQuizQuestionCategory) => LFQuizQuestionCategory,
-    parameters: (String, Any)*): LFQuizQuestionCategory = {
+  private def doUpdateEntity(entity: QuizQuestionCategory, lfEntity: LFQuizQuestCat,
+    update: (LFQuizQuestCat) => LFQuizQuestCat,
+    parameters: (String, Any)*): LFQuizQuestCat = {
     (entity, parameters) match {
       case (entity: QuizQuestionCategory, params: Seq[(String, Any)]) =>
         //title: String, description: String, quizID: Int, parentID: Option[Int]
@@ -126,17 +126,17 @@ trait LFQuizQuestionCategoryStorageImpl extends KeyedEntityStorage[QuizQuestionC
   def modify(entity: QuizQuestionCategory, parameters: (String, Any)*) {
     parameters match {
       case Seq(("parentID", parentID: Option[Int])) =>
-        val lfEntity = LFQuizQuestionCategoryLocalServiceUtil.getLFQuizQuestionCategory(entity.id)
+        val lfEntity = LFQuizQuestCatLocalServiceUtil.getLFQuizQuestCat(entity.id)
         if (parentID.isDefined)
           lfEntity.setParentId(parentID.get)
         else
           lfEntity.setParentId(null)
-        LFQuizQuestionCategoryLocalServiceUtil.updateLFQuizQuestionCategory(lfEntity)
+        LFQuizQuestCatLocalServiceUtil.updateLFQuizQuestCat(lfEntity)
       case _ => None
     }
   }
 
-  def extract(lfentity: LFQuizQuestionCategory) = QuizQuestionCategory(
+  def extract(lfentity: LFQuizQuestCat) = QuizQuestionCategory(
     lfentity.getId.toInt,
     lfentity.getTitle,
     lfentity.getDescription,

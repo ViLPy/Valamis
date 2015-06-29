@@ -2,20 +2,38 @@ LRS2ActivityMapperApp.module("Entities", function(Entities, LRS2ActivityMapperAp
   Entities.EntityModelService = new Backbone.Service({ url: path.root,
     sync: {
       'create': {
-        'path': function () {
-          return path.api.lrs2activity + '?action=add&courseID=' + Utils.getCourseID();
+        path: path.api.lrs2activity,
+        'data': function (model) {
+          parameters = {
+            action: 'add',
+            courseId: Utils.getCourseId()
+          }
+          _.extend(parameters, model.toJSON())
+          return parameters
         },
         'method': 'post'
       },
       'update': {
-        'path': function (model) {
-          return path.api.lrs2activity + '?action=update';
+        path: path.api.lrs2activity,
+        'data': function (model) {
+          parameters = {
+              action: 'update',
+              courseId: Utils.getCourseId()
+          }
+          _.extend(parameters, model.toJSON())
+          return parameters
         },
         'method': 'post'
       },
       'delete': {
-        'path': function (model) {
-          return path.api.lrs2activity + '?action=delete';
+        path: path.api.lrs2activity,
+        'data': function (model) {
+          parameters= {
+              action: 'delete',
+              courseId:  Utils.getCourseId()
+          }
+          _.extend(parameters, model.toJSON())
+          return parameters
         },
         'method': 'post'
       }
@@ -25,8 +43,11 @@ LRS2ActivityMapperApp.module("Entities", function(Entities, LRS2ActivityMapperAp
   Entities.EntityCollectionService = new Backbone.Service({ url: path.root,
     sync: {
       'read': {
-        'path': function () {
-          return path.api.lrs2activity + Utils.getCourseID();
+        path: path.api.lrs2activity,
+        'data': function (model) {
+          return {
+            courseId: Utils.getCourseId()
+          }
         },
         'method': 'get'
       }
@@ -36,7 +57,7 @@ LRS2ActivityMapperApp.module("Entities", function(Entities, LRS2ActivityMapperAp
   Entities.ActivityMapperModel = Backbone.Model.extend({
     defaults: {
       title: 'new rule',
-      courseID: 0,
+      courseId: 0,
       mappedActivity: null,
       mappedVerb: null
     }

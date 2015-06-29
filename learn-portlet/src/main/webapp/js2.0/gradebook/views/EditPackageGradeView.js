@@ -9,12 +9,12 @@ EditPackageGradeView = Backbone.View.extend({
 
     initialize: function (options) {
         this.options = options;
-        this.$el = jQuery('<div>');
+        this.$el = jQueryValamis('<div>');
         this.$el.attr("id", this.model.id);
     },
 
     render: function () {
-        var template = Mustache.to_html(jQuery("#editPackageGradeTemplate").html(), _.extend(this.model.toJSON(), language, {contextPath: Utils.getContextPath()}));
+        var template = Mustache.to_html(jQueryValamis("#editPackageGradeTemplate").html(), _.extend(this.model.toJSON(), language, {contextPath: Utils.getContextPath()}));
         this.$el.html(template);
         var gradeSelect = this.$('#totalGradeChoice');
         gradeSelect.empty();
@@ -35,10 +35,10 @@ EditPackageGradeView = Backbone.View.extend({
         this.model.saveGrade(
             {}
             ,{
-                success: jQuery1816Gradebook.proxy(function (res) {
+                success: jQueryValamis.proxy(function (res) {
                     toastr.success(language['saveCompleted']);
                 }, this),
-                error: jQuery1816Gradebook.proxy(function (err, res) {
+                error: jQueryValamis.proxy(function (err, res) {
                     toastr.error(language['saveFailed']);
                 }, this)
             });

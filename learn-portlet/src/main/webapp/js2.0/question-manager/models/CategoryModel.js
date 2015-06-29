@@ -2,38 +2,72 @@ CategoryService = new Backbone.Service({ url: path.root,
   targets: {
     'move': {
       'path': function (model) {
-        return path.api.category + model.id + '?action=move';
+        return path.api.category + model.id;
       },
-      'method': 'post',
       'data': function (model, options) {
-        return _.extend(model.toJSON(), options);
-      }
+          var params = {
+              action: 'move',
+              courseId: Utils.getCourseId()
+          };
+          _.extend(params, model.toJSON());
+          _.extend(params, options);
+
+          return params;
+      },
+        'method': 'post'
     }
   },
   sync: {
     'read': {
-        'path': function(model){
-            return path.api.category + '?parentId=' + model.id + '&courseID=' + Utils.getCourseID();
+        'path': path.api.category,
+        'data': function(model){
+            var params = {
+                parentId: model.get('id'),
+                courseId: Utils.getCourseId()
+            };
+            return params;
         },
         'method': 'get'
     },
     'create': {
-      'path': function () {
-        return path.api.category + '?action=add&courseID=' + Utils.getCourseID();
-      },
+      'path': path.api.category,
+        'data': function(model){
+            var params = {
+                action: 'add',
+                courseId: Utils.getCourseId()
+            };
+            _.extend(params, model.toJSON());
+            return params;
+        },
       'method': 'post'
     },
     'update': {
-      'path': function (model) {
-        return path.api.category + model.id + '?action=update';
-      },
-      'method': 'post'
+        'path': function (model) {
+                return path.api.category + model.id
+            },
+        'data': function(model){
+            var params = {
+                action: 'update',
+                courseId: Utils.getCourseId()
+            };
+            _.extend(params, model.toJSON());
+            return params;
+        },
+        'method': 'post'
     },
     'delete': {
-      'path': function (model) {
-        return path.api.category + model.id + '?action=delete&courseID=' + Utils.getCourseID();
-      },
-      'method': 'post'
+        'path': function (model) {
+          return path.api.category + model.id
+        },
+        'data': function(model){
+            var params = {
+                action: 'delete',
+                courseId: Utils.getCourseId()
+            };
+            _.extend(params, model.toJSON());
+            return params;
+        },
+        'method': 'post'
     }
   }
 });
@@ -41,8 +75,14 @@ CategoryService = new Backbone.Service({ url: path.root,
 CategoriesService = new Backbone.Service({ url: path.root,
     sync: {
         'read': {
-            'path': function(id){
-                return path.api.category + '?parentId='+id+'&courseID=' + Utils.getCourseID();
+            'path': path.api.category,
+            'data': function(id){
+                var params = {
+                    parentId: id,
+                    courseId: Utils.getCourseId()
+                };
+
+                return params;
             },
             'method': 'get'
         }
@@ -53,6 +93,8 @@ CategoryModel = Backbone.Model.extend({
   defaults: {
     title: 'New category',
     description: '',
-    parentID: null
+    contentType: '',
+    children: [],
+    parentId: -1
   }
 }).extend(CategoryService);

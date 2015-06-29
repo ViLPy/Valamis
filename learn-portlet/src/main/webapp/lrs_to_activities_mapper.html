@@ -13,7 +13,6 @@
     <tbody class="social-activities-mapper-data"></tbody>
 </table>
 
-<input type="hidden" id="courseID" value="{{courseID}}"/>
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
 
 <script>
@@ -34,7 +33,7 @@
     function onLRS2ActivityLanguageLoad(lang) {
         LRS2ActivityMapperApp.start({
             language: lang,
-            siteID: JSON.parse('{{courseID}}')
+            siteID: Utils.getCourseId()
         });
     }
 </script>

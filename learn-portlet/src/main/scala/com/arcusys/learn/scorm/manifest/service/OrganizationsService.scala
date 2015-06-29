@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.service
 
-import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
 import com.arcusys.learn.controllers.api.BaseApiController
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.valamis.lesson.scorm.model.manifest.Organization
+import com.arcusys.valamis.lesson.service.ActivityServiceContract
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.web.ServletBase
 import com.arcusys.learn.ioc.Configuration

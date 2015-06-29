@@ -17,7 +17,6 @@ var PaginationView = Backbone.Marionette.View.extend({
         return this;
     },
     setPaginationOptions: function(options) {
-        console.log(options);
         this.$el.pagination('updateItems', options.totalStatements);
     },
     onPageSelect: function(page) {

@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+
+    <link rel="stylesheet" href="/learn-portlet/css2.0/backbone.modal.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/backbone.modal.theme.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/colorpicker.css"/>
+    <link rel="stylesheet" href="/learn-portlet/preview-resources/common/jquery-ui-1.8.20.custom.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/reveal.min.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/toastr.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/selectize.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/video-js.min.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/katex.min.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/valamis.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/valamis_slides.css"/>
+    <link rel="stylesheet" href="/learn-portlet/css2.0/theme/valamis_slides.css"/>
+    <link rel="stylesheet" href="/learn-portlet/preview-resources/common/player_tincan_content.css"/>
+
+    <script src="/learn-portlet/js2.0/Urls.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/jquery.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/selectize.min.js"></script>
+    <script src="/learn-portlet/js2.0/helpers/valamis-jquery.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/lodash.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/backbone-min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/backbone.model-binder.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/backbone.marionette.min.2.4.1.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/backbone.modal-bundled.1.1.3.js"></script>
+
+    <script src="/learn-portlet/js2.0/vendor/reveal.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/jquery.ui.widget.js"></script>
+    <script src="/learn-portlet/js2.0/helpers/valamis-jq-plugins.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/jquery.fileupload.js"></script>
+
+    <script src="/learn-portlet/js2.0/vendor/backbone.service.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/mustache.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/toastr.min.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/nested.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/ckeditor/ckeditor.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/nestedsortable.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/video.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/katex.min.js"></script>
+    <script src="/learn-portlet/js2.0/widgets/LiferayMediaGalleryDialog.js"></script>
+    <script src="/learn-portlet/js2.0/widgets/valamisPaginator.js"></script>
+
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/loadTemplates.js"></script>
+    <script>
+        window.slidesConfig = window.parent.slidesConfig;
+        Backbone.emulateJSON = true;
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/valamis_slides_editor_templates.html', jQueryValamis('head'));
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/question_tree_templates.html', jQueryValamis('head'));
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/lesson_designer_templates.html', jQueryValamis('head'));
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/file_uploader.html', jQueryValamis('head'));
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/paginator.html', jQueryValamis('head'));
+        syncTemplateLoader.syncLoadAndAppendTo$el('templates/2.0/image_gallery_templates.html', jQueryValamis('head'));
+        GLOBAL_translations = window.parent.GLOBAL_translations;
+        GLOBAL_companyID = window.parent.GLOBAL_companyID;
+        contentManagerActionUrl = window.parent.contentManagerActionUrl;
+    </script>
+
+    <script src="/learn-portlet/js2.0/helpers/FormDataHelper.js"></script>
+    <script src="/learn-portlet/js2.0/helpers/Utils.js"></script>
+    <script src="/learn-portlet/js2.0/file-uploader/model/FileItem.js"></script>
+    <script src="/learn-portlet/js2.0/file-uploader/view/FileUploader.js"></script>
+    <script src="/learn-portlet/js2.0/helpers/elementQuery.js"></script>
+    <script src="/learn-portlet/js2.0/lesson-designer/LessonContent.js"></script>
+    <script src="/learn-portlet/js2.0/lesson-designer/VideoView.js"></script>
+    <script src="/learn-portlet/js2.0/lesson-designer/LiferayArticleView.js"></script>
+    <script src="/learn-portlet/js2.0/lesson-designer/pdf-view.js"></script>
+    <script src="/learn-portlet/js2.0/lesson-designer/pptx-view.js"></script>
+    <script src="/learn-portlet/js2.0/question-manager/models/AnswerModel.js"></script>
+    <script src="/learn-portlet/js2.0/question-manager/models/CategoryModel.js"></script>
+    <script src="/learn-portlet/js2.0/question-manager/models/QuestionModel.js"></script>
+    <script src="/learn-portlet/js2.0/vendor/colorpicker.js"></script>
+    <script src="/learn-portlet/js2.0/question-manager/views/QuestionTreeView.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/helper.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/QuestionSelectView.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/ToastrViews.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/slideSetService.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/slideService.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/slideElementService.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/URIService.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/utils.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/undo.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/main.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/handlers.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/reveal-controls-module.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/reveal-module.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/generic-item-module.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/sidebar-module.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/text-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/img-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/iframe-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/question-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/video-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/pdf-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/pptx-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/math-element.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/arrange-module.js"></script>
+    <script src="/learn-portlet/js2.0/valamis-slides-editor/gridsnap-module.js"></script>
+</head>
+<body>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <div id="revealEditor" class="portlet-learn-scorm portlet-learn-scorm-slides">
+        <div class="sidebar"></div>
+        <div class="reveal-wrapper"></div>
+        <div class="reveal-controls"></div>
+        <div id="slides-modals-layout" class="portlet"></div>
+    </div>
+    <script type="text/javascript">
+        jQueryValamis(window).load(function(){
+            slidesConfig.eventAggregator.trigger('editor-iframe-loaded');
+        });
+        jQueryValamis(function(){
+            window.resizeImage = function(width, height, maxWidth, maxHeight) {
+                var ratio = width/height;
+                var newWidth, newHeight;
+                if(ratio > 1) {
+                    if (width > maxWidth) {
+                        newWidth = maxWidth;
+                        newHeight = newWidth / ratio;
+                    }
+                    else {
+                        newWidth = width;
+                        newHeight = height;
+                    }
+                }
+                else {
+                    if(height > maxHeight) {
+                        newHeight = maxHeight;
+                        newWidth = newHeight * ratio;
+                    }
+                    else {
+                        newWidth = width;
+                        newHeight = height;
+                    }
+                }
+                return {width: newWidth, height: newHeight};
+            };
+        });
+        window.Liferay = window.parent.Liferay;
+        window.slidesConfig = window.parent.slidesConfig;
+        var translations = window.slidesConfig.translations;
+        var courseID = Utils.getCourseId();
+        var imageData = new FormDataHelper();
+
+        var SlidesEditorModalsLayout = Marionette.LayoutView.extend({
+            template: _.template(Mustache.to_html(jQueryValamis('#slides-editor-modals-template').html(), window.slidesConfig.translations)),
+            regions: {
+                modals: {
+                    selector: '.slides-editor-modals-container',
+                    regionType: Marionette.Modals
+                }
+            }
+        });
+
+        var slidesEditorModalsLayout = new SlidesEditorModalsLayout();
+        jQueryValamis('#slides-modals-layout').append(slidesEditorModalsLayout.render().el);
+
+        var slidesImageLayout = Backbone.Modal.extend({
+            template: _.template(Mustache.to_html(jQueryValamis('#image-upload-modal-template').html(), window.slidesConfig.translations)),
+            className: 'val-modal',
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            initialize: function(options) {
+                this.moduleName = options.moduleName;
+            },
+            onRender: function () {
+                var self = this;
+                if(this.moduleName === 'ImageElementModule') {
+                    if (!slidesApp.activeElement.view.model.id) {
+                        slidesApp.activeElement.view.model.save().then(function (SlideElementModel) {
+                            slidesApp.addedSlideElements.push(SlideElementModel.id);
+                            self.uploadImage('slide_item_', SlideElementModel.id);
+                        });
+                    }
+                    else
+                        self.uploadImage('slide_item_', slidesApp.activeElement.view.model.id);
+                }
+                else {
+                    if(!slidesApp.activeSlideModel) {
+                        slidesApp.activeSlideModel.save().then(function(slideModel) {
+                            self.uploadImage('slide_', slideModel.id);
+                        });
+                    }
+                    else {
+                        self.uploadImage('slide_', slidesApp.activeSlideModel.id);
+                    }
+                }
+            },
+            uploadImage: function(entityIdBase, entityId) {
+                var endpointparam = {
+                    action:'ADD',
+                    courseId:  courseID,
+                    contentType: 'icon',
+                    folderId: entityIdBase + entityId
+                };
+                var self = this;
+
+                var fileUploaderUrl = path.root + path.api.files + "?" + jQueryValamis.param(endpointparam);
+
+//                if (!imageData.supports()) {
+//                    fileUploaderUrl = path.root + path.api.files + '&folderId=' + entityIdBase + entityId + '&courseId=' + courseID;
+//                }
+
+                window.uploader = new FileUploader({ endpoint: fileUploaderUrl });
+////                if (imageData.supports()) {
+                    window.uploader.on('fileuploadadd', function (data) {
+//                        imageData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'icon');
+//                        imageData.setSetting(IMAGE_PARAM_TYPE.FILE, data);
+//                        imageData.setSetting(IMAGE_PARAM_TYPE.FILE_NAME, data.name);
+//
+                        imageData.readAsDataURL(data, function (img) {
+                            if(self.moduleName === 'ImageElementModule') {
+                                slidesApp.oldValue = {
+                                    contentType: 'image',
+                                    content: slidesApp.activeElement.view.model.get('content'),
+                                    width: slidesApp.activeElement.view.model.get('width'),
+                                    height: slidesApp.activeElement.view.model.get('height')
+                                };
+
+                                slidesApp.activeElement.view.content.css({
+                                    'background-image': 'url("' + img + '")'
+                                });
+
+                                var image = new Image();
+                                image.onload = function () {
+                                    var newSize = window.resizeImage(image.width, image.height, 800, 800);
+                                    slidesApp.commands.execute('item:resize', newSize.width, newSize.height);
+                                };
+                                image.src = img;
+                            }
+                        });
+//                        self.close();
+                    });
+
+                    window.uploader.on('fileuploaddone', function (data) {
+                        var src = path.root + path.api.files +
+                                "images?folderId=" + entityIdBase + entityId +
+                                "&file=" + data.name + "&date=" + Date.now();
+                        if(self.moduleName === 'ImageElementModule') {
+                            slidesApp.activeElement.view.$('.content-icon-image').first().hide();
+                            slidesApp.activeElement.view.model.set('content', 'url("' + src + '")');
+                            slidesApp.activeElement.view.content.css('background-color', 'transparent');
+                            slidesApp.activeElement.view.$('.content-icon-image').first().hide();
+                            slidesApp.viewId = slidesApp.activeElement.view.cid;
+                            slidesApp.actionType = 'itemContentChanged';
+                            slidesApp.newValue = {
+                                contentType: 'image',
+                                content: slidesApp.activeElement.view.model.get('content'),
+                                width: slidesApp.activeElement.view.model.get('width'),
+                                height: slidesApp.activeElement.view.model.get('height')
+                            };
+                            slidesApp.commands.execute('action:push');
+                        }
+                        self.triggerCancel();
+                    });
+//                }
+//                else {
+//                    window.uploader.on('fileuploaddone', function (data) {
+//                        if(self.moduleName === 'ImageElementModule')
+//                            window.LearnAjax.post(path.root + path.api.slideEntities + entityId + '?action=UPDATE&content=' + data.name);
+//                        self.close();
+//                    });
+//                }
+                this.$('.image-modal-content').append(window.uploader.render().$el);
+            }
+        });
+    </script>
+</body>
+</html>

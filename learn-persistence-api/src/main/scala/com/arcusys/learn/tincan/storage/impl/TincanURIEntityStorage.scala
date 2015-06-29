@@ -1,21 +1,25 @@
 package com.arcusys.learn.tincan.storage.impl
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.tincan.model.TincanURI
-import com.arcusys.learn.tincan.model.TincanURIType.TincanURIType
-import com.arcusys.learn.tincan.storage.TincanURIStorage
+import com.arcusys.valamis.uri.model.{ ValamisURIType, ValamisURI }
+import ValamisURIType.ValamisURIType
+import com.arcusys.valamis.uri.storage.TincanURIStorage
 
-trait TincanURIEntityStorage extends TincanURIStorage with EntityStorage[TincanURI] {
+trait TincanURIEntityStorage extends TincanURIStorage with EntityStorage[ValamisURI] {
 
-  def get(uri: String): Option[TincanURI] = {
+  def get(uri: String): Option[ValamisURI] = {
     getOne("uri" -> uri)
   }
 
-  def getURI(objId: String, objType: TincanURIType): Option[TincanURI] = {
+  def getById(objId: String, objType: ValamisURIType): Option[ValamisURI] = {
     getOne("id" -> objId, "type" -> objType.toString)
   }
 
-  def create(uri: String, objId: String, objType: TincanURIType, content: String): Unit = {
+  def getById(start: Int, end: Int, filter: String): Seq[ValamisURI] = {
+    getAll("start" -> start, "end" -> end, "filter" -> filter)
+  }
+
+  def create(uri: String, objId: String, objType: ValamisURIType, content: String): Unit = {
     create("uri" -> uri, "id" -> objId, "type" -> objType.toString, "content" -> content)
   }
 

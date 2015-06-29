@@ -33,6 +33,7 @@
     <div id="wordCloud"></div>
 </div>
 <script type="text/javascript">
+
 Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
     return Mustache.compile(rawTemplate);
 };
@@ -52,21 +53,24 @@ StatementStatApp.addInitializer(function () {
     var chartView = new ChartStatView({model: overallStatModel});
     var wordCloudView = new WordCloudStatView({model: wordCloudModel});
 
-    StatementStatApp.numericStat.show(numericView);
-    StatementStatApp.wordCloud.show(wordCloudView);
-    StatementStatApp.chartStat.show(chartView);
 
     numericView.on('highlight', function (target) {
         chartView.highlight(target);
     });
 
+    overallStatModel.on('sync', function() {
+        StatementStatApp.numericStat.show(numericView);
+        StatementStatApp.wordCloud.show(wordCloudView);
+        StatementStatApp.chartStat.show(chartView);
+
+    })
     overallStatModel.fetch();
     wordCloudModel.fetch();
 });
 
-jQuery(function(){
-    StatementStatApp.start();
-});
+    jQueryValamis(function(){
+        StatementStatApp.start();
+    });
 </script>
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
 </body>

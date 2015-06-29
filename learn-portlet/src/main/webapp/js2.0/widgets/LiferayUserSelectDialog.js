@@ -3,36 +3,74 @@ LiferayUserModel = Backbone.Model.extend({
     userID: '',
     name: '',
     selected: false
+  },
+  toggle: function(){
+    if(this.get('selected')) {
+      this.set('selected', false);
+      this.trigger('setUnselected', this);
+    }
+    else {
+      this.set('selected', true);
+      this.trigger('setSelected', this);
+    }
   }
 });
 
 LiferayUserCollectionService = new Backbone.Service({ url: '/',
   sync: {
-    'read': function (collection, options) {
-        if(typeof options.getAllUsers !== 'undefined' && options.getAllUsers !== null && options.getAllUsers == true) {
-            return path.api.users + '?orgId=-1' +
-                '&filter=' + jQuery('#userSearch').val() +
-                '&sortBy=name' +
-                '&sortAscDirection=' + jQuery('#sortUser').val() +
-                '&page=' + options.currentPage +
-                '&count=' + options.itemsOnPage;
-        }
-        else {
-            return  path.api.certificates + jQuery('#selectedCertificateID').val() + '/users' +
-                '?action=GETNOTCONTAINEDSTUDENTS' +
-                '&orgId=' + jQuery('#userOrganization').val() +
-                '&filter=' + jQuery('#userSearch').val() +
-                '&sortBy=name' +
-                '&sortAscDirection=' + jQuery('#sortUser').val() +
-                '&page=' + options.currentPage +
-                '&count=' + options.itemsOnPage;
-        }
-    }
+     'read': {
+       'path': function (collection, options) {
+         if (options.getAllUsers){
+           return path.api.users;
+         }
+         else {
+           return path.api.certificates + jQuery('#selectedCertificateID').val() + '/users';
+         }
+       },
+       'data': function (collection, options) {
+         var order = options.order;
+         var sortBy = order.split(':')[0];
+         var asc = order.split(':')[1];
+
+         if (options.getAllUsers)
+           return {
+             orgId: options.orgId,
+             courseId: Utils.getCourseId(),
+             filter: options.filter,
+             sortBy: sortBy,
+             sortAscDirection: asc,
+             page: options.currentPage,
+             count: options.itemsOnPage
+           }
+         else
+           return {
+             action: 'GETNOTCONTAINEDSTUDENTS',
+             courseId: Utils.getCourseId(),
+             orgId: options.orgId,
+             filter: options.filter,
+             sortBy: sortBy,
+             sortAscDirection: asc,
+             page: options.currentPage,
+             count: options.itemsOnPage
+           }
+
+       },
+       'method': 'get'
+     }
   },
   targets: {
-    'saveToCertificate': {
-      'path': function (model, options) {
-        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDUSERS&' + options.users;    //userIDs=10963&userIDs=11019&userIDs=10956';
+    saveToCertificate: {
+      path: function (model, options) {
+        return path.api.certificates + jQuery('#selectedCertificateID').val();
+      },
+      'data' : function(model, options){
+        var params = {
+          action: 'ADDUSERS',
+          courseId:  Utils.getCourseId(),
+          userIDs : options.users
+        };
+
+        return params;
       },
       method: 'post'
     }
@@ -40,24 +78,47 @@ LiferayUserCollectionService = new Backbone.Service({ url: '/',
 });
 
 LiferayUserCollection = Backbone.Collection.extend({
+  initialize: function(){
+    this.modelsToSelect = [];
+
+    var that = this;
+    this.on('sync', function(collection){
+      collection.each(function(model){
+        model.on('setSelected', that.addModelToSelectedModels, that);
+        model.on('setUnselected', that.removeModelFromSelectedModels, that);
+      });
+    });
+  },
+  addModelToSelectedModels: function(model){
+    if(!_.contains(this.modelsToSelect,model)) this.modelsToSelect.push(model.id);
+  },
+  removeModelFromSelectedModels: function(model){
+    var index = this.modelsToSelect.indexOf(model.id);
+    if(index > -1) this.modelsToSelect.splice(index, 1);
+  },
   model: LiferayUserModel,
   parse: function (response) {
     this.trigger('userCollection:updated', { total: response.total, currentPage: response.currentPage, listed: response.records.length });
+
+    var that = this;
+    _.forEach(response.records, function(record){
+      if(_.contains(that.modelsToSelect, record.id)) record.selected = true;
+    });
+
     return response.records;
   }
 }).extend(LiferayUserCollectionService);
 
-// user element
-
 LiferayUserListElement = Backbone.View.extend({
   events: {
-    'click #toggleUserButton': 'toggleThis',
-    'click #toggleSingleUserButton': 'selectUserAndClose'
+    'click .js-toggle-user': 'toggleThis'
   },
-  initialize: function () {
+  initialize: function (options) {
     this.$el = jQuery('<tr>');
-    this.model.on('setSelected', this.setSelected, this);
-    this.model.on('setUnselected', this.setUnselected, this);
+    if(typeof options.getAllUsers !== null && options.getAllUsers !== 'undefined')
+      this.getAllUsers = options.getAllUsers;
+    else
+      this.getAllUsers = false;
   },
   render: function () {
     var template = Mustache.to_html(jQuery('#liferayUserElementView').html(), this.model.toJSON());
@@ -66,52 +127,43 @@ LiferayUserListElement = Backbone.View.extend({
   },
 
   toggleThis: function () {
-    this.model.trigger('unsetIsSelectedAll', this.model);
-    var alreadySelected = this.model.get('selected');
-    if (alreadySelected) {
-      this.setUnselected();
-    }
+    if (this.getAllUsers)
+      this.trigger('lfUserSelected', this.model);
     else {
-      this.setSelected();
+      this.model.trigger('unsetIsSelectedAll', this.model);
+      this.model.toggle();
+      this.$('.js-toggle-user').toggleClass('neutral', !this.model.get('selected'));
+      this.$('.js-toggle-user').toggleClass('primary', this.model.get('selected'));
     }
-  },
-
-  selectUserAndClose: function () {
-      this.trigger('lfUserSelected', this.model);  // TODO: do it only if single select
-      var alreadySelected = this.model.get('selected');
-      if (alreadySelected) {
-          this.setUnselected();
-      }
-      else {
-          this.setSelected();
-      }
-  },
-
-  setSelected: function () {
-    this.model.set({selected: true });
-    this.$('.toggleButton').removeClass('grey');
-    this.$('.toggleButton').addClass('green');
-  },
-  setUnselected: function () {
-    this.model.set({selected: false });
-    this.$('.toggleButton').removeClass('green');
-    this.$('.toggleButton').addClass('grey');
   }
 });
 
-// user list
-
-LiferayUserList = Backbone.View.extend({
+LiferayUserSelectDialog = Backbone.View.extend({
+  SEARCH_TIMEOUT: 800,
   events: {
+    'click .js-addUsers': 'addUsers',
+    'keyup #searchUsers': 'filterUsers',
+    'click .dropdown-menu > li': 'filterUsers',
+    'click #selectAllUsers': 'selectAll'
   },
-
+  callback: function (userID, name) {
+  },
   initialize: function (options) {
     this.language = options.language;
-    this.getAllUsers = options.getAllUsers;
-//    if(typeof options.collection === 'undefined' || options.collection === null)
-      this.collection = new LiferayUserCollection({getAllUsers: this.getAllUsers});
-//    else
-//      this.collection = options.collection;
+    if(typeof options.getAllUsers !== null && options.getAllUsers !== 'undefined')
+        this.getAllUsers = options.getAllUsers;
+    else
+        this.getAllUsers = false;
+
+    this.organizations = new LiferayOrganizationCollection();
+    this.organizations.on('reset', this.appendOrganizations, this);
+
+    this.paginatorModel = new PageModel();
+    this.paginatorModel.set({'itemsOnPage': 10});
+
+    this.inputTimeout = null;
+
+    this.collection = new LiferayUserCollection({getAllUsers: this.getAllUsers});
 
     this.collection.on('reset', this.showAll, this);
     this.collection.on('unsetIsSelectedAll', this.unsetIsSelectedAll, this);
@@ -123,75 +175,101 @@ LiferayUserList = Backbone.View.extend({
 
     this.isSelectedAll = false;
   },
+  render: function () {
+    var renderedTemplate = Mustache.to_html(jQuery('#liferayUserDialogView').html(), _.extend({getAllUsers: this.getAllUsers}, this.language));
+    this.$el.html(renderedTemplate);
+
+    this.organizations.fetch({reset: true});
+
+    var that = this;
+    this.paginator = new ValamisPaginator({
+      el: this.$el.find('#userListPaginator'),
+      language: this.language,
+      model: this.paginatorModel
+    });
+    this.paginator.on('pageChanged', function () {
+      that.reload();
+    });
+    this.paginatorShowing = new ValamisPaginatorShowing({
+      el: this.$el.find('#userListPagingShowing'),
+      language: this.language,
+      model: this.paginator.model
+    });
+
+    this.reloadFirstPage();
+
+    return this;
+  },
+
+  appendOrganizations: function () {
+    this.organizations.each(function(item) {
+      this.$('#userOrganization .dropdown-menu').append('<li data-value="' + item.id + '"> ' + item.get('name') + ' </li>');
+    }, this);
+    this.$('.dropdown').valamisDropDown();
+  },
+
+  filterUsers: function () {
+    clearTimeout(this.inputTimeout);
+    this.inputTimeout = setTimeout(this.applyFilter.bind(this), this.SEARCH_TIMEOUT);
+  },
+  applyFilter: function () {
+    clearTimeout(this.inputTimeout);
+    this.reloadFirstPage();
+  },
 
   updatePagination: function (details, context) {
     this.paginator.updateItems(details.total);
-    jQuery('#usersListedAmount').text(details.listed);
   },
-
 
   showAll: function () {
     this.$('#userList').empty();
     this.collection.each(this.showUser, this);
     if (this.collection.length > 0) {
-      jQuery('#addUsersButton').show();
+      this.$('.js-addUsers').show();
     } else {
-      jQuery('#noUsersLabel').show();
+      this.$('#noUsersLabel').show();
     }
   },
   showUser: function (user) {
-    var view = new LiferayUserListElement({model: user});
+    var view = new LiferayUserListElement({model: user, getAllUsers: this.getAllUsers});
     var viewDOM = view.render();
     this.$('#userList').append(viewDOM);
     view.on('lfUserSelected', function (item) {
       this.trigger('lfUserSelected', item);
     }, this);
-
   },
 
+  addUsers: function () {
+    var selectedUsers = this.collection.modelsToSelect;
 
-  addMembers: function () {
-    var selectedUsers = this.collection.filter(function (item) {
-      return item.get('selected');
-    }).map(function (item) {
-        return item.get('id');
-      });
-
-    var users = jQuery.param({'userIDs': selectedUsers}, true);
     var that = this;
 
-    this.collection.saveToCertificate({}, {users: users}).then(function (res) {
-      that.trigger('usersAdded', that);
+    this.collection.saveToCertificate({}, { users  : selectedUsers}).then(function (res) {
+      that.trigger('closeModal');
       toastr.success(that.language['overlayCompleteMessageLabel']);
     }, function (err, res) {
       toastr.error(that.language['overlayFailedMessageLabel']);
     });
   },
 
-  render: function () {
-    var renderedTemplate = Mustache.to_html(jQuery('#liferayUserListView').html(), this.language);
-    this.$el.html(renderedTemplate);
-//    if(this.collection.length > 0)
-//      this.showAll();
-
-    var that = this;
-    this.paginator = new ValamisPaginator({el: jQuery('#availableUserListPaginator'), language: this.language});
-    this.paginator.on('pageChanged', function () {
-      that.reload();
-    });
-
-    this.reloadFirstPage();
-
-    return this.$el;
-  },
-
   reloadFirstPage: function () {
-    jQuery('#addUsersButton').hide();
+    jQuery('.js-addUsers').hide();
     jQuery('#noUsersLabel').hide();
-    this.collection.fetch({getAllUsers: this.getAllUsers, reset: true, currentPage: 1, itemsOnPage: this.paginator.itemsOnPage()});
+    this.fetchCollection(1);
   },
   reload: function () {
-    this.collection.fetch({getAllUsers: this.getAllUsers, reset: true, currentPage: this.paginator.currentPage(), itemsOnPage: this.paginator.itemsOnPage()});
+    this.fetchCollection(this.paginator.currentPage());
+  },
+  fetchCollection: function (page) {
+    this.collection.fetch({
+      reset: true,
+      currentPage: page,
+      getAllUsers: this.getAllUsers,
+      itemsOnPage: this.paginator.itemsOnPage(),
+      filter: this.$('#searchUsers').val(),
+      orgId: this.$('#userOrganization').data('value'),
+      order: this.$('#sortUsers').data('value')
+    });
   },
 
   selectAll: function () {
@@ -200,107 +278,14 @@ LiferayUserList = Backbone.View.extend({
   },
   setSelectAll: function (model) {
     var alreadySelected = model.get('selected');
-    if (alreadySelected != this.isSelectedAll) {
-      if (alreadySelected) {
-        model.trigger('setUnselected', this);
-      }
-      else {
-        model.trigger('setSelected', this);
-      }
 
+    if (alreadySelected != this.isSelectedAll) {
+      model.toggle();
+      this.$('#toggleUser_' + model.id).toggleClass('neutral', !model.get('selected'));
+      this.$('#toggleUser_' + model.id).toggleClass('primary', model.get('selected'));
     }
   },
   unsetIsSelectedAll: function () {
     this.isSelectedAll = false;
-  }
-
-});
-
-// user dialog
-
-LiferayUserSelectDialog = Backbone.View.extend({
-  events: {
-    'click #addUsersButton': 'addAllMembers',
-    'keyup #userSearch': 'filterUsers',
-    'change #sortUser': 'filterUsers',
-    'change #userOrganization': 'filterUsers',
-    'click .menu-toggle': 'searchMenuToggle',
-    'click #selectAllAvailableUsers': 'selectAllUsers'
-  },
-  callback: function (userID, name) {
-  },
-  initialize: function (options) {
-    this.$el = jQuery('<div>');
-    this.language = options.language;
-    if(typeof options.getAllUsers !== null && options.getAllUsers !== 'undefined')
-        this.getAllUsers = options.getAllUsers;
-    else
-        this.getAllUsers = false;
-
-    /*if(typeof options.singleSelect !== 'undefined' && options.singleSelect !== null)
-        this.singleSelect = options.singleSelect;
-    else
-        this.singleSelect = false;*/
-    /*if(typeof options.collection !== 'undefined' && options.collection !== null)
-        this.collection = options.collection;
-    else
-        this.collection = null;*/
-
-    this.organizations = new LiferayOrganizationCollection();
-    this.organizations.on('reset', this.showDefaultView, this);
-
-    this.inputTimeout = null;
-  },
-  render: function () {
-    var renderedTemplate = Mustache.to_html(jQuery('#liferayUserDialogView').html(), this.language);
-    this.$el.html(renderedTemplate);
-
-    this.userListView = new LiferayUserList({el: this.$el.find('#allUsersList'), language: this.language, getAllUsers: this.getAllUsers});
-    this.userListView.on('usersAdded', this.trigCloseModal, this);
-
-    this.userListView.on('lfUserSelected', function (item) {
-      if (this.getAllUsers)
-          this.trigger('lfUserSelected', item);
-    }, this);
-    /*this.userListView.on('lfUserSelected', this.trigCloseModal, this);*/
-
-    this.organizations.fetch({reset: true});
-
-    return this;
-  },
-
-  trigCloseModal: function () {
-    this.trigger('closeModal', this)
-  },
-
-  showDefaultView: function () {
-    this.organizations.each(this.appendOptions, this);
-    this.userListView.render();
-  },
-
-  appendOptions: function (item) {
-    jQuery('#userOrganization').append('<option value="' + item.id + '"> ' + item.get('name') + ' </option>');
-  },
-
-  filterUsers: function () {
-    clearTimeout(this.inputTimeout);
-    this.inputTimeout = setTimeout(this.applyFilter.bind(this), 800);
-  },
-  applyFilter: function () {
-    clearTimeout(this.inputTimeout);
-    this.userListView.reloadFirstPage();
-  },
-
-  addAllMembers: function () {
-    this.userListView.addMembers();
-  },
-
-  searchMenuToggle: function (e) {
-    e.preventDefault();
-    this.$('#liferayUserDialog').toggleClass('active');
-  },
-
-  selectAllUsers: function () {
-    this.userListView.selectAll();
   }
 });

@@ -1,0 +1,1116 @@
+<script type="text/html" id="contentManagerLayoutTemplate">
+
+    <div class="portlet-wrapper">
+        <div class="portlet-sidebar">
+            <div class="sidebar-content no-header">
+                <div class="sidebar-row"></div>
+                <div id="contentManagerContentsView"></div>
+            </div>
+        </div>
+        <div class="content-wrapper min-height400 div-table" id="contentManagerContentView"></div>
+    </div>
+</script>
+
+
+<script type="text/html" id="contentManagerContentLayoutTemplate">
+    <div class="min-height400 div-col contentManagerCenter">
+        <div class="content-header clearfix" id="contentManagerToolbar">
+        </div>
+
+        <div class="content-container question-content">
+            <div id="categoryContentView" class="clearfix">
+
+            </div>
+            <div id="categoryContentQuestionsView"></div>
+            <div class="val-paginator"></div>
+        </div>
+
+        <div class="content-footer clearfix">
+        </div>
+    </div>
+
+    <div class="js-content-preview content-preview" id="contentManagerContentPreview">
+
+    </div>
+</script>
+
+<script type="text/html" id="contentManagerToolbarTemplate">
+    <div class="div-row">
+        <div class="content-controls clearfix">
+            <div class="val-icon-menu js-toggle-sidebar val-icon-with-label"></div>
+            {{#CM_MODIFY}}
+            <div class="dropdown actions shift-right">
+                    <button class="button medium primary">
+                        <span class="dropdown-text">{{buttonNewLabel}}</span>
+                        <span class="val-icon-dropdown val-icon-right"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="js-add-category" data-value=""><span class="val-icon-folder"></span>{{buttonAddCategoryTooltipLabel}}</li>
+                        <li class="js-add-question" data-value=""><span class="val-icon-question"></span>{{buttonAddQuestionTooltipLabel}}</li>
+                        <li class="js-add-content" data-value=""><span class="val-icon-content"></span>{{buttonAddContentTooltipLabel}}</li>
+                    </ul>
+            </div>
+            {{/CM_MODIFY}}
+        </div>
+    </div>
+
+    <div class="div-row">
+        {{#CM_MODIFY}}
+        <div class="content-controls">
+            <div>
+                <button class="js-select-all button medium neutral">
+                    <span class="val-icon-checkbutton"></span>{{selectAllLabel}}
+                </button>
+            </div>
+            <div class="dropdown actions">
+                <button class="button medium neutral">
+                    <span class="dropdown-text">{{actionLabel}}</span>
+                    <span class="val-icon-dropdown val-icon-right"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="js-delete-items" data-value="">{{deleteLabel}}</li>
+                    <li class="js-export-items" data-value="">{{exportLabel}}</li>
+                    <li class="js-move-items" data-value="">{{moveLabel}}</li>
+                </ul>
+            </div>
+        </div>
+        {{/CM_MODIFY}}
+    </div>
+</script>
+
+<!-- content tree templates-->
+
+<script type="text/template" id="contentManagerContentRootNodeTemplate">
+    <ul class="val-tree">
+        <li class="expanded js-root" data-id="{{id}}">
+            <span class="js-tree-item js-tree-root-item tree-item tree-root-item active">
+                <span class="js-tree-item-icon tree-item-icon"></span>
+                <span class="js-tree-item-title tree-parent-title tree-item-title" data-count="{{childrenAmount}}">{{title}}</span>
+            </span>
+            <ul class="sortable tree-items"></ul>
+        </li>
+    </ul>
+</script>
+
+<script type="text/template" id="contentManagerContentNodeTemplate">
+    <span class="js-tree-category js-tree-item tree-item">
+        <span class="js-tree-item-icon tree-item-icon"></span>
+        <span class="js-tree-item-title tree-parent-title tree-item-title" {{#needShowChildrenAmount}} data-count="{{childrenAmount}} {{/needShowChildrenAmount}}">
+            {{title}}
+        </span>
+    </span>
+    <ul class="sortable tree-items"></ul>
+</script>
+
+
+<!--content list templates-->
+<script type="text/html" id="contentManagerContentListTemplate">
+        <ul class="js-content-list content-editor-sortable lesson-items" style="min-height: 100px;">
+
+        </ul>
+</script>
+
+<script type="text/html" id="contentManagerContentCategoryTemplate">
+    <span class="js-tree-item lesson-item val-row">
+        <span class="lesson-item-controls content-manager-hide-mobile s-1 shift-left">
+            <input type="checkbox" id="selectEntityCheckbox{{uniqueId}}" {{#selected}}checked{{/selected}} class="js-select-entity val-checkbox"/>
+            <label class="checkbox-label" for="selectEntityCheckbox{{uniqueId}}"></label>
+        </span>
+        <span class="js-content-entity lesson-item-title val-icon-folder s-4">{{title}} </span>
+        <span class="s-3" style="font-weight: normal;">Category</span>
+        {{#CM_MODIFY}}
+        <span class="lesson-item-controls shift-right">
+            <button class="js-edit-content button medium simple no-text">
+                <span class="val-icon-edit"></span>
+            </button>
+            <button class="js-clone-content button medium simple no-text content-manager-hide-mobile">
+                <span class="val-icon-duplicate"></span>
+            </button>
+            <button class="js-delete-content button medium simple no-text">
+                <span class="val-icon-trash"></span>
+            </button>
+        </span>
+        {{/CM_MODIFY}}
+    </span>
+    <span class="js-tree-item-drag lesson-item-title" style="display:none; width:100px;">{{title}}</span>
+
+</script>
+
+<script type="text/html" id="contentManagerContentQuestionTemplate">
+    <span class="js-tree-item lesson-item val-row">
+        <span class="lesson-item-controls s-1 shift-left content-manager-hide-mobile">
+            <input type="checkbox" id="selectEntityCheckbox{{uniqueId}}" {{#selected}}checked{{/selected}} class="val-checkbox js-select-entity"/>
+            <label class="checkbox-label" for="selectEntityCheckbox{{uniqueId}}"></label>
+        </span>
+        <span class="js-content-entity lesson-item-title s-4">{{title}}</span>
+        <span class="s-3" style="font-weight: normal;">{{type}}</span>
+        {{#CM_MODIFY}}
+        <span class="lesson-item-controls shift-right">
+            <button class="js-edit-content button medium simple no-text">
+                <span class="val-icon-edit"></span>
+            </button>
+            <button class="js-clone-content button medium simple no-text content-manager-hide-mobile">
+                <span class="val-icon-duplicate"></span>
+            </button>
+            <button class="js-delete-content button medium simple no-text">
+                <span class="val-icon-trash"></span>
+            </button>
+        </span>
+        {{/CM_MODIFY}}
+    </span>
+    <span class="js-tree-item-drag lesson-item-title" style="display:none; width:100px;">{{title}}</span>
+
+</script>
+
+
+
+<script type="text/html" id="categoryEditView">
+    <div class="val-info-table small">
+        <div class="">
+            <input type='text' title='{{requiredFieldTooltipLabel}}'
+                       class="js-category-title text-input valamis box-sizing" value='{{title}}' placeholder='{{newCategoryLabel}}'/>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="button big primary bbm-button js-saveCategory js-submit-button">{{overlayCategorySaveMessageLabel}}</button>
+    </div>
+</script>
+
+
+
+ <!--preview templates -->
+
+<script type="text/html" id="contentManagerPreviewLayoutTemplate">
+    {{#CM_MODIFY}}
+    <div class="preview-controls">
+        <button class="js-edit button medium neutral">Edit</button>
+        <button class="js-clone button medium neutral">Duplicate</button>
+        <button class="js-delete button medium   danger shift-right">Delete</button>
+    </div>
+    {{/CM_MODIFY}}
+    <div id="contentPreviewRegion"></div>
+</script>
+
+
+<script type="text/template" id="choiceQuestionPreviewAnswerTemplate">
+        <td>{{{answerText}}}</td>
+        <td class="preview-normal-text">{{score}} {{questionPreviewPts}}</td>
+        <td class="preview-correct-color">{{#isCorrect}}Correct{{/isCorrect}}</td>
+</script>
+<script type="text/template" id="choiceQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+
+    <table class="js-answers val-table no-border small list preview-content-text">
+    </table>
+
+    {{#forceCorrectCount}}
+    <span class="questionPreviewMessage">{{notifiedNumberCorrectOptionLabel}}</span>
+    {{/forceCorrectCount}}
+
+</script>
+
+<script type="text/template" id="shortAnswerQuestionPreviewAnswerTemplate">
+    <td>{{{answerText}}}</td>
+    <td class="preview-normal-text"> {{score}} {{questionPreviewPoints}}</td>
+</script>
+<script type="text/template" id="shortAnswerQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+
+    <table class="js-answers val-table no-border small list preview-content-text">
+    </table>
+
+    {{#isCaseSensitive}}
+    <span class="questionPreviewMessage">{{caseSensitiveLabel}}</span>
+    {{/isCaseSensitive}}
+    {{^isCaseSensitive}}
+    <span class="questionPreviewMessage">{{caseNotSensitiveLabel}}</span>
+    {{/isCaseSensitive}}
+
+</script>
+
+<script type="text/template" id="numericQuestionPreviewAnswerTemplate">
+    <td>{{rangeFrom}} - {{rangeTo}}</td>
+    <td class="preview-normal-text">{{score}} {{questionPreviewPts}}</td>
+</script>
+<script type="text/template" id="numericQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+    <table class="js-answers val-table no-border small list preview-content-text">
+    </table>
+</script>
+
+<script type="text/template" id="positioningQuestionPreviewAnswerTemplate">
+    {{position}} {{{answerText}}}
+</script>
+<script type="text/template" id="positioningQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+    <ol class="js-answers preview-bold-text preview-content-text">
+    </ol>
+
+    <span class="questionPreviewMessage">{{score}} {{questionPreviewPoints}}</span>
+</script>
+
+<script type="text/template" id="matchingQuestionPreviewAnswerTemplate">
+    <td>{{{matchingText}}}</td>
+    <td class="preview-normal-text">{{{answerText}}}</td>
+    <td class="preview-normal-text"> {{score}} {{questionPreviewPts}}</td>
+</script>
+<script type="text/template" id="matchingQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+
+    <table class="js-answers val-table no-border small list preview-content-text">
+    </table>
+</script>
+
+<script type="text/template" id="essayQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+</script>
+
+<script type="text/template" id="plainTextQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+</script>
+
+<script type="text/template" id="categorizationQuestionPreviewAnswerOptionTemplate">
+    <td class="preview-normal-text">{{{matchingText}}}</td>
+    <td class="preview-normal-text"> {{score}} {{questionPreviewPts}}</td>
+</script>
+
+<script type="text/template" id="categorizationQuestionPreviewAnswerTemplate">
+    <td>{{{optionKey}}}</td>
+    <td>
+        <table class="js-answer-options val-table no-border small list"></table>
+    </td>
+</script>
+<script type="text/template" id="categorizationQuestionPreviewTemplate">
+    <h3>{{title}}</h3>
+    <h5 class="preview-normal-text"> {{questionPreviewDetails}} </h5>
+
+    <table class="val-table no-border small list preview-content-text">
+        <tr>
+            <td>{{questionPreviewType}}</td>
+            <td class="preview-normal-text">{{type}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewContent}}</td>
+            <td class="preview-normal-text">{{{text}}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewExplanation}}</td>
+            <td class="preview-normal-text">{{explanationText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionRightAnswerLabel}}</td>
+            <td class="preview-normal-text">{{rightAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionWrongAnswerLabel}}</td>
+            <td class="preview-normal-text">{{wrongAnswerText}}</td>
+        </tr>
+        <tr>
+            <td>{{questionPreviewCategory}}</td>
+            <td class="preview-normal-text">{{categoryTitle}}</td>
+        </tr>
+    </table>
+
+    <h5 class="preview-normal-text"> {{questionPreviewOptions}} </h5>
+
+    <table class="js-answers val-table no-border small list preview-content-text">
+    </table>
+</script>
+
+<script type="text/template" id="contentManagerCategoryDetailsTemplate">
+    <h1>{{questionPreviewCategory}}</h1>
+    <h5 class="preview-normal-text"> {{title}}</h5>
+</script>
+
+<script type="text/html" id="contentManagerEditQuestionLayoutTemplate">
+    <div class="div-table val-info-table small">
+        <div class="div-row">
+            <div class="div-col name-col valamis">{{questionTypeLabel}}</div>
+            <div class="div-col content-col">
+                <div class="val-select">
+                    <select id="SCORMQuestionType" class="js-question-type">
+                        <option value="type0">{{choiceQuestionTypeLabel}}</option>
+                        <option value="type1">{{shortAnswerQuestionTypeLabel}}</option>
+                        <option value="type2">{{numericQuestionTypeLabel}}</option>
+                        <option value="type3">{{positioningQuestionTypeLabel}}</option>
+                        <option value="type4">{{matchingQuestionTypeLabel}}</option>
+                        <option value="type5">{{essayQuestionTypeLabel}}</option>
+                        <option value="type7">{{categorizationQuestionTypeLabel}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="contentManagerQuestionRegion">
+
+    </div>
+
+    <div class="bbm-modal__bottombar clearfix">
+        <button class="button big neutral bbm-button modal-close ">{{buttonCancelSaveTooltipLabel}}</button>
+        <button class="button big primary bbm-button js-submit-button js-saveQuestion">{{overlayQuestionSaveMessageLabel}}</button>
+    </div>
+</script>
+
+<!--editable question templates-->
+<script type="text/html" id="contentManagerEditChoiceQuestion">
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+                    <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionNotifyUserCorrectAmountLabel}}</div>
+        <div class="div-col content-col">
+            <input type="checkbox" value="None" id="SCORMQuestionBounded" class="js-forceCorrectCount val-checkbox">
+            <label class="checkbox-label" for="SCORMQuestionBounded"></label>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion">
+        </div>
+    </div>
+
+</script>
+
+<script type="text/html" id="contentManagerEditShortAnswerQuestion">
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+                    <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionCaseSensitiveLabel}}</div>
+        <div class="div-col content-col">
+            <input type="checkbox" value="None" id="SCORMQuestionCaseSensitive" class="js-caseSensitive val-checkbox">
+            <label class="checkbox-label" for="SCORMQuestionCaseSensitive"></label>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion">
+        </div>
+    </div>
+
+</script>
+
+<script type="text/html" id="contentManagerEditNumericQuestion">
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+                    <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion"></div>
+    </div>
+
+</script>
+
+<script type="text/html" id="contentManagerEditPositioningQuestion">
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+            <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion"></div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{scoreLabel}}</div>
+        <div class="div-col content-col">
+            <div class="js-plus-minus js-score shift-left"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="contentManagerEditMatchingQuestion">
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+            <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion"></div>
+    </div>
+</script>
+
+<script type="text/html" id="contentManagerEditEssayQuestion">
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+                    <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="contentManagerEditCategorizationQuestion">
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-title text-input valamis box-sizing"
+                   title="{{requiredFieldTooltipLabel}}"
+                   value="{{title}}"
+                   placeholder="{{requiredFieldTooltipLabel}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+        <div class="div-col content-col">
+            <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionExplanationLabel}}</div>
+        <div class="div-col content-col">
+                    <textarea rows="4" class="js-explanation box-sizing textarea valamis ">{{explanationText}}</textarea>
+        </div>
+    </div>
+
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionRightAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-right-answer text-input valamis box-sizing" value="{{rightAnswerText}}"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col valamis">{{questionWrongAnswerLabel}}</div>
+        <div class="div-col content-col">
+            <input type="text" class="js-wrong-answer text-input valamis box-sizing" value="{{wrongAnswerText}}"/>
+        </div>
+    </div>
+
+    <div class="div-row bank-answers-dialog" id="answerDetails">
+        <div class="div-col name-col valamis">Options</div>
+        <div class="div-col content-col" id="contentManagerQuestionAnswerOptionsRegion">
+        </div>
+    </div>
+</script>
+
+
+
+<script type="text/html" id="contentManagerPlainTextQuestion">
+    <div class="div-table val-info-table small">
+        <div class="div-row">
+            <div class="div-col name-col valamis">{{questionTitleLabel}}</div>
+            <div class="div-col content-col">
+                <input type="text" class="js-title text-input valamis box-sizing"
+                       title="{{requiredFieldTooltipLabel}}"
+                       value="{{title}}"
+                       placeholder="{{requiredFieldTooltipLabel}}"/>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col valamis">{{questionTextLabel}}</div>
+            <div class="div-col content-col">
+                <textarea id="contentManagerQuestionTextView" class="js-text">{{text}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="bbm-modal__bottombar clearfix">
+        <button class="button big neutral bbm-button modal-close ">{{buttonCancelSaveTooltipLabel}}</button>
+        <button class="button big primary bbm-button js-saveContent js-submit-button">{{overlayQuestionSaveMessageLabel}}</button>
+    </div>
+</script>
+
+<script type="text/html" id="choiceAnswerEditView">
+    <td class="checkbox-col handle thin">
+        <span class='val-icon-sort'></span>
+    </td>
+    <td>
+        <textarea id="answerText_{{position}}" >{{answerText}}</textarea>
+    </td>
+    <td class="text-center">
+        <input type="checkbox" value="None" id="SCORMAnswerIsCorrect_{{position}}" class="js-answerIsCorrect val-checkbox">
+        <label class="checkbox-label" for="SCORMAnswerIsCorrect_{{position}}"></label>
+    </td>
+    <td class="text-center">
+        <div class="js-plus-minus js-score"></div>
+    </td>
+    <td class="single-element-col text-right">
+        <button id="SCORMAnswerRemove"  class="js-delete button medium danger no-text"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- Short Answer -->
+<script type="text/html" id="shortAnswerEditView">
+    <td class="checkbox-col handle thin">
+        <span class='val-icon-sort'></span>
+    </td>
+    <td >
+        <input type="text" class="js-text text-input valamis box-sizing" value="{{answerText}}"/>
+    </td>
+    <td class="text-center">
+        <div class="js-plus-minus js-score"></div>
+    </td>
+    <td class="single-element-col text-right">
+        <button class="button medium danger no-text js-delete"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- Numeric Answer -->
+<script type="text/html" id="numericAnswerEditView">
+    <td class="checkbox-col handle thin">
+        <span class='val-icon-sort'></span>
+    </td>
+    <td>
+        <input type="text" class="js-rangeFrom js-digits-only numeric-field" title="{{rangeFromLabel}}" value='{{rangeFrom}}' placeholder="{{rangeFromLabel}}"/>
+    </td>
+    <td>
+        <input type="text" class="js-rangeTo js-digits-only numeric-field" title="{{rangeToLabel}}" value='{{rangeTo}}' placeholder="{{rangeToLabel}}"/>
+    </td>
+    <td class="text-center">
+        <div class="js-score js-plus-minus"></div>
+    </td>
+
+    <td class="single-element-col text-right">
+        <button class="js-delete button medium danger no-text"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- Positioning Answer -->
+<script type="text/html" id="positioningAnswerEditView">
+    <td class="checkbox-col handle thin">
+        <span class='val-icon-sort'></span>
+    </td>
+    <td>
+        <textarea type="text" id="answerText_{{position}}">{{answerText}}</textarea>
+    </td>
+    <td class="single-element-col text-right">
+        <button class="button medium danger no-text js-delete"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- Matching Answer -->
+<script type="text/html" id="matchingAnswerEditView">
+    <td>
+        <textarea type="text" id="answerText_{{position}}">{{{answerText}}}</textarea>
+        <div class="answerSectionTitle" style="margin-top: 5px;">{{matchingElementLabel}}</div>
+        <input  type="text" class="js-matchingText text-input valamis box-sizing" value="{{{matchingText}}}" />
+    </td>
+    <td class="text-center">
+        <div class="js-score js-plus-minus"></div>
+    </td>
+    <td class="single-element-col text-right">
+        <button class="js-delete button medium danger no-text"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- Categarization Answer -->
+
+<script type="text/html" id="categorizationAnswerOptionEdit">
+    <td>
+        <textarea id="{{editorId}}">{{matchingText}}</textarea>
+    </td>
+    <td class="text-center">
+      <div class="js-score js-plus-minus" id="SCORMAnswerScore"></div>
+    </td>
+    <td class="single-element-col text-right">
+        <button class="js-delete button medium simple no-text"> <span class="val-icon-trash"></span>Delete </button>
+    </td>
+</script>
+<script type="text/html" id="categorizationAnswerEditView">
+    <td>
+        <textarea id="{{editorId}}">{{{optionKey}}}</textarea>
+
+        <div style="margin-top: 10px;">
+            <div style="float: left;" class="answerSectionTitle">{{categorizationMatchingElementsLabel}}</div>
+
+        </div>
+        <table class="js-answer-options val-table medium list">
+
+        </table>
+
+        <button class="js-add-answer-option button big neutral">
+            {{categorizationAddNewMatchingElementLabel}}
+        </button>
+    </td>
+    <td class="single-element-col text-right">
+        <button class="js-delete button medium danger no-text"> <span class="val-icon-trash"></span> Delete </button>
+    </td>
+</script>
+
+<!-- AnswerCollections -->
+<!-- Choice Answer Collection  -->
+<script type="text/html" id="choiseAnswerCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th colspan="2">{{optionLabel}}</th>
+            <th class="text-center">{{answerCorrectnessLabel}}</th>
+            <th class="text-center">{{scoreLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="questionAnswerOptionsEditors" class="js-answers">
+        </tbody>
+    </table>
+
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>
+
+<!-- Short Answer Collection -->
+<script type="text/html" id="shortAnswerCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th colspan="2">{{optionLabel}}</th>
+            <th class="text-center">{{scoreLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="js-answers">
+        </tbody>
+    </table>
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>
+
+<!-- Numeric Answer Collection -->
+<script type="text/html" id="numericAnswerCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{rangeFromLabel}}</th>
+            <th>{{rangeToLabel}}</th>
+            <th class="text-center">{{scoreLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="js-answers">
+        </tbody>
+    </table>
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>
+
+<!-- Positioning Answer Collection -->
+<script type="text/html" id="positionAnswerCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th colspan="3">{{optionLabel}}</th>
+        </tr>
+        </thead>
+        <tbody class="js-answers">
+        </tbody>
+    </table>
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>
+
+<!-- Matching Answer Collection -->
+<script type="text/html" id="matchingAnswerCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th>{{optionLabel}}</th>
+            <th class="text-center">{{scoreLabel}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="js-answers">
+        </tbody>
+    </table>
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>
+
+<!-- Categorization Answer Collection -->
+<script type="text/html" id="categorizationCollectionView">
+    <table class="val-table medium list">
+        <thead>
+        <tr>
+            <th colspan="2">{{optionLabel}}</th>
+        </tr>
+        </thead>
+        <tbody class="js-answers">
+        </tbody>
+    </table>
+    <div>
+        <button class="js-addAnswerOption button medium primary">
+            {{addNewAnswersButtonLabel}}
+        </button>
+    </div>
+</script>

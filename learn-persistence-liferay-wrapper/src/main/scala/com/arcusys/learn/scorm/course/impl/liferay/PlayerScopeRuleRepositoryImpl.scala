@@ -2,8 +2,9 @@ package com.arcusys.learn.scorm.course.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule
 import com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalServiceUtil
-import com.arcusys.learn.scorm.course.PlayerScopeRuleStorage
-import com.arcusys.learn.scorm.manifest.model.{ PlayerScopeRule, ScopeType }
+import com.arcusys.valamis.lesson.model.PlayerScopeRule
+import com.arcusys.valamis.lesson.storage.PlayerScopeRuleStorage
+import com.arcusys.valamis.model.ScopeType
 import scala.collection.JavaConverters._
 
 /**

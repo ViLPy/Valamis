@@ -1,56 +1,60 @@
 package com.arcusys.learn.facades
 
-import java.io.InputStream
-
-import com.arcusys.learn.bl.models.BadgeResponse
-import com.arcusys.learn.bl.models.certificates.CertificateSortBy.CertificateSortBy
+import java.io.{ File, InputStream }
+import com.arcusys.valamis.certificate.model.{CertificateStatus, CertificateSortBy}
+import CertificateSortBy.CertificateSortBy
+import com.arcusys.valamis.certificate.model.badge.BadgeResponse
+import com.arcusys.valamis.lrs.api.StatementApi
+import com.arcusys.valamis.model.PeriodTypes
+import PeriodTypes._
 import com.arcusys.learn.models.response.CollectionResponse
-import com.arcusys.learn.scorm.manifest.model.PeriodType
-import PeriodType._
-import com.arcusys.learn.models._
 import com.arcusys.learn.models.response.certificates._
-import com.arcusys.learn.models.response.users.UserResponseWithCertificateStatus
-import com.arcusys.learn.models.response.users.UserShortResponse
+import com.arcusys.learn.models.response.users.{ UserResponseWithCertificateStatus, UserShortResponse }
 
 trait CertificateFacadeContract {
-  def getAll(companyID: Int, skip: Int, take: Int, filter: String,
-    sortBy: CertificateSortBy, isSortDirectionAsc: Boolean, isShortResult: Boolean): Seq[Any]
+  def getAll(companyId: Int, scope: Option[Long], page: Int, pageSize: Int, filter: String,
+    sortBy: CertificateSortBy, isSortDirectionAsc: Boolean, isShortResult: Boolean): CollectionResponse[CertificateResponseContract]
 
-  def getGoalsStatuses(certificateId: Int, userId: Int): GoalsStatusResponse
+  def getGoalsStatuses(statementApi: StatementApi, certificateId: Int, userId: Int): GoalsStatusResponse
 
   def getGoalsDeadlines(certificateId: Int, userId: Int): GoalsDeadlineResponse
 
-  def getCertificatesByUserWithOpenBadges(companyID: Int,
-    skip: Int,
-    take: Int,
-    filter: String,
-    sortAZ: Boolean,
-    userId: Int,
-    isOnlyPublished: Boolean): Seq[CertificateResponseContract]
+  def getCertificatesByUserWithOpenBadges(statementApi: StatementApi,
+                                          companyId: Int,
+                                          skip: Int,
+                                          take: Int,
+                                          filter: String,
+                                          sortAZ: Boolean,
+                                          userId: Int,
+                                          isOnlyPublished: Boolean): Seq[CertificateResponseContract]
 
-  def getCertificatesByUserWithOpenBadges(companyID: Int,
-    userId: Int,
-    isOnlyPublished: Boolean): Seq[CertificateResponseContract]
+  def getCertificatesByUserWithOpenBadges(statementApi: StatementApi,
+                                          companyId: Int,
+                                          userId: Int,
+                                          isOnlyPublished: Boolean): Seq[CertificateResponseContract]
 
-  def getCertificatesCountByUserWithOpenBadges(companyID: Int,
-    filter: String,
-    userId: Int,
-    isOnlyPublished: Boolean): Int
-  def allCount(companyID: Int, filter: String): Int
+  def getCertificatesCountByUserWithOpenBadges(statementApi: StatementApi,
+                                               companyId: Int,
+                                               filter: String,
+                                               userId: Int,
+                                               isOnlyPublished: Boolean): Int
 
-  def getStatements(certificateId: Int): Iterable[StatementResponse]
+  def getStatements(certificateId: Int): Iterable[StatementGoalResponse]
 
-  def getActivities(certificateId: Int): Iterable[ActivityResponse]
+  def getActivities(certificateId: Int): Iterable[ActivityGoalResponse]
 
   def getById(certificateId: Int): CertificateResponseContract
 
-  def getJoinedUsers(certificateId: Int,
-    filterName: String,
-    orgId: Int,
-    sortBy: CertificateSortBy,
-    sortAscDirection: Boolean,
-    skip: Int,
-    take: Int): Iterable[(String, UserResponseWithCertificateStatus)]
+  def getByCompanyAndTitleWithSucceedUsers(companyId: Long, title: String): Seq[CertificateSuccessUsersResponse]
+
+  def getJoinedUsers( statementApi: StatementApi,
+                      certificateId: Int,
+                      filterName: String,
+                      orgId: Int,
+                      sortBy: CertificateSortBy,
+                      sortAscDirection: Boolean,
+                      skip: Int,
+                      take: Int): Iterable[(String, UserResponseWithCertificateStatus)]
 
   def getJoinedUsersCount(certificateId: Int,
     filterName: String,
@@ -80,6 +84,8 @@ trait CertificateFacadeContract {
 
   def addStatementObj(certificateId: Int, verb: String, obj: String)
 
+  def addPackageGoal(certificateId: Long, packageId: Long)
+
   def deleteCourse(certificateId: Int, courseId: Int)
 
   def deleteUser(certificateId: Int, userId: Int)
@@ -87,6 +93,8 @@ trait CertificateFacadeContract {
   def deleteActivity(certificateId: Int, activityName: String)
 
   def deleteStatementObj(certificateId: Int, verb: String, obj: String)
+
+  def deletePackageGoal(certificateId: Long, packageId: Long): Unit
 
   def change(id: Int,
     title: String,
@@ -106,9 +114,11 @@ trait CertificateFacadeContract {
 
   def changeStatementObjPeriod(certificateId: Int, verb: String, obj: String, value: Int, period: PeriodType)
 
+  def changePackagePeriod(certificateId: Long, packageId: Long, value: Int, period: PeriodType)
+
   def delete(id: Int)
 
-  def getForUser(companyID: Int,
+  def getForUser(companyId: Int,
     skip: Int,
     take: Int,
     filter: String,
@@ -117,20 +127,21 @@ trait CertificateFacadeContract {
     isShortResult: Boolean,
     isOnlyPublished: Boolean): Seq[CertificateResponseContract]
 
-  def getForUserWithStatus(companyID: Int,
-    skip: Int,
-    take: Int,
-    filter: String,
-    sortAZ: Boolean,
-    userId: Int,
-    isShortResult: Boolean,
-    isOnlyPublished: Boolean): Seq[CertificateResponseContract]
+  def getForUserWithStatus( statementApi: StatementApi,
+                            companyId: Int,
+                            skip: Int,
+                            take: Int,
+                            filter: String,
+                            sortAZ: Boolean,
+                            userId: Int,
+                            isShortResult: Boolean,
+                            isOnlyPublished: Boolean): Seq[CertificateResponseContract]
 
-  def getForUser(companyID: Int,
+  def getForUser(companyId: Int,
     userId: Int,
     isShortResult: Boolean): Seq[CertificateResponseContract]
 
-  def getAvailableForUser(companyID: Int,
+  def getAvailableForUser(companyId: Int,
     skip: Int,
     take: Int,
     filter: String,
@@ -141,12 +152,12 @@ trait CertificateFacadeContract {
     scope: Option[Long]): Seq[CertificateResponseContract]
 
   def forUserCount(
-    companyID: Int,
+    companyId: Int,
     filter: String,
     userId: Int,
     isOnlyPublished: Boolean): Int
 
-  def availableForUserCount(companyID: Int,
+  def availableForUserCount(companyId: Int,
     userId: Int,
     filter: String,
     isOnlyPublished: Boolean,
@@ -162,14 +173,18 @@ trait CertificateFacadeContract {
 
   def unpublish(certificateId: Int): CertificateResponseContract
 
-  def moveCourse(certificateId: Int, courseIDs: Seq[Int])
+  def moveCourse(certificateId: Int, courseIds: Seq[Int])
 
   def exportCertificate(companyId: Int, certificateId: Int): InputStream
 
   def exportCertificates(companyId: Int): InputStream
 
-  def importCertificates(filename: String, companyID: Int): Unit
+  def importCertificates(file: File, companyId: Int): Unit
 
-  def getAvailableStatements(page: Int, skip: Int, take: Int, filter: String,
-    isSortDirectionAsc: Boolean): CollectionResponse[AvailableStatementResponse]
+//  def getAvailableStatements(statementApi: StatementApi, page: Int, skip: Int, take: Int, filter: String,
+//    isSortDirectionAsc: Boolean): CollectionResponse[AvailableStatementResponse]
+
+  def getStatesBy(
+    userId: Long,
+    statuses: Set[CertificateStatus.Value]): Seq[AchievedCertificateStateResponse]
 }

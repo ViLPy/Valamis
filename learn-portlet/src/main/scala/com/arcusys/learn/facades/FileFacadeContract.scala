@@ -16,20 +16,18 @@ trait FileFacadeContract {
   def uploadPDF(content: Array[Byte], quizID: Int, categoryID: Option[String], title: String): FileResponse
   def uploadPPTX(content: Array[Byte], quizID: Int, categoryID: Option[String], title: String): PPTXResponse
 
-  def savePackage(title: String,
+  def uploadPackage(title: String,
     summary: String,
-    courseId: Option[Int],
+    courseId: Long,
     userId: Long,
-    groupId: Long,
     stream: InputStream): FileResponse
 
-  def savePresentation(requestFileName: String,
-    requestFileContent: Array[Byte],
+  def uploadPresentation(fileName: String,
+    stream: InputStream,
     packageTitle: String,
     packageDescription: String,
-    courseID: Option[Int],
-    userId: Long,
-    groupID: Long): FileResponse
+    courseId: Long,
+    userId: Long): FileResponse
   def getFileContent(folder: String, name: String): Array[Byte]
 
   def remove(id: Int)
@@ -85,5 +83,6 @@ trait FileFacadeContract {
 
   def importPackages(
     courseId: Int,
-    stream: InputStream): FileResponse
+    stream: InputStream,
+    userId: Long): FileResponse
 }

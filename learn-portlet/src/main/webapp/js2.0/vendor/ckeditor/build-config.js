@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/7e337e23a652a1007f1ee65aa865ff07
+ * (2) http://ckeditor.com/builder/d5271c3eacf8d36656d35c03c0b2337e
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/7e337e23a652a1007f1ee65aa865ff07
+ * (3) http://ckeditor.com/builder/download/d5271c3eacf8d36656d35c03c0b2337e
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -29,15 +29,20 @@ var CKBUILDER_CONFIG = {
 	preset: 'basic',
 	ignore: [
 		'.bender',
-		'.DS_Store',
-		'.gitignore',
-		'.gitattributes',
-		'.idea',
-		'.mailmap',
 		'bender.js',
 		'bender-err.log',
 		'bender-out.log',
 		'dev',
+		'.DS_Store',
+		'.editorconfig',
+		'.gitattributes',
+		'.gitignore',
+		'gruntfile.js',
+		'.idea',
+		'.jscsrc',
+		'.jshintignore',
+		'.jshintrc',
+		'.mailmap',
 		'node_modules',
 		'package.json',
 		'README.md',
@@ -47,16 +52,20 @@ var CKBUILDER_CONFIG = {
 		'about' : 1,
 		'basicstyles' : 1,
 		'clipboard' : 1,
+		'codesnippet' : 1,
 		'colorbutton' : 1,
 		'colordialog' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
 		'floatingspace' : 1,
+		'font' : 1,
 		'format' : 1,
 		'image' : 1,
 		'imagepaste' : 1,
 		'imageresize' : 1,
 		'indentlist' : 1,
+		'insertpre' : 1,
+		'justify' : 1,
 		'link' : 1,
 		'list' : 1,
 		'sourcedialog' : 1,

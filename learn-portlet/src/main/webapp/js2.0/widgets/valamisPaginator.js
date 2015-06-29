@@ -22,95 +22,167 @@
  */
 
 var PageModel = Backbone.Model.extend({
-  defaults: {
-    totalElements: 0,
-    itemsOnPage: 10,
-    startElementNumber: 0,
-    endElementNumber: 0,
-    currentPage: 1,
-    options: [10, 25, 50, 100]
-  },
-  initialize: function () {
-    this.on('change', this.countStartEndElements, this)
-  },
-  countStartEndElements: function () {
-    this.startElementNumber = (this.currentPage - 1) * this.itemsOnPage + 1;
-    this.set({startElementNumber: Math.min((this.get('currentPage') - 1) * this.get('itemsOnPage') + 1, this.get('totalElements'))}, {silent: true});
-    this.set({endElementNumber: Math.min(this.get('currentPage') * this.get('itemsOnPage'), this.get('totalElements'))}, {silent: true});
-  }
+    defaults: {
+        itemsOnPage: 40,
+        startElementNumber: 0,
+        endElementNumber: 0,
+        navbuttons: [],
+        rightDots: false,
+        leftDots: false,
+        currentPage: 1,
+        totalPages: 0,
+        firstPage: {page: 0, isActive: false},
+        lastPage: {page: 0, isActive: false},
+        showPages: 5,
+        isPrevVisible: true,
+        isNextVisible: false
+    },
+    initialize: function () {
+        this.on('change', this.countStartEndElements, this);
+    },
+    countStartEndElements: function () {
+        var currentPage = this.get('currentPage');
+        var itemsOnPage = this.get('itemsOnPage');
+        var totalElements = this.get('totalElements');
+
+        var totalPages = Math.floor(totalElements / itemsOnPage);
+        if(totalElements % itemsOnPage !== 0 ) totalPages++;
+
+        var showPages = this.get('showPages');
+
+        if(totalPages <= showPages) showPages = totalPages;
+
+        var showPagesHalf = Math.floor(showPages / 2);
+
+        var subStartPage = currentPage - showPagesHalf;
+
+        if(showPages % 2 == 0 ) subStartPage++;
+
+        var subEndPage = currentPage + showPagesHalf;
+
+        if(subStartPage <= 2) {
+            subEndPage = showPages;
+            if (subStartPage == 2 && showPages < 5) subEndPage++;
+            subStartPage = 1;
+        }
+
+        if(subEndPage >= totalPages - 1) {
+            subStartPage = totalPages - showPages + 1;
+            if (subEndPage == totalPages - 1 && showPages < 5) subStartPage--;
+
+            subEndPage = totalPages;
+        }
+
+        var leftDots = subStartPage > 2;
+        var rightDots = subEndPage < totalPages - 1;
+
+        var navbuttons = [];
+        for(var page = subStartPage; page <= subEndPage; page++){
+            navbuttons[page - subStartPage] = {
+                page: page,
+                isActive: page == currentPage
+            };
+        }
+
+        this.set(
+            {
+                startElementNumber: Math.min((currentPage - 1) * itemsOnPage + 1, totalElements),
+                endElementNumber: Math.min(currentPage * itemsOnPage, totalElements),
+                firstPage: { page: 1, isActive: currentPage == 1},
+                lastPage: { page: totalPages, isActive: currentPage == totalPages},
+                navbuttons: navbuttons,
+                leftDots: leftDots,
+                rightDots: rightDots,
+                isPrevVisible: currentPage > 1,
+                isNextVisible: currentPage < totalPages
+            }, {silent: true});
+    }
 });
 
 var ValamisPaginator = Backbone.View.extend({
-  events: {
-    'click .paginator-previous-page': 'previous',
-    'click .paginator-next-page': 'next',
-    'change .paginator-items-per-page': 'onItemsPerPageChanged'
-  },
-  initialize: function (options) {
-    if (options === undefined || options.model === undefined) this.model = new PageModel();
-    this.language = options.language;
-    if (options.needDisplay === undefined)
-      this.needDisplay = false;
-    else
-      this.needDisplay = options.needDisplay;
-    this.model.on('change', this.render, this);
-  },
-  render: function () {
-    var templateContainer = jQuery('#paginatorTemplate');
-    if (templateContainer.length == 0) throw new Error('Paginator template not found');
+    events: {
+        'click .js-paginator-previous-page': 'previous',
+        'click .js-paginator-next-page': 'next',
+        'click .js-paginator-change-page': 'onPageChanged'
+    },
+    initialize: function (options) {
+        options = options || {};
+        this.options = {};
 
-    var template = Mustache.to_html(templateContainer.html(), _.extend(this.model.toJSON(), this.language));
-    this.$el.html(template);
+        if (options.model === undefined) this.model = new PageModel();
 
-    if (this.needDisplay) {
-      var displayTemplate = Mustache.to_html(jQuery('#paginatorDisplayTemplate').html(), _.extend(this.model.toJSON(), this.language));
-      this.$el.find("#paginatorDisplay").html(displayTemplate);
+        this.options.language = options.language || [];
+        this.model.on('change', this.render, this);
+    },
+    render: function () {
+        var templateContainer = jQuery('#paginatorTemplate');
+        if (templateContainer.length == 0) throw new Error('Paginator template not found');
+
+        var template = Mustache.to_html(templateContainer.html(), _.extend(this.model.toJSON(), this.options.language));
+        this.$el.html(template);
+
+        if (this.model.get('totalElements') <= this.model.get('itemsOnPage')) {
+            this.$el.find(".pagination-group").hide();
+        }
+
+        return this;
+    },
+
+    updateItems: function (total) {
+        this.model.set({totalElements: total});
+    },
+
+    currentPage: function () {
+        return this.model.get('currentPage');
+    },
+    itemsOnPage: function () {
+        return this.model.get('itemsOnPage');
+    },
+
+    previous: function () {
+        var current = parseInt(this.model.get('currentPage'));
+        if (current == 1) return;
+        this.updatePage(current - 1);
+    },
+
+    next: function () {
+        var current = parseInt(this.model.get('currentPage'));
+        if (current >= parseInt(this.model.get('totalElements')) / parseInt(this.model.get('itemsOnPage'))) return;
+        this.updatePage(current + 1);
+    },
+    setItemsPerPage: function (count) {
+        this.model.set({
+            itemsOnPage: count
+        });
+    },
+
+    onPageChanged: function(event){
+        var page = jQuery(event.target).attr('data-id');
+        this.updatePage(page);
+    },
+
+    updatePage: function (current) {
+        this.model.set({currentPage: current});
+
+        this.trigger('pageChanged', this);
+        this.model.trigger('pageChanged', this);
     }
-    this.$('.paginator-items-per-page').val(this.model.get('itemsOnPage'));
-    return this;
-  },
+});
 
-  updateItems: function (total) {
-    this.model.set({totalElements: total});
-  },
 
-  currentPage: function () {
-    return this.model.get('currentPage');
-  },
-  itemsOnPage: function () {
-    return this.model.get('itemsOnPage');
-  },
+var ValamisPaginatorShowing = Backbone.View.extend({
+    initialize: function (options) {
+        var settings = options || {};
+        this.options = {};
+        this.options.language = settings.language || [];
+        this.model.on('change', this.render, this);
+    },
+    render: function(){
+        var templateContainer = jQuery('#paginatorShowingTemplate');
+        if (templateContainer.length == 0) throw new Error('PaginatorShowing template not found');
+        var template = Mustache.to_html(templateContainer.html(), _.extend(this.model.toJSON(), this.options.language));
 
-  previous: function () {
-    var current = this.model.get('currentPage');
-    if (current == 1) return;
-    this.updatePage(current - 1);
-  },
-
-  next: function () {
-    var current = this.model.get('currentPage');
-    if (current >= this.model.get('totalElements') / this.model.get('itemsOnPage')) return;
-    this.updatePage(current + 1);
-  },
-  setItemsPerPage: function(count){
-    this.model.set({
-      itemsOnPage: count
-    });
-  },
-  onItemsPerPageChanged: function () {
-    this.model.set({
-      itemsOnPage: this.$('.paginator-items-per-page').val(),
-      currentPage: 1
-    });
-
-    this.trigger('pageChanged', this);
-    this.model.trigger('pageChanged', this);
-  },
-
-  updatePage: function (current) {
-    this.model.set({ currentPage: current });
-
-    this.trigger('pageChanged', this);
-    this.model.trigger('pageChanged', this);
-  }
+        this.$el.html(template);
+        return this;
+    }
 });

@@ -1,4 +1,4 @@
-var viewportWidth = jQuery(window).width();
+var viewportWidth = jQueryValamis(window).width();
 var ChartStatView = Backbone.Marionette.View.extend({
     tagName: 'div',
     defaults: {
@@ -13,7 +13,7 @@ var ChartStatView = Backbone.Marionette.View.extend({
     getData: function () {
         var startedData = _.groupBy(this.model.get('startedData'), 'date');
         var completedData = _.groupBy(this.model.get('completedData'), 'date');
-        var passedData = _.groupBy(this.model.get('passedData'), 'date');
+        var experiencedData = _.groupBy(this.model.get('experiencedData'), 'date');
         var preparedData = {};
         _.forEach(startedData, function (value, key) {
             var amount = _.reduce(value, function (memo, v) {
@@ -35,7 +35,7 @@ var ChartStatView = Backbone.Marionette.View.extend({
                 preparedData[key].completed = amount;
             }
         });
-        _.forEach(passedData, function (value, key) {
+        _.forEach(experiencedData, function (value, key) {
             var amount = _.reduce(value, function (memo, v) {
                 return memo + v.amount
             }, 0);
@@ -102,31 +102,6 @@ var ChartStatView = Backbone.Marionette.View.extend({
             .text("Amount");
 
         this.updateData();
-
-        var legend = this.svg.selectAll(".legend")
-            .data(["Started", "Completed", "Passed"])
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr('render-order', 10)
-            .attr("transform", function (d, i) {
-                return "translate(0," + i * 20 + ")";
-            });
-
-        legend.append("rect")
-            .attr("x", this.width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", this.color);
-
-        legend.append("text")
-            .attr("x", this.width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function (d) {
-                return d;
-            });
-
     },
     render: function () {
         this.isClosed = false;
@@ -153,6 +128,7 @@ var ChartStatView = Backbone.Marionette.View.extend({
             });
         });
 
+        if (!this.x0) return;
         this.x0.domain(data.map(function (d) {
             return d.date;
         }));

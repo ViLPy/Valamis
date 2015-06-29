@@ -1,0 +1,129 @@
+<script type="text/template" id="activitiesLayoutTemplate">
+    <div id="statusRegion"></div>
+    <div id="activitiesRegion"></div>
+</script>
+
+<script type="text/template" id="userStatusViewTemplate">
+    <div class="user-logo">
+        <img class="img-circle" src="{{picture}}" alt="{{name}}">
+    </div>
+    <div class="activity-block">
+        <textarea rows="2" class="js-user-status" placeholder="{{updateStatusLabel}}" ></textarea>
+        <div class="text-right">
+            <button class="button medium primary post-button js-post-status"> {{postLabel}} </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="valamisActivityCollectionViewTemplate">
+    <div class="js-list-view list">
+        <div class="div-table no-content-table js-no-activities hidden">
+            <div class="div-col div-col-center">{{noRecentLabel}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="valamisActivityItemViewTemplate">
+    <div class="user-logo">
+        <img class="img-circle" src="{{user.picture}}" alt="{{user.name}}">
+    </div>
+    <div class="activity-block">
+        <div class="activity-label">
+            <span class="user-label"> {{user.name}} </span>
+            {{activityStmnt}}
+            {{#obj.course}} {{inLabel}}
+                {{#obj.course.url}} <a href="/web{{obj.course.url}}" target="_blank" class="title-label"> {{/obj.course.url}}
+                {{^obj.course.url}} <span class="title-label"> {{/obj.course.url}}
+                        {{obj.course.title}} {{courseLabel}}
+                {{^obj.course.url}} </span> {{/obj.course.url}}
+                {{#obj.course.url}} </a> {{/obj.course.url}}
+
+            {{/obj.course}}
+        </div>
+        <div class="time-label">
+            {{date}}
+        </div>
+        <div class="activity-content clearfix {{#withImage}} with-image {{/withImage}}">
+            {{#obj.comment}}
+            <div class="activity-comment"> {{obj.comment}} </div>
+            {{/obj.comment}}
+
+            {{#withImage}}
+            <div class="activity-image">
+                <div class="image {{objectClassName}} "
+                {{#obj.logo}}
+                style="background-image: url('/delegate/files/images?folderId={{folderId}}&file={{obj.logo}}')"
+                {{/obj.logo}}>
+                </div>
+            </div>
+            {{/withImage}}
+
+            <div class="activity-content-label">
+                {{obj.title}}
+            </div>
+        </div>
+
+        {{#id}}
+        <div class="activity-actions">
+            {{#currentUserLike}}
+            <span class="js-action-like"> {{unlikeLabel}} </span>
+            {{/currentUserLike}}
+            {{^currentUserLike}}
+            <span class="js-action-like"> {{likeLabel}} </span>
+            {{/currentUserLike}}
+
+            • <span class="js-action-comment"> {{commentText}} </span>
+
+            {{#canShare}} • <span class="js-action-share"> {{shareLabel}} </span> {{/canShare}}
+        </div>
+
+        {{#userLiked.length}}
+        <div class="comment-item">
+            <span class="val-icon-heart"></span>
+            {{#actLike.firstItem}}<span class="title-label"> {{actLike.firstItem}} </span> {{andLabel}} {{/actLike.firstItem}}
+            <span class="title-label {{#actLike.isLink}} cursor-pointer js-show-liked-users {{/actLike.isLink}}"> {{actLike.secondItem}} </span>
+            {{actLike.verb}}
+        </div>
+        {{/userLiked.length}}
+        {{/id}}
+
+        <div class="js-activity-comments clearfix"></div>
+        {{#id}}
+        <div class="comment-item">
+            <div class="comment-user-logo">
+                <img class="img-circle" src="{{currentUser.picture}}" alt="{{currentUser.name}}">
+            </div>
+            <div class="comment-content">
+                <input class="js-my-comment-field" type="text" placeholder="{{writeCommentLabel}}">
+                <div class="text-right">
+                    <button class="button medium primary post-button js-post-my-comment" style="display: none;"> {{postLabel}} </button>
+                </div>
+            </div>
+        </div>
+        {{/id}}
+    </div>
+</script>
+
+<script type="text/template" id="valamisCommentItemViewTemplate">
+    <div class="comment-user-logo">
+        <img class="img-circle" src="{{user.picture}}" alt="{{user.name}}">
+    </div>
+    <div class="comment-content">
+        <div class="title-label"> {{user.name}} </div>
+        <div class="time-label"> {{creationDate}} </div>
+        <div> {{content}} </div>
+    </div>
+</script>
+
+<script type="text/template" id="valamisActivityUsersLikedItemViewTemplate">
+    <td class="single-element-col"> {{#pageUrl}}
+        <a href="{{pageUrl}}" target="_blank">
+            {{/pageUrl}}
+
+            <img src="{{picture}}" alt="{{name}}" class="img-circle">
+            {{#pageUrl}}
+        </a>
+        {{/pageUrl}}
+    </td>
+    <td> {{name}}</td>
+</script>

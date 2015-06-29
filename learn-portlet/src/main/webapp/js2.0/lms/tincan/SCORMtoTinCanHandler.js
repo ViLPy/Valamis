@@ -55,6 +55,8 @@ function S2TCSetParameter(parameter,value)
 	case "cmi.exit": //(timeout, suspend, logout, normal, "", WO) Indicates how or why the learner left the SCO
 		break;
 	case "cmi.score.scaled": // score as a decimal
+		scoredSum += (value && value!='0.0' && value!='0')?1:0;
+		scoredCount ++;
 	case "cmi.score.min": // Minimum value in the range for the raw score.
 	case "cmi.score.max": // Maximum possible score.
 	case "cmi.score.raw": // Points score so far by the learner		

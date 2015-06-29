@@ -11,26 +11,26 @@ import org.joda.time.DateTime
  */
 
 object AchievementRequest extends BaseCollectionFilteredRequest with BaseRequest {
-  val USER_ID = "userId"
-  val TITLE = "title"
-  val DESCRIPTION = "description"
-  val LOGO = "logo"
-  val START_DATE = "startDate"
-  val ACHIEVEMENT_ID = "achievementId"
-  val ACTIVITY_CLASS_NAME = "activityClassName"
+  val UserId = "userId"
+  val Title = "title"
+  val Description = "description"
+  val Logo = "logo"
+  val StartDate = "startDate"
+  val AchievementId = "achievementId"
+  val ActivityClassName = "activityClassName"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
   class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
 
-    def actionType: AchievementActionType = Parameter(AchievementRequest.ACTION).required.toUpperCase
-    def userId: Int = Parameter(AchievementRequest.USER_ID).intRequired
-    def title = AntiSamyHelper.sanitize(Parameter(AchievementRequest.TITLE).required)
-    def description = AntiSamyHelper.sanitize(Parameter(AchievementRequest.DESCRIPTION).required)
-    def logoUrl = Parameter(AchievementRequest.LOGO).required
-    def startDate: DateTime = new DateTime(Parameter(AchievementRequest.START_DATE).longRequired)
-    def achievementId = Parameter(AchievementRequest.ACHIEVEMENT_ID).intRequired
-    def activityClassName = Parameter(AchievementRequest.ACTIVITY_CLASS_NAME).required
+    def actionType: AchievementActionType = Parameter(AchievementRequest.Action).required.toUpperCase
+    def userId: Int = Parameter(AchievementRequest.UserId).intRequired
+    def title = AntiSamyHelper.sanitize(Parameter(AchievementRequest.Title).required)
+    def description = AntiSamyHelper.sanitize(Parameter(AchievementRequest.Description).required)
+    def logoUrl = Parameter(AchievementRequest.Logo).required
+    def startDate: DateTime = new DateTime(Parameter(AchievementRequest.StartDate).longRequired)
+    def achievementId = Parameter(AchievementRequest.AchievementId).intRequired
+    def activityClassName = Parameter(AchievementRequest.ActivityClassName).required
   }
 }
 
