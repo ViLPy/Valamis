@@ -1,7 +1,7 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService
-import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissions
+import com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalService
+import com.arcusys.learn.persistence.liferay.model.LFSeqPermissions
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
 
 import scala.collection.JavaConverters._
@@ -11,22 +11,22 @@ import scala.collection.JavaConverters._
  * Date: 29.03.13
  */
 
-object SequencingPermissionsEntityContainer extends MockEntityContainer[LFSequencingPermissionsLocalService, LFSequencingPermissions] {
-  lazy val mockServiceBeanName = classOf[LFSequencingPermissionsLocalService].getName
-  lazy val mockLocalService = mock[LFSequencingPermissionsLocalService]
+object SequencingPermissionsEntityContainer extends MockEntityContainer[LFSeqPermissionsLocalService, LFSeqPermissions] {
+  lazy val mockServiceBeanName = classOf[LFSeqPermissionsLocalService].getName
+  lazy val mockLocalService = mock[LFSeqPermissionsLocalService]
 
   // service related mocks
   def createFunction = _.createLFSequencingPermissions()
-  def addFunction = _.addLFSequencingPermissions(_)
-  def deleteFunction = _.deleteLFSequencingPermissions(_)
-  def updateFunction = _.updateLFSequencingPermissions(_)
+  def addFunction = _.addLFSeqPermissions(_)
+  def deleteFunction = _.deleteLFSeqPermissions(_)
+  def updateFunction = _.updateLFSeqPermissions(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFSequencingPermissionses(_, _)
+  def getAllFunction = _.getLFSeqPermissionses(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
-  def createMockEntity() = mock[LFSequencingPermissions]
-  def mockEntityProperties(mockEntity: LFSequencingPermissions) {
+  def createMockEntity() = mock[LFSeqPermissions]
+  def mockEntityProperties(mockEntity: LFSeqPermissions) {
     mockIntegerProperty(mockEntity.setSequencingID(_), _.getSequencingID)
     mockBooleanProperty(mockEntity.setChoiceForChildren(_), _.getChoiceForChildren)
     mockBooleanProperty(mockEntity.setChoiceForNonDescendants(_), _.getChoiceForNonDescendants)
@@ -43,7 +43,7 @@ object SequencingPermissionsEntityContainer extends MockEntityContainer[LFSequen
     ()
   }
 
-  private def filterBySequencingID(idRaw: Any): Seq[LFSequencingPermissions] = {
+  private def filterBySequencingID(idRaw: Any): Seq[LFSeqPermissions] = {
     internalStorage.values.filter(sequencing => sequencing.getSequencingID == unwrapId(idRaw)).toSeq
   }
   private def unwrapId(idRaw: Any) = idRaw match {

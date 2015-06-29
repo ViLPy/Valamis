@@ -1,18 +1,20 @@
 package com.arcusys.learn.export.quiz
 
-import java.io.{ ByteArrayOutputStream, InputStream, File, FileInputStream }
+import java.io.{ File, FileInputStream }
 
-import com.arcusys.learn.bl.export._
-import com.arcusys.learn.bl.services.{ QuizServiceContract, FileServiceContract }
 import com.arcusys.learn.facades._
-import com.arcusys.learn.quiz.model._
-import com.arcusys.learn.quiz.storage.QuizStorage
+import com.arcusys.valamis.export.ImportProcessor
+import com.arcusys.valamis.file.service.FileService
+import com.arcusys.valamis.quiz.model.Quiz
+import com.arcusys.valamis.quiz.service.QuizService
+import com.arcusys.valamis.quiz.storage.QuizStorage
+import com.arcusys.valamis.util.{ FileSystemUtil, StreamUtil }
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.joda.time.DateTime
 import org.json4s.{ DefaultFormats, Formats }
 
 //TODO need to reafctor
-class QuizImportProcessor(implicit configuration: BindingModule) extends ImportProcessor[Quiz] with Injectable {
+class QuizImportProcessor(implicit configuration: BindingModule) extends ImportProcessor[QuizExportResponse] with Injectable {
 
   override implicit def bindingModule: BindingModule = configuration
 
@@ -21,41 +23,37 @@ class QuizImportProcessor(implicit configuration: BindingModule) extends ImportP
   private lazy val quizFacade = inject[QuizFacadeContract]
   private lazy val questionFacade = inject[QuestionFacadeContract]
   private lazy val categoryFacade = inject[CategoryFacadeContract]
-  private lazy val fileService = inject[FileServiceContract]
-  private lazy val quizService = inject[QuizServiceContract]
+  private lazy val fileService = inject[FileService]
+  private lazy val quizService = inject[QuizService]
 
-  def importItemsImpl(raw: String, courseID: Int, exportTempDirectory: String): Unit = {
-    implicit val fs: Formats = DefaultFormats + new QuizContentSerializer + new QuizQuestionSerializer
-    val quizes = parseJson[List[QuizExportResponse]](raw).get //OrElse(List())//throw new BadRequestException("Cannot deserialize lessons"))
-    quizes.foreach(q => {
+  def importItems(items: List[QuizExportResponse], courseId: Long, tempDirectory: File, userId: Long): Unit = {
+    items.foreach(q => {
       // new logo name for quiz logo file
       val newLogo = if (q.logo.nonEmpty) q.logo.substring(Math.max(q.logo.indexOf("_"), 0)) else ""
-      val quizId = quizStorage.createAndGetID(Quiz(-1, q.title, q.description, "", "", Option(courseID), newLogo, None))
+      val quizId = quizStorage.createAndGetID(Quiz(-1, q.title, q.description, "", "", Option(courseId.toInt), newLogo, None))
       if (q.logo.nonEmpty) {
         try {
-          val contentSource = scala.io.Source.fromInputStream(new FileInputStream(exportTempDirectory + q.logo))(scala.io.Codec.ISO8859)
-          val content = contentSource.map(_.toByte).toArray
-          contentSource.close()
+          val content = FileSystemUtil.getFileContent(new File(tempDirectory, q.logo))
           fileService.setFileContent("quiz_logo_" + quizId, newLogo, content)
         } catch {
-          case _ => {
+          case _: Throwable => {
             // if logo saving failed, clear logo in quiz model
             quizStorage.modify(quizStorage.getByID(quizId).get.copy(logo = ""))
           }
         }
       }
-      val categoryBankId = categoryFacade.create("Imported_" + DateTime.now.toString("YYYY-MM-dd"), "Imported questions at " + DateTime.now.toString("YYYY-MM-dd"), None, Option(courseID)).id
-      q.contents.foreach(addImportContent(quizId, _, None, courseID, categoryBankId, exportTempDirectory))
-      if (questionFacade.getChildren(Option(categoryBankId), Option(courseID)).size == 0)
-        categoryFacade.delete(categoryBankId, Some(courseID))
+      val categoryBankId = categoryFacade.create("Imported_" + DateTime.now.toString("YYYY-MM-dd"), "Imported questions at " + DateTime.now.toString("YYYY-MM-dd"), None, Option(courseId.toInt)).id
+      q.contents.foreach(addImportContent(quizId, _, None, courseId, categoryBankId, tempDirectory))
+      if (questionFacade.getChildren(Option(categoryBankId), Option(courseId.toInt)).size == 0)
+        categoryFacade.delete(categoryBankId, Some(courseId.toInt))
     })
   }
 
-  private def addImportContent(newQuizId: Int, content: QuizContentExport, categoryId: Option[String], courseID: Int, categoryBankId: Int, exportTempDirectory: String) {
+  private def addImportContent(newQuizId: Int, content: QuizContentExport, categoryId: Option[String], courseId: Long, categoryBankId: Int, tempDirectory: File) {
     content match {
       case c: QuizCategoryExport =>
         val newCategory = quizFacade.addCategory(newQuizId, c.title)
-        c.children.foreach(addImportContent(newQuizId, _, Option(newCategory.id), courseID, categoryBankId, exportTempDirectory))
+        c.children.foreach(addImportContent(newQuizId, _, Option(newCategory.id), courseId, categoryBankId, tempDirectory))
       case q: QuizQuestionRevealJSExport =>
         quizFacade.addQuestionRevealJS(newQuizId, categoryId, q.title, q.text)
       case q: QuizQuestionExternalExport =>
@@ -64,9 +62,7 @@ class QuizImportProcessor(implicit configuration: BindingModule) extends ImportP
         quizFacade.addQuestionRevealJS(newQuizId, categoryId, q.title, q.content)
       case q: QuizQuestionPDFExport =>
         quizFacade.addQuestionPDF(newQuizId, categoryId, q.title, q.filename)
-        val contentSource = scala.io.Source.fromInputStream(new FileInputStream(exportTempDirectory + q.filename))(scala.io.Codec.ISO8859)
-        val content = contentSource.map(_.toByte).toArray
-        contentSource.close()
+        val content = FileSystemUtil.getFileContent(new File(tempDirectory, q.filename))
         fileService.setFileContent("quizData" + newQuizId, q.filename, content, false)
       case q: QuizQuestionPlainTextExport =>
         quizFacade.addQuestionPlainText(newQuizId, categoryId, q.title, q.text)
@@ -76,32 +72,25 @@ class QuizImportProcessor(implicit configuration: BindingModule) extends ImportP
           q.question.title,
           q.question.text,
           q.question.explanationText,
+          q.question.rightAnswerText.getOrElse(""),
+          q.question.wrongAnswerText.getOrElse(""),
           q.question.forceCorrectCount,
           q.question.isCaseSensitive,
-          Option(courseID)).id
-        questionFacade.updateQuestion(questionId, Option(categoryBankId),
-          q.question.questionType,
-          q.question.title,
-          q.question.text,
-          q.question.explanationText,
-          q.question.forceCorrectCount,
-          q.question.isCaseSensitive,
-          Option(courseID),
-          q.question.answers.map(_.toAnswerResponse()).toList)
+          Option(courseId.toInt),
+          q.question.answers.map(_.toAnswerResponse()).toList).id
         val res = quizFacade.addQuestion(newQuizId, categoryId, questionId)
         quizFacade.updateQuestion(newQuizId, res.id, q.question.title, q.autoShowAnswer)
       case q: QuizQuestionVideoExport =>
-        val filename = exportTempDirectory + q.uuid
+        val file = new File(tempDirectory, q.uuid)
         val videoTitle = q.videoTitle
-        val groupId = courseID
-        val uuid = fileService.addToDocumentLibrary(filename, groupId, videoTitle, q.extension, q.mimeType, q.size)
+        val uuid = fileService.addToDocumentLibrary(file.getPath, courseId, videoTitle, q.extension, q.mimeType, q.size)
         val catId = getCategoryId(categoryId)
 
-        quizService.createQuestionDocumentLibrary(newQuizId, catId, q.title, uuid, groupId)
+        quizService.createQuestionDocumentLibrary(newQuizId, catId, q.title, uuid, courseId.toInt)
       case q: QuizQuestionPptxExport =>
 
         val catId = getCategoryId(categoryId)
-        val content = streamToByteArray(new FileInputStream(exportTempDirectory + q.filename))
+        val content = StreamUtil.toByteArray(new FileInputStream(new File(tempDirectory, q.filename)))
         fileService.setFileContent("quizData" + newQuizId, q.filename, content, false)
 
         quizService.createQuestionPPTX(newQuizId, catId, q.title, q.filename)
@@ -112,23 +101,6 @@ class QuizImportProcessor(implicit configuration: BindingModule) extends ImportP
   private def getCategoryId(categoryId: Option[String]) = {
     if (categoryId.isEmpty) None
     else Option(categoryId.get.replace("c_", "").toInt)
-  }
-
-  private def streamToByteArray(input: InputStream) = {
-    val buffer = new Array[Byte](8192)
-    val baos = new ByteArrayOutputStream
-
-    def copy() {
-      val read = input.read(buffer)
-      if (read >= 0) {
-        baos.write(buffer, 0, read)
-        copy()
-      }
-    }
-    copy()
-
-    input.close()
-    baos.toByteArray
   }
 }
 

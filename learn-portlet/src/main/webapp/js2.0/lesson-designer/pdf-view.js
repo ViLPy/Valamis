@@ -2,39 +2,49 @@ var PDFModel = LessonContentModel.extend({
   defaults: {
     contentType: 'questionPDF',
     title: '',
-    text: ''
+    text: '',
+      icon: 'pdf'
   }
 });
 
 var PDFView = Backbone.View.extend({
-  template: $('#pdfViewTemplate').html(),
   render: function () {
     this.isNew = this.model.isNew();
     var mustacheAccumulator = {};
     _.extend(mustacheAccumulator, this.model.toJSON(), GLOBAL_translations);
 
-    this.$el.html(Mustache.render(this.template, mustacheAccumulator));
+    this.$el.html(Mustache.render(jQueryValamis('#pdfViewTemplate').html(), mustacheAccumulator));
 
     if (this.isNew) {
-      var uploaderPath = path.root + path.api.files + '?action=ADD&contentType=pdf&quizID=' + this.model.get('lessonId');
+      var uploaderPath = path.root + path.api.files +
+          '?action=ADD&contentType=pdf&quizID=' + (this.model.get('lessonId') || this.model.get('tempId')) +
+          '&courseId=' + Utils.getCourseId();
       if (this.model.get('categoryId')) uploaderPath += '&categoryID=' + this.model.get('categoryId');
 
       var uploader = new FileUploader({
-        endpoint:  uploaderPath
+        endpoint:  uploaderPath,
+        message: GLOBAL_translations['uploadPdfMessage']
       });
       uploader.on('itemDone', function(response) {
         this.model.set({
           id: response.id,
-          title: this.$('.title-edit').val()
+          title: this.$('.js-title-edit').val() || response.title || response.name.replace('.pdf', '')
         });
         if (this.cancelled) {
-          this.model.destroy();
+          if(this.model.get('lessonId'))
+            this.model.destroy();
         } else {
-          this.model.save();
+          if(this.model.get('lessonId'))
+            this.model.save();
+          else
+            this.trigger('pdf:added', this.model);
         }
+
+        this.$('.progress').removeClass('progress-striped active');
       }.bind(this));
 
-      this.$('.file-uploader').append(uploader.render().$el);
+      this.$('.js-file-uploader').append(uploader.render().$el);
+      this.$('.progress').addClass('progress-striped active');
     }
 
     return this;
@@ -44,7 +54,7 @@ var PDFView = Backbone.View.extend({
   },
   submit: function () {
     this.model.set({
-      title: this.$('.title-edit').val() || 'New PDF file'
+      title: this.$('.js-title-edit').val() || 'New PDF file'
     });
     this.model.save();
     contentManagerEvent.trigger('question:added', this.model);
@@ -58,16 +68,23 @@ var PDFView = Backbone.View.extend({
 });
 
 var PDFModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-template').html(), _.extend({header: GLOBAL_translations['addPdfLabel']}, GLOBAL_translations))),
-  submitEl: '.modal-submit',
-  cancelEl: '.close-button',
-  className: 'add-presentation-modal',
+  template: function (data) {
+    return Mustache.to_html(jQueryValamis('#lessonDesignerEmptyModalTemplate').html(),
+      _.extend({header: GLOBAL_translations['AddPDFFileLabel']}, GLOBAL_translations))
+  },
+  submitEl: '.bbm-button',
+  cancelEl: '.modal-close',
+  className: 'val-modal',
   onRender: function () {
     this.view = new PDFView({
       model: this.model,
-      el: this.$('.content')
+      el: this.$('.js-modal-content')
     });
     this.view.render();
+    var that = this;
+    this.view.on('pdf:added', function(model) {
+        that.trigger('pdf:added', model);
+    });
   },
   submit: function () {
     if (this.view)

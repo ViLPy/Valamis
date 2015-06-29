@@ -1,0 +1,72 @@
+<div class="val-row" id="valamisStudySummaryAppRegion">
+    <div class="s-12 m-12 l-7">
+
+        <div class="val-avatar-box">
+            <div class="image">
+                <a href="{{userPageUrl}}"> <img src="{{userPicture}}" alt="{{userName}}"> </a>
+            </div>
+            <div class="text">
+                <div class="text-header">
+                    {{welcomeLabel}}, {{userName}}!
+                </div>
+                <div class="text-content">
+                    {{welcomeDesriptionLabel}}
+                </div>
+            </div>
+            <div class="button-stat-toggle-cont">
+                <button class="button big primary" data-text="{{showStatisticLabel}}" data-toggle-text="{{hideStatisticLabel}}">{{showStatisticLabel}}</button>
+            </div>
+        </div>
+
+        <div class="val-row val-statistic l-only">
+            <div class="s-6 m-3 l-3 statistic-item">
+                <div class="value js-lesson-completed">
+                    {{lessonsCompleted}}
+                </div>
+                <div class="label">
+                    {{lessonsCompletedLabel}}
+                </div>
+                <!--<a href="#" class="link-help valamis-tooltip" data-placement="bottom" title="Description">?</a>-->
+            </div>
+            <div class="s-6 m-3 l-3 statistic-item">
+                <div class="value js-certificates-received">
+                    {{certificatesReceived}}
+                </div>
+                <div class="label">
+                    {{certificatesReceivedLabel}}
+                </div>
+                <!--<a href="#" class="link-help valamis-tooltip" data-placement="bottom" title="Description">?</a>-->
+            </div>
+            <div class="s-6 m-3 l-3 statistic-item">
+                <div class="value js-learning-goals-achived">
+
+                </div>
+                <div class="label">
+                    {{goalsAchievedLabel}}
+                </div>
+                <!--<a href="#" class="link-help valamis-tooltip" data-placement="bottom" title="Description">?</a>-->
+            </div>
+            <div class="s-6 m-3 l-3 statistic-item">
+                <div class="value js-certificates-in-progress">
+
+                </div>
+                <div class="label">
+                    {{certificatesInProgressLabel}}
+                </div>
+                <!--<a href="#" class="link-help valamis-tooltip" data-placement="bottom" title="Description">?</a>-->
+            </div>
+        </div>
+
+    </div>
+    <div class="s-12 m-12 l-5">
+
+        <div class="val-row val-statistic l-only">
+            <div class="chart-header">
+                <strong>{{summaryStudiesLabel}}</strong>
+                <a href="#" class="link-help valamis-tooltip" data-placement="bottom" title="{{summaryStudiesTooltipLabel}}">?</a>
+            </div>
+            <div class="chart-container"></div>
+        </div>
+
+    </div>
+</div>

@@ -3,7 +3,6 @@ package com.arcusys.learn.models
 import org.json4s.{ DefaultFormats, Extraction, CustomSerializer }
 import org.json4s.JsonAST.{ JNothing, JValue }
 import org.json4s.jackson.JsonMethods._
-import com.arcusys.learn.tincan.model.Score
 
 /**
  * User: Yulia.Glushonkova

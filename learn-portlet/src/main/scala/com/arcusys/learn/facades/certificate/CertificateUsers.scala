@@ -1,19 +1,20 @@
 package com.arcusys.learn.facades.certificate
 
-import com.arcusys.learn.bl.models.BadgeResponse
-import com.arcusys.learn.bl.models.certificates.CertificateSortBy.CertificateSortBy
-import com.arcusys.learn.bl.services.CertificateServiceContract
-import com.arcusys.learn.bl.services.certificates.CertificateStatusCheckerContract
+import com.arcusys.valamis.certificate.model.CertificateSortBy
+import CertificateSortBy.CertificateSortBy
 import com.arcusys.learn.facades.CertificateFacadeContract
 import com.arcusys.learn.models.response.certificates.CertificateResponseContract
 import com.arcusys.learn.models.response.users.{ UserShortResponse, UserResponseUtils, UserResponseWithCertificateStatus }
+import com.arcusys.valamis.certificate.model.badge.BadgeResponse
+import com.arcusys.valamis.certificate.service.{ CertificateStatusChecker, CertificateService }
+import com.arcusys.valamis.lrs.api.StatementApi
 import com.escalatesoft.subcut.inject.Injectable
 
 trait CertificateUsers extends Injectable with CertificateResponseFactory with CertificateFacadeContract {
 
   //private val certificateUserService = inject[CertificateServiceContract]
-  private lazy val certificateService = inject[CertificateServiceContract]
-  private lazy val checker = inject[CertificateStatusCheckerContract]
+  private lazy val certificateService = inject[CertificateService]
+  private lazy val checker = inject[CertificateStatusChecker]
 
   def addUser(certificateId: Int, userId: Int) = {
     certificateService.addUser(certificateId, userId)
@@ -36,15 +37,15 @@ trait CertificateUsers extends Injectable with CertificateResponseFactory with C
     certificateService.availableForUserCount(companyID, userId, filter, isOnlyPublished, scope)
   }
 
-  def getForUserWithStatus(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean,
+  def getForUserWithStatus(statementApi: StatementApi, companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean,
     userId: Int, isShortResult: Boolean, isOnlyPublished: Boolean): Seq[CertificateResponseContract] = {
     val c = certificateService.getForUserWithStatus(companyID, skip, take, filter, sortAZ, userId, isOnlyPublished)
 
-    c.map(toCertificateWithUserStatusResponse(userId))
+    c.map(toCertificateWithUserStatusResponse(statementApi, userId))
   }
 
   def getForUser(companyID: Int, userId: Int, isShortResult: Boolean): Seq[CertificateResponseContract] =
-    certificateService.getForUser(companyID, userId)
+    certificateService.getForUser(userId)
       .map(toCertificateResponse(isShortResult))
 
   def getAvailableForUser(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean, userId: Int,
@@ -53,13 +54,13 @@ trait CertificateUsers extends Injectable with CertificateResponseFactory with C
       .map(toCertificateResponse(isShortResult))
   }
 
-  def getJoinedUsers(certificateId: Int, filterName: String, orgId: Int, sortBy: CertificateSortBy,
+  def getJoinedUsers(statementApi: StatementApi, certificateId: Int, filterName: String, orgId: Int, sortBy: CertificateSortBy,
     sortAscDirection: Boolean, skip: Int, take: Int): Iterable[(String, UserResponseWithCertificateStatus)] = {
     val result = certificateService.getJoinedUsers(certificateId, filterName, orgId, sortBy, sortAscDirection, skip, take)
     result.map(i => {
       (i._1,
         UserResponseWithCertificateStatus(i._2.getUserId, i._2.getFullName, UserResponseUtils.getPortraitUrl(i._2),
-          UserResponseUtils.getPublicUrl(i._2), checker.getStatus(certificateId, i._2.getUserId.toInt).toString))
+          UserResponseUtils.getPublicUrl(i._2), checker.getStatus(statementApi, certificateId, i._2.getUserId.toInt).toString))
     })
   }
 
@@ -77,20 +78,20 @@ trait CertificateUsers extends Injectable with CertificateResponseFactory with C
     certificateService.getFreeStudentsCount(certificateId, orgId, filterName)
   }
 
-  def getCertificatesByUserWithOpenBadges(companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean,
+  def getCertificatesByUserWithOpenBadges(statementApi: StatementApi, companyID: Int, skip: Int, take: Int, filter: String, sortAZ: Boolean,
     userId: Int, isOnlyPublished: Boolean): Seq[CertificateResponseContract] = {
 
-    certificateService.getCertificatesByUserWithOpenBadges(companyID, skip, take, filter, sortAZ, userId, isOnlyPublished).
+    certificateService.getCertificatesByUserWithOpenBadges(statementApi, companyID, skip, take, filter, sortAZ, userId, isOnlyPublished).
       map(toCertificateResponse)
   }
 
-  def getCertificatesByUserWithOpenBadges(companyID: Int, userId: Int, isOnlyPublished: Boolean): Seq[CertificateResponseContract] = {
-    certificateService.getCertificatesByUserWithOpenBadges(companyID, userId, isOnlyPublished).
+  def getCertificatesByUserWithOpenBadges(statementApi: StatementApi, companyID: Int, userId: Int, isOnlyPublished: Boolean): Seq[CertificateResponseContract] = {
+    certificateService.getCertificatesByUserWithOpenBadges(statementApi, companyID, userId, isOnlyPublished).
       map(toShortCertificateResponse)
   }
 
-  def getCertificatesCountByUserWithOpenBadges(companyID: Int, filter: String, userId: Int, isOnlyPublished: Boolean): Int = {
-    certificateService.getCertificatesCountByUserWithOpenBadges(companyID, filter, userId, isOnlyPublished)
+  def getCertificatesCountByUserWithOpenBadges(statementApi: StatementApi, companyID: Int, filter: String, userId: Int, isOnlyPublished: Boolean): Int = {
+    certificateService.getCertificatesCountByUserWithOpenBadges(statementApi, companyID, filter, userId, isOnlyPublished)
   }
 
   def getIssuerBadge(certificateId: Int, liferayUserId: Int, rootUrl: String): BadgeResponse = {

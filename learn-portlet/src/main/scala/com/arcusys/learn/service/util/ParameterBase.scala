@@ -2,8 +2,10 @@ package com.arcusys.learn.service.util
 
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 import org.scalatra.ScalatraBase
 
+//import scala.tools.cmd.CommandLineParser.ParseException
 import scala.tools.cmd.Parser.ParseException
 import scala.util.{ Failure, Success, Try }
 import java.util.Date
@@ -113,7 +115,12 @@ class ParameterBase(name: String, kernel: ScalatraBase) {
       throw new ParseException(s"BigDecimal parameter '$name' could not be parsed")
   }
 
-  def dateTimeOption: Option[DateTime] = kernel.params.get(name) map (new DateTime(_))
+  def dateTimeOption(none: String): Option[DateTime] = {
+    val value = params.getOrElse(name, none)
+    val parser = ISODateTimeFormat.dateParser()
+    if (value == none) None
+    else Some(parser.parseDateTime(value).toDateTime)
+  }
   def dateOption(none: String): Option[Date] = {
     val value = params.getOrElse(name, none)
     if (value == none) None

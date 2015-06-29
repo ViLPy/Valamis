@@ -10,6 +10,7 @@ object QuizActionType extends Enumeration {
   val Update = Value("UPDATE")
   val UpdateLogo = Value("UPDATELOGO")
   val Clone = Value("CLONE")
+  val Convert = Value("CONVERT")
 
   val AddCategory = Value("ADDCATEGORY")
   val AddQuestion = Value("ADDQUESTION")

@@ -1,5 +1,6 @@
 package com.arcusys.learn.controllers.api
 
+import com.arcusys.learn.liferay.permission.{ PortletName, PermissionUtil, ViewPermission }
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.facades.LRSToActivitySettingFacade
@@ -14,23 +15,23 @@ class LRSToActivitySettingApiController(configuration: BindingModule) extends Ba
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
   }
 
-  get("/lrs2activity-filter-api-controller/:courseID")(jsonAction {
-    requireTeacherPermissions()
+  get("/lrs2activity-filter-api-controller(/)")(jsonAction {
+    PermissionUtil.requirePermissionApi(ViewPermission, PortletName.LRSToActivityMapper)
     val settingRequest = LRSToActivitySettingsRequest(this)
-    facade.getByCourseID(settingRequest.courseID)
+    facade.getByCourseId(settingRequest.courseId)
   })
 
-  post("/lrs2activity-filter-api-controller/")(jsonAction {
-    requireTeacherPermissions()
+  post("/lrs2activity-filter-api-controller(/)")(jsonAction {
+    PermissionUtil.requirePermissionApi(ViewPermission, PortletName.LRSToActivityMapper)
     val settingRequest = LRSToActivitySettingsRequest(this)
 
     settingRequest.action match {
-      case LRSToActivitySettingActionType.ADD =>
-        facade.create(settingRequest.courseID, settingRequest.title, settingRequest.mappedActivity, settingRequest.mappedVerb)
-      case LRSToActivitySettingActionType.DELETE =>
+      case LRSToActivitySettingActionType.Add =>
+        facade.create(settingRequest.courseId, settingRequest.title, settingRequest.mappedActivity, settingRequest.mappedVerb)
+      case LRSToActivitySettingActionType.Delete =>
         facade.delete(settingRequest.id)
-      case LRSToActivitySettingActionType.UPDATE =>
-        facade.modify(settingRequest.id, settingRequest.courseID, settingRequest.title, settingRequest.mappedActivity, settingRequest.mappedVerb)
+      case LRSToActivitySettingActionType.Update =>
+        facade.modify(settingRequest.id, settingRequest.courseId, settingRequest.title, settingRequest.mappedActivity, settingRequest.mappedVerb)
     }
   })
 }

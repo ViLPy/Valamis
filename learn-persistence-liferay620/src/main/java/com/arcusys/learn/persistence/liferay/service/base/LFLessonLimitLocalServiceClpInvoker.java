@@ -41,12 +41,14 @@ public class LFLessonLimitLocalServiceClpInvoker {
     private String[] _methodParameterTypes14;
     private String _methodName15;
     private String[] _methodParameterTypes15;
-    private String _methodName316;
-    private String[] _methodParameterTypes316;
-    private String _methodName317;
-    private String[] _methodParameterTypes317;
-    private String _methodName322;
-    private String[] _methodParameterTypes322;
+    private String _methodName216;
+    private String[] _methodParameterTypes216;
+    private String _methodName217;
+    private String[] _methodParameterTypes217;
+    private String _methodName222;
+    private String[] _methodParameterTypes222;
+    private String _methodName223;
+    private String[] _methodParameterTypes223;
 
     public LFLessonLimitLocalServiceClpInvoker() {
         _methodName0 = "addLFLessonLimit";
@@ -139,19 +141,23 @@ public class LFLessonLimitLocalServiceClpInvoker {
                 "com.arcusys.learn.persistence.liferay.model.LFLessonLimit"
             };
 
-        _methodName316 = "getBeanIdentifier";
+        _methodName216 = "getBeanIdentifier";
 
-        _methodParameterTypes316 = new String[] {  };
+        _methodParameterTypes216 = new String[] {  };
 
-        _methodName317 = "setBeanIdentifier";
+        _methodName217 = "setBeanIdentifier";
 
-        _methodParameterTypes317 = new String[] { "java.lang.String" };
+        _methodParameterTypes217 = new String[] { "java.lang.String" };
 
-        _methodName322 = "findByID";
+        _methodName222 = "findByID";
 
-        _methodParameterTypes322 = new String[] {
+        _methodParameterTypes222 = new String[] {
                 "java.lang.Long", "java.lang.String"
             };
+
+        _methodName223 = "findByIDs";
+
+        _methodParameterTypes223 = new String[] { "java.lang.Long[][]" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -243,22 +249,27 @@ public class LFLessonLimitLocalServiceClpInvoker {
             return LFLessonLimitLocalServiceUtil.updateLFLessonLimit((com.arcusys.learn.persistence.liferay.model.LFLessonLimit) arguments[0]);
         }
 
-        if (_methodName316.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes316, parameterTypes)) {
+        if (_methodName216.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes216, parameterTypes)) {
             return LFLessonLimitLocalServiceUtil.getBeanIdentifier();
         }
 
-        if (_methodName317.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes317, parameterTypes)) {
+        if (_methodName217.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes217, parameterTypes)) {
             LFLessonLimitLocalServiceUtil.setBeanIdentifier((java.lang.String) arguments[0]);
 
             return null;
         }
 
-        if (_methodName322.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes322, parameterTypes)) {
+        if (_methodName222.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes222, parameterTypes)) {
             return LFLessonLimitLocalServiceUtil.findByID((java.lang.Long) arguments[0],
                 (java.lang.String) arguments[1]);
+        }
+
+        if (_methodName223.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes223, parameterTypes)) {
+            return LFLessonLimitLocalServiceUtil.findByIDs((java.lang.Long[]) arguments[0]);
         }
 
         throw new UnsupportedOperationException();

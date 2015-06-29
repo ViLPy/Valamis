@@ -49,7 +49,7 @@ public class LFLRSToActivitySettingModelImpl extends BaseModelImpl<LFLRSToActivi
             { "activityFilter", Types.VARCHAR },
             { "verbFilter", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFLRSToActivitySetting (id_ LONG not null primary key,courseID INTEGER null,title VARCHAR(75) null,activityFilter VARCHAR(1000) null,verbFilter VARCHAR(1000) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFLRSToActivitySetting (id_ LONG not null primary key,courseID INTEGER null,title VARCHAR(512) null,activityFilter VARCHAR(1000) null,verbFilter VARCHAR(1000) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFLRSToActivitySetting";
     public static final String ORDER_BY_JPQL = " ORDER BY lflrsToActivitySetting.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFLRSToActivitySetting.id_ ASC";

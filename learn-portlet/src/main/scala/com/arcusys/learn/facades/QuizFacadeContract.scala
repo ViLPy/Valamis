@@ -1,6 +1,6 @@
 package com.arcusys.learn.facades
 
-import java.io.InputStream
+import java.io.{ File, InputStream }
 
 import com.arcusys.learn.models.{ QuizCategoryResponse, QuizResponse, _ }
 import com.arcusys.learn.models.request.PackagePublishType
@@ -13,16 +13,18 @@ trait QuizFacadeContract {
 
   def delete(quizID: Int): Unit
 
-  def publish(quizID: Int, userID: Long, groupID: Option[Long], publishType: PackagePublishType.Value,
-    theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): QuizPublishStatusResponse
+  def publish(quizId: Int, userId: Long, courseId: Long, publishType: PackagePublishType.Value,
+    theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double]): QuizPublishStatusResponse
 
-  def download(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int]): InputStream
-  def downloadExternal(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], portalURL: String): InputStream
+  def download(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double]): InputStream
+  def downloadExternal(quizID: Int, courseID: Long, publishType: PackagePublishType.Value, theme: Option[String], randomOrdering: Boolean, questionsPerUser: Option[Int], scoreLimit: Option[Double], portalURL: String): InputStream
 
   def update(quizID: Int, title: String, description: String, maxDuration: Option[Int]): Unit
   def updateLogo(quizId: Int, newLogo: String)
 
   def clone(quizID: Int): Unit
+
+  def convert(quizId: Int, courseId: Long): Unit
 
   def getContent(quizID: Int): Seq[QuizContentResponse]
 
@@ -40,7 +42,7 @@ trait QuizFacadeContract {
 
   def addQuestionExternal(quizID: Int, categoryID: Option[String], title: String, url: String): QuizQuestionResponse
 
-  def addVideo(quizID: Int, categoryID: Option[String], title: String, url: String, fromDL: Boolean, uuid: Option[String], groupId: Option[Long]): QuizQuestionResponse
+  def addVideo(quizID: Int, categoryID: Option[String], title: String, url: String, fromDL: Boolean, uuid: Option[String], groupId: Long): QuizQuestionResponse
 
   def moveElement(quizID: Int, elementID: String, parentID: Option[String], index: Int)
 
@@ -66,5 +68,5 @@ trait QuizFacadeContract {
 
   def exportLessons(quizIds: Seq[Int]): InputStream
 
-  def importLessons(raw: String, courseID: Int): Unit
+  def importLessons(file: File, courseID: Int): Unit
 }

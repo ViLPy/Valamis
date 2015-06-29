@@ -11,9 +11,9 @@ var RESOLUTION_THRESHOLDS = {
 };
 
 var ContentManager = Backbone.View.extend({
-  template: $('#content-manager-template').html(),
+  template: jQueryValamis('#content-manager-template').html(),
   events: {
-    'keyup .search-by-name': 'onFilterNameChanged',
+    'keyup .js-search-by-name': 'onFilterNameChanged',
     'change #lessonSort': 'onFilterSortChanged',
     'click .tileButton': 'setTileMode',
     'click .listButton': 'setListMode',
@@ -25,18 +25,30 @@ var ContentManager = Backbone.View.extend({
     'click .hide-filter': function () {
       this.$('.sidebar-wrapper').removeClass('show');
     },
-    'click .create-lesson': function () {
-      var me = this;
-      var model = new LessonModel();
-      model.save().then(function () {
+    'click .js-create-lesson': function () {
+        var model = new LessonModel();
         contentManagerEvent.trigger('modals:show:editLessonInfoView', model);
-        me.model.get('lessonCollection').add(model);
-        contentManagerEvent.trigger('lesson:created', model.id);
-      });
+    }
+  },
+  showOrHidePaginator: function(){
+    var paginatorTotalElements = this.model.attributes.paginatorModel.get('totalElements');
+
+    if(paginatorTotalElements > this.model.attributes.paginatorModel.get('itemsOnPage')) {
+      jQueryValamis('#paginatorWrapper').show();
+      jQueryValamis('#bottomPaginatorWrapper').show();
+      jQueryValamis('.item-view-picker').show();
+    }
+    else {
+      jQueryValamis('#paginatorWrapper').hide();
+      jQueryValamis('#bottomPaginatorWrapper').hide();
+      jQueryValamis('.item-view-picker').show();
+      if(paginatorTotalElements == 0)
+        jQueryValamis('.item-view-picker').hide();
     }
   },
   initialize: function () {
     this.model = new ContentManagerModel();
+    this.model.on("paginationAppearance", this.showOrHidePaginator, this);
     this.inputTimeout = null;
 
     this.render();
@@ -53,10 +65,10 @@ var ContentManager = Backbone.View.extend({
 
     this.lessonCollectionView = new LessonCollectionView({
       collection: this.model.get('lessonCollection'),
-      el: $('.content-manager .lesson-list-container')
+      el: jQueryValamis('.content-manager .js-lesson-collection-container')
     });
 
-    if ($(window).width() <= RESOLUTION_THRESHOLDS[0]) {
+    if (jQueryValamis(window).width() <= RESOLUTION_THRESHOLDS[0]) {
       this.lessonCollectionView.setMode(ITEM_TEMPLATES_NAME.LIST);
     } else {
       if (quizSettings.get('layout') === ITEM_TEMPLATES_NAME.LIST) {
@@ -66,18 +78,11 @@ var ContentManager = Backbone.View.extend({
       }
     }
     var pageModel = this.model.get('paginatorModel');
-    this.topValamisPaginator = new ValamisPaginator({el: $('.content-manager #paginatorWrapper'), model: pageModel, needDisplay: true, language: GLOBAL_translations});
-    this.bottomValamisPaginator = new ValamisPaginator({el: $('.content-manager #bottomPaginatorWrapper'), model: pageModel, language: GLOBAL_translations});
+    this.topValamisPaginator = new ValamisPaginator({el: jQueryValamis('.content-manager #paginatorWrapper'), model: pageModel, needDisplay: true, language: GLOBAL_translations});
+    this.bottomValamisPaginator = new ValamisPaginator({el: jQueryValamis('.content-manager #bottomPaginatorWrapper'), model: pageModel, language: GLOBAL_translations});
 
     this.model.on('change', this.onModelChanged, this);
     this.model.get("lessonCollection").on('add', this.updateValamisPaginator, this);
-
-    jQuery(window).on('resize', this.resize);
-    valamisTileResize(this.$el);
-  },
-
-  resize: function () {
-    valamisTileResize(contentManagerView.$el);
   },
 
   updateValamisPaginator: function () {
@@ -103,7 +108,7 @@ var ContentManager = Backbone.View.extend({
     quizSettings.save();
   },
   changeViewOnWindowResize: function () {
-    if ($(window).width() < RESOLUTION_THRESHOLDS[0]) {
+    if (jQueryValamis(window).width() < RESOLUTION_THRESHOLDS[0]) {
       if (typeof(this.previousViewType) === 'undefined') {
         this.previousViewType = this.lessonCollectionView.getViewType();
         this.lessonCollectionView.setMode(ITEM_TEMPLATES_NAME.LIST);
@@ -135,13 +140,13 @@ var ContentManager = Backbone.View.extend({
     this.updateSettings();
   },
   render: function () {
-    this.$el.html(Mustache.render(this.template, GLOBAL_translations));
+    this.$el.html(Mustache.render(this.template, _.extend(GLOBAL_translations,window.permissionActionsLessonDesigner)));
     return this;
   },
   getLessonFilter: function () {
     var filter = '';
-    if (this.$('.search-by-name').val() != undefined)
-      filter = this.$('.search-by-name').val();
+    if (this.$('.js-search-by-name').val() != undefined)
+      filter = this.$('.js-search-by-name').val();
     return filter;
   },
   getLessonOrder: function () {
@@ -157,17 +162,17 @@ var UploadLessonLogoModel = Backbone.Model.extend({
 });
 
 var UploadLessonLogoModal = Backbone.Modal.extend({
-  template: _.template(Mustache.to_html($('#modal-clear-template').html(), {header: GLOBAL_translations['uploadLabel']})),
+  template: _.template(Mustache.to_html(jQueryValamis('#modal-clear-template').html(), {header: GLOBAL_translations['uploadLabel']})),
   submitEl: '.bbm-button',
   cancelEl: '.modal-close',
-  className: 'upload-modal',
+  className: 'val-modal upload-modal',
   onRender: function () {
     var me = this;
     var fileUploaderUrl = '';
     if (!quizLogoData.supports()) {
       fileUploaderUrl = path.root + path.api.files + '?action=ADD&contentType=icon&folderId=' + this.model.get('folder');
     }
-    var uploader = new FileUploader({ endpoint: fileUploaderUrl });
+    var uploader = new FileUploader({ endpoint: fileUploaderUrl, message: GLOBAL_translations['uploadLogoMessage'] });
     if (quizLogoData.supports()) {
       uploader.on('fileuploadadd', function (data) {
         quizLogoData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'icon');
@@ -187,14 +192,15 @@ var UploadLessonLogoModal = Backbone.Modal.extend({
       });
     }
 
-    this.$('.content').append(uploader.render().$el);
+    this.$('.js-modal-content').append(uploader.render().$el);
   }
 });
 
 var GalleryModal = Backbone.Modal.extend({
-  template: _.template(Mustache.to_html($('#liferayGallery-modal-template').html(), GLOBAL_translations)),
+  template: _.template(Mustache.to_html(jQueryValamis('#liferayGallery-modal-template').html(), GLOBAL_translations)),
   submitEl: '.bbm-button',
   cancelEl: '.modal-close',
+    className: 'val-modal',
   onRender: function () {
     var me = this;
     this.$el.addClass('image-galley-container');
@@ -204,7 +210,7 @@ var GalleryModal = Backbone.Modal.extend({
       folderID: me.model.get('folder'),
       saveToFileStorage: !quizLogoData.supports()
     });
-    dialog.on('savedLogo', jQuery.proxy(function (data) {
+    dialog.on('savedLogo', jQueryValamis.proxy(function (data) {
       if (quizLogoData.supports()) {
         quizLogoData.setSetting(IMAGE_PARAM_TYPE.CONTENT_TYPE, 'document-library');
         quizLogoData.setSetting(IMAGE_PARAM_TYPE.FILE_ENTRY_ID, data.id);
@@ -218,7 +224,7 @@ var GalleryModal = Backbone.Modal.extend({
         me.model.set({fileName: data.get('title')});
         me.model.set({logo: data.get('title')});
       }
-      var src = "/documents/" + jQuery("#courseID").val() + "/0/" + data.get('title') + "/?version=" + data.get('version') + "&imageThumbnail=1";
+      var src = "/documents/" + Utils.getCourseId() + "/" + data.get('folderId') + "/" + data.get('title') + "/?version=" + data.get('version') + "&imageThumbnail=1";
       me.model.set({src: src});
       me.trigger('modal:close');
     }, this), this);

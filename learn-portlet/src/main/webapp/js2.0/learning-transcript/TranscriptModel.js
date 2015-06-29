@@ -5,16 +5,24 @@ var TranscriptModel = Backbone.Model.extend({
 
 UserCertificateCollectionService = new Backbone.Service({ url: path.root,
     sync: {
-        'read': function () {
+        'read': {
+            'path': function () {
+                return path.api.users
+                    + jQuery('#transcriptUserID').val()
+                    + '/certificates';
+            },
+            'data': function () {
+                return {
+                    companyID: jQuery('#transcriptCompanyID').val(),
+                    page: 0,
+                    count: 1,
+                    isOnlyPublished: true,
+                    courseId: Utils.getCourseId()
+                }
 
-            return path.api.users
-                + jQuery('#transcriptUserID').val()
-                + '/certificates?'
-                + 'companyID=' + jQuery('#transcriptCompanyID').val() +
-                '&page=0' +
-                '&count=1' +
-                '&isOnlyPublished=true';
-        }
+            }
+        },
+        'method': 'get'
     }
 });
 
@@ -30,11 +38,13 @@ var UserCertificateCollection = Backbone.Collection.extend({
 
 UserCoursesCollectionService = new Backbone.Service({ url: path.root,
     sync: {
-        'read': function () {
-
-            return path.api.users
-                + jQuery('#transcriptUserID').val()
-                + '/courses';
+        'read':{
+            'path':function () {
+                return path.api.users
+                    + jQuery('#transcriptUserID').val()
+                    + '/courses';
+            },
+            'method': 'get'
         }
     }
 });
@@ -47,13 +57,20 @@ var UserCoursesCollection = Backbone.Collection.extend({
 
 PackagesCollectionService = new Backbone.Service({ url: path.root,
     sync: {
-        'read': function (e, options) {
+        'read': {
+            'path': path.api.gradebooks,
+            'data': function (e, options) {
+                return {
+                    action: "GRADES",
+                    studyCourseId: options.courseId,
+                    courseId: Utils.getCourseId(),
+                    studentId: jQuery('#transcriptUserID').val(),
+                    page: "0",
+                    count: "1"
+                }
+            },
+            'method': 'get'
 
-            return path.api.gradebooks +
-                "?action=GRADES" +
-                "&courseId=" + options.courseId +
-                "&studentId=" + jQuery('#transcriptUserID').val() +
-                "&page=0&count=1";
         }
     }
 });
@@ -61,14 +78,24 @@ PackagesCollectionService = new Backbone.Service({ url: path.root,
 var PackagesCollection = Backbone.Collection.extend({
     model: TranscriptModel,
     parse: function (response) {
+        this.trigger('packageCollection:updated', {totalGrade: response.gradeTotal});
         return response.packageGrades;
     }
 }).extend(PackagesCollectionService);
 
 CertificateGoalCollectionService = new Backbone.Service({ url: path.root,
     sync: {
-        'read': function (e, options/*, model*/) {
-            return path.api.certificates + options.certificateID + '?action=GETBYID';
+        'read': {
+            'path': function (e, options) {
+                return path.api.certificates + options.certificateID;
+            },
+            'data': function (e, options) {
+                return {
+                    action: 'GETBYID',
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'get'
         }
     }
 });
@@ -98,8 +125,11 @@ var StatementModel = Backbone.Model.extend({
 
 var CertificateGoalStatusService = new Backbone.Service({ url: path.root,
     sync: {
-        'read': function (e, options) {
-            return path.api.users + jQuery('#transcriptUserID').val() + '/certificates/' + options.certificateID + '/goals';
+        'read': {
+            path: function (e, options) {
+                return path.api.users + jQuery('#transcriptUserID').val() + '/certificates/' + options.certificateID + '/goals';
+            },
+            'method': 'get'
         }
     }
 });
@@ -118,8 +148,15 @@ var CertificateGoalStatus = Backbone.Model.extend({
 // Pass amount=0 for filtered statements; amount=-1 for ALL statements
 StatementModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
-        'read': function (options) {
-            return path.api.report + '?action=USER_LATEST_STATEMENTS&amount=' + options.amount;
+        'read':{
+        path: path.api.report,
+            'data': function (options) {
+                return {
+                    action: "USER_LATEST_STATEMENTS",
+                    amount: options.amount
+                }
+            },
+            'method': 'get'
         }
     }
 });
@@ -157,9 +194,7 @@ UserService = new Backbone.Service({ url: path.root,
 });
 
 var UserCollection = Backbone.Collection.extend({
-//    model: UserModel,
     parse: function (data) {
-//        this.trigger('userCollection:updated', { total: data.total, currentPage: data.currentPage, listed: data.records.length });
         return data.records;
     }
 }).extend(UserService);
@@ -168,16 +203,13 @@ var UserCollection = Backbone.Collection.extend({
 PrintTranscriptService = new Backbone.Service({ url: '/',
     sync: {
         'read' : function () {
-            /*return path.api.print + "?action=PRINT_TRANSCRIPT" +
-                                    "&companyID=" + jQuery('#transcriptCompanyID').val() +
-                                    "&userID=" + jQuery('#transcriptUserID').val() +
-                                    "&courseID=" + jQuery('#transcriptCourseID').val();*/
+
             window.location  = window.location.protocol + "//" +
                                            window.location.host + "/" +
                                            path.api.print + "?action=PRINT_TRANSCRIPT" +
                                            "&companyID=" + jQuery('#transcriptCompanyID').val() +
                                            "&userID=" + jQuery('#transcriptUserID').val() +
-                                           "&courseID=" + jQuery('#transcriptCourseID').val();
+                                           "&courseId=" + Utils.getCourseId();
         }
     }
 });

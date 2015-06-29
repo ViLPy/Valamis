@@ -1,8 +1,8 @@
 var LessonView = Backbone.View.extend({
   ITEM_TEMPLATES: {
-    LIST: $('#lessonListViewTemplate').html(),
-    TILE: $('#lessonTileViewTemplate').html(),
-    COMMAND: $('#lessonCommandViewTemplate').html()
+    LIST: jQueryValamis('#lessonListViewTemplate').html(),
+    TILE: jQueryValamis('#lessonTileViewTemplate').html(),
+    COMMAND: jQueryValamis('#lessonCommandViewTemplate').html()
   },
   initialize: function (opts) {
     this.mode = opts.mode;
@@ -35,7 +35,7 @@ var LessonView = Backbone.View.extend({
   _downloadLesson: function (lessonType) {
     window.location = path.root + path.api.files + 'export/?action=DOWNLOAD&contentType=lesson'
       + '&id=' + this.model.id
-      + '&courseID=' + GLOBAL_courseID
+      + '&courseId=' + Utils.getCourseId()
       + '&publishType=' + lessonType;
   },
   editLessonContent: function () {
@@ -105,13 +105,9 @@ var LessonView = Backbone.View.extend({
     this.$el.find('.flip-container .back > div').addClass('hidden');
   },
   render: function () {
-    var mustacheAccumulator = {};
-    _.extend(mustacheAccumulator, GLOBAL_translations);
-    _.extend(mustacheAccumulator, this.model.toJSON());
-    _.extend(mustacheAccumulator, {description: decodeURIComponent(this.model.get('description'))});
-    var template = this.ITEM_TEMPLATES[this.mode];
-    this.$el.addClass('valamis-' + this.mode.toLowerCase() + '-item clearfix');
-    this.$el.html(Mustache.render(template, mustacheAccumulator));
+    var mustacheModel = _.extend({description: this.model.get('description')}, GLOBAL_translations, this.model.toJSON());
+    this.$el.html(Mustache.render(this.template, mustacheModel));
+    this.$el.addClass("list");
 
     return this;
   }
@@ -128,10 +124,6 @@ var LessonCollectionView = Backbone.View.extend({
   },
   render: function () {
     this.$el.html('');
-    if (this.collection.length == 0)
-      jQuery('#bottomPaginatorWrapper').hide();
-    else
-      jQuery('#bottomPaginatorWrapper').show();
     this.collection.each(this.addOne, this);
   },
   addOne: function (lesson) {

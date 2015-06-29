@@ -7,7 +7,7 @@ package com.arcusys.learn.models.request
 object PackageActionType extends Enumeration {
   type PackageActionType = Value
 
-  val ALL = Value("ALL")
-  val UPDATE = Value("UPDATE")
+  val All = Value("ALL")
+  val Update = Value("UPDATE")
 
 }

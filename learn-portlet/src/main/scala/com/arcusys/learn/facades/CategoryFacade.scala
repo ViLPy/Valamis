@@ -1,12 +1,12 @@
 package com.arcusys.learn.facades
 
-import com.arcusys.learn.bl.services.QuestionServiceContract
+import com.arcusys.valamis.exception.EntityNotFoundException
+import com.arcusys.valamis.questionbank.model.QuestionCategory
+import com.arcusys.valamis.questionbank.service.QuestionService
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.questionbank.model.QuestionCategory
-import com.arcusys.learn.models.CategoryResponse
+import com.arcusys.learn.models._
 import org.apache.commons.lang.NotImplementedException
-import com.arcusys.learn.bl.exceptions.EntityNotFoundException
 import com.arcusys.learn.models.request.DndModeType
 import com.arcusys.learn.models.request.DndModeType.DndModeType
 import scala.util.Try
@@ -15,16 +15,59 @@ class CategoryFacade(configuration: BindingModule) extends CategoryFacadeContrac
   def this() = this(Configuration)
 
   implicit val bindingModule = configuration
-  val questionService = inject[QuestionServiceContract]
+  val questionService = inject[QuestionService]
+  lazy val questionFacade = inject[QuestionFacadeContract]
 
-  def getChild(parentId: Option[Int], courseID: Option[Int]) = {
-    questionService.getCategories(parentId, courseID)
+  def getChild(parentId: Option[Int], courseId: Option[Int]) = {
+    questionService.getCategories(parentId, courseId)
       .map(category => CategoryResponse(
         category.id,
         category.title,
         category.description,
-        category.parentID.getOrElse(-1),
-        childrenAmount = questionService.getQuestionsCountByCategory(Some(category.id), courseID)))
+        category.parentId,
+        arrangementIndex = category.arrangementIndex,
+        courseId = category.courseId.get,
+        uniqueId = "q_" + category.id,
+        childrenAmount = questionService.getQuestionsCountByCategory(Some(category.id), courseId)))
+  }
+
+  def collectAllChildren(parentId: Option[Int], courseId: Option[Int]):Seq[ContentResponse] = {
+
+    val questions = questionFacade.getChildren(parentId, courseId)
+
+    val categories = questionService.getCategories(parentId, courseId)
+      .map(category => {
+      val children = collectAllChildren(Some(category.id), courseId)
+      val questionCount = children.filter(c => c.contentType == "category")
+        .map(c => c.asInstanceOf[CategoryResponse].childrenAmount).sum
+
+      CategoryResponse(
+        category.id,
+        category.title,
+        category.description,
+        category.parentId,
+        children = children,
+        arrangementIndex = category.arrangementIndex,
+        courseId = category.courseId.get,
+        uniqueId = "c_" + category.id,
+        childrenAmount = questionCount + children.count(c => c.contentType == "question"))
+    })
+
+    questions ++ categories
+  }
+
+  def getAllContent(parentId: Option[Int], courseId: Option[Int]):Seq[ContentResponse] = {
+    collectAllChildren(parentId, courseId)
+  }
+
+  def getContentAmount(parentId: Option[Int], courseId: Option[Int]):Int = {
+    val children = collectAllChildren(parentId, courseId)
+    val currentQuestionAmount = children.count(_.contentType == "question")
+
+    val currentCategoriesQuestionAmount = children.filter(_.contentType == "category")
+      .map(_.asInstanceOf[CategoryResponse].childrenAmount).sum
+
+    currentQuestionAmount + currentCategoriesQuestionAmount
   }
 
   def getChildWithQuestion(parentId: Option[Int],
@@ -43,21 +86,21 @@ class CategoryFacade(configuration: BindingModule) extends CategoryFacadeContrac
   //      traversal(id, courseId)
   //    })
 
-  //    val categoryIDSet = Parameter("categories").required.trim
-  //    val questionsIDSet = parameter("questions").required.trim
+  //    val categoryIdSet = Parameter("categories").required.trim
+  //    val questionsIdSet = parameter("questions").required.trim
   //    val categoriesSet = mutable.LinkedHashSet[QuestionCategory]()
   //    val questionSet = mutable.LinkedHashSet[Question[Answer]]()
-  //    val courseID = parameter("courseID").intOption(-1)
-  //    val parentID = 0
+  //    val courseId = parameter("courseId").intOption(-1)
+  //    val parentId = 0
   //
-  //    //log.debug("Get all child with questions based on categories = [" + categoryIDSet + "] and questions = [" + questionsIDSet + "]")
+  //    //log.debug("Get all child with questions based on categories = [" + categoryIdSet + "] and questions = [" + questionsIdSet + "]")
   //
   //    def getQuestions(id: Option[Int]) {
-  //      questionStorage.getByCategory(id, courseID).foreach(question => questionSet.add(question))
+  //      questionStorage.getByCategory(id, courseId).foreach(question => questionSet.add(question))
   //    }
   //
   //    def traversal(id: Option[Int]) {
-  //      questionCategoryStorage.getChildren(id, courseID).foreach(cat => {
+  //      questionCategoryStorage.getChildren(id, courseId).foreach(cat => {
   //        categoriesSet.add(cat)
   //        traversal(Some(cat.id))
   //      }
@@ -65,16 +108,16 @@ class CategoryFacade(configuration: BindingModule) extends CategoryFacadeContrac
   //      getQuestions(id)
   //    }
   //
-  //    if (!questionsIDSet.isEmpty) {
+  //    if (!questionsIdSet.isEmpty) {
   //      //log.debug("> Fetching questions")
-  //      questionsIDSet.split(';').foreach(questionID => questionSet.add(questionStorage.getByID(questionID.toInt).get))
+  //      questionsIdSet.split(';').foreach(questionId => questionSet.add(questionStorage.getByID(questionId.toInt).get))
   //    }
   //
-  //    if (!categoryIDSet.isEmpty) {
+  //    if (!categoryIdSet.isEmpty) {
   //      //log.debug("> Fetching categories")
-  //      categoryIDSet.split(';').foreach(catID => {
-  //        val id = if (catID.toInt == -1) None else Some(catID.toInt)
-  //        if (id != None) categoriesSet.add(questionCategoryStorage.getByID(catID.toInt).get)
+  //      categoryIdSet.split(';').foreach(catId => {
+  //        val id = if (catID.toInt == -1) None else Some(catId.toInt)
+  //        if (id != None) categoriesSet.add(questionCategoryStorage.getByID(catId.toInt).get)
   //        traversal(id)
   //      }
   //      )
@@ -104,56 +147,70 @@ class CategoryFacade(configuration: BindingModule) extends CategoryFacadeContrac
     Try(getById(id)).isFailure
   }
 
-  def moveToCourse(id: Int, courseID: Option[Int], newCourseID: Option[Int]): Unit = {
-    questionService.moveCategoryToCourse(id, courseID, newCourseID)
+  def moveToCourse(id: Int, courseId: Option[Int], newCourseId: Option[Int]): Unit = {
+    questionService.moveCategoryToCourse(id, courseId, newCourseId, parentId = None)
   }
 
+  @deprecated
   def move(id: Int, dndMode: DndModeType, targetId: Int, itemType: String) = {
 
-    val siblingID = dndMode match {
-      case DndModeType.LAST => None
-      case DndModeType.INSIDE => None
-      case DndModeType.BEFORE if itemType == "entity" => None
-      case DndModeType.AFTER => Option(targetId)
+    val siblingId = dndMode match {
+      case DndModeType.Last => None
+      case DndModeType.Inside => None
+      case DndModeType.Before if itemType == "entity" => None
+      case DndModeType.After => Option(targetId)
       case _ => Option(targetId)
     }
 
-    val category = if (siblingID != None) {
-      questionService.moveCategoryToSibling(id, siblingID.get, dndMode == DndModeType.AFTER)
+    val category = if (siblingId != None) {
+      questionService.moveCategoryToSibling(id, siblingId.get, dndMode == DndModeType.After)
     } else {
       if (itemType != "entity")
-        questionService.moveCategoryToCategory(id, Some(targetId), dndMode == DndModeType.AFTER)
+        questionService.moveCategoryToCategory(id, Some(targetId), dndMode == DndModeType.After)
       else
         questionService.moveCategoryToQuestion(id, targetId)
     }
 
     toResponse(category)
-    //    val siblingID = if (
-    //      dndMode == DndModeType.LAST
-    //      || (dndMode == DndModeType.BEFORE && itemType == "entity")
-    //      || dndMode == DndModeType.INSIDE
+    //    val siblingId = if (
+    //      dndMode == DndModeType.Last
+    //      || (dndMode == DndModeType.Before && itemType == "entity")
+    //      || dndMode == DndModeType.Inside
     //    )
     //      None
     //    else
     //      Option(targetId)
     //
-    //    val parentId = if (siblingID != None)
+    //    val parentId = if (siblingId != None)
     //      questionCategoryStorage
     //        .getByID(targetId)
     //        .getOrElse(throw new EntityNotFoundException)
-    //        .parentID
+    //        .parentId
     //    else if (itemType != "entity")
     //      Option(targetId)
     //    else questionStorage
     //      .getByID(targetId)
     //      .getOrElse(throw new EntityNotFoundException)
-    //      .categoryID
+    //      .categoryId
     //
-    //    questionService.moveCategory(id, parentId, siblingID, dndMode == DndModeType.AFTER)
+    //    questionService.moveCategory(id, parentId, siblingId, dndMode == DndModeType.After)
     //    getById(id)
   }
 
+  def move(id: Int, index: Int, parentId: Option[Int] /*, newCourseId: Option[Int]*/ ) = {
+    val category = questionService.moveCategory(id, index, parentId /*, newCourseId*/ )
+    toResponse(category)
+  }
+
   private def toResponse(category: QuestionCategory): CategoryResponse = {
-    CategoryResponse(category.id, category.title, category.description, category.parentID.getOrElse(-1))
+    CategoryResponse(
+      category.id,
+      category.title,
+      category.description,
+      category.parentId,
+      arrangementIndex = category.arrangementIndex,
+      courseId = category.courseId.get,
+      uniqueId = "q_" + category.id
+    )
   }
 }

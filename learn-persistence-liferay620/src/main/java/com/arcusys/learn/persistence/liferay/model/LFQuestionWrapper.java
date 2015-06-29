@@ -41,6 +41,8 @@ public class LFQuestionWrapper implements LFQuestion, ModelWrapper<LFQuestion> {
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
         attributes.put("explanationText", getExplanationText());
+        attributes.put("rightAnswerText", getRightAnswerText());
+        attributes.put("wrongAnswerText", getWrongAnswerText());
         attributes.put("forceCorrectCount", getForceCorrectCount());
         attributes.put("caseSensitive", getCaseSensitive());
         attributes.put("questionType", getQuestionType());
@@ -80,6 +82,18 @@ public class LFQuestionWrapper implements LFQuestion, ModelWrapper<LFQuestion> {
 
         if (explanationText != null) {
             setExplanationText(explanationText);
+        }
+
+        String rightAnswerText = (String) attributes.get("rightAnswerText");
+
+        if (rightAnswerText != null) {
+            setRightAnswerText(rightAnswerText);
+        }
+
+        String wrongAnswerText = (String) attributes.get("wrongAnswerText");
+
+        if (wrongAnswerText != null) {
+            setWrongAnswerText(wrongAnswerText);
         }
 
         Boolean forceCorrectCount = (Boolean) attributes.get(
@@ -232,6 +246,46 @@ public class LFQuestionWrapper implements LFQuestion, ModelWrapper<LFQuestion> {
     @Override
     public void setExplanationText(java.lang.String explanationText) {
         _lfQuestion.setExplanationText(explanationText);
+    }
+
+    /**
+    * Returns the right answer text of this l f question.
+    *
+    * @return the right answer text of this l f question
+    */
+    @Override
+    public java.lang.String getRightAnswerText() {
+        return _lfQuestion.getRightAnswerText();
+    }
+
+    /**
+    * Sets the right answer text of this l f question.
+    *
+    * @param rightAnswerText the right answer text of this l f question
+    */
+    @Override
+    public void setRightAnswerText(java.lang.String rightAnswerText) {
+        _lfQuestion.setRightAnswerText(rightAnswerText);
+    }
+
+    /**
+    * Returns the wrong answer text of this l f question.
+    *
+    * @return the wrong answer text of this l f question
+    */
+    @Override
+    public java.lang.String getWrongAnswerText() {
+        return _lfQuestion.getWrongAnswerText();
+    }
+
+    /**
+    * Sets the wrong answer text of this l f question.
+    *
+    * @param wrongAnswerText the wrong answer text of this l f question
+    */
+    @Override
+    public void setWrongAnswerText(java.lang.String wrongAnswerText) {
+        _lfQuestion.setWrongAnswerText(wrongAnswerText);
     }
 
     /**

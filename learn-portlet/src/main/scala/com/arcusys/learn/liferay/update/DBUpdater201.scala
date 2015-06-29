@@ -13,7 +13,7 @@ class DBUpdater201 extends LUpgradeProcess with SQLRunner {
     // --- Altering learn_LFCertificate table
     runSQLScript(
       """
-        |alter table learn_LFPackageGradeStorage add column date_ DATE null;
+        |alter table Learn_LFPackageGradeStorage add column date_ DATE null;
       """.stripMargin)
 
   }

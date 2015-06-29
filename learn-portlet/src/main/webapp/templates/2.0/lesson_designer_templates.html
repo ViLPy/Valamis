@@ -1,10 +1,10 @@
-<script type="template/mustache" id="articleTemplate">
+<script type="template/mustache" id="articleTemplate">     <!-- used -->
     <td>
         {{title}}
     </td>
     <td>
         <div class="position-relative">
-            <div class="valamis-select">
+            <div class="val-select">
                 <select class="article-locale">
                     {{#availableLocales}}
                     <option value="{{id}}"> {{language}} - {{country}}</option>
@@ -15,149 +15,153 @@
     </td>
 </script>
 
-<script type="template/mustache" id="articleTemplateTable">
-    <table>
+<script type="template/mustache" id="articleTemplateTable">  <!-- used -->
+    <table class="val-table medium list">
         <tbody id="articleList">
         <tr>
-            <th class="h4label valamis">{{titleLabel}}</th>
-            <th class="h4label valamis">{{languageLabel}}</th>
+            <th>{{titleLabel}}</th>
+            <th>{{languageLabel}}</th>
         </tr>
         </tbody>
     </table>
 </script>
 
-
-<script type="template/mustache" id="lessonListViewTemplate">
-    <div class="valamis-item-cover-image pull-left"
+<script type="template/mustache" id="lessonListViewTemplate">    <!-- old -->
+    <div class="val-item-cover-image pull-left"
     {{#logo}}
     style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}')"
     {{/logo}}>
     </div>
-    <div class="valamis-item-content pull-left">
-        <div class="valamis-item-title padded-top">{{title}}</div>
-        <div class="valamis-item-description">{{{description}}}</div>
+    <div class="val-item-content pull-left">
+        <div class="val-item-title padded-top">{{title}}</div>
+        <div class="val-item-description">{{{description}}}</div>
     </div>
-    <div class="valamis-item-buttons pull-right">
+    {{#LD_MODIFY}}
+    <div class="val-item-buttons pull-right">
         <button class="edit-lesson-content button valamis big grey val-icon-edit no-text"> Edit</button>
         <button style="margin-right: 4px;" class="delete-lesson button valamis big red val-icon-delete no-text">
             Delete
         </button>
     </div>
-</script>
-
-<script type="template/mustache" id="lessonTileViewTemplate">
-    <div class="valamis-tile-item-wrapper" >
-    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-        <!-- For touchscreen from http://davidwalsh.name/demo/css-flip.php -->
-        <div class="flipper">
-            <div class="front">
-                <div class="valamis-item-cover-image"
-                {{#logo}}
-                style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}')"
-                {{/logo}}>
-                </div>
-                <div class="valamis-item-content">
-                    <div class="valamis-item-title">{{title}}</div>
-                    <div class="valamis-item-description">{{{description}}}</div>
-                </div>
-                <div class="valamis-item-footer">
-                    {{size}} elements
-                </div>
-            </div>
-            <div class="back">
-                <div class="hidden">
-                    <button class="edit-lesson-info button valamis medium grey val-icon-edit val-command">{{editInfo}}
-                    </button>
-                    <button class="edit-lesson-content button valamis medium grey val-icon-edit val-command">
-                        {{editContent}}
-                    </button>
-                    <button class="clone-lesson button valamis medium grey val-icon-clone val-command">{{clone}}
-                    </button>
-                    <button class="delete-lesson button valamis medium grey val-icon-delete val-command">{{delete}}
-                    </button>
-                    <button class="process-tincan-lesson button valamis medium grey val-icon-publish val-command">
-                        {{publishTinCanLabel}}
-                    </button>
-                    <button class="publish-scorm-lesson button valamis medium grey val-icon-publish val-command">
-                        {{publishSCORMLabel}}
-                    </button>
-                    <button class="download-scorm-lesson button valamis medium grey val-icon-download val-command">
-                        {{downloadSCORM}}
-                    </button>
-                    <button class="export-lesson button valamis medium grey val-icon-download val-command">
-                        {{exportLessonLabel}}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+    {{/LD_MODIFY}}
 </script>
 
 <script type="text/template" id="modals-template">
     <div class="modals-container"></div>
 </script>
 
-<script type="text/template" id="modal-clear-template">
+<script type="text/template" id="modal-clear-template">     <!-- old, change to  valamisEmptyModalTemplate -->
     <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
         <h3 class="bbm-modal__title">{{header}}</h3>
 
-        <div class="modal-close">
+        <div class="modal-close val-icon-exit close-button">
         </div>
     </div>
-    <div class="bbm-modal__section content" style="position: relative;">
+    <div class="bbm-modal__section js-modal-content" style="position: relative;">
     </div>
 </script>
 
-<script type="text/template" id="modal-template">
-    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
-        <h3 class="bbm-modal__title">{{header}}</h3>
+<!--<script type="text/template" id="modal-template">  UNUSED -->
+    <!--<div class="bbm-modal__topbar" >-->
+        <!--<h3 class="bbm-modal__title">{{header}}</h3>-->
 
-        <div class="modal-close close-button"></div>
+        <!--<div class="modal-close val-icon-exit close-button"></div>-->
+    <!--</div>-->
+    <!--<div class="bbm-modal__section js-modal-content clearfix" style="position: relative;">-->
+
+    <!--</div>-->
+    <!--<div class="bbm-modal__bottombar buttons-row">-->
+        <!--<a href="#" class="bbm-button button valamis big grey close-button">{{quizCancelUpdateButtonTooltipLabel}}</a>-->
+        <!--<button class="modal-submit button valamis big green bbm-button">{{quizSaveButtonTooltipLabel}}</button>-->
+    <!--</div>-->
+<!--</script>-->
+
+<!--<script type="text/template" id="modal-template-pptx">-->
+    <!--<div class="bbm-modal__topbar" style="margin-bottom: 0px;">-->
+        <!--<h3 class="bbm-modal__title">{{header}}</h3>-->
+
+        <!--<div class="modal-close close-button val-icon-exit"></div>-->
+    <!--</div>-->
+    <!--<div class="bbm-modal__section js-modal-content clearfix" style="position: relative;">-->
+
+    <!--</div>-->
+<!--</script>-->
+
+<!--<script type="text/template" id="modal-template-tincan">-->
+    <!--<div class="bbm-modal__topbar" style="margin-bottom: 0px;">-->
+        <!--<h3 class="bbm-modal__title">{{publishTinCanLabel}}</h3>-->
+
+        <!--<div class="modal-close js-close-button"></div>-->
+    <!--</div>-->
+    <!--<div class="bbm-modal__section js-modal-content clearfix" style="position: relative;">-->
+
+    <!--</div>-->
+    <!--<div class="bbm-modal__bottombar buttons-row">-->
+        <!--<a href="#" class="js-close-button bbm-button button big neutral">{{quizCancelUpdateButtonTooltipLabel}}</a>-->
+        <!--<button class="js-publish-action button big primary val-icon-publish shift-right bbm-button">{{publishQuizLabel}}</button> &lt;!&ndash; had class: create-lesson &ndash;&gt;-->
+        <!--<button class="js-download-action button big primary val-icon-download shift-right bbm-button">{{downloadQuizLabel}}</button> &lt;!&ndash; had class: create-lesson &ndash;&gt;-->
+    <!--</div>-->
+<!--</script>-->
+
+<script type="text/template" id="lesson-edit-info-OLD"> <!-- old -->
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{LessonTitleLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="text" placeholder="{{LessonTitleGoesHereLabel}}" value="{{title}}" class="js-title-field"/>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{CoverImageLabel}}
+            </div>
+            <div class="div-col content-col">
+                <div class="VERY_UGLY_CLASS_NAME">
+                    <img class='shift-left'
+                    {{#logo}} src="/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}" {{/logo}}
+                    {{^logo}} src="/learn-portlet/img/imgo.jpg" {{/logo}} />
+                </div>
+                <div class="button-block">
+                    <button class="button medium primary logo-field"> {{UploadImageLabel}} </button>
+                    <button class="button medium neutral openMediaGallery"> {{SelectFromMediaGalleryLabel}} </button>
+                </div>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{LessonDescriptionLabel}}
+            </div>
+            <div class="div-col content-col">
+                <textarea class="js-description-field"> {{description}} </textarea>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{MaximumDurationLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="checkbox" class="shift-left js-max-duration-checkbox" {{#maxDuration}}checked="checked"{{/maxDuration}}>
+                <label class="pull-left right-margined"> Duration is fixed </label>
+                <div>
+                    <!-- Copied from http://jdewit.github.io/bootstrap-timepicker/index.html demos-->
+                    <div class="input-append bootstrap-timepicker">
+                        <input type="text" class="js-max-duration-picker" {{^maxDuration}} disabled {{/maxDuration}}>
+                        <span class="add-on"><i class="icon-time"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="bbm-modal__section content clearfix" style="position: relative;">
 
-    </div>
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey close-button">{{quizCancelUpdateButtonTooltipLabel}}</a>
-        <button class="modal-submit button valamis big green bbm-button">{{quizSaveButtonTooltipLabel}}</button>
-    </div>
-</script>
-
-<script type="text/template" id="modal-template-pptx">
-    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
-        <h3 class="bbm-modal__title">{{header}}</h3>
-
-        <div class="modal-close close-button"></div>
-    </div>
-    <div class="bbm-modal__section content clearfix" style="position: relative;">
-
-    </div>
-</script>
-
-<script type="text/template" id="modal-template-tincan">
-    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
-        <h3 class="bbm-modal__title">{{publishTinCanLabel}}</h3>
-
-        <div class="modal-close close-button"></div>
-    </div>
-    <div class="bbm-modal__section content clearfix" style="position: relative;">
-
-    </div>
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey close-button">{{quizCancelUpdateButtonTooltipLabel}}</a>
-        <button class="create-lesson button valamis big green val-icon-download bbm-button">{{downloadQuizLabel}}</button>
-        <button class="create-lesson button valamis big green val-icon-publish bbm-button">{{publishQuizLabel}}</button>
-    </div>
-</script>
-
-<script type="text/template" id="lesson-edit-info">
+    <!--
     <div class="div-table">
         <div class="logo-div div-col">
-            <div>  <!--<div style="padding: 20px;">-->
+            <div>
                 <h3 class="valamis hidden-xs">{{logoLabel}}</h3>
 
-                <div class="valamis-row centered-content">
+                <div class="val-row centered-content">
                     <img
                     {{#logo}}
                     src="/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}"
@@ -201,8 +205,7 @@
                         <input type="checkbox" class="pull-left max-duration-checkbox" {{#maxDuration}}checked="checked"{{/maxDuration}}>
                         <label class="pull-left right-margined"> Duration is fixed </label>
                         <div>
-                            <!-- Copied from http://jdewit.github.io/bootstrap-timepicker/index.html demos-->
-                            <div class="input-append bootstrap-timepicker">
+                            <div class="input-append bootstrap-timepicker" style="margin-left: 20px;">
                                 <input type="text" class="max-duration-picker input-small" {{^maxDuration}} disabled {{/maxDuration}}>
                                 <span class="add-on"><i class="icon-time"></i></span>
                             </div>
@@ -213,16 +216,42 @@
             </table>
 
         </div>
-    </div>
+    </div> -->
 
 </script>
 
-<script type="text/template" id="lesson-edit-content">
+<script type="text/template" id="lesson-edit-content-OLD">  <!-- old -->
+    <div class="sidebar-wrapper add-content-left-panel">
+        <div class="add-content add-category box-sizing"> {{AddCategoryLabel}} </div>
+
+        <div class="add-content add-question box-sizing">{{AddContentLabel}}</div>
+        <div class="add-content add-text-article box-sizing">{{AddTextArticleLabel}}</div>
+        <div class="add-content add-video box-sizing">{{AddVideoLabel}}</div>
+        <div class="add-content add-external-resource box-sizing">{{addExternalTreeElementButtonLabel}}</div>
+        <div class="add-content add-pdf box-sizing">{{AddPDFFileLabel}}</div>
+        <div class="add-content add-pptx box-sizing">{{AddPPTXFileLabel}}</div>
+    </div>
+
+    <div class="add-content-right-panel">
+        <div class="buttons-row">
+            <button class="button medium neutral val-icon-checkbutton">{{SelectAllLabel}}</button>
+            <div class="dropdown actions">
+                <button class="button medium neutral">
+                    <span class="dropdown-text"> {{ActionsLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {{#LD_MODIFY}}
+                    <li class="js-edit-lesson-info"> {{DeleteLabel}}</li>
+                    {{/LD_MODIFY}}
+                </ul>
+            </div>
+        </div>
+        <div class="lesson-content" style="min-height: 480px;"> </div>
+    </div>
+<!--
     <button id="toggle-sidebar" class="button valamis big grey menu-toggle val-icon-plus hidden-lg"/>
     <div class="filter-panel sidebar-wrapper">
         <div class="hide-filter modal-close-div"></div>
-
-        <h3 class="valamis">{{addElementsLabel}}</h3>
 
         <div class="add-content add-category box-sizing" style="margin-bottom: 30px;">
             {{addCategoryTreeElementButtonLabel}}
@@ -230,7 +259,6 @@
 
         <div class="add-content add-question box-sizing">{{addQuestionTreeElementButtonLabel}}</div>
         <div class="add-content add-text-article box-sizing">{{addTextArticleLabel}}</div>
-        <!--<div class="add-content add-reveal-presentation box-sizing">{{addPresentationLabel}}</div>-->
         <div class="add-content add-pdf box-sizing">{{addPDFFileLabel}}</div>
         <div class="add-content add-pptx box-sizing">{{addPPTXFileLabel}}</div>
         <div class="add-content add-video box-sizing">{{addVideoLabel}}</div>
@@ -240,35 +268,11 @@
         <div class="lesson-content valamis list-table medium-table">
         </div>
     </div>
+    -->
 </script>
 
-<script type="text/template" id="contentEditorPageItemView">
-    <div class="item-body">
-        <!--<div class="checkbox-container"> <input type="checkbox" /> </div>-->
-        <div style="width:0px;"></div>
-        <div class="vertical-center title-container buttons-row clearfix val-{{contentType}}">
-            <button class="button valamis medium red val-icon-delete no-text pull-right action-delete"></button>
-            {{#isEdited}}
-            <button class="button valamis medium grey val-icon-edit no-text pull-right action-edit"></button>
-            {{/isEdited}}
-            {{#isCategory}}
-            <div class="pull-left category-icon category-expand-button"/>
-            {{/isCategory}}
-            {{^isCategory}}
-            <button class="button valamis medium grey val-icon-preview no-text pull-right action-preview"></button>
-            {{/isCategory}}
-            <!--{{^isCategory}} <img class="pull-left" src="/learn-portlet/images/icon-edit.png"> {{/isCategory}}-->
-            <label> {{title}} </label>
-            {{#isQuizQuestion}}<label class="immediate-answer-flag-label">
-            <input type="checkbox" class="immediate-answer-flag" {{#autoShowAnswer}} checked {{/autoShowAnswer}} name=""
-            id=""/> show right answers
-        </label>{{/isQuizQuestion}}
-        </div>
-    </div>
-    {{#isCategory}}
-    <div class="internal-collection {{#collapsed}}collapsed{{/collapsed}}"></div>{{/isCategory}}
-</script>
-<script type="text/template" id="lesson-content-edit-inline-template">
+
+<script type="text/template" id="lesson-content-edit-inline-templateOld">
     <div class="item-body" data-element-id="{{id}}">
         <div class="vertical-center title-container">
             <button class="button valamis medium red val-icon-close no-text pull-right action-cancel"></button>
@@ -282,56 +286,71 @@
     <div class="internal-collection {{#collapsed}}collapsed{{/collapsed}}"></div>
 </script>
 
-<script type="text/template" id="externalResourceTemplate">
-    <table class="valamis list-table big-table box-sizing resource-table">
+<script type="text/template" id="lesson-content-edit-inline-template"> <!-- TODO: change -->
+<span class="lesson-item {{#isCategory}}category{{/isCategory}} {{#isQuizQuestion}}question{{/isQuizQuestion}}">
+    <input class="js-title-edit" type="text" value="{{title}}" style="width:200px;"/>
+
+    <span class="lesson-item-controls shift-right">
+        <button class="js-action-save button medium primary no-text">
+            <span class="val-icon-checkbutton"></span> Save
+        </button>
+        <button class="js-action-cancel button medium danger no-text">
+            <span class="val-icon-exit"></span> Cancel
+        </button>
+    </span>
+</span>
+{{#isCategory}}
+<ul class="js-internal-collection {{#collapsed}}collapsed{{/collapsed}} lesson-items"></ul>
+{{/isCategory}}
+</script>
+
+<script type="text/template" id="externalResourceTemplate">     <!-- used -->
+    <table class="val-table medium list">
         <tbody>
         <tr>
-            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>{{titleLabel}}</td>
             <td>
-                <input type="text"
-                       class="text-input valamis title-edit box-sizing"
-                       value="{{externalResourceTitle}}"/>
+                <input class="js-title-edit" type="text" placeholder="{{externalResourceTitle}}" value="{{title}}"/>
             </td>
         </tr>
         <tr>
-            <td class="h4label valamis">{{resourceUrlLabel}}</td>
+            <td>{{resourceUrlLabel}}</td>
             <td>
-                <input class="text-input valamis url-edit  box-sizing" type="text" value="{{url}}"/>
+                <input class="js-url-edit" type="text" placeholder="{{resourceUrlLabel}}" value="{{url}}"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="button medium neutral js-action-preview pull-right">
+                    <span class="val-icon-preview"></span> {{previewLabel}}
+                </button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <br>
-    <div style="margin: 20px;">
-        <button type="button" class="button valamis medium grey val-icon-preview action-preview pull-right" style="margin: 20px 0px;">
-            {{previewLabel}}
-        </button>
-        <iframe class="content" src="{{url}}"/>
+    <div class="iframe-wrapper">
+        <iframe class="js-resource-content" src="{{url}}"/>
     </div>
-
-
-
 </script>
 
-<script type="text/template" id="videoTemplate">
-    <table class="valamis list-table big-table box-sizing">
+<script type="text/template" id="videoTemplate">     <!-- used -->
+    <table class="val-table medium list">
         <tbody>
         <tr>
-            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>{{titleLabel}}</td>
             <td>
-                <input type="text"
-                       class="text-input valamis title-edit box-sizing"
-                       value="{{videoTitle}}"/>
+                <input class="js-title-edit" type="text" placeholder="{{videoTitle}}" value=""/>
             </td>
         </tr>
 
         <tr>
             <td colspan="2">
-                <input type="radio" name="videoType" class="videoType" value="DL" checked> {{fromDLLabel}}
-                <div class="pull-right valamis-paginator" id="videoPaginator" style="margin-bottom: 5px;"></div>
+                <input type="radio" id="DL" name="videoType" class="videoType shift-left" value="DL" checked>
+                <label for="DL" class="shift-left"> {{fromDLLabel}} </label>
+                <div class="pull-right val-paginator" id="videoPaginator"></div>
                 <div id="dlVideoContainer">
-                    <table id="dlvideo" class="videoTable valamis list-table medium-table contentTable">
+                    <table id="dlvideo" class="val-table small list">
                     </table>
                 </div>
             </td>
@@ -339,26 +358,27 @@
 
         <tr>
             <td colspan="2">
-                <input type="radio" name="videoType" class="videoType" value="EMBED"> {{youtubeLabel}}
+                <input type="radio" id="EMBED" name="videoType" class="videoType shift-left" value="EMBED">
+                <label for="EMBED"> {{youtubeLabel}} </label>
 
-                <textarea class="url-edit" rows="5" style="width: 100%">{{url}}</textarea>
+                <textarea class="js-url-edit" rows="5" placeholder="{{youtubeURLPlaceholder}}">{{url}}</textarea>
             </td>
         </tr>
         </tbody>
     </table>
-
-
 </script>
 
-<script type="text/template" id="liferayVideoElementView">
+<script type="text/template" id="liferayVideoElementView">   <!-- used -->
     <td>{{title}}</td>
     <td>{{mimeType}}</td>
-    <td class="checkbox-container">
-        <button class="button valamis big grey val-icon-check no-text toggleButton"></button>
+    <td class="single-element-col">
+        <button class="button medium {{^selected}} neutral {{/selected}} {{#selected}} primary {{/selected}} no-text js-toggleButton">
+            <span class="val-icon-checkbutton"></span> Select
+        </button>
     </td>
 </script>
 
-<script type="text/template" id="revealJSViewTemplate">
+<script type="text/template" id="revealJSViewTemplate">      <!-- old functionality -->
     <table class="valamis list-table big-table box-sizing resource-table">
         <tbody>
         <tr>
@@ -379,10 +399,11 @@
     </table>
 </script>
 
-<script type="text/template" id="processTinCanTemplate">
+<script type="text/template" id="processTinCanTemplateOld">      <!-- old -->
     <div class="valamis list-table big-table box-sizing div-table">
         <div class="div-row">
             <div class="h4label valamis div-col">themeLabel</div>
+            <div class="div-col"></div>
             <div class="div-col">
                 <select class="theme-selector">
                     {{#themes}}
@@ -390,9 +411,11 @@
                     {{/themes}}
                 </select>
             </div>
+            <div class="div-col"></div>
         </div>
         <div class="div-row">
             <div class="h4label valamis div-col"></div>
+            <div class="div-col"></div>
             <div class="div-col">
                 <div class="theme-images">
                     {{#themes}}
@@ -405,6 +428,7 @@
             <div class="h4label valamis div-col">
                 {{embedTinCanPlayer}}
             </div>
+            <div class="div-col"></div>
             <div class="div-col">
                 <button class="button valamis big grey val-icon-check no-text toggleButton embedTinCanPlayerToggle"></button>
             </div>
@@ -412,30 +436,78 @@
         <div class="div-row">
             <div class="h4label valamis div-col">
                 {{randomQuestionOrdering}}
+            </div>
+            <div class="div-col">
                 <button class="button valamis big grey val-icon-check no-text toggleButton randomQuestionOrderingToggle"></button>
             </div>
             <div class="h4label valamis div-col">
                 {{questionsCountToShow}}
-                <input type="text" disabled="disabled" class="text-input valamis title-edit box-sizing questionsCountToShowText" />
+                <input type="text" disabled="disabled" class="text-input valamis title-edit box-sizing questionsCountToShowText" style="padding-left: 0px !important; padding-right: 0px !important;" />
+            </div>
+            <div class="div-col">
             </div>
         </div>
     </div>
 </script>
 
-<script type="text/template" id="pdfViewTemplate">
-    <table class="valamis list-table big-table box-sizing">
+<script type="text/template" id="processTinCanTemplate">      <!-- used -->
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col name-col">{{themeLabel}}</div>
+            <div class="div-col content-col">
+                <select class="theme-selector">
+                    {{#themes}}
+                    <option value="{{id}}">{{title}}</option>
+                    {{/themes}}
+                </select>
+            </div>
+         </div>
+        <div class="div-row">
+            <div class="div-col name-col"></div>
+            <div class="div-col content-col">
+                <div class="theme-images">
+                    {{#themes}}
+                    <img src="/learn-portlet/img/themes/{{id}}.jpg" class="image {{id}}" alt=""/>
+                    {{/themes}}
+                </div>
+            </div>
+         </div>
+        <div class="div-row">
+            <div class="div-col name-col"> {{randomQuestionOrdering}} </div>
+            <div class="div-col content-col">
+                <input type="checkbox" value="None" id="toggleRandom" name="check" class="val-checkbox js-toggle-random"/>
+                <label class="checkbox-label" for="toggleRandom"></label>
+                {{questionsCountToShow}}
+                <input type="text" disabled="disabled" class="onlyDigits js-questionsCountToShowText"/>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col"> {{successScore}} </div>
+            <div class="div-col content-col">
+                <div class="js-plus-minus"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="bbm-button button big neutral modal-close">{{quizCancelUpdateButtonTooltipLabel}}</a>
+        <button class="js-download-action button big primary val-icon-download bbm-button">{{downloadQuizLabel}}</button> <!-- had class: create-lesson -->
+        <button class="js-publish-action button big primary val-icon-publish bbm-button">{{publishQuizLabel}}</button> <!-- had class: create-lesson -->
+    </div>
+</script>
+
+<script type="text/template" id="pdfViewTemplate">   <!-- used -->
+    <table class="val-table medium list">
         <tbody>
         <tr>
-            <td class="h4label valamis">{{titleLabel}}</td>
+            <td>{{titleLabel}}</td>
             <td>
-                <input type="text"
-                       class="text-input valamis title-edit box-sizing"
-                       placeholder="{{newPDFFileLabel}}" value="{{title}}"/>
+                <input type="text" class="js-title-edit" placeholder="{{newPDFFileLabel}}" value="{{title}}"/>
             </td>
         </tr>
         <tr>
-            <td class="h4label valamis">{{pdfFileLabel}}</td>
-            <td class="file-uploader">
+            <td>{{addPDFFileLabel}}</td>
+            <td class="js-file-uploader">
 
             </td>
         </tr>
@@ -443,113 +515,488 @@
     </table>
 </script>
 
-<script type="text/template" id="pptxViewTemplate">
-    <table class="valamis list-table big-table box-sizing">
-        <tbody>
-            <tr>
-                <td class="h4label valamis">{{pptxFileLabel}}</td>
-                <td class="file-uploader"></td>
-            </tr>
-            <tr class="slides"></tr>
-        </tbody>
-    </table>
-</script>
+<!--<script type="text/template" id="pptxViewTemplate">-->
+    <!--<table class="valamis list-table big-table box-sizing">-->
+        <!--<tbody>-->
+            <!--<tr>-->
+                <!--<td class="h4label valamis">{{pptxFileLabel}}</td>-->
+                <!--<td class="file-uploader"></td>-->
+            <!--</tr>-->
+            <!--<tr class="slides"></tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+<!--</script>-->
 
-<script type="text/template" id="lessonContentPreviewTemplate">
-    <iFrame src="{{url}}"/>
-</script>
-
-<script type="text/template" id="bankQuestionSelectTemplate">
-    <div style="float: left; margin-right: 10px;">
-        <div class="root selected">_root</div>
-        <div class="categories-container"></div>
-    </div>
-    <div style="float: left; margin-left: 10px;">
-        <div class="questions-container"></div>
+<script type="text/template" id="lessonContentPreviewTemplate">    <!-- used -->
+    <div class="iframe-wrapper">
+        <iframe src="{{url}}"/>
     </div>
 </script>
 
-<script type="text/template" id="bankQuestionTemplate">
-    {{title}}
+<!--<script type="text/template" id="bankQuestionSelectTemplate">-->
+    <!--<div style="float: left; margin-right: 10px;">-->
+        <!--<div class="root selected">_root</div>-->
+        <!--<div class="categories-container"></div>-->
+    <!--</div>-->
+    <!--<div style="float: left; margin-left: 10px;">-->
+        <!--<div class="questions-container"></div>-->
+    <!--</div>-->
+<!--</script>-->
+
+<!--<script type="text/template" id="bankQuestionTemplate">-->
+    <!--{{title}}-->
+<!--</script>-->
+
+<script type="text/template" id="lesson-search-by-name"> <!-- old -->
+    <span class="val-icon-search"> </span> <input placeholder="{{SearchLabel}}" class="js-search-by-name" type="text">
 </script>
 
-<script type="text/template" id="content-manager-template">
-    <div class="portlet-body overflow-hidden">
-        <div class="content-panel">
-            <div class="header clearfix">
-                <button class="show-filter-button filter-toggler button valamis grey menu-toggle val-icon-search pull-left"></button>
-                <h1 class="valamis hidden-xs pull-left">{{lessons}}</h1>
+<script type="text/template" id="lesson-collection-display-mode"> <!-- old -->
+    <button class="js-list-view button medium no-text active simple">
+        <span class="val-icon-list-view">{{ListViewLabel}}</span>
+    </button>
+    <button class="js-tile-view button medium no-text simple">
+        <span class="val-icon-grid-view">{{TileViewLabel}}</span>
+    </button>
+</script>
 
-                <div class="pull-right buttons-row">
-                    <button class="create-lesson button valamis big green val-icon-plus">{{createLesson}}</button>
-                </div>
+<script type="text/template" id="lesson-item"> <!-- old -->
+        <div class="tile-content">
+            <div class="image"
+                {{#logo}}
+                style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{{logo}}}')"
+                {{/logo}}> {{lessonItemLogoLabel}}
             </div>
-            <div class="filter-panel sidebar-wrapper">
-                <div class="hide-filter modal-close"></div>
-                <div class="filter-wrapper">
-                    <h3 class="hidden-sm hidden-xs">
-                        {{refineSearchLabel}}
-                    </h3>
+            <ul>
+                <li class="title">{{title}}</li>
+                <li class="description">{{description}}</li>
+                <li class="categories">       Space • Science    </li>
+            </ul>
 
-                    <div class="panelBody">
-                        <div class="searchBody valamis-row">
-                            <!--<div class="form-group">-->
-                            <label class="h4label valamis">{{searchByName}}</label>
-                            <input type="text" class="search search-by-name form-control text-input valamis box-sizing"
-                                   placeholder="Search">
-                            <!--</div>-->
-                        </div>
-
-                        <div class="sortBody valamis-row position-relative">
-                            <label class="h4label valamis"> {{sort}} </label>
-
-                            <div class="valamis-select userSearchSelect">
-                                <select class="box-sizing" id="lessonSort">
-                                    <option value="TITLE:true"> title(asc)</option>
-                                    <!-- TODO: move to model? -->
-                                    <option value="TITLE:false"> title(desc)</option>
-                                    <option value="CREATIONDATE:true"> creation date (asc)</option>
-                                    <option value="CREATIONDATE:false"> creation date (desc)</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="dropdown actions shift-right">
+                <button class="button medium neutral">
+                    <span class="dropdown-text">{{ActionsLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {{#LD_MODIFY}}
+                    <li class="js-edit-lesson-info"> {{EditInfoLabel}}</li>
+                    <li class="js-edit-lesson-content"> {{EditContentLabel}} </li>
+                    <li class="js-clone-lesson"> {{CloneLabel}} </li>
+                    <li class="js-delete-lesson"> {{DeleteLabel}} </li>
+                    {{/LD_MODIFY}}
+                    {{#LD_PUBLISH}}
+                    <li class="js-process-tincan"> {{ProcessTincanLabel}} </li>
+                    <li class="js-publish-scorm-lesson"> {{PublishScormLabel}} </li>
+                    {{/LD_PUBLISH}}
+                    {{#LD_MODIFY}}
+                    <li class="js-download-scorm-lesson"> {{DownloadScormLabel}} </li>
+                    <li class="js-export-lesson"> {{ExportLessonLabel}} </li>
+                    {{/LD_MODIFY}}
+                </ul>
             </div>
+        </div>
+</script>
 
-            <div class="tool-panel clearfix">
-                <div class="pull-right full-width">
-                    <div id="paginatorWrapper" class="valamis-paginator pull-right"></div>
-					<span class="item-view-picker pull-right">
-						<span class="select-element-label"> {{viewsLabel}} </span>
-						<div style="margin-left: 10px; margin-right: 10px;" class="button-group">
-                            <button class="listButton button valamis medium grey val-icon-list-view no-text"></button>
-                            <button class="tileButton button valamis medium grey val-icon-grid-view no-text active"></button>
-                        </div>
-					</span>
+<script type="text/template" id="lesson-order"> <!-- old -->
+    <span class="dropdown">
+        <button class="button big simple">
+            <span class="dropdown-text"> {{newestLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li data-value="date:desc" class="selected"> {{newestLabel}} </li>
+            <li data-value="date:asc"> {{oldestLabel}} </li>
+            <li data-value="name:asc"> {{byNameAscLabel}} </li>
+            <li data-value="name:desc"> {{byNameDescLabel}} </li>
+        </ul>
+    </span>
+</script>
 
-                </div>
-            </div>
-            <div class="lesson-list-container clearfix grid-view"></div>
-            <div id="bottomPaginatorWrapper" class="pull-right valamis-paginator"></div>
+<script type="text/template" id="lesson-manager-template"> <!-- old -->
+    <div class="clearfix filters-row">
+        <div class="js-search-by-name-container shift-left filter-element"></div>
+        {{#LD_MODIFY}}
+        <button class="js-create-lesson button medium primary shift-right filter-element"> {{NewLessonLabel}} </button>
+        {{/LD_MODIFY}}
+    </div>
+    <div class="clearfix filters-row">
+        <div class="shift-left js-pagination-items-per-page-container filter-element"></div>
+
+        <div class="shift-right filter-element">
+            <span class="js-collection-mode-container shift-left"></span>
+            <span class="js-order-container shift-right"></span>
         </div>
     </div>
+    <div class="js-lesson-collection-container"></div>
+    <div class="js-pagination-page-selection-container"></div>
 </script>
 
 <script type="text/mustache" id="deleteConfirmationTemplate">
-    <div>{{warningDeleteLessonMessageLabel}}<br/>
-        <button class='confirmation btn-valamis btn-primary'>{{yesLabel}}</button>
-        <button class='btn-valamis' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
+    <div class="confirmation-question">{{warningDeleteLessonMessageLabel}}</div>
+    <div>
+        <button class='confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
     </div>
 
 </script>
 
-<script type="text/mustache" id="publishLessonTemplate">
-    <div>
-        %%%_Random ordering: <input id="randomOrdering" type="checkbox" />
-        </br />
-        %%%_Questions per user: <input id="questionsCount" type="input" class="onlyDigits" />
-        </br />
+<!--<script type="text/mustache" id="publishLessonTemplate">-->
+    <!--<div>-->
+        <!--%%%_Random ordering: <input id="randomOrdering" type="checkbox" />-->
+        <!--</br />-->
+        <!--%%%_Questions per user: <input id="questionsCount" type="input" class="onlyDigits" />-->
+        <!--</br />-->
+    <!--</div>-->
+<!--</script>-->
+
+
+
+
+<!--!!!NEW!!!-->
+
+
+<script type="text/template" id="lessonDesignerLayoutTemplate">
+    <div id="lessonDesignerToolbar"></div>
+    <div id="lessonDesignerLessons"></div>
+    <div id="lessonDesignerPaginator" class="val-paginator text-center"></div>
+
+    <div id="lessonDesignerModalRegion">
     </div>
+</script>
+
+
+<script type="text/template" id="lessonDesignerToolbarTemplate">
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" class="js-search" placeholder="{{SearchLabel}}">
+        </div>
+
+        <!--TODO add credentials-->
+        <div class="filter-element shift-right">
+            <button class="button medium primary js-lesson-new shift-right">
+                {{NewLessonLabel}}
+            </button>
+        </div>
+
+    </div>
+
+    <div class="val-row filters-row">
+        <div class="shift-left filter-element paging-showing-label" id="lessonDesignerToolbarShowing"></div>
+
+        <div class="dropdown filter-element shift-right js-sort-filter">
+            <button class="button medium simple ">
+                <span class="dropdown-text"> {{newestLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                <li class="js-sort" data-value="dateDesc"> {{newestLabel}}</li>
+                <li class="js-sort" data-value="dateAsc"> {{oldestLabel}}</li>
+                <li class="js-sort" data-value="nameAsc"> {{byNameAscLabel}} </li>
+                <li class="js-sort" data-value="nameDesc"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+        <button class="button medium simple no-text hide-s shift-right js-display-option js-tile-view">
+            <span class="val-icon-grid-view">Grid View</span>
+        </button>
+        <button class="button medium simple no-text hide-s shift-right js-display-option js-list-view active">
+            <span class="val-icon-list-view">List View</span>
+        </button>
+    </div>
+
+</script>
+
+
+<script type="text/html" id="lessonDesignerItemView">
+    <div class="tile-content with-action">
+        <div class="image"
+             {{#logo}}
+             style="background-image: url('/delegate/files/images?folderId=quiz_logo_{{id}}&file={{{logo}}}')"
+             {{/logo}}> {{lessonItemLogoLabel}}
+    </div>
+    <ul>
+        <li class="title">{{title}}</li>
+        <li class="description">{{description}}</li>
+        <li class="categories">{{size}} {{elementsLabel}}</li>
+    </ul>
+    <div class="dropdown actions shift-right">
+        <button class="button medium neutral">
+            <span class="dropdown-text">{{ActionsLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+        </button>
+        <ul class="dropdown-menu">
+            {{#LD_MODIFY}}
+            <li class="js-lesson-edit-info"> {{EditInfoLabel}}</li>
+            <li class="js-lesson-edit-content"> {{EditContentLabel}} </li>
+            <li class="js-lesson-clone"> {{CloneLabel}} </li>
+            <li class="js-lesson-delete"> {{DeleteLabel}} </li>
+            {{/LD_MODIFY}}
+            {{#LD_PUBLISH}}
+            <li class="js-process-tincan"> {{ProcessTincanLabel}} </li>
+            <li class="js-lesson-publish-scorm"> {{PublishScormLabel}} </li>
+            {{/LD_PUBLISH}}
+            {{#LD_MODIFY}}
+            <li class="js-lesson-download-scorm"> {{DownloadScormLabel}} </li>
+            <li class="js-lesson-export"> {{ExportLessonLabel}} </li>
+            <li class="js-lesson-convert"> {{ConvertLessonLabel}} </li>
+            {{/LD_MODIFY}}
+        </ul>
+    </div>
+</script>
+
+<script type="text/template" id="lessonDesignerLessonList">
+</script>
+
+
+
+<script type="text/template" id="valamisEmptyModalTemplate">
+    <div class="bbm-modal__topbar" >
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit"></div>
+    </div>
+    <div class="bbm-modal__section js-modal-content">
+
+    </div>
+</script>
+
+
+<script type="text/template" id="lessonDesignerEmptyModalTemplate">
+    <div class="bbm-modal__topbar" >
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit"></div>
+    </div>
+    <div class="bbm-modal__section js-modal-content">
+
+    </div>
+
+    <div class="bbm-modal__bottombar">
+        <button class="button big neutral modal-close">{{quizCancelUpdateButtonTooltipLabel}}</button>
+        <button class="button big primary bbm-button">{{quizSaveButtonTooltipLabel}}</button>
+
+        <!--<a href="#" class="button big neutral modal-close">{{editPackageCancelButtonLabel}}</a>-->
+    </div>
+</script>
+
+
+<script type="text/template" id="lesson-edit-info">
+<div class="div-table val-info-table">
+    <div class="div-row">
+        <div class="div-col name-col">
+            {{LessonTitleLabel}}
+        </div>
+        <div class="div-col content-col">
+            <input type="text" placeholder="{{LessonTitleGoesHereLabel}}" value="{{title}}" class="js-title-field"/>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col">
+            {{CoverImageLabel}}
+        </div>
+        <div class="div-col content-col">
+                <img class='js-logo js-upload-new-logo shift-left val-img-logo'
+                     {{#logo}} src="/delegate/files/images?folderId=quiz_logo_{{id}}&file={{logo}}" {{/logo}}
+                {{^logo}} src="/learn-portlet/img/imgo.jpg" {{/logo}} />
+
+            <div class="button-block shift-left">
+                <button class="button medium primary js-upload-new-logo"> {{UploadImageLabel}} </button>
+                <button class="button medium neutral openMediaGallery"> {{SelectFromMediaGalleryLabel}} </button>
+            </div>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col">
+            {{LessonDescriptionLabel}}
+        </div>
+        <div class="div-col content-col">
+            <textarea rows="5" class="js-description-field" placeholder="{{LessonDescriptionLabel}}">{{description}}</textarea>
+        </div>
+    </div>
+    <div class="div-row">
+        <div class="div-col name-col">
+            {{MaximumDurationLabel}}
+        </div>
+        <div class="div-col content-col">
+            <input type="checkbox" id="maxDurationCheckbox" class="val-checkbox js-max-duration-checkbox" {{#maxDuration}}checked="checked"{{/maxDuration}}>
+            <label class="shift-left" for="maxDurationCheckbox"> {{fixedDurationLabel}} </label>
+            <div>
+                <!-- Copied from http://jdewit.github.io/bootstrap-timepicker/index.html demos-->
+                <div class="input-append bootstrap-timepicker">
+                    <!--<input type="text" class="js-max-duration-picker" {{^maxDuration}} disabled {{/maxDuration}}>-->
+                    <input type="text" class="js-max-duration-picker" {{^maxDuration}} disabled {{/maxDuration}}>
+                    <span class="add-on"><i class="icon-time"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+
+
+<script type="text/template" id="lesson-edit-content">
+    <div class="val-portlet">
+        <div class="portlet-wrapper hide-s-sidebar">
+            {{#LD_MODIFY}}
+            <div class="portlet-sidebar">
+                <div class="sidebar-content no-header">
+                    <div class="js-add-content js-add-category val-row sidebar-row cursor-pointer" data-value="category">
+                        <span class="val-icon-folder"></span>
+                        {{AddCategoryLabel}}
+                    </div>
+                    <div class="val-row sidebar-row">
+                    </div>
+                    <div class="js-add-content js-add-question val-row sidebar-row cursor-pointer" data-value="question">
+                        <span class="val-icon-content"></span>
+                        {{AddContentLabel}}
+                    </div>
+                    <div class="js-add-content js-add-text-article val-row sidebar-row cursor-pointer" data-value="text-article">
+                        <span class="val-icon-text"></span>
+                        {{AddTextArticleLabel}}
+                    </div>
+                    <div class="js-add-content js-add-video val-row sidebar-row cursor-pointer" data-value="text-video">
+                        <span class="val-icon-video"></span>
+                        {{AddVideoLabel}}
+                    </div>
+                    <div class="js-add-content js-add-external-resource val-row sidebar-row cursor-pointer" data-value="external-resource">
+                        <span class="val-icon-globe"></span>
+                        {{AddExternalResourceLabel}}
+                    </div>
+                    <div class="js-add-content js-add-pdf val-row sidebar-row cursor-pointer" data-value="pdf">
+                        <span class="val-icon-pdf"></span>
+                        {{AddPDFFileLabel}}
+                    </div>
+                    <div class="js-add-content js-add-pptx val-row sidebar-row cursor-pointer" data-value="pptx">
+                        <span class="val-icon-pptx"></span>
+                        {{AddPPTXFileLabel}}
+                    </div>
+                </div>
+                {{/LD_MODIFY}}
+            </div>
+            <div class="content-wrapper" style="min-height: 400px;">
+                <div class="content-container">
+
+                    <div class="filters-row clearfix">
+                        {{#LD_MODIFY}}
+                        <div class="dropdown actions filter-element shift-right s-only">
+                            <button class="button medium primary">
+                                <span class="dropdown-text"> {{addElementLabel}} </span>
+                                <span class="val-icon-dropdown val-icon-right"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="js-add-category"> {{AddCategoryLabel}} </li>
+                                <li class="js-add-question"> {{AddContentLabel}} </li>
+                                <li class="js-add-text-article"> {{AddTextArticleLabel}} </li>
+                                <li class="js-add-video"> {{AddVideoLabel}} </li>
+                                <li class="js-add-external-resource"> {{AddExternalResourceLabel}} </li>
+                                <li class="js-add-pdf"> {{AddPDFFileLabel}} </li>
+                                <li class="js-add-pptx"> {{AddPPTXFileLabel}} </li>
+                            </ul>
+                        </div>
+                        {{/LD_MODIFY}}
+                    </div>
+
+                </div>
+                <div class="js-lesson-content val-lesson-content">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+<script type="text/template" id="contentEditorPageItemViewOld">
+    <div class="item-body val-row">
+        <div class="vertical-center title-container clearfix val-{{contentType}}">
+
+            <span class="js-category-icon val-icon-arrow-right {{^isCategory}}icon-transparent{{/isCategory}}"></span> <!-- Directories are opened by default -->
+            <span class="js-sort-icon val-icon-sort"></span>
+            <input type="checkbox" class="js-selected val-checkbox" id="contentEditorItem{{id}}"/>
+            <label for="contentEditorItem{{id}}"></label>
+            <span class="js-type-icon"></span>
+
+            <span> {{title}} </span>
+            {{#isQuizQuestion}}
+            <label class="immediate-answer-flag-label" for="cequizQiestion{{id}}">
+                <input type="checkbox" class="immediate-answer-flag val-checkbox" {{#autoShowAnswer}} checked="checked" {{/autoShowAnswer}} id="cequizQiestion{{id}}"/> show right answers
+            </label>{{/isQuizQuestion}}
+
+
+            <button class="button medium danger no-text pull-right action-delete">
+                <span class="val-icon-trash"></span>
+            </button>
+            {{#isEdited}}
+            <button class="button medium neutral no-text pull-right action-edit">
+                <span class="val-icon-edit"></span>
+            </button>
+            {{/isEdited}}
+
+            {{#isCategory}}
+            <div class="pull-left category-icon category-expand-button"></div>
+            {{/isCategory}}
+
+            {{^isCategory}}
+            <button class="button medium neutral no-text pull-right action-preview">
+                <span class="val-icon-preview"></span>
+            </button>
+            {{/isCategory}}
+            <span> {{title}} </span>
+
+            {{#isQuizQuestion}}
+            <input type="checkbox" class="immediate-answer-flag val-checkbox" {{#autoShowAnswer}} checked {{/autoShowAnswer}} id="ceItemImmediateAnswer{{id}}"/>
+            <label class="immediate-answer-flag-label" for="ceItemImmediateAnswer{{id}}">
+             show right answers
+            </label>
+            {{/isQuizQuestion}}
+        </div>
+    </div>
+        {{#isCategory}}
+            <div class="internal-collection {{#collapsed}}collapsed{{/collapsed}}"></div>
+        {{/isCategory}}
+</script>
+
+
+<script type="text/template" id="contentEditorPageItemView">
+
+    <span class="lesson-item {{#isCategory}}category{{/isCategory}} {{#isQuizQuestion}}question{{/isQuizQuestion}}">
+         <span class="lesson-item-controls shift-left">
+
+            <span class="js-expand-icon {{#collapsed}}val-icon-arrow-right{{/collapsed}} {{^collapsed}}val-icon-arrow-down{{/collapsed}} {{#isEmpty}} empty {{/isEmpty}} expand category-expand-button"></span>
+
+            <span class="js-sort-icon val-icon-sort"></span>
+            <span class="js-type-icon val-icon-{{icon}}"></span>
+
+         </span>
+        <span class="lesson-item-title">
+            <span class="val-row">{{title}}</span>
+            <span class="val-row show-right-answer">
+                {{#canSetShowRightAnswer}}
+                 <input type="checkbox" class="js-immediate-answer-flag val-checkbox" {{#autoShowAnswer}} checked="checked" {{/autoShowAnswer}}  id="cequizQiestion{{id}}"/>
+                <label for="cequizQiestion{{id}}">Show right answer</label>
+                {{/canSetShowRightAnswer}}
+                {{^canSetShowRightAnswer}}
+                    &nbsp;
+                {{/canSetShowRightAnswer}}
+            </span>
+        </span>
+         <span class="lesson-item-controls shift-right">
+            {{^isCategory}}
+             <button class="js-action-preview button medium neutral no-text">
+                <span class="val-icon-preview"></span>
+            </button>
+             {{/isCategory}}
+             {{#isEdited}}
+             <button class="js-action-edit button medium neutral no-text">
+                <span class="val-icon-edit"></span>
+            </button>
+            {{/isEdited}}
+             <button class="js-action-delete button medium danger no-text">
+                 <span class="val-icon-trash"></span>
+             </button>
+         </span>
+    </span>
+    {{#isCategory}}
+    <ul class="js-internal-collection {{#collapsed}}collapsed{{/collapsed}} lesson-items"></ul>
+    {{/isCategory}}
+
 </script>

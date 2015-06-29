@@ -1,44 +1,49 @@
 package com.arcusys.learn.facades
 
-import com.arcusys.learn.models.Gradebook.{ PackageGradeResponse, TotalGradeResponse, StudentResponse }
+import com.arcusys.learn.models.response.PieData
+import com.arcusys.valamis.gradebook.model.GradebookUserSortBy
+import GradebookUserSortBy.GradebookUserSortBy
+import com.arcusys.learn.models.Gradebook._
+import com.arcusys.valamis.lrs.api.StatementApi
 
-/**
- * Created by Iliya Tryapitsin on 15.04.2014.
- */
 trait GradebookFacadeContract {
-  private[facades] def getTotalGrade(courseId: Int, valamisUserId: Int): Float
-  private[facades] def getPacketGradeWithStatements(packetId: Int, valamisUserId: Int, packageIds: Option[Seq[Int]], sortAsc: Boolean = false): Seq[PackageGradeResponse]
-
-  def getStudents(courseId: Int,
-    page: Int,
-    count: Int,
-    nameFilter: String,
-    orgNameFilter: String,
-    sortBy: String): Seq[StudentResponse]
+  def getStudents(statementApi: StatementApi,
+                  courseId: Int,
+                  skip: Int,
+                  count: Int,
+                  nameFilter: String,
+                  orgNameFilter: String,
+                  sortBy: GradebookUserSortBy,
+                  sortAZ: Boolean,
+                  detailed: Boolean = false,
+                  packageIds: Seq[Int] = Seq()): Seq[StudentResponse]
 
   def getStudentsCount(courseId: Int,
     nameFilter: String,
     orgNameFilter: String): Int
 
-  def getExtStudents(courseId: Int,
-    page: Int,
-    count: Int,
-    nameFilter: String,
-    orgNameFilter: String,
-    packageIds: Seq[Int],
-    sortBy: String): Seq[StudentResponse]
+  def getGradesForStudent(statementApi: StatementApi,
+                          studentId: Int,
+                          courseId: Int,
+                          skip: Int,
+                          count: Int,
+                          sortAsc: Boolean = false,
+                          withStatements: Boolean = true): StudentResponse
 
-  def getGradesForStudent(studentId: Int,
-    courseID: Int,
-    page: Int,
-    count: Int,
-    sortAsc: Boolean = false): StudentResponse
+  /** See the body, name not descriptive */
+  def getUnfinishedPackages(
+    statementApi: StatementApi,
+    userId: Long): Seq[GradedPackageResponse]
+
+  def getCompletedPackagesCount(statementApi: StatementApi, userId: Long): Int
+
+  def getCompletedPackages(statementApi: StatementApi, userId: Long): Seq[PieData]
 
   def getTotalGradeForStudent(studentId: Int,
-    courseID: Int): TotalGradeResponse
+    courseId: Int): TotalGradeResponse
 
   def changeTotalGrade(studentId: Int,
-    courseID: Int,
+    courseId: Int,
     totalGrade: String,
     comment: Option[String])
 
@@ -46,4 +51,9 @@ trait GradebookFacadeContract {
     packageId: Int,
     totalGrade: String,
     comment: Option[String])
+
+  def getLastModified(statementApi: StatementApi, courseId: Int, userId: Long): String
+
+  def getPackageGradeWithStatements(statementApi: StatementApi, valamisUserId: Int,
+    packageId: Long): PackageGradeResponse
 }

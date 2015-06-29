@@ -1,7 +1,7 @@
 package com.arcusys.learn.liferay.services
 
 import com.liferay.portlet.asset.model.AssetEntry
-import com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil
+import com.liferay.portlet.asset.service.{ AssetCategoryLocalServiceUtil, AssetEntryLocalServiceUtil }
 import java.util.Date
 
 object AssetEntryLocalServiceHelper {
@@ -38,4 +38,17 @@ object AssetEntryLocalServiceHelper {
 
   def updateAssetEntry(assetEntry: AssetEntry): AssetEntry =
     AssetEntryLocalServiceUtil.updateAssetEntry(assetEntry)
+
+  def setAssetCategories(entryId: Long, categoryIds: Array[Long]) = {
+    if (!categoryIds.isEmpty)
+      categoryIds.map(categoryId => AssetCategoryLocalServiceUtil.setAssetEntryAssetCategories(entryId, categoryIds))
+    else
+      AssetCategoryLocalServiceUtil.clearAssetEntryAssetCategories(entryId)
+  }
+
+  def addAssetCategories(entryId: Long, categoryIds: Array[Long]) =
+    categoryIds.map(categoryId => AssetCategoryLocalServiceUtil.addAssetEntryAssetCategories(entryId, categoryIds))
+
+  def removeAssetCategories(entryId: Long, categoryIds: Array[Long]) =
+    categoryIds.map(categoryId => AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategories(entryId, categoryIds))
 }

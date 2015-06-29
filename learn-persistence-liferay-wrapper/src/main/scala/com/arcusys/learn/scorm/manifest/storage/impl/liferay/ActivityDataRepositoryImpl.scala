@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFActivityDataMap
 import com.arcusys.learn.persistence.liferay.service.LFActivityDataMapLocalServiceUtil
-import com.arcusys.learn.scorm.manifest.model.ActivityDataMap
-import com.arcusys.learn.scorm.manifest.storage.{ ActivityDataStorage }
+import com.arcusys.valamis.lesson.scorm.model.manifest.ActivityDataMap
+import com.arcusys.valamis.lesson.scorm.storage.ActivityDataStorage
 import scala.collection.JavaConverters._
 
 /**

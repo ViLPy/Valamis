@@ -48,7 +48,7 @@ public class LFSiteDependentConfigModelImpl extends BaseModelImpl<LFSiteDependen
             { "dataKey", Types.VARCHAR },
             { "dataValue", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFSiteDependentConfig (id_ LONG not null primary key,siteID INTEGER null,dataKey VARCHAR(75) null,dataValue VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFSiteDependentConfig (id_ LONG not null primary key,siteID INTEGER null,dataKey VARCHAR(512) null,dataValue VARCHAR(512) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFSiteDependentConfig";
     public static final String ORDER_BY_JPQL = " ORDER BY lfSiteDependentConfig.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFSiteDependentConfig.id_ ASC";

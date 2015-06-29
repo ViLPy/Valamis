@@ -1,15 +1,15 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.editorConfig = function( config ) {
 	
 	// %REMOVE_START%
 	// The configuration options below are needed when running CKEditor from source files.
-	config.plugins = 'dialogui,dialog,about,basicstyles,clipboard,button,toolbar,enterkey,entities,floatingspace,wysiwygarea,indent,indentlist,fakeobjects,link,list,undo,panelbutton,panel,floatpanel,colorbutton,colordialog,listblock,richcombo,format,image,imagepaste,imageresize,table,sourcedialog';
+	config.plugins = 'dialogui,dialog,about,basicstyles,clipboard,button,panelbutton,panel,floatpanel,colorbutton,colordialog,enterkey,entities,floatingspace,listblock,richcombo,format,image,imagepaste,imageresize,indent,indentlist,fakeobjects,link,list,sourcedialog,table,toolbar,undo,wysiwygarea,font,justify,insertpre,lineutils,widget,codesnippet';
+	config.extraPlugins = 'sourcearea';
 	config.skin = 'bootstrapck';
-  config.extraPlugins = 'widget,lineutils,codesnippet,font';
 	// %REMOVE_END%
 
 	// Define changes to default configuration here.
@@ -39,6 +39,4 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Dialog windows are also simplified.
 	config.removeDialogTabs = 'link:advanced';
-
-  config.allowedContent = true;
 };

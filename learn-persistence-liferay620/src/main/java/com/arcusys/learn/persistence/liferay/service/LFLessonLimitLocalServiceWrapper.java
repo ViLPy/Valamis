@@ -284,6 +284,13 @@ public class LFLessonLimitLocalServiceWrapper
         return _lfLessonLimitLocalService.findByID(itemID, itemType);
     }
 
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFLessonLimit> findByIDs(
+        java.lang.Long[] ids)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfLessonLimitLocalService.findByIDs(ids);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

@@ -6,38 +6,42 @@ var PPTXModel = LessonContentModel.extend({
     defaults: {
         contentType: 'questionPPTX',
         title: '',
-        text: ''
+        text: '',
+        icon: 'pptx'
     }
 });
 
 var PPTXView = Backbone.View.extend({
-    template: $('#pptxViewTemplate').html(),
     render: function () {
         this.isNew = this.model.isNew();
-        var mustacheAccumulator = {};
-        _.extend(mustacheAccumulator, this.model.toJSON(), GLOBAL_translations);
-
-        this.$el.html(Mustache.render(this.template, mustacheAccumulator));
 
         if (this.isNew) {
-            var uploaderPath = path.root + path.api.files + '?action=ADD&contentType=pptx&quizID=' + this.model.get('lessonId');
-            if (this.model.get('categoryId')) uploaderPath += '&categoryID=' + this.model.get('categoryId');
+            var uploaderPath = path.root + path.api.files +
+                '?action=ADD&contentType=pptx&quizID=' + (this.model.get('lessonId') || this.model.get('tempId')) +
+                '&courseId=' + Utils.getCourseId();
+            if (this.model.get('categoryId')) uploaderPath += '&categoryID=' + this.model.get('categoryId')
 
             var uploader = new FileUploader({
-                endpoint:  uploaderPath
+                endpoint:  uploaderPath,
+                message: GLOBAL_translations['uploadPptxMessage']
             });
             uploader.on('itemDone', function(response) {
                 this.model.set({
                     id: response.id,
-                    title: this.$('.title-edit').val(),
+                    title: this.$('.title-edit').val() || response.title || response.name.replace('.pptx', ''),
                     slides: response.slides
                 });
-                this.displaySlides();
-                this.submit();
+                if(this.model.get('lessonId')) {
+                    this.displaySlides();
+                    this.submit();
+                }
+                else {
+                    this.trigger('pptx:added', this.model);
+                }
                 this.trigger('pptx-modal-cancel', this.model);
             }.bind(this));
 
-            this.$('.file-uploader').append(uploader.render().$el);
+            this.$el.append(uploader.render().$el);
         }
 
         return this;
@@ -61,25 +65,32 @@ var PPTXView = Backbone.View.extend({
     cancel: function() {
         this.cancelled = true;
         if (this.isNew) {
-            this.model.destroy();
+            if(this.model.get('lessonId'))
+                this.model.destroy();
         }
     }
 });
 
 var PPTXModal = Backbone.Modal.extend({
-    template: _.template(Mustache.render($('#modal-template-pptx').html(), _.extend({header: GLOBAL_translations['addPresentationLabel']}, GLOBAL_translations))),
-    submitEl: '.modal-submit',
-    cancelEl: '.close-button',
-    className: 'add-presentation-modal',
+    template: function (data) {
+      return Mustache.to_html(jQueryValamis('#valamisEmptyModalTemplate').html(),
+        _.extend({header: GLOBAL_translations['AddPPTXFileLabel']}, GLOBAL_translations))
+    },
+    submitEl: '.bbm-button',
+    cancelEl: '.modal-close',
+    className: 'val-modal',
     onRender: function () {
         this.view = new PPTXView({
             model: this.model,
-            el: this.$('.content')
+            el: this.$('.js-modal-content')
         });
         this.view.render();
         var that = this;
         this.view.on('pptx-modal-cancel', function() {
-            that.trigger('modal:close');
+            that.trigger('pptx-modal-cancel');
+        });
+        this.view.on('pptx:added', function(model) {
+            that.trigger('pptx:added', model)
         });
     },
     submit: function () {

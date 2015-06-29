@@ -1,8 +1,8 @@
 package com.arcusys.learn.setting.storage.impl
 
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
-import com.arcusys.learn.setting.storage.SettingStorage
-import com.arcusys.learn.settings.model.{ SettingType, Setting }
+import com.arcusys.valamis.settings.model.{ SettingType, Setting }
+import com.arcusys.valamis.settings.storage.SettingStorage
 
 /**
  * User: Yulia.Glushonkova

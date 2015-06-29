@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.ModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +44,8 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
         attributes.put("logo", getLogo());
+        attributes.put("beginDate", getBeginDate());
+        attributes.put("endDate", getEndDate());
 
         return attributes;
     }
@@ -83,6 +86,18 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
 
         if (logo != null) {
             setLogo(logo);
+        }
+
+        Date beginDate = (Date) attributes.get("beginDate");
+
+        if (beginDate != null) {
+            setBeginDate(beginDate);
+        }
+
+        Date endDate = (Date) attributes.get("endDate");
+
+        if (endDate != null) {
+            setEndDate(endDate);
         }
     }
 
@@ -224,6 +239,46 @@ public class LFTincanPackageWrapper implements LFTincanPackage,
     @Override
     public void setLogo(java.lang.String logo) {
         _lfTincanPackage.setLogo(logo);
+    }
+
+    /**
+    * Returns the begin date of this l f tincan package.
+    *
+    * @return the begin date of this l f tincan package
+    */
+    @Override
+    public java.util.Date getBeginDate() {
+        return _lfTincanPackage.getBeginDate();
+    }
+
+    /**
+    * Sets the begin date of this l f tincan package.
+    *
+    * @param beginDate the begin date of this l f tincan package
+    */
+    @Override
+    public void setBeginDate(java.util.Date beginDate) {
+        _lfTincanPackage.setBeginDate(beginDate);
+    }
+
+    /**
+    * Returns the end date of this l f tincan package.
+    *
+    * @return the end date of this l f tincan package
+    */
+    @Override
+    public java.util.Date getEndDate() {
+        return _lfTincanPackage.getEndDate();
+    }
+
+    /**
+    * Sets the end date of this l f tincan package.
+    *
+    * @param endDate the end date of this l f tincan package
+    */
+    @Override
+    public void setEndDate(java.util.Date endDate) {
+        _lfTincanPackage.setEndDate(endDate);
     }
 
     @Override

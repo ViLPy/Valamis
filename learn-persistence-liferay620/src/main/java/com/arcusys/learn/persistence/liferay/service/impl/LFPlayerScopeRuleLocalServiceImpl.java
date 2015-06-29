@@ -1,6 +1,5 @@
 package com.arcusys.learn.persistence.liferay.service.impl;
 
-import com.arcusys.learn.persistence.liferay.model.LFFileStorage;
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRule;
 import com.arcusys.learn.persistence.liferay.service.base.LFPlayerScopeRuleLocalServiceBaseImpl;
 import com.liferay.portal.NoSuchModelException;

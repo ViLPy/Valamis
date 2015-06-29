@@ -1,10 +1,10 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
+import com.arcusys.valamis.quiz.model.QuizQuestionCategory
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.quiz.model.QuizQuestionCategory
-import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLocalServiceUtil, LFQuizQuestionCategoryLocalService }
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestCatLocalService, LFQuizQuestCatLocalServiceUtil }
 import util.Random
 import com.arcusys.learn.storage.impl.liferay.LFStorages
 import org.specs2.specification.Scope
@@ -14,12 +14,12 @@ import org.specs2.specification.Scope
  * Date: 19.3.2013
  */
 class LFQuizQuestionCategoryStorageSpec extends SpecificationWithJUnit with Mockito {
-  val storageService: LFQuizQuestionCategoryLocalService = QuizQuestionCategoryMockEntityContainer.mockLocalService
+  val storageService: LFQuizQuestCatLocalService = QuizQuestionCategoryMockEntityContainer.mockLocalService
   val storage: KeyedEntityStorage[QuizQuestionCategory] = new LFQuizQuestionCategoryStorageImpl {}
 
   "Mockito" should {
     "mock service method" in {
-      LFQuizQuestionCategoryLocalServiceUtil.createLFQuizQuestionCategory() must not(throwA[Exception])
+      LFQuizQuestCatLocalServiceUtil.createLFQuizQuestionCategory() must not(throwA[Exception])
 
       there was atLeastOne(storageService).createLFQuizQuestionCategory()
     }

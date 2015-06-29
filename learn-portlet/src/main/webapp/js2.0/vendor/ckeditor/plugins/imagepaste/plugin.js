@@ -20,6 +20,7 @@
  *
  * == END LICENSE ==
  *
+ * version 1.1.1: Added allowedContent settings in case the Advanced tab has been removed from the image dialog
  */
 
  // Handles image pasting in Firefox
@@ -27,6 +28,14 @@ CKEDITOR.plugins.add( 'imagepaste',
 {
 	init : function( editor )
 	{
+
+		// v 4.1 filters
+		if (editor.addFeature)
+		{
+			editor.addFeature( {
+				allowedContent: 'img[!src,id];'
+			} );
+		}
 
 		// Paste from clipboard:
 		editor.on( 'paste', function(e) {
@@ -49,7 +58,12 @@ CKEDITOR.plugins.add( 'imagepaste',
 					var data = img.match(/"data:image\/png;base64,(.*?)"/)[1];
 					var id = CKEDITOR.tools.getNextId();
 
-					var url= editor.config.filebrowserImageUploadUrl + '&CKEditor=' + editor.name + '&CKEditorFuncNum=2&langCode=' + editor.langCode;
+					var url= editor.config.filebrowserImageUploadUrl;
+					if (url.indexOf("?") == -1)
+						url += "?";
+					else
+						url += "&";
+					url += 'CKEditor=' + editor.name + '&CKEditorFuncNum=2&langCode=' + editor.langCode;
 
 					var xhr = new XMLHttpRequest();
 

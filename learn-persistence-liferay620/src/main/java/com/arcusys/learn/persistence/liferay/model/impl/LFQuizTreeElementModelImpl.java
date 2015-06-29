@@ -50,7 +50,7 @@ public class LFQuizTreeElementModelImpl extends BaseModelImpl<LFQuizTreeElement>
             { "parentID", Types.VARCHAR },
             { "arrangementIndex", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizTreeElement (id_ LONG not null primary key,quizID INTEGER null,elementID VARCHAR(75) null,isCategory BOOLEAN null,parentID VARCHAR(75) null,arrangementIndex INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuizTreeElement (id_ LONG not null primary key,quizID INTEGER null,elementID VARCHAR(512) null,isCategory BOOLEAN null,parentID VARCHAR(512) null,arrangementIndex INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuizTreeElement";
     public static final String ORDER_BY_JPQL = " ORDER BY lfQuizTreeElement.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFQuizTreeElement.id_ ASC";

@@ -1,3 +1,32 @@
+/* for valamis modal */
+
+.val-modal .modal-close.val-icon-exit {
+    top: 0;
+    right: 0;
+    position: absolute;
+    background-color: #DEDEDE;
+    margin: 0;
+    padding: 20px;
+    max-height: 60px;
+    cursor: pointer;
+}
+
+.bbm-modal {
+    position: relative;
+}
+
+.bbm-modal__bottombar {
+    /*height: 78px;*/
+    /*background: #f2f2f2;*/
+    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e6e6e6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e6e6e6));
+    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: -o-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e6e6e6 100%);
+    background: linear-gradient(to bottom,  #f2f2f2 0%,#e6e6e6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#e6e6e6',GradientType=0 );
+}
+
 /* Modal positioning */
 .bbm-wrapper {
     box-sizing: border-box;
@@ -35,11 +64,21 @@
     overflow-x: hidden;
 }
 
-.modal-close, .modal-close-div {
-    background-image: url(../images/popup-close.png);
-    background-position: left center;
-}
-
 .modal-close.no-image{
     background-image: none;
+}
+
+.bbm-modal__topbar h3 {
+    float: left;
+    font-size: 14px;
+}
+.bbm-modal__topbar .val-icon-exit {
+    float: right;
+
+}
+.bbm-modal__section.package-uploader-dialog {
+    margin: 25px;
+}
+.bmp-modal__title h3 {
+    font-size: 14px;
 }

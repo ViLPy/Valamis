@@ -1,8 +1,8 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
-import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategory
+import com.arcusys.learn.persistence.liferay.model.LFQuizQuestCat
 import org.specs2.mock.Mockito
-import com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService
+import com.arcusys.learn.persistence.liferay.service.LFQuizQuestCatLocalService
 import com.arcusys.learn.storage.impl.liferay.MockKeyedEntityContainer
 import scala.collection.JavaConverters._
 
@@ -11,25 +11,25 @@ import scala.collection.JavaConverters._
  * Date: 19.3.2013
  */
 trait QuizQuestionCategoryMockImpl extends Mockito {
-  val mockServiceBeanName = classOf[LFQuizQuestionCategoryLocalService].getName
-  val mockLocalService = mock[LFQuizQuestionCategoryLocalService]
+  val mockServiceBeanName = classOf[LFQuizQuestCatLocalService].getName
+  val mockLocalService = mock[LFQuizQuestCatLocalService]
 }
 
-object QuizQuestionCategoryMockEntityContainer extends QuizQuestionCategoryMockImpl with MockKeyedEntityContainer[LFQuizQuestionCategoryLocalService, LFQuizQuestionCategory] {
-  def getByIdFunction = _.getLFQuizQuestionCategory(_)
+object QuizQuestionCategoryMockEntityContainer extends QuizQuestionCategoryMockImpl with MockKeyedEntityContainer[LFQuizQuestCatLocalService, LFQuizQuestCat] {
+  def getByIdFunction = _.getLFQuizQuestCat(_)
 
   // service related mocks
   def createFunction = _.createLFQuizQuestionCategory()
-  def addFunction = _.addLFQuizQuestionCategory(_)
-  def deleteFunction = _.deleteLFQuizQuestionCategory(_)
-  def updateFunction = _.updateLFQuizQuestionCategory(_)
+  def addFunction = _.addLFQuizQuestCat(_)
+  def deleteFunction = _.deleteLFQuizQuestCat(_)
+  def updateFunction = _.updateLFQuizQuestCat(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFQuizQuestionCategories(_, _)
+  def getAllFunction = _.getLFQuizQuestCats(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
-  def createMockEntity() = mock[LFQuizQuestionCategory]
-  def mockEntityProperties(mockEntity: LFQuizQuestionCategory) {
+  def createMockEntity() = mock[LFQuizQuestCat]
+  def mockEntityProperties(mockEntity: LFQuizQuestCat) {
     // id: Int, title: String, description: String, quizID: Int, parentID: Option[Int]
     mockStringProperty(mockEntity.setTitle(_), _.getTitle)
     mockStringProperty(mockEntity.setDescription(_), _.getDescription)

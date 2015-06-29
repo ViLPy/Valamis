@@ -1,11 +1,11 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.liferay
 
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ConditionType, RuleCondition}
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
 import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalServiceUtil
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.{ ConditionType, RuleCondition }
 import org.specs2.specification.Scope
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay.LFRuleConditionStorageImpl
 

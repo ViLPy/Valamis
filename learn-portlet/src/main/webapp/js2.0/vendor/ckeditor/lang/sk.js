@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'sk' ] = {
 	// ARIA description.
 	editor: 'Editor formátovaného textu',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Panel editora formátovaného textu',
 
 	// Common messages and labels.
 	common: {
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		alignTop: 'Nahor',
 		alignMiddle: 'Na stred',
 		alignBottom: 'Dole',
-		alignNone: 'None', // MISSING
+		alignNone: 'Žiadne',
 		invalidValue	: 'Neplatná hodnota.',
 		invalidHeight: 'Výška musí byť číslo.',
 		invalidWidth: 'Šírka musí byť číslo.',

@@ -314,6 +314,22 @@ public class LFPackageLocalServiceWrapper implements LFPackageLocalService,
         _lfPackageLocalService.removeAll();
     }
 
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfPackageLocalService.findByTitleAndCourseID(titlePattern,
+            courseIDs);
+    }
+
+    @Override
+    public int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return _lfPackageLocalService.countByTitleAndCourseID(titlePattern,
+            courseIDs);
+    }
+
     /**
      * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
      */

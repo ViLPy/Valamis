@@ -17,6 +17,8 @@ public class LFQuestionSoap implements Serializable {
     private String _title;
     private String _description;
     private String _explanationText;
+    private String _rightAnswerText;
+    private String _wrongAnswerText;
     private boolean _forceCorrectCount;
     private boolean _caseSensitive;
     private Integer _questionType;
@@ -34,6 +36,8 @@ public class LFQuestionSoap implements Serializable {
         soapModel.setTitle(model.getTitle());
         soapModel.setDescription(model.getDescription());
         soapModel.setExplanationText(model.getExplanationText());
+        soapModel.setRightAnswerText(model.getRightAnswerText());
+        soapModel.setWrongAnswerText(model.getWrongAnswerText());
         soapModel.setForceCorrectCount(model.getForceCorrectCount());
         soapModel.setCaseSensitive(model.getCaseSensitive());
         soapModel.setQuestionType(model.getQuestionType());
@@ -125,6 +129,22 @@ public class LFQuestionSoap implements Serializable {
 
     public void setExplanationText(String explanationText) {
         _explanationText = explanationText;
+    }
+
+    public String getRightAnswerText() {
+        return _rightAnswerText;
+    }
+
+    public void setRightAnswerText(String rightAnswerText) {
+        _rightAnswerText = rightAnswerText;
+    }
+
+    public String getWrongAnswerText() {
+        return _wrongAnswerText;
+    }
+
+    public void setWrongAnswerText(String wrongAnswerText) {
+        _wrongAnswerText = wrongAnswerText;
     }
 
     public boolean getForceCorrectCount() {

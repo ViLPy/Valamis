@@ -2,9 +2,9 @@ package com.arcusys.learn.questionbank.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFQuestionCategory
 import com.arcusys.learn.persistence.liferay.service.LFQuestionCategoryLocalServiceUtil
-import com.arcusys.learn.questionbank.model.QuestionCategory
-import com.arcusys.learn.questionbank.storage.QuestionCategoryStorage
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
+import com.arcusys.valamis.questionbank.model.QuestionCategory
+import com.arcusys.valamis.questionbank.storage.QuestionCategoryStorage
 
 import scala.collection.JavaConverters._
 /**
@@ -20,8 +20,8 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
     Option(LFQuestionCategoryLocalServiceUtil.getLFQuestionCategory(id)) map extract
   }
 
-  override def getAllByCourseID(courseID: Option[Int]): Seq[QuestionCategory] = {
-    val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseID.getOrElse(-1))
+  override def getAllByCourseID(courseId: Option[Int]): Seq[QuestionCategory] = {
+    val courseIdsForSearch: Array[java.lang.Integer] = getArrayForIsNullSearch(courseId.getOrElse(-1))
     LFQuestionCategoryLocalServiceUtil.findByCourseId(courseIdsForSearch).asScala.map { extract }.sortBy(_.arrangementIndex)
   }
 
@@ -30,16 +30,16 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
   }
 
   override def createAndGetID(entity: QuestionCategory): Int = {
-    val arrangementIndex: Int = maxArrangementIndex(getChildren(entity.parentID, entity.courseID)) + 1
+    val arrangementIndex: Int = maxArrangementIndex(getChildren(entity.parentId, entity.courseId)) + 1
 
     val newEntity = LFQuestionCategoryLocalServiceUtil.createLFQuestionCategory()
-    // title, description, parentID, courseID,arrangementIndex
+    // title, description, parentId, courseID,arrangementIndex
     newEntity.setTitle(entity.title)
     newEntity.setDescription(entity.description)
-    newEntity.setCourseId(entity.courseID)
+    newEntity.setCourseId(entity.courseId)
     //newEntity.setArrangementIndex(entity.arrangementIndex)
 
-    newEntity.setParentId(entity.parentID)
+    newEntity.setParentId(entity.parentId)
     newEntity.setArrangementIndex(arrangementIndex)
 
     val createdEntity = LFQuestionCategoryLocalServiceUtil.addLFQuestionCategory(newEntity)
@@ -53,10 +53,10 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
     }
   }
 
-  def modifyArrangementIndexAndParent(id: Int, arrangementIndex: Int, parentID: Option[Int]): Unit = {
+  def modifyArrangementIndexAndParent(id: Int, arrangementIndex: Int, parentId: Option[Int]): Unit = {
     for (lfEntity <- Option(LFQuestionCategoryLocalServiceUtil.getLFQuestionCategory(id))) {
       lfEntity.setArrangementIndex(arrangementIndex)
-      lfEntity.setParentId(parentID)
+      lfEntity.setParentId(parentId)
       LFQuestionCategoryLocalServiceUtil.updateLFQuestionCategory(lfEntity)
     }
   }
@@ -69,13 +69,14 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
     }
   }
 
-  override def getChildren(parentID: Option[Int], courseID: Option[Int]): Seq[QuestionCategory] = {
-    val parentIdsForSearch: Array[java.lang.Integer] = parentID match {
-      case Some(id: Int) => getArrayForIsNullSearch(parentID.getOrElse(-1))
+  override def getChildren(parentId: Option[Int], courseId: Option[Int]): Seq[QuestionCategory] = {
+    val parentIdsForSearch: Array[java.lang.Integer] = parentId//Array(parentID.orNull)
+    match {
+      case Some(id: Int) => Array(id)
       case None          => Array(nullInteger)
     }
-    val courseIdsForSearch: Array[java.lang.Integer] = courseID match {
-      case Some(id: Int) => getArrayForIsNullSearch(courseID.getOrElse(-1))
+    val courseIdsForSearch: Array[java.lang.Integer] = courseId match {
+      case Some(id: Int) => getArrayForIsNullSearch(courseId.getOrElse(-1))
       case None          => Array(nullInteger)
     }
 
@@ -83,17 +84,19 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
       .map { extract }.sortBy(_.arrangementIndex)
   }
 
-  override def moveToCourse(id: Int, courseID: Option[Int]): Unit = {
+  override def moveToCourse(id: Int, courseId: Option[Int], parentId: Option[Int]): Unit = {
     for (lfEntity <- Option(LFQuestionCategoryLocalServiceUtil.getLFQuestionCategory(id))) {
-      lfEntity.setCourseId(courseID)
+      lfEntity.setCourseId(courseId)
+      lfEntity.setParentId(parentId)
+
       LFQuestionCategoryLocalServiceUtil.updateLFQuestionCategory(lfEntity)
     }
   }
 
-  override def move(id: Int, parentID: Option[Int], siblingID: Option[Int], moveAfterTarget: Boolean): Unit = {
+  override def move(id: Int, parentId: Option[Int], siblingId: Option[Int], moveAfterTarget: Boolean): Unit = {
     val questionCategoryForUpdate = getByID(id).get
 
-    val oldChildren: Seq[QuestionCategory] = getChildren(parentID, questionCategoryForUpdate.courseID)
+    val oldChildren: Seq[QuestionCategory] = getChildren(parentId, questionCategoryForUpdate.courseId)
 
     def doMove(forUpdate: Seq[QuestionCategory], forIndex: Seq[QuestionCategory]) {
       forUpdate.foreach {
@@ -101,12 +104,12 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
           modifyArrangementIndex(questionCategory.id, questionCategory.arrangementIndex + 1)
       }
       if (moveAfterTarget)
-        modifyArrangementIndexAndParent(questionCategoryForUpdate.id, maxArrangementIndex(forUpdate) + 1, parentID)
+        modifyArrangementIndexAndParent(questionCategoryForUpdate.id, maxArrangementIndex(forUpdate) + 1, parentId)
       else
-        modifyArrangementIndexAndParent(questionCategoryForUpdate.id, maxArrangementIndex(forIndex) + 1, parentID)
+        modifyArrangementIndexAndParent(questionCategoryForUpdate.id, maxArrangementIndex(forIndex) + 1, parentId)
     }
 
-    siblingID match {
+    siblingId match {
       case None =>
         if (!moveAfterTarget) {
           doMove(oldChildren, Seq())
@@ -114,7 +117,7 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
           doMove(Seq(), oldChildren)
         }
       case Some(a: Int) => {
-        val spannedChildren = oldChildren.span(_.id != siblingID.get)
+        val spannedChildren = oldChildren.span(_.id != siblingId.get)
         if (!moveAfterTarget) {
           val forIndex = spannedChildren._1
           val forUpdate = spannedChildren._2
@@ -125,6 +128,63 @@ class QuestionCategoryStorageImpl extends QuestionCategoryStorage {
           doMove(forUpdate, forIndex)
         }
       }
+    }
+  }
+
+  override def move(id: Int, index: Int, parentId: Option[Int] /*, newCourseId: Option[Int]*/ ) = {
+    val questionCategoryForUpdate = getByID(id).get
+
+    val forUpdateInNewParent: Seq[QuestionCategory] = getChildren(parentId, questionCategoryForUpdate.courseId)
+    val forUpdateInOldParent: Seq[QuestionCategory] = getChildren(questionCategoryForUpdate.parentId, questionCategoryForUpdate.courseId)
+
+    val oldIndex = questionCategoryForUpdate.arrangementIndex
+    val minIndex = oldIndex min index
+    val maxIndex = oldIndex max index
+
+    forUpdateInNewParent.foreach {
+      questionCategory =>
+        if (questionCategory.arrangementIndex >= minIndex && questionCategory.arrangementIndex <= maxIndex)
+          modify(questionCategory.id,
+            if (index > oldIndex) questionCategory.arrangementIndex - 1 else questionCategory.arrangementIndex + 1,
+            questionCategory.courseId, questionCategory.parentId
+          )
+    }
+
+    if(parentId != questionCategoryForUpdate.parentId) {
+      forUpdateInOldParent.foreach {
+        questionCategory =>
+          if (questionCategory.arrangementIndex > oldIndex)
+            modify(questionCategory.id,
+              questionCategory.arrangementIndex - 1,
+              questionCategory.courseId, questionCategory.parentId)
+      }
+    }
+
+    modify(questionCategoryForUpdate.id, index, questionCategoryForUpdate.courseId, parentId)
+  }
+
+  def moveToCourse(id: Int, courseID: Option[Int], moveInRoot: Boolean) = {
+    val lfEntity = LFQuestionCategoryLocalServiceUtil.getLFQuestionCategory(id)
+
+    if (lfEntity != null) {
+      lfEntity.setCourseId(courseID)
+
+      if (moveInRoot)
+        lfEntity.setCourseId(None)
+
+      LFQuestionCategoryLocalServiceUtil.updateLFQuestionCategory(lfEntity)
+    }
+  }
+
+  private def modify(entityId: Int, arrangementIndex: Int, courseId: Option[Int], parentId: Option[Int]): Unit = {
+    val lfEntity = LFQuestionCategoryLocalServiceUtil.getLFQuestionCategory(entityId)
+
+    if (lfEntity != null) {
+      lfEntity.setArrangementIndex(arrangementIndex)
+      lfEntity.setCourseId(courseId)
+      lfEntity.setParentId(parentId)
+
+      LFQuestionCategoryLocalServiceUtil.updateLFQuestionCategory(lfEntity)
     }
   }
 

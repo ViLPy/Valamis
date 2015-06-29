@@ -1,10 +1,10 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.{ KeyedEntityStorage, EntityStorage }
-import com.arcusys.learn.scorm.manifest.model.Objective
 import com.arcusys.learn.persistence.liferay.service.LFObjectiveLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.model.LFObjective
+import com.arcusys.valamis.lesson.scorm.model.manifest.Objective
 import scala.collection.JavaConverters._
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.ObjectiveFieldsMapper
 

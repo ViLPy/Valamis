@@ -9,7 +9,7 @@ LiferayActivityCollectionService = new Backbone.Service({ url: '/',
   targets: {
     'saveToCertificate': {
       'path': function (model, options) {
-        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDACTIVITIES&' + options.activities;
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDACTIVITIES&courseId=' + Utils.getCourseId() + '&' + options.activities;
       },
       method: 'post'
     }
@@ -23,7 +23,7 @@ LiferayActivityCollection = Backbone.Collection.extend({
 
 LiferayActivityListElement = Backbone.View.extend({
   events: {
-    'click .toggleButton': 'toggleThis'
+    'click .js-toggle-button': 'toggleThis'
   },
   initialize: function (options) {
     this.language = options.language;
@@ -39,13 +39,13 @@ LiferayActivityListElement = Backbone.View.extend({
     var alreadySelected = this.model.get('selected');
     if (alreadySelected) {
       this.model.set({selected: false });
-      this.$('.toggleButton').removeClass('green');
-      this.$('.toggleButton').addClass('grey');
+      this.$('.js-toggle-button').removeClass('primary');
+      this.$('.js-toggle-button').addClass('neutral');
     }
     else {
       this.model.set({selected: true });
-      this.$('.toggleButton').removeClass('grey');
-      this.$('.toggleButton').addClass('green');
+      this.$('.js-toggle-button').removeClass('neutral');
+      this.$('.js-toggle-button').addClass('primary');
     }
   },
   isSelected: function () {
@@ -55,7 +55,7 @@ LiferayActivityListElement = Backbone.View.extend({
 
 LiferayActivityContainer = Backbone.View.extend({
   events: {
-    'click .addCourses': 'addActivities'
+    'click .js-addActivities': 'addActivities'
   },
   initialize: function (options) {
     this.language = options.language;

@@ -117,6 +117,36 @@ public interface LFQuestionModel extends BaseModel<LFQuestion> {
     public void setExplanationText(String explanationText);
 
     /**
+     * Returns the right answer text of this l f question.
+     *
+     * @return the right answer text of this l f question
+     */
+    @AutoEscape
+    public String getRightAnswerText();
+
+    /**
+     * Sets the right answer text of this l f question.
+     *
+     * @param rightAnswerText the right answer text of this l f question
+     */
+    public void setRightAnswerText(String rightAnswerText);
+
+    /**
+     * Returns the wrong answer text of this l f question.
+     *
+     * @return the wrong answer text of this l f question
+     */
+    @AutoEscape
+    public String getWrongAnswerText();
+
+    /**
+     * Sets the wrong answer text of this l f question.
+     *
+     * @param wrongAnswerText the wrong answer text of this l f question
+     */
+    public void setWrongAnswerText(String wrongAnswerText);
+
+    /**
      * Returns the force correct count of this l f question.
      *
      * @return the force correct count of this l f question

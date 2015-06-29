@@ -13,6 +13,9 @@ var IMAGE_PARAM_TYPE = {
   FILE_NAME: 'fileName'
 };
 
+/* FIXME: seems that FormDataHelper doesn't do anything if FormData isn't provided, but it's its primary task.
+ * FIXME: Replace with plugin or add plugin separately for the purpose of not rewriting existing functionality.
+*/
 var FormDataHelper = Backbone.Model.extend({
   initialize: function (options) {
   },
@@ -60,10 +63,20 @@ var FormDataHelper = Backbone.Model.extend({
     this.inputBase64 = null;
     this.fileName = null;
   },
+  setFolderId: function(folderId){
+    this.folderId = folderId;
+  },
+  setPortletFileUploaderUrl: function(url) {
+    this.portletFileUploaderUrl = url;
+  },
   getFileName: function(){
     return (this.fileName == null) ? '' : this.fileName;
   },
-  submitData: function(callback) {
+  submitData: function(options) {
+      options || (options = {});
+      var success = _.isFunction(options)? options : options.success;
+      var error = options.error;
+
     if (this.supports() && this.contentType != null) {
       var formData = new FormData();
       formData.append(IMAGE_PARAM_TYPE.CONTENT_TYPE, this.contentType);
@@ -73,17 +86,26 @@ var FormDataHelper = Backbone.Model.extend({
       formData.append(IMAGE_PARAM_TYPE.INPUT_BASE64, this.inputBase64);
 
       jQuery.ajax({
-        url: path.root + path.api.files + '?action=ADD&folderId=' + this.folderId,
+        url: this.portletFileUploaderUrl || path.root + path.api.files + '?action=ADD&courseId='+ Utils.getCourseId() +'&folderId=' + this.folderId,
         type: "POST",
         data: formData,
         processData: false,
         contentType: false,
         success: function (data) {
-          callback(data.name);
+            if(_.isFunction(success)){
+                success(data.name);
+            }
         },
         error: function (jqXHR, textStatus, errorMessage) {
+            if(_.isFunction(error)){
+                error();
+            }
         }
       });
     }
-  }
+    else success('');
+  },
+    isReadyToSubmit: function() {
+        return this.supports() && this.contentType != null;
+    }
 });

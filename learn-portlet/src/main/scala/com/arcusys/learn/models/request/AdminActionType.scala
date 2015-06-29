@@ -6,8 +6,9 @@ package com.arcusys.learn.models.request
 object AdminActionType extends Enumeration {
   type AdminActionType = Value
 
-  val RENEW_DATABASE = Value("RENEWDATABASE")
-  val UPDATE_ISSUER_SETTINGS = Value("UPDATEISSUERSETTINGS")
-  val UPDATE_EMAIL_SETTINGS = Value("UPDATEEMAILSETTINGS")
+  val RenewDatabase = Value("RENEWDATABASE")
+  val UpdateIssuerSettings = Value("UPDATEISSUERSETTINGS")
+  val UpdateEmailSettings = Value("UPDATEEMAILSETTINGS")
+  val UpdateGoogleAPISettings = Value("UPDATEGOOGLEAPISETTINGS")
 
 }

@@ -10,6 +10,9 @@ var valueStorage = {}, //stores values.
     initialDuration = "PT0S", // initial duration at the start session
     offsetDuration = "PT0S"; // offset duration between sessions
 
+var scoredSum = 0,
+    scoredCount = 0;
+
 var currentActivityID = -1, // current activity id
     currentPackageID = -1, // current package id
     currentOrganizationID = -1; // current organization id
@@ -24,63 +27,10 @@ var packageActivity = null; // package activity for start and finish statements
 
 var stateIds = null; // State document identifier
 /*============END GLOBAL VARIABLES==============*/
-//Instance of the Tin Can Library
-var myTinCan = new TinCan();
-
-// Set LRS info
-function SetLRS(data) {
-    var myLRS;
-    if (data.internal) {
-        myLRS = new TinCan.LRS({
-            //endpoint: document.location.protocol + "//" + document.location.host + Utils.getContextPath() + "TincanApi/",
-            endpoint: document.location.protocol + "//" + document.location.host + "/" + path.api.prefix,
-            version: "1.0.1"
-        });
-    }
-    else {
-        if (data.authType == "Basic") {
-            if (data.auth) {
-                myLRS = new TinCan.LRS({
-                    endpoint: data.endpoint,
-                    version: "1.0",
-                    auth: data.auth
-                });
-            }
-            else {
-                // TODO: external calls to playerView
-                jQuery("#tincanEndpointCredentialsDialog").val(data.endpoint);
-                jQuery('#tincanLrsUserCredentials').attr('onclick', 'setLRSFromCredentialsDialog()');
-                //jQuery('#tincanLrsUserCredentials').dialog('open');
-                window.playerLayout.modals.show(window.tincanModal);
-            }
-        } else if (data.authType === "OAuth") {
-            if (data.auth) {
-                myLRS = new TinCan.LRS({
-                    endpoint: data.endpoint,
-                    version: "1.0",
-                    auth: data.auth,
-                    clientSecret: data.clientSecret
-                });
-            }
-        }
-    }
-    myTinCan.recordStores[0] = myLRS;
-}
-
-// Set LRS info with auth
-function SetLRSAuth(endpoint, auth) {
-    var myLRS = new TinCan.LRS({
-        endpoint: endpoint,
-        version: "1.0",
-        auth: auth
-    });
-    myTinCan.recordStores[0] = myLRS;
-}
 
 // Create actor object
 function SetActor() {
-    var myActor = new TinCan.Agent(JSON.parse(jQuery("#tincanActor").val()));
-    myTinCan.actor = myActor;
+    TincanHelper.SetActor(JSON.parse(jQuery("#tincanActor").val()));
 }
 
 // Clear and init global vars
@@ -98,6 +48,8 @@ function InitVars() {
 
 function StartPackageAttempt(packageID, packageName, packageDesc) {
     currentPackageID = packageID;
+    scoredSum = 0; // TODO: cache this variables when package paused
+    scoredCount = 0;
 
     // set actor from user view
     SetActor();
@@ -120,24 +72,14 @@ function StartPackageAttempt(packageID, packageName, packageDesc) {
             '&type=package&content=' + JSON.stringify(activityDefinition),
 
         success: function (data) {
-            currentPackageURI = data;
+            currentPackageURI = JSON.parse(data).uri.replace(/"/g, '');
             //Create the activity
             packageActivity = new TinCan.Activity({
                 id: currentPackageURI,
                 definition: activityDefinition
             });
 
-            var stmtToSend = new TinCan.Statement({
-                actor: myTinCan.actor,
-                target: packageActivity,
-                context: {
-                    contextActivities: {
-                        grouping: [
-                            {id: currentPackageURI, objectType: "Activity"}
-                        ]
-                    }
-                }
-            });
+            var stmtToSend = TincanHelper.createStatement(packageActivity,currentPackageURI);
             stmtToSend.verb = createVerb("attempted", "http://adlnet.gov/expapi/verbs/");
 
             //Send the statement, no callback
@@ -149,10 +91,10 @@ function StartPackageAttempt(packageID, packageName, packageDesc) {
 
 }
 
-function FinishPackageAttempt(suspend) {
+function FinishPackageAttempt(sendCompleteStatement) {
     if (currentPackageID == -1) return;
     endAttemptSession();
-    if (!suspend) {
+    if (sendCompleteStatement) {
         var stmtToSend = new TinCan.Statement({
             actor: myTinCan.actor,
             target: packageActivity,
@@ -167,6 +109,17 @@ function FinishPackageAttempt(suspend) {
         stmtToSend.verb = createVerb("completed", "http://adlnet.gov/expapi/verbs/");
 
         stmtToSend.target = packageActivity;
+
+        var result = new TinCan.Result();
+        if(scoredCount>0) {
+            var grade = scoredSum / scoredCount;
+            result.score = new TinCan.Score;
+            result.score.scaled = grade;
+            result.success = grade>0.7; // TODO: 0.7??? refactor success limit
+        }
+        else
+            result.success = true;
+        stmtToSend.result = result;
 
         //Send the statement, no callback
         myTinCan.sendStatement(stmtToSend, function () {
@@ -220,6 +173,9 @@ function SetActivity(activityId, activityName, activityDesc) {
         InitStateDocument();
     }
 
+    if (currentActivityID === undefined)
+        return;
+
     if (currentActivityID.indexOf('http') == -1) {
         currentActivityURI = document.location.protocol + "//" + document.location.host + (currentActivityID.indexOf('/') == 0 ? currentActivityID : '/' + currentActivityID);
         SetActivity();
@@ -233,7 +189,7 @@ function SetActivity(activityId, activityName, activityDesc) {
                 '&type=activity&content=' + JSON.stringify(activityDefinition),
 
             success: function (data) {
-                currentActivityURI = data;
+                currentActivityURI = JSON.parse(data).uri;
                 SetActivity();
             }
         });
@@ -305,18 +261,7 @@ var SCORMDataCache = function (property, value) {
 
 // Create the statement with default actor and activity
 function createStatement() {
-    return  new TinCan.Statement({
-        actor: myTinCan.actor,
-        target: myTinCan.activity,
-        context: {
-            registration: registrationId,
-            contextActivities: {
-                grouping: [
-                    {id: currentPackageURI, objectType: "Activity"}
-                ]
-            }
-        }
-    });
+    return  TincanHelper.createStatement(myTinCan.activity,currentPackageURI,registrationId);
 }
 
 // create the Tincan Result object
@@ -342,13 +287,7 @@ function createResult(completion, success) {
 
 // create the TinCan Verb object
 function createVerb(verb, library, display) {
-    display = typeof display == 'undefined' ? verb : display;
-    return new TinCan.Verb({
-        id: library + verb,
-        display: {
-            "en-US": display
-        }
-    });
+    return TincanHelper.createVerb(verb, library, display);
 }
 
 /*============DURATION FUNCTIONS==============*/
@@ -526,6 +465,13 @@ function SendAttemptDataImpl() {
 
 // Sends interaction statement on quiz question and etc.
 function SendInteractionData(interactionIndex) {
+    function convertInteractionType(interactionType){
+        var result;
+        if(interactionType == "fill_in") result = "fill-in";
+        else if(interactionType == "long_fill_in") result = "long-fill-in";
+        else result = interactionType;
+        return result
+    }
     var activityId = currentActivityID;
 
     questionCount++;
@@ -541,7 +487,7 @@ function SendInteractionData(interactionIndex) {
     var correctResponsesIndex = 0;
 
     while (typeof valueStorage["cmi.interactions." + interactionIndex + ".correct_responses." + correctResponsesIndex + ".pattern"] !== "undefined") {
-        correctResponsesPattern[correctResponsesIndex] = valueStorage["cmi.interactions." + interactionIndex + ".correct_responses." + correctResponsesIndex + ".pattern"].toString().replace(/<([^>]+)>/g, '');
+        correctResponsesPattern[correctResponsesIndex] = valueStorage["cmi.interactions." + interactionIndex + ".correct_responses." + correctResponsesIndex + ".pattern"].toString();
         correctResponsesIndex++;
     }
 
@@ -559,7 +505,7 @@ function SendInteractionData(interactionIndex) {
             description: {
                 "en-US": interationDescription
             },
-            interactionType: valueStorage["cmi.interactions." + interactionIndex + ".type"],
+            interactionType: convertInteractionType(valueStorage["cmi.interactions." + interactionIndex + ".type"]),
             correctResponsesPattern: correctResponsesPattern
 
         });
@@ -594,7 +540,7 @@ function SendInteractionData(interactionIndex) {
             };
         interactionActivity.definition.type = "http://adlnet.gov/expapi/activities/cmi.interaction";
         if (valueStorage["cmi.interactions." + interactionIndex + ".type"])
-            interactionActivity.definition.interactionType = valueStorage["cmi.interactions." + interactionIndex + ".type"];
+            interactionActivity.definition.interactionType = convertInteractionType(valueStorage["cmi.interactions." + interactionIndex + ".type"]);
         interactionActivity.definition.correctResponsesPattern = correctResponsesPattern
         context = new TinCan.Context({
             registration: registrationId,
@@ -609,7 +555,7 @@ function SendInteractionData(interactionIndex) {
     //Result
     var interactionResult = createResult(true);
     if (valueStorage["cmi.interactions." + interactionIndex + ".learner_response"])
-        interactionResult.response = valueStorage["cmi.interactions." + interactionIndex + ".learner_response"].toString().replace(/<([^>]+)>/g, '');
+        interactionResult.response = valueStorage["cmi.interactions." + interactionIndex + ".learner_response"].toString();
     if (valueStorage["cmi.interactions." + interactionIndex + ".latency"])
         interactionResult.duration = valueStorage["cmi.interactions." + interactionIndex + ".latency"];
     else

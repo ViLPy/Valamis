@@ -2,7 +2,7 @@
 <plugin>
     <name>Learn Maven 2 Plugin</name>
     <groupId>com.arcusys.learn</groupId>
-    <artifactId>learn-maven-plugin</artifactId>
+    <artifactId>learn-servicebuilder620</artifactId>
     <version>1.7-SNAPSHOT</version>
     <goalPrefix>learn</goalPrefix>
     <isolatedRealm>false</isolatedRealm>

@@ -9,22 +9,25 @@ CKEDITOR.plugins.add("imageresize", {
 		/* Browser Support */
 		if(!this.support()) return;
 
+		/* Config */
+		this.getConfig();
+
 		/* Resize images on paste */
 		var t = this;
 		editor.on("instanceReady", function(){
 			editor.document.on("paste", function(e){
 				var parent = e.data.getTarget();
 				if(!parent) parent = editor.document;
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 500);
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 1000);
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 1500);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 500);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 1000);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 1500);
 			});
 			editor.document.on("drop", function(e){
 				var parent = e.data.getTarget();
 				if(!parent) parent = editor.document;
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 500);
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 1000);
-				window.setTimeout(function(){ t.resizeAll(editor, parent, 800, 800); }, 1500);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 500);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 1000);
+				window.setTimeout(function(){ t.resizeAll(editor, parent); }, 1500);
 			});
 		});
 	},
@@ -44,6 +47,11 @@ CKEDITOR.plugins.add("imageresize", {
 		/* Parent Node */
 		if(!parent) parent = editor.document;
 		if(!parent) return;
+
+		/* Width and Height */
+		if(!width) width = this.config.maxWidth;
+		if(!height) height = this.config.maxHeight;
+		console.log(width+"x"+height);
 
 		/* Parent Node is a CKEditor DOM Node */
 		if("find" in parent && typeof(parent.find) == "function") {} else parent = new CKEDITOR.dom.node(parent);
@@ -73,6 +81,11 @@ CKEDITOR.plugins.add("imageresize", {
 		/* Browser Support */
         if(!this.support() || !imageElement) return;
 
+		/* Width and Height */
+		if(!width) width = this.config.maxWidth;
+		if(!height) height = this.config.maxHeight;
+		console.log(width+"x"+height);
+
 		/* Create image and set properties */
         var img = new Image(), ns = "ckeditorimageresize";
         img[ns] = {"n":imageElement, "w":width, "h":height};
@@ -100,7 +113,11 @@ CKEDITOR.plugins.add("imageresize", {
 
 			/* Get base64 image source and update image node */
             if(this[ns].n) {
-				this[ns].n.setAttribute("src", cv.toDataURL("image/png"));
+				if(/^data:image\/jpeg/i.test(this.src) || /\.(jpg|jpeg)$/i.test(this.src)) {
+					this[ns].n.setAttribute("src", cv.toDataURL("image/jpeg", 0.8));
+				} else {
+					this[ns].n.setAttribute("src", cv.toDataURL("image/png"));
+				}
 				this[ns].n.setAttribute("width", this[ns].w);
 				this[ns].n.setAttribute("height", this[ns].h);
 				try {
@@ -136,6 +153,28 @@ CKEDITOR.plugins.add("imageresize", {
             cv = null;
         }
         return this.supportResult;
+	},
+
+	/* Config */
+	config : {
+		 "maxWidth" 	: 800
+		,"maxHeight"	: 800
+	},
+	getConfig : function(){
+		if(CKEDITOR.config.imageResize)
+		{
+			for(var k in this.config)
+			{
+				if(CKEDITOR.config.imageResize[k])
+				{
+					this.config[k] = parseInt(CKEDITOR.config.imageResize[k], 10);
+					if(isNaN(this.config[k]) || this.config[k] < 1)
+					{
+						this.config[k] = 800;
+					}
+				}
+			}
+		}
 	}
 
 });

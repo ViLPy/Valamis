@@ -1,0 +1,17 @@
+<script type="text/template" id="recentLessonsLayoutTemplate">
+    <div class="js-list-view list">
+        <div class="div-table no-content-table js-no-recent-lesson hidden">
+            <div class="div-col div-col-center">{{noRecentLabel}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="recentLessonsItemViewTemplate">
+    <div class="tile-content">
+        <ul>
+            <li class="title recent_li">{{packageTitle}}</li>
+            <li class="recent_li"> {{inLabel}} <span class="status"><a href="/web{{courseUrl}}">{{courseTitle}}</a></span></li>
+            <li class="status recent_li"> {{throughDate}}  </li>
+        </ul>
+    </div>
+</script>

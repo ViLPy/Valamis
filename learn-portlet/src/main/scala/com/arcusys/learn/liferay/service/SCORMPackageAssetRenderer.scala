@@ -1,28 +1,29 @@
 package com.arcusys.learn.liferay.service
 
-import asset.AssetHelper
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.learn.liferay.services.AssetEntryLocalServiceHelper
 import java.util.Locale
 import javax.portlet.{ RenderRequest, RenderResponse, PortletRequest }
+import com.arcusys.valamis.lesson.scorm.model.manifest.Manifest
 import utils.PortletKeys
 import com.arcusys.learn.liferay.util.{ HtmlUtilHelper, PortalUtilHelper }
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.constants.{ WebKeysHelper, StringPoolHelper }
 
 class SCORMPackageAssetRenderer(pkg: Manifest) extends LBaseAssetRenderer {
-  lazy val assetHelper = new AssetHelper()
+
+  private val assetEntry = AssetEntryLocalServiceHelper.getAssetEntry(pkg.assetRefId.getOrElse(throw new Exception("Does not exist assetRef for package")))
 
   def getAssetRendererFactoryClassName: String = SCORMPackageAssetRendererFactory.CLASS_NAME
 
-  def getClassPK: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
+  def getClassPK: Long = assetEntry.getPrimaryKey
 
-  def getGroupId: Long = assetHelper.getAssetFromManifest(pkg).getGroupId
+  def getGroupId: Long = assetEntry.getGroupId
 
   def getSummary(locale: Locale): String = {
-    HtmlUtilHelper.stripHtml(assetHelper.getAssetFromManifest(pkg).getSummary)
+    HtmlUtilHelper.stripHtml(assetEntry.getSummary)
   }
 
-  def getTitle(locale: Locale): String = assetHelper.getAssetFromManifest(pkg).getTitle
+  def getTitle(locale: Locale): String = assetEntry.getTitle
 
   override def getURLEdit(liferayPortletRequest: LLiferayPortletRequest, liferayPortletResponse: LLiferayPortletResponse) = {
     val portletURL = liferayPortletResponse.createLiferayPortletURL(getControlPanelPlid(liferayPortletRequest), PortletKeys.SCORM_PACKAGE, PortletRequest.RENDER_PHASE)
@@ -32,12 +33,12 @@ class SCORMPackageAssetRenderer(pkg: Manifest) extends LBaseAssetRenderer {
 
   override def getURLViewInContext(liferayPortletRequest: LLiferayPortletRequest, liferayPortletResponse: LLiferayPortletResponse, noSuchEntryRedirect: String): String = {
     val themeDisplay = liferayPortletRequest.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
-    getPackageURL(themeDisplay.getPlid, assetHelper.getAssetFromManifest(pkg).getPrimaryKey, themeDisplay.getPortalURL, maximized = false)
+    getPackageURL(themeDisplay.getPlid, assetEntry.getPrimaryKey, themeDisplay.getPortalURL, maximized = false)
   }
 
-  def getUserId: Long = assetHelper.getAssetFromManifest(pkg).getUserId
+  def getUserId: Long = assetEntry.getUserId
 
-  def getUserName: String = assetHelper.getAssetFromManifest(pkg).getUserName
+  def getUserName: String = assetEntry.getUserName
 
   def getUuid: String = ""
 

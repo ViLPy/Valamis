@@ -5,7 +5,7 @@ import org.specs2.matcher.ThrownExpectations
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.{ EntityStorage, KeyedEntityStorage }
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalServiceUtil
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay.{ LFRuleConditionStorageImpl, LFRollupRuleStorageImpl }
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.RollupRuleCreator

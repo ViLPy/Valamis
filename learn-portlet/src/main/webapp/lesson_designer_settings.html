@@ -2,45 +2,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <script src="{{contextPath}}/js2.0/Urls.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/jquery.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/jquery-ui-1.10.4.custom.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/lodash.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/backbone-min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/mustache.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/backbone.marionette.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/backbone.modal-bundled.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/bootstrap.min.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/toastr.min.js"></script>
-    <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/backbone.model-binder.min.js"></script>
-    <script src="{{contextPath}}/js2.0/file-upload.js"></script>
-    <script src="{{contextPath}}/js2.0/vendor/jquery.fileupload.js"></script>
-
-
-    <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
-    <script src="{{contextPath}}/js2.0/helpers/SettingsHelper.js"></script>
-
-
     <script type="text/template" id="LDsettings-modals-template">
         <div class="LDsettings-modals-container"></div>
     </script>
 
     <script type="text/template" id="LDsettings-import-modal-template">
-        <div class="bbm-modal__topbar add-members-modal">
-            <h3 class="bbm-modal__title valamis">{{importLabel}}</h3>
+        <div class="bbm-modal__topbar">
+            <h3 class="bbm-modal__title">{{importLabel}}</h3>
 
-            <div class="modal-close">
+            <div class="modal-close val-icon-exit">
             </div>
         </div>
 
-        <div class="bbm-modal__section upload-content" style="position: relative;">
+        <div class="ld-modal-content">
         </div>
-
     </script>
 
     <script type="text/javascript">
-        var LDSettingsLayout = Backbone.Marionette.Layout.extend({
+        var LDSettingsLayout = Backbone.Marionette.LayoutView.extend({
             template: _.template(Mustache.to_html(jQuery('#LDsettings-modals-template').html())),
             regions: {
                 modals: {
@@ -52,31 +31,31 @@
 
 
         var LDSettingsLayout = new LDSettingsLayout();
-        jQuery('body').append(LDSettingsLayout.render().el);
+        jQuery(function () { jQuery('#ld-settings-layout').append(LDSettingsLayout.render().el); });
 
         var UploadLDImportModal = Backbone.Modal.extend({
             template: _.template(Mustache.to_html(jQuery('#LDsettings-import-modal-template').html())),
             submitEl: '.bbm-button',
             cancelEl: '.modal-close',
-            className: 'upload-modal',
+            className: 'val-modal',
             onRender: function () {
                 var me = this;
                 var uploader = new FileUploader({
-                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-lesson&courseID=' + jQuery('#courseID').val()
+                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-lesson&courseId=' + Utils.getCourseId(),
+                    message: '{{importMessage}}'
                 });
 
                 uploader.on('fileuploaddone', function (data) {
-                    me.trigger('modal:close');
-                    me.close();
+                    me.triggerCancel();
                 });
 
-                this.$('.upload-content').append(uploader.render().$el);
+                this.$('.ld-modal-content').append(uploader.render().$el);
             }
         });
 
         function exportLessons() {
             window.location = path.root + path.api.files + 'export/?action=EXPORTALL&contentType=lesson'
-                    + '&courseID=' + jQuery('#courseID').val();
+                    + '&courseId=' + Utils.getCourseId();
         }
         function importLessons() {
             var importModal = new UploadLDImportModal();
@@ -88,15 +67,14 @@
 <body >
 
 <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-<input type="hidden" id="courseID" value="{{courseID}}"/>
 <div style="height: 100px; padding: 10px;">
-    <button class="button valamis big green val-icon-download export-Lessons" onclick="exportLessons()">
+    <button class="button valamis big primary val-icon-download export-Lessons" onclick="exportLessons()">
         {{exportAllLabel}}
     </button>
-    <button class="button valamis big green val-icon-upload import-Lessons" onclick="importLessons()">
+    <button class="button valamis big primary val-icon-upload import-Lessons" onclick="importLessons()">
         {{importLabel}}
     </button>
 </div>
-
+<div id="ld-settings-layout"></div>
 </body>
 </html>

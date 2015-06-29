@@ -1,3 +1,8 @@
+.val-icon-exit {
+    background-image: url(../images/popup-close.png);
+    background-position: left center;
+}
+
 body {
     background: #f2f2f2;
 }
@@ -54,6 +59,10 @@ body {
     width: 100% !important;
     line-height: 20px !important;
     height: 36px !important;
+}
+
+#courseGradePlaceholder {
+    margin-bottom: 10px;
 }
 
 /* ------------ Gradebook Filter  ----------------*/
@@ -173,6 +182,7 @@ div.student-grades-panel {
     width: 20px;
     height: 20px;
     padding: 0;
+    margin-top: 5px;
 }
 
 .expand-text {
@@ -187,6 +197,7 @@ tr.collapse > .expand-col > .expand-icon {
     width: 20px;
     height: 20px;
     padding: 0;
+    margin-top: 5px;
 }
 
 .collapse > .expand-col > .expand-text {
@@ -253,11 +264,17 @@ tr.total-row {
     border-left: none;
 }
 
-.grade-table td.grade, .grade-table .edit-button-td {
+.grade-table td.grade,
+.grade-table .edit-button-td {
     width: 1%;
     white-space: nowrap;
     border-right: none!important;
     border-left: none!important;
+}
+
+.grade-table td.autograde{
+    width: 5%;
+    white-space: nowrap;
 }
 
 #GradeTable td .user-name-wrapper,
@@ -472,4 +489,47 @@ tr.total-row {
     border-color: #a9cb4f!important;
     color: #2c2c2c!important;
 
+}
+
+.page-content-div {
+    overflow-y: scroll;
+    height: 450px;
+    min-height: 150px;
+}
+
+.avatar-medium {
+    width:60px;
+    height:60px;
+}
+
+.avatar-large {
+    width:64px;
+    height:64px;
+    float:left;
+    margin-right:10px;
+}
+.avatar-small {
+    float: left;
+    margin-right:10px;
+    width:48px;
+    height:48px;
+}
+
+.student-name-title, .package-name-title {
+    padding-left: 10px;
+}
+
+.package-logo-medium {
+    width: 48px;
+    height: 48px;
+}
+
+.package-logo-large {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+.comment-list {
+    margin-left: 20px;
 }

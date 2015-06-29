@@ -3,8 +3,11 @@ package com.arcusys.learn.models.request
 object GradebookActionType extends Enumeration {
   type GradebookActionType = Value
 
-  val ALL = Value("ALL")
-  val GRADES = Value("GRADES")
-  val TOTAL_GRADE = Value("TOTAL_GRADE")
-  val REVIEW = Value("REVIEW")
+  val All = Value("ALL")
+  val Grades = Value("GRADES")
+  val TotalGrade = Value("TOTAL_GRADE")
+  val GradedPackage = Value("GRADED_PACKAGE")
+  val LastModified = Value("LAST_MODIFIED")
+  val Review = Value("REVIEW")
+  val Statements = Value("STATEMENTS")
 }

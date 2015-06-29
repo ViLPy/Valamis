@@ -1,6 +1,7 @@
 package com.arcusys.learn.controllers.api
 
 import com.arcusys.learn.facades.LiferayFacade
+import com.arcusys.learn.liferay.permission.PermissionUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.models.request.LiferayRequest
@@ -25,8 +26,8 @@ class LiferayApiController(configuration: BindingModule) extends BaseApiControll
       case "GETIMAGES" => {
         jsonAction {
           liferayFacade.getImages(
-            getLiferayUser,
-            lfRequest.groupID.getOrElse(0),
+            PermissionUtil.getLiferayUser,
+            lfRequest.courseId,
             lfRequest.filter,
             lfRequest.page,
             lfRequest.skip,
@@ -37,8 +38,8 @@ class LiferayApiController(configuration: BindingModule) extends BaseApiControll
       case "GETVIDEO" => {
         jsonAction {
           liferayFacade.getVideo(
-            getLiferayUser,
-            lfRequest.groupID.getOrElse(0),
+            PermissionUtil.getLiferayUser,
+            lfRequest.courseId,
             lfRequest.page,
             lfRequest.skip,
             lfRequest.count

@@ -1,8 +1,15 @@
 package com.arcusys.learn.liferay.services
 
+import com.liferay.portal.kernel.dao.orm._
+import com.liferay.portal.kernel.workflow.WorkflowConstants
 import com.liferay.portal.model.User
 import com.liferay.portal.service.{ ServiceContext, UserLocalServiceUtil }
 import java.util.Locale
+import com.liferay.portal.webserver.WebServerServletTokenUtil
+import com.liferay.portal.kernel.util.DigesterUtil
+import com.liferay.portal.kernel.util.HttpUtil
+
+import scala.collection.JavaConverters._
 
 object UserLocalServiceHelper {
   def apply() = new UserLocalServiceHelper {}
@@ -32,6 +39,29 @@ trait UserLocalServiceHelper {
   def getGroupUsers(groupId: Long): java.util.List[User] =
     UserLocalServiceUtil.getGroupUsers(groupId)
 
+  def getGroupUserIds(groupId: Long): Seq[Long] = {
+
+    val userIdsInGroup = UserLocalServiceUtil.getGroupUserIds(groupId).toSeq.asJavaCollection
+
+    if (userIdsInGroup.isEmpty) Seq()
+    else {
+      val userQuery = UserLocalServiceUtil.dynamicQuery()
+      userQuery
+        .add(RestrictionsFactoryUtil.in("userId", userIdsInGroup))
+        .add(RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED))
+        .add(RestrictionsFactoryUtil
+          .or(RestrictionsFactoryUtil.ne("firstName", ""),
+            RestrictionsFactoryUtil.ne("lastName", "")))
+        .addOrder(OrderFactoryUtil.asc("lastName"))
+        .addOrder(OrderFactoryUtil.asc("firstName"))
+
+      userQuery.setProjection(ProjectionFactoryUtil.projectionList()
+        .add(ProjectionFactoryUtil.property("userId")))
+
+      UserLocalServiceUtil.dynamicQuery(userQuery).asScala.map(_.asInstanceOf[Long])
+    }
+  }
+
   def getDefaultUserId(companyId: Long): Long = UserLocalServiceUtil.getDefaultUserId(companyId)
 
   def unsetOrganizationUsers(organizationId: Long, userIds: Array[Long]) {
@@ -58,4 +88,11 @@ trait UserLocalServiceHelper {
 
   def updateReminderQuery(userId: Long, question: String, answer: String): User =
     UserLocalServiceUtil.updateReminderQuery(userId, question, answer)
+
+  def getPortraitTime(portraitId: Long) = {
+    WebServerServletTokenUtil.getToken(portraitId)
+  }
+  def getPortraitToken(user: User) = {
+    HttpUtil.encodeURL(DigesterUtil.digest(user.getUserUuid))
+  }
 }

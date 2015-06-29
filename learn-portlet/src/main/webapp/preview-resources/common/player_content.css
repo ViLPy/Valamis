@@ -10,12 +10,17 @@
 
 .SCORMPlayerContentDisplay .playerMainArea {
     margin: 10px 5px 10px 5px;
+    min-height: 200px;
+}
+.SCORMPlayerContentDisplay .answers {
+    margin: 10px 5px 10px 5px;
+    min-height: 200px;
 }
 
 .SCORMPlayerContentDisplay .playerPageNavigation {
     margin: 27px 0 10px 0;
     width: 100%;
-    border-top: 1px dashed #666666;
+    border-top: 1px solid #DEDEDE;
     padding: 7px 0;
 }
 
@@ -39,6 +44,13 @@
     float: right;
 }
 
+.playerPageNavigation .playerNext .button{
+    text-transform: none;
+}
+
+.playerPageNavigation .playerPrevious .button{
+    text-transform: none;
+}
 /*--Matching Question--*/
 
 #scormQuestionData td{
@@ -51,6 +63,10 @@
     margin: 7px 6px 0 0;
 }
 
+.choiceTextContainer {
+    margin-left: 25px;
+    display: block;
+}
 /* ------------ Short Answer Question ----------------*/
 
 .playerMainArea .playerShortAnswerField {

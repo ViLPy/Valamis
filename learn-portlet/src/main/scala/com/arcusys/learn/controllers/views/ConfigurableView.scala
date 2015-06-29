@@ -1,9 +1,7 @@
 package com.arcusys.learn.controllers.views
 
-import com.arcusys.learn.bl.services.{ UserRoleServiceContract }
-import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.scorm.lms.PackageService
+import com.escalatesoft.subcut.inject.Injectable
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,10 +10,5 @@ import com.arcusys.scorm.lms.PackageService
  * Time: 15.00
  */
 trait ConfigurableView extends Injectable {
-
   implicit val bindingModule = Configuration
-
-  val userRoleService = inject[UserRoleServiceContract]
-  val packageService = new PackageService()
-
 }

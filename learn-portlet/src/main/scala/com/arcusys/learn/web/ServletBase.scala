@@ -1,14 +1,11 @@
 package com.arcusys.learn.web
 
-import org.scalatra.{ ScalatraServlet }
-import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
-import com.arcusys.learn.service.util.{ OldParameterBase, Parameter, SessionHandlerContract }
-import com.arcusys.learn.util.JsonSupport
-import com.arcusys.learn.controllers.auth.{ LiferayAuthSupport }
+import org.scalatra.ScalatraServlet
+import com.escalatesoft.subcut.inject.Injectable
+import com.arcusys.learn.service.util.{ OldParameterBase, Parameter}
+import com.arcusys.valamis.utils.JsonSupport
 
 trait ServletBase extends ScalatraServlet with JsonSupport with Injectable {
-
-  implicit val sessionHandler = inject[SessionHandlerContract]
 
   @deprecated
   class JsonModelBuilder[T](transform: T => Map[String, Any]) {
@@ -33,35 +30,4 @@ trait ServletBase extends ScalatraServlet with JsonSupport with Injectable {
 
   @deprecated
   def parameter(name: String) = new OldParameterBase(name, this)
-
-  //  def isAdmin = try {
-  //    sessionHandler.getAttribute(request.getCookies, "isAdmin").asInstanceOf[Boolean]
-  //  } catch {
-  //    case e: Exception => false
-  //  }
-
-  //  def hasTeacherPermissions = try {
-  //    sessionHandler.getAttribute(request.getCookies, "hasTeacherPermissions").asInstanceOf[Boolean]
-  //  } catch {
-  //    case e: Exception => false
-  //  }
-
-  //  def getCompanyId = {
-  //    val company = request.cookies.get("COMPANY_ID")
-  //    company.getOrElse("-1").toInt
-  //  }
-
-  def getSessionUserID = try {
-    sessionHandler.getAttribute(request.getCookies, "userID").asInstanceOf[String].toInt
-  } catch {
-    case e: Exception => -1 // guest
-  }
-
-  //  def requireAdmin() {
-  //    if (!isAdmin) halt(401)
-  //  }
-
-  //  def requireTeacherPermissions() {
-  //    if (!hasTeacherPermissions) halt(401)
-  //  }
 }

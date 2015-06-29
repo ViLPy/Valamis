@@ -5,22 +5,21 @@ import org.scalatra.ScalatraBase
 import com.arcusys.learn.models.request.PrintActionType._
 
 object PrintRequest extends BaseCollectionFilteredRequest with BaseRequest {
-  val PRINT_TRANSCRIPT = "PRINT_TRANSCRIPT"
-  val COMPANY_ID = "companyID"
-  val USER_ID = "userID"
-  val COURSE_ID = "courseID"
+  val PrintTranscript = "PRINT_TRANSCRIPT"
+  val CompanyId = "companyID"
+  val UserId = "userID"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
-  class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
+  class Model(val scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) with OAuthModel{
 
-    def actionType: PrintActionType = PrintActionType.withName(Parameter(ACTION).required.toUpperCase)
+    def actionType: PrintActionType = PrintActionType.withName(Parameter(Action).required.toUpperCase)
 
-    def companyId = Parameter(COMPANY_ID).intRequired
+    def companyId = Parameter(CompanyId).intRequired
 
-    def userId = Parameter(USER_ID).intRequired
+    def userId = Parameter(UserId).intRequired
 
-    def courseId = Parameter(COURSE_ID).longRequired
+    def courseId = Parameter(CourseId).longRequired
   }
 
 }

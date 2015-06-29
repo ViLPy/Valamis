@@ -1,11 +1,24 @@
-MyApp.module('SideBarModule', function(SideBarModule, MyApp, Backbone, Marionette, $, _){
+var sidebarModule = slidesApp.module('SideBarModule', function(SideBarModule, slidesApp, Backbone, Marionette, $, _){
     SideBarModule.ToolbarView = Marionette.ItemView.extend({
-        template: '#textToolbarView',
+        template: '#itemToolbarView',
         events: {
-            'mousedown': 'onMouseDown'
+            'mousedown': 'onMouseDown',
+            'click': 'onClick'
         },
         onMouseDown: function(e) {
-            MyApp.commands.execute('drag:prepare:new', this.model, e.clientX, e.clientY);
+            if(this.model.get('slideEntityType') !== 'pptx')
+                slidesApp.commands.execute('drag:prepare:new', this.model, e.clientX, e.clientY);
+        },
+        onClick: function(e) {
+            if(this.model.get('slideEntityType') === 'pptx') {
+                slidesApp.commands.execute("fileupload:show:modal", PptxElementModule.moduleName);
+            }
+            else
+            {
+                slidesApp.commands.execute('drag:prepare:new', this.model, 0, 0);
+                slidesApp.commands.execute('item:create', true);
+                slidesApp.activeElement.isMoving = false;
+            }
         }
     });
 
@@ -14,7 +27,7 @@ MyApp.module('SideBarModule', function(SideBarModule, MyApp, Backbone, Marionett
     });
 
     var collection = new Backbone.Collection();
-    var collectionView = new SideBarModule.ToolbarCollectionView({collection: collection});
+    SideBarModule.collectionView = new SideBarModule.ToolbarCollectionView({collection: collection});
 
     var SideBarLayoutView = Marionette.LayoutView.extend({
         template: '#sideBarLayoutTemplate',
@@ -24,25 +37,18 @@ MyApp.module('SideBarModule', function(SideBarModule, MyApp, Backbone, Marionett
             content: '.edit-view'
         }
     });
-    var sidebarView = new SideBarLayoutView();
+    SideBarModule.sidebarView = new SideBarLayoutView();
 
-    MyApp.commands.setHandler('toolbar:item:add', function(model){
+    slidesApp.commands.setHandler('toolbar:item:add', function(model){
         collection.add(model);
     });
 
-    MyApp.commands.setHandler('toolbar:edit:show', function(moduleName, model){
-        var EditViewClass = MyApp.module(moduleName).EditView;
-        var editView = new EditViewClass({model: model});
-        sidebarView.content.show(editView);
-        sidebarView.content.$el.addClass('active');
+    slidesApp.commands.setHandler('toolbar:item:delete', function(model){
+        collection.remove(model);
     });
+});
 
-    MyApp.commands.setHandler('toolbar:edit:hide', function() {
-        
-    });
-
-    SideBarModule.addInitializer(function(){
-        MyApp.sidebar.show(sidebarView);
-        sidebarView.menu.show(collectionView);
-    });
+sidebarModule.addInitializer(function(){
+    slidesApp.sidebar.show(sidebarModule.sidebarView);
+    sidebarModule.sidebarView.menu.show(sidebarModule.collectionView);
 });

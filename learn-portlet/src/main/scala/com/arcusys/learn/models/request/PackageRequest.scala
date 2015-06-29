@@ -1,87 +1,99 @@
 package com.arcusys.learn.models.request
 
+import com.arcusys.learn.liferay.util.PortalUtilHelper
 import com.arcusys.learn.models.valamispackage.PackageSortBy
-import com.arcusys.learn.scorm.manifest.model.PeriodType
 import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
+import com.arcusys.valamis.model.PeriodTypes
 import org.scalatra.ScalatraBase
 import scala.util.Try
 
 object PackageRequest extends BaseCollectionFilteredRequest with BaseRequest {
-  val PACKAGE_ID = "id"
-  val TITLE = "title"
-  val DESCRIPTION = "description"
-  val IMAGE_ID = "imageId"
-  val LIFERAY_GROUP_ID = "liferayGroupID"
-  val VISIBILITY = "visibility"
-  val IS_DEFAULT = "isdefault"
-  val PACKAGE_TYPE = "packageType"
-  val PACKAGE_LOGO = "logo"
+  val PackageId = "id"
+  val Title = "title"
+  val Description = "description"
+  val ImageId = "imageId"
+  val LiferayGroupId = "liferayGroupID"
+  val Visibility = "visibility"
+  val IsDefault = "isDefault"
+  val PackageType = "packageType"
+  val PackageLogo = "logo"
 
-  val DEFAULT_PACKAGE_TITLE = "New package"
-  val DEFAULT_PACKAGE_DESCRIPTION = ""
-  val DEFAULT_INT = "0"
-  val DEFAULT_LIFERAY_GROUP_ID = "-1"
-  val DEFAULT_COURSE_ID = -1
+  val DefaultPackageTitle = "New package"
+  val DefaultPackageDescription = ""
+  val DefaultInt = "0"
+  val DefaultLiferayGroupId = "-1"
+  val DefaultCourseId = -1
 
-  val PACKAGE_IDS = "packageIds"
-  val PACKAGES = "packages"
-  val PAGE_ID = "pageID"
-  val PLAYER_ID = "playerID"
-  val COURSE_ID = "courseID"
-  val SCOPE = "scope"
+  val PackageIds = "packageIds"
+  val Packages = "packages"
+  val PageId = "pageID"
+  val PlayerId = "playerID"
+  val Scope = "scope"
+  val Comment = "comment"
 
-  val PASSING_LIMIT = "passingLimit"
-  val RERUN_INTERVAL = "rerunInterval"
-  val RERUN_INTERVAL_TYPE = "rerunIntervalType"
+  val PassingLimit = "passingLimit"
+  val RerunInterval = "rerunInterval"
+  val RerunIntervalType = "rerunIntervalType"
+
+  val TagId = "tagID"
+  val Tags = "tags"
+
+  val BeginDate = "beginDate"
+  val EndDate = "endDate"
+  val CountPackage = "countPackage"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
-  class Model(scalatra: ScalatraBase) extends BaseSortableCollectionFilteredRequestModel(scalatra, PackageSortBy.apply) {
+  class Model(val scalatra: ScalatraBase) extends BaseSortableCollectionFilteredRequestModel(scalatra, PackageSortBy.apply) with OAuthModel {
+    def action = Parameter(Action).required
 
-    def action = Parameter(ACTION).required
+    def title = Parameter(Title).option
 
-    def title = Parameter(TITLE).option
+    def description = Parameter(Description).option
 
-    def description: Option[String] = {
-      Parameter(DESCRIPTION).option match {
-        case Some(value) => Option(AntiSamyHelper.sanitize(value))
-        case None        => None
-      }
-    }
-
-    def groupID = Parameter(LIFERAY_GROUP_ID)
-      .withDefault(DEFAULT_LIFERAY_GROUP_ID)
+    def groupId = Parameter(LiferayGroupId)
+      .withDefault(DefaultLiferayGroupId)
       .toLong
 
-    def packageLogo = Parameter(PACKAGE_LOGO).option
+    def packageLogo = Parameter(PackageLogo).option
 
-    def imageID = Parameter(IMAGE_ID).intRequired //.intOption(DEFAULT_INT)
+    def imageId = Parameter(ImageId).intRequired //.intOption(DEFAULT_INT)
 
-    def packageId = Parameter(PACKAGE_ID).intRequired
+    def packageId = Parameter(PackageId).longRequired
 
-    def visibility = Parameter(VISIBILITY).booleanOption("null").getOrElse(false)
+    def comment = Parameter(Comment).option
 
-    def isDefault = Parameter(IS_DEFAULT).booleanRequired
+    def visibility = Parameter(Visibility).booleanOption("null").getOrElse(false)
 
-    def packageType = Parameter(PACKAGE_TYPE).required
+    def isDefault = Parameter(IsDefault).booleanRequired
 
-    def packageIds = Parameter(PACKAGE_IDS).multiWithEmpty.map(x => x.toInt).toSeq
+    def packageTypeRequired = Parameter(PackageType).required
+    def packageType = Parameter(PackageType).option
 
-    def packages = Parameter(PACKAGES).required
+    def packageIds = Parameter(PackageIds).multiWithEmpty.map(x => x.toLong)
 
-    def courseIDRequired = Parameter(COURSE_ID).intRequired
-    def courseID = Parameter(COURSE_ID).intOption(DEFAULT_COURSE_ID)
-    def scope = Parameter(SCOPE).required
-    def pageIDRequired = Parameter(PAGE_ID).required
-    def pageID = Parameter(PAGE_ID).option
-    def playerID = Parameter(PLAYER_ID).option
-    def playerIDRequired = Parameter(PLAYER_ID).required
+    def packages = Parameter(Packages).required
 
-    def passingLimit = Parameter(PASSING_LIMIT).intRequired
+    def courseId = Parameter(CourseId).intRequired
+    def scope = Parameter(Scope).required
+    def pageIdRequired = Parameter(PageId).required
+    def pageId = Parameter(PageId).option
+    def playerId = Parameter(PlayerId).option
+    def playerIdRequired = Parameter(PlayerId).required
 
-    def rerunInterval = Parameter(RERUN_INTERVAL).intRequired
+    def passingLimit = Parameter(PassingLimit).intRequired
 
-    def rerunIntervalType = Try { PeriodType(Parameter(RERUN_INTERVAL_TYPE).required) }.getOrElse(PeriodType.UNLIMITED)
+    def rerunInterval = Parameter(RerunInterval).intRequired
+
+    def rerunIntervalType = Try { PeriodTypes(Parameter(RerunIntervalType).required) }.getOrElse(PeriodTypes.UNLIMITED)
+
+    def tagId = Parameter(TagId).longOption
+    def tags = Parameter(Tags).multiWithEmpty.filter(!_.isEmpty)
+    def beginDate = Parameter(BeginDate).dateTimeOption("")
+    def endDate = Parameter(EndDate).dateTimeOption("")
+    def companyId = PortalUtilHelper.getCompanyId(scalatra.request)
+
+    def countPackage = Parameter(CountPackage).intRequired
   }
 
 }

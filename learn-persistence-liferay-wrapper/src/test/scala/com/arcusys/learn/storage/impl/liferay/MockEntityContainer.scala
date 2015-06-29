@@ -1,15 +1,13 @@
 package com.arcusys.learn.storage.impl.liferay
 
-import org.specs2.mock.Mockito
-import com.arcusys.learn.persistence.liferay.service.ClpSerializer
-import collection.mutable
-import java.util.concurrent.ConcurrentHashMap
-import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
-import java.util.{ List => JavaList }
 import java.lang.{ Integer => JavaInteger }
+import java.util.{ List => JavaList }
+
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.util.PortletBeanLocatorUtilHelper
+import com.arcusys.learn.persistence.liferay.service.ClpSerializer
+import org.specs2.mock.Mockito
+import scala.collection.JavaConverters._
 
 /**
  * User: dkudinov
@@ -35,7 +33,7 @@ object IDGenService {
 }
 
 trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mockito {
-  private val _internalStorage = new ThreadLocal[mutable.ConcurrentMap[Long, B]]
+  private val _internalStorage = new ThreadLocal[collection.concurrent.Map[Long, B]]
   val mockBeanLocator = Option(PortletBeanLocatorUtilHelper.getBeanLocator(ClpSerializer.getServletContextName)).getOrElse(mock[LBeanLocator])
 
   PortletBeanLocatorUtilHelper.setBeanLocator(ClpSerializer.getServletContextName, mockBeanLocator)
@@ -97,9 +95,9 @@ trait MockEntityContainer[A <: LBaseLocalService, B <: LBaseModel[B]] extends Mo
     orNull(internalStorage.remove(unwrapLong(idRaw)))
   }
 
-  def internalStorage: mutable.ConcurrentMap[Long, B] = {
+  def internalStorage: collection.concurrent.Map[Long, B] = {
     if (_internalStorage.get == null) {
-      _internalStorage.set(new ConcurrentHashMap[Long, B])
+      _internalStorage.set(new collection.concurrent.TrieMap[Long, B])
     }
     _internalStorage.get
   }

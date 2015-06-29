@@ -33,6 +33,14 @@ StatementModel = Backbone.Model.extend({
     obj: '',
     objName: '',
     selected: false
+  },
+  toggle: function(){
+    if(this.get('selected')) {
+      this.set('selected', false);
+    }
+    else {
+      this.set('selected', true);
+    }
   }
 });
 
@@ -47,7 +55,7 @@ StatementCollectionService = new Backbone.Service({ url: path.root,
           };
         } ));
 
-        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDTINCANSTMNTS' + '&tincanStmnts=' + stmnts;
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=ADDTINCANSTMNTS&courseId=' + Utils.getCourseId() + '&tincanStmnts=' + stmnts;
       },
       method: 'post'
     }
@@ -59,7 +67,8 @@ StatementCollection = Backbone.Collection.extend({
 
 var Plugin = Backbone.Model.extend({
     label: function () {
-        return this.get("name") + " ("+this.id+")";
+        var activity = new TinCan.Activity(this.toJSON());
+        return activity + " ("+activity.id+")";
     }
 });
 
@@ -72,7 +81,7 @@ var PluginCollection = Backbone.Collection.extend({
 
 StatementListElement = Backbone.View.extend({
   events: {
-    'click .val-icon-delete': 'deleteStatement',
+    'click .js-statement-delete': 'deleteStatement',
     'click #verbSelection': 'setVerb',
     'keyup #objectSelection': 'setObject'
   },
@@ -85,7 +94,7 @@ StatementListElement = Backbone.View.extend({
       _.extend(this.model.toJSON(), this.language));
     this.$el.html(template);
       var plugins = new PluginCollection();
-      plugins.url = path.root + path.api.activities;
+      plugins.url = path.root + path.api.activities + '?courseId=' + + Utils.getCourseId();
 
       new AutoCompleteView({
           input: this.$("#objectSelection"), // your input field
@@ -117,8 +126,8 @@ StatementListElement = Backbone.View.extend({
 
 StatementContainer = Backbone.View.extend({
   events: {
-    'click .newStatement': 'newStatement',
-    'click .addStatements': 'addStatements'
+    'click .js-newStatement': 'newStatement',
+    'click .js-addStatements': 'addStatements'
   },
   initialize: function (options) {
     this.language = options.language;

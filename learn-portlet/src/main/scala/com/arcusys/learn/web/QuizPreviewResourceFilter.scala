@@ -1,14 +1,15 @@
 package com.arcusys.learn.web
 
 import com.arcusys.learn.controllers.api.BaseApiController
-import com.arcusys.learn.quiz.storage.QuizQuestionStorage
-import com.arcusys.scorm.generator.util.ResourceHelpers
-import com.arcusys.scorm.generator.file.html.QuestionViewGenerator
+import com.arcusys.valamis.lesson.generator.scorm.file.html.QuestionViewGenerator
+import com.arcusys.valamis.lesson.generator.util.ResourceHelpers
+import com.arcusys.valamis.questionbank.model.PlainText
+import com.arcusys.valamis.quiz.model.{ RevealJSQuizQuestion, QuestionBankQuizQuestion, PlainTextQuizQuestion, ExternalQuizQuestion }
+import com.arcusys.valamis.quiz.storage.QuizQuestionStorage
+import com.arcusys.valamis.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.scorm.util.FileSystemUtil
-import com.arcusys.learn.quiz.model.{ RevealJSQuizQuestion, PlainTextQuizQuestion, ExternalQuizQuestion, QuestionBankQuizQuestion }
-import com.arcusys.learn.questionbank.model.PlainText
+
 // TODO check and remove this class
 @deprecated
 class QuizPreviewResourceFilter(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase {
@@ -46,6 +47,7 @@ class QuizPreviewResourceFilter(configuration: BindingModule) extends BaseApiCon
       case plain: PlainTextQuizQuestion       => gen.getHTMLByQuestionId(new PlainText(plain.id, plain.categoryID, plain.title.getOrElse(""), plain.text, plain.categoryID), false, context)
       case external: ExternalQuizQuestion     => redirect(external.url)
       case revealJS: RevealJSQuizQuestion     => halt(404, "Not implemented")
+      case _                                  => halt(404, "Not implemented")
     }
   }
 }

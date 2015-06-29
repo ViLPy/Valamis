@@ -2,12 +2,9 @@ package com.arcusys.learn.models.response.certificates
 
 import com.arcusys.learn.models._
 import com.arcusys.learn.models.response.users.UserShortResponse
-import com.arcusys.learn.scorm.manifest.model.PeriodType
+import com.arcusys.valamis.model.PeriodTypes
 import org.joda.time.DateTime
 
-/**
- * Created by Iliya Tryapitsin on 05.03.14.
- */
 case class CertificateResponse(id: Int,
     title: String,
     shortDescription: String,
@@ -16,14 +13,12 @@ case class CertificateResponse(id: Int,
     isPublished: Boolean,
     validPeriod: ValidPeriod,
     createdAt: DateTime,
-    //value: Option[Int],
-    //valueType: String,
     isOpenBadgesIntegration: Boolean,
-    courses: Iterable[CertificateCourseResponse],
-    statements: Iterable[StatementResponse],
-    activities: Iterable[ActivityResponse],
+    courses: Iterable[CourseGoalResponse],
+    statements: Iterable[StatementGoalResponse],
+    activities: Iterable[ActivityGoalResponse],
+    packages: Iterable[PackageGoalResponse],
     users: Map[String, UserShortResponse],
     scope: Option[CourseResponse]) extends CertificateResponseContract {
-  def expirationDate = PeriodType.getEndDate(PeriodType.parse(validPeriod.valueType), validPeriod.value, createdAt)
+  def expirationDate = PeriodTypes.getEndDate(PeriodTypes.parse(validPeriod.valueType), validPeriod.value, createdAt)
 }
-

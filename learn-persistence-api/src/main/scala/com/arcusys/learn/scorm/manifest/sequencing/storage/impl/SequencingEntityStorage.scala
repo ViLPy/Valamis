@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage._
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
-import com.arcusys.learn.scorm.manifest.model.{ PostConditionRule, PreConditionRule, ExitConditionRule, Sequencing }
+import com.arcusys.valamis.lesson.scorm.model.manifest._
+import com.arcusys.valamis.lesson.scorm.storage.sequencing._
 
 /**
  * User: Yulia.Glushonkova

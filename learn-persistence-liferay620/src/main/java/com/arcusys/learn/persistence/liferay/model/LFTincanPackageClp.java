@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.Method;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,8 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
     private Long _assetRefID;
     private Integer _courseID;
     private String _logo;
+    private Date _beginDate;
+    private Date _endDate;
     private BaseModel<?> _lfTincanPackageRemoteModel;
 
     public LFTincanPackageClp() {
@@ -71,6 +74,8 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
         attributes.put("logo", getLogo());
+        attributes.put("beginDate", getBeginDate());
+        attributes.put("endDate", getEndDate());
 
         return attributes;
     }
@@ -111,6 +116,18 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
         if (logo != null) {
             setLogo(logo);
+        }
+
+        Date beginDate = (Date) attributes.get("beginDate");
+
+        if (beginDate != null) {
+            setBeginDate(beginDate);
+        }
+
+        Date endDate = (Date) attributes.get("endDate");
+
+        if (endDate != null) {
+            setEndDate(endDate);
         }
     }
 
@@ -246,6 +263,50 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         }
     }
 
+    @Override
+    public Date getBeginDate() {
+        return _beginDate;
+    }
+
+    @Override
+    public void setBeginDate(Date beginDate) {
+        _beginDate = beginDate;
+
+        if (_lfTincanPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setBeginDate", Date.class);
+
+                method.invoke(_lfTincanPackageRemoteModel, beginDate);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public Date getEndDate() {
+        return _endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        _endDate = endDate;
+
+        if (_lfTincanPackageRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfTincanPackageRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setEndDate", Date.class);
+
+                method.invoke(_lfTincanPackageRemoteModel, endDate);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getLFTincanPackageRemoteModel() {
         return _lfTincanPackageRemoteModel;
     }
@@ -321,6 +382,8 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         clone.setAssetRefID(getAssetRefID());
         clone.setCourseID(getCourseID());
         clone.setLogo(getLogo());
+        clone.setBeginDate(getBeginDate());
+        clone.setEndDate(getEndDate());
 
         return clone;
     }
@@ -366,7 +429,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -380,6 +443,10 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         sb.append(getCourseID());
         sb.append(", logo=");
         sb.append(getLogo());
+        sb.append(", beginDate=");
+        sb.append(getBeginDate());
+        sb.append(", endDate=");
+        sb.append(getEndDate());
         sb.append("}");
 
         return sb.toString();
@@ -387,7 +454,7 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFTincanPackage");
@@ -416,6 +483,14 @@ public class LFTincanPackageClp extends BaseModelImpl<LFTincanPackage>
         sb.append(
             "<column><column-name>logo</column-name><column-value><![CDATA[");
         sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>beginDate</column-name><column-value><![CDATA[");
+        sb.append(getBeginDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>endDate</column-name><column-value><![CDATA[");
+        sb.append(getEndDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

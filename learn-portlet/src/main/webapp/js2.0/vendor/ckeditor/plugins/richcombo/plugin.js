@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -16,8 +16,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 		' class="cke_combo cke_combo__{name} {cls}"' +
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
-			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
-			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+			'<a class="cke_combo_button" title="{title}" tabindex="-1"' +
+			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
@@ -318,8 +318,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 					if ( !( value || text ) ) {
 						text = this.label;
 						textElement.addClass( 'cke_combo_inlinelabel' );
-					} else
+					} else {
 						textElement.removeClass( 'cke_combo_inlinelabel' );
+					}
 
 					textElement.setText( typeof text != 'undefined' ? text : value );
 				}

@@ -2,10 +2,11 @@ package com.arcusys.learn.scorm.tracking.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFAttempt
 import com.arcusys.learn.persistence.liferay.service.LFAttemptLocalServiceUtil
-import com.arcusys.learn.scorm.manifest.storage.ScormPackagesStorage
-import com.arcusys.learn.scorm.tracking.model.Attempt
 import com.arcusys.learn.scorm.tracking.storage.impl.AttemptFieldsMapper
-import com.arcusys.learn.scorm.tracking.storage.{ UserStorage, AttemptStorage }
+import com.arcusys.valamis.lesson.scorm.model.tracking.Attempt
+import com.arcusys.valamis.lesson.scorm.storage.ScormPackagesStorage
+import com.arcusys.valamis.lesson.scorm.storage.tracking.AttemptStorage
+import com.arcusys.valamis.user.storage.UserStorage
 import scala.collection.JavaConverters._
 /**
  * Created by mminin on 16.10.14.
@@ -20,36 +21,36 @@ trait AttemptStorageImpl extends AttemptStorage {
     LFAttemptLocalServiceUtil.removeAll()
   }
 
-  override def getByID(id: Int): Option[Attempt] = {
+  override def getByID(id: Long): Option[Attempt] = {
     Option(LFAttemptLocalServiceUtil.getLFAttempt(id)).map(extract)
   }
 
-  override def getActive(userID: Int, packageID: Int) = {
-    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageID, false).asScala
+  override def getActive(userID: Int, packageId: Long) = {
+    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageId.toInt, false).asScala
       .headOption.map(extract)
   }
 
-  override def getAllComplete(userID: Int, packageID: Int) = {
-    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageID, true).asScala
+  override def getAllComplete(userID: Int, packageId: Long) = {
+    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageId.toInt, true).asScala
       .map(extract)
   }
 
-  override def getLast(userID: Int, packageID: Int, complete: Boolean = false) = {
-    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageID, complete).asScala
+  override def getLast(userID: Int, packageId: Long, complete: Boolean = false) = {
+    LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageId.toInt, complete).asScala
       .sortWith(_.getId > _.getId).headOption.map(extract)
   }
 
-  override def createAndGetID(userID: Int, packageID: Int, organizationID: String) = {
+  override def createAndGetID(userID: Int, packageId: Long, organizationID: String) = {
     val newEntity = LFAttemptLocalServiceUtil.createLFAttempt()
     newEntity.setUserID(userID)
-    newEntity.setPackageID(packageID)
+    newEntity.setPackageID(packageId.toInt)
     newEntity.setOrganizationID(organizationID)
     newEntity.setIsComplete(false)
 
-    LFAttemptLocalServiceUtil.addLFAttempt(newEntity).getId.toInt
+    LFAttemptLocalServiceUtil.addLFAttempt(newEntity).getId
   }
 
-  override def markAsComplete(id: Int) {
+  override def markAsComplete(id: Long) {
     val isComplete = true
     val found = LFAttemptLocalServiceUtil.getLFAttempt(id)
     if (found != null) {
@@ -58,8 +59,8 @@ trait AttemptStorageImpl extends AttemptStorage {
     }
   }
 
-  override def checkIfComplete(userID: Int, packageID: Int) = {
-    val attempt = LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageID, true).asScala
+  override def checkIfComplete(userID: Int, packageId: Long) = {
+    val attempt = LFAttemptLocalServiceUtil.findByUserIDPackageIDIsComplete(userID, packageId.toInt, true).asScala
       .map(extract)
     !attempt.isEmpty
   }

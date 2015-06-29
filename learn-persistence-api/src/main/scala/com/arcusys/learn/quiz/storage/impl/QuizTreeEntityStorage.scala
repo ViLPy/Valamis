@@ -1,8 +1,8 @@
 package com.arcusys.learn.quiz.storage.impl
 
-import com.arcusys.learn.quiz.storage.QuizTreeStorage
-import com.arcusys.learn.quiz.model.QuizTreeElement
 import com.arcusys.learn.storage.impl.{ KeyedEntityStorageExt, EntityStorageExt }
+import com.arcusys.valamis.quiz.model.QuizTreeElement
+import com.arcusys.valamis.quiz.storage.QuizTreeStorage
 
 trait QuizTreeEntityStorage
     extends QuizTreeStorage with KeyedEntityStorageExt[QuizTreeElement] with EntityStorageExt[QuizTreeElement] {
@@ -28,32 +28,22 @@ trait QuizTreeEntityStorage
   def getByQuizAndParentID(quizID: Int, parentID: Option[String]) =
     getAll("quizID" -> quizID, "parentID" -> parentID)
 
-  def move(element: QuizTreeElement, prevIndex: Int) {
-    val sameRootElements = getByQuizID(element.quizID).filter(_.parentID == element.parentID)
-    // recalculate all arrangement indices which are higher or equal to element new index
-    if (element.arrangementIndex < prevIndex) {
-      sameRootElements.filter(_.arrangementIndex >= element.arrangementIndex).map(e => {
-        e.copy(arrangementIndex = e.arrangementIndex + 1)
-      }).foreach(modify)
-    }
+  def move(element: QuizTreeElement, prevIndex: Int, prevParent: Option[String]) {
+    val movingForwardCoeff =
+      if (prevParent == element.parentID) if (prevIndex < element.arrangementIndex) 1 else 0
+      else {
+        val dir = getByQuizID(element.quizID).find(t => Some(t.elementID) == prevParent) //Checked only for folders inside root
+        if (dir.isDefined && dir.get.arrangementIndex < element.arrangementIndex) 1 else 0
+      }
 
-    if (element.arrangementIndex > prevIndex) {
-      sameRootElements.filter(se => se.arrangementIndex > prevIndex && se.arrangementIndex <= element.arrangementIndex).map(e => {
-        e.copy(arrangementIndex = e.arrangementIndex - 1)
-      }).foreach(modify)
-    }
+    val (before, after) = getByQuizID(element.quizID).filter(el => el.parentID == element.parentID && el.id != element.id)
+      .sortBy(_.arrangementIndex).partition(_.arrangementIndex < element.arrangementIndex + movingForwardCoeff)
 
-    modify(element)
-
-    val indexSet = (1 to sameRootElements.length).toSet
-    val newSameRoot = getByQuizID(element.quizID).filter(_.parentID == element.parentID)
-    val newSameRootIdx = newSameRoot.map(_.arrangementIndex).toSet
-    val diff = indexSet.diff(newSameRootIdx).toSeq.sorted.headOption
-    if (diff.isDefined) {
-      newSameRoot.filter(_.arrangementIndex > diff.get).map(e => {
-        e.copy(arrangementIndex = e.arrangementIndex - 1)
-      }).foreach(modify)
-    }
+    ((before :+ element) ++ after)
+      .zipWithIndex.foreach {
+        case (quizTreeElement, index) =>
+          modify(quizTreeElement.copy(arrangementIndex = index + 1))
+      }
   }
 
   private def maxArrangementIndex(oldChildren: Seq[QuizTreeElement]): Int = {

@@ -18,6 +18,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,9 +49,11 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
             { "summary", Types.VARCHAR },
             { "assetRefID", Types.BIGINT },
             { "courseID", Types.INTEGER },
-            { "logo", Types.CLOB }
+            { "logo", Types.CLOB },
+            { "beginDate", Types.TIMESTAMP },
+            { "endDate", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanPackage (id_ LONG not null primary key,title VARCHAR(2000) null,summary VARCHAR(2000) null,assetRefID LONG null,courseID INTEGER null,logo TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanPackage (id_ LONG not null primary key,title VARCHAR(2000) null,summary VARCHAR(2000) null,assetRefID LONG null,courseID INTEGER null,logo TEXT null,beginDate DATE null,endDate DATE null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanPackage";
     public static final String ORDER_BY_JPQL = " ORDER BY lfTincanPackage.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFTincanPackage.id_ ASC";
@@ -68,7 +71,8 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
             true);
     public static long ASSETREFID_COLUMN_BITMASK = 1L;
     public static long COURSEID_COLUMN_BITMASK = 2L;
-    public static long ID_COLUMN_BITMASK = 4L;
+    public static long TITLE_COLUMN_BITMASK = 4L;
+    public static long ID_COLUMN_BITMASK = 8L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFTincanPackage"));
     private static ClassLoader _classLoader = LFTincanPackage.class.getClassLoader();
@@ -77,6 +81,7 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         };
     private long _id;
     private String _title;
+    private String _originalTitle;
     private String _summary;
     private Long _assetRefID;
     private Long _originalAssetRefID;
@@ -85,6 +90,8 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
     private Integer _originalCourseID;
     private boolean _setOriginalCourseID;
     private String _logo;
+    private Date _beginDate;
+    private Date _endDate;
     private long _columnBitmask;
     private LFTincanPackage _escapedModel;
 
@@ -131,6 +138,8 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
         attributes.put("logo", getLogo());
+        attributes.put("beginDate", getBeginDate());
+        attributes.put("endDate", getEndDate());
 
         return attributes;
     }
@@ -172,6 +181,18 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         if (logo != null) {
             setLogo(logo);
         }
+
+        Date beginDate = (Date) attributes.get("beginDate");
+
+        if (beginDate != null) {
+            setBeginDate(beginDate);
+        }
+
+        Date endDate = (Date) attributes.get("endDate");
+
+        if (endDate != null) {
+            setEndDate(endDate);
+        }
     }
 
     @Override
@@ -191,7 +212,17 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public void setTitle(String title) {
+        _columnBitmask |= TITLE_COLUMN_BITMASK;
+
+        if (_originalTitle == null) {
+            _originalTitle = _title;
+        }
+
         _title = title;
+    }
+
+    public String getOriginalTitle() {
+        return _originalTitle;
     }
 
     @Override
@@ -258,6 +289,26 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         _logo = logo;
     }
 
+    @Override
+    public Date getBeginDate() {
+        return _beginDate;
+    }
+
+    @Override
+    public void setBeginDate(Date beginDate) {
+        _beginDate = beginDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return _endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        _endDate = endDate;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -295,6 +346,8 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         lfTincanPackageImpl.setAssetRefID(getAssetRefID());
         lfTincanPackageImpl.setCourseID(getCourseID());
         lfTincanPackageImpl.setLogo(getLogo());
+        lfTincanPackageImpl.setBeginDate(getBeginDate());
+        lfTincanPackageImpl.setEndDate(getEndDate());
 
         lfTincanPackageImpl.resetOriginalValues();
 
@@ -344,6 +397,8 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
     public void resetOriginalValues() {
         LFTincanPackageModelImpl lfTincanPackageModelImpl = this;
 
+        lfTincanPackageModelImpl._originalTitle = lfTincanPackageModelImpl._title;
+
         lfTincanPackageModelImpl._originalAssetRefID = lfTincanPackageModelImpl._assetRefID;
 
         lfTincanPackageModelImpl._setOriginalAssetRefID = false;
@@ -389,12 +444,28 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
             lfTincanPackageCacheModel.logo = null;
         }
 
+        Date beginDate = getBeginDate();
+
+        if (beginDate != null) {
+            lfTincanPackageCacheModel.beginDate = beginDate.getTime();
+        } else {
+            lfTincanPackageCacheModel.beginDate = Long.MIN_VALUE;
+        }
+
+        Date endDate = getEndDate();
+
+        if (endDate != null) {
+            lfTincanPackageCacheModel.endDate = endDate.getTime();
+        } else {
+            lfTincanPackageCacheModel.endDate = Long.MIN_VALUE;
+        }
+
         return lfTincanPackageCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(getId());
@@ -408,6 +479,10 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         sb.append(getCourseID());
         sb.append(", logo=");
         sb.append(getLogo());
+        sb.append(", beginDate=");
+        sb.append(getBeginDate());
+        sb.append(", endDate=");
+        sb.append(getEndDate());
         sb.append("}");
 
         return sb.toString();
@@ -415,7 +490,7 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(22);
+        StringBundler sb = new StringBundler(28);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFTincanPackage");
@@ -444,6 +519,14 @@ public class LFTincanPackageModelImpl extends BaseModelImpl<LFTincanPackage>
         sb.append(
             "<column><column-name>logo</column-name><column-value><![CDATA[");
         sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>beginDate</column-name><column-value><![CDATA[");
+        sb.append(getBeginDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>endDate</column-name><column-value><![CDATA[");
+        sb.append(getEndDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -1,9 +1,6 @@
 package com.arcusys.learn.facades
 
-import java.util
 import java.util.{ Calendar, Date }
-
-import com.arcusys.learn.bl.services.CourseServiceContract
 import com.arcusys.learn.exceptions.BadRequestException
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.liferay.LiferayClasses._
@@ -11,21 +8,28 @@ import com.arcusys.learn.liferay.services.{ GroupLocalServiceHelper, UserLocalSe
 import com.arcusys.learn.models.report._
 import com.arcusys.learn.models.response.CollectionResponse
 import com.arcusys.learn.models.response.users.UserResponseUtils
-import com.arcusys.learn.scorm.manifest.model.{ BaseManifest, PackageType }
-import com.arcusys.learn.scorm.tracking.model.CourseGrade
-import com.arcusys.learn.tincan.lrs.statement.{ StatementFilter, StatementLRS }
-import com.arcusys.learn.tincan.model.{ TincanURIType, Agent, Statement }
-import com.arcusys.learn.tincan.storage.StatementStorage
-import com.arcusys.scorm.lms.UserManagement
+import com.arcusys.valamis.gradebook.model.CourseGrade
+import com.arcusys.valamis.gradebook.service.CourseGradeService
+import com.arcusys.valamis.lesson.model.{ BaseManifest, LessonType }
+import com.arcusys.valamis.lrs.api.StatementApi
+import com.arcusys.valamis.lrs.api.valamis.VerbApi
+import com.arcusys.valamis.lrs.model.StatementFilter
+import com.arcusys.valamis.lrs.tincan.Statement
+import com.arcusys.valamis.lrs.util.{ StatementApiHelpers, TincanHelper }
+import com.arcusys.valamis.uri.model.ValamisURIType
+import com.arcusys.valamis.uri.service.URIServiceContract
+import com.arcusys.valamis.util.Joda
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import com.liferay.portal.NoSuchUserException
-import com.liferay.portal.model.User
 import com.liferay.portal.service.CompanyLocalServiceUtil
 import org.joda.time.{ DateTime, Period }
-
+import StatementApiHelpers._
+import com.arcusys.valamis.lrs.util.TinCanVerbs
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.util.Try
+
+import Joda._
 
 class ReportFacade(configuration: BindingModule) extends ReportFacadeContract with Injectable {
   def this() = this(Configuration)
@@ -33,24 +37,19 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
   implicit val bindingModule = configuration
 
   // TODO: TO Refactor this
-  val roleFacade = inject[RoleFacadeContract]
-  val packageFacade = inject[PackageFacadeContract]
-  val uriFacade = inject[URIFacadeContract]
-  val courseFacade = inject[CourseFacadeContract]
-  val courseService = inject[CourseServiceContract]
-  val userManagement = new UserManagement()
+  private lazy val packageFacade = inject[PackageFacadeContract]
+  private lazy val uriService = inject[URIServiceContract]
+  private lazy val courseFacade = inject[CourseFacadeContract]
+  private lazy val courseService = inject[CourseGradeService]
+  private lazy val userFacade = inject[UserFacadeContract]
 
   object ReportingPeriods extends Enumeration {
     type ReportingPeriods = Value
     val hour, day, week, month, year, interval = Value
   }
 
-  val statementLRS = new StatementLRS() {
-    val statementStorage = inject[StatementStorage]
-  }
-
   // overrides
-  override def getStudentsLeaderboard(period: String, offset: Int, amount: Int): CollectionResponse[StudentMostActiveResponse] = {
+  override def getStudentsLeaderboard(statementApi: StatementApi, period: String, offset: Int, amount: Int): CollectionResponse[StudentMostActiveResponse] = {
     val ALL_TIME = "all_time"
 
     val dateSince: Option[Date] =
@@ -78,7 +77,7 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     val packages = courseIds.map(cID => getPackages(cID)).flatMap(p => p)
 
     val result = students.map(st => {
-      val packagesStatements = getStatements(packages, Option(st.getUserId), dateSince)
+      val packagesStatements = getStatements(statementApi, packages, Option(st.getUserId), dateSince)
 
       StudentMostActiveResponse(st.getUserId,
         st.getFullName,
@@ -92,12 +91,12 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     CollectionResponse(math.ceil((offset + 0.1) / amount.toFloat).toInt, result.slice(offset, offset + amount), result.length)
   }
 
-  override def getMostActive(currentUserID: Int, offset: Int, amount: Int): CollectionResponse[StudentMostActiveResponse] = {
+  override def getMostActive(statementApi: StatementApi, currentUserID: Int, offset: Int, amount: Int): CollectionResponse[StudentMostActiveResponse] = {
     val companies = CompanyLocalServiceUtil.getCompanies(-1, -1)
     val userID = currentUserID
 
     val courseIds = companies.asScala.map(company => courseService.getCoursesByCompanyId(company.getCompanyId).map(_.getGroupId)
-      .filter(c => userManagement.hasTeacherPermissions(userID, c)))
+      .filter(c => userFacade.canView(userID, viewAll = false)))
       .flatMap(c => c).toList
 
     val students = courseIds.map(cId => getStudentsInCourse(cId))
@@ -108,7 +107,7 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     val packages = courseIds.map(cID => getPackages(cID)).flatMap(p => p)
 
     val result = students.map(st => {
-      val packagesStatements = getStatements(packages, Option(st.getUserId))
+      val packagesStatements = getStatements(statementApi, packages, Option(st.getUserId))
 
       StudentMostActiveResponse(st.getUserId,
         st.getFullName,
@@ -122,17 +121,17 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     CollectionResponse(math.ceil((offset + 0.1) / amount.toFloat).toInt, result.slice(offset, offset + amount), result.length)
   }
 
-  override def getUserLatestStatements(currentUserID: Int, offset: Int, amount: Int): CollectionResponse[Statement] = {
+  override def getUserLatestStatements(statementApi: StatementApi, currentUserID: Int, offset: Int, amount: Int): CollectionResponse[Statement] = {
     val email = try {
       UserLocalServiceHelper().getUser(currentUserID).getEmailAddress
     } catch {
       case _: Throwable => throw new NoSuchUserException("Cannot find user for current session") //(500, "Cannot find user for current session")
     }
 
-    if (amount < 0) throw new BadRequestException //(400, "Amount should be greater than zero or zero for all statements")
-    if (offset < 0) throw new BadRequestException //(400, "Offset cannot be less than zero")
+    if (amount < 0) throw new BadRequestException("Amount should be greater than zero or zero for all statements")
+    if (offset < 0) throw new BadRequestException("Offset cannot be less than zero")
 
-    var statements: Seq[Statement] = Seq[Statement]();
+    var statements = Seq[Statement]()
 
     // If needed to get ALL statements without pagination
     if (amount == 0) {
@@ -144,32 +143,32 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
 
       for (verb <- verbs) {
         val filter = StatementFilter(
-          agent = Option(Agent(objectType = "Agent", name = None, mbox = Option("mailto:" + email), mbox_sha1sum = None, openid = None, account = None, storedId = None)),
+          agent = Option(TincanHelper.getAgentByEmail(email)),
           verb = Option(verb.keys.head)
         )
 
         // Join statements, filtered by each listed verb
-        statements = statements ++ statementLRS.getStatements(filter).statements //.sortBy(st => st.timestamp).reverse
+        statements = statements ++ statementApi.getByFilter(filter) //.sortBy(st => st.timestamp).reverse
         //      val statements = /*if (amount > 0)*/ statementLRS.getStatements(filter).statements.sortBy(st => st.timestamp).reverse
         //    else statementLRS.getStatements().statements.sortBy(st => st.timestamp).reverse
       }
       statements = statements.sortBy(st => st.timestamp).reverse
     } else {
       val filter = StatementFilter(
-        agent = Option(Agent(objectType = "Agent", name = None, mbox = Option("mailto:" + email), mbox_sha1sum = None, openid = None, account = None, storedId = None))
+        agent = Option(TincanHelper.getAgentByEmail(email))
       )
-      statements = statementLRS.getStatements(filter).statements.sortBy(st => st.timestamp).reverse
+      statements = statementApi.getByFilter(filter).sortBy(st => st.timestamp).reverse
     }
 
     CollectionResponse(math.ceil((offset + 0.1) / amount.toFloat).toInt, statements.slice(offset, offset + (if (amount > 0) amount else statements.length)), statements.length)
   }
 
-  override def getStudentsLatestStatements(currentUserID: Int, offset: Int, amount: Int): CollectionResponse[Statement] = {
+  override def getStudentsLatestStatements(statementApi: StatementApi, currentUserID: Int, offset: Int, amount: Int): CollectionResponse[Statement] = {
     val companies = CompanyLocalServiceUtil.getCompanies(-1, -1)
     val userID = currentUserID
 
     val courseIds = companies.asScala.map(company => courseService.getCoursesByCompanyId(company.getCompanyId).map(_.getGroupId)
-      .filter(c => userManagement.hasTeacherPermissions(userID, c)))
+      .filter(c => userFacade.canView(userID, viewAll = false)))
       .flatMap(c => c)
       .toList
     //val roles = RoleLocalServiceHelper.getUserRoles(userID).asScala.toList
@@ -185,18 +184,20 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     //      .filter(c => userManagement.hasTeacherPermissions(userID, c))
 
     val packages = courseIds.map(cID => getPackages(cID)).flatMap(p => p)
-    val packagesStatements = getStatements(packages)
+    val packagesStatements = getStatements(statementApi, packages)
 
-    val result = packagesStatements.sortBy(stm => stm.timestamp).reverse
+    val result = packagesStatements.sortBy(_.timestamp).reverse
 
-    if (amount <= 0) throw new BadRequestException //(400, "Amount should be greater than zero")
-    if (offset < 0) throw new BadRequestException //(400, "Offset cannot be less than zero")
+    if (amount <= 0) throw new BadRequestException("Amount should be greater than zero")
+    if (offset < 0) throw new BadRequestException("Offset cannot be less than zero")
 
     CollectionResponse(math.ceil((offset + 0.1) / amount.toFloat).toInt, result.slice(offset, offset + amount), result.length)
   }
 
-  override def getStatementVerbs(): VerbResponse = {
-    val statements = statementLRS.getStatements().statements
+  override def getStatementVerbs(statementApi: StatementApi): VerbResponse = {
+    val sinceDate = Option(getSinceDate(10).toDate)
+    val statements = statementApi.getByFilter(StatementFilter(None, None, None, None, None, None, sinceDate,  None))
+
     val statementVerbs = statements
       .map(_.verb.id.split("/").last) // http://adlnet.gov/expapi/verbs/answered -> answered
       .groupBy(verb => verb)
@@ -205,14 +206,14 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     VerbResponse(statementVerbs)
   }
 
-  override def getOverallByPeriod(period: String, from: Long, to: Long): OverallByPeriodResponse = {
+  override def getOverallByPeriod(statementApi: StatementApi, period: String, from: Long, to: Long): OverallByPeriodResponse = {
     try {
       val periodVal = ReportingPeriods.withName(period.toLowerCase)
       val fromDate = getStartOf(new Date(from), periodVal)
       val toDate = getEndOf(new Date(to), periodVal)
-      val data = statementLRS.getStatements().statements
-        .filter(d => d.timestamp.isDefined && d.timestamp.get.compareTo(fromDate) >= 0 && d.timestamp.get.compareTo(toDate) <= 0)
-        .map(s => getStartOf(s.timestamp.get, periodVal))
+      val data = statementApi.getByFilter(StatementFilter(None, None, None, None, None, None, None, None))
+        .filter(d => d.timestamp.isDefined && d.timestamp.map(_.toDate).get.compareTo(fromDate) >= 0 && d.timestamp.map(_.toDate).get.compareTo(toDate) <= 0)
+        .map(s => getStartOf(s.timestamp.map(_.toDate).get, periodVal))
         .sortBy(d => d.getTime)
         .groupBy(date => date)
         .map(k => Map("date" -> k._1.getTime, "amount" -> k._2.size))
@@ -278,12 +279,12 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     val result: mutable.HashMap[String, CourseEventResponse] = mutable.HashMap()
 
     groupBy match {
-      case ReportingGroup.duration => {
+      case ReportingGroup.duration =>
         def dateRange(from: DateTime, to: DateTime, step: Period): List[DateTime] =
           Iterator.iterate(from)(_.plus(step)).takeWhile(!_.isAfter(to)).toList
 
         groupByPeriod match {
-          case ReportingPeriods.year => {
+          case ReportingPeriods.year =>
             dateRange(
               new DateTime(fromDate),
               new DateTime(toDate),
@@ -291,8 +292,7 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
               .map(d => {
                 getMapElement(result, d.toString("YYYY"))
               })
-          }
-          case ReportingPeriods.month => {
+          case ReportingPeriods.month =>
             dateRange(
               new DateTime(fromDate),
               new DateTime(toDate),
@@ -300,8 +300,7 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
               .map(d => {
                 getMapElement(result, d.toString("YYYY/MM"))
               })
-          }
-          case ReportingPeriods.week => {
+          case ReportingPeriods.week =>
             dateRange(
               new DateTime(fromDate),
               new DateTime(toDate),
@@ -309,8 +308,7 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
               .map(d => {
                 getMapElement(result, d.toString("YYYY/ww"))
               })
-          }
-          case ReportingPeriods.day => {
+          case ReportingPeriods.day =>
             dateRange(
               new DateTime(fromDate),
               new DateTime(toDate),
@@ -318,10 +316,9 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
               .map(d => {
                 getMapElement(result, d.toString("YYYY/MM/dd"))
               })
-          }
         }
 
-        var allStudents: Seq[User] = Seq()
+        var allStudents: Seq[LUser] = Seq()
         courseIds.foreach(cID => {
           val students = getStudentsInCourse(cID)
           allStudents = allStudents ++ students
@@ -330,64 +327,58 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
             val grade = getCourseGrade(cID, st.getUserId.toInt)
             if (grade.isDefined && grade.get.date.isDefined && isInDateRange(grade.get.date.get.toDate, fromDate, toDate)) {
               groupByPeriod match {
-                case ReportingPeriods.year => {
+                case ReportingPeriods.year =>
                   dateRange(
                     new DateTime(fromDate),
                     new DateTime(toDate),
                     Period.years(1))
-                    .map(d => {
-                      var res = getMapElement(result, d.toString("YYYY"))
+                    .foreach(d => {
+                      val res = getMapElement(result, d.toString("YYYY"))
                       if (d.compareTo(grade.get.date.get) > 0)
                         res.completionsCount += 1
                     })
-                }
-                case ReportingPeriods.month => {
+                case ReportingPeriods.month =>
                   dateRange(
                     new DateTime(fromDate),
                     new DateTime(toDate),
                     Period.months(1))
-                    .map(d => {
-                      var res = getMapElement(result, d.toString("YYYY/MM"))
+                    .foreach(d => {
+                      val res = getMapElement(result, d.toString("YYYY/MM"))
                       if (d.compareTo(grade.get.date.get) > 0)
                         res.completionsCount += 1
                     })
-                }
-                case ReportingPeriods.week => {
+                case ReportingPeriods.week =>
                   dateRange(
                     new DateTime(fromDate),
                     new DateTime(toDate),
                     Period.weeks(1))
-                    .map(d => {
-                      var res = getMapElement(result, d.toString("YYYY/ww"))
+                    .foreach(d => {
+                      val res = getMapElement(result, d.toString("YYYY/ww"))
                       if (d.compareTo(grade.get.date.get) > 0)
                         res.completionsCount += 1
                     })
-                }
-                case ReportingPeriods.day => {
+                case ReportingPeriods.day =>
                   dateRange(
                     new DateTime(fromDate),
                     new DateTime(toDate),
                     Period.days(1))
-                    .map(d => {
-                      var res = getMapElement(result, d.toString("YYYY/MM/dd"))
+                    .foreach(d => {
+                      val res = getMapElement(result, d.toString("YYYY/MM/dd"))
                       if (d.compareTo(grade.get.date.get) > 0)
                         res.completionsCount += 1
                     })
-                }
               }
             }
           })
         })
         result.foreach(r => r._2.enrollmentsCount = allStudents.size - r._2.completionsCount)
-
-      }
-      case ReportingGroup.teacher => {
+      case ReportingGroup.teacher =>
         courseIds.foreach(cID => {
           val students = getStudentsInCourse(cID)
 
           val teachers = getTeachersInCourse(cID)
           teachers.foreach(t => {
-            var res = getMapElement(result, t.getFullName)
+            val res = getMapElement(result, t.getFullName)
 
             students.foreach(st => {
               val grade = getCourseGrade(cID, st.getUserId.toInt)
@@ -399,14 +390,13 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
             })
           })
         })
-      }
-      case ReportingGroup.organization => {
+      case ReportingGroup.organization =>
         courseIds.foreach(cID => {
           val students = getStudentsInCourse(cID)
 
           students.foreach(st => {
             st.getOrganizations.asScala.foreach(org => {
-              var res = getMapElement(result, org.getName)
+              val res = getMapElement(result, org.getName)
               val grade = getCourseGrade(cID, st.getUserId.toInt)
               if (grade.isDefined && grade.get.date.isDefined && isInDateRange(grade.get.date.get.toDate, fromDate, toDate)) {
                 res.completionsCount += 1
@@ -416,14 +406,13 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
             })
           })
         })
-      }
-      case ReportingGroup.group => {
+      case ReportingGroup.group =>
         courseIds.foreach(cID => {
           val students = getStudentsInCourse(cID)
 
           students.foreach(st => {
             st.getUserGroups.asScala.foreach(group => {
-              var res = getMapElement(result, group.getName)
+              val res = getMapElement(result, group.getName)
               val grade = getCourseGrade(cID, st.getUserId.toInt)
               if (grade.isDefined && grade.get.date.isDefined && isInDateRange(grade.get.date.get.toDate, fromDate, toDate)) {
                 res.completionsCount += 1
@@ -433,7 +422,6 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
             })
           })
         })
-      }
     }
 
     result.map(_._2).toSeq.seq.sortBy(s => s.groupName)
@@ -465,97 +453,88 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
       .map(company => courseService.getCoursesByCompanyId(company.getCompanyId))
       .flatMap(c => c).toList
 
-    var result: mutable.HashMap[String, ParticipantResponse] = mutable.HashMap()
+    val result: mutable.HashMap[String, ParticipantResponse] = mutable.HashMap()
 
     groupBy match {
-      case ReportingGroup.course => {
+      case ReportingGroup.course =>
         courseIds.foreach(course => {
           val students = getStudentsInCourse(course.getGroupId)
 
           if (students.size > 0) {
-            var res = getMapElement(result, course.getDescriptiveName)
+            val res = getMapElement(result, course.getDescriptiveName)
             res.amount = students.size
           }
         })
-
-      }
-      case ReportingGroup.teacher => {
+      case ReportingGroup.teacher =>
         courseIds.foreach(course => {
           val students = getStudentsInCourse(course.getGroupId)
 
           val teachers = getTeachersInCourse(course.getGroupId)
           teachers.foreach(t => {
-            var res = getMapElement(result, t.getFullName)
+            val res = getMapElement(result, t.getFullName)
             res.amount += students.size
           })
         })
-      }
-      case ReportingGroup.organization => {
+      case ReportingGroup.organization =>
         courseIds.foreach(course => {
           val students = getStudentsInCourse(course.getGroupId)
 
           students.foreach(st => {
             st.getOrganizations.asScala.foreach(org => {
-              var res = getMapElement(result, org.getName)
+              val res = getMapElement(result, org.getName)
               res.amount += 1
             })
           })
         })
-      }
-      case ReportingGroup.group => {
+      case ReportingGroup.group =>
         courseIds.foreach(course => {
           val students = getStudentsInCourse(course.getGroupId)
 
           students.foreach(st => {
             st.getUserGroups.asScala.foreach(group => {
-              var res = getMapElement(result, group.getName)
+              val res = getMapElement(result, group.getName)
               res.amount += 1
 
             })
           })
         })
-      }
     }
 
     result.map(_._2).toSeq.seq.sortBy(s => s.groupName)
 
   }
 
-  override def getOverallByTime(): OverallByTimeResponse = {
-    val startedData = statementLRS.getStatements(StatementFilter(verb = Some("http://adlnet.gov/expapi/verbs/attempted")))
-      .statements.map(s => getStartOf(s.timestamp.getOrElse(new Date(0)), ReportingPeriods.day))
-      .groupBy(date => date)
-      .map(k => Map("date" -> k._1.getTime, "amount" -> k._2.size))
 
-    val completedData = statementLRS.getStatements(StatementFilter(verb = Some("http://adlnet.gov/expapi/verbs/completed")))
-      .statements.map(s => getStartOf(s.timestamp.getOrElse(new Date(0)), ReportingPeriods.day))
-      .groupBy(date => date)
-      .map(k => Map("date" -> k._1.getTime, "amount" -> k._2.size))
+  override def getOverallByTime(verbApi: VerbApi): OverallByTimeResponse = {
+    val sinceDate = Option(getSinceDate(10))
+    val verbs = verbApi.getStatistics(sinceDate).toOption.toSeq
+      .flatMap(k => k.withDatetime)
+      .sortBy(_._2)
+      .map(d => (d._1, d._2.withTimeAtStartOfDay().getMillis))
+      .groupBy(identity)
+      .map{case ((verbId, date),(items)) => (verbId, date, items.size)}
 
-    val passed = statementLRS.getStatements(StatementFilter(verb = Some("http://adlnet.gov/expapi/verbs/completed")))
+    val startedData = verbs
+      .filter{ case (verbId, date, amount) => verbId ==  TinCanVerbs.getVerbURI(TinCanVerbs.Attempted) }
+      .map{ case (verbId, date, amount) => Map("date" -> date, "amount" -> amount) }
 
-    val passedScores = passed.statements
-      .filter(s => s.result.isDefined && s.result.get.success.getOrElse(false) && s.result.get.score.isDefined)
-      .map(_.result.get.score.get.scaled)
+    val completedData  = verbs
+      .filter{ case (verbId, date, amount) => verbId ==  TinCanVerbs.getVerbURI(TinCanVerbs.Completed) }
+      .map{ case (verbId, date, amount) => Map("date" -> date, "amount" -> amount) }
 
-    val average = if (passedScores.nonEmpty) (passedScores.sum / passedScores.size).toDouble else 0
+    val experiencedData = verbs
+      .filter{ case (verbId, date, amount) => verbId == TinCanVerbs.getVerbURI(TinCanVerbs.Experienced) }
+      .map{ case (verbId, date, amount) => Map("date" -> date, "amount" -> amount) }
 
-    val passedData =
-      passed.statements.filter(s => s.result.isDefined && s.result.get.success.isDefined)
-        .map(s => getStartOf(s.timestamp.getOrElse(new Date(0)), ReportingPeriods.day))
-        .groupBy(date => date)
-        .map(k => Map("date" -> k._1.getTime, "amount" -> k._2.size))
-
-    OverallByTimeResponse(average, startedData, completedData, passedData)
+    OverallByTimeResponse(startedData, completedData, experiencedData)
   }
 
-  override def getCourseReport(isInstanceScope: Boolean, courseID: Option[Int]): CourseReportResponse = {
+
+  override def getCourseReport(statementApi: StatementApi, isInstanceScope: Boolean, courseID: Option[Int]): CourseReportResponse = {
 
     val courseIds = {
       if (isInstanceScope) {
-        val companies = CompanyLocalServiceUtil.getCompanies(-1, -1)
-        companies.asScala.map(company =>
-          courseFacade.getAllCourses(company.getCompanyId).map(_.getGroupId)).flatMap(c => c).toList
+        courseFacade.getGroupIdsForAllCoursesFromAllCompanies.toList
       } else {
         if (!courseID.isDefined) throw new BadRequestException
         else List(courseID.get.toLong)
@@ -568,22 +547,22 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
       else
         CourseReportResponse(courseIds.head, GroupLocalServiceHelper.getGroup(courseIds.head).getDescriptiveName, 1, 0, 0, 0, 0, 0, 0, 0)
 
-    var allStudents: Seq[User] = Seq()
+    var allStudents: Seq[Long] = Seq()
     courseIds.foreach(cID => {
-      val students = getStudentsInCourse(cID)
+      val students = getStudentIdsInCourse(cID)
 
       allStudents = allStudents ++ students
 
       val packages = getPackages(cID)
 
-      students.foreach(st => {
+      students.foreach(stId => {
 
-        val started = getStatements(packages, Option(st.getUserId)).size > 0
+        val started = getStatements(statementApi, packages, Option(stId)).size > 0
 
         if (started)
           result.studentsStartedCount += 1
 
-        val grade = getTotalGrade(cID, st.getUserId.toInt)
+        val grade = getTotalGrade(cID, stId)
         if (grade.isDefined) {
           result.studentsCompletedCount += 1
           if (grade.get > 0)
@@ -601,31 +580,28 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     result
   }
 
-  // private
-  private[facades] def isStudent(liferayUser: LUser, courseID: Long): Boolean = {
-    userManagement.isStudent(liferayUser.getUserId, courseID)
-  }
-
-  private[facades] def isTeacher(liferayUser: LUser, courseID: Long): Boolean = {
-    userManagement.hasTeacherPermissions(liferayUser.getUserId, courseID)
-  }
-
-  private def getStudentsInCourse(courseId: Long): Seq[User] = {
-    UserLocalServiceHelper()
-      .getGroupUsers(courseId)
+  private def getStudentsInCourse(courseId: Long): Seq[LUser] = {
+    UserLocalServiceHelper().getGroupUsers(courseId)
       .asScala
       .filter(u => u.isActive && u.getFullName != "")
-      .filter(user => isStudent(user, courseId))
+      .filter(user => userFacade.canView(user, viewAll = false))
       .sortBy(x => x.getFullName)
       .toSeq
   }
 
-  private def getTeachersInCourse(courseId: Long): Seq[User] = {
+  private def getStudentIdsInCourse(courseId: Long): Seq[Long] = {
+    UserLocalServiceHelper().getGroupUsers(courseId).asScala.map(_.getUserId)
+      .filter(userId => userFacade.canView(userId, viewAll = false))
+      //.sortBy(x => x.getFullName)
+      .toSeq
+  }
+
+  private def getTeachersInCourse(courseId: Long): Seq[LUser] = {
     UserLocalServiceHelper()
       .getGroupUsers(courseId)
       .asScala
       .filter(u => u.isActive && u.getFullName != "")
-      .filter(user => isTeacher(user, courseId))
+      .filter(user => userFacade.canView(user, viewAll = true))
       .sortBy(x => x.getFullName)
       .toSeq
   }
@@ -634,50 +610,47 @@ class ReportFacade(configuration: BindingModule) extends ReportFacadeContract wi
     packageFacade.getPackagesByCourse(courseId.toInt)
   }
 
-  private[facades] def getStatements(packages: Seq[BaseManifest], userId: Option[Long] = None, dateSince: Option[Date] = None) = {
+  private[facades] def getStatements(statementApi: StatementApi,
+                                     packages: Seq[BaseManifest],
+                                     userId: Option[Long] = None, dateSince: Option[Date] = None) = {
     packages.map(p => {
       p.getType match {
-        case PackageType.SCORM => {
-          val packageUri = uriFacade.getURI(p.getId.toString, TincanURIType.Package)
-          val email = if (!userId.isDefined) "" else ("mailto:" + UserLocalServiceHelper().getUser(userId.get).getEmailAddress)
+        case LessonType.Scorm =>
+          val packageUri = uriService.getById(p.id.toString, ValamisURIType.Package)
+          val email = if (!userId.isDefined) "" else UserLocalServiceHelper().getUser(userId.get).getEmailAddress
           val filter = StatementFilter(
-            agent = if (!userId.isDefined) None else Option(Agent(objectType = "Agent", name = None, mbox = Option(email), mbox_sha1sum = None, openid = None, account = None, storedId = None)),
-            activity = if (packageUri.isDefined) Option(packageUri.get.uri) else Option(p.getId.toString),
+            agent = if (!userId.isDefined) None else Option(TincanHelper.getAgentByEmail(email)),
+            activity = if (packageUri.isDefined) Option(packageUri.get.uri) else Option(p.id.toString),
             relatedActivities = Option(true),
             since = if (dateSince.isDefined) Option(dateSince.get) else None
           )
-          statementLRS
-            .getStatements(filter)
-            .statements
-        }
-        case PackageType.TINCAN => {
+          statementApi.getByFilter(filter)
+        case LessonType.Tincan =>
           packageFacade
-            .getManifestActivities(p.getId)
-            .map(manifestActivity => {
-              val email = if (!userId.isDefined) "" else ("mailto:" + UserLocalServiceHelper().getUser(userId.get).getEmailAddress)
+            .getManifestActivities(p.id)
+            .flatMap(manifestActivity => {
+              val email = if (!userId.isDefined) "" else UserLocalServiceHelper().getUser(userId.get).getEmailAddress
               val filter = StatementFilter(
-                agent = if (!userId.isDefined) None else Option(Agent(objectType = "Agent", name = None, mbox = Option(email), mbox_sha1sum = None, openid = None, account = None, storedId = None)),
+                agent = if (!userId.isDefined) None else Option(TincanHelper.getAgentByEmail(email)),
                 activity = Option(manifestActivity.tincanId.toString),
                 relatedActivities = Option(true),
                 since = if (dateSince.isDefined) Option(dateSince.get) else None
               )
-              statementLRS
-                .getStatements(filter)
-                .statements
+              statementApi.getByFilter(filter)
             })
-            .flatMap(seq => seq)
-        }
       }
     })
-      .flatMap(s => s)
+      .flatten
       .distinct
 
   }
 
-  private def getTotalGrade(courseId: Long, valamisUserId: Long): Option[Int] = getCourseGrade(courseId.toInt, valamisUserId.toInt) match {
+  private def getTotalGrade(courseId: Long, valamisUserId: Long): Option[Int] = getCourseGrade(courseId, valamisUserId) match {
     case Some(value) => Option(Try(value.grade.toInt).getOrElse(0))
     case None        => None
   }
+
+  private def getSinceDate(day:Int) : DateTime = DateTime.now.minusDays(day)
 
   private def getCourseGrade(courseId: Long, valamisUserId: Long): Option[CourseGrade] = courseService.getCourseGradeOption(courseId.toInt, valamisUserId.toInt)
 

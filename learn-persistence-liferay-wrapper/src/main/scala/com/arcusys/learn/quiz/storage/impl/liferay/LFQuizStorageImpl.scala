@@ -1,12 +1,12 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLocalServiceUtil, LFQuizLocalServiceUtil }
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestCatLocalServiceUtil, LFQuizLocalServiceUtil }
 import com.arcusys.learn.persistence.liferay.model.LFQuiz
+import com.arcusys.valamis.quiz.model.Quiz
+import com.arcusys.valamis.quiz.storage.QuizQuestionCategoryStorage
 import scala.collection.JavaConverters._
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._
-import com.arcusys.learn.quiz.storage.QuizQuestionCategoryStorage
 
 /**
  * User: dkudinov
@@ -36,7 +36,7 @@ trait LFQuizStorageImpl extends KeyedEntityStorage[Quiz] {
     parameters.find(_._1 == "id").map(_._2.asInstanceOf[Int]) foreach {
       id =>
         {
-          LFQuizQuestionCategoryLocalServiceUtil.findByQuizId(id).asScala.foreach(cat => LFQuizQuestionCategoryLocalServiceUtil.deleteLFQuizQuestionCategory(cat.getId))
+          LFQuizQuestCatLocalServiceUtil.findByQuizId(id).asScala.foreach(cat => LFQuizQuestCatLocalServiceUtil.deleteLFQuizQuestCat(cat.getId))
           LFQuizLocalServiceUtil.deleteLFQuiz(id)
         }
     }

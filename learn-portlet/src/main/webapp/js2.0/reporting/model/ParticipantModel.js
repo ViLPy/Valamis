@@ -1,9 +1,16 @@
 var ParticipantModelService = new Backbone.Service({ url: '/',
     sync: {
-        'read': function(model, params){
+        'read':{
+            path: path.api.report,
+            'data': function (model, params) {
+                return {
+                    action: 'PARTICIPANTS',
+                    groupBy: params.groupBy,
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'get'
 
-            return path.api.report + "?action=PARTICIPANTS"+
-                "&groupBy=" + params.groupBy;
         }
     }
 });
@@ -17,12 +24,4 @@ var ParticipantModel = Backbone.Model.extend({
 
 var ParticipantModelCollection = Backbone.Collection.extend({
     model: ParticipantModel
-//    parse: function (data) {
-//        if (_.isObject(data.records)) {
-//            this.trigger('update:statementCollection', {totalStatements: data.total, currentPage: data.page});
-//            return data.records;
-//        } else {
-//            return data;
-//        }
-//    }
 }).extend(ParticipantModelService);

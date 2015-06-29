@@ -14,6 +14,11 @@
  limitations under the License.
  */
 
+if(typeof jQueryValamis == 'undefined'){
+    jQueryValamis = jQuery.noConflict();
+    //jQueryValamis = Backbone.$.noConflict();
+}
+
 //TinCan.enableDebug();
 
 var TINCAN = (TINCAN || {});
@@ -34,8 +39,7 @@ TINCAN.Viewer = function () {
             this.lrses[this.allVersions[i]] = new TinCan.LRS(
                 {
                     endpoint: Config.endpoint,
-                    username: Config.authUser,
-                    password: Config.authPassword,
+                    auth: Config.authLine,
                     version: this.allVersions[i]
                 }
             );
@@ -231,7 +235,7 @@ TINCAN.Viewer.prototype.TinCanSearchHelper = function () {
     };
 
     this.getSearchVar = function (searchVarName, defaultVal) {
-        var myVar = jQuery("#" + searchVarName).val();
+        var myVar = jQueryValamis("#" + searchVarName).val();
         if (myVar === null || myVar.length < 1) {
             if (typeof defaultVal !== "undefined") {
                 return defaultVal;
@@ -242,7 +246,7 @@ TINCAN.Viewer.prototype.TinCanSearchHelper = function () {
     };
 
     this.getSearchVarAsBoolean = function (searchVarName, defaultVal) {
-        return jQuery("#" + searchVarName).is(":checked");
+        return jQueryValamis("#" + searchVarName).is(":checked");
     };
 };
 
@@ -251,7 +255,7 @@ TINCAN.Viewer.prototype.TinCanFormHelper = function () {
         var booleanVals = ["context", "authoritative", "sparse"];
         var qsMap = this.getQueryStringMap();
         for (var key in qsMap) {
-            var inputType = (jQuery.inArray(key, booleanVals) >= 0) ? "checkbox" : "text";
+            var inputType = (jQueryValamis.inArray(key, booleanVals) >= 0) ? "checkbox" : "text";
             this.setInputFromQueryString(key, qsMap[key], inputType);
             this.setInputFromQueryString(key + "1", qsMap[key], inputType); //For 1.0.0 form fields
         }
@@ -263,13 +267,13 @@ TINCAN.Viewer.prototype.TinCanFormHelper = function () {
         }
         if (val !== null) {
             if (inputType === "text") {
-                jQuery("#" + name).val(val);
+                jQueryValamis("#" + name).val(val);
             }
             else if (inputType === "checkbox") {
                 if (val === "true") {
-                    jQuery("#" + name).attr('checked', 'checked');
+                    jQueryValamis("#" + name).attr('checked', 'checked');
                 } else {
-                    jQuery("#" + name).removeAttr('checked');
+                    jQueryValamis("#" + name).removeAttr('checked');
                 }
             }
         }
@@ -292,7 +296,7 @@ TINCAN.Viewer.prototype.TinCanFormHelper = function () {
         qsMap = {};
         for (i = 0; i < nameVals.length; i += 1) {
             keyVal = nameVals[i].split("=");
-            qsMap[keyVal[0]] = decodeURIComponent(keyVal[1].replace(/\+/g, " "));
+            qsMap[keyVal[0]] = keyVal[1].replace(/\+/g, " ");
         }
         return qsMap;
     };
@@ -427,7 +431,7 @@ TINCAN.Viewer.prototype.searchStatements = function () {
     else {
         url = "Invalid URL: " + requestResult.err;
     }
-    jQuery("#TCAPIQueryText").text(url);
+    jQueryValamis("#TCAPIQueryText").text(url);
 };
 
 TINCAN.Viewer.prototype.getMoreStatements = function (callback) {
@@ -439,27 +443,27 @@ TINCAN.Viewer.prototype.statementsFetched = function (multiStream) {
 
     // If this query led no where, show no statements available method
     if (multiStream.exhausted()) {
-        jQuery("#statementsLoading").hide();
-        jQuery("#noStatementsMessage").show();
+        jQueryValamis("#statementsLoading").hide();
+        jQueryValamis("#noStatementsMessage").show();
     }
 
     // Alright, render all available statements
-    jQuery("#statementsLoading").hide();
-    jQuery("#theStatements").append(
+    jQueryValamis("#statementsLoading").hide();
+    jQueryValamis("#theStatements").append(
         this.renderStatements(
             multiStream.getAllStatements()
         )
     );
 
     // Hook up the "show raw data" links
-    unwiredDivs = jQuery('div[tcid].unwired');
+    unwiredDivs = jQueryValamis('div[tcid].unwired');
     unwiredDivs.click(function () {
-        jQuery('[tcid_data="' + jQuery(this).attr('tcid') + '"]').toggle();
+        jQueryValamis('[tcid_data="' + jQueryValamis(this).attr('tcid') + '"]').toggle();
     });
     unwiredDivs.removeClass('unwired');
 
     // Show more button?
-    jQuery("#showAllStatements").toggle(!multiStream.exhausted());
+    jQueryValamis("#showAllStatements").toggle(!multiStream.exhausted());
 };
 
 TINCAN.Viewer.prototype.renderStatements = function (statements) {
@@ -646,6 +650,14 @@ TINCAN.Viewer.prototype.renderStatements = function (statements) {
             stmtStr.push(" <span class='verb'>" + escapeHTML(verb) + "</span> ");
             stmtStr.push(" <span class='object'>'" + escapeHTML(stmt.target) + "'</span> ");
             stmtStr.push(answer !== null ? answer : "");
+            stmtStr.push("<span class='extensions'>");
+            for(var ext in stmt.context.extensions) {
+                if(ext.indexOf('starting-point') != -1)
+                    stmtStr.push("from " + stmt.context.extensions[ext]);
+                if(ext.indexOf('ending-point') != -1)
+                    stmtStr.push(" to " + stmt.context.extensions[ext]);
+            }
+            stmtStr.push("</span>");
 
             if (stmt.result !== null && stmt.result.score !== null) {
                 if (stmt.result.score.scaled !== null) {
@@ -680,44 +692,44 @@ TINCAN.Viewer.prototype.renderStatements = function (statements) {
 TINCAN.Viewer.prototype.pageInitialize = function () {
     var tcViewer = this,
         doRefresh = function () {
-            jQuery("#statementsLoading").show();
-            jQuery("#showAllStatements").hide();
-            jQuery("#noStatementsMessage").hide();
-            jQuery("#theStatements").empty();
+            jQueryValamis("#statementsLoading").show();
+            jQueryValamis("#showAllStatements").hide();
+            jQueryValamis("#noStatementsMessage").hide();
+            jQueryValamis("#theStatements").empty();
             tcViewer.searchStatements();
         };
 
-    jQuery.datepicker.setDefaults(
+    jQueryValamis.datepicker.setDefaults(
         {
             dateFormat: "yy-mm-ddT00:00:00.000",
             constrainInput: false
         }
     );
-    jQuery("#since").datepicker();
-    jQuery("#until").datepicker();
-    jQuery("#since1").datepicker();
-    jQuery("#until1").datepicker();
+    jQueryValamis("#since").datepicker();
+    jQueryValamis("#until").datepicker();
+    jQueryValamis("#since1").datepicker();
+    jQueryValamis("#until1").datepicker();
 
-    jQuery("#statementsLoading").show();
-    jQuery("#showAllStatements").hide();
-    jQuery("#noStatementsMessage").hide();
+    jQueryValamis("#statementsLoading").show();
+    jQueryValamis("#showAllStatements").hide();
+    jQueryValamis("#noStatementsMessage").hide();
 
-    jQuery("#refreshStatements").click(doRefresh);
+    jQueryValamis("#refreshStatements").click(doRefresh);
 
-    jQuery("#showAllStatements").click(
+    jQueryValamis("#showAllStatements").click(
         function () {
-            jQuery("#statementsLoading").show();
+            jQueryValamis("#statementsLoading").show();
             tcViewer.getMoreStatements();
         }
     );
 
-    jQuery("#version").change(
+    jQueryValamis("#version").change(
         function (e) {
-            var version = jQuery(e.target.options[e.target.selectedIndex]).val(),
-                searchBoxTable = jQuery("#searchBoxTable"),
-                advancedSearchTable = jQuery("#advancedSearchTable"),
-                searchBoxTable1 = jQuery("#searchBoxTable1"),
-                advancedSearchTable1 = jQuery("#advancedSearchTable1");
+            var version = jQueryValamis(e.target.options[e.target.selectedIndex]).val(),
+                searchBoxTable = jQueryValamis("#searchBoxTable"),
+                advancedSearchTable = jQueryValamis("#advancedSearchTable"),
+                searchBoxTable1 = jQueryValamis("#searchBoxTable1"),
+                advancedSearchTable1 = jQueryValamis("#advancedSearchTable1");
 
             if (version === "0.9" || version === "0.95" || version === "0.95 + 0.9") {
                 if (searchBoxTable1.is(":visible")) {
@@ -746,16 +758,16 @@ TINCAN.Viewer.prototype.pageInitialize = function () {
         }
     );
 
-    jQuery("#showAdvancedOptions").click(
+    jQueryValamis("#showAdvancedOptions").click(
         function () {
-            var version = jQuery("#version").val(),
+            var version = jQueryValamis("#version").val(),
                 node;
 
             if (version === "0.9" || version === "0.95" || version === "0.95 + 0.9") {
-                node = jQuery("#advancedSearchTable");
+                node = jQueryValamis("#advancedSearchTable");
             }
             else {
-                node = jQuery("#advancedSearchTable1");
+                node = jQueryValamis("#advancedSearchTable1");
             }
 
             node.toggle(
@@ -764,20 +776,20 @@ TINCAN.Viewer.prototype.pageInitialize = function () {
                     var visible = node.is(":visible"),
                         text = (visible ? "Hide" : "Show") + " Advanced Options";
 
-                    jQuery("#showAdvancedOptions").html(text);
+                    jQueryValamis("#showAdvancedOptions").html(text);
                 }
             );
         }
     );
 
-    jQuery("#showQuery").click(
+    jQueryValamis("#showQuery").click(
         function () {
-            jQuery("#TCAPIQuery").toggle(
+            jQueryValamis("#TCAPIQuery").toggle(
                 'slow',
                 function () {
-                    var visible = jQuery("#TCAPIQuery").is(":visible"),
+                    var visible = jQueryValamis("#TCAPIQuery").is(":visible"),
                         text = (visible ? "Hide" : "Show") + " TCAPI Query";
-                    jQuery("#showQuery").html(text);
+                    jQueryValamis("#showQuery").html(text);
                 }
             );
         }

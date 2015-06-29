@@ -5,8 +5,9 @@ ActivityMapperApp.module("Entities", function(Entities, ActivityMapperApp, Backb
       mappedVerb: null
     },
     persist: function(siteID) {
-      var url = path.root + path.api.settingsApi + siteID;
+      var url = path.root + path.api.settingsApi;
       $.post(url, {
+        courseId: siteID,
         keyID: this.get('activityID'),
         value: this.get('mappedVerb')
       });

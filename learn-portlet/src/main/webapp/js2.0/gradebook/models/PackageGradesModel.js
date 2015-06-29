@@ -3,13 +3,32 @@
  * */
 
 var PackageGradesTargets = {
-    loadGrade: path.api.gradebooks + "?action=GRADES",
-    saveGrade: {
-        path: function (model) {
-            return path.api.gradebooks + '?action=GRADES&studentId='+model.get('studentId')+'&packageId='+model.id+
-                '&totalGrade='+model.get('grade')+'&gradeComment='+model.get('comment');
+
+    'loadStatements': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'STATEMENTS',
+                studentId: model.get('studentId'),
+                packageId: model.get('id'),
+                courseId: Utils.getCourseId()
+            }
         },
-        method:'POST'
+        'method': 'GET'
+    },
+    'saveGrade': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'GRADES',
+                studentId: model.get('studentId'),
+                packageId: model.get('id'),
+                totalGrade: model.get('grade'),
+                gradeComment: model.get('comment'),
+                courseId: Utils.getCourseId()
+            }
+        },
+        'method':'POST'
     }
 };
 
@@ -21,8 +40,10 @@ var PackageGradesModel = Backbone.Model.extend({
         packageName: '',
         description: '',
         finished: false,
+        gradeAuto: 0,
         grade: 0,
         comment: '',
+        activityIds: [],
         statements: []
     }
 }).extend(PackageGradesService);

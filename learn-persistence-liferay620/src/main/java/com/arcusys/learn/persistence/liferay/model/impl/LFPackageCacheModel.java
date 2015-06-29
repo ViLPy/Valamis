@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing LFPackage in entity cache.
  *
@@ -29,10 +31,12 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
     public Long assetRefID;
     public Integer courseID;
     public String logo;
+    public long beginDate;
+    public long endDate;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(23);
 
         sb.append("{id=");
         sb.append(id);
@@ -52,6 +56,10 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         sb.append(courseID);
         sb.append(", logo=");
         sb.append(logo);
+        sb.append(", beginDate=");
+        sb.append(beginDate);
+        sb.append(", endDate=");
+        sb.append(endDate);
         sb.append("}");
 
         return sb.toString();
@@ -102,6 +110,18 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
             lfPackageImpl.setLogo(logo);
         }
 
+        if (beginDate == Long.MIN_VALUE) {
+            lfPackageImpl.setBeginDate(null);
+        } else {
+            lfPackageImpl.setBeginDate(new Date(beginDate));
+        }
+
+        if (endDate == Long.MIN_VALUE) {
+            lfPackageImpl.setEndDate(null);
+        } else {
+            lfPackageImpl.setEndDate(new Date(endDate));
+        }
+
         lfPackageImpl.resetOriginalValues();
 
         return lfPackageImpl;
@@ -118,6 +138,8 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         assetRefID = objectInput.readLong();
         courseID = objectInput.readInt();
         logo = objectInput.readUTF();
+        beginDate = objectInput.readLong();
+        endDate = objectInput.readLong();
     }
 
     @Override
@@ -163,5 +185,8 @@ public class LFPackageCacheModel implements CacheModel<LFPackage>,
         } else {
             objectOutput.writeUTF(logo);
         }
+
+        objectOutput.writeLong(beginDate);
+        objectOutput.writeLong(endDate);
     }
 }

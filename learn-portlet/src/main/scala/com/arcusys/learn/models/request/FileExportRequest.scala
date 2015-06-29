@@ -7,48 +7,49 @@ import scala.util.Try
 
 object FileExportRequest extends BaseRequest {
 
-  val COURSE_ID = "courseID"
-  val COMPANY_ID = "companyID"
-  val CATEGORY_ID = "categoryID"
+  val CompanyId = "companyID"
+  val CategoryId = "categoryID"
 
-  val EXPORT_ALL = "EXPORTALL"
-  val EXPORT = "EXPORT"
-  val DOWNLOAD = "DOWNLOAD"
-  val DOWNLOAD_EXTERNAL = "DOWNLOAD_EXTERNAL"
-  val CONTENT_TYPE = "contentType"
+  val ExportAll = "EXPORTALL"
+  val Export = "EXPORT"
+  val Download = "DOWNLOAD"
+  val DownloadExternal = "DOWNLOAD_EXTERNAL"
+  val ContentType = "contentType"
 
-  val EXPORT_EXTENSION = ".zip"
+  val ExportExtension = ".zip"
 
-  val LESSON = "lesson"
-  val QUESTION = "question"
-  val CERTIFICATE = "certificate"
-  val PACKAGE = "package"
+  val SlideSet = "SLIDE_SET"
+  val Lesson = "lesson"
+  val Question = "question"
+  val Certificate = "certificate"
+  val Package = "package"
 
-  val ID = "id"
+  val Id = "id"
 
-  val GROUP_ID = "groupID"
+  val PublishType = "publishType"
 
-  val PUBLISH_TYPE = "publishType"
-
-  val THEME = "theme"
-  val RANDOM_ORDERING = "randomOrdering"
-  val QUESTIONS_COUNT = "questionsCount"
+  val Theme = "theme"
+  val RandomOrdering = "randomOrdering"
+  val QuestionsCount = "questionsCount"
+  val ScoreLimit = "scoreLimit"
 
   def apply(scalatra: FileUploading) = new Model(scalatra)
 
   class Model(scalatra: FileUploading) extends BaseCollectionFilteredRequestModel(scalatra) {
     implicit val request = scalatra.request
-    def action = Parameter(ACTION).required
-    def contentType = Parameter(CONTENT_TYPE).required
-    def courseID = Parameter(COURSE_ID).intRequired
-    def companyID = Parameter(COMPANY_ID).intRequired
-    def ids = Parameter(ID).multiWithEmpty.map(x => Try(x.toInt).get)
-    def categoryIds = Parameter(CATEGORY_ID).multiWithEmpty.map(x => Try(x.toInt).get)
-    def id = Parameter(ID).intRequired
-    def publishType = PackagePublishType.withName(Parameter(PUBLISH_TYPE).required)
-    def theme = Parameter(THEME).option
-    def randomOrdering = Parameter(RANDOM_ORDERING).booleanOption.getOrElse(false)
-    def questionPerUser = Parameter(QUESTIONS_COUNT).intOption
+    def action = Parameter(Action).required
+    def contentType = Parameter(ContentType).required
+    def courseId = Parameter(CourseId).intRequired
+    def companyID = Parameter(CompanyId).intRequired
+    def ids = Parameter(Id).multiWithEmpty.map(x => Try(x.toInt).get)
+    def idsLong = Parameter(Id).multiWithEmpty.map(x => Try(x.toLong).get)
+    def categoryIds = Parameter(CategoryId).multiWithEmpty.map(x => Try(x.toInt).get)
+    def id = Parameter(Id).intRequired
+    def publishType = PackagePublishType.withName(Parameter(PublishType).required)
+    def theme = Parameter(Theme).option
+    def randomOrdering = Parameter(RandomOrdering).booleanOption.getOrElse(false)
+    def questionPerUser = Parameter(QuestionsCount).intOption
+    def scoreLimit = Parameter(ScoreLimit).doubleOption
   }
 
 }

@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -279,7 +279,7 @@
 						'<div id="{topId}" class="cke_top" role="presentation">{content}</div>' +
 					'</div>' +
 				'</div>' ),
-                floatSpace = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( {
+				floatSpace = CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( floatSpaceTpl.output( {
 					content: topHtml,
 					id: editor.id,
 					langDir: editor.lang.dir,

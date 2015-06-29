@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing LFTincanPackage in entity cache.
  *
@@ -26,10 +28,12 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
     public Long assetRefID;
     public Integer courseID;
     public String logo;
+    public long beginDate;
+    public long endDate;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(13);
+        StringBundler sb = new StringBundler(17);
 
         sb.append("{id=");
         sb.append(id);
@@ -43,6 +47,10 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         sb.append(courseID);
         sb.append(", logo=");
         sb.append(logo);
+        sb.append(", beginDate=");
+        sb.append(beginDate);
+        sb.append(", endDate=");
+        sb.append(endDate);
         sb.append("}");
 
         return sb.toString();
@@ -75,6 +83,18 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
             lfTincanPackageImpl.setLogo(logo);
         }
 
+        if (beginDate == Long.MIN_VALUE) {
+            lfTincanPackageImpl.setBeginDate(null);
+        } else {
+            lfTincanPackageImpl.setBeginDate(new Date(beginDate));
+        }
+
+        if (endDate == Long.MIN_VALUE) {
+            lfTincanPackageImpl.setEndDate(null);
+        } else {
+            lfTincanPackageImpl.setEndDate(new Date(endDate));
+        }
+
         lfTincanPackageImpl.resetOriginalValues();
 
         return lfTincanPackageImpl;
@@ -88,6 +108,8 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         assetRefID = objectInput.readLong();
         courseID = objectInput.readInt();
         logo = objectInput.readUTF();
+        beginDate = objectInput.readLong();
+        endDate = objectInput.readLong();
     }
 
     @Override
@@ -115,5 +137,8 @@ public class LFTincanPackageCacheModel implements CacheModel<LFTincanPackage>,
         } else {
             objectOutput.writeUTF(logo);
         }
+
+        objectOutput.writeLong(beginDate);
+        objectOutput.writeLong(endDate);
     }
 }

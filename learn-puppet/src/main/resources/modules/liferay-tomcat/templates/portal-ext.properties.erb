@@ -1,0 +1,58 @@
+# Liferay's configuration
+# created and managed by puppet
+
+jdbc.default.minPoolSize=5
+jdbc.default.maxPoolSize=30
+jdbc.default.maxIdleTime=360
+
+jdbc.default.driverClassName=<%= scope.function_hiera(["liferay_jdbc_driver"]) %>
+jdbc.default.url=<%= scope.function_hiera(["liferay_jdbc_url"]) %>
+jdbc.default.username=<%= scope.function_hiera(["liferay_jdbc_user"]) %>
+jdbc.default.password=<%= scope.function_hiera(["liferay_jdbc_pwd"]) %>
+
+terms.of.use.required=false
+users.reminder.queries.enabled=false
+dl.file.max.size=0
+
+browser.launcher.url=
+
+layout.show.portlet.access.denied=false
+portlet.add.default.resource.check.enabled=false
+
+journal.article.types=announcements,blogs,general,news,press-release,test,portlet-help
+
+# Setting for breadcrumb
+breadcrumb.show.parent.groups=false
+
+ldap.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+<% if scope.function_hiera(["liferay_ldap_url"]) != '' -%>
+ldap.base.provider.url.0=<%= scope.function_hiera(["liferay_ldap_url"]) %>
+<% end -%>
+<% if scope.function_hiera(["liferay_ldap_base_dn"]) != '' -%>
+ldap.base.dn.0=<%= scope.function_hiera(["liferay_ldap_base_dn"]) %>
+<% end -%>
+ldap.security.principal.0=<%= scope.function_hiera(["liferay_ldap_user"]) %>
+ldap.security.credentials.0=<%= scope.function_hiera(["liferay_ldap_pwd"]) %>
+
+# For LR-Alfresco integration
+session.store.password=true
+company.security.auth.type=screenName
+
+# SECURITY properties
+# These must be done BEFORE running Liferay the first time
+
+# Main instance web id, default is liferay.com (but you are not making liferay.com)
+company.default.web.id=learn.default
+
+# Default encryption algrorithm is 56bit DES which is insecure
+company.encryption.algorithm=AES
+company.encryption.key.size=128
+
+# Default is to hash passwords, but we want encryption also
+password.encryption.algorithm=SSHA
+
+# We don’t want to use the default salt, or same salt on multiple places,
+# generate your own for every Liferay install, 16 characters should be enough
+<% if scope.function_hiera(["auth_token_shared_secret"]) != '' -%>
+auth.token.shared.secret=<%= scope.function_hiera(["auth_token_shared_secret"]) %>
+<% end -%>

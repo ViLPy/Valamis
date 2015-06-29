@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -85,6 +86,42 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
     private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL = "lfPackage.assetRefID IS NULL";
     private static final String _FINDER_COLUMN_REFID_ASSETREFID_2 = "lfPackage.assetRefID = ?";
     private static final String _FINDER_COLUMN_REFID_ASSETREFID_NULL_2 = "lfPackage.assetRefID IS NULL ";
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLEANDCOURSEID =
+        new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTitleAndCourseID",
+            new String[] {
+                String.class.getName(), Integer.class.getName(),
+                
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
+            });
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_TITLEANDCOURSEID =
+        new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
+            LFPackageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByTitleAndCourseID",
+            new String[] { String.class.getName(), Integer.class.getName() });
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_1 = "lfPackage.title LIKE NULL AND ";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_NULL = "lfPackage.title IS NULL";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_2 = "lower(lfPackage.title) LIKE ? AND ";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_NULL_2 = "lfPackage.title IS NULL  AND ";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3 = "(lfPackage.title IS NULL OR lfPackage.title LIKE '') AND ";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_4 = "(" +
+        removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_1) + ")";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_2) + ")";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_NULL_2) + ")";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_TITLE_6 = "(" +
+        removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3) + ")";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL = "lfPackage.courseID IS NULL";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_2 = "lfPackage.courseID = ?";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL_2 = "lfPackage.courseID IS NULL ";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_2) + ")";
+    private static final String _FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL_2) +
+        ")";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCE = new FinderPath(LFPackageModelImpl.ENTITY_CACHE_ENABLED,
             LFPackageModelImpl.FINDER_CACHE_ENABLED, LFPackageImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByInstance",
@@ -376,6 +413,860 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
                 FinderCacheUtil.putResult(finderPath, finderArgs, count);
             } catch (Exception e) {
                 FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns all the l f packages where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @return the matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title, Integer courseID)
+        throws SystemException {
+        return findByTitleAndCourseID(title, courseID, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f packages where title LIKE &#63; and courseID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @return the range of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title,
+        Integer courseID, int start, int end) throws SystemException {
+        return findByTitleAndCourseID(title, courseID, start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f packages where title LIKE &#63; and courseID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title,
+        Integer courseID, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLEANDCOURSEID;
+        finderArgs = new Object[] { title, courseID, start, end, orderByComparator };
+
+        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFPackage lfPackage : list) {
+                if (!StringUtil.wildcardMatches(lfPackage.getTitle(), title,
+                            CharPool.UNDERLINE, CharPool.PERCENT,
+                            CharPool.BACK_SLASH, false) ||
+                        !Validator.equals(courseID, lfPackage.getCourseID())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(4 +
+                        (orderByComparator.getOrderByFields().length * 3));
+            } else {
+                query = new StringBundler(4);
+            }
+
+            query.append(_SQL_SELECT_LFPACKAGE_WHERE);
+
+            boolean bindTitle = false;
+
+            if (title == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_1);
+            } else if (title.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+            } else {
+                bindTitle = true;
+
+                if (title.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+                } else {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_2);
+                }
+            }
+
+            if (courseID == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_2);
+            }
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFPackageModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindTitle) {
+                    if (title != null) {
+                        qPos.add(title.toLowerCase());
+                    }
+                }
+
+                if (courseID != null) {
+                    qPos.add(courseID.intValue());
+                }
+
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Returns the first l f package in the ordered set where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f package
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage findByTitleAndCourseID_First(String title,
+        Integer courseID, OrderByComparator orderByComparator)
+        throws NoSuchLFPackageException, SystemException {
+        LFPackage lfPackage = fetchByTitleAndCourseID_First(title, courseID,
+                orderByComparator);
+
+        if (lfPackage != null) {
+            return lfPackage;
+        }
+
+        StringBundler msg = new StringBundler(6);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("title=");
+        msg.append(title);
+
+        msg.append(", courseID=");
+        msg.append(courseID);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFPackageException(msg.toString());
+    }
+
+    /**
+     * Returns the first l f package in the ordered set where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f package, or <code>null</code> if a matching l f package could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage fetchByTitleAndCourseID_First(String title,
+        Integer courseID, OrderByComparator orderByComparator)
+        throws SystemException {
+        List<LFPackage> list = findByTitleAndCourseID(title, courseID, 0, 1,
+                orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the last l f package in the ordered set where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f package
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a matching l f package could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage findByTitleAndCourseID_Last(String title,
+        Integer courseID, OrderByComparator orderByComparator)
+        throws NoSuchLFPackageException, SystemException {
+        LFPackage lfPackage = fetchByTitleAndCourseID_Last(title, courseID,
+                orderByComparator);
+
+        if (lfPackage != null) {
+            return lfPackage;
+        }
+
+        StringBundler msg = new StringBundler(6);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("title=");
+        msg.append(title);
+
+        msg.append(", courseID=");
+        msg.append(courseID);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFPackageException(msg.toString());
+    }
+
+    /**
+     * Returns the last l f package in the ordered set where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f package, or <code>null</code> if a matching l f package could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage fetchByTitleAndCourseID_Last(String title,
+        Integer courseID, OrderByComparator orderByComparator)
+        throws SystemException {
+        int count = countByTitleAndCourseID(title, courseID);
+
+        if (count == 0) {
+            return null;
+        }
+
+        List<LFPackage> list = findByTitleAndCourseID(title, courseID,
+                count - 1, count, orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the l f packages before and after the current l f package in the ordered set where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param id the primary key of the current l f package
+     * @param title the title
+     * @param courseID the course i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the previous, current, and next l f package
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFPackageException if a l f package with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFPackage[] findByTitleAndCourseID_PrevAndNext(long id,
+        String title, Integer courseID, OrderByComparator orderByComparator)
+        throws NoSuchLFPackageException, SystemException {
+        LFPackage lfPackage = findByPrimaryKey(id);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFPackage[] array = new LFPackageImpl[3];
+
+            array[0] = getByTitleAndCourseID_PrevAndNext(session, lfPackage,
+                    title, courseID, orderByComparator, true);
+
+            array[1] = lfPackage;
+
+            array[2] = getByTitleAndCourseID_PrevAndNext(session, lfPackage,
+                    title, courseID, orderByComparator, false);
+
+            return array;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    protected LFPackage getByTitleAndCourseID_PrevAndNext(Session session,
+        LFPackage lfPackage, String title, Integer courseID,
+        OrderByComparator orderByComparator, boolean previous) {
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(6 +
+                    (orderByComparator.getOrderByFields().length * 6));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        query.append(_SQL_SELECT_LFPACKAGE_WHERE);
+
+        boolean bindTitle = false;
+
+        if (title == null) {
+            query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_1);
+        } else if (title.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+        } else {
+            bindTitle = true;
+
+            if (title.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+            } else {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_2);
+            }
+        }
+
+        if (courseID == null) {
+            query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL_2);
+        } else {
+            query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_2);
+        }
+
+        if (orderByComparator != null) {
+            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+            if (orderByConditionFields.length > 0) {
+                query.append(WHERE_AND);
+            }
+
+            for (int i = 0; i < orderByConditionFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByConditionFields[i]);
+
+                if ((i + 1) < orderByConditionFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
+                    } else {
+                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN);
+                    } else {
+                        query.append(WHERE_LESSER_THAN);
+                    }
+                }
+            }
+
+            query.append(ORDER_BY_CLAUSE);
+
+            String[] orderByFields = orderByComparator.getOrderByFields();
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC_HAS_NEXT);
+                    } else {
+                        query.append(ORDER_BY_DESC_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC);
+                    } else {
+                        query.append(ORDER_BY_DESC);
+                    }
+                }
+            }
+        } else {
+            query.append(LFPackageModelImpl.ORDER_BY_JPQL);
+        }
+
+        String sql = query.toString();
+
+        Query q = session.createQuery(sql);
+
+        q.setFirstResult(0);
+        q.setMaxResults(2);
+
+        QueryPos qPos = QueryPos.getInstance(q);
+
+        if (bindTitle) {
+            if (title != null) {
+                qPos.add(title.toLowerCase());
+            }
+        }
+
+        if (courseID != null) {
+            qPos.add(courseID.intValue());
+        }
+
+        if (orderByComparator != null) {
+            Object[] values = orderByComparator.getOrderByConditionValues(lfPackage);
+
+            for (Object value : values) {
+                qPos.add(value);
+            }
+        }
+
+        List<LFPackage> list = q.list();
+
+        if (list.size() == 2) {
+            return list.get(1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns all the l f packages where title LIKE &#63; and courseID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param title the title
+     * @param courseIDs the course i ds
+     * @return the matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title,
+        Integer[] courseIDs) throws SystemException {
+        return findByTitleAndCourseID(title, courseIDs, QueryUtil.ALL_POS,
+            QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f packages where title LIKE &#63; and courseID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param title the title
+     * @param courseIDs the course i ds
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @return the range of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title,
+        Integer[] courseIDs, int start, int end) throws SystemException {
+        return findByTitleAndCourseID(title, courseIDs, start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f packages where title LIKE &#63; and courseID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFPackageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param title the title
+     * @param courseIDs the course i ds
+     * @param start the lower bound of the range of l f packages
+     * @param end the upper bound of the range of l f packages (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFPackage> findByTitleAndCourseID(String title,
+        Integer[] courseIDs, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        if ((courseIDs != null) && (courseIDs.length == 1)) {
+            return findByTitleAndCourseID(title, courseIDs[0], start, end,
+                orderByComparator);
+        }
+
+        boolean pagination = true;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderArgs = new Object[] { title, StringUtil.merge(courseIDs) };
+        } else {
+            finderArgs = new Object[] {
+                    title, StringUtil.merge(courseIDs),
+                    
+                    start, end, orderByComparator
+                };
+        }
+
+        List<LFPackage> list = (List<LFPackage>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLEANDCOURSEID,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFPackage lfPackage : list) {
+                if (!Validator.equals(title, lfPackage.getTitle()) ||
+                        !ArrayUtil.contains(courseIDs, lfPackage.getCourseID())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_SELECT_LFPACKAGE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (title == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_4);
+            } else {
+                if (title.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_6);
+                } else {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_5);
+                }
+            }
+
+            conjunctionable = true;
+
+            if ((courseIDs != null) && (courseIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < courseIDs.length; i++) {
+                    if (courseIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_5);
+                    }
+
+                    if ((i + 1) < courseIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFPackageModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (title != null) {
+                    qPos.add(title);
+                }
+
+                if (courseIDs != null) {
+                    for (Integer courseID : courseIDs) {
+                        if (courseID != null) {
+                            qPos.add(courseID);
+                        }
+                    }
+                }
+
+                if (!pagination) {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFPackage>(list);
+                } else {
+                    list = (List<LFPackage>) QueryUtil.list(q, getDialect(),
+                            start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLEANDCOURSEID,
+                    finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLEANDCOURSEID,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f packages where title LIKE &#63; and courseID = &#63; from the database.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByTitleAndCourseID(String title, Integer courseID)
+        throws SystemException {
+        for (LFPackage lfPackage : findByTitleAndCourseID(title, courseID,
+                QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+            remove(lfPackage);
+        }
+    }
+
+    /**
+     * Returns the number of l f packages where title LIKE &#63; and courseID = &#63;.
+     *
+     * @param title the title
+     * @param courseID the course i d
+     * @return the number of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByTitleAndCourseID(String title, Integer courseID)
+        throws SystemException {
+        FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_TITLEANDCOURSEID;
+
+        Object[] finderArgs = new Object[] { title, courseID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(3);
+
+            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
+
+            boolean bindTitle = false;
+
+            if (title == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_1);
+            } else if (title.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+            } else {
+                bindTitle = true;
+
+                if (title.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_3);
+                } else {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_2);
+                }
+            }
+
+            if (courseID == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (bindTitle) {
+                    if (title != null) {
+                        qPos.add(title.toLowerCase());
+                    }
+                }
+
+                if (courseID != null) {
+                    qPos.add(courseID.intValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f packages where title LIKE &#63; and courseID = any &#63;.
+     *
+     * @param title the title
+     * @param courseIDs the course i ds
+     * @return the number of matching l f packages
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByTitleAndCourseID(String title, Integer[] courseIDs)
+        throws SystemException {
+        Object[] finderArgs = new Object[] { title, StringUtil.merge(courseIDs) };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_TITLEANDCOURSEID,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFPACKAGE_WHERE);
+
+            boolean conjunctionable = false;
+
+            if (conjunctionable) {
+                query.append(WHERE_AND);
+            }
+
+            if (title == null) {
+                query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_4);
+            } else {
+                if (title.equals(StringPool.BLANK)) {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_6);
+                } else {
+                    query.append(_FINDER_COLUMN_TITLEANDCOURSEID_TITLE_5);
+                }
+            }
+
+            conjunctionable = true;
+
+            if ((courseIDs != null) && (courseIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < courseIDs.length; i++) {
+                    if (courseIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_TITLEANDCOURSEID_COURSEID_5);
+                    }
+
+                    if ((i + 1) < courseIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (title != null) {
+                    qPos.add(title);
+                }
+
+                if (courseIDs != null) {
+                    for (Integer courseID : courseIDs) {
+                        if (courseID != null) {
+                            qPos.add(courseID);
+                        }
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_TITLEANDCOURSEID,
+                    finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_TITLEANDCOURSEID,
+                    finderArgs);
 
                 throw processException(e);
             } finally {
@@ -1893,6 +2784,8 @@ public class LFPackagePersistenceImpl extends BasePersistenceImpl<LFPackage>
         lfPackageImpl.setAssetRefID(lfPackage.getAssetRefID());
         lfPackageImpl.setCourseID(lfPackage.getCourseID());
         lfPackageImpl.setLogo(lfPackage.getLogo());
+        lfPackageImpl.setBeginDate(lfPackage.getBeginDate());
+        lfPackageImpl.setEndDate(lfPackage.getEndDate());
 
         return lfPackageImpl;
     }

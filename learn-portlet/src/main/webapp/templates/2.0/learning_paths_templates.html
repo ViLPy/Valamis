@@ -1,0 +1,79 @@
+<script type="text/template" id="certificatesLayoutTemplate">
+    <div class="js-list-view list">
+        <div class="div-table no-content-table js-no-certificates hidden">
+            <div class="div-col div-col-center">{{noLearningPathsLabel}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="certificatesItemViewTemplate">
+    <div class="tile">
+        <div class="tile-content top-corner-status">
+            <div class="image certificate img-square"
+                {{#logo}}
+                style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+                {{/logo}}>
+            </div>
+            <ul>
+                <li class="title">{{title}}</li>
+                <li class="description">{{description}}</li>
+                <li class="categories">
+                    <span class="js-achieved-amount"></span> {{ofLabel}} <span class="js-total-goals"></span> {{goalsAchievedLabel}}
+                </li>
+            </ul>
+
+            {{#isFailed}}
+            <div class="status failed">
+                <span class="val-label"> {{failedLabel}} </span>
+            </div>
+            {{/isFailed}}
+        </div>
+
+        <div class="js-certificate-goals"></div>
+
+    </div>
+
+    <div class="toggle-container js-toggle-goals">
+        <span class="js-arrow-icon val-icon-arrow-down val-icon-right"></span>
+        <span class="js-show-label"> {{showGoalsLabel}} </span>
+        <span class="js-hide-label"> {{hideGoalsLabel}} </span>
+    </div>
+</script>
+
+<script type="text/template" id="toggleContainerTemplate">
+    <div class="toggle-container js-toggle-goals">
+        <span class="js-arrow-icon val-icon-arrow-down val-icon-right"></span>
+        <span class="js-show-label"> {{showGoalsLabel}} </span>
+        <span class="js-hide-label"> {{hideGoalsLabel}} </span>
+    </div>
+</script>
+
+<script type="text/template" id="goalCollectionTemplate">
+  <table class="learning-path-table val-table simple">
+      <tbody class="js-list-view">
+      </tbody>
+  </table>
+</script>
+
+<script type="text/template" id="goalItemViewTemplate">
+  <td class="progress-col {{status}}">
+      <i class="checkmark"></i>
+  </td>
+  <td>
+      {{#url}}<a href="/web{{{url}}}" target="_blank">{{/url}}
+          {{title}}
+      {{#url}}</a>{{/url}}
+  </td>
+  <td class="info-col">
+      {{#isPackage}}
+          {{inLabel}}
+          {{#packageCourseUrl}}<a href="/web{{{packageCourseUrl}}}" target="_blank">{{/packageCourseUrl}}
+          {{packageCourseName}}
+          {{#packageCourseUrl}}</a>{{/packageCourseUrl}}
+      {{/isPackage}}
+
+      {{#isCourse}}
+           {{courseLessonsAmount}} {{lessonsLabel}}
+      {{/isCourse}}
+  </td>
+</script>

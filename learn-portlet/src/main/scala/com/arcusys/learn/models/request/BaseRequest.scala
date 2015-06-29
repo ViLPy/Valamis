@@ -5,6 +5,11 @@ package com.arcusys.learn.models.request
  */
 
 trait BaseRequest {
-  val ACTION = "action"
+  final val Action = "action"
+
+  final val CourseId = "courseId"
+  //For security
+  final val PortletId = "portletId"
+  final val PrimaryKey = "primaryKey"
 }
 

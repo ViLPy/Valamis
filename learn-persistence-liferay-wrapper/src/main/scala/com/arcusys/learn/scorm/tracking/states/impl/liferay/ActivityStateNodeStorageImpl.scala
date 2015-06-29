@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateNode
 import com.arcusys.learn.persistence.liferay.service.LFActivityStateNodeLocalServiceUtil
-import com.arcusys.learn.scorm.tracking.model.ActivityStateNode
-import com.arcusys.learn.scorm.tracking.states.storage.{ ActivityStateStorage, ActivityStateNodeStorage }
+import com.arcusys.valamis.lesson.scorm.model.tracking.ActivityStateNode
+import com.arcusys.valamis.lesson.scorm.storage.tracking.{ ActivityStateStorage, ActivityStateNodeStorage }
 import scala.collection.JavaConverters._
 
 /**

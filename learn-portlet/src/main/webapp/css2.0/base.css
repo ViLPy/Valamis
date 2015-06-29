@@ -1,14 +1,7 @@
 @charset "UTF-8";
 /* CSS Document */
 
-/**{*/
-	/*-webkit-box-sizing: border-box;*/
-	   /*-moz-box-sizing: border-box;*/
-	        /*box-sizing: border-box;*/
-/*}*/
-
 .portlet-learn-scorm html, body {
-	/*width: 100%;*/
 	margin: 0;
 	padding: 20px;
 }
@@ -20,7 +13,6 @@
 }
 
 .wrapper {
-	/*width: 1800px;*/
 	margin: 100px auto;
 }
 
@@ -79,11 +71,3 @@ h4 {
     min-height: 400px;
     position: relative;
 }
-
-/*.bottom-paginator .select-items-per-page {
-    display: none;
-}
-.bottom-paginator .select-element:first-child {
-    display: none;
-}
-*/

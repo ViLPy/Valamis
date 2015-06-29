@@ -1282,6 +1282,8 @@ public class LFQuestionPersistenceImpl extends BasePersistenceImpl<LFQuestion>
         lfQuestionImpl.setTitle(lfQuestion.getTitle());
         lfQuestionImpl.setDescription(lfQuestion.getDescription());
         lfQuestionImpl.setExplanationText(lfQuestion.getExplanationText());
+        lfQuestionImpl.setRightAnswerText(lfQuestion.getRightAnswerText());
+        lfQuestionImpl.setWrongAnswerText(lfQuestion.getWrongAnswerText());
         lfQuestionImpl.setForceCorrectCount(lfQuestion.isForceCorrectCount());
         lfQuestionImpl.setCaseSensitive(lfQuestion.isCaseSensitive());
         lfQuestionImpl.setQuestionType(lfQuestion.getQuestionType());

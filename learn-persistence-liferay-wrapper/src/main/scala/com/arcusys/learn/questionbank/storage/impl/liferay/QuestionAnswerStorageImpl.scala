@@ -2,8 +2,8 @@ package com.arcusys.learn.questionbank.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFAnswer
 import com.arcusys.learn.persistence.liferay.service.{ LFAnswerLocalServiceUtil, LFQuizAnswerScoreLocalServiceUtil }
-import com.arcusys.learn.questionbank.model._
-import com.arcusys.learn.questionbank.storage.QuestionAnswerStorage
+import com.arcusys.valamis.questionbank.model._
+import com.arcusys.valamis.questionbank.storage.QuestionAnswerStorage
 
 import scala.collection.JavaConverters._
 
@@ -96,7 +96,9 @@ class QuestionAnswerStorageImpl extends QuestionAnswerStorage {
   private def delete(lfAnswer: LFAnswer): Unit = {
     try {
       LFQuizAnswerScoreLocalServiceUtil.deleteLFQuizAnswerScore(lfAnswer.getId)
-    } catch { case ignore: Throwable => }
+    } catch {
+      case _: Throwable =>
+    }
 
     LFAnswerLocalServiceUtil.deleteLFAnswer(lfAnswer)
   }
@@ -143,7 +145,7 @@ class QuestionAnswerStorageImpl extends QuestionAnswerStorage {
     try {
       Some(LFQuizAnswerScoreLocalServiceUtil.getLFQuizAnswerScore(answerId.toLong).getScore.toDouble)
     } catch {
-      case ignore: Throwable => None
+      case _: Throwable => None
     }
   }
 }

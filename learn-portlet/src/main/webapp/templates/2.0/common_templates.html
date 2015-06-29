@@ -1,0 +1,114 @@
+
+<script type="text/template" id="valamisAppLayoutTemplate">
+    <div id="valamisAppModalRegion" class="portlet-body"></div>
+</script>
+
+
+<script type="text/template" id="valamisAppModalTemplate">
+    <div class="bbm-modal__topbar" style="margin-bottom: 0px;">
+        <h3 class="bbm-modal__title">{{header}}</h3>
+
+        <div class="modal-close val-icon-exit"></div>
+    </div>
+    <div class="bbm-modal__section modal-content">
+
+    </div>
+</script>
+
+<script type="text/template" id="valamisAppArrowModalTemplate">
+    <span class="val-icon-exit modal-close"></span>
+    <div class="modal-content">
+    </div>
+</script>
+
+<!--delete confirmation template-->
+
+<script type="text/template" id="valamisDeleteConfirmationTemplate">
+    <div class="confirmation-question">{{message}}</div>
+    <div>
+        <button class='js-confirmation confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
+    </div>
+</script>
+
+<!-- image gallery templates -->
+
+<script type="text/html" id="liferayGalleryElementView">
+    <div class="image-gallery-icon shift-left clearfix">
+        <span class="image-thumbnail">
+            <img alt="welcome_community - " border="no" src="{{imageUrl}}">
+        </span>
+        <span class="image-title">{{title}}</span>
+    </div>
+</script>
+
+<script type="text/html" id="liferayImageGalleryDialogView">
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" placeholder="{{searchPlaceholderLabel}}" id="gallerySearch"/>
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="galeryPagingShowing"></div>
+
+        <div class="dropdown filter-element shift-right js-sorting" data-value="true" id="sortGallery">
+            <button class="button medium simple ">
+                <span class="dropdown-text"> {{byNameAscLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu" name="sort">
+                <li class="selected" data-value="true"> {{byNameAscLabel}} </li>
+                <li data-value="false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="galleryContainer" class="gallery-modal-container clearfix"></div>
+    <div class="val-paginator text-center" id="galleryPaginator"></div>
+</script>
+
+<!-- liferay site select dialog templates -->
+
+<script type="text/html" id="liferaySiteElementView">
+    <td>{{title}}</td>
+    <td class="text-right">
+        <button class="button medium neutral no-text js-toggle-site-button">
+            <span class="val-icon-checkbutton"></span> Add
+        </button>
+    </td>
+</script>
+
+<script type="text/html" id="liferaySiteDialogToolbar">
+    <div class="filters-row clearfix">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="siteSearch" class="js-site-search" placeholder="{{searchPlaceholderLabel}}" />
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="siteListPagingShowing"></div>
+        <div id="sortSite" class="js-site-sort dropdown filter-element shift-right" data-value="true">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{byNameAscLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="true"> {{byNameAscLabel}} </li>
+                <li data-value="false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="liferaySiteDialogLayout">
+
+    <div id="liferaySiteSelectToolbarRegion"></div>
+
+    <table class="val-table medium list" id="liferaySiteSelectListRegion">
+        <tbody id="siteList" class="js-site-list"></tbody>
+    </table>
+
+    <div class="val-paginator text-center" id="siteListPaginator"></div>
+
+    {{^singleSelect}}
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        <button class="button big primary js-addCourses">{{addCoursesLabel}}</button>
+    </div>
+    {{/singleSelect}}
+</script>

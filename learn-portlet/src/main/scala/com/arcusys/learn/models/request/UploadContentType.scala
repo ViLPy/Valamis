@@ -6,15 +6,16 @@ package com.arcusys.learn.models.request
 object UploadContentType extends Enumeration {
   type UploadContentType = Value
 
-  val ICON = Value("icon")
-  val REVEALJS = Value("reveal")
-  val PDF = Value("pdf")
-  val PPTX = Value("pptx")
-  val BASE64_ICON = Value("base64-icon")
-  val PACKAGE = Value("scorm-package")
-  val DOC_LIBRARY = Value("document-library")
-  val IMPORT_LESSON = Value("import-lesson")
-  val IMPORT_QUESTION = Value("import-question")
-  val IMPORT_CERTIFICATE = Value("import-certificate")
-  val IMPORT_PACKAGE = Value("import-package")
+  val Icon = Value("icon")
+  val RevealJs = Value("reveal")
+  val Pdf = Value("pdf")
+  val Pptx = Value("pptx")
+  val Base64Icon = Value("base64-icon")
+  val Package = Value("scorm-package")
+  val DocLibrary = Value("document-library")
+  val ImportLesson = Value("import-lesson")
+  val ImportQuestion = Value("import-question")
+  val ImportCertificate = Value("import-certificate")
+  val ImportPackage = Value("import-package")
+  val ImportSlideSet = Value("import-slide-set")
 }

@@ -14,36 +14,36 @@
     <script src="{{contextPath}}/js2.0/vendor/toastr.min.js"></script>
     <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
     <script src="{{contextPath}}/js2.0/vendor/backbone.model-binder.min.js"></script>
-    <script src="{{contextPath}}/js2.0/file-upload.js"></script>
+    <script src="{{contextPath}}/js2.0/file-uploader/model/FileItem.js"></script>
+    <script src="{{contextPath}}/js2.0/file-uploader/view/FileUploader.js"></script>
     <script src="{{contextPath}}/js2.0/vendor/jquery.fileupload.js"></script>
 
 
     <script src="{{contextPath}}/js2.0/helpers/Utils.js"></script>
     <script src="{{contextPath}}/js2.0/helpers/SettingsHelper.js"></script>
 
-    <script type="text/template" id="pmsettings-modals-template">
-        <div class="pmsettings-modals-container"></div>
+    <script type="text/template" id="lmsettings-modals-template">
+        <div class="lmsettings-modals-container"></div>
     </script>
 
-    <script type="text/template" id="pmsettings-import-modal-template">
-        <div class="bbm-modal__topbar add-members-modal">
-            <h3 class="bbm-modal__title valamis">{{importLabel}}</h3>
+    <script type="text/template" id="lmsettings-import-modal-template">
+        <div class="bbm-modal__topbar">
+            <h3 class="bbm-modal__title">{{importLabel}}</h3>
 
-            <div class="modal-close">
+            <div class="modal-close val-icon-exit">
             </div>
         </div>
 
-        <div class="bbm-modal__section upload-content" style="position: relative;">
+        <div class="lm-modal-content">
         </div>
-
     </script>
 
     <script type="text/javascript">
         var PMSettingsLayout = Backbone.Marionette.Layout.extend({
-            template: _.template(Mustache.to_html(jQuery('#pmsettings-modals-template').html())),
+            template: _.template(Mustache.to_html(jQuery('#lmsettings-modals-template').html())),
             regions: {
                 modals: {
-                    selector: '.pmsettings-modals-container',
+                    selector: '.lmsettings-modals-container',
                     regionType: Backbone.Marionette.Modals
                 }
             }
@@ -51,17 +51,19 @@
 
 
         var pmSettingsLayout = new PMSettingsLayout();
-        jQuery('body').append(pmSettingsLayout.render().el);
+
+        jQuery(function () { jQuery('#lm-settings-layout').append(pmSettingsLayout.render().el); });
 
         var UploadPMImportModal = Backbone.Modal.extend({
-            template: _.template(Mustache.to_html(jQuery('#pmsettings-import-modal-template').html())),
+            template: _.template(Mustache.to_html(jQuery('#lmsettings-import-modal-template').html())),
+            className: 'val-modal',
             submitEl: '.bbm-button',
             cancelEl: '.modal-close',
-            className: 'upload-modal',
             onRender: function () {
                 var me = this;
                 var uploader = new FileUploader({
-                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-package&courseID=' + jQuery('#courseID').val()
+                    endpoint: path.root + path.api.files + '?action=ADD&contentType=import-package&courseId=' + Utils.getCourseId(),
+                    message: '{{importMessage}}'
                 });
 
                 uploader.on('fileuploaddone', function (data) {
@@ -69,13 +71,13 @@
                     me.close();
                 });
 
-                this.$('.upload-content').append(uploader.render().$el);
+                this.$('.lm-modal-content').append(uploader.render().$el);
             }
         });
 
         function exportPackages() {
             window.location = path.root + path.api.files + 'export/?action=EXPORTALL&contentType=package'
-                    + '&courseID=' + jQuery('#courseID').val();
+                    + '&courseId=' + Utils.getCourseId();
         }
         function importPackages() {
             var importModal = new UploadPMImportModal();
@@ -86,16 +88,15 @@
 </head>
 <body >
 
-<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-<input type="hidden" id="courseID" value="{{courseID}}"/>
 <div style="height: 100px; padding: 10px;">
-    <button class="button valamis big green val-icon-download export-packages" onclick="exportPackages()">
+    <button class="button big primary bbm-button val-icon-download" onclick="exportPackages()">
         {{exportAllLabel}}
     </button>
-    <button class="button valamis big green val-icon-upload import-packages" onclick="importPackages()">
+    <button class="button big primary bbm-button val-icon-upload" onclick="importPackages()">
         {{importLabel}}
     </button>
 </div>
+<div id="lm-settings-layout"></div>
 
 </body>
 </html>

@@ -53,7 +53,7 @@ public class LFQuizModelImpl extends BaseModelImpl<LFQuiz>
             { "courseID", Types.INTEGER },
             { "maxDuration", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(75) null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null,maxDuration INTEGER null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFQuiz (id_ LONG not null primary key,title TEXT null,description TEXT null,logo VARCHAR(512) null,welcomePageContent TEXT null,finalPageContent TEXT null,courseID INTEGER null,maxDuration INTEGER null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFQuiz";
     public static final String ORDER_BY_JPQL = " ORDER BY lfQuiz.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFQuiz.id_ ASC";

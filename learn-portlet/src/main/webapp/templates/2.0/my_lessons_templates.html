@@ -1,0 +1,35 @@
+<script type="text/template" id="lessonsLayoutTemplate">
+    <div class="js-list-view list">
+        <div class="div-table no-content-table js-no-lessons hidden">
+            <div class="div-col div-col-center">{{noLessonsLabel}}</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="lessonItemViewTemplate">
+    <div class="tile-content">
+        <ul>
+            <li class="title">{{title}}</li>
+            <li class=""> {{inLabel}}
+                {{#course.url}} <a href="/web{{course.url}}" target="_blank" class="subtitle"> {{/course.url}}
+                {{^course.url}} <span class="subtitle"> {{/course.url}}
+                    {{course.title}}
+                {{^course.url}} </span> {{/course.url}}
+                {{#course.url}} </a> {{/course.url}}
+            </li>
+            {{#description}}
+            <li class="description">{{description}}</li>
+            {{/description}}
+            <li>
+                <span class="status">
+                    <span class="val-label"> {{lessonItemStatusLabel}} </span>
+                    </span>
+
+                    <div class="val-progress-bar {{colorClass}}">
+                        <span style="width: {{lessonGrade}}"></span>
+                    </div>
+                    <span class="categories"> {{lessonGrade}} </span>
+            </li>
+        </ul>
+    </div>
+</script>

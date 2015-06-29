@@ -5,100 +5,90 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <script type="text/template" id="certificate-view-modal-template">
-        <div class="bbm-modal__topbar" style="margin-bottom: 0">
-            <h3 class="bbm-modal__title">{{goalsLabel}}</h3>
-            <div class="modal-close">
-            </div>
-        </div>
+    <script type="text/javascript">
+        var jQuery1816User = jQuery.noConflict();
+        var scormLanguageDataUser = {};
+        var userAccountModel = new UserAccountModel();
+        var userId = '{{userID}}';
 
-        <div class="certificateContent bbm-modal__section certificate-viewGoals-dialog">
-        </div>
-    </script>
-</head>
-<body>
-<div class="projectLearnGeneric">
-    <div id="userData">
-    </div>
+        jQuery1816User(function () {
+            Backbone.emulateJSON = true;
+            Backbone.ajax = window.LearnAjax.ajax;
+            var defaultURL = Utils.getContextPath() + '/i18n/curriculum_en.properties';
+            var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
+            Utils.i18nLoader(localizedURL, defaultURL, onUserLanguageLoad, onUserLanguageError);
+        });
 
-    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-    <input type="hidden" id="courseID" value="{{courseID}}"/>
-    <input type="hidden" id="companyID" value="{{companyID}}">
-    <input type="hidden" id="userID" value="{{userID}}"/>
-    <input type="hidden" id="rootUrl" value="{{root}}"/>
-</div>
-
-<script type="application/javascript">
-    var jQuery1816User = jQuery.noConflict();
-    var scormLanguageDataUser = {};
-    var userAccountModel = new UserAccountModel();
-
-    jQuery1816User(function () {
-        Backbone.emulateJSON = true;
-        Backbone.ajax = window.LearnAjax.ajax;
-        var defaultURL = Utils.getContextPath() + '/i18n/curriculum_en.properties';
-        var localizedURL = Utils.getContextPath() + '/i18n/curriculum_{{language}}.properties';
-        Utils.i18nLoader(localizedURL, defaultURL, onUserLanguageLoad, onUserLanguageError);
-    });
-
-    function onUserLanguageLoad(properties) {
-        scormLanguageDataUser = properties;
-        initUserView();
-    }
-    function onUserLanguageError() {
-        alert('Translation resource loading failed!');
-    }
-    var ViewCertificateLayout = Backbone.Marionette.Layout.extend({
-        template: _.template(jQuery('#certificate-modals-template').html()),
-        regions: {
-            modals: {
-                selector: '.certificate-modals-container',
-                regionType: Backbone.Marionette.Modals
-            }
+        function onUserLanguageLoad(properties) {
+            scormLanguageDataUser = properties;
+            initUserView();
         }
-    });
-
-    var viewCertificateLayout = new ViewCertificateLayout();
-
-    var ViewCertificateModal = Backbone.Modal.extend({
-        template: _.template(Mustache.to_html(jQuery('#certificate-view-modal-template').html(), scormLanguageDataUser)),
-        viewContainer: '.edit-certificate-container',
-        submitEl: '.bbm-button',
-        cancelEl: '.modal-close',
-        onRender: function () {
-            this.goalsView = new ViewUserDetailsDialog({language: scormLanguageDataUser});
-            this.$('.certificate-viewGoals-dialog').html(this.goalsView.render().$el);
-        },
-        init: function (data, view, isUserMember) {
-            jQuery('#selectedUserCertificateID').val(data.id);
-            this.goalsView.setCertificateID(data.id, jQuery('#userID').val(), isUserMember);
+        function onUserLanguageError() {
+            alert('Translation resource loading failed!');
         }
-    });
-
-    function initUserView() {
-        jQuery('body').append(viewCertificateLayout.render().el);
-
-        userAccountModel.fetch({
-            success: function () {
-                var  certificateList = new UserAccountView({el: jQuery1816User('#userData'), model: userAccountModel, language: scormLanguageDataUser});
-                certificateList.on('viewCertificateGoals', function (certificateID) {
-                    var view = new ViewCertificateModal();
-                    viewCertificateLayout.modals.show(view);
-                    view.init(certificateID, 'goals');
-                }, this);
-
-                tileResize();
+        var ViewCertificateLayout = Backbone.Marionette.Layout.extend({
+            template: _.template(jQuery('#certificate-modals-template').html()),
+            regions: {
+                modals: {
+                    selector: '.certificate-modals-container',
+                    regionType: Backbone.Marionette.Modals
+                }
             }
         });
 
-        jQuery(window).on('resize', tileResize);
-    }
+        var viewCertificateLayout = new ViewCertificateLayout();
 
-    function tileResize() {
-        valamisTileResize(jQuery1816User("#valamisCertificates"));
-    }
+        var ViewCertificateModal = Backbone.Modal.extend({
+            template: function(){
+                return Mustache.to_html(jQuery('#certificate-common-modal-template').html(), {certificateModalTitle: scormLanguageDataUser['goalsLabel']})
+            },
+            viewContainer: '.edit-certificate-container',
+            className: 'val-modal',
+            submitEl: '.bbm-button',
+            cancelEl: '.modal-close',
+            onRender: function () {
+                this.goalsView = new ViewUserDetailsDialog({language: scormLanguageDataUser});
+                this.$('.certificate-modal-content').html(this.goalsView.render().$el);
+            },
+            init: function (data, view, isUserMember) {
+                jQuery('#selectedUserCertificateID').val(data.id);
+                this.goalsView.setCertificateID(data.id, userId, isUserMember);
+            }
+        });
 
+        function initUserView() {
+            jQuery('#user-portfolio-modals-layout').append(viewCertificateLayout.render().el);
 
-</script>
+            userAccountModel.fetch({
+                data: {userId: userId},
+                success: function () {
+                    var  certificateList = new UserAccountView({
+                        el: jQuery1816User('#user-portfolio-layout'),
+                        model: userAccountModel,
+                        language: scormLanguageDataUser
+                    });
+                    certificateList.on('viewCertificateGoals', function (certificateID) {
+                        var view = new ViewCertificateModal();
+                        viewCertificateLayout.modals.show(view);
+                        view.init(certificateID, 'goals');
+                    }, this);
+
+                }
+            });
+
+        }
+    </script>
+
+</head>
+<body>
+<div class="projectLearnGeneric">
+    <div id="user-portfolio-layout"></div>
+    <div id="user-portfolio-modals-layout"></div>
+
+    <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+    <input type="hidden" id="companyID" value="{{companyID}}">
+    <input type="hidden" id="rootUrl" value="{{root}}"/>
+</div>
+
 </body>
 </html>

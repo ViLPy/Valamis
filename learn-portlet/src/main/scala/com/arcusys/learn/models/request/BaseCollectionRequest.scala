@@ -6,19 +6,19 @@ import org.scalatra.{ ScalatraBase }
 object BaseCollectionRequest extends BaseCollectionRequest
 
 trait BaseCollectionRequest {
-  val PAGE = "page"
-  val COUNT = "count"
-  val SORT_BY = "sortBy"
-  val SORT_ASC_DIRECTION = "sortAscDirection"
+  final val Page = "page"
+  final val Count = "count"
+  final val SortBy = "sortBy"
+  final val SortAscDirection = "sortAscDirection"
 }
 
 abstract class BaseCollectionRequestModel(scalatra: ScalatraBase) {
   implicit val _scalatra = scalatra
 
-  def page = Parameter(BaseCollectionRequest.PAGE).intRequired
-  def count = Parameter(BaseCollectionRequest.COUNT).intRequired
+  def page = Parameter(BaseCollectionRequest.Page).intRequired
+  def count = Parameter(BaseCollectionRequest.Count).intRequired
   def skip = (page - 1) * count
-  def isSortDirectionAsc = Parameter(BaseCollectionRequest.SORT_ASC_DIRECTION).booleanOption match {
+  def isSortDirectionAsc = Parameter(BaseCollectionRequest.SortAscDirection).booleanOption match {
     case Some(value) => value
     case None        => true
   }
@@ -26,6 +26,6 @@ abstract class BaseCollectionRequestModel(scalatra: ScalatraBase) {
 
 abstract class BaseSortableCollectionRequestModel[T](scalatra: ScalatraBase, toEnum: String => T) extends BaseCollectionRequestModel(scalatra) {
   def sortBy: T = {
-    toEnum(Parameter(BaseCollectionRequest.SORT_BY).required)
+    toEnum(Parameter(BaseCollectionRequest.SortBy).required)
   }
 }

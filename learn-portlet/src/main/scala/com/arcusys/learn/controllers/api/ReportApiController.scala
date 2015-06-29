@@ -1,6 +1,10 @@
 package com.arcusys.learn.controllers.api
 
 import com.arcusys.learn.ioc.Configuration
+import com.arcusys.learn.liferay.permission.PermissionUtil
+import com.arcusys.valamis.lrs.api.valamis.VerbApi
+import com.arcusys.valamis.lrs.serializer.StatementSerializer
+import com.arcusys.valamis.lrs.service.LrsClientManager
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.models.request.{ ReportRequest, ReportActionType }
 import com.liferay.portal.kernel.poller.{ PollerRequest, PollerProcessor, PollerResponse }
@@ -8,12 +12,13 @@ import com.arcusys.learn.facades.ReportFacadeContract
 import com.arcusys.learn.exceptions.BadRequestException
 import com.liferay.portal.kernel.json.JSONFactoryUtil
 import org.json4s.{ DefaultFormats, Formats }
-import com.arcusys.learn.tincan.api.serializer.JsonDeserializer.StatementSerializer
+import PermissionUtil._
 
 class ReportApiController(configuration: BindingModule) extends BaseApiController(configuration) with PollerProcessor {
   def this() = this(Configuration)
 
-  val reportFacade = inject[ReportFacadeContract]
+  val reportFacade  = inject[ReportFacadeContract]
+  val lrsReader     = inject[LrsClientManager]
 
   before() {
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
@@ -24,53 +29,62 @@ class ReportApiController(configuration: BindingModule) extends BaseApiControlle
 
     jsonAction {
       val reportRequest = ReportRequest(this)
-      reportRequest.actionType match {
-        case ReportActionType.MOST_ACTIVE_USERS => {
-          reportFacade.getMostActive(
+      if (reportRequest.actionType == ReportActionType.OverallByTime) {
+        lrsReader.verbApi(verbApi =>
+          reportFacade.getOverallByTime(verbApi),
+          reportRequest.lrsAuth)
+      } else {
+        lrsReader.statementApi(statementApi => reportRequest.actionType match {
+          case ReportActionType.MostActiveUsers =>
+            reportFacade.getMostActive(
+              statementApi,
+              getUserId.toInt,
+              reportRequest.offset,
+              reportRequest.amount)
+
+          case ReportActionType.StudentsLatestStatements => reportFacade.getStudentsLatestStatements(
+            statementApi,
             getUserId.toInt,
             reportRequest.offset,
             reportRequest.amount)
-        }
 
-        case ReportActionType.STUDENTS_LATEST_STATEMENTS => reportFacade.getStudentsLatestStatements(
-          getUserId.toInt,
-          reportRequest.offset,
-          reportRequest.amount)
+          case ReportActionType.UserLatestStatements => reportFacade.getUserLatestStatements(
+            statementApi,
+            getUserId.toInt,
+            reportRequest.offset,
+            reportRequest.amount)
 
-        case ReportActionType.USER_LATEST_STATEMENTS => reportFacade.getUserLatestStatements(
-          getUserId.toInt,
-          reportRequest.offset,
-          reportRequest.amount)
+          case ReportActionType.StatementVerbs => reportFacade.getStatementVerbs(statementApi)
 
-        case ReportActionType.STATEMENT_VERBS => reportFacade.getStatementVerbs()
+          case ReportActionType.OverallByPeriod => reportFacade.getOverallByPeriod(
+            statementApi,
+            reportRequest.period,
+            reportRequest.from,
+            reportRequest.to)
 
-        case ReportActionType.OVERALL_BY_TIME => reportFacade.getOverallByTime()
+          case ReportActionType.Leaderboard => reportFacade.getStudentsLeaderboard(
+            statementApi,
+            reportRequest.period,
+            reportRequest.offset,
+            reportRequest.amount)
 
-        case ReportActionType.OVERALL_BY_PERIOD => reportFacade.getOverallByPeriod(
-          reportRequest.period,
-          reportRequest.from,
-          reportRequest.to)
+          case ReportActionType.Course => reportFacade.getCourseReport(
+            statementApi,
+            reportRequest.isInstanceScope,
+            reportRequest.courseId)
 
-        case ReportActionType.LEADERBOARD => reportFacade.getStudentsLeaderboard(
-          reportRequest.period,
-          reportRequest.offset,
-          reportRequest.amount)
+          case ReportActionType.CourseEvent => reportFacade.getCourseEvent(
+            reportRequest.groupBy,
+            reportRequest.groupPeriod,
+            reportRequest.period,
+            reportRequest.from,
+            reportRequest.to)
 
-        case ReportActionType.COURSE => reportFacade.getCourseReport(
-          reportRequest.isInstanceScope,
-          reportRequest.courseID)
+          case ReportActionType.Participants => reportFacade.getParticipantReport(
+            reportRequest.groupBy)
 
-        case ReportActionType.COURSE_EVENT => reportFacade.getCourseEvent(
-          reportRequest.groupBy,
-          reportRequest.groupPeriod,
-          reportRequest.period,
-          reportRequest.from,
-          reportRequest.to)
-
-        case ReportActionType.PARTICIPANTS => reportFacade.getParticipantReport(
-          reportRequest.groupBy)
-
-        case _ => throw new BadRequestException()
+          case _ => throw new BadRequestException()
+        }, reportRequest. lrsAuth)
       }
     }
   }

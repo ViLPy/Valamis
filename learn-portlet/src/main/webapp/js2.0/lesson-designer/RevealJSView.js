@@ -7,7 +7,7 @@ var RevealJSModel = LessonContentModel.extend({
 });
 
 var RevealJSView = Backbone.View.extend({
-  template: $('#revealJSViewTemplate').html(),
+  template: jQueryValamis('#revealJSViewTemplate').html(),
   render: function () {
     this.isNew = this.model.isNew();
     var mustacheAccumulator = {};
@@ -58,14 +58,14 @@ var RevealJSView = Backbone.View.extend({
 });
 
 var RevealJSModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-template').html(), _.extend({header: GLOBAL_translations['addPresentationLabel']}, GLOBAL_translations))),
-  submitEl: '.modal-submit',
-  cancelEl: '.close-button',
-  className: 'add-presentation-modal',
+  template: _.template(Mustache.render(jQueryValamis('#lessonDesignerEmptyModalTemplate').html(), _.extend({header: GLOBAL_translations['addPresentationLabel']}, GLOBAL_translations))),
+  submitEl: '.bbm-button',
+  cancelEl: '.modal-close',
+  className: 'val-modal add-presentation-modal',
   onRender: function () {
     this.view = new RevealJSView({
       model: this.model,
-      el: this.$('.content')
+      el: this.$('.js-modal-content')
     });
     this.view.render();
   },

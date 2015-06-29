@@ -72,9 +72,8 @@ var LiferayArticleView = Backbone.View.extend({
       this.model.set('selected', true);
     }
   },
-  template: $('#articleTemplate').html(),
   render: function () {
-    this.$el.html(Mustache.render(this.template, this.model.attributes));
+    this.$el.html(Mustache.render(jQueryValamis('#articleTemplate').html(), this.model.attributes));
     return this;
   }
 });
@@ -92,10 +91,10 @@ var LiferayArticleCollectionView = Backbone.View.extend({
     this.$el.append(liferayArticleView.render().el);
 
     liferayArticleModel.on('change:selected', function () {
-      var liferayActicleModel = this;
-      if (liferayActicleModel.get('selected')) {
+      var liferayArticleModel = this;
+      if (liferayArticleModel.get('selected')) {
         me.collection.each(function (item) {
-          if (item != liferayActicleModel) item.set('selected', false);
+          if (item != liferayArticleModel) item.set('selected', false);
         });
       }
     }, liferayArticleModel)
@@ -106,32 +105,44 @@ var LiferayArticleCollectionView = Backbone.View.extend({
     });
 
     if (!liferayArticleModel) return;
+    var self = this;
     liferayArticleModel.getContent().then(function (response) {
-      var questionModel = new LessonContentQuestionPlainTextModel({
-        categoryId: lessonModel.get('selectedCategoryId'),
-        lessonId: lessonModel.id,
-        title: liferayArticleModel.get('title'),
-        text: response.text
-      });
-      questionModel.save({}, {});
+      if(lessonModel.get('tempId'))
+        self.trigger('article:added', response.text);
+      else {
+        var questionModel = new LessonContentQuestionPlainTextModel({
+            categoryId: lessonModel.get('selectedCategoryId'),
+            lessonId: lessonModel.id,
+            title: liferayArticleModel.get('title'),
+            text: response.text
+        });
+        questionModel.save({}, {});
 
-      contentManagerEvent.trigger('question:added', questionModel);
+        contentManagerEvent.trigger('question:added', questionModel);
+      }
     });
   }
 });
 
 var AddTextArticleModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-template').html(), _.extend({header: GLOBAL_translations['addTextArticleLabel']}, GLOBAL_translations))),
-  submitEl: '.modal-submit',
-  cancelEl: '.close-button',
-  className: 'liferay-articles-modal',
+  template: function (data) {
+    return Mustache.to_html(jQueryValamis('#lessonDesignerEmptyModalTemplate').html(),
+      _.extend({header: GLOBAL_translations['AddTextArticleLabel']}, GLOBAL_translations))
+  },
+  submitEl: '.bbm-button',
+  cancelEl: '.modal-close',
+  className: 'val-modal liferay-articles-modal',
   onRender: function () {
-    var template = Mustache.to_html(jQuery('#articleTemplateTable').html(), GLOBAL_translations);
-    this.$('.content').html(template);
+    var template = Mustache.to_html(jQueryValamis('#articleTemplateTable').html(), GLOBAL_translations);
+    this.$('.js-modal-content').html(template);
     this.liferayArticleCollection = new LiferayArticleCollection();
     this.liferayArticleCollectionView = new LiferayArticleCollectionView({
       collection: this.liferayArticleCollection,
       el: this.$('#articleList')
+    });
+    var self = this;
+    this.liferayArticleCollectionView.on('article:added', function(text) {
+        self.trigger('article:added', text);
     });
     this.liferayArticleCollection.fetch();
   },

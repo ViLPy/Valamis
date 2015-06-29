@@ -1,60 +1,83 @@
-LessonService = new Backbone.Service({  url: path.root,
-  sync: {
-    create: {
-      path: function () {
-        return path.api.quiz + '?action=ADD'
-          + '&courseID=' + GLOBAL_courseID;
-      },
-      'method': 'post'
+LessonService = new Backbone.Service({
+    url: path.root,
+    sync: {
+        create: {
+                'path': path.api.quiz,
+                'data': function () {
+                    return {
+                        action: 'ADD',
+                        courseId: Utils.getCourseId()
+                    }
+                },
+                'method': 'post'
+        },
+        update: {
+            path:path.api.quiz,
+            'data': function () {
+                return {
+                    action: 'UPDATE',
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'post'
+        }
     },
-    update: {
-      path: function () {
-        return path.api.quiz + '?action=UPDATE'
-      },
-      'method': 'post'
+    targets: {
+        publish: {
+            'path': path.api.quiz,
+            'data': function (model) {
+                return {
+                    action: 'PUBLISH',
+                    id: model.id,
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'post'
+        },
+        clone: {
+            'path': path.api.quiz,
+            'data': function (model) {
+                return {
+                    action: 'CLONE',
+                    id: model.id,
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'post'
+        },
+        deleteLesson: {
+            'path': path.api.quiz,
+            'data': function (model) {
+                return {
+                    action: 'DELETE',
+                    id: model.id,
+                    courseId: Utils.getCourseId()
+                }
+            },
+            'method': 'post'
+        },
+        updateLogo: {
+            'path': path.api.quiz,
+            data: function(model){
+                return {
+                    action: 'UPDATELOGO',
+                    id: model.id,
+                    courseId: Utils.getCourseId()
+                };
+            },
+            'method': 'post'
+        }
     }
-  },
-  targets: {
-    publish: {
-      'path': function (model) {
-        return path.api.quiz + '?action=PUBLISH'
-          + '&id=' + model.id
-          + '&groupID=' + GLOBAL_groupID;
-        +'&courseID=' + GLOBAL_courseID;
-      },
-      'method': 'post'
-    },
-    clone: {
-      'path': function (model) {
-        return path.api.quiz + '?action=CLONE'
-          + '&id=' + model.id;
-      },
-      'method': 'post'
-    },
-    deleteLesson: {
-      'path': function (model) {
-        return path.api.quiz + '?action=DELETE'
-          + '&id=' + model.id;
-      },
-      'method': 'post'
-    },
-    updateLogo: {
-      'path': function (model) {
-        return path.api.quiz + '?action=UPDATELOGO&id=' + model.id;
-      },
-      'method': 'post'
-    }
-  }
 });
 
 var LessonModel = Backbone.Model.extend({
-  defaults: {
-    title: 'New lesson',
-    description: 'New description',
-    logo: ''
-  }
+    defaults: {
+        title: 'New lesson',
+        description: 'New description',
+        logo: ''
+    }
 }).extend(LessonService);
 
 var LessonCollection = Backbone.Collection.extend({
-  model: LessonModel
+    model: LessonModel
 });

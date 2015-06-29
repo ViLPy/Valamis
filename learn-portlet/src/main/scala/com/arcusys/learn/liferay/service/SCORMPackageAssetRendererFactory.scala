@@ -1,8 +1,8 @@
 package com.arcusys.learn.liferay.service
 
-import com.arcusys.learn.scorm.manifest.model._
 import javax.portlet.PortletRequest
-import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage }
+import com.arcusys.valamis.lesson.scorm.model.manifest.Manifest
+import com.arcusys.valamis.lesson.scorm.storage.ScormPackagesStorage
 import utils.PortletKeys
 import com.arcusys.learn.ioc.InjectableFactory
 import com.arcusys.learn.liferay.LiferayClasses._
