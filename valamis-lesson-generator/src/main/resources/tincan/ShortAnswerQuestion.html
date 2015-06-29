@@ -1,0 +1,123 @@
+<section data-state="short_{{id}}">
+<div class="SCORMPlayerContentDisplay content{{id}}">
+    <div class="playerHeader">
+        <h2 class="SCORMPlayerQuestionTitle">{{{text}}}</h2>
+    </div>
+    <div class="playerMainArea">
+        <input class="playerShortAnswerField" id="scormShortAnswer{{id}}" type="text" value="" placeholder="{{typeYourAnswerLabel}}"/>
+    </div>
+    <!--{{#autoShowAnswer}} -->
+    <button class="valamis button big green icon-continue" type="button" id="checkAnswerButton" onclick="TinCanCourseHelpers['shortShowAnswers_{{id}}']()">Check</button>
+    <!--{{/autoShowAnswer}} -->
+</div>
+<!--{{#autoShowAnswer}} -->
+<div class="answers answers{{id}}" style="display: none;">
+    <h2><span id="answerCorrectness{{id}}" style="vertical-align: baseline !important;"></span></h2>
+
+    <div id="answerComparison{{id}}" style="display: none;">
+        <strong>Your answer is <span id="usersAnswers{{id}}"></span></strong>
+        <div>
+            <!-- {{#isCaseSensitive}} -->
+            <p>But correct answers (case sensitive):</p>
+            <!-- {{/isCaseSensitive}} -->
+            <!-- {{^isCaseSensitive}} -->
+            <p>But correct answers:</p>
+            <!-- {{/isCaseSensitive}} -->
+            <div id="correctAnswers{{id}}"></div>
+        </div>
+        <br class="clear"/>
+        <br>
+    </div>
+    {{#hasExplanation}}
+    <h4>Explanation:</h4>
+
+    <div id="explanation">{{{explanation}}}</div>
+    {{/hasExplanation}}
+</div>
+<!--{{/autoShowAnswer}} -->
+</section>
+<script type="text/javascript">
+    /*{{#autoShowAnswer}}*/
+    TinCanCourseHelpers['shortShowAnswers_{{id}}'] = function() {
+        var answers = TinCanCourseHelpers['collectAnswers_{{id}}']();
+        var dataToCompare = JSON.parse('{{{answers}}}');
+
+        jQuery('.answers{{id}}').show();
+        jQuery('.content{{id}}').hide();
+
+        var correct = answers.isPassed;
+        var correctness = (correct) ? "{{rightAnswerText}}" : "{{wrongAnswerText}}";
+        if (correctness === "") correctness = (correct) ? "Your answer is correct" : "Your answer is incorrect";
+        jQuery("#answerCorrectness{{id}}").html(correctness);
+        if (!correct) {
+            jQuery("#answerComparison{{id}}").show();
+
+            var learnerResponse = answers.learnerResponse;
+
+            jQuery("#usersAnswers{{id}}").html(learnerResponse);
+
+            var correctResponse = [];
+            for (var i = 0; i<dataToCompare.length; i++) {
+                correctResponse.push(dataToCompare[i].text);
+            }
+            jQuery("#correctAnswers{{id}}").append(jQuery("<div>").addClass("matchedLine").html(correctResponse.join(', ')));
+        }
+        doScale();
+    };
+    /*{{/autoShowAnswer}}*/
+
+    TinCanCourseHelpers['collectAnswers_{{id}}'] = function() {
+        var dataToCompare = JSON.parse('{{{answers}}}');
+        var isCaseSensitive = JSON.parse('{{{isCaseSensitive}}}');
+        var score = 0,
+            hasScore = false;
+
+        // this will check is user answer right
+        var userAnswer = jQuery("#scormShortAnswer{{id}}").val();
+
+        var isPassed = false;
+        var correctResponses = [];
+        for (var j = 0; j < dataToCompare.length; j++) {
+            if (isCaseSensitive) {
+                if (dataToCompare[j].text == userAnswer) {
+                    isPassed = true;
+                    if (dataToCompare[j].score) hasScore = true;
+                    score = dataToCompare[j].score;
+                }
+            } else {
+                if (dataToCompare[j].text.toLowerCase() == userAnswer.toLowerCase()) {
+                    isPassed = true;
+                    if (dataToCompare[j].score) hasScore = true;
+                    score = dataToCompare[j].score;
+                }
+            }
+            correctResponses.push(dataToCompare[j]);
+        }
+
+        var correctResponse = [];
+        for (var i = 0; i<dataToCompare.length; i++) {
+            correctResponse.push(dataToCompare[i].text);
+        }
+
+        return {
+            learnerResponse: userAnswer,
+            correctResponse: correctResponse.join("[,]"),
+            isPassed: isPassed,
+            score: (hasScore)?score:null
+        }
+    };
+
+    TinCanCourseModules['short_{{id}}'] = function(tincan) {
+        var answers = TinCanCourseHelpers['collectAnswers_{{id}}']();
+
+        var taskID = 'task{{id}}';
+
+        if (answers.isPassed) {
+            tincan.sendStatement(GetQuestionAnswerStatement(taskID, '{{{text}}}', '{{title}}', 'fill-in', answers.learnerResponse, answers.correctResponse, true, 100, answers.score));
+            return 1;
+        } else {
+            tincan.sendStatement(GetQuestionAnswerStatement(taskID, '{{{text}}}', '{{title}}', 'fill-in', answers.learnerResponse, answers.correctResponse, false, 0, answers.score));
+            return 0;
+        }
+    }
+</script>

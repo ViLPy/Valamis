@@ -12,5 +12,6 @@ case class CertificateShortResponse(
   courseCount: Int,
   statementCount: Int,
   activityCount: Int,
+  packageCount: Int,
   userCount: Int,
   scope: Option[CourseResponse]) extends CertificateResponseContract

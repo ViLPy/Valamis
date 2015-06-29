@@ -1,0 +1,267 @@
+/*--Matching Question--*/
+
+#scormQuestionData td{
+   padding: 3px;
+}
+
+/* ------------ Matching ----------------*/
+
+.playerMainArea .playerMatchingAnswers{
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 20px;
+    display: table;
+}
+.playerMatchingAnswers .maschingQuestionBlock
+{
+    width: 40%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.playerMatchingAnswers .maschingAnswerBlock
+{
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock li {
+    background-color: #FFFFFF;
+    border: 2px dashed #FFFFFF;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+    color: #1c1c1c;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock .matchingAnswerBox
+{
+    width:100%;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock li:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+
+.playerMatchingAnswers .matchingAnswerBox {
+    background-color: #DEDEDE;
+    border: 2px dashed #AAA;
+    padding: 4px;
+    border-radius: 3px;
+    margin: 5px;
+    text-align: center;
+    display: inline-block;
+    width:80%;
+    list-style-type: none;
+}
+
+.playerMatchingAnswers .matchingAnswerBox .answerContainer  li {
+    background-color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+    color:#1c1c1c;
+}
+
+.playerMatchingAnswers .matchingAnswerBox .answerContainer li:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+
+.playerMatchingAnswers .matchingAnswerBox:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+.matchingAnswerBox .answerContainer {
+    height: auto;
+    list-style-type: none;
+    margin: 0;
+    min-height: 70px;
+    padding: 5px;
+    width: 100%;
+}
+/* ------------ Choice Question ----------------*/
+/* for view in slides */
+.choiceAnswer .choiceTextContainer {
+    background-color: white;
+    height: 60px;
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.choiceAnswer .choiceTextContainer span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 60px;
+}
+
+.choiceAnswer .choiceTextContainer span p {
+    margin: 0;
+    float: left;
+    padding-left: 20px;
+}
+
+/* ------------ Short Answer Question ----------------*/
+
+.SCORMPlayerContentDisplay .playerMainArea .playerShortAnswerField {
+    background: #fff;
+    border: 2px solid #DEDEDE;
+    padding: 4px;
+    border-radius: 3px;
+    height: 60px;
+    width: 100%;
+
+}
+
+/* ------------ Long Answer Question ----------------*/
+
+.SCORMPlayerContentDisplay .playerMainArea .playerLongAnswerField {
+    background: #fff;
+    border: 2px solid #DEDEDE;
+    padding: 4px;
+    border-radius: 3px;
+    width:100%;
+    font-size: 20px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+}
+/* ------------ Placing Question ----------------*/
+
+.playerMainArea .playerPlacingAnswers {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 20px;
+    color: #1c1c1c;
+}
+
+.playerMainArea .playerPlacingAnswers ul {
+    list-style-type: none;
+    padding: 5px;
+    display:block;
+}
+
+.playerMainArea .playerPlacingAnswers ul li {
+    border: 2px solid #f6f6f6;
+    color:#1c1c1c;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: move;
+    line-height: 1.2em;
+    border-radius: 3px;
+    background: #FFFFFF;
+    height: 60px;
+}
+
+.playerMainArea .playerPlacingAnswers ul li:hover {
+    border-color:#2974A6;
+    color:#2974A6 !important;
+
+}
+
+.playerMainArea .playerPlacingAnswers ul li div{
+    display: inline-block;
+    padding: 2px;
+
+}
+
+.playerMainArea .playerPlacingAnswers .ui-state-highlight{
+    height: 60px;
+    line-height: 1.2em;
+    background-color: #DEDEDE;
+    border: 2px dashed #AAA;
+}
+
+/* ------------ Categorize Question ----------------*/
+
+.playerMainArea .playerCategorizeAnswers ul.categorizationAnswerElements {
+    list-style-type: none;
+    height: 45px;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.playerMainArea .playerCategorizeAnswers ul li {
+    padding: 5px;
+    min-width: 180px;
+    margin-bottom: 5px;
+    cursor: move;
+    line-height: 1.2em;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li .val-icon-sort {
+    color: #AAA;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox {
+    position: relative;
+    min-height: 140px;
+    min-width: 204px;
+    line-height: 1.2em;
+    background-color: #DEDEDE; /* $gray87 */
+    border: 2px dashed #AAA; /* $gray67 */
+    padding: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li {
+    color: #2c2c2c;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 30px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li span p {
+    margin: 0;
+    float: left;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.playerMainArea .playerCategorizeAnswers tr td {
+    text-align: center;
+}
+
+.categorizationAnswerBox th {
+    font-size: 14px;
+    font-weight: normal;
+    background: #666666;
+    font-size: 14px;
+    padding: 1px 2px 3px 2px;
+    color: #FFF;
+}
+
+.categorizationAnswerBox td {
+    background-color: #FFF;
+    min-height: 100px;
+    font-size: 14px;
+    padding: 0px !important;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox .answerContainer {
+    min-height: 100px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+.externalResourceIframe {
+    width: 100%;
+    border: #6B6B6B solid 1px;
+    margin: 0;
+    padding: 0;
+}

@@ -1,8 +1,8 @@
 package com.arcusys.learn.setting.storage.impl
 
 import com.arcusys.learn.storage.impl.{ EntityStorageExt, KeyedEntityStorageExt }
-import com.arcusys.learn.setting.storage.SiteDependentSettingStorage
-import com.arcusys.learn.settings.model.SiteDependentSetting
+import com.arcusys.valamis.settings.model.SiteDependentSetting
+import com.arcusys.valamis.settings.storage.SiteDependentSettingStorage
 
 trait SiteDependentSettingEntityStorage extends SiteDependentSettingStorage
     with KeyedEntityStorageExt[SiteDependentSetting] with EntityStorageExt[SiteDependentSetting] {

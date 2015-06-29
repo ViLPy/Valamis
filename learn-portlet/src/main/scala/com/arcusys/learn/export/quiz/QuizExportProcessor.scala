@@ -1,25 +1,24 @@
 package com.arcusys.learn.export.quiz
 
-import com.arcusys.learn.bl.services.{ QuizServiceContract, FileServiceContract }
-import com.arcusys.learn.bl.export.ExportProcessor
 import com.arcusys.learn.export.question.{ AnswerExport, QuestionExport }
 import com.arcusys.learn.facades._
 import com.arcusys.learn.models.AnswerResponse
-import com.arcusys.learn.questionbank.model.{ Answer, Question }
-import com.arcusys.learn.quiz.model._
-import com.arcusys.scorm.generator.file.ZipFile
+import com.arcusys.valamis.export.ExportProcessor
+import com.arcusys.valamis.file.service.FileService
+import com.arcusys.valamis.questionbank.model.{ Question, Answer }
+import com.arcusys.valamis.quiz.model._
+import com.arcusys.valamis.quiz.service.QuizService
+import com.arcusys.valamis.util.ZipBuilder
 import com.escalatesoft.subcut.inject.{ Injectable, BindingModule }
 
-class QuizExportProcessor(implicit configuration: BindingModule) extends ExportProcessor[Quiz] with Injectable {
+class QuizExportProcessor(implicit val bindingModule: BindingModule) extends ExportProcessor[Quiz, QuizExportResponse] with Injectable {
 
-  override implicit def bindingModule: BindingModule = configuration
+  private lazy val quizService = inject[QuizService]
 
-  private lazy val quizService = inject[QuizServiceContract]
-
-  private lazy val fileService = inject[FileServiceContract]
+  private lazy val fileService = inject[FileService]
   private lazy val questionFacade = inject[QuestionFacadeContract]
 
-  override def exportItemsImpl(zip: ZipFile, items: Seq[Quiz]): Seq[Any] = {
+  override def exportItemsImpl(zip: ZipBuilder, items: Seq[Quiz]): Seq[QuizExportResponse] = {
     items.map(q => {
       var logoName = q.logo
       if (logoName != null && !logoName.isEmpty) {
@@ -30,7 +29,7 @@ class QuizExportProcessor(implicit configuration: BindingModule) extends ExportP
     })
   }
 
-  private def toQuizExportResponse(quiz: Quiz, zip: ZipFile) = {
+  private def toQuizExportResponse(quiz: Quiz, zip: ZipBuilder) = {
     val contents = getContentForExport(quiz.id, zip)
     QuizExportResponse(
       quiz.title,
@@ -39,7 +38,7 @@ class QuizExportProcessor(implicit configuration: BindingModule) extends ExportP
       contents)
   }
 
-  private def getContentForExport(quizId: Int, zip: ZipFile): Seq[QuizContentExport] = {
+  private def getContentForExport(quizId: Int, zip: ZipBuilder): Seq[QuizContentExport] = {
     val rootCategories = quizService.getCategories(quizId, None)
       .map(c => toCategoryExport(c, quizService.getQuestionsByCategory(quizId, Option(c.id)), zip))
 
@@ -50,7 +49,7 @@ class QuizExportProcessor(implicit configuration: BindingModule) extends ExportP
     rootContent.sortBy(_.arrangementIndex)
   }
 
-  private def toQuestionExport(question: QuizQuestion, zip: ZipFile): QuizQuestionExport = {
+  private def toQuestionExport(question: QuizQuestion, zip: ZipBuilder): QuizQuestionExport = {
     val arrangementIndex = quizService.getQuestionIndex(question.quizID, question.id)
     question match {
       case q: QuestionBankQuizQuestion => QuizQuestionBankExport(
@@ -89,7 +88,7 @@ class QuizExportProcessor(implicit configuration: BindingModule) extends ExportP
     }
   }
 
-  private def toCategoryExport(c: QuizQuestionCategory, qs: Seq[QuizQuestion], zip: ZipFile) = {
+  private def toCategoryExport(c: QuizQuestionCategory, qs: Seq[QuizQuestion], zip: ZipBuilder) = {
     val arrangementIndex = quizService.getCategoryIndex(c.quizID, c.id)
     QuizCategoryExport(
       c.title, arrangementIndex, qs.map(q => toQuestionExport(q, zip))
@@ -97,11 +96,13 @@ class QuizExportProcessor(implicit configuration: BindingModule) extends ExportP
   }
 
   private def toQuestionExport(question: Question[Answer]) = {
-    val questionResponse = questionFacade.buildQuestion(question)
+    val questionResponse = questionFacade.buildQuestionResponse(question)
     QuestionExport(questionResponse.entityType,
       questionResponse.title,
       questionResponse.text,
       questionResponse.explanationText,
+      Some(questionResponse.rightAnswerText),
+      Some(questionResponse.wrongAnswerText),
       questionResponse.forceCorrectCount,
       questionResponse.isCaseSensitive,
       questionResponse.answers.map(toAnswerExport),

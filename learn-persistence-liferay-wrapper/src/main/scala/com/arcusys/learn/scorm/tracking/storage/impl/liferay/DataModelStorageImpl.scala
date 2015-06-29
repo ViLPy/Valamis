@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.tracking.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFAttemptData
 import com.arcusys.learn.persistence.liferay.service.LFAttemptDataLocalServiceUtil
-import com.arcusys.learn.scorm.tracking.model.AttemptData
-import com.arcusys.learn.scorm.tracking.storage.DataModelStorage
+import com.arcusys.valamis.lesson.scorm.model.tracking.AttemptData
+import com.arcusys.valamis.lesson.scorm.storage.tracking.DataModelStorage
 import scala.collection.JavaConverters._
 
 /**

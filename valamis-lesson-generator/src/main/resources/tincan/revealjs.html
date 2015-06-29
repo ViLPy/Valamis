@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en" class="decks fullscreen loaded ua-phantomjs reveal-viewport theme-font-montserrat theme-color-white-blue">
+<head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <script>
+        function onYouTubeIframeAPIReady() {
+            window.youtubeIframeAPIReady = true;
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <link rel="stylesheet" href="jquery-ui-1.8.20.custom.css">
+    <link rel="stylesheet" href="skins/polaris/polaris.css">
+    <link rel="stylesheet" href="buttons.css">
+    <style>
+        .verticalSeparator {
+            margin-right: 50px !important;
+        }
+
+        .answers ul {
+            list-style-type: none;
+        }
+
+        .answers li {
+            background: inherit;
+        }
+
+        .answerContainer li {
+            background: inherit;
+        }
+
+        .reveal h2 {
+            font-size: 1.11em !important;
+        }
+        .reveal span {
+            vertical-align: middle !important;
+        }
+        .icheckbox_polaris, .icheckbox_polaris.checked {
+            vertical-align: middle !important;
+        }
+        .portlet-learn-scorm,
+        .reveal-wrapper { height: 100%; }
+        .reveal .progress { pointer-events: none }
+        .reveal>.backgrounds { overflow: hidden }
+        .reveal .slides [hidden] { max-height: 100%; overflow: hidden; padding: 0; }
+    </style>
+
+    <script type="text/html" id="revealTemplate">
+        <div class="slides">
+            <section>
+                <section></section>
+            </section>
+        </div>
+    </script>
+    <script type="text/html" id="genericElementTemplate">
+        <div class="item-content shift-left"><%
+            if(content === '') { %> <div class="content-icon-<%= slideEntityType %>">
+                <span class="val-icon-<%= slideEntityType %>"></span>
+            </div><% } %> <%
+            if(slideEntityType === 'text') { %> <%= content %> <% } %> <%
+            if(slideEntityType === 'image') {
+            %> <iframe width="100%" height="100%" style="display: none"></iframe> <% } %> <%
+            if(slideEntityType === 'iframe' || slideEntityType === 'pdf') {
+            %> <iframe class="slideset-iframe" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-pointer-lock"></iframe> <% } %> <%
+            if(slideEntityType === 'video') {
+            %> <iframe width="100%" height="100%" style="display: none"></iframe>
+               <video class="video-js vjs-default-skin" width="<%= width %>" height="<%= height %>"> <source src="" /> </video> <% } %>
+        </div>
+    </script>
+
+{{#isSlideJsonAvailable}}
+<script>
+    var slidesJson = {{{slidesJson}}};
+    var questionsJson = {{{questionsJson}}};
+</script>
+{{/isSlideJsonAvailable}}
+
+    {{#includeVendorFiles}}
+    <script src="{{{.}}}"></script>
+    {{/includeVendorFiles}}
+    {{#includeCommonFiles}}
+    <script src="{{{.}}}"></script>
+    {{/includeCommonFiles}}
+    {{#includeFiles}}
+    <script src="{{{.}}}"></script>
+    {{/includeFiles}}
+    {{#includeCSS}}
+    <link rel="stylesheet" href="{{{.}}}">
+    {{/includeCSS}}
+    <link rel="stylesheet" href="player_tincan_content.css">
+
+    {{^includeFiles}}
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="base.js"></script>
+    <script src="lodash.min.js"></script>
+    {{/includeFiles}}
+    <script src="head.min.js"></script>
+    <script src="tincan-min.js"></script>
+    <script> {{{timerSource}}} </script>
+</head>
+
+<body onunload="onUnload()" style="overflow-y: auto;">
+<div class="portlet-learn-scorm portlet-learn-scorm-slides">
+    <div id="clock" style="position: absolute; left: 3px; font-weight: bold; font-size: large;"> </div>
+
+    <!--FIXME: BEGIN -->
+    {{#isSlideJsonAvailable}}
+    <div class="reveal-wrapper"> </div>
+    {{/isSlideJsonAvailable}}
+    <!--FIXME: END -->
+
+    {{^isSlideJsonAvailable}}
+    <div class="reveal-wrapper">
+        <div class="reveal">
+            <!-- all questions here before start, needed questions will be moved to displayed slides-->
+            {{#isRandomized}}
+            <div style="display: none;" class="sectionBank" >
+                {{{sections}}}
+            </div>
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+            </div>
+            {{/isRandomized}}
+            {{^isRandomized}}
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                {{{sections}}}
+            </div>
+            {{/isRandomized}}
+        </div>
+    </div>
+    {{/isSlideJsonAvailable}}
+</div>
+{{#isRandomized}}
+
+{{#questionMarkupTemplates}}
+    {{{.}}}
+{{/questionMarkupTemplates}}
+<script>
+    (function(){
+        var initProperties = {{#initProperties}} {{{initProperties}}} {{/initProperties}} {{^initProperties}} {} {{/initProperties}};
+
+        //get all sections from sectionBank
+        var sections = $(".sectionBank>section");
+
+        //mix sections if needed
+        if (initProperties && initProperties.randomOrdering) {
+            sections = sections.sort(function (a, b) {
+                return Math.random() >= 0.5;
+            });
+            if (initProperties.questionsCount && initProperties.questionsCount > 0) {
+                sections = sections.slice(0, initProperties.questionsCount);
+            }
+        }
+
+        //append mixed sections to slides
+        $(".slides").append(sections);
+    })();
+</script>
+{{/isRandomized}}
+
+<script>
+    if (!('Reveal' in window)) {
+        document.write('<link rel="stylesheet" href="css/reveal.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/zenburn.css"\x2f>');
+        document.write('<link rel="stylesheet" href="css/theme/{{theme}}.css" id="theme"\x2f>');
+        document.write('<script src="reveal.min.js"><\x2fscript>');
+    }
+
+    var ROOT_ACTIVITY_ID = '{{rootActivityId}}';
+    var SCORE_LIMIT = {{scoreLimit}};
+    var currentTinCanState = undefined;
+    var testObj = {
+        id: ROOT_ACTIVITY_ID,
+        definition: {
+            name: {
+                "en-US": "{{title}}"
+            },
+            description: {
+                "en-US": "{{description}}"
+            },
+            type: "http://adlnet.gov/expapi/activities/assessment"
+        }
+    };
+
+    var tincan = new TinCan (
+        {
+            url: window.location.search,
+            activity: testObj
+        }
+    );
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    defaultParams = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        viewDistance: 2,
+
+        //theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: 'slide', // default/cube/page/concave/zoom/linear/fade/none
+        transitionSpeed: 'default',
+        backgroundTransition: 'none',
+//        embedded: true,
+        dependencies: [
+            // Syntax highlight for <code> elements
+            { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ],
+        help: false
+    };
+
+    /*
+     * Function to format seconds to a proper time string (HH:mm:ss)
+     */
+    function toTimeString(d) {
+        d = Number(d);
+        var h = Math.floor(d / 3600);
+        var m = Math.floor(d % 3600 / 60);
+        var s = Math.floor(d % 3600 % 60);
+        return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
+    }
+
+    function onUnload() {
+        if (currentTinCanState) {
+            ProcessTinCan(currentTinCanState);
+        }
+        {{^isSlideJsonAvailable}}
+
+        var slidesCount = $(".slides section:not(.stack)").length;
+
+        {{/isSlideJsonAvailable}}
+        {{#isSlideJsonAvailable}}
+
+        if(slidesApp)
+            _.each(slidesApp.playerCheckIntervals, function(interval) {
+                clearInterval(interval);
+            });
+        var slidesCount = Object.keys(TinCanCourseModules).length;
+
+        {{/isSlideJsonAvailable}}
+
+        var totalCount = 0;
+        for( var i in TinCanCourseResults) {
+            totalCount += TinCanCourseResults[i];
+        }
+
+        var score = 1;
+        if(slidesCount != 0)
+            score = totalCount/slidesCount;
+
+        var success = (score >= SCORE_LIMIT);
+
+        var slideId = $(Reveal.getCurrentSlide()).attr('id');
+        var slideTitle = $(Reveal.getCurrentSlide()).attr('title');
+
+        tincan.sendStatement(GetExperiencedStatement(slideId, slideTitle));
+        tincan.sendStatement(GetPackageCompletedStatement(score, success));
+    }
+
+    function baseScale(divA, divB, centerY) {
+        var maxWidth = divA.width();
+        var maxHeight = divA.height();
+
+        var width = divB.outerWidth();
+        var height = divB.outerHeight();
+        var scale;
+
+        // early exit
+        if(width <= maxWidth && height <= maxHeight) {
+            divB.css({
+                '-webkit-transform': '',
+                '-ms-transform': '',
+                'transform': ''
+            });
+            if (centerY) {
+                divB.css({
+                    '-webkit-transform-origin-y': '50%',
+                    '-ms-transform-origin-y': '50%',
+                    'transform-origin-y': '50%'
+                });
+            }
+            return;
+        }
+        {{#isSlideJsonAvailable}}
+        scale = Math.min(maxWidth/width, maxHeight/height);
+
+        divB.css({
+            '-webkit-transform': 'scale(' + scale + ')',
+            '-ms-transform': 'scale(' + scale + ')',
+            'transform': 'scale(' + scale + ')'
+        });
+        {{/isSlideJsonAvailable}}
+        if (centerY) {
+            divB.css({
+                '-webkit-transform-origin-y': 0,
+                '-ms-transform-origin-y': 0,
+                'transform-origin-y': 0
+            });
+        }
+    }
+
+    function doScaleOnResize() {
+        baseScale($(window), $('.slides'), false);
+    }
+
+    function doScale(slide) {
+        slide = slide || Reveal.getCurrentSlide();
+        baseScale($('.slides'), $(slide), true);
+    }
+
+    function handleBackground(currentSlide){
+
+        //move background to foreground if necessary
+        if(currentSlide.getAttribute('data-just-background') == 'true'){
+            document.querySelector('.reveal>.backgrounds').style.zIndex = 1;
+//                var src = event.currentSlide.getAttribute('data-background-iframe');
+//                if(src) {
+//                    var bg = document.querySelectorAll('.reveal>.backgrounds>.slide-background.future iframe[src="'+src+'"]');
+//                    if (bg.length > 0) bg[0].contentWindow.focus();
+//                }
+        }else{
+            document.querySelector('.reveal>.backgrounds').style.zIndex = "";
+        }
+    }
+
+    function revealAttachEvents(eventName){
+
+        switch(eventName){
+            case "ready":
+                    Reveal.addEventListener( 'ready', function( event ) {
+                        //doScaleOnResize();
+                        doScale(event.currentSlide);
+                        currentTinCanState = jQuery(event.currentSlide).data('state');
+                        var currentSlide = document.querySelector(".slides>section");
+                        handleBackground(currentSlide);
+                        revealAttachEvents('slidechanged');
+                    });
+                break;
+            case "slidechanged":
+
+                    Reveal.addEventListener( 'slidechanged', function( event ) {
+
+                        doScale(event.currentSlide);
+                        var prevStateID = jQuery(event.previousSlide).data('state');
+                        if (prevStateID) {
+                            ProcessTinCan(prevStateID);
+                        }
+                        currentTinCanState = jQuery(event.currentSlide).data('state');
+
+                        // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+
+                        // pause background video when the slide leaved
+                        if(event.previousSlide.getAttribute('data-just-background') == 'true'){
+                            var el = document.querySelector('.reveal>.backgrounds>.slide-background.present iframe'); //.present because bg changes after event runs
+
+                            if (el){
+                                if(el.src.indexOf("youtube.com/embed/") > -1){
+                                    if (!el.hasAttribute('data-ignore') && typeof el.contentWindow.postMessage === 'function') {
+                                        el.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                                    }
+                                }
+                                if(el.src.indexOf("player.vimeo.com") > -1){
+                                    if(!el.hasAttribute( 'data-ignore' ) && typeof el.contentWindow.postMessage === 'function' ) {
+                                        el.contentWindow.postMessage( '{"method":"pause"}', '*' );
+                                    }
+                                } else {
+                                    var video = el.contentDocument.querySelector('video');
+                                    if (video) video.pause();
+                                }
+                            }
+                        }
+
+                        handleBackground(event.currentSlide);
+
+                        {{#isSlideJsonAvailable}}
+                        if(top.navigationProxy != null){
+                            top.navigationProxy.toggle2D(event);
+                            if(slidesApp && !slidesApp.initializing) {
+                                slidesApp.activeSlideModel = slidesApp.getSlideModel(parseInt($(Reveal.getCurrentSlide()).attr('id').replace('slide_', '')));
+                                var slideId = $(event.previousSlide).attr('id');
+                                var slideTitle = $(event.previousSlide).attr('title');
+                                tincan.sendStatement(GetExperiencedStatement(slideId, slideTitle));
+                            }
+                        }
+                        {{/isSlideJsonAvailable}}
+                        {{^isSlideJsonAvailable}}
+                        if(top.navigationProxy != null){
+                            top.navigationProxy.toggle1D(event)
+                        }
+                        {{/isSlideJsonAvailable}}
+                    });
+                break;
+        }
+    }
+
+    $(document).ready(function(){
+
+        $(window).resize(function(evt) {
+            //doScaleOnResize();
+        });
+
+        {{^isSlideJsonAvailable}}
+        if ($(window).width() > 1024) Reveal.initialize($.extend({minScale: 1.0, maxScale: 1.0}, defaultParams));
+        else Reveal.initialize(defaultParams);
+        {{/isSlideJsonAvailable}}
+        {{#isSlideJsonAvailable}}
+            slidesApp.start();
+            Reveal.sync();
+        {{/isSlideJsonAvailable}}
+
+        revealAttachEvents('ready');
+
+        tincan.sendStatement(GetPackageAttemptedStatement());
+    });
+
+    // record the results of a question
+    function GetQuestionAnswerStatement(id, questionText, title, questionType, learnerResponse, correctAnswer, wasCorrect, score, questionScore){
+        //send question info
+        // and score
+        var scaledScore = score / 100;
+
+        var qObj = {
+            id: ROOT_ACTIVITY_ID +'/' + id,
+            definition: {
+                type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+                name: {
+                    'en-US': title
+                },
+                description: {
+                    'en-US': questionText
+                },
+                interactionType: questionType,
+                correctResponsesPattern: [
+                    String(correctAnswer)
+                ]
+            }
+        };
+
+
+        var stmt = {
+            verb: {
+                "id": "http://adlnet.gov/expapi/verbs/answered",
+                "display": {
+                    "en-US": "answered"
+                }
+            },
+            object: qObj,
+            result: {
+                score: {
+                    scaled: scaledScore,
+                    raw: score,
+                    min: 0,
+                    max: 100
+                },
+                response: String(learnerResponse),
+                success: wasCorrect,
+                extensions: {
+                    "http://valamislearning.com/question/score": questionScore || 0
+                }
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        };
+
+        return stmt;
+    }
+
+    function GetExperiencedStatement(activityID, title){
+        var verb, object, category;
+        {{#isSlideJsonAvailable}}
+            var prevSlide = slidesApp.getSlideModel(parseInt(activityID.replace('slide_', '')));
+            verb = prevSlide.get('statementVerb') || '',
+            object = prevSlide.get('statementObject') || '',
+            category = prevSlide.get('statementCategoryId') || '';
+            var verbUri = verb.substr(0, verb.lastIndexOf('/')),
+            verbName = verb.substr(verb.lastIndexOf('/') + 1);
+        {{/isSlideJsonAvailable}}
+        var stmt = {
+              verb: verb ? {
+                id: verbUri,
+                display: {
+                    'en-US': verbName
+                }
+            } : {
+                  "id": "http://adlnet.gov/expapi/verbs/experienced",
+                  "display": {
+                      "en-US": "experienced"
+                  }
+              },
+
+            object: {
+                id: ROOT_ACTIVITY_ID +'/' + activityID,
+                definition: {
+                    type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+                    name: {
+                        'en-US': object || title
+                    }
+                }
+            },
+            context: getContext(ROOT_ACTIVITY_ID, category)
+        };
+
+        return stmt;
+    }
+
+    function GetPackageCompletedStatement(score, success){
+        return {
+            verb: {
+
+                "id": "http://adlnet.gov/expapi/verbs/completed",
+                "display": {
+                    "en-US": "completed"
+                }
+            },
+            object: {
+                id: ROOT_ACTIVITY_ID,
+                definition: {
+                    type: 'http://adlnet.gov/expapi/activities/course',
+                    name: { 'en-US': '{{title}}' }
+                }
+            },
+            result: {
+                score: { scaled: score },
+                success: success
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        };
+    }
+
+    function GetPackageAttemptedStatement(){
+        return {
+            verb: {
+
+                    "id": "http://adlnet.gov/expapi/verbs/attempted",
+                    "display": {
+                    "en-US": "attempted"
+
+                }
+            },
+            object: {
+                id: ROOT_ACTIVITY_ID,
+                definition: {
+                    type: 'http://adlnet.gov/expapi/activities/course',
+                    name: { 'en-US': '{{title}}' }
+                }
+            },
+            context: getContext(ROOT_ACTIVITY_ID)
+        };
+    }
+
+    function GetVideoStatement(verbName, videoId, videoTitle, videoDuration, start, finish) {
+        var verbId = 'http://activitystrea.ms/schema/1.0/play';
+        var stmnt = {
+            verb: {
+                id: verbId,
+                display: {
+                    'en-US': verbName
+                }
+            },
+            object: {
+                id: 'http://www.youtube.com/watch?v=' + videoId,
+                definition: {
+                    type: 'http://activitystrea.ms/schema/1.0/video',
+                    name: {
+                        'en-US': videoTitle
+                    },
+                    extensions: {
+                        'http://id.tincanapi.com/extension/duration': videoDuration
+                    }
+                }
+            },
+            context: {
+                contextActivities: {
+                    grouping: {
+                        id: ROOT_ACTIVITY_ID
+                    },
+                    category: {
+                        id: 'http://id.tincanapi.com/recipe/video/base/1'
+                    }
+                }
+            }
+        };
+        switch(verbName) {
+            case 'play':
+                stmnt.context.extensions = {
+                    'http://id.tincanapi.com/extension/starting-point': start
+                };
+                break;
+            case 'paused':
+                stmnt.context.extensions = {
+                    'http://id.tincanapi.com/extension/ending-point': finish
+                };
+                stmnt.verb.id = 'http://activitystrea.ms/schema/1.0/pause';
+                break;
+            case 'watched':
+            case 'skipped':
+                stmnt.context.extensions = {
+                    'http://id.tincanapi.com/extension/starting-point': start,
+                    'http://id.tincanapi.com/extension/ending-point': finish
+                };
+                    if(verbName === 'watched')
+                        stmnt.verb.id = 'http://activitystrea.ms/schema/1.0/watch';
+                    else
+                        stmnt.verb.id = 'http://activitystrea.ms/schema/1.0/skipped';
+                break;
+            case 'completed':
+                stmnt.context.extensions = {
+                    'http://id.tincanapi.com/extension/ending-point': finish
+                };
+                stmnt.verb.id = 'http://activitystrea.ms/schema/1.0/complete';
+                break;
+        }
+        return stmnt;
+    }
+
+    function getContext(parentActivityId, category) {
+        if(category) {
+            var categoryUri = category.substr(0, category.lastIndexOf('/'));
+            var categoryName = category.substr(category.lastIndexOf('/') + 1);
+        }
+        var contextActivities = {
+            grouping: {
+                id: ROOT_ACTIVITY_ID
+            }
+        };
+        if(category)
+            contextActivities.category = {
+                id: categoryUri,
+                definition: {
+                    name: {
+                        'en-US': categoryName
+                    }
+                }
+            };
+        return { contextActivities: contextActivities };
+    }
+</script>
+<script>
+    {{#isSlideJsonAvailable}}
+        if(top.navigationProxy != null){
+            top.navigationProxy.display2DNavigation({{{slidesJson}}});
+        }
+    {{/isSlideJsonAvailable}}
+    {{^isSlideJsonAvailable}}
+        if(top.navigationProxy != null){
+            var serializedQuestions = {{{serializedQuestionData}}};
+            var isRandomized = {{isRandomized}};
+
+            if(isRandomized){
+                var randomizedIndexes = _.map($(".slides section"),function(x){ return parseInt($(x).data('state').split('_')[1]); });
+
+                top.navigationProxy.display1DRandomizedNavigation(randomizedIndexes, serializedQuestions);
+            } else {
+                top.navigationProxy.display1DNavigation(serializedQuestions);
+            }
+        }
+    {{/isSlideJsonAvailable}}
+</script>
+{{#questionMarkupTemplates}}
+{{{.}}}
+{{/questionMarkupTemplates}}
+{{#questionScripts}}
+{{{.}}}
+{{/questionScripts}}
+
+</body>
+</html>

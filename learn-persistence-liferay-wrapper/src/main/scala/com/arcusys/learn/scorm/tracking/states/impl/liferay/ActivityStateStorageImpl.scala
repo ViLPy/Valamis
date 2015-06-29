@@ -2,9 +2,9 @@ package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFActivityState
 import com.arcusys.learn.persistence.liferay.service.{ LFAttemptLocalServiceUtil, LFActivityStateNodeLocalServiceUtil, LFActivityStateTreeLocalServiceUtil, LFActivityStateLocalServiceUtil }
-import com.arcusys.learn.scorm.manifest.storage.ActivityStorage
-import com.arcusys.learn.scorm.tracking.model.{ ObjectiveState, ActivityState }
-import com.arcusys.learn.scorm.tracking.states.storage.{ ObjectiveStateStorage, ActivityStateStorage }
+import com.arcusys.valamis.lesson.scorm.model.tracking.{ ObjectiveState, ActivityState }
+import com.arcusys.valamis.lesson.scorm.storage.ActivityStorage
+import com.arcusys.valamis.lesson.scorm.storage.tracking.{ ObjectiveStateStorage, ActivityStateStorage }
 import scala.collection.JavaConverters._
 
 /**
@@ -94,7 +94,7 @@ trait ActivityStateStorageImpl extends ActivityStateStorage {
   }
 
   private def extract(entity: LFActivityState) = {
-    val activity = activitiesStorage.get(entity.getPackageID, entity.getActivityID)
+    val activity = activitiesStorage.get(entity.getPackageID.toLong, entity.getActivityID)
     require(activity.isDefined, "Activity should exist!")
 
     new ActivityState(

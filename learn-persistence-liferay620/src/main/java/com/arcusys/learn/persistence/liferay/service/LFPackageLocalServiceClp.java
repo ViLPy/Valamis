@@ -56,6 +56,10 @@ public class LFPackageLocalServiceClp implements LFPackageLocalService {
     private String[] _methodParameterTypes23;
     private String _methodName24;
     private String[] _methodParameterTypes24;
+    private String _methodName25;
+    private String[] _methodParameterTypes25;
+    private String _methodName26;
+    private String[] _methodParameterTypes26;
 
     public LFPackageLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -173,6 +177,18 @@ public class LFPackageLocalServiceClp implements LFPackageLocalService {
         _methodName24 = "removeAll";
 
         _methodParameterTypes24 = new String[] {  };
+
+        _methodName25 = "findByTitleAndCourseID";
+
+        _methodParameterTypes25 = new String[] {
+                "java.lang.String", "java.lang.Integer[][]"
+            };
+
+        _methodName26 = "countByTitleAndCourseID";
+
+        _methodParameterTypes26 = new String[] {
+                "java.lang.String", "java.lang.Integer[][]"
+            };
     }
 
     @Override
@@ -851,5 +867,69 @@ public class LFPackageLocalServiceClp implements LFPackageLocalService {
                     " is not a valid exception");
             }
         }
+    }
+
+    @Override
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName25,
+                    _methodParameterTypes25,
+                    new Object[] {
+                        ClpSerializer.translateInput(titlePattern),
+                        
+                    ClpSerializer.translateInput(courseIDs)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackage>) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
+    public int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName26,
+                    _methodParameterTypes26,
+                    new Object[] {
+                        ClpSerializer.translateInput(titlePattern),
+                        
+                    ClpSerializer.translateInput(courseIDs)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+                throw (com.liferay.portal.kernel.exception.SystemException) t;
+            }
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return ((Integer) returnObj).intValue();
     }
 }

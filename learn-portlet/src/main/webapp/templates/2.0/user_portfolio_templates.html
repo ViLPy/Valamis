@@ -1,52 +1,32 @@
-<script type="text/mustache" id="liferayAccountInfoView">
-    <div id="UserCertificateInfo">
-        <div style="width:100px; float:left; padding-top: 10px; margin-left: 10px">
-            <img src="{{picture}}" alt="{{name}}" width="90px"/>
+<script type="text/html" id="liferayAccountInfoView">
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col single-element-col"><img src="{{picture}}" alt="{{name}}" class="img-circle"/></div>
+            <div class="div-col">{{name}}</div>
         </div>
-        <div style="margin-left: 105px; padding-top: 15px; font-size: 14px;">
-            <b>{{name}}</b>
-            <br>
-            {{email}}
-        </div>
+    </div>
 
-        <div id="UserCertificateTitle">{{curriculumMyTabsHeaderLabel}}</div>
+    <div class="filters-row"><h4>{{curriculumMyTabsHeaderLabel}}</h4></div>
 
-        <div id="valamisCertificates">
-            <div id="userCertificatesList" class="grid-view badge-list SCORMAddNewButton clearfix package-items js-package-items">
-            </div>
-        </div>
+    <div class="js-certificates-list val-row tiles">
     </div>
 </script>
 
-
-<script type="text/mustache" id="userCertificateTileItemView" class="availableQuizItem">
-    <div class="valamis-tile-item">
-        <div class="valamis-tile-item-wrapper viewCertificateGoalsCommand" data-certificate="{{id}}" >
-            <div class="ribbon-wrapper">
-                <div class="valamis-item-cover-image"
-                {{#logo}}
+<script type="text/html" id="userCertificateTileItemView">
+    <div class="tile s-12 m-4 l-2">
+        <div class="tile-content">
+            <div class="image certificate js-open-goals cursor-pointer" data-certificate="{{id}}"
+                 {{#isLocal}}
+                 style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+                 {{/isLocal}}
+                {{^isLocal}}
                 style="background-image: url('{{logo}}')"
-                {{/logo}}>
+                {{/isLocal}}>
             </div>
-        </div>
-        <div class="valamis-item-content">
-            <div class="valamis-item-title">{{title}}</div>
-            <div class="valamis-item-description">{{description}}</div>
-        </div>
-    </div>
-</script>
-
-<script type="text/mustache" id="userCertificateListItemView" class="availableQuizItem">
-    <div class="valamis-list-item">
-        <div class="valamis-tile-item-wrapper viewCertificateGoalsCommand" data-certificate="{{id}}" >
-            <div class="valamis-item-cover-image pull-left"
-                {{#logo}}
-                style="background-image: url('{{logo}}')"
-                {{/logo}}></div>
-            <div class="valamis-item-content pull-left">
-                <div class="valamis-item-title padded-top">{{title}}</div>
-                <div class="valamis-item-description">{{{description}}}</div>
-            </div>
+            <ul>
+                <li class="title">{{title}}</li>
+                <li class="description">{{decodedDescription}}</li>
+            </ul>
         </div>
     </div>
 </script>
@@ -55,54 +35,71 @@
     <div class="certificate-modals-container"></div>
 </script>
 
+<script type="text/template" id="certificate-common-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{certificateModalTitle}}</h3>
 
-<script type="text/mustache" id="certificateGoalsListTemplate">
-    <div class="valamis-row">
-        <table class="valamis list-table medium-table">
+        <div class="modal-close val-icon-exit">
+        </div>
+    </div>
+
+    <div class="certificate-modal-content">
+    </div>
+</script>
+
+<script type="text/html" id="certificateGoalsListTemplate">
+    <div class="val-row">
+        <table id="certificateCoursesMainTable" class="val-table medium list">
             <tbody id="certificateCoursesTable">
             <tr>
-                <th colspan="4">{{coursesLabel}}</th>
+                <th colspan="2">{{coursesLabel}}</th>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="valamis-row">
-        <table class="valamis list-table medium-table">
+    <div class="val-row">
+        <table class="val-table medium list">
             <tbody id="certificateStatementsTable">
             <tr>
-                <th colspan="4">{{tincanstatementsLabel}}</th>
+                <th colspan="2">{{tincanstatementsLabel}}</th>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="valamis-row">
-        <table class="valamis list-table medium-table">
+    <div class="val-row">
+        <table class="val-table medium list">
             <tbody id="certificateActivitiesTable">
             <tr>
-                <th colspan="5">{{activitiesLabel}}</th>
+                <th colspan="3">{{activitiesLabel}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="val-row">
+        <table class="val-table medium list">
+            <tbody id="lessonGoalsTable">
+            <tr>
+                <th colspan="2">{{lessonGoalsLabel}}</th>
             </tr>
             </tbody>
         </table>
     </div>
 </script>
 
-
-<script type="text/mustache" id="goalRowTemplate">
-    <td class="checkbox-container">
-        {{#canDelete}}
-        <div class="checkbox valamis"></div>
-        {{/canDelete}}
-    </td>
+<script type="text/html" id="goalRowTemplate">
     {{#isActivity}}
-    <td class="amount"><input type="text" class="onlyDigits" id="goalsAmount" value="{{activityCount}}"/></td>
-    {{/isActivity}}
-    <td class="user-name">{{title}}</td>
-
-    <td class="duringPeriod">
+    <td class="single-element-col">
+        <input type="text" class="onlyDigits" id="goalsAmount" value="{{activityCount}}" disabled="disabled" />
     </td>
-    <td class="buttons text-right" style="width:150px; overflow:visible; padding-right: 5px;">
+    {{/isActivity}}
+    <td>{{#url}}
+        <a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}
+    </td>
+
+    <td class="text-right status-col">
         {{dateFinish}}
     </td>
 </script>

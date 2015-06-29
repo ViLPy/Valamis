@@ -1,9 +1,9 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
-import com.arcusys.learn.quiz.model.QuizTreeElement
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
 import com.arcusys.learn.persistence.liferay.service.LFQuizTreeElementLocalServiceUtil
 import com.arcusys.learn.persistence.liferay.model.LFQuizTreeElement
+import com.arcusys.valamis.quiz.model.QuizTreeElement
 import scala.collection.JavaConverters._
 
 trait LFQuizTreeStorageImpl extends KeyedEntityStorage[QuizTreeElement] {
@@ -51,7 +51,8 @@ trait LFQuizTreeStorageImpl extends KeyedEntityStorage[QuizTreeElement] {
   override def modify(entity: QuizTreeElement, parameters: (String, Any)*): Unit = {
     val lfEntity = LFQuizTreeElementLocalServiceUtil.getLFQuizTreeElement(entity.id)
 
-    entity.parentID.foreach(e => lfEntity.setParentID(e))
+    if (entity.parentID.isDefined) lfEntity.setParentID(entity.parentID.get)
+    else lfEntity.setParentID(null)
     lfEntity.setArrangementIndex(entity.arrangementIndex)
 
     LFQuizTreeElementLocalServiceUtil.updateLFQuizTreeElement(lfEntity)

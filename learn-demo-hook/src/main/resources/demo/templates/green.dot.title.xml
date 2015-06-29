@@ -1,5 +1,0 @@
-<div class="green_dot_title">
-    #if($Title && $Title.data!="")
-    <span class="dot"></span><span class="title">$!Title.data</span>
-    #end
-</div>

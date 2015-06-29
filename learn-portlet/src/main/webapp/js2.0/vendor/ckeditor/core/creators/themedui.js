@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -65,8 +65,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 * @param {String} [data] Since 3.3. Initial value for the instance.
 	 * @returns {CKEDITOR.editor} The editor instance created.
 	 */
-	CKEDITOR.appendTo = function( element, config, data )
-	{
+	CKEDITOR.appendTo = function( element, config, data ) {
 		return createInstance( element, config, data, CKEDITOR.ELEMENT_MODE_APPENDTO );
 	};
 
@@ -218,8 +217,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 			editor.ui.space( 'contents' ).setHtml( '' );
 
 			editor.mode = '';
-		} else
+		} else {
 			editor._.previousModeData = editor.getData( 1 );
+		}
 
 		// Fire the mode handler.
 		this._.modes[ newMode ]( function() {
@@ -270,7 +270,15 @@ CKEDITOR.replaceClass = 'ckeditor';
 		var container = this.container,
 			contents = this.ui.space( 'contents' ),
 			contentsFrame = CKEDITOR.env.webkit && this.document && this.document.getWindow().$.frameElement,
-			outer = resizeInner ? container.getChild( 1 ) : container;
+			outer;
+
+		if ( resizeInner ) {
+			outer = this.container.getFirst( function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
+			} );
+		} else {
+			outer = container;
+		}
 
 		// Set as border box width. (#5353)
 		outer.setSize( 'width', width, true );
@@ -411,8 +419,9 @@ CKEDITOR.replaceClass = 'ckeditor';
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 			element.hide();
 			container.insertAfter( element );
-		} else
+		} else {
 			element.append( container );
+		}
 
 		editor.container = container;
 

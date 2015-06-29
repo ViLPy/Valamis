@@ -1,225 +1,162 @@
 <!--Package list view-->
+
 <script type="text/html" id="packageListTemplate">
-    <div class="overflow-hidden">
-        <div id="playerContentWrapper" class="content-wrapper {{#forcedView}} forced-content-wrapper {{/forcedView}} clearfix">
-            <div class="page-content-wrapper">
-                <div class="content-header clearfix">
-                    <div class="pull-left button-upload-area">
-                        <button class="filter-toggler button valamis big grey menu-toggle {{#forcedView}} forced-menu-toggle  {{/forcedView}} menu-open val-icon-search"></button>
-                    </div>
-
-                    <h3 class="content-header-padded pull-left hidden-sm hidden-xs"> {{packageViewSubTitleLabel}} </h3>
-
-                    <div class="pull-right button-upload-area">
-                        <button id="SCORMPackageListReload" class="button valamis big green val-icon-reload">
-                            {{packageListReloadButtonLabel}}
-                        </button>
-                    </div>
-
-                    <div class="sidebar-wrapper {{#forcedView}} forced-sidebar-wrapper {{/forcedView}}">
-
-                        <div class="menu-toggle {{#forcedView}} forced-menu-toggle {{/forcedView}} hidden-xs menu-close modal-close-div"/>
-
-                        <div class="pull-right">
-                        </div>
-
-                        <h3 class="hidden-sm hidden-xs">{{refineSearchLabel}}</h3>
-
-                        <div class="valamis-row">
-                            <label class="h4label valamis">{{searchByNameLabel}}</label>
-                            <input type="text" id="playerPackageFilter" class="search form-control text-input valamis"
-                                   placeholder="{{searchLabel}}">
-                        </div>
-
-                        <div class="valamis-row position-relative">
-                            <label class="h4label valamis"> {{sortLabel}} </label>
-
-                            <div class="valamis-select userSearchSelect">
-                                <select id="playerPackageOrder">
-                                    <option value="name:true">{{byNameAscLabel}}</option>
-                                    <option value="name:false">{{byNameDescLabel}}</option>
-                                    <option value="date:true">{{byDateAscLabel}}</option>
-                                    <option value="date:false">{{byDateDescLabel}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="valamis-row position-relative">
-                            <label class="h4label valamis"> {{showModeLabel}} </label>
-
-                            <div class="valamis-select userSearchSelect">
-                                <select id="playerShowMode">
-                                    <option value="thisWindow">{{thisWindowLabel}}</option>
-                                    <option value="newWindow">{{newWindowLabel}}</option>
-                                    <!--  <option value="popup">{{popupLabel}}</option>-->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content inset">
-                    <div class=" pull-right full-width">
-                        <div class="pull-right valamis-paginator" id="packageListPaginator"></div>
-
-                        <div class="pull-right hidden-xs">
-                            <div class="select-element-label">{{viewsLabel}}</div>
-                            <div class="button-group">
-                                <button class="button valamis big grey val-icon-list-view no-text js-list-view js-display-option" id="packageManagerListView">List View</button>
-                                <button class="button valamis big grey val-icon-grid-view no-text active js-tile-view js-display-option"id="packageManagerTilesView">Grid View</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="certificate-items clearfix grid-view">
-                        <div class="player package-items clearfix js-package-items">
-
-                        </div>
-                    </div>
-
-                    <div class="full-width pull-right valamis-paginator" id="packageListBottomPaginator"></div>
-                </div>
-            </div>
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="playerPackageFilter" placeholder="{{searchLabel}}">
+        </div>
+        <div id="playerPackageTags" class="dropdown filter-element shift-left js-filter-dropdown" data-value="">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{allCategoriesLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="">{{allCategoriesLabel}}</li>
+            </ul>
         </div>
     </div>
+
+    <div class="val-row filters-row">
+       <div class="shift-left filter-element paging-showing-label" id="lessonViewerPagingShowing"> </div>
+
+        <div id="playerPackageOrder" class="dropdown filter-element shift-right js-filter-dropdown" data-value="date:false">
+            <button class="button medium simple">
+                <span class="dropdown-text"> {{newestLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="date:false"> {{newestLabel}} </li>
+                <li data-value="date:true"> {{oldestLabel}} </li>
+                <li data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+
+        <button class="button medium simple no-text hide-s shift-right js-tile-view">
+            <span class="val-icon-grid-view">Grid View</span>
+        </button>
+        <button class="button medium simple no-text hide-s shift-right js-list-view active">
+            <span class="val-icon-list-view">List View</span>
+        </button>
+    </div>
+
+    <div class="js-package-items val-row list">
+    </div>
+    <div class="val-paginator text-center" id="packageListPaginator"></div>
 </script>
 
 <script type="text/html" id="SCORMPlayerContent">
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <div id="SCORMApplicationContainer">
-        <div class="SCORMNavigation buttons-row pull-right">
-            <button id="SCORMNavigationBackward" class="button valamis medium green val-icon-save-previous">{{navigationButtonBackLabel}}
-            </button>
-            <button id="SCORMNavigationForward" class="button valamis medium green val-icon-save-next">{{navigationButtonNextLabel}}
-            </button>
-
-                <button id="SCORMNavigationExit" class='button valamis medium red val-icon-save-close'>{{navigationButtonExitLabel}}
-                </button>
-                <button id="SCORMNavigationSuspend" class='button valamis medium red'>{{navigationButtonSuspendLabel}}
-                </button>
-                <button id="PlayerLaunchFullScreen" class='button valamis medium grey val-icon-preview'>{{navigationButtonFullScreenLabel}}
-                </button>
-                <button class="scorm-cancel-fullscreen button valamis medium grey val-icon-preview" style="display: none;"> {{navigationButtonExitFullScreenLabel}}
-                </button>
+    <div class="portlet-wrapper sidebar-hidden">
+        <div class="portlet-sidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title">{{lessonContentSubTitleLabel}}</h3>
+                <div class="val-icon val-icon-exit hide-sidebar js-toggle-sidebar"></div>
+            </div>
+            <div class="sidebar-content" id="SCORMTree">
             </div>
         </div>
-        <br clear="all"/>
-        <table style="width: 100%">
-            <tr valign="top">
-                <td id="SCORMTogglePanel">
-                    <div id="SCORMMenu">
-                        <div>
-                            <b>{{packageNameSubTitleLabel}}</b>
-
-                            <div id='currentPackageName'></div>
-                            <br>
-
-                            <div id="SCORMOrganizationsMenu">
-                                <div class="SCORMMenuheader">{{packageContentSubTitleLabel}}</div>
-                                <select id="SCORMOrganizations" style="width: 200px"></select>
-                            </div>
-                        </div>
-                        <div id="SCORMTree"></div>
+        <div class="content-wrapper">
+            <div class="content-header clearfix">
+                <div class="content-controls shift-left">
+                    <div class="val-icon-menu js-toggle-sidebar val-icon-with-label">
+                        <span>{{contentsLabel}}</span>
                     </div>
-                </td>
-                <td valign="middle">
-                    <abbr title="Hide tree">
-                        <button id="SCORMToggleButton" class="SCORMToggleButton"></button>
-                    </abbr>
-                </td>
-                <td style="width: 100%">
-                    <table style="width: 100%; overflow: hidden;">
-                        <tr>
-                            <td id="scormData" class="scormData">
-                                <div id="iframe-wrapper" style="width: 100%; height: 100%;">
-                                    <button style="display: none;" class="tincan-cancel-fullscreen button valamis medium grey val-icon-preview custom-fullscreen-exit-button"> {{navigationButtonExitFullScreenLabel}} </button>
-                                    <iframe id="SCORMDataOutput" src=""
-                                            style="width: 100%; height: 100%; border:0;"
-                                            webkitallowfullscreen="true" mozallowfullscreen="true"
-                                            allowfullscreen="true"></iframe>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+                    <div id="SlideMap" class="val-icon-grid-view val-icon-with-label" ><span>{{slideMapLabel}}</span></div>
+                </div>
+                <div class="content-controls shift-right">
+                    <div id="PlayerLaunchFullScreen" class="val-icon-fullscreen val-icon-with-label">
+                        <span>{{navigationButtonFullScreenLabel}}</span>
+                    </div>
+                    <div id="PlayerExitFullScreen" class="val-icon-fullscreen-exit val-icon-with-label" style="display:none;">
+                        <span>{{navigationButtonExitFullScreenLabel}}</span>
+                    </div>
+                    <div id="SCORMNavigationSuspend" class="val-icon-pause val-icon-with-label">
+                        <span>{{pauseLabel}}</span>
+                    </div>
+                    <div id="SCORMNavigationExit" class="val-icon-exit"></div>
+                </div>
+                <h2 id="currentPackageName" class="content-title"></h2>
+            </div>
+            <div class="content-container">
+                <iframe id="SCORMDataOutput" src=""></iframe>
+            </div>
+            <div class="content-footer clearfix">
+                <button id="SCORMNavigationBackward" class="button big neutral shift-left"> {{navigationButtonBackLabel}} </button>
+                <button id="SCORMNavigationForward" class="button big neutral shift-right"> {{navigationButtonNextLabel}} </button>
+            </div>
+        </div>
     </div>
 </script>
-
 
 <script type="text/template" id="player-modals-template">
     <div class="player-modals-container"></div>
 </script>
 
-<script type="text/template" id="playerPackageListView">
-    <div class="package-items clearfix js-package-items">
+<script type="text/template" id="player-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title valamis">{{playerModalLabel}}</h3>
 
-    </div>
-</script>
-
-<script type="text/html" id="playerListItemView">
-    <div class="ribbon-wrapper">
-    <div class="valamis-item-cover-image pull-left"
-        {{#logo}}
-        style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
-        {{/logo}}>
-        {{#attemptCount}}<img class="attempted-icon" src="/learn-portlet/images/icon-check-green.png">{{/attemptCount}}
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-green">{{packageType}}</div>
+        <div class="modal-close val-icon-exit">
         </div>
     </div>
+
+    <div class="bbm-modal__section player-dialog">
     </div>
-    <div class="valamis-item-content pull-left">
-        <div class="valamis-item-title">{{title}}</div>
-        <div class="valamis-item-description">{{description}}</div>
-        {{#remain}} <div><label> {{remain}} {{remainLabel}} </label></div> {{/remain}}
-    </div>
-    <div class="player-buttons pull-right">
-        {{#suspendedID}}
-        <button id="resumePackage" class="button valamis big green js-package-resume">{{packageViewButtonResumeLabel}}
-        </button>
-        {{/suspendedID}}
-        {{^suspendedID}}
-        <button id="startPackage" class='button valamis big green js-package-start'>{{packageViewButtonStartLabel}}
-        </button>
-        {{/suspendedID}}
-    </div>
+
 </script>
 
 <script type="text/html" id="playerTileItemView">
-    <div class="valamis-tile-item-wrapper" >
-    <div class="ribbon-wrapper">
-    <div class="valamis-item-cover-image"
-        {{#logo}}
-        style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
-        {{/logo}}>
-        {{#attemptCount}}<img class="attempted-icon" src="/learn-portlet/images/icon-check-green.png">{{/attemptCount}}
-        <div class="ribbon-wrapper-green">
-            <div class="ribbon-green">{{packageType}}</div>
+        <div class="tile-content">
+            <div class="image js-start-package"
+                {{#logo}}
+                style="background-image: url('/delegate/files/images?folderId=package_logo_{{id}}&file={{{logo}}}')"
+                {{/logo}}>
+                <a href={{link}}></a>
+            </div>
+            <ul>
+                <li class="title js-start-package"><a href={{link}}>{{title}}</a></li>
+                <li class="description">{{description}}</li>
+                <li class="categories">{{categories}}</li>
+                <li class="status">
+                    {{#LV_SHARE}}
+                    <span class="val-icon-link cursor-pointer js-share-package"></span>
+                    {{/LV_SHARE}}
+                    <span class="val-label">
+                        {{packageStatusLabel}}
+                    </span>
+                    {{#remain}} {{remain}} {{remainLabel}} {{/remain}}
+                </li>
+            </ul>
         </div>
-    </div>
-    </div>
-    <div class="valamis-item-content">
-        <div class="valamis-item-title">{{title}} {{sample}}</div>
-        <div class="valamis-item-description">{{description}}</div>
-    </div>
-    <div class="valamis-item-footer">
-        {{#remain}} <div class="pull-left"> {{remain}} {{remainLabel}} </div> {{/remain}}
-        <div class="pull-right">
-            {{#suspendedID}}
-            <button id="resumePackage" class="button valamis big green js-package-resume">
-                {{packageViewButtonResumeLabel}}
-            </button>
-            {{/suspendedID}}
-            {{^suspendedID}}
-            <button id="startPackage" class='button valamis big green js-package-start'>
-                {{packageViewButtonStartLabel}}
-            </button>
-            {{/suspendedID}}
-        </div>
-    </div>
-    </div>
 </script>
 
+<script type="text/html" id="navigation-question-item">
+    <span class="lesson-item-title">{{title}}</span>
+    {{#elementType}}<span class="lesson-item-type">{{elementType}}</span>{{/elementType}}
+    <!--<span class="lesson-item-duration"> Time container </span>-->
+    <span class="lesson-item-status"></span>
+</script>
+
+<script type="text/html" id="navigation-category-item">
+    <span class="js-lesson-category-title lesson-category-title">{{title}}</span>
+    <div class="lesson-items"></div>
+</script>
+
+<script type="text/html" id="sharePackageModalViewTemplate">
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{commentLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="text" class="js-package-comment" />
+            </div>
+        </div>
+    </div>
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+
+        <button class="button big primary js-post-share-package">
+            {{shareLabel}}
+        </button>
+    </div>
+</script>

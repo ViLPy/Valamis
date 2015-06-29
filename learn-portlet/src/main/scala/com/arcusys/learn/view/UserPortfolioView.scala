@@ -1,14 +1,12 @@
 package com.arcusys.learn.view
 
-import javax.portlet.{ RenderResponse, RenderRequest, GenericPortlet }
-import liferay.LiferayHelpers
-import org.scalatra.ScalatraFilter
-import java.io.FileNotFoundException
-import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
-import com.arcusys.learn.util.MustacheSupport
-import com.arcusys.learn.view.extensions.{ ConfigurableView, i18nSupport, TemplateCoupler }
+import javax.portlet.{GenericPortlet, RenderRequest, RenderResponse}
 
-class UserPortfolioView extends GenericPortlet with ScalatraFilter with MustacheSupport with i18nSupport with ConfigurableView with TemplateCoupler {
+import com.arcusys.learn.liferay.services.GroupLocalServiceHelper
+import com.arcusys.learn.view.extensions.BaseView
+import com.arcusys.learn.view.liferay.LiferayHelpers
+
+class UserPortfolioView extends GenericPortlet with BaseView {
   override def destroy() {}
 
   override def doView(request: RenderRequest, response: RenderResponse) {
@@ -16,10 +14,10 @@ class UserPortfolioView extends GenericPortlet with ScalatraFilter with Mustache
     val language = LiferayHelpers.getLanguage(request)
     val path = request.getContextPath
 
-    val courseID = themeDisplay.getScopeGroupId
+    val courseId = themeDisplay.getScopeGroupId
     val translations = getTranslation("curriculum", language)
 
-    val group = GroupLocalServiceHelper.getGroup(courseID)
+    val group = GroupLocalServiceHelper.getGroup(courseId)
     if (group.isUser) {
       val data = Map("contextPath" -> path, "userID" -> group.getClassPK,
         "language" -> language) ++ translations
@@ -35,14 +33,4 @@ class UserPortfolioView extends GenericPortlet with ScalatraFilter with Mustache
   def generateResponse(data: Map[String, Any], templateName: String) = {
     mustache(data, templateName)
   }
-
-  private def getTranslation(view: String, language: String): Map[String, String] = {
-    try {
-      getTranslation("/i18n/" + view + "_" + language)
-    } catch {
-      case e: FileNotFoundException => getTranslation("/i18n/" + view + "_en")
-      case _                        => Map[String, String]()
-    }
-  }
-
 }

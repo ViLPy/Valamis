@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import java.sql.Types;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,9 +53,11 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
             { "summary", Types.CLOB },
             { "assetRefID", Types.BIGINT },
             { "courseID", Types.INTEGER },
-            { "logo", Types.CLOB }
+            { "logo", Types.CLOB },
+            { "beginDate", Types.TIMESTAMP },
+            { "endDate", Types.TIMESTAMP }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackage (id_ LONG not null primary key,defaultOrganizationID TEXT null,title TEXT null,base TEXT null,resourcesBase TEXT null,summary TEXT null,assetRefID LONG null,courseID INTEGER null,logo TEXT null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFPackage (id_ LONG not null primary key,defaultOrganizationID TEXT null,title TEXT null,base TEXT null,resourcesBase TEXT null,summary TEXT null,assetRefID LONG null,courseID INTEGER null,logo TEXT null,beginDate DATE null,endDate DATE null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFPackage";
     public static final String ORDER_BY_JPQL = " ORDER BY lfPackage.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFPackage.id_ ASC";
@@ -72,7 +75,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
             true);
     public static long ASSETREFID_COLUMN_BITMASK = 1L;
     public static long COURSEID_COLUMN_BITMASK = 2L;
-    public static long ID_COLUMN_BITMASK = 4L;
+    public static long TITLE_COLUMN_BITMASK = 4L;
+    public static long ID_COLUMN_BITMASK = 8L;
     public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
                 "lock.expiration.time.com.arcusys.learn.persistence.liferay.model.LFPackage"));
     private static ClassLoader _classLoader = LFPackage.class.getClassLoader();
@@ -82,6 +86,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
     private long _id;
     private String _defaultOrganizationID;
     private String _title;
+    private String _originalTitle;
     private String _base;
     private String _resourcesBase;
     private String _summary;
@@ -92,6 +97,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
     private Integer _originalCourseID;
     private boolean _setOriginalCourseID;
     private String _logo;
+    private Date _beginDate;
+    private Date _endDate;
     private long _columnBitmask;
     private LFPackage _escapedModel;
 
@@ -141,6 +148,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         attributes.put("assetRefID", getAssetRefID());
         attributes.put("courseID", getCourseID());
         attributes.put("logo", getLogo());
+        attributes.put("beginDate", getBeginDate());
+        attributes.put("endDate", getEndDate());
 
         return attributes;
     }
@@ -201,6 +210,18 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         if (logo != null) {
             setLogo(logo);
         }
+
+        Date beginDate = (Date) attributes.get("beginDate");
+
+        if (beginDate != null) {
+            setBeginDate(beginDate);
+        }
+
+        Date endDate = (Date) attributes.get("endDate");
+
+        if (endDate != null) {
+            setEndDate(endDate);
+        }
     }
 
     @Override
@@ -234,7 +255,17 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
 
     @Override
     public void setTitle(String title) {
+        _columnBitmask |= TITLE_COLUMN_BITMASK;
+
+        if (_originalTitle == null) {
+            _originalTitle = _title;
+        }
+
         _title = title;
+    }
+
+    public String getOriginalTitle() {
+        return GetterUtil.getString(_originalTitle);
     }
 
     @Override
@@ -321,6 +352,26 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         _logo = logo;
     }
 
+    @Override
+    public Date getBeginDate() {
+        return _beginDate;
+    }
+
+    @Override
+    public void setBeginDate(Date beginDate) {
+        _beginDate = beginDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return _endDate;
+    }
+
+    @Override
+    public void setEndDate(Date endDate) {
+        _endDate = endDate;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -361,6 +412,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         lfPackageImpl.setAssetRefID(getAssetRefID());
         lfPackageImpl.setCourseID(getCourseID());
         lfPackageImpl.setLogo(getLogo());
+        lfPackageImpl.setBeginDate(getBeginDate());
+        lfPackageImpl.setEndDate(getEndDate());
 
         lfPackageImpl.resetOriginalValues();
 
@@ -409,6 +462,8 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
     @Override
     public void resetOriginalValues() {
         LFPackageModelImpl lfPackageModelImpl = this;
+
+        lfPackageModelImpl._originalTitle = lfPackageModelImpl._title;
 
         lfPackageModelImpl._originalAssetRefID = lfPackageModelImpl._assetRefID;
 
@@ -480,12 +535,28 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
             lfPackageCacheModel.logo = null;
         }
 
+        Date beginDate = getBeginDate();
+
+        if (beginDate != null) {
+            lfPackageCacheModel.beginDate = beginDate.getTime();
+        } else {
+            lfPackageCacheModel.beginDate = Long.MIN_VALUE;
+        }
+
+        Date endDate = getEndDate();
+
+        if (endDate != null) {
+            lfPackageCacheModel.endDate = endDate.getTime();
+        } else {
+            lfPackageCacheModel.endDate = Long.MIN_VALUE;
+        }
+
         return lfPackageCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(19);
+        StringBundler sb = new StringBundler(23);
 
         sb.append("{id=");
         sb.append(getId());
@@ -505,6 +576,10 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         sb.append(getCourseID());
         sb.append(", logo=");
         sb.append(getLogo());
+        sb.append(", beginDate=");
+        sb.append(getBeginDate());
+        sb.append(", endDate=");
+        sb.append(getEndDate());
         sb.append("}");
 
         return sb.toString();
@@ -512,7 +587,7 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(31);
+        StringBundler sb = new StringBundler(37);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFPackage");
@@ -553,6 +628,14 @@ public class LFPackageModelImpl extends BaseModelImpl<LFPackage>
         sb.append(
             "<column><column-name>logo</column-name><column-value><![CDATA[");
         sb.append(getLogo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>beginDate</column-name><column-value><![CDATA[");
+        sb.append(getBeginDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>endDate</column-name><column-value><![CDATA[");
+        sb.append(getEndDate());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -5,7 +5,7 @@ PackageFilterView = Backbone.View.extend({
 
     initialize:function (options) {
         this.options = options;
-        this.$el = jQuery('<div>');
+        this.$el = jQueryValamis('<div>');
         this.$el.attr("id", this.model.id);
     },
 
@@ -16,7 +16,7 @@ PackageFilterView = Backbone.View.extend({
 
     render:function () {
         var language = this.options.language;
-        var template = Mustache.to_html(jQuery("#gradebookPackageRow").html(), _.extend(this.model.toJSON(), language));
+        var template = Mustache.to_html(jQueryValamis("#gradebookPackageRow").html(), _.extend(this.model.toJSON(), language));
         this.$el.html(template);
         return this.$el;
     }
@@ -28,15 +28,15 @@ PackageFilterListView = Backbone.View.extend({
         this.options = options;
         this.collection.on('add', this.addPackage, this);
         this.collection.on('reset', this.addPackagesFromCollection, this);
-        //this.$el = jQuery("#package-multiselect");
+        //this.$el = jQueryValamis("#package-multiselect");
 
         this.render();
     },
 
     render:function () {
 //        var language = 'en'; //this.options.language;
-//        var template = Mustache.to_html(jQuery("#gradebookTable").html(), language);
-        //var template = jQuery("#gradebookTable").html();
+//        var template = Mustache.to_html(jQueryValamis("#gradebookTable").html(), language);
+        //var template = jQueryValamis("#gradebookTable").html();
         //this.$el.html(template);
         //this.studentGradeList = this.$("#package-multiselect").List();
 
@@ -57,10 +57,10 @@ PackageFilterListView = Backbone.View.extend({
     },
 
     sortStudents:function (event) {
-//        var targetRow = jQuery(event.target);
+//        var targetRow = jQueryValamis(event.target);
 //        var ref = targetRow.attr('ref');
 //        this.sortableAscOrder[ref] = !this.sortableAscOrder[ref];
-//        jQuery('.ui-icon', targetRow).toggleClass("ui-icon-triangle-1-n").toggleClass("ui-icon-triangle-1-s");
+//        jQueryValamis('.ui-icon', targetRow).toggleClass("ui-icon-triangle-1-n").toggleClass("ui-icon-triangle-1-s");
 //        this.studentGradeList.sort(ref, this.sortableAscOrder[ref] ? "asc" : "desc");
     },
 

@@ -1,0 +1,9 @@
+<section data-state="dlvideo_{{id}}" data-background-iframe="/delegate/files/video?uuid={{uuid}}&courseId={{groupId}}" data-just-background="true"></section>
+
+<script>
+    TinCanCourseModules['plain_{{id}}'] = function(tincan) {
+        var activityID = 'activity{{id}}';
+        tincan.sendStatement(GetExperiencedStatement(activityID, '{{title}}'));
+        return 1;
+    }
+</script>

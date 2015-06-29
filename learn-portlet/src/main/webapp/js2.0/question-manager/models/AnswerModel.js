@@ -49,7 +49,3 @@ CategorizationAnswer = AnswerModel.extend({
     score: null
   }
 });
-
-$("#SCORMButtonAddAnswer").on('click', function(){
-
-});

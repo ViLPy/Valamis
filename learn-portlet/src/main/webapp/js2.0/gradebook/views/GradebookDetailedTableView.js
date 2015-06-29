@@ -16,10 +16,11 @@ GradebookDetailedStudentHeaderView = Backbone.View.extend({
         this.options = options;
         if (this.model.get('avatarUrl') == "")
             this.model.set('avatarUrl', 'http://placehold.it/48x48');
-        var templateRow = Mustache.to_html(jQuery("#detailedTableStudentHeaderTemplate").html(), _.extend(this.model.toJSON(), language));
+        var templateRow = Mustache.to_html(jQueryValamis("#detailedTableStudentHeaderTemplate").html(),
+            _.extend(this.model.toJSON(), language, permissionActionsGradebook));
 
 
-        this.$el = jQuery(templateRow);
+        this.$el = jQueryValamis(templateRow);
         //this.$('.detailed-row-header').attr("onclick","showStudent("+this.model.get('id')+");");
     },
 
@@ -48,9 +49,9 @@ GradebookDetailedPackageHeaderView = Backbone.View.extend({
 
 
     render: function () {
-        var templateRow = Mustache.to_html(jQuery("#detailedTablePackageHeaderTemplate").html(), _.extend(this.model, language));
-        this.$el = jQuery(templateRow);
-        //jQuery1816Gradebook('#packageNames').append(this.$el);
+        var templateRow = Mustache.to_html(jQueryValamis("#detailedTablePackageHeaderTemplate").html(), _.extend(this.model, language, permissionActionsGradebook));
+        this.$el = jQueryValamis(templateRow);
+        //jQueryValamis('#packageNames').append(this.$el);
         return this.$el;
     }
 });
@@ -65,26 +66,32 @@ GradebookDetailedListView = Backbone.View.extend({
         this.options = options;
         this.sortableAscOrder = [];
 
-        var template = Mustache.to_html(jQuery("#detailedTableTemplate").html(), this.options.language);
+        var template = Mustache.to_html(jQueryValamis("#detailedTableTemplate").html(), _.extend(this.options.language, permissionActionsGradebook));
 
         this.$el.html(template);
 
         this.packages = new Object();
 
-        this.paginator = new ValamisPaginator({el: jQuery('#gradebookPaginator'), model: this.model.get('paginatorModel'), language: this.options.language});
+        this.paginator = new ValamisPaginator({el: jQueryValamis('#gradebookPaginator'), model: this.model.get('paginatorModel'), language: this.options.language});
 
 
     },
 
     render: function () {
         this.paginator.render();
+        var paginatorTotalElements = this.paginator.model.get('totalElements');
+
+        if(paginatorTotalElements > this.paginator.model.get('itemsOnPage'))
+            jQueryValamis('#gradebookPaginator').show();
+        else
+            jQueryValamis('#gradebookPaginator').hide();
         return this.$el;
     },
 
 
     reloadGradeList: function () {
         this.model.loadList({}, {
-            success: jQuery1816Gradebook.proxy(function (res) {
+            success: jQueryValamis.proxy(function (res) {
                 //this.model = new GradebookModel(res);
                 this.collection = new GradebookStudentCollection(res.records);
                 this.addStudentsFromCollection();
@@ -106,13 +113,13 @@ GradebookDetailedListView = Backbone.View.extend({
         });
 
 
-        jQuery1816Gradebook('#studentGrid').append(header.render());
+        jQueryValamis('#studentGrid').append(header.render());
 
-        this.rowGrades = jQuery('<tr class="package-row" >');
+        this.rowGrades = jQueryValamis('<tr class="package-row" >');
         var packageGrades = student.get('packageGrades');
         packageGrades.forEach(this.addGrade, this);
         this.$('#detailedGradeGrid').append(this.rowGrades);
-//        jQuery1816Gradebook('#gradeGrid').append(this.$el);
+//        jQueryValamis('#gradeGrid').append(this.$el);
     },
 
     addGrade: function(grade){
@@ -126,14 +133,14 @@ GradebookDetailedListView = Backbone.View.extend({
         }
 
 
-        var templateCell = Mustache.to_html(jQuery("#detailedTableCellTemplate").html(), _.extend(grade, language));
+        var templateCell = Mustache.to_html(jQueryValamis("#detailedTableCellTemplate").html(), _.extend(grade, language, permissionActionsGradebook));
         this.rowGrades.append(templateCell);
 
     },
 
     addStudentsFromCollection: function () {
 
-//        var template = Mustache.to_html(jQuery("#detailedTableTemplate").html(), this.options.language);
+//        var template = Mustache.to_html(jQueryValamis("#detailedTableTemplate").html(), this.options.language);
 //
 //        this.$el.html(template);
         this.$('#studentGrid').empty();

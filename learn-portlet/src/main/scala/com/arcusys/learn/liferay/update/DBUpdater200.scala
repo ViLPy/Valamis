@@ -56,76 +56,76 @@ class DBUpdater200 extends LUpgradeProcess with SQLRunner {
         |);
       """.stripMargin)
 
-    // --- Altering learn_LFCertificate table
+    // --- Altering Learn_LFCertificate table
     runSQLScript(
       """
-        |alter table learn_LFCertificate add column state_ VARCHAR(300) null;
-        |alter table learn_LFCertificate add column emails VARCHAR(300) null;
-        |alter table learn_LFCertificate add column createdDate DATE null;
-        |alter table learn_LFCertificate add column validPeriodType VARCHAR(500) null;
-        |alter table learn_LFCertificate add column validPeriod INTEGER null;
-        |alter table learn_LFCertificate add column isPublished BOOLEAN null;
-        |alter table learn_LFCertificate add column scope LONG null;
+        |alter table Learn_LFCertificate add column state_ VARCHAR(300) null;
+        |alter table Learn_LFCertificate add column emails VARCHAR(300) null;
+        |alter table Learn_LFCertificate add column createdDate DATE null;
+        |alter table Learn_LFCertificate add column validPeriodType VARCHAR(500) null;
+        |alter table Learn_LFCertificate add column validPeriod INTEGER null;
+        |alter table Learn_LFCertificate add column isPublished BOOLEAN null;
+        |alter table Learn_LFCertificate add column scope LONG null;
       """.stripMargin)
 
-    // --- Set default values for new columns in learn_LFCertificate table
+    // --- Set default values for new columns in Learn_LFCertificate table
     // --- Set validPeriodType=UNLIMITED
     // --- Set validPeriod=0
     // --- Set isPublished=FALSE
     runSQLScript(
       """
-        |update learn_LFCertificate set validPeriodType = 'UNLIMITED';
-        |update learn_LFCertificate set validPeriod = 0;
-        |update learn_LFCertificate set isPublished = FALSE;
+        |update Learn_LFCertificate set validPeriodType = 'UNLIMITED';
+        |update Learn_LFCertificate set validPeriod = 0;
+        |update Learn_LFCertificate set isPublished = FALSE;
       """.stripMargin)
 
-    // --- Adding logo column into learn_LFQuiz, learn_LFTincanPackage, learn_LFPackage tables
+    // --- Adding logo column into Learn_LFQuiz, Learn_LFTincanPackage, Learn_LFPackage tables
     runSQLScript(
       """
-        |alter table learn_LFQuiz add column logo TEXT null;
-        |alter table learn_LFTincanPackage add column logo TEXT null;
-        |alter table learn_LFPackage add column logo TEXT null;
+        |alter table Learn_LFQuiz add column logo TEXT null;
+        |alter table Learn_LFTincanPackage add column logo TEXT null;
+        |alter table Learn_LFPackage add column logo TEXT null;
       """.stripMargin)
 
     // --- Resetting category's and quiz's parentid to null
-    runSQLScript("update learn_lfquestioncategory set parentid= null;")
-    runSQLScript("update learn_lfquizquestioncategory set parentid = null;")
+    runSQLScript("update Learn_LFQuestionCategory set parentid= null;")
+    runSQLScript("update Learn_LFQuizQuestionCategory set parentid = null;")
 
-    // --- Updating "duration" type in the learn_LFTincanLrsResult table
+    // --- Updating "duration" type in the Learn_LFTincanLrsResult table
     runSQLScript(
       """
-        |alter table learn_LFTincanLrsResult add column duration_tmp VARCHAR(3000) null;
-        |update learn_LFTincanLrsResult set duration_tmp = duration;
-        |alter table learn_LFTincanLrsResult drop column duration;
-        |alter table learn_LFTincanLrsResult rename column duration_tmp to duration;
+        |alter table Learn_LFTincanLrsResult add column duration_tmp VARCHAR(3000) null;
+        |update Learn_LFTincanLrsResult set duration_tmp = duration;
+        |alter table Learn_LFTincanLrsResult drop column duration;
+        |alter table Learn_LFTincanLrsResult rename column duration_tmp to duration;
       """.stripMargin)
 
-    // --- Updating activityId type and dropping profileId column in the learn_LFTincanLrsState table
+    // --- Updating activityId type and dropping profileId column in the Learn_LFTincanLrsState table
     runSQLScript(
       """
-        |alter table learn_LFTincanLrsState drop column profileId;
-        |alter table learn_LFTincanLrsState add column activityId_tmp VARCHAR(3000) null;
-        |update learn_LFTincanLrsState set activityId_tmp = activityId;
-        |alter table learn_LFTincanLrsState drop column activityId;
-        |alter table learn_LFTincanLrsState rename column activityId_tmp to activityId;
+        |alter table Learn_LFTincanLrsState drop column profileId;
+        |alter table Learn_LFTincanLrsState add column activityId_tmp VARCHAR(3000) null;
+        |update Learn_LFTincanLrsState set activityId_tmp = activityId;
+        |alter table Learn_LFTincanLrsState drop column activityId;
+        |alter table Learn_LFTincanLrsState rename column activityId_tmp to activityId;
       """.stripMargin)
 
-    // --- Updating activityId type in the learn_LFTincanActProfile table
+    // --- Updating activityId type in the Learn_LFTincanActProfile table
     runSQLScript(
       """
-        |alter table learn_LFTincanActProfile add column activityId_tmp VARCHAR(3000) null;
-        |update learn_LFTincanActProfile set activityId_tmp = activityId;
-        |alter table learn_LFTincanActProfile drop column activityId;
-        |alter table learn_LFTincanActProfile rename column activityId_tmp to activityId;
+        |alter table Learn_LFTincanActProfile add column activityId_tmp VARCHAR(3000) null;
+        |update Learn_LFTincanActProfile set activityId_tmp = activityId;
+        |alter table Learn_LFTincanActProfile drop column activityId;
+        |alter table Learn_LFTincanActProfile rename column activityId_tmp to activityId;
       """.stripMargin)
 
-    // --- Updating parent type in the learn_LFTincanCtxActivities table
+    // --- Updating parent type in the Learn_LFTincanCtxActivities table
     runSQLScript(
       """
-        |alter table learn_LFTincanCtxActivities add column parent_tmp VARCHAR(3000) null;
-        |update learn_LFTincanCtxActivities set parent_tmp = parent;
-        |alter table learn_LFTincanCtxActivities drop column parent;
-        |alter table learn_LFTincanCtxActivities rename column parent_tmp to parent;
+        |alter table Learn_LFTincanCtxActivities add column parent_tmp VARCHAR(3000) null;
+        |update Learn_LFTincanCtxActivities set parent_tmp = parent;
+        |alter table Learn_LFTincanCtxActivities drop column parent;
+        |alter table Learn_LFTincanCtxActivities rename column parent_tmp to parent;
       """.stripMargin)
 
     // --- Altering Learn_LFCertificateUser table

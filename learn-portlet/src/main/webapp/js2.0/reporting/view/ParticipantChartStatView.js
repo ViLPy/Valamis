@@ -1,4 +1,4 @@
-var viewportWidth = jQuery(window).width();
+var viewportWidth = jQueryValamis(window).width();
 var ChartStatView = Backbone.Marionette.View.extend({
     tagName: 'div',
     defaults: {

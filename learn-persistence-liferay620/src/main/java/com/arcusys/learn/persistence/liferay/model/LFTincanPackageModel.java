@@ -9,6 +9,8 @@ import com.liferay.portlet.expando.model.ExpandoBridge;
 
 import java.io.Serializable;
 
+import java.util.Date;
+
 /**
  * The base model interface for the LFTincanPackage service. Represents a row in the &quot;Learn_LFTincanPackage&quot; database table, with each column mapped to a property of this class.
  *
@@ -129,6 +131,34 @@ public interface LFTincanPackageModel extends BaseModel<LFTincanPackage> {
      * @param logo the logo of this l f tincan package
      */
     public void setLogo(String logo);
+
+    /**
+     * Returns the begin date of this l f tincan package.
+     *
+     * @return the begin date of this l f tincan package
+     */
+    public Date getBeginDate();
+
+    /**
+     * Sets the begin date of this l f tincan package.
+     *
+     * @param beginDate the begin date of this l f tincan package
+     */
+    public void setBeginDate(Date beginDate);
+
+    /**
+     * Returns the end date of this l f tincan package.
+     *
+     * @return the end date of this l f tincan package
+     */
+    public Date getEndDate();
+
+    /**
+     * Sets the end date of this l f tincan package.
+     *
+     * @param endDate the end date of this l f tincan package
+     */
+    public void setEndDate(Date endDate);
 
     @Override
     public boolean isNew();

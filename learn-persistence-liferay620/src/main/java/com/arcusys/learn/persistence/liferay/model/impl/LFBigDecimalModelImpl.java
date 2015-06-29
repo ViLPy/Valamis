@@ -49,7 +49,7 @@ public class LFBigDecimalModelImpl extends BaseModelImpl<LFBigDecimal>
             { "decimal_", Types.NUMERIC },
             { "text_", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFBigDecimal (id_ LONG not null primary key,decimal_ NUMERIC(20,2),text_ VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFBigDecimal (id_ LONG not null primary key,decimal_ NUMERIC(20,2),text_ VARCHAR(512) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFBigDecimal";
     public static final String ORDER_BY_JPQL = " ORDER BY lfBigDecimal.id ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFBigDecimal.id_ ASC";

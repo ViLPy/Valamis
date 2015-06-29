@@ -247,9 +247,6 @@ public interface LFTincanPackageLocalService extends BaseLocalService,
         java.lang.Long[] ids)
         throws com.liferay.portal.kernel.exception.SystemException;
 
-    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException;
-
     public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findByInstance(
         java.lang.Integer[] courseIDs)
         throws com.liferay.portal.kernel.exception.SystemException;
@@ -258,6 +255,11 @@ public interface LFTincanPackageLocalService extends BaseLocalService,
         java.lang.Integer courseID)
         throws com.liferay.portal.kernel.exception.SystemException;
 
-    public void removeAll()
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    public int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
         throws com.liferay.portal.kernel.exception.SystemException;
 }

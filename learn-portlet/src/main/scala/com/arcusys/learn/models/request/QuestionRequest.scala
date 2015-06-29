@@ -1,71 +1,73 @@
 package com.arcusys.learn.models.request
 
+import com.arcusys.learn.liferay.permission.PermissionCredentials
 import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
 import org.scalatra.ScalatraBase
 
 import scala.util.Try
 
-/**
- * User: Yulia.Glushonkova
- * Date: 05.05.14
- */
 object QuestionRequest extends BaseRequest {
 
-  val COURSE_ID = "courseID"
-  val NEW_COURSE_ID = "newCourseID"
-  val CATEGORY_ID = "categoryID"
-  val CATEGORY_IDs = "categoryIDs"
+  val NewCourseId = "newCourseID"
+  val CategoryId = "categoryID"
+  val CategoryIds = "categoryIDs"
 
-  val ID = "id"
-  val QUESTION_TYPE = "questionType"
-  val TITLE = "title"
-  val TEXT = "text"
-  val EXPLANATION_TEXT = "explanationText"
-  val FORCE = "forceCorrectCount"
-  val CASE = "isCaseSensitive"
-  val ANSWERS = "answers"
-  val INDEX = "index"
-  val PARENT_ID = "parentID"
-  val QUESTION_IDs = "questionIDs"
+  val Id = "id"
+  val QuestionType = "questionType"
+  val Title = "title"
+  val Text = "text"
+  val ExplanationText = "explanationText"
+  val RightAnswerText = "rightAnswerText"
+  val WrongAnswerText = "wrongAnswerText"
+  val Force = "forceCorrectCount"
+  val Case = "isCaseSensitive"
+  val Answers = "answers"
+  val Index = "index"
+  val ParentId = "parentID"
+  val QuestionIds = "questionIDs"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
   class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
     implicit val httpRequest = scalatra.request
 
-    def action = QuestionActionType.withName(Parameter(ACTION).required.toUpperCase)
+    def action = QuestionActionType.withName(Parameter(Action).required.toUpperCase)
 
-    def id = Parameter(ID).intRequired
+    def id = Parameter(Id).intRequired
 
-    def idOption = Parameter(ID).intOption
+    def idOption = Parameter(Id).intOption
 
-    def courseID = Parameter(COURSE_ID).intOption(-1)
+    def courseId = Parameter(CourseId).intOption
 
-    def newCourseId = Parameter(NEW_COURSE_ID).intOption
+    def newCourseId = Parameter(NewCourseId).intOption
 
-    def questionType = Parameter(QUESTION_TYPE).intRequired
+    def questionType = Parameter(QuestionType).intRequired
 
-    def categoryID = Parameter(CATEGORY_ID).intOption(-1)
+    def categoryId = Parameter(CategoryId).intOption
 
-    def title = AntiSamyHelper.sanitize(Parameter(TITLE).required)
+    def title = AntiSamyHelper.sanitize(Parameter(Title).required)
 
-    def text = AntiSamyHelper.sanitize(Parameter(TEXT).withDefault(""))
+    def text = AntiSamyHelper.sanitize(Parameter(Text).withDefault(""))
 
-    def explanationText = AntiSamyHelper.sanitize(Parameter(EXPLANATION_TEXT).withDefault(""))
+    def explanationText = AntiSamyHelper.sanitize(Parameter(ExplanationText).withDefault(""))
+    
+    def rightAnswerText = AntiSamyHelper.sanitize(Parameter(RightAnswerText).withDefault(""))
 
-    def forceCorrectCount = Parameter(FORCE).booleanRequired
+    def wrongAnswerText = AntiSamyHelper.sanitize(Parameter(WrongAnswerText).withDefault(""))
 
-    def isCaseSensitive = Parameter(CASE).booleanRequired
+    def forceCorrectCount = Parameter(Force).booleanRequired
 
-    def answers = Parameter(ANSWERS).withDefault("[]")
+    def isCaseSensitive = Parameter(Case).booleanRequired
 
-    def parentID = Parameter(PARENT_ID).intOption(-1)
+    def answers = Parameter(Answers).withDefault("[]")
 
-    def index = Parameter(INDEX).intRequired
+    def parentId = Parameter(ParentId).intOption
 
-    def categoryIds = Parameter(CATEGORY_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
+    def index = Parameter(Index).intRequired
 
-    def questionIds = Parameter(QUESTION_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
+    def categoryIds = Parameter(CategoryIds).multiWithEmpty.map(x => Try(x.toInt).get)
+
+    def questionIds = Parameter(QuestionIds).multiWithEmpty.map(x => Try(x.toInt).get)
   }
 
 }

@@ -12,7 +12,7 @@ var NumericStatView = Backbone.Marionette.ItemView.extend({
             }, 0);
         },
         passed: function () {
-            return _.reduce(this.passedData, function (memo, row) {
+            return _.reduce(this.experiencedData, function (memo, row) {
                 return memo + row.amount;
             }, 0);
         },
@@ -28,7 +28,7 @@ var NumericStatView = Backbone.Marionette.ItemView.extend({
         'mouseout .filter-area': 'dropHighlight'
     },
     highlight: function (event) {
-        this.trigger('highlight', jQuery(event.target).data('filter-type'));
+        this.trigger('highlight', jQueryValamis(event.target).data('filter-type'));
     },
     dropHighlight: function () {
         this.trigger('highlight', null);

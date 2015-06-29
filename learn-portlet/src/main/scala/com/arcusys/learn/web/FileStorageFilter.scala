@@ -1,10 +1,10 @@
 package com.arcusys.learn.web
 
-import com.arcusys.learn.bl.services.{ FileServiceContract }
 import com.arcusys.learn.controllers.api.BaseApiController
+import com.arcusys.valamis.file.service.FileService
+import com.arcusys.valamis.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.scorm.util.FileSystemUtil
 import org.scalatra.servlet.FileUploadSupport
 import org.scalatra.SinatraRouteMatcher
 
@@ -13,7 +13,7 @@ class FileStorageFilter(configuration: BindingModule) extends BaseApiController(
   //next line fixes 404
   implicit override def string2RouteMatcher(path: String) = new SinatraRouteMatcher(path)
 
-  private val fileService = inject[FileServiceContract]
+  private val fileService = inject[FileService]
 
   get("/*.*") {
     val filename = multiParams("splat").mkString(".")

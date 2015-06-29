@@ -1,14 +1,16 @@
 package com.arcusys.learn.scorm.rte.service
 
-import com.arcusys.learn.bl.services.lesson.ActivityServiceContract
 import com.arcusys.learn.controllers.api.BaseApiController
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.scorm.tracking.model.{ ActivityState, ActivityStateNode, ObjectiveState }
+import com.arcusys.learn.liferay.permission.PermissionUtil
 import com.arcusys.learn.service.util.AntiSamyHelper
 import com.arcusys.learn.web.ServletBase
-import com.arcusys.scorm.lms.DataModelService
+import com.arcusys.valamis.lesson.scorm.model.tracking.{ ActivityStateNode, ObjectiveState, ActivityState }
+import com.arcusys.valamis.lesson.scorm.service.lms.DataModelService
+import com.arcusys.valamis.lesson.service.ActivityServiceContract
 import com.escalatesoft.subcut.inject.BindingModule
 import org.scalatra.{ CookieSupport, SinatraRouteMatcher }
+import PermissionUtil._
 
 class RunTimeEnvironment(configuration: BindingModule) extends BaseApiController(configuration) with ServletBase with CookieSupport {
   def this() = this(Configuration)

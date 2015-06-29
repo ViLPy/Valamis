@@ -10,13 +10,13 @@ import org.scalatra.{ ScalatraBase }
 object BaseCollectionFilteredRequest extends BaseCollectionFilteredRequest
 
 trait BaseCollectionFilteredRequest extends BaseCollectionRequest {
-  val FILTER = "filter"
+  final val Filter = "filter"
 }
 
 abstract class BaseSortableCollectionFilteredRequestModel[T](scalatra: ScalatraBase, toEnum: String => T) extends BaseSortableCollectionRequestModel(scalatra, toEnum) {
-  def filter = Parameter(BaseCollectionFilteredRequest.FILTER).withDefault("")
+  def filter = Parameter(BaseCollectionFilteredRequest.Filter).withDefault("")
 }
 
 abstract class BaseCollectionFilteredRequestModel(scalatra: ScalatraBase) extends BaseCollectionRequestModel(scalatra) {
-  def filter = Parameter(BaseCollectionFilteredRequest.FILTER).withDefault("")
+  def filter = Parameter(BaseCollectionFilteredRequest.Filter).withDefault("")
 }

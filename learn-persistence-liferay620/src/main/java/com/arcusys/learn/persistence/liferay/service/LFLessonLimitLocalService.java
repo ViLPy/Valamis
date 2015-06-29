@@ -240,4 +240,8 @@ public interface LFLessonLimitLocalService extends BaseLocalService,
         java.lang.Long itemID, java.lang.String itemType)
         throws com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException,
             com.liferay.portal.kernel.exception.SystemException;
+
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFLessonLimit> findByIDs(
+        java.lang.Long[] ids)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

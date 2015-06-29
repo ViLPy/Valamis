@@ -280,11 +280,6 @@ public class LFTincanPackageLocalServiceUtil {
         return getService().findByPackageID(ids);
     }
 
-    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findAll()
-        throws com.liferay.portal.kernel.exception.SystemException {
-        return getService().findAll();
-    }
-
     public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findByInstance(
         java.lang.Integer[] courseIDs)
         throws com.liferay.portal.kernel.exception.SystemException {
@@ -297,9 +292,16 @@ public class LFTincanPackageLocalServiceUtil {
         return getService().findByCourseID(courseID);
     }
 
-    public static void removeAll()
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFTincanPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
         throws com.liferay.portal.kernel.exception.SystemException {
-        getService().removeAll();
+        return getService().findByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
+    public static int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().countByTitleAndCourseID(titlePattern, courseIDs);
     }
 
     public static void clearService() {

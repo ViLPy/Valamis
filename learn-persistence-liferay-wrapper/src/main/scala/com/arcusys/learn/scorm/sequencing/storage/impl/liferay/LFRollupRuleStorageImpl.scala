@@ -1,10 +1,10 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.scorm.manifest.model.{ ConditionCombination, RollupRule }
 import com.arcusys.learn.persistence.liferay.service.LFRollupRuleLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.model.LFRollupRule
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ ConditionCombination, RollupRule }
 import scala.collection.JavaConverters._
 
 /**

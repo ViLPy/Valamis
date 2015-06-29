@@ -1,4 +1,4 @@
-var viewportWidth = jQuery(window).width();
+var viewportWidth = jQueryValamis(window).width();
 var ChartStatView = Backbone.Marionette.View.extend({
     tagName: 'div',
     defaults: {
@@ -62,7 +62,6 @@ var ChartStatView = Backbone.Marionette.View.extend({
             this.width = this.width - 400;
 
         var data = this.getData();
-        console.log(data);
 
         var max1 = d3.max(data, function (d) {
             return d.amount1;

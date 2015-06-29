@@ -6,43 +6,40 @@ import com.arcusys.learn.web.FileUploading
 /**
  * Created by Iliya Tryapitsin on 17.03.14.
  */
-object PackageFileRequest {
+object PackageFileRequest extends BaseRequest {
 
-  val LIFERAY_GROUP_ID = "liferayGroupID"
-  val COURSE_ID = "courseID"
-  val SCOPE = "scope"
+  val LiferayGroupId = "liferayGroupID"
+  val Scope = "scope"
 
-  val TITLE = "title"
-  val SUMMARY = "summary"
-  val IMAGE_ID = "imageId"
+  val Title = "title"
+  val Summary = "summary"
+  val ImageId = "imageId"
 
-  val DEFAULT_PACKAGE_TITLE = "New package"
-  val DEFAULT_PACKAGE_DESCRIPTION = ""
-  val DEFAULT_INT = "0"
-  val DEFAULT_LIFERAY_GROUP_ID = "-1"
-  val DEFAULT_COURSE_ID = "-1"
-  val PACKAGE_FILE_EXTENSION = "zip"
+  val DefaultPackageTitle = "New package"
+  val DefaultPackageDescription = ""
+  val DefaultInt = "0"
+  val DefaultLiferayGroupId = "-1"
+  val DefaultCourseId = "-1"
+  val PackageFileExtension = "zip"
 
   def apply(scalatra: FileUploading) = new Model(scalatra)
 
   class Model(scalatra: FileUploading) extends FileRequest.Model(scalatra) {
-    def title = Parameter(TITLE).option
+    def title = Parameter(Title).option
 
     def summary: Option[String] = {
-      Parameter(SUMMARY).option match {
+      Parameter(Summary).option match {
         case Some(value) => Option(AntiSamyHelper.sanitize(value))
         case None        => None
       }
     }
 
-    def groupID = Parameter(LIFERAY_GROUP_ID)
-      .withDefault(DEFAULT_LIFERAY_GROUP_ID)
+    def groupID = Parameter(LiferayGroupId)
+      .withDefault(DefaultLiferayGroupId)
       .toLong
 
-    def courseID = Parameter(COURSE_ID).intOption(-1)
+    def imageID = Parameter(ImageId).intRequired //.intOption(DefaultInt)
 
-    def imageID = Parameter(IMAGE_ID).intRequired //.intOption(DEFAULT_INT)
-
-    def scope = Parameter(SCOPE)
+    def scope = Parameter(Scope)
   }
 }

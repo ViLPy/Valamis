@@ -99,10 +99,12 @@
     function Config() {
         "use strict";
     }
-    Config.endpoint = document.location.protocol + "//" + document.location.host + path.root + path.api.tincanApi;
-    Config.authUser = "1";
-    Config.authPassword = "nobodycares";
-    Config.actor = { "mbox": ["test@test.com"], "name": ["Test Test"] };
+    var endpointData = {{{endpointData}}};
+
+    TincanHelper.SetLRS(endpointData);
+    Config.endpoint = TincanHelper.getEndpoint();
+    Config.authLine = TincanHelper.getAuth();
+    Config.actor = TincanHelper.getActor();
 </script>
 
 <script type="text/javascript">

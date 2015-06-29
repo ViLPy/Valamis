@@ -1,20 +1,20 @@
 package com.arcusys.learn.export.question
 
 import java.io.FileInputStream
-
-import com.arcusys.learn.bl.exceptions.EntityNotFoundException
-import com.arcusys.learn.bl.export.ExportProcessor
-import com.arcusys.learn.bl.services.QuestionServiceContract
 import com.arcusys.learn.facades._
 import com.arcusys.learn.models.AnswerResponse
-import com.arcusys.learn.questionbank.model.{ Answer, Question, QuestionCategory }
+import com.arcusys.valamis.exception.EntityNotFoundException
+import com.arcusys.valamis.export.ExportProcessor
+import com.arcusys.valamis.questionbank.model.{ QuestionCategory, Question, Answer }
+import com.arcusys.valamis.questionbank.service.QuestionService
+import com.arcusys.valamis.util.ZipBuilder
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
-class QuestionExportProcessor(implicit configuration: BindingModule) extends ExportProcessor[QuestionCategoryExport] with Injectable {
+class QuestionExportProcessor(implicit val bindingModule: BindingModule) extends ExportProcessor[QuestionCategoryExport, QuestionCategoryExport] with Injectable {
 
-  override implicit def bindingModule: BindingModule = configuration
+  override protected def exportItemsImpl(zip: ZipBuilder, items: Seq[QuestionCategoryExport]): Seq[QuestionCategoryExport] = items
 
-  private lazy val questionService = inject[QuestionServiceContract]
+  private lazy val questionService = inject[QuestionService]
 
   private lazy val questionFacade = inject[QuestionFacadeContract]
 
@@ -77,20 +77,23 @@ class QuestionExportProcessor(implicit configuration: BindingModule) extends Exp
   }
 
   private def toQuestionExport(question: Question[Answer]) = {
-    val questionResponse = questionFacade.buildQuestion(question)
-    QuestionExport(questionResponse.entityType,
-      questionResponse.title,
-      questionResponse.text,
-      questionResponse.explanationText,
-      questionResponse.forceCorrectCount,
-      questionResponse.isCaseSensitive,
-      questionResponse.answers.map(toAnswerExport),
-      questionResponse.questionType,
-      questionResponse.arrangementIndex)
+    val questionResponse = questionFacade.buildQuestionResponse(question)
+    QuestionExport(entityType = questionResponse.entityType,
+      title = questionResponse.title,
+      text = questionResponse.text,
+      explanationText = questionResponse.explanationText,
+      rightAnswerText = Some(questionResponse.rightAnswerText),
+      wrongAnswerText = Some(questionResponse.wrongAnswerText),
+      forceCorrectCount = questionResponse.forceCorrectCount,
+      isCaseSensitive = questionResponse.isCaseSensitive,
+      answers = questionResponse.answers.map(toAnswerExport),
+      questionType = questionResponse.questionType,
+      arrangementIndex = questionResponse.arrangementIndex)
   }
 
   private def toAnswerExport(answer: AnswerResponse) = {
     AnswerExport(answer.answerText, answer.isCorrect, answer.rangeFrom, answer.rangeTo, answer.matchingText, answer.score)
   }
+
 }
 

@@ -15,7 +15,7 @@ var CollectionItemDetailsView = Backbone.View.extend({
 
   render: function () {
     this.language = this.options.language;
-    var description = jQuery1816Curriculum('<i>').html(decodeURIComponent(this.model.get('description'))).text();
+    var description = jQuery1816Curriculum('<i>').html(this.model.get('description')).text();
     var renderedTemplate = _.template(
       Mustache.to_html(
         jQuery('#userCertificateItemEditDetailsTemplate').html(),

@@ -1,158 +1,165 @@
-<script type="text/mustache" id="transcriptButtonsTemplate">
-    <div class="pull-right">
-        <div class="pull-left">
-            <table id="selectedUser" class="medium-table list-table">
-            </table>
-        </div>
-        <div id="transcriptButtons" class="buttons-row pull-right">
-            {{#isTeacher}}<button class="button valamis big green val-icon-user float-right" id="selectUserButton">{{selectUserLabel}}</button>{{/isTeacher}}
-                <button id="printTranscriptButton" class="button valamis big green val-icon-print float-right">Print transcript
-                    <a id="printLink" href="/delegate/print/?action=PRINT_TRANSCRIPT&companyID={{companyID}}&userID={{userID}}" target="_blank"></a>
+<script type="text/html" id="transcriptButtonsTemplate">
+    <div class="div-table div-info-table" id="transcriptSelectedUser"> </div>
+</script>
+
+<script type="text/html" id="transcriptUserDetailsTemplate">
+        <div class="div-row">
+            <div class="div-col single-element-col">
+                {{#pageUrl}}
+                <a href="{{pageUrl}}" target="_blank">
+                    {{/pageUrl}}
+                    <img src="{{picture}}" alt="{{name}}" class="img-circle">
+                    {{#pageUrl}}
+                </a>
+                {{/pageUrl}}
+            </div>
+            <div class="div-col">
+                {{name}}
+            </div>
+            <div class="div-col text-right">
+                {{#isTeacher}}<button class="button medium primary" id="selectUserButton">{{selectUserLabel}}</button>{{/isTeacher}}
+                <button id="printTranscriptButton" class="button medium primary">{{printTranscriptLabel}}
+                    <a id="printLink" href="/delegate/print/?action=PRINT_TRANSCRIPT&companyID={{companyID}}&userID={{userID}}&courseId={{courseId}}" target="_blank"></a>
                 </button>
+            </div>
         </div>
     </div>
 </script>
 
-<script type="text/mustache" id="transcriptUserDetailsTemplate">
-    <td class="user-img" style="padding-top: 0px!important; padding-bottom: 0px!important"> {{#pageUrl}}
-        <a href="{{pageUrl}}" target="_blank">
-            {{/pageUrl}}
-            <img src="{{picture}}" alt="{{name}}" class="img-circle">
-            {{#pageUrl}}
-        </a>
-        {{/pageUrl}}
-    </td>
-    <td class="user-name" style="padding-top: 0px!important; padding-bottom: 0px!important; padding-right: 20px!important"> {{name}}</td>
+<script type="text/html" id="transcriptCertificatesTemplate">
+    <div class="filters-row">
+        <h4> {{curriculumMyTabsHeaderLabel}} </h4>
+
+        <table id="certificatesList" class="val-table medium list-table">
+            <tbody>
+                <th>{{certificateTitleLabel}}</th>
+                <th>{{certificateIssueDateLabel}}</th>
+                <th>{{certificateExpirationDateLabel}}</th>
+                <th>{{certificateStatusLabel}}</th>
+            </tbody>
+        </table>
+    </div>
 </script>
 
-<script type="text/mustache" id="transcriptCertificatesTemplate">
-    <h4 class="valamis"> {{curriculumMyTabsHeaderLabel}} </h4>
-
-    <table id="certificatesList" class="valamis medium-table" style="background: #f2f2f2 !important; vertical-align: middle !important; border-left: 1px solid #d3d4d5"">
-        <tbody>
-            <th>{{certificateTitleLabel}}</th>
-            <th>{{certificateIssueDateLabel}}</th>
-            <th>{{certificateExpirationDateLabel}}</th>
-            <th>{{certificateStatusLabel}}</th>
-        </tbody>
-    </table>
-</script>
-
-<script type="text/mustache" id="transcriptCertificatesItemTemplate">
-    <tr style="background: #f2f2f2 !important; vertical-align: middle !important;">
-        <td style="padding-top: 0px !important; padding-bottom: 0px !important">
-            <div class="full-width clearfix expand">
-                <div id="expandGoalsList" class="expand-icon expand-plus"/>
-                <div class="expand-text" style="margin-top: 10px;"> {{title}}</div>
-            </div>
+<script type="text/html" id="transcriptCertificatesItemTemplate">
+    <tr>
+        <td>
+            <span id="expandGoalsList" class="cursor-pointer val-icon-plus" data-certificate="{{id}}"></span>
+            {{title}}
         </td>
-        <td style="padding-left: 10px;">{{issueDate}}</td>
-        <td style="padding-left: 10px;">{{expirationDate}}</td>
-        <td style="padding-left: 10px;">{{status}}</td>
+        <td>{{issueDate}}</td>
+        <td>{{expirationDate}}</td>
+        <td>{{status}}</td>
     </tr>
-    <tr class="hidden" style="background: #f2f2f2 !important; vertical-align: middle !important;">
-        <td colspan="4" style="padding: 10px 0px 0px 30px !important;">
-            <div id="certificate-goal-list-{{id}}" class="valamis">
+    <tr id="certificateGoalsLayout-{{id}}" class="hidden">
+        <td colspan="4">
+            <div id="certificate-goal-list-{{id}}">
             </div>
         </td>
     </tr>
 </script>
 
-<script type="text/mustache" id="transcriptCoursesTemplate">
-    <h4 class="valamis"> {{curriculumMyCoursesLabel}} </h4>
+<script type="text/html" id="transcriptCoursesTemplate">
+    <div class="filters-row">
+        <h4> {{curriculumMyCoursesLabel}} </h4>
+    </div>
     <div id="coursesList"></div>
 </script>
 
-<script type="text/mustache" id="transcriptCoursesItemTemplate">
-    <div class="full-width clearfix expand">
-        <div id="expandPackageList" class="expand-icon expand-plus"/>
-        <div class="expand-text" style="margin-top: 10px;"> {{title}}</div>
+<script type="text/html" id="transcriptCoursesItemTemplate">
+    <div class="filters-row">
+        <span id="expandPackageList" class="cursor-pointer val-icon-plus" data-course="{{id}}"></span>
+        <span id="expandPackageTitle"> {{title}} </span>
+
+        <table id="packagesList-{{id}}" class="val-table medium list-table hidden">
+            <tbody>
+            <tr>
+                <th>{{packageColumnName}}</th>
+                <th>{{gradeColumnName}}</th>
+            </tr>
+            </tbody>
+        </table>
     </div>
-    <table id="packagesList" class="valamis medium-table hidden" style="border-left: 1px solid #d3d4d5; border-right: none; border-bottom: none;">
-        <tbody>
-            <th>{{packageColumnName}}</th>
-            <th>{{gradeColumnName}}</th>
-        </tbody>
-    </table>
 </script>
 
-<script type="text/mustache" id="transcriptPackageItemTemplate">
-    <tr style="background: none repeat scroll 0 0 #f2f2f2 !important; border-bottom: solid 1px #d3d4d5;">
-        <td style="padding-top: 0px !important; padding-bottom: 0px !important; border-bottom: none;">
-            <div class="full-width clearfix expand" style="padding-left: 10px;">
-                <div id="expandDetailsList" class="expand-icon expand-plus"/>
-                <div class="expand-text" style="margin-top: 10px;"> {{packageName}}</div>
-            </div>
+<script type="text/html" id="transcriptPackageItemTemplate">
+    <tr>
+        <td>
+            <span id="expandDetailsList" class="cursor-pointer val-icon-plus" data-package="{{id}}"></span> {{packageName}}
         </td>
-        <td style="border-bottom: none;"> {{#grade}} {{grade}} % {{/grade}}</td>
+        <td> {{#grade}} {{grade}}% {{/grade}}</td>
     </tr>
-    <tr class="hidden" style="background: none repeat scroll 0 0 #f2f2f2 !important;">
-        <td colspan="2" style="padding: 0px 0px 0px 0px !important;">
-            <div id="packageDetailsList-{{id}}" class="valamis hidden" style="padding: 0px 0px 10px 20px;">
+    <tr id="packageDetailsLayout-{{id}}" class="hidden">
+        <td colspan="2">
+            <div id="packageDetailsList-{{id}}">
             </div>
         </td>
     </tr>
 </script>
 
-<script type="text/mustache" id="transcriptPackageDetailsTemplate">
+<script type="text/html" id="transcriptPackageDetailsTemplate">
     <div> Total statements for the package: {{statementCount}}</div>
     <div> Total time spent on the package: {{totalTime}}</div>
-    <table id="package-{{packageId}}-statements" class="valamis medium-table" style="border-left: 1px solid #d3d4d5; border-right: none;"></table>
+    <table id="package-{{packageId}}-statements" class="val-table small"></table>
 </script>
 
-<script type="text/mustache" id="transcriptPackageAttemptStatementsTemplate">
-    <td style="padding: 0px 0px 0px 20px !important; border-right: none; background: none repeat scroll 0 0 #f2f2f2 !important;">
-        <div class="full-width clearfix expand" style="background: none repeat scroll 0 0 #f2f2f2 !important;">
-            <div id="expandPackageAttemptStatementsList" class="expand-icon expand-plus" style="background-color: #f2f2f2 !important; margin-left: -10px;"/>
-            <div class="expand-text" style="background: none repeat scroll 0 0 #f2f2f2 !important; margin-top: 10px;"> Attempt #{{which}}</div>
-        </div>
-        <table id="package-{{packageId}}-attempt-{{which}}-statements" class="hidden valamis medium-table" style="margin-bottom: 10px; border-left: 1px solid #d3d4d5; border-right: none;"></table>
+<script type="text/html" id="transcriptPackageAttemptStatementsTemplate">
+    <td style="background-color: #f2f2f2 !important;">
+        <span class="js-expand-attempt cursor-pointer shift-left val-icon-plus"></span> Attempt #{{which}}
+        <table id="package-{{packageId}}-attempt-{{which}}-statements" class="hidden"></table>
     </td>
 </script>
 
-<script type="text/mustache" id="transcriptPackageStatementItemTemplate">
-    <td class="date" style="background: none repeat scroll 0 0 #f2f2f2 !important;">
-        <div class="statementDate">{{storedTime}}</div>
+<script type="text/html" id="transcriptPackageStatementItemTemplate">
+    <td style="background-color: #f2f2f2 !important;">
+        {{storedTime}}
     </td>
-    <td style="background: none repeat scroll 0 0 #f2f2f2 !important; border-right: none;">
-        <div class="statement" style="cursor: default;">
+    <td style="background-color: #f2f2f2 !important;">
             You
-            <span class="verb">{{verb}}</span>
-            <span class="object">{{object}} </span>
-            {{#answer}}<span class="score"> with response: </span><span>{{answer}}</span>{{/answer}}
-            {{#score}}<span class="score"> and scored: </span><span>{{score}}</span>{{/score}}
-        </div>
+            <span>{{verb}}</span>
+            <span>{{object}} </span>
+            {{#answer}}<span> with response: </span><span>{{answer}}</span>{{/answer}}
+            {{#score}}<span> and scored: </span><span>{{score}}</span>{{/score}}
     </td>
 </script>
 
-<script type="text/mustache" id="certificateGoalsListTemplate">
-
-        <h4 class="valamis"> {{goalsLabel}} </h4>
-        <div class="valamis-row hidden">
-            <table class="valamis list-table medium-table" style="border-left: 1px solid #d3d4d5; border-right: none;">
+<script type="text/html" id="certificateGoalsListTemplate">
+        <h5 class="valamis"> {{goalsLabel}} </h5>
+        <div class="hidden">
+            <table class="val-table small list neutral">
                 <tbody id="certificateCoursesTable">
                 <tr>
-                    <th colspan="4" style="border-right: none;">{{coursesLabel}}</th>
+                    <th colspan="2">{{coursesLabel}}</th>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="valamis-row hidden">
-            <table class="valamis list-table medium-table" style="border-left: 1px solid #d3d4d5; border-right: none;">
+        <div class="hidden">
+            <table class="val-table small list neutral">
                 <tbody id="certificateStatementsTable">
                 <tr>
-                    <th colspan="4" style="border-right: none;">{{tincanstatementsLabel}}</th>
+                    <th colspan="2">{{tincanstatementsLabel}}</th>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="valamis-row hidden">
-            <table class="valamis list-table medium-table" style="border-left: 1px solid #d3d4d5; border-right: none;">
+        <div class="hidden">
+            <table class="val-table small list neutral">
                 <tbody id="certificateActivitiesTable">
                 <tr>
-                    <th colspan="5" style="border-right: none;">{{activitiesLabel}}</th>
+                    <th colspan="3">{{activitiesLabel}}</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="hidden">
+            <table class="val-table small list neutral">
+                <tbody id="lessonGoalsTable">
+                <tr>
+                    <th colspan="2">{{lessonGoalsLabel}}</th>
                 </tr>
                 </tbody>
             </table>
@@ -160,17 +167,21 @@
 
 </script>
 
-<script type="text/mustache" id="goalRowTemplate">
-    <td class="checkbox-container">
-        {{#canDelete}}
-        <div class="checkbox valamis"></div>
-        {{/canDelete}}
+<script type="text/html" id="goalRowTemplate">
+    {{#isActivity}}
+    <td class="single-element-col">
+        {{activityCount}}
     </td>
-    <td class="user-name">{{#url}}<a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</td>
+    {{/isActivity}}
 
-        {{#status}}
-        {{status}}
-        {{/status}}
+    <td>
+        {{#url}} <a href="/web{{url}}" target="_blank">{{/url}}
+        {{title}}
+        {{#url}}</a>{{/url}}
+    </td>
+
+    <td class="text-right status-col">
+        {{dateFinish}}
     </td>
 </script>
 
@@ -182,154 +193,14 @@
     <div class="certificate-modals-container"></div>
 </script>
 
-<script type="text/template" id="certificate-edit-modal-template">
+<script type="text/template" id="certificate-common-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{certificateModalTitle}}</h3>
 
-    <div class="valamis-tabs">
-        <div class="modal-close"></div>
-        <ul class="nav nav-tabs" id="editCertificateTabs">
-            <li><a href="#details" data-toggle="tab">{{editDetailsLabel}}</a></li>
-            <li><a href="#goals" data-toggle="tab">{{editGoalsLabel}}</a></li>
-            <li><a href="#members" data-toggle="tab">{{editMembersLabel}}</a></li>
-        </ul>
-
-        <div class="tab-content" style="position: relative">
-            <div id="details"
-                 class="certificateContent tab-pane active bbm-modal__section certificate-editDetails-dialog">
-
-            </div>
-            <div id="goals" class="certificateContent tab-pane bbm-modal__section certificate-editGoals-dialog">
-            </div>
-            <div id="members" class="certificateContent tab-pane bbm-modal__section certificate-editMembers-dialog">
-            </div>
-        </div>
-
-
-    </div>
-</script>
-
-<script type="text/template" id="certificate-add-members-modal-template">
-    <div class="bbm-modal__topbar add-members-modal">
-        <h3 class="bbm-modal__title valamis">{{selectUserLabel}}</h3>
-
-        <div class="modal-close">
+        <div class="modal-close val-icon-exit">
         </div>
     </div>
 
-    <div id="addMembers-dialog" class="bbm-modal__section certificate-addMembers-dialog">
-    </div>
-</script>
-
-<script type="text/mustache" id="liferayUserDialogView">
-    <div id="liferayUserDialog" class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="content-header clearfix">
-                <div class="popup-content-header">
-                    <div class="valamis-row">
-                        <div class="pull-left button-upload-area">
-                            <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-                        </div>
-
-                        <h4 class="valamis amountLabel pull-left" id="usersListedAmount"></h4>
-                        <h4 class="valamis pull-left hidden-xs">&nbsp;{{usersListedLabel}}</h4>
-
-                        <div class="valamis-paginator pull-right" id="availableUserListPaginator"></div>
-                    </div>
-
-                </div>
-                <div class="sidebar-wrapper">
-                    <div class="menu-toggle hidden-xs menu-close modal-close-div">
-                    </div>
-
-
-                    <h2 class="valamis">{{refineSearchLabel}}</h2>
-
-                    <div class="valamis-row">
-                        <label class="h4label valamis"> {{searchByNameLabel}} </label>
-                        <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="userSearch"
-                               class="text-input valamis search"/>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{sortLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="sortUser" class="userSearchSelect fixed-width">
-                                <option value="true">{{sortOrderAscLabel}}</option>
-                                <option value="false">{{sortOrderDescLabel}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{selectOrganizationLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="userOrganization" class="userSearchSelect fixed-width">
-                                <option value="-1"></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="allUsersList" class="page-content"></div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script type="text/mustache" id="liferayUserListView">
-    <div id="liferayUserList">
-        <table class="valamis medium-table list-table">
-            <tbody id="userList"></tbody>
-        </table>
-        <label id="noUsersLabel" class="h2label valamis" style="display: none; margin-left: 20px;">
-            {{noAvailableUsersLabel}} </label>
-    </div>
-</script>
-
-<script type="text/mustache" id="liferayUserElementView">
-
-    <td class="user-img"> {{#pageUrl}}
-        <a href="{{pageUrl}}" target="_blank">
-            {{/pageUrl}}
-
-            <img src="{{picture}}" alt="{{name}}" class="img-circle">
-            {{#pageUrl}}
-        </a>
-        {{/pageUrl}}
-    </td>
-    <td class="user-name"> {{name}}</td>
-    <td class="checkbox-container">
-        <button id="toggleSingleUserButton" class="button valamis big grey val-icon-check no-text toggleButton"></button>
-    </td>
-
-</script>
-
-
-
-
-<!-- Paginator templates -->
-
-<script type="text/mustache" id="paginatorTemplate">
-    <div id="paginatorDisplay" class="select-element hidden-xs position-relative"></div>
-    <div class="pagination-group pull-right">
-        <div class="select-element-label-wrapper pull-left ">
-            <div class="select-element-label page-display">{{startElementNumber}}-{{endElementNumber}} {{ofLabel}}
-                {{totalElements}}
-            </div>
-        </div>
-        <div class="button-group">
-            <button class="paginator-previous-page button valamis medium grey val-icon-previous no-text"></button>
-            <button class="paginator-next-page button valamis medium grey val-icon-next no-text"></button>
-        </div>
-    </div>
-</script>
-
-<script type="text/mustache" id="paginatorDisplayTemplate">
-    <div class="select-element-label">{{displayLabel}}</div>
-    <div class="valamis-select">
-        <select class="paginator-items-per-page">
-            {{#options}}
-            <option value="{{.}}"> {{.}} </option>
-            {{/options}}
-        </select>
+    <div class="certificate-modal-content">
     </div>
 </script>

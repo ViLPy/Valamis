@@ -1,18 +1,20 @@
 var LessonContentPreviewModal = Backbone.Modal.extend({
-  template: _.template(Mustache.render($('#modal-clear-template').html(), {header: GLOBAL_translations['previewLabel']})),
+  template: function (data) {
+    return Mustache.to_html(jQueryValamis('#modal-clear-template').html(),
+      _.extend({header: GLOBAL_translations['previewLabel']},window.permissionActions))
+  },
   submitEl: '.modal-submit',
   cancelEl: '.modal-close',
-  className: 'preview-modal',
+  className: 'val-modal preview-modal',
   onRender: function () {
     new LessonContentPreviewView({
       model: this.model,
-      el: this.$('.content')
+      el: this.$('.js-modal-content')
     }).render();
   }
 });
 
 var LessonContentPreviewView = Backbone.View.extend({
-  template: $('#lessonContentPreviewTemplate').html(),
   events: {
     'click .action-preview': 'preview'
   },
@@ -21,9 +23,11 @@ var LessonContentPreviewView = Backbone.View.extend({
       + path.api.quiz + '?action=GETQUESTIONPREVIEW'
       + '&id=' + this.model.id
       + '&lessonId=' + this.model.get('lessonId')
+      + '&courseId=' + Utils.getCourseId()
   },
   render: function () {
-    this.$el.html(Mustache.render(this.template, {url: this.getUrl() }));
+    this.$el.html(Mustache.render(jQueryValamis('#lessonContentPreviewTemplate').html(),
+      _.extend({url: this.getUrl()},window.permissionActionsLessonDesigner)));
     return this;
   }
 });

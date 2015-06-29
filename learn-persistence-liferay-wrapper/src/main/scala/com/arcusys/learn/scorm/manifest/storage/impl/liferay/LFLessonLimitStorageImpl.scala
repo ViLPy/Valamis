@@ -1,8 +1,9 @@
 package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
-import com.arcusys.learn.persistence.liferay.service.{ LFPackageLocalServiceUtil, LFLessonLimitLocalServiceUtil }
-import com.arcusys.learn.scorm.manifest.model.{ LessonLimit, PeriodType, LessonType }
+import com.arcusys.learn.persistence.liferay.service.LFLessonLimitLocalServiceUtil
 import com.arcusys.learn.storage.impl.EntityStorage
+import com.arcusys.valamis.lesson.model.{ LessonLimit, LessonType }
+import com.arcusys.valamis.model.PeriodTypes
 
 import scala.util.Try
 
@@ -22,9 +23,9 @@ trait LFLessonLimitStorageImpl extends EntityStorage[LessonLimit] {
             LessonType.withName(lessonType),
             limit.getPassingLimit.toInt,
             limit.getRerunInterval.toInt,
-            PeriodType(limit.getRerunIntervalType)))
+            PeriodTypes(limit.getRerunIntervalType)))
         }
-        ).getOrElse(Some(new LessonLimit(itemID, LessonType.withName(lessonType), 0, 0, PeriodType.UNLIMITED)))
+        ).getOrElse(Some(new LessonLimit(itemID, LessonType.withName(lessonType), 0, 0, PeriodTypes.UNLIMITED)))
       }
     }
     None

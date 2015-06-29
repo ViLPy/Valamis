@@ -2,6 +2,7 @@ package com.arcusys.learn.controllers.api
 
 import com.arcusys.learn.facades.TranscriptPrintFacadeContract
 import com.arcusys.learn.models.request.{ PrintRequest, PrintActionType }
+import com.arcusys.valamis.lrs.service.LrsClientManager
 import com.escalatesoft.subcut.inject.BindingModule
 import com.arcusys.learn.ioc.Configuration
 
@@ -9,6 +10,7 @@ class TranscriptPrintApiController(configuration: BindingModule) extends BaseApi
   def this() = this(Configuration)
 
   val printFacade = inject[TranscriptPrintFacadeContract]
+  val lrsReader = inject[LrsClientManager]
 
   before() {
     response.setHeader("Pragma", "no-cache")
@@ -21,22 +23,23 @@ class TranscriptPrintApiController(configuration: BindingModule) extends BaseApi
 
   get("/print(/)")(action {
     val printRequest = PrintRequest(this)
-    printRequest.actionType match {
-      case PrintActionType.PRINT_TRANSCRIPT => {
-        val companyID = printRequest.companyId
-        val userID = printRequest.userId
 
-        val templatesPath = servletContext.getRealPath("WEB-INF/fop")
+    lrsReader.statementApi(statementApi =>
+      printRequest.actionType match {
+        case PrintActionType.PrintTranscript =>
+          val companyId = printRequest.companyId
+          val userId = printRequest.userId
 
-        val out = printFacade.printTranscript(companyID, userID, templatesPath)
+          val templatesPath = servletContext.getRealPath("WEB-INF/fop")
 
-        response.setContentLength(out.size())
-        response.getOutputStream.write(out.toByteArray)
-        response.getOutputStream.flush()
-        response.getOutputStream.close()
-        out.close()
-      }
-      case _ => new UnsupportedOperationException(s"Action ${printRequest.actionType} is not supported")
-    }
+          val out = printFacade.printTranscript(statementApi, companyId, userId, templatesPath)
+
+          response.setContentLength(out.size())
+          response.getOutputStream.write(out.toByteArray)
+          response.getOutputStream.flush()
+          response.getOutputStream.close()
+          out.close()
+        case _ => new UnsupportedOperationException(s"Action ${printRequest.actionType} is not supported")
+      }, printRequest.lrsAuth)
   })
 }

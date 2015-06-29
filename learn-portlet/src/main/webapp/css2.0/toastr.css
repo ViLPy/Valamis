@@ -106,7 +106,7 @@ button.toast-close-button {
 #toast-container > div {
     margin: 0 0 6px;
     padding: 15px 15px 15px 50px;
-    width: 300px;
+    width: 350px;
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
     border-radius: 3px 3px 3px 3px;
@@ -161,6 +161,39 @@ cursor: pointer;
 .toast-warning {
     background-color: #f89406;
 }
+
+.toast .toast-message button {
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    margin-right: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    background-color: #f1f1f1;
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+}
+
+.toast .toast-message button:last-child {
+    margin-right: 0;
+}
+
+.toast .toast-message button.btn-primary {
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #50a2f5;
+    border-color: #4a96e8 #4a96e8;
+}
+
+.toast .toast-message .confirmation-question {
+    padding-bottom: 10px;
+}
+
 /*Responsive Design*/
 @media all and (max-width: 239px) {
     #toast-container > div {

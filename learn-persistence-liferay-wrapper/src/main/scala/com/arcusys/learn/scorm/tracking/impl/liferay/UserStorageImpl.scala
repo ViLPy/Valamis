@@ -2,8 +2,8 @@ package com.arcusys.learn.scorm.tracking.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFUser
 import com.arcusys.learn.persistence.liferay.service.{ LFAttemptLocalServiceUtil, LFUserLocalServiceUtil }
-import com.arcusys.learn.scorm.tracking.model.User
-import com.arcusys.learn.scorm.tracking.storage.UserStorage
+import com.arcusys.valamis.user.model.User
+import com.arcusys.valamis.user.storage.UserStorage
 import scala.collection.JavaConverters._
 import scala.util.Try
 
@@ -44,8 +44,10 @@ class UserStorageImpl extends UserStorage {
     Try(LFUserLocalServiceUtil.findByUserId(userID)).toOption.map(extract)
   }
 
-  override def getUsersWithAttemptsInPackage(packageID: Int): Seq[User] = {
-    val userIDs = LFAttemptLocalServiceUtil.findByPackageID(packageID).asScala.map(_.getUserID).toArray
+  override def getByName(name: String): Seq[User] = getAll.filter(_.name.toLowerCase.contains(name))
+
+  override def getUsersWithAttemptsInPackage(packageId: Long): Seq[User] = {
+    val userIDs = LFAttemptLocalServiceUtil.findByPackageID(packageId.toInt).asScala.map(_.getUserID).toArray
     LFUserLocalServiceUtil.findByUserIds(userIDs).asScala.map(extract)
   }
 

@@ -1,33 +1,33 @@
 package com.arcusys.learn.facades
 
 import java.io._
-
-import com.arcusys.learn.bl.services.lesson.PackageUploadManager
-import com.arcusys.learn.bl.services.FileServiceContract
-import com.arcusys.learn.bl.utils.PresentationProcessorContract
+import java.net.URLEncoder
+import java.util.UUID
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.models.{ PPTXSlideResponse, PPTXResponse, FileResponse }
 import com.arcusys.learn.models.request.{ FileRequest, PackageFileRequest }
-import com.arcusys.scorm.util.{ FileProcessing, FileSystemUtil }
+import com.arcusys.learn.models.{ FileResponse, PPTXResponse, PPTXSlideResponse }
+import com.arcusys.learn.utils.PresentationProcessorContract
+import com.arcusys.valamis.file.service.FileService
+import com.arcusys.valamis.lesson.model.LessonType
+import com.arcusys.valamis.lesson.service.PackageUploadManager
+import com.arcusys.valamis.quiz.service.QuizService
+import com.arcusys.valamis.util.FileSystemUtil
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
-import java.net.URLEncoder
 
 class FileFacade(configuration: BindingModule) extends FileFacadeContract with Injectable {
   def this() = this(Configuration)
 
   implicit val bindingModule = configuration
 
-  private val fileService = inject[FileServiceContract]
+  private val fileService = inject[FileService]
   private val quizFacade = inject[QuizFacadeContract]
   private val certificateFacade = inject[CertificateFacadeContract]
   private val questionFacade = inject[QuestionFacadeContract]
   private val packageFacade = inject[PackageFacadeContract]
-  private val quizService = inject[com.arcusys.learn.bl.services.QuizServiceContract]
+  private val quizService = inject[QuizService]
   private val packageUploadService = new PackageUploadManager()
   private val presentationProcessor = inject[PresentationProcessorContract]
-
-  private val EXPORT_EXTENSION = ".zip"
 
   def saveFile(folder: String, name: String, content: Array[Byte]): FileResponse = {
     fileService.setFileContent(folder, name, content)
@@ -46,15 +46,14 @@ class FileFacade(configuration: BindingModule) extends FileFacadeContract with I
   def uploadPPTX(content: Array[Byte], quizID: Int, categoryID: Option[String], filename: String): PPTXResponse = {
     def idFromCategory(id: String) = id.replace("c_", "").toInt
 
-    val slideList = presentationProcessor.convert(content)
+    val slideList = presentationProcessor.convert(new ByteArrayInputStream(content))
     val folderName = "quizData" + quizID
-
     val pptxSlides = slideList.zipWithIndex.map {
       case (slide, i) =>
-        val slideName = s"slide-${i + 1}.png"
-        fileService.replaceFileContent(folderName, slideName, slide.toByteArray)
+        val uuid = UUID.randomUUID()
+        fileService.replaceFileContent(folderName, s"slide-${uuid}.png", slide.toByteArray)
 
-        quizService.createQuestionPPTX(quizID, categoryID.map(idFromCategory), slideName, slideName)
+        quizService.createQuestionPPTX(quizID, categoryID.map(idFromCategory), s"slide-${i + 1}.png", s"slide-${uuid}.png")
     }
 
     new PPTXResponse(-1, "", "", "", pptxSlides.map(slide =>
@@ -135,92 +134,69 @@ class FileFacade(configuration: BindingModule) extends FileFacadeContract with I
 
   def getTincanPackage(tincanPackageId: Int): FileResponse = throw new NotImplementedException
 
-  def savePackage(title: String, summary: String, courseId: Option[Int], userId: Long, groupId: Long, stream: InputStream): FileResponse = {
-
-    val (packageId, packageType, packageTmpUUID) = packageUploadService.uploadPackage(title, summary, courseId, userId, groupId, stream)
+  def uploadPackage(title: String, summary: String, courseId: Long, userId: Long, stream: InputStream): FileResponse = {
+    val file = FileSystemUtil.streamToTempFile(stream, "Upload", PackageFileRequest.PackageFileExtension)
+    stream.close()
+    val (packageId, packageType) = packageUploadService.uploadPackage(title, summary, courseId, userId, file)
 
     FileResponse(
-      packageId,
-      packageType,
-      "%s.%s".format(packageTmpUUID, PackageFileRequest.PACKAGE_FILE_EXTENSION),
+      packageId.toInt,
+      packageType match {
+        case LessonType.Scorm  => "scorm"
+        case LessonType.Tincan => "tincan"
+      },
+      "%s.%s".format(title, PackageFileRequest.PackageFileExtension),
       "") // TODO package url?
   }
 
-  override def savePresentation(requestFileName: String,
-    requestFileContent: Array[Byte],
-    packageTitle: String,
-    packageDescription: String,
-    courseID: Option[Int],
-    userId: Long,
-    groupID: Long) = {
+  override def uploadPresentation(fileName: String, stream: InputStream, title: String, description: String, courseId: Long, userId: Long) = {
 
-    val zippedPackage = presentationProcessor.processPresentation(requestFileName,
-      requestFileContent,
-      packageTitle,
-      packageDescription
-    )
+    val name = fileName.reverse.dropWhile(_ != '.').drop(1).reverse
+    val packageFile = presentationProcessor.processPresentation(name, stream, title, description)
 
-    val content = new FileInputStream(zippedPackage)
-    savePackage(
-      packageTitle,
-      packageDescription,
-      courseID,
-      userId,
-      groupID,
-      content)
+    val (packageId, packageType) = packageUploadService.uploadPackage(title, description, courseId, userId, packageFile)
+
+    packageFile.delete()
+
+    FileResponse(
+      packageId.toInt,
+      packageType match {
+        case LessonType.Scorm  => "scorm"
+        case LessonType.Tincan => "tincan"
+      },
+      "%s.%s".format(title, PackageFileRequest.PackageFileExtension),
+      "") // TODO package url?
   }
 
   override def importLessons(courseId: Int, stream: InputStream): FileResponse = {
-    val newFilename = getFile(stream)
-    val result = quizFacade.importLessons(newFilename, courseId)
+    val file = FileSystemUtil.streamToTempFile(stream, "Import", FileRequest.ExportExtension)
+    stream.close()
+    quizFacade.importLessons(file, courseId)
 
-    FileResponse(
-      -1,
-      "Lesson",
-      "%s%s".format(newFilename, FileRequest.EXPORT_EXTENSION),
-      "")
+    FileResponse(-1, "Lesson", file.getName, "")
   }
 
   override def importQuestions(courseId: Int, stream: InputStream): FileResponse = {
-    val newFilename = getFile(stream)
-    val result = questionFacade.importQuestions(newFilename, courseId)
+    val file = FileSystemUtil.streamToTempFile(stream, "Import", FileRequest.ExportExtension)
+    stream.close()
+    questionFacade.importQuestions(file, courseId)
 
-    FileResponse(
-      -1,
-      "Question",
-      "%s%s".format(newFilename, FileRequest.EXPORT_EXTENSION),
-      "")
+    FileResponse(-1, "Question", file.getName, "")
   }
 
-  override def importPackages(courseId: Int, stream: InputStream): FileResponse = {
-    val newFilename = getFile(stream)
-    val result = packageFacade.importPackages(newFilename, courseId)
+  override def importPackages(courseId: Int, stream: InputStream, userId: Long): FileResponse = {
+    val file = FileSystemUtil.streamToTempFile(stream, "Import", FileRequest.ExportExtension)
+    stream.close()
+    packageFacade.importPackages(file, courseId, userId)
 
-    FileResponse(
-      -1,
-      "Package",
-      "%s%s".format(newFilename, FileRequest.EXPORT_EXTENSION),
-      "")
+    FileResponse(-1, "Package", file.getName, "")
   }
 
   override def importCertificates(companyId: Int, stream: InputStream): FileResponse = {
-    val newFilename = getFile(stream)
-    val result = certificateFacade.importCertificates(newFilename, companyId)
+    val file = FileSystemUtil.streamToTempFile(stream, "Import", FileRequest.ExportExtension)
+    stream.close()
+    certificateFacade.importCertificates(file, companyId)
 
-    FileResponse(
-      -1,
-      "Certificate",
-      "%s%s".format(newFilename, FileRequest.EXPORT_EXTENSION),
-      "")
-  }
-
-  private def getFile(stream: InputStream) = {
-    val newFilename = FileProcessing.getTempFileName("Import", FileRequest.EXPORT_EXTENSION)
-    val newFilePath = FileSystemUtil.getRealPath(s"/${newFilename}")
-
-    val outFile = new File(newFilePath)
-    val outStream = new FileOutputStream(outFile)
-    FileProcessing.copyInputStream(stream, outStream)
-    newFilePath
+    FileResponse(-1, "Certificate", file.getName, "")
   }
 }

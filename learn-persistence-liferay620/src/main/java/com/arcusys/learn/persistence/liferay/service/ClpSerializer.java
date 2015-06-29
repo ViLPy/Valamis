@@ -1,8 +1,5 @@
 package com.arcusys.learn.persistence.liferay.service;
 
-import com.arcusys.learn.persistence.liferay.model.LFAchievementActivityClp;
-import com.arcusys.learn.persistence.liferay.model.LFAchievementClp;
-import com.arcusys.learn.persistence.liferay.model.LFAchievementUserClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityDataMapClp;
 import com.arcusys.learn.persistence.liferay.model.LFActivityStateClp;
@@ -12,62 +9,40 @@ import com.arcusys.learn.persistence.liferay.model.LFAnswerClp;
 import com.arcusys.learn.persistence.liferay.model.LFAttemptClp;
 import com.arcusys.learn.persistence.liferay.model.LFAttemptDataClp;
 import com.arcusys.learn.persistence.liferay.model.LFBigDecimalClp;
-import com.arcusys.learn.persistence.liferay.model.LFCertificateActivityClp;
-import com.arcusys.learn.persistence.liferay.model.LFCertificateClp;
-import com.arcusys.learn.persistence.liferay.model.LFCertificateCourseClp;
-import com.arcusys.learn.persistence.liferay.model.LFCertificateTincanStatementClp;
-import com.arcusys.learn.persistence.liferay.model.LFCertificateUserClp;
 import com.arcusys.learn.persistence.liferay.model.LFChildrenSelectionClp;
 import com.arcusys.learn.persistence.liferay.model.LFConditionRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFConfigClp;
 import com.arcusys.learn.persistence.liferay.model.LFCourseClp;
-import com.arcusys.learn.persistence.liferay.model.LFFileStorageClp;
-import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveStateClp;
+import com.arcusys.learn.persistence.liferay.model.LFGlblObjectiveStateClp;
 import com.arcusys.learn.persistence.liferay.model.LFLRSToActivitySettingClp;
 import com.arcusys.learn.persistence.liferay.model.LFLessonLimitClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMapClp;
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveStateClp;
 import com.arcusys.learn.persistence.liferay.model.LFPackageClp;
-import com.arcusys.learn.persistence.liferay.model.LFPackageCommentClp;
 import com.arcusys.learn.persistence.liferay.model.LFPackageGradeStorageClp;
 import com.arcusys.learn.persistence.liferay.model.LFPackageScopeRuleClp;
-import com.arcusys.learn.persistence.liferay.model.LFPackageVoteClp;
 import com.arcusys.learn.persistence.liferay.model.LFPlayerScopeRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionCategoryClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuestionClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizAnswerScoreClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizClp;
-import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionCategoryClp;
+import com.arcusys.learn.persistence.liferay.model.LFQuizQuestCatClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizQuestionClp;
 import com.arcusys.learn.persistence.liferay.model.LFQuizTreeElementClp;
-import com.arcusys.learn.persistence.liferay.model.LFRequiredActivityClp;
 import com.arcusys.learn.persistence.liferay.model.LFResourceClp;
-import com.arcusys.learn.persistence.liferay.model.LFRoleClp;
 import com.arcusys.learn.persistence.liferay.model.LFRollupContributionClp;
 import com.arcusys.learn.persistence.liferay.model.LFRollupRuleClp;
 import com.arcusys.learn.persistence.liferay.model.LFRuleConditionClp;
+import com.arcusys.learn.persistence.liferay.model.LFSeqPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingClp;
-import com.arcusys.learn.persistence.liferay.model.LFSequencingPermissionsClp;
 import com.arcusys.learn.persistence.liferay.model.LFSequencingTrackingClp;
 import com.arcusys.learn.persistence.liferay.model.LFSiteDependentConfigClp;
-import com.arcusys.learn.persistence.liferay.model.LFSocialPackageClp;
-import com.arcusys.learn.persistence.liferay.model.LFSocialPackageTagClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanActProfileClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanActivityClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanActorClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanClientApiStorageClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanCtxActivitiesClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsAgentProfileClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsAttachmentClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsContextClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsDocumentClp;
+import com.arcusys.learn.persistence.liferay.model.LFSlideClp;
+import com.arcusys.learn.persistence.liferay.model.LFSlideEntityClp;
+import com.arcusys.learn.persistence.liferay.model.LFSlideSetClp;
+import com.arcusys.learn.persistence.liferay.model.LFTCClntApiStorageClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanLrsEndpointClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsResultClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsStateClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsStatementRefClp;
-import com.arcusys.learn.persistence.liferay.model.LFTincanLrsSubStatementClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanManifestActClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanPackageClp;
 import com.arcusys.learn.persistence.liferay.model.LFTincanURIClp;
@@ -159,18 +134,6 @@ public class ClpSerializer {
 
         String oldModelClassName = oldModelClass.getName();
 
-        if (oldModelClassName.equals(LFAchievementClp.class.getName())) {
-            return translateInputLFAchievement(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFAchievementActivityClp.class.getName())) {
-            return translateInputLFAchievementActivity(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFAchievementUserClp.class.getName())) {
-            return translateInputLFAchievementUser(oldModel);
-        }
-
         if (oldModelClassName.equals(LFActivityClp.class.getName())) {
             return translateInputLFActivity(oldModel);
         }
@@ -207,27 +170,6 @@ public class ClpSerializer {
             return translateInputLFBigDecimal(oldModel);
         }
 
-        if (oldModelClassName.equals(LFCertificateClp.class.getName())) {
-            return translateInputLFCertificate(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFCertificateActivityClp.class.getName())) {
-            return translateInputLFCertificateActivity(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFCertificateCourseClp.class.getName())) {
-            return translateInputLFCertificateCourse(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    LFCertificateTincanStatementClp.class.getName())) {
-            return translateInputLFCertificateTincanStatement(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFCertificateUserClp.class.getName())) {
-            return translateInputLFCertificateUser(oldModel);
-        }
-
         if (oldModelClassName.equals(LFChildrenSelectionClp.class.getName())) {
             return translateInputLFChildrenSelection(oldModel);
         }
@@ -244,12 +186,8 @@ public class ClpSerializer {
             return translateInputLFCourse(oldModel);
         }
 
-        if (oldModelClassName.equals(LFFileStorageClp.class.getName())) {
-            return translateInputLFFileStorage(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFGlobalObjectiveStateClp.class.getName())) {
-            return translateInputLFGlobalObjectiveState(oldModel);
+        if (oldModelClassName.equals(LFGlblObjectiveStateClp.class.getName())) {
+            return translateInputLFGlblObjectiveState(oldModel);
         }
 
         if (oldModelClassName.equals(LFLessonLimitClp.class.getName())) {
@@ -276,20 +214,12 @@ public class ClpSerializer {
             return translateInputLFPackage(oldModel);
         }
 
-        if (oldModelClassName.equals(LFPackageCommentClp.class.getName())) {
-            return translateInputLFPackageComment(oldModel);
-        }
-
         if (oldModelClassName.equals(LFPackageGradeStorageClp.class.getName())) {
             return translateInputLFPackageGradeStorage(oldModel);
         }
 
         if (oldModelClassName.equals(LFPackageScopeRuleClp.class.getName())) {
             return translateInputLFPackageScopeRule(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFPackageVoteClp.class.getName())) {
-            return translateInputLFPackageVote(oldModel);
         }
 
         if (oldModelClassName.equals(LFPlayerScopeRuleClp.class.getName())) {
@@ -312,28 +242,20 @@ public class ClpSerializer {
             return translateInputLFQuizAnswerScore(oldModel);
         }
 
-        if (oldModelClassName.equals(LFQuizQuestionClp.class.getName())) {
-            return translateInputLFQuizQuestion(oldModel);
+        if (oldModelClassName.equals(LFQuizQuestCatClp.class.getName())) {
+            return translateInputLFQuizQuestCat(oldModel);
         }
 
-        if (oldModelClassName.equals(LFQuizQuestionCategoryClp.class.getName())) {
-            return translateInputLFQuizQuestionCategory(oldModel);
+        if (oldModelClassName.equals(LFQuizQuestionClp.class.getName())) {
+            return translateInputLFQuizQuestion(oldModel);
         }
 
         if (oldModelClassName.equals(LFQuizTreeElementClp.class.getName())) {
             return translateInputLFQuizTreeElement(oldModel);
         }
 
-        if (oldModelClassName.equals(LFRequiredActivityClp.class.getName())) {
-            return translateInputLFRequiredActivity(oldModel);
-        }
-
         if (oldModelClassName.equals(LFResourceClp.class.getName())) {
             return translateInputLFResource(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFRoleClp.class.getName())) {
-            return translateInputLFRole(oldModel);
         }
 
         if (oldModelClassName.equals(LFRollupContributionClp.class.getName())) {
@@ -348,12 +270,12 @@ public class ClpSerializer {
             return translateInputLFRuleCondition(oldModel);
         }
 
-        if (oldModelClassName.equals(LFSequencingClp.class.getName())) {
-            return translateInputLFSequencing(oldModel);
+        if (oldModelClassName.equals(LFSeqPermissionsClp.class.getName())) {
+            return translateInputLFSeqPermissions(oldModel);
         }
 
-        if (oldModelClassName.equals(LFSequencingPermissionsClp.class.getName())) {
-            return translateInputLFSequencingPermissions(oldModel);
+        if (oldModelClassName.equals(LFSequencingClp.class.getName())) {
+            return translateInputLFSequencing(oldModel);
         }
 
         if (oldModelClassName.equals(LFSequencingTrackingClp.class.getName())) {
@@ -364,73 +286,24 @@ public class ClpSerializer {
             return translateInputLFSiteDependentConfig(oldModel);
         }
 
-        if (oldModelClassName.equals(LFSocialPackageClp.class.getName())) {
-            return translateInputLFSocialPackage(oldModel);
+        if (oldModelClassName.equals(LFSlideClp.class.getName())) {
+            return translateInputLFSlide(oldModel);
         }
 
-        if (oldModelClassName.equals(LFSocialPackageTagClp.class.getName())) {
-            return translateInputLFSocialPackageTag(oldModel);
+        if (oldModelClassName.equals(LFSlideEntityClp.class.getName())) {
+            return translateInputLFSlideEntity(oldModel);
         }
 
-        if (oldModelClassName.equals(LFTincanActivityClp.class.getName())) {
-            return translateInputLFTincanActivity(oldModel);
+        if (oldModelClassName.equals(LFSlideSetClp.class.getName())) {
+            return translateInputLFSlideSet(oldModel);
         }
 
-        if (oldModelClassName.equals(LFTincanActorClp.class.getName())) {
-            return translateInputLFTincanActor(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanActProfileClp.class.getName())) {
-            return translateInputLFTincanActProfile(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    LFTincanClientApiStorageClp.class.getName())) {
-            return translateInputLFTincanClientApiStorage(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanCtxActivitiesClp.class.getName())) {
-            return translateInputLFTincanCtxActivities(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsAgentProfileClp.class.getName())) {
-            return translateInputLFTincanLrsAgentProfile(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsAttachmentClp.class.getName())) {
-            return translateInputLFTincanLrsAttachment(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsContextClp.class.getName())) {
-            return translateInputLFTincanLrsContext(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsDocumentClp.class.getName())) {
-            return translateInputLFTincanLrsDocument(oldModel);
+        if (oldModelClassName.equals(LFTCClntApiStorageClp.class.getName())) {
+            return translateInputLFTCClntApiStorage(oldModel);
         }
 
         if (oldModelClassName.equals(LFTincanLrsEndpointClp.class.getName())) {
             return translateInputLFTincanLrsEndpoint(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsResultClp.class.getName())) {
-            return translateInputLFTincanLrsResult(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsStateClp.class.getName())) {
-            return translateInputLFTincanLrsState(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsStatementClp.class.getName())) {
-            return translateInputLFTincanLrsStatement(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsStatementRefClp.class.getName())) {
-            return translateInputLFTincanLrsStatementRef(oldModel);
-        }
-
-        if (oldModelClassName.equals(LFTincanLrsSubStatementClp.class.getName())) {
-            return translateInputLFTincanLrsSubStatement(oldModel);
         }
 
         if (oldModelClassName.equals(LFTincanManifestActClp.class.getName())) {
@@ -462,37 +335,6 @@ public class ClpSerializer {
         }
 
         return newList;
-    }
-
-    public static Object translateInputLFAchievement(BaseModel<?> oldModel) {
-        LFAchievementClp oldClpModel = (LFAchievementClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFAchievementRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFAchievementActivity(
-        BaseModel<?> oldModel) {
-        LFAchievementActivityClp oldClpModel = (LFAchievementActivityClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFAchievementActivityRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFAchievementUser(BaseModel<?> oldModel) {
-        LFAchievementUserClp oldClpModel = (LFAchievementUserClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFAchievementUserRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
     }
 
     public static Object translateInputLFActivity(BaseModel<?> oldModel) {
@@ -587,59 +429,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFCertificate(BaseModel<?> oldModel) {
-        LFCertificateClp oldClpModel = (LFCertificateClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFCertificateRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFCertificateActivity(
-        BaseModel<?> oldModel) {
-        LFCertificateActivityClp oldClpModel = (LFCertificateActivityClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFCertificateActivityRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFCertificateCourse(
-        BaseModel<?> oldModel) {
-        LFCertificateCourseClp oldClpModel = (LFCertificateCourseClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFCertificateCourseRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFCertificateTincanStatement(
-        BaseModel<?> oldModel) {
-        LFCertificateTincanStatementClp oldClpModel = (LFCertificateTincanStatementClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFCertificateTincanStatementRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFCertificateUser(BaseModel<?> oldModel) {
-        LFCertificateUserClp oldClpModel = (LFCertificateUserClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFCertificateUserRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
     public static Object translateInputLFChildrenSelection(
         BaseModel<?> oldModel) {
         LFChildrenSelectionClp oldClpModel = (LFChildrenSelectionClp) oldModel;
@@ -681,21 +470,11 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFFileStorage(BaseModel<?> oldModel) {
-        LFFileStorageClp oldClpModel = (LFFileStorageClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFFileStorageRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFGlobalObjectiveState(
+    public static Object translateInputLFGlblObjectiveState(
         BaseModel<?> oldModel) {
-        LFGlobalObjectiveStateClp oldClpModel = (LFGlobalObjectiveStateClp) oldModel;
+        LFGlblObjectiveStateClp oldClpModel = (LFGlblObjectiveStateClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFGlobalObjectiveStateRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFGlblObjectiveStateRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -763,16 +542,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFPackageComment(BaseModel<?> oldModel) {
-        LFPackageCommentClp oldClpModel = (LFPackageCommentClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFPackageCommentRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
     public static Object translateInputLFPackageGradeStorage(
         BaseModel<?> oldModel) {
         LFPackageGradeStorageClp oldClpModel = (LFPackageGradeStorageClp) oldModel;
@@ -788,16 +557,6 @@ public class ClpSerializer {
         LFPackageScopeRuleClp oldClpModel = (LFPackageScopeRuleClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFPackageScopeRuleRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFPackageVote(BaseModel<?> oldModel) {
-        LFPackageVoteClp oldClpModel = (LFPackageVoteClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFPackageVoteRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -854,21 +613,20 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFQuizQuestion(BaseModel<?> oldModel) {
-        LFQuizQuestionClp oldClpModel = (LFQuizQuestionClp) oldModel;
+    public static Object translateInputLFQuizQuestCat(BaseModel<?> oldModel) {
+        LFQuizQuestCatClp oldClpModel = (LFQuizQuestCatClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFQuizQuestionRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFQuizQuestCatRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
         return newModel;
     }
 
-    public static Object translateInputLFQuizQuestionCategory(
-        BaseModel<?> oldModel) {
-        LFQuizQuestionCategoryClp oldClpModel = (LFQuizQuestionCategoryClp) oldModel;
+    public static Object translateInputLFQuizQuestion(BaseModel<?> oldModel) {
+        LFQuizQuestionClp oldClpModel = (LFQuizQuestionClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFQuizQuestionCategoryRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFQuizQuestionRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -885,30 +643,10 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFRequiredActivity(BaseModel<?> oldModel) {
-        LFRequiredActivityClp oldClpModel = (LFRequiredActivityClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFRequiredActivityRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
     public static Object translateInputLFResource(BaseModel<?> oldModel) {
         LFResourceClp oldClpModel = (LFResourceClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFResourceRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFRole(BaseModel<?> oldModel) {
-        LFRoleClp oldClpModel = (LFRoleClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFRoleRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -946,21 +684,20 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFSequencing(BaseModel<?> oldModel) {
-        LFSequencingClp oldClpModel = (LFSequencingClp) oldModel;
+    public static Object translateInputLFSeqPermissions(BaseModel<?> oldModel) {
+        LFSeqPermissionsClp oldClpModel = (LFSeqPermissionsClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFSequencingRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFSeqPermissionsRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
         return newModel;
     }
 
-    public static Object translateInputLFSequencingPermissions(
-        BaseModel<?> oldModel) {
-        LFSequencingPermissionsClp oldClpModel = (LFSequencingPermissionsClp) oldModel;
+    public static Object translateInputLFSequencing(BaseModel<?> oldModel) {
+        LFSequencingClp oldClpModel = (LFSequencingClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFSequencingPermissionsRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFSequencingRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -989,115 +726,40 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateInputLFSocialPackage(BaseModel<?> oldModel) {
-        LFSocialPackageClp oldClpModel = (LFSocialPackageClp) oldModel;
+    public static Object translateInputLFSlide(BaseModel<?> oldModel) {
+        LFSlideClp oldClpModel = (LFSlideClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFSocialPackageRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFSocialPackageTag(BaseModel<?> oldModel) {
-        LFSocialPackageTagClp oldClpModel = (LFSocialPackageTagClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFSocialPackageTagRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFSlideRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
         return newModel;
     }
 
-    public static Object translateInputLFTincanActivity(BaseModel<?> oldModel) {
-        LFTincanActivityClp oldClpModel = (LFTincanActivityClp) oldModel;
+    public static Object translateInputLFSlideEntity(BaseModel<?> oldModel) {
+        LFSlideEntityClp oldClpModel = (LFSlideEntityClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFTincanActivityRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanActor(BaseModel<?> oldModel) {
-        LFTincanActorClp oldClpModel = (LFTincanActorClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanActorRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFSlideEntityRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
         return newModel;
     }
 
-    public static Object translateInputLFTincanActProfile(BaseModel<?> oldModel) {
-        LFTincanActProfileClp oldClpModel = (LFTincanActProfileClp) oldModel;
+    public static Object translateInputLFSlideSet(BaseModel<?> oldModel) {
+        LFSlideSetClp oldClpModel = (LFSlideSetClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFTincanActProfileRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanClientApiStorage(
-        BaseModel<?> oldModel) {
-        LFTincanClientApiStorageClp oldClpModel = (LFTincanClientApiStorageClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanClientApiStorageRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFSlideSetRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
         return newModel;
     }
 
-    public static Object translateInputLFTincanCtxActivities(
-        BaseModel<?> oldModel) {
-        LFTincanCtxActivitiesClp oldClpModel = (LFTincanCtxActivitiesClp) oldModel;
+    public static Object translateInputLFTCClntApiStorage(BaseModel<?> oldModel) {
+        LFTCClntApiStorageClp oldClpModel = (LFTCClntApiStorageClp) oldModel;
 
-        BaseModel<?> newModel = oldClpModel.getLFTincanCtxActivitiesRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsAgentProfile(
-        BaseModel<?> oldModel) {
-        LFTincanLrsAgentProfileClp oldClpModel = (LFTincanLrsAgentProfileClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsAgentProfileRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsAttachment(
-        BaseModel<?> oldModel) {
-        LFTincanLrsAttachmentClp oldClpModel = (LFTincanLrsAttachmentClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsAttachmentRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsContext(BaseModel<?> oldModel) {
-        LFTincanLrsContextClp oldClpModel = (LFTincanLrsContextClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsContextRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsDocument(
-        BaseModel<?> oldModel) {
-        LFTincanLrsDocumentClp oldClpModel = (LFTincanLrsDocumentClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsDocumentRemoteModel();
+        BaseModel<?> newModel = oldClpModel.getLFTCClntApiStorageRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -1109,59 +771,6 @@ public class ClpSerializer {
         LFTincanLrsEndpointClp oldClpModel = (LFTincanLrsEndpointClp) oldModel;
 
         BaseModel<?> newModel = oldClpModel.getLFTincanLrsEndpointRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsResult(BaseModel<?> oldModel) {
-        LFTincanLrsResultClp oldClpModel = (LFTincanLrsResultClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsResultRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsState(BaseModel<?> oldModel) {
-        LFTincanLrsStateClp oldClpModel = (LFTincanLrsStateClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsStateRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsStatement(
-        BaseModel<?> oldModel) {
-        LFTincanLrsStatementClp oldClpModel = (LFTincanLrsStatementClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsStatementRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsStatementRef(
-        BaseModel<?> oldModel) {
-        LFTincanLrsStatementRefClp oldClpModel = (LFTincanLrsStatementRefClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsStatementRefRemoteModel();
-
-        newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-        return newModel;
-    }
-
-    public static Object translateInputLFTincanLrsSubStatement(
-        BaseModel<?> oldModel) {
-        LFTincanLrsSubStatementClp oldClpModel = (LFTincanLrsSubStatementClp) oldModel;
-
-        BaseModel<?> newModel = oldClpModel.getLFTincanLrsSubStatementRemoteModel();
 
         newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -1225,21 +834,6 @@ public class ClpSerializer {
         String oldModelClassName = oldModelClass.getName();
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementImpl")) {
-            return translateOutputLFAchievement(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementActivityImpl")) {
-            return translateOutputLFAchievementActivity(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFAchievementUserImpl")) {
-            return translateOutputLFAchievementUser(oldModel);
-        }
-
-        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFActivityImpl")) {
             return translateOutputLFActivity(oldModel);
         }
@@ -1285,31 +879,6 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateImpl")) {
-            return translateOutputLFCertificate(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateActivityImpl")) {
-            return translateOutputLFCertificateActivity(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateCourseImpl")) {
-            return translateOutputLFCertificateCourse(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateTincanStatementImpl")) {
-            return translateOutputLFCertificateTincanStatement(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFCertificateUserImpl")) {
-            return translateOutputLFCertificateUser(oldModel);
-        }
-
-        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFChildrenSelectionImpl")) {
             return translateOutputLFChildrenSelection(oldModel);
         }
@@ -1330,13 +899,8 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFFileStorageImpl")) {
-            return translateOutputLFFileStorage(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFGlobalObjectiveStateImpl")) {
-            return translateOutputLFGlobalObjectiveState(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFGlblObjectiveStateImpl")) {
+            return translateOutputLFGlblObjectiveState(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1370,11 +934,6 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFPackageCommentImpl")) {
-            return translateOutputLFPackageComment(oldModel);
-        }
-
-        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFPackageGradeStorageImpl")) {
             return translateOutputLFPackageGradeStorage(oldModel);
         }
@@ -1382,11 +941,6 @@ public class ClpSerializer {
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFPackageScopeRuleImpl")) {
             return translateOutputLFPackageScopeRule(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFPackageVoteImpl")) {
-            return translateOutputLFPackageVote(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1415,13 +969,13 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl")) {
-            return translateOutputLFQuizQuestion(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestCatImpl")) {
+            return translateOutputLFQuizQuestCat(oldModel);
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionCategoryImpl")) {
-            return translateOutputLFQuizQuestionCategory(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFQuizQuestionImpl")) {
+            return translateOutputLFQuizQuestion(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1430,18 +984,8 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFRequiredActivityImpl")) {
-            return translateOutputLFRequiredActivity(oldModel);
-        }
-
-        if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFResourceImpl")) {
             return translateOutputLFResource(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFRoleImpl")) {
-            return translateOutputLFRole(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1460,13 +1004,13 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingImpl")) {
-            return translateOutputLFSequencing(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSeqPermissionsImpl")) {
+            return translateOutputLFSeqPermissions(oldModel);
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingPermissionsImpl")) {
-            return translateOutputLFSequencingPermissions(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSequencingImpl")) {
+            return translateOutputLFSequencing(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1480,88 +1024,28 @@ public class ClpSerializer {
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageImpl")) {
-            return translateOutputLFSocialPackage(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSlideImpl")) {
+            return translateOutputLFSlide(oldModel);
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFSocialPackageTagImpl")) {
-            return translateOutputLFSocialPackageTag(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSlideEntityImpl")) {
+            return translateOutputLFSlideEntity(oldModel);
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanActivityImpl")) {
-            return translateOutputLFTincanActivity(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFSlideSetImpl")) {
+            return translateOutputLFSlideSet(oldModel);
         }
 
         if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanActorImpl")) {
-            return translateOutputLFTincanActor(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanActProfileImpl")) {
-            return translateOutputLFTincanActProfile(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanClientApiStorageImpl")) {
-            return translateOutputLFTincanClientApiStorage(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanCtxActivitiesImpl")) {
-            return translateOutputLFTincanCtxActivities(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAgentProfileImpl")) {
-            return translateOutputLFTincanLrsAgentProfile(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsAttachmentImpl")) {
-            return translateOutputLFTincanLrsAttachment(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsContextImpl")) {
-            return translateOutputLFTincanLrsContext(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsDocumentImpl")) {
-            return translateOutputLFTincanLrsDocument(oldModel);
+                    "com.arcusys.learn.persistence.liferay.model.impl.LFTCClntApiStorageImpl")) {
+            return translateOutputLFTCClntApiStorage(oldModel);
         }
 
         if (oldModelClassName.equals(
                     "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsEndpointImpl")) {
             return translateOutputLFTincanLrsEndpoint(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsResultImpl")) {
-            return translateOutputLFTincanLrsResult(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStateImpl")) {
-            return translateOutputLFTincanLrsState(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementImpl")) {
-            return translateOutputLFTincanLrsStatement(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsStatementRefImpl")) {
-            return translateOutputLFTincanLrsStatementRef(oldModel);
-        }
-
-        if (oldModelClassName.equals(
-                    "com.arcusys.learn.persistence.liferay.model.impl.LFTincanLrsSubStatementImpl")) {
-            return translateOutputLFTincanLrsSubStatement(oldModel);
         }
 
         if (oldModelClassName.equals(
@@ -1661,21 +1145,6 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementActivityException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementActivityException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFAchievementUserException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFAchievementUserException();
-        }
-
-        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFActivityException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFActivityException();
         }
@@ -1721,31 +1190,6 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateActivityException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateActivityException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateCourseException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateCourseException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateTincanStatementException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateTincanStatementException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFCertificateUserException();
-        }
-
-        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFChildrenSelectionException();
         }
@@ -1766,13 +1210,8 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFFileStorageException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFGlobalObjectiveStateException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFGlobalObjectiveStateException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFGlblObjectiveStateException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFGlblObjectiveStateException();
         }
 
         if (className.equals(
@@ -1806,11 +1245,6 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFPackageCommentException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageCommentException();
-        }
-
-        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFPackageGradeStorageException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageGradeStorageException();
         }
@@ -1818,11 +1252,6 @@ public class ClpSerializer {
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageScopeRuleException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFPackageVoteException();
         }
 
         if (className.equals(
@@ -1851,13 +1280,13 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestCatException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestCatException();
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionCategoryException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionCategoryException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFQuizQuestionException();
         }
 
         if (className.equals(
@@ -1866,18 +1295,8 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFRequiredActivityException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFRequiredActivityException();
-        }
-
-        if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFResourceException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFResourceException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFRoleException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFRoleException();
         }
 
         if (className.equals(
@@ -1896,13 +1315,13 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSeqPermissionsException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSeqPermissionsException();
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingPermissionsException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSequencingException();
         }
 
         if (className.equals(
@@ -1916,88 +1335,28 @@ public class ClpSerializer {
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSlideException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSlideException();
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFSocialPackageTagException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSlideEntityException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSlideEntityException();
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanActivityException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFSlideSetException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFSlideSetException();
         }
 
         if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanActorException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanActProfileException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanActProfileException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanClientApiStorageException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanClientApiStorageException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanCtxActivitiesException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanCtxActivitiesException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAgentProfileException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAttachmentException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsAttachmentException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsContextException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsDocumentException();
+                    "com.arcusys.learn.persistence.liferay.NoSuchLFTCClntApiStorageException")) {
+            return new com.arcusys.learn.persistence.liferay.NoSuchLFTCClntApiStorageException();
         }
 
         if (className.equals(
                     "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsEndpointException")) {
             return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsEndpointException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsResultException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsResultException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStateException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementRefException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsStatementRefException();
-        }
-
-        if (className.equals(
-                    "com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsSubStatementException")) {
-            return new com.arcusys.learn.persistence.liferay.NoSuchLFTincanLrsSubStatementException();
         }
 
         if (className.equals(
@@ -2021,37 +1380,6 @@ public class ClpSerializer {
         }
 
         return throwable;
-    }
-
-    public static Object translateOutputLFAchievement(BaseModel<?> oldModel) {
-        LFAchievementClp newModel = new LFAchievementClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFAchievementRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFAchievementActivity(
-        BaseModel<?> oldModel) {
-        LFAchievementActivityClp newModel = new LFAchievementActivityClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFAchievementActivityRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFAchievementUser(BaseModel<?> oldModel) {
-        LFAchievementUserClp newModel = new LFAchievementUserClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFAchievementUserRemoteModel(oldModel);
-
-        return newModel;
     }
 
     public static Object translateOutputLFActivity(BaseModel<?> oldModel) {
@@ -2146,59 +1474,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateOutputLFCertificate(BaseModel<?> oldModel) {
-        LFCertificateClp newModel = new LFCertificateClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFCertificateRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFCertificateActivity(
-        BaseModel<?> oldModel) {
-        LFCertificateActivityClp newModel = new LFCertificateActivityClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFCertificateActivityRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFCertificateCourse(
-        BaseModel<?> oldModel) {
-        LFCertificateCourseClp newModel = new LFCertificateCourseClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFCertificateCourseRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFCertificateTincanStatement(
-        BaseModel<?> oldModel) {
-        LFCertificateTincanStatementClp newModel = new LFCertificateTincanStatementClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFCertificateTincanStatementRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFCertificateUser(BaseModel<?> oldModel) {
-        LFCertificateUserClp newModel = new LFCertificateUserClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFCertificateUserRemoteModel(oldModel);
-
-        return newModel;
-    }
-
     public static Object translateOutputLFChildrenSelection(
         BaseModel<?> oldModel) {
         LFChildrenSelectionClp newModel = new LFChildrenSelectionClp();
@@ -2240,23 +1515,13 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateOutputLFFileStorage(BaseModel<?> oldModel) {
-        LFFileStorageClp newModel = new LFFileStorageClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFFileStorageRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFGlobalObjectiveState(
+    public static Object translateOutputLFGlblObjectiveState(
         BaseModel<?> oldModel) {
-        LFGlobalObjectiveStateClp newModel = new LFGlobalObjectiveStateClp();
+        LFGlblObjectiveStateClp newModel = new LFGlblObjectiveStateClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
-        newModel.setLFGlobalObjectiveStateRemoteModel(oldModel);
+        newModel.setLFGlblObjectiveStateRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2322,16 +1587,6 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateOutputLFPackageComment(BaseModel<?> oldModel) {
-        LFPackageCommentClp newModel = new LFPackageCommentClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFPackageCommentRemoteModel(oldModel);
-
-        return newModel;
-    }
-
     public static Object translateOutputLFPackageGradeStorage(
         BaseModel<?> oldModel) {
         LFPackageGradeStorageClp newModel = new LFPackageGradeStorageClp();
@@ -2350,16 +1605,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFPackageScopeRuleRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFPackageVote(BaseModel<?> oldModel) {
-        LFPackageVoteClp newModel = new LFPackageVoteClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFPackageVoteRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2415,23 +1660,22 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFQuizQuestCat(BaseModel<?> oldModel) {
+        LFQuizQuestCatClp newModel = new LFQuizQuestCatClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFQuizQuestCatRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFQuizQuestion(BaseModel<?> oldModel) {
         LFQuizQuestionClp newModel = new LFQuizQuestionClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFQuizQuestionRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFQuizQuestionCategory(
-        BaseModel<?> oldModel) {
-        LFQuizQuestionCategoryClp newModel = new LFQuizQuestionCategoryClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFQuizQuestionCategoryRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2446,33 +1690,12 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateOutputLFRequiredActivity(
-        BaseModel<?> oldModel) {
-        LFRequiredActivityClp newModel = new LFRequiredActivityClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFRequiredActivityRemoteModel(oldModel);
-
-        return newModel;
-    }
-
     public static Object translateOutputLFResource(BaseModel<?> oldModel) {
         LFResourceClp newModel = new LFResourceClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFResourceRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFRole(BaseModel<?> oldModel) {
-        LFRoleClp newModel = new LFRoleClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFRoleRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2508,23 +1731,22 @@ public class ClpSerializer {
         return newModel;
     }
 
+    public static Object translateOutputLFSeqPermissions(BaseModel<?> oldModel) {
+        LFSeqPermissionsClp newModel = new LFSeqPermissionsClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSeqPermissionsRemoteModel(oldModel);
+
+        return newModel;
+    }
+
     public static Object translateOutputLFSequencing(BaseModel<?> oldModel) {
         LFSequencingClp newModel = new LFSequencingClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFSequencingRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFSequencingPermissions(
-        BaseModel<?> oldModel) {
-        LFSequencingPermissionsClp newModel = new LFSequencingPermissionsClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFSequencingPermissionsRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2551,120 +1773,43 @@ public class ClpSerializer {
         return newModel;
     }
 
-    public static Object translateOutputLFSocialPackage(BaseModel<?> oldModel) {
-        LFSocialPackageClp newModel = new LFSocialPackageClp();
+    public static Object translateOutputLFSlide(BaseModel<?> oldModel) {
+        LFSlideClp newModel = new LFSlideClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
-        newModel.setLFSocialPackageRemoteModel(oldModel);
+        newModel.setLFSlideRemoteModel(oldModel);
 
         return newModel;
     }
 
-    public static Object translateOutputLFSocialPackageTag(
+    public static Object translateOutputLFSlideEntity(BaseModel<?> oldModel) {
+        LFSlideEntityClp newModel = new LFSlideEntityClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSlideEntityRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFSlideSet(BaseModel<?> oldModel) {
+        LFSlideSetClp newModel = new LFSlideSetClp();
+
+        newModel.setModelAttributes(oldModel.getModelAttributes());
+
+        newModel.setLFSlideSetRemoteModel(oldModel);
+
+        return newModel;
+    }
+
+    public static Object translateOutputLFTCClntApiStorage(
         BaseModel<?> oldModel) {
-        LFSocialPackageTagClp newModel = new LFSocialPackageTagClp();
+        LFTCClntApiStorageClp newModel = new LFTCClntApiStorageClp();
 
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
-        newModel.setLFSocialPackageTagRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanActivity(BaseModel<?> oldModel) {
-        LFTincanActivityClp newModel = new LFTincanActivityClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanActivityRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanActor(BaseModel<?> oldModel) {
-        LFTincanActorClp newModel = new LFTincanActorClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanActorRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanActProfile(
-        BaseModel<?> oldModel) {
-        LFTincanActProfileClp newModel = new LFTincanActProfileClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanActProfileRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanClientApiStorage(
-        BaseModel<?> oldModel) {
-        LFTincanClientApiStorageClp newModel = new LFTincanClientApiStorageClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanClientApiStorageRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanCtxActivities(
-        BaseModel<?> oldModel) {
-        LFTincanCtxActivitiesClp newModel = new LFTincanCtxActivitiesClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanCtxActivitiesRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsAgentProfile(
-        BaseModel<?> oldModel) {
-        LFTincanLrsAgentProfileClp newModel = new LFTincanLrsAgentProfileClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsAgentProfileRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsAttachment(
-        BaseModel<?> oldModel) {
-        LFTincanLrsAttachmentClp newModel = new LFTincanLrsAttachmentClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsAttachmentRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsContext(
-        BaseModel<?> oldModel) {
-        LFTincanLrsContextClp newModel = new LFTincanLrsContextClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsContextRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsDocument(
-        BaseModel<?> oldModel) {
-        LFTincanLrsDocumentClp newModel = new LFTincanLrsDocumentClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsDocumentRemoteModel(oldModel);
+        newModel.setLFTCClntApiStorageRemoteModel(oldModel);
 
         return newModel;
     }
@@ -2676,59 +1821,6 @@ public class ClpSerializer {
         newModel.setModelAttributes(oldModel.getModelAttributes());
 
         newModel.setLFTincanLrsEndpointRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsResult(BaseModel<?> oldModel) {
-        LFTincanLrsResultClp newModel = new LFTincanLrsResultClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsResultRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsState(BaseModel<?> oldModel) {
-        LFTincanLrsStateClp newModel = new LFTincanLrsStateClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsStateRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsStatement(
-        BaseModel<?> oldModel) {
-        LFTincanLrsStatementClp newModel = new LFTincanLrsStatementClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsStatementRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsStatementRef(
-        BaseModel<?> oldModel) {
-        LFTincanLrsStatementRefClp newModel = new LFTincanLrsStatementRefClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsStatementRefRemoteModel(oldModel);
-
-        return newModel;
-    }
-
-    public static Object translateOutputLFTincanLrsSubStatement(
-        BaseModel<?> oldModel) {
-        LFTincanLrsSubStatementClp newModel = new LFTincanLrsSubStatementClp();
-
-        newModel.setModelAttributes(oldModel.getModelAttributes());
-
-        newModel.setLFTincanLrsSubStatementRemoteModel(oldModel);
 
         return newModel;
     }

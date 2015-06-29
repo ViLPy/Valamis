@@ -1,13 +1,16 @@
 package com.arcusys.learn.notifications
 
-import com.arcusys.learn.bl.services.settings.SettingServiceContract
-import com.arcusys.learn.facades.{ CertificateFacadeContract, CourseFacadeContract, PackageFacadeContract, UserFacadeContract }
+import com.arcusys.learn.facades.{ CertificateFacadeContract, CourseFacadeContract, UserFacadeContract }
 import com.arcusys.learn.models.CourseResponse
 import com.arcusys.learn.models.response.certificates.CertificateResponse
 import com.arcusys.learn.notifications.MessageTemplateLoader.MessageTemplate
-import com.arcusys.learn.scorm.manifest.model.BaseManifest
-import com.arcusys.learn.scorm.tracking.model.PermissionType
-import com.arcusys.learn.tincan.model.Statement
+import com.arcusys.valamis.gradebook.service.PackageGradeService
+import com.arcusys.valamis.lesson.model.BaseManifest
+import com.arcusys.valamis.lesson.service.ValamisPackageService
+import com.arcusys.valamis.lrs.api.StatementApi
+import com.arcusys.valamis.lrs.service.LrsClientManager
+import com.arcusys.valamis.lrs.tincan.Statement
+import com.arcusys.valamis.settings.service.SettingService
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.joda.time.{ DateTime, Days }
 
@@ -17,32 +20,34 @@ trait CourseMessageService extends Injectable with MessageSender {
   implicit def bindingModule: BindingModule
 
   private val templates = inject[MessageTemplateLoader]
-  private val packages = inject[PackageFacadeContract]
+  private val packages = inject[ValamisPackageService]
+  private val grades = new PackageGradeService()
   private val users = inject[UserFacadeContract]
   private val courses = inject[CourseFacadeContract]
   private val certificates = inject[CertificateFacadeContract]
-  private val settingsManager = inject[SettingServiceContract]
+  private val settingsManager = inject[SettingService]
+  private val lrsReader = inject[LrsClientManager]
 
-  private lazy val students = users.byPermission(PermissionType.STUDENT).view
-  private lazy val teachers = users.byPermission(PermissionType.TEACHER).view
+  private lazy val students = users.allCanView(viewAll = false)
+  private lazy val teachers = users.allCanView(viewAll = true)
 
-  def sendCourseMessages() {
+  def sendCourseMessages(statementApi: StatementApi) {
     val enrollmentTemplate = templates.getFor(MessageType.EnrolledStudent)
     val learningTemplate = templates.getFor(MessageType.FinishedLearningModule)
 
     val coursesWithPackages = (courses.all map { course =>
-      (course, packages.getPackagesByCourse(course.id.toInt).filter(_.getVisibility == Some(true)))
+      (course, packages.getPackagesByCourse(course.id.toInt).filter(_.visibility == Some(true)))
     }).toMap.view
 
     val startedCourses = (coursesWithPackages map {
-      case (course, pkgs) => (course.id, pkgs.flatMap(pkg => getEnrolledStudents(pkg)).toSet)
+      case (course, pkgs) => (course.id, pkgs.flatMap(pkg => getEnrolledStudents(statementApi, pkg)).toSet)
     }).toMap
 
     val finishedPackages = (students flatMap { student =>
       coursesWithPackages map {
         case (course, pkgs) =>
           (course.id, student.name,
-            pkgs.collect { case pkg if isFinishedPackage(student.id.toInt, pkg.getId) => pkg.getTitle }
+            pkgs.collect { case pkg if isFinishedPackage(student.id.toInt, pkg.id) => pkg.title }
           )
       }
     }) filter (p => p._3.nonEmpty)
@@ -123,10 +128,12 @@ trait CourseMessageService extends Injectable with MessageSender {
 
   private def isSendable = settingsManager.getSendMessages()
 
-  private def getEnrolledStudents(pkg: BaseManifest) = (students filter { student =>
-    val statement = packages.getStatements(pkg.getId, student.id.toInt).headOption
-    statement collect { case s => isNewlyStarted(s) } getOrElse false
-  }).toList
+  private def getEnrolledStudents(statementApi: StatementApi, pkg: BaseManifest) = {
+    (students filter { student =>
+      val statement = packages.getStatements(pkg.id, student.id.toInt, statementApi).headOption
+      statement collect { case s => isNewlyStarted(s) } getOrElse false
+    }).toList
+  }
 
   private def getTeacherCourses(userId: Long): Seq[CourseResponse] = courses.getByUserId(userId)
 
@@ -134,8 +141,8 @@ trait CourseMessageService extends Injectable with MessageSender {
 
   private def isNewlyStarted(s: Statement) = s.stored.fold(false) { date => isValid(new DateTime(date)) }
 
-  private def isFinishedPackage(userId: Int, packageId: Int) = {
-    val grade = packages.getPackageGrade(userId, packageId)
+  private def isFinishedPackage(userId: Int, packageId: Long) = {
+    val grade = grades.getPackageGrade(userId, packageId)
     grade.fold(false) { g => g.date exists isValid }
   }
 

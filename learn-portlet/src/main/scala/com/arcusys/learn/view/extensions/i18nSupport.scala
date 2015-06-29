@@ -9,7 +9,6 @@ import java.util.Properties
 import java.io.{ FileInputStream, InputStreamReader }
 
 trait i18nSupport {
-  self: ScalatraBase =>
   def getTranslation(path: String): Map[String, String] = {
     val properties = if (isPortletContext)
       propertiesForPortlet(path, this.asInstanceOf[GenericPortlet].getPortletContext)

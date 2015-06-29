@@ -62,6 +62,14 @@ public class LFPackageLocalServiceImpl extends LFPackageLocalServiceBaseImpl {
         lfPackagePersistence.removeAll();
     }
 
+    public java.util.List<LFPackage> findByTitleAndCourseID(String titlePattern, Integer[] courseIDs) throws SystemException{
+        return lfPackagePersistence.findByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
+    public int countByTitleAndCourseID(String titlePattern, Integer[] courseIDs) throws SystemException{
+        return lfPackagePersistence.countByTitleAndCourseID(titlePattern, courseIDs);
+    }
+
     @Override
     public LFPackage getLFPackage(final long id) throws PortalException, SystemException {
         try {

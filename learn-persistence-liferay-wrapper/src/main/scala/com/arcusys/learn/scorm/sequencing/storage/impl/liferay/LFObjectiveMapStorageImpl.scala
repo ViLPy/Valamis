@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.ObjectiveMap
-import com.arcusys.learn.persistence.liferay.service.{ LFSequencingPermissionsLocalServiceUtil, LFObjectiveMapLocalServiceUtil }
+import com.arcusys.learn.persistence.liferay.service.LFObjectiveMapLocalServiceUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest.ObjectiveMap
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFObjectiveMap
 

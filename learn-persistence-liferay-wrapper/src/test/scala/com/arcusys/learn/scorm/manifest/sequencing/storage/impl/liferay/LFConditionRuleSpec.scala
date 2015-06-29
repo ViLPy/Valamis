@@ -6,7 +6,7 @@ import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.specification.Scope
 import com.arcusys.learn.storage.impl.{ EntityStorage, KeyedEntityStorage }
 import com.arcusys.learn.persistence.liferay.service.{ LFRuleConditionLocalServiceUtil, LFConditionRuleLocalServiceUtil }
-import com.arcusys.learn.scorm.manifest.model._
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay.{ LFPostConditionRuleStorageImpl, LFPreConditionRuleStorageImpl, LFRuleConditionStorageImpl, LFExitConditionRuleStorageImpl }
 import com.arcusys.learn.scorm.manifest.sequencing.storage.impl.{ PostConditionRuleCreator, PreConditionRuleCreator, ExitConditionRuleCreator }
 import com.arcusys.learn.storage.impl.liferay.LFStorages

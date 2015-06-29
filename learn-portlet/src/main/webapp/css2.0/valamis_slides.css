@@ -1,0 +1,892 @@
+@charset "UTF-8";
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */ }
+
+/**
+ * Remove default margin.
+ */
+body {
+  margin: 0; }
+
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio, canvas, progress, video {
+  display: inline-block;
+  /* 1 */
+  vertical-align: baseline;
+  /* 2 */ }
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden], template {
+  display: none; }
+
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+  background-color: transparent; }
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active, a:hover {
+  outline: 0; }
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+  border-bottom: 1px dotted; }
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b, strong {
+  font-weight: bold; }
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+  font-style: italic; }
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0; }
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+  background: #ff0;
+  color: #000; }
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+  font-size: 80%; }
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sup {
+  top: -0.5em; }
+
+sub {
+  bottom: -0.25em; }
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+  border: 0; }
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+  overflow: hidden; }
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+  margin: 1em 40px; }
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  box-sizing: content-box;
+  height: 0; }
+
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+  overflow: auto; }
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code, kbd, pre, samp {
+  font-family: monospace, monospace;
+  font-size: 1em; }
+
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button, input, optgroup, select, textarea {
+  color: inherit;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+  margin: 0;
+  /* 3 */ }
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+  overflow: visible; }
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button, select {
+  text-transform: none; }
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */ }
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled], html input[disabled] {
+  cursor: default; }
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+  line-height: normal; }
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */ }
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+  height: auto; }
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  /* 2 */
+  box-sizing: content-box; }
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em; }
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  /* 2 */ }
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+  overflow: auto; }
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+  font-weight: bold; }
+
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+td, th {
+  padding: 0; }
+
+/**
+ *
+ * @author Lassi Vehviläinen, Yury Gatilin, Lubov Potakhina
+ *
+ * @name Valamis Sass Theme
+ *
+ *
+ */
+@font-face {
+  font-family: 'valamis-icons';
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/valamis-icons.eot?#iefix") format("embedded-opentype"), url("../fonts/valamis-icons.woff") format("woff"), url("../fonts/valamis-icons.ttf") format("truetype"), url("../fonts/valamis-icons.svg#valamis-icons") format("svg"); }
+
+.portlet-learn-scorm-slides {
+  height: 100%;
+  /* Bitters 0.10.0
+ * http://bitters.bourbon.io
+ * Copyright 2013–2014 thoughtbot, inc.
+ * MIT License */
+  /* Neat 1.7.0
+ * http://neat.bourbon.io
+ * Copyright 2012-2014 thoughtbot, inc.
+ * MIT License */
+  /* phenomenizer */ }
+  .portlet-learn-scorm-slides .button.slides-with-margin {
+    font-size: 20px;
+    margin: 4px 0px 4px 10px !important; }
+    .portlet-learn-scorm-slides .button.slides-with-margin > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .button.slides-with-margin > [class*=" val-icon-"]:before {
+      font-size: 1em; }
+  .portlet-learn-scorm-slides .button.no-margin {
+    margin: 0 !important; }
+  .portlet-learn-scorm-slides .button.slides-medium {
+    border: none;
+    font-size: 20px;
+    height: 60px;
+    width: 60px; }
+    .portlet-learn-scorm-slides .button.slides-medium.no-text {
+      width: 60px; }
+    .portlet-learn-scorm-slides .button.slides-medium > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .button.slides-medium > [class*=" val-icon-"]:before {
+      font-size: 1em;
+      margin: 0; }
+  .portlet-learn-scorm-slides .button.slides-big {
+    border: none;
+    font-size: 30px;
+    height: 80px;
+    width: 80px;
+    line-height: 30px; }
+    .portlet-learn-scorm-slides .button.slides-big.no-text {
+      width: 80px; }
+    .portlet-learn-scorm-slides .button.slides-big > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .button.slides-big > [class*=" val-icon-"]:before {
+      width: 100%;
+      height: 30px;
+      font-size: 1em;
+      margin: 0; }
+    .portlet-learn-scorm-slides .button.slides-big > span:nth-child(2) {
+      line-height: 20px;
+      height: 20px;
+      display: block;
+      font-size: 13px; }
+  .portlet-learn-scorm-slides .button.slides-primary {
+    border-color: #598000;
+    background: #598000;
+    color: white; }
+    .portlet-learn-scorm-slides .button.slides-primary:hover {
+      background: #3E5900;
+      border-color: #3E5900;
+      color: white; }
+  .portlet-learn-scorm-slides .button.slides-round {
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 28px;
+    text-align: center;
+    pointer-events: all; }
+    .portlet-learn-scorm-slides .button.slides-round > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .button.slides-round > [class*=" val-icon-"]:before {
+      display: inline !important;
+      font-size: 28px;
+      margin: 0 auto;
+      width: 36px; }
+    .portlet-learn-scorm-slides .button.slides-round.right {
+      position: absolute;
+      right: 20px;
+      z-index: 30; }
+    .portlet-learn-scorm-slides .button.slides-round.down {
+      position: absolute;
+      bottom: 80px;
+      z-index: 30; }
+  .portlet-learn-scorm-slides .button.slides-dark-opacity {
+    background: black;
+    color: white;
+    border-color: black;
+    opacity: 0.6; }
+    .portlet-learn-scorm-slides .button.slides-dark-opacity > span {
+      color: white; }
+    .portlet-learn-scorm-slides .button.slides-dark-opacity:hover, .portlet-learn-scorm-slides .button.slides-dark-opacity.active-button {
+      opacity: 0.95; }
+      .portlet-learn-scorm-slides .button.slides-dark-opacity:hover > span, .portlet-learn-scorm-slides .button.slides-dark-opacity.active-button > span {
+        color: white; }
+    .portlet-learn-scorm-slides .button.slides-dark-opacity.active-button {
+      background-color: #598000;
+      border-color: #598000; }
+      .portlet-learn-scorm-slides .button.slides-dark-opacity.active-button:hover {
+        background-color: #3E5900; }
+  .portlet-learn-scorm-slides .button.slides-dark {
+    background: #1C1C1C;
+    color: #777;
+    border-color: #1C1C1C; }
+    .portlet-learn-scorm-slides .button.slides-dark > span {
+      background: transparent; }
+    .portlet-learn-scorm-slides .button.slides-dark:hover {
+      color: #AAA; }
+  .portlet-learn-scorm-slides .button.slides-medium-dark {
+    background: #1C1C1C;
+    color: #AAA; }
+    .portlet-learn-scorm-slides .button.slides-medium-dark:hover {
+      background: #121212;
+      color: #DEDEDE; }
+  .portlet-learn-scorm-slides .button.slides-big-dark:hover {
+    background: #121212; }
+  .portlet-learn-scorm-slides .button.slides-big-dark > span:hover {
+    background: transparent; }
+  .portlet-learn-scorm-slides .button.slides-gray {
+    background: #3C3C3C;
+    border-color: #3C3C3C;
+    color: #DEDEDE; }
+    .portlet-learn-scorm-slides .button.slides-gray:hover {
+      background: #4C4C4C;
+      border-color: #4C4C4C;
+      color: #DEDEDE; }
+  .portlet-learn-scorm-slides .button-group button.button > [class^="val-icon-"]:before {
+    margin: 0;
+    vertical-align: inherit;
+    line-height: inherit; }
+  .portlet-learn-scorm-slides .button-group button.button:nth-child(2) {
+    margin-right: 0px !important; }
+  .portlet-learn-scorm-slides .no-padding {
+    padding: 0 !important; }
+  .portlet-learn-scorm-slides .sidebar {
+    position: absolute;
+    padding: 30px;
+    width: 140px;
+    top: 0;
+    bottom: 0;
+    border: none;
+    background: #1C1C1C;
+    overflow: hidden; }
+  .portlet-learn-scorm-slides .reveal-wrapper {
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 30;
+    pointer-events: none; }
+  .portlet-learn-scorm-slides .reveal .slides {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 1px dashed #DEDEDE;
+    pointer-events: all; }
+    .portlet-learn-scorm-slides .reveal .slides .slides-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 0; }
+  .portlet-learn-scorm-slides .reveal video {
+    max-width: 100%;
+    max-height: 100%; }
+  .portlet-learn-scorm-slides .reveal iframe {
+    max-width: 100%;
+    max-height: 100%; }
+  .portlet-learn-scorm-slides .reveal section {
+    top: 0 !important;
+    left: 0 !important; }
+  .portlet-learn-scorm-slides .reveal .controls {
+    position: absolute;
+    bottom: 10px;
+    display: none;
+    height: 110px;
+    position: absolute;
+    right: 10px;
+    width: 110px;
+    z-index: 430;
+    pointer-events: all; }
+  .portlet-learn-scorm-slides .rj-element {
+    position: absolute;
+    cursor: pointer;
+    box-sizing: content-box;
+    min-height: 32px;
+    min-width: 32px;
+    border: 2px solid transparent; }
+    .portlet-learn-scorm-slides .rj-element .item-border {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 999; }
+      .portlet-learn-scorm-slides .rj-element .item-border.active {
+        border: 2px solid #2974A6; }
+    .portlet-learn-scorm-slides .rj-element.rj-text, .portlet-learn-scorm-slides .rj-element.rj-image {
+      max-height: 800px;
+      max-width: 800px;
+      word-break: break-word;
+      white-space: normal; }
+    .portlet-learn-scorm-slides .rj-element.rj-video {
+      min-height: 360px;
+      min-width: 640px; }
+    .portlet-learn-scorm-slides .rj-element.rj-iframe {
+      max-width: 1280px;
+      max-height: 1024px; }
+    .portlet-learn-scorm-slides .rj-element.active {
+      border: 2px solid #2974A6; }
+    .portlet-learn-scorm-slides .rj-element.unactive {
+      cursor: default; }
+    .portlet-learn-scorm-slides .rj-element.linked {
+      cursor: pointer; }
+  .portlet-learn-scorm-slides .toolbar-item-view {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #777;
+    margin-bottom: -1px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer; }
+  .portlet-learn-scorm-slides .no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+  .portlet-learn-scorm-slides .reveal-controls {
+    position: absolute;
+    left: 140px;
+    z-index: 30;
+    pointer-events: none; }
+  .portlet-learn-scorm-slides .file-upload-modal .bbm-modal {
+    max-height: 700px;
+    max-width: 700px; }
+  .portlet-learn-scorm-slides .slides-editor-topbar {
+    height: 60px;
+    width: 100%;
+    background-color: #2c2c2c; }
+    .portlet-learn-scorm-slides .slides-editor-topbar .close-slideset {
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      height: 60px;
+      padding: 15px 0px 15px 20px;
+      width: 60px;
+      background: #1C1C1C;
+      color: #AAA; }
+      .portlet-learn-scorm-slides .slides-editor-topbar .close-slideset:hover {
+        background: #121212;
+        color: #DEDEDE; }
+    .portlet-learn-scorm-slides .slides-editor-topbar .slides-editor-undo, .portlet-learn-scorm-slides .slides-editor-topbar .slides-editor-save-container {
+      padding: 13px; }
+      .portlet-learn-scorm-slides .slides-editor-topbar .slides-editor-undo .slides-editor-changes-saved, .portlet-learn-scorm-slides .slides-editor-topbar .slides-editor-save-container .slides-editor-changes-saved {
+        cursor: default; }
+  .portlet-learn-scorm-slides .slideset-editor {
+    z-index: 1100;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 0px;
+    overflow: hidden; }
+  .portlet-learn-scorm-slides .slideset-iframe {
+    border: none;
+    height: 100%;
+    width: 100%; }
+  .portlet-learn-scorm-slides .editor-wrapper {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    width: 100%;
+    min-height: 720px;
+    min-width: 1200px; }
+    .portlet-learn-scorm-slides .editor-wrapperiframe {
+      position: absolute;
+      top: 0; }
+  .portlet-learn-scorm-slides #slide-controls {
+    position: absolute;
+    z-index: 30; }
+  .portlet-learn-scorm-slides #slideset-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    pointer-events: all; }
+  .portlet-learn-scorm-slides .slide-delete {
+    display: none; }
+  .portlet-learn-scorm-slides .item-content {
+    width: 100%;
+    height: 100%;
+    overflow: visible; }
+    .portlet-learn-scorm-slides .item-content .iframe-item, .portlet-learn-scorm-slides .item-content .video-js {
+      height: 100%;
+      width: 100%;
+      z-index: 0;
+      display: none; }
+    .portlet-learn-scorm-slides .item-content:focus {
+      outline: none; }
+    .portlet-learn-scorm-slides .item-content.iframe-item, .portlet-learn-scorm-slides .item-content.img-item, .portlet-learn-scorm-slides .item-content.video-item, .portlet-learn-scorm-slides .item-content.question-item {
+      background-color: #1C1C1C; }
+    .portlet-learn-scorm-slides .item-content > [class^="content-icon-"], .portlet-learn-scorm-slides .item-content > [class*=" content-icon-"] {
+      color: #777;
+      position: absolute;
+      font-size: 70px;
+      -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%; }
+      .portlet-learn-scorm-slides .item-content > [class^="content-icon-"] > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .item-content > [class^="content-icon-"] > [class*=" val-icon-"]:before, .portlet-learn-scorm-slides .item-content > [class*=" content-icon-"] > [class^="val-icon-"]:before, .portlet-learn-scorm-slides .item-content > [class*=" content-icon-"] > [class*=" val-icon-"]:before {
+        font-size: inherit; }
+  .portlet-learn-scorm-slides .item-controls {
+    display: none;
+    position: absolute;
+    right: -50px;
+    z-index: 10000; }
+  .portlet-learn-scorm-slides .slide-popup-panel {
+    background-color: white;
+    border-radius: 3px;
+    display: none;
+    position: absolute;
+    width: 360px;
+    z-index: 100;
+    padding: 30px; }
+    .portlet-learn-scorm-slides .slide-popup-panel label {
+      text-align: left;
+      margin-right: 0px; }
+    .portlet-learn-scorm-slides .slide-popup-panel.iframe-edit-panel {
+      right: 50px; }
+      .portlet-learn-scorm-slides .slide-popup-panel.iframe-edit-panel textarea {
+        margin-bottom: 20px; }
+    .portlet-learn-scorm-slides .slide-popup-panel.math-edit-panel {
+      right: 0px;
+      bottom: 174px; }
+    .portlet-learn-scorm-slides .slide-popup-panel.image-upload-panel {
+      top: 130px; }
+      .portlet-learn-scorm-slides .slide-popup-panel.image-upload-panel .val-select {
+        margin-bottom: 20px; }
+      .portlet-learn-scorm-slides .slide-popup-panel.image-upload-panel #slide-background-image-thumbnail {
+        display: none;
+        margin-left: 87px;
+        width: 120px;
+        height: 120px; }
+      .portlet-learn-scorm-slides .slide-popup-panel.image-upload-panel .file-uploader-wrapper {
+        padding: 10px 0 20px 0; }
+        .portlet-learn-scorm-slides .slide-popup-panel.image-upload-panel .file-uploader-wrapper label {
+          text-align: center; }
+    .portlet-learn-scorm-slides .slide-popup-panel.slide-title-edit-panel {
+      top: 4px; }
+      .portlet-learn-scorm-slides .slide-popup-panel.slide-title-edit-panel input#js-slide-title {
+        margin-bottom: 20px; }
+    .portlet-learn-scorm-slides .slide-popup-panel.slide-statement-edit-panel {
+      top: 46px; }
+    .portlet-learn-scorm-slides .slide-popup-panel .background-image-mediagallery {
+      color: #2974A6;
+      cursor: pointer; }
+    .portlet-learn-scorm-slides .slide-popup-panel .close-slide-popup-panel {
+      position: absolute;
+      top: 0;
+      right: 0; }
+  .portlet-learn-scorm-slides .arrow-right {
+    position: absolute;
+    right: -10px;
+    top: 6px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent !important;
+    border-bottom: 10px solid transparent !important;
+    border-left: 10px solid white !important; }
+  .portlet-learn-scorm-slides .arrow-left {
+    position: absolute;
+    left: -10px;
+    top: 6px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent !important;
+    border-bottom: 10px solid transparent !important;
+    border-right: 10px solid white !important; }
+  .portlet-learn-scorm-slides .arrow-down {
+    position: absolute;
+    right: 8px;
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent !important;
+    border-right: 10px solid transparent !important;
+    border-top: 10px solid white !important; }
+  .portlet-learn-scorm-slides .dropzone-link {
+    color: #2974A6; }
+  .portlet-learn-scorm-slides .img-item {
+    background-size: 100% 100%;
+    height: 100%;
+    width: 100%; }
+  .portlet-learn-scorm-slides .mode-switcher {
+    padding-top: 11px;
+    padding-left: 11px; }
+  .portlet-learn-scorm-slides .presentation-title {
+    color: white;
+    font-weight: 700;
+    padding-top: 21px; }
+  .portlet-learn-scorm-slides .presentation-unsaved {
+    color: #777;
+    display: none;
+    font-style: italic;
+    padding-top: 21px; }
+  .portlet-learn-scorm-slides .background-image-uploader .dropzone {
+    cursor: pointer;
+    height: 120px;
+    padding-top: 55px; }
+  .portlet-learn-scorm-slides #arrangeContainer {
+    overflow: hidden; }
+  .portlet-learn-scorm-slides #arrangeSlides {
+    position: relative;
+    top: 0;
+    height: 100%; }
+    .portlet-learn-scorm-slides #arrangeSlides.centered {
+      left: 50%;
+      top: 50px;
+      -webkit-transform: translate(-50%, 0);
+          -ms-transform: translate(-50%, 0);
+              transform: translate(-50%, 0); }
+    .portlet-learn-scorm-slides #arrangeSlides td {
+      vertical-align: top; }
+      .portlet-learn-scorm-slides #arrangeSlides td.empty-arrange-list {
+        width: 10px;
+        padding: 0 5px; }
+  .portlet-learn-scorm-slides .slides-arrange-tile {
+    width: 200px;
+    height: 150px;
+    background-color: white;
+    color: #AAA;
+    cursor: pointer;
+    margin: 10px 0;
+    border: 2px solid #AAA;
+    border-radius: 3px;
+    position: relative; }
+    .portlet-learn-scorm-slides .slides-arrange-tile:hover {
+      border: 2px solid #2974A6; }
+    .portlet-learn-scorm-slides .slides-arrange-tile.arrange-tile-active {
+      border: 2px solid #2974A6; }
+    .portlet-learn-scorm-slides .slides-arrange-tile.arrange-tile-inactive {
+      border: 2px solid #AAA; }
+    .portlet-learn-scorm-slides .slides-arrange-tile.ui-sortable-helper {
+      cursor: move; }
+    .portlet-learn-scorm-slides .slides-arrange-tile .arrange-tile-cover {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%); }
+    .portlet-learn-scorm-slides .slides-arrange-tile .arrange-tile-controls {
+      display: none;
+      position: relative;
+      z-index: 100;
+      top: 0;
+      right: 5px; }
+  .portlet-learn-scorm-slides .slides-arrange-placeholder {
+    width: 200px;
+    height: 150px;
+    border: 2px dashed #AAA; }
+  .portlet-learn-scorm-slides .slides-thumbnail {
+    width: 500%;
+    height: 500%;
+    cursor: default;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -moz-transform: scale(0.2);
+    -moz-transform-origin: 0% 0%;
+    -webkit-transform: scale(0.2);
+    -webkit-transform-origin: 0% 0%;
+    -ms-transform: scale(0.2);
+    -ms-transform-origin: 0% 0%; }
+    .portlet-learn-scorm-slides .slides-thumbnail .katex-display {
+      margin: 0; }
+  .portlet-learn-scorm-slides .scroll-y {
+    overflow-x: hidden;
+    overflow-y: auto; }
+  .portlet-learn-scorm-slides .reveal .slides [hidden] {
+    overflow: hidden; }
+  .portlet-learn-scorm-slides .no-pointer-events {
+    pointer-events: none; }
+  .portlet-learn-scorm-slides .val-modal {
+    font-size: 13px; }
+    .portlet-learn-scorm-slides .val-modal input {
+      display: inline-block; }
+  .portlet-learn-scorm-slides .slideset-editor.phenomenizer-editor {
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .sidebar-wide {
+    width: 260px;
+    min-height: 260px;
+    margin-left: -260px;
+    float: left;
+    background-color: #F2F2F2;
+    border-right: 1px solid #ddd; }
+    .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .sidebar-wide .filter-element input {
+      width: 205px; }
+    .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .sidebar-wide .val-tree {
+      overflow-x: hidden;
+      overflow-y: auto; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .phenomenizer-content {
+    min-height: 300px; }
+    .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .phenomenizer-content .content {
+      padding: 5px; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .tree-textarea {
+    width: 200px;
+    height: 40px;
+    min-height: 0;
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    font-weight: bold;
+    line-height: 1.2;
+    resize: none; }
+    .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .tree-textarea:focus {
+      background-color: transparent; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .tree-text-box {
+    width: 95%;
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .tree-controls {
+    cursor: pointer; }
+    .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .tree-controls span {
+      color: #fff; }
+  .portlet-learn-scorm-slides .phenomenizer-editor-wrapper .ui-draggable-dragging {
+    width: 215px;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: 3px;
+    background-color: #F2F2F2;
+    border: 2px solid #386C9C;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    pointer-events: none; }
+
+.portlet-learn-scorm-slides * {
+  box-sizing: border-box; }
+
+.portlet-learn-scorm-slides .portlet-content {
+  padding: 0 !important; }
+
+.portlet-learn-scorm-slides .val-row .label {
+  font-size: 13px;
+  font-weight: bold; }
+
+.portlet-learn-scorm-slides .val-row .dropzone-wrapper {
+  margin: 0px; }

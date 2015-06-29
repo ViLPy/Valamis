@@ -1,0 +1,3 @@
+<configuration>
+    <logger name="deng" level="INFO"/>
+</configuration>

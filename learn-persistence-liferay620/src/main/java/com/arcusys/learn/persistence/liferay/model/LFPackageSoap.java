@@ -3,6 +3,7 @@ package com.arcusys.learn.persistence.liferay.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ public class LFPackageSoap implements Serializable {
     private Long _assetRefID;
     private Integer _courseID;
     private String _logo;
+    private Date _beginDate;
+    private Date _endDate;
 
     public LFPackageSoap() {
     }
@@ -37,6 +40,8 @@ public class LFPackageSoap implements Serializable {
         soapModel.setAssetRefID(model.getAssetRefID());
         soapModel.setCourseID(model.getCourseID());
         soapModel.setLogo(model.getLogo());
+        soapModel.setBeginDate(model.getBeginDate());
+        soapModel.setEndDate(model.getEndDate());
 
         return soapModel;
     }
@@ -155,5 +160,21 @@ public class LFPackageSoap implements Serializable {
 
     public void setLogo(String logo) {
         _logo = logo;
+    }
+
+    public Date getBeginDate() {
+        return _beginDate;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        _beginDate = beginDate;
+    }
+
+    public Date getEndDate() {
+        return _endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        _endDate = endDate;
     }
 }

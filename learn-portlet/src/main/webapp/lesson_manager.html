@@ -1,82 +1,61 @@
 <html>
 <head>
-<meta name="viewport" content="width=device-width; initial-scale=1.0;">
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width; initial-scale=1.0;">
     <!--[if (gte IE 8)&(lt IE 10)]>
-     <script src="{{contextPath}}/js2.0/cors/jquery.xdr-transport.js"></script>
+    <script src="{{contextPath}}/js2.0/cors/jquery.xdr-transport.js"></script>
     <![endif]-->
 
 </head>
 <body>
 <div class="overflow-hidden">
-  <div id="packageView"></div>
-
-    <div id="packagesContentWrapper" class="content-wrapper clearfix">
-
-        <!-- Page content -->
-        <div class="page-content-wrapper" id="packagesPageContent">
-
-        </div>
-
-    </div>
+    <div id="lessonManagerAppRegion"></div>
 
     <input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
-    <input type="hidden" id="courseID" value="{{courseID}}"/>
-    <div id="packageManagerEditModalRegion"></div>
-    <div id="packageManagerModalRegion"></div>
+
 </div>
 
 
 <script type="text/javascript">
 
-    var packageManagerSettings = new SettingsHelper({url: window.location.href, portlet: 'packageManager'});
-    packageManagerSettings.fetch();
-    var packageLogoData = new FormDataHelper();
+    jQueryValamis(function () {
 
-  jQuery(function () {
+        if (!valamisApp.started) {
+            valamisApp.start();
+        }
 
-
-    /**
-     * Mobile IE10 hack
-     */
-    if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-      var msViewportStyle = document.createElement("style");
-      msViewportStyle.appendChild(
-          document.createTextNode("@-ms-viewport{width:auto!important}")
-      );
-      document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-    }
-    /** Mobile IE10 hack */
-
-      var language = '{{language}}';
-      var onBankLanguageLoad  = function(properties) {
-          //PackageManager.BankLanguageData = properties;
-          PackageManager.start({languageBank: properties});
-      };
-
-      var onBankLanguageError = function() {
-          alert('Translation resource loading failed!');
-      };
-
-      var getPackSource = function(language){
-          return Utils.getContextPath() + 'i18n/lessonManager_' + language + '.properties';
-      };
-
-      var getLanguageBank = function (options) {
-          Backbone.emulateJSON = true;
-          //Backbone.ajax = window.LearnAjax.ajax;
-          var defaultURL = getPackSource('en');
-          var localizedURL = getPackSource(options.language);
-
-          Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);
-      };
-
-      getLanguageBank({language : language});
+        /**
+         * Mobile IE10 hack
+         */
+        if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+            var msViewportStyle = document.createElement("style");
+            msViewportStyle.appendChild(
+                    document.createTextNode("@-ms-viewport{width:auto!important}")
+            );
+            document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+        }
+        /** Mobile IE10 hack */
 
 
 
-  });
+        var permissionActionsLessonManager = {
+            LM_MODIFY: eval('{{permissionToModify}}'),
+            LM_SET_DEFAULT: eval('{{permissionSetDefault}}'),
+            LM_SET_VISIBLE: eval('{{permissionSetVisible}}'),
+            LM_CAN_EXPORT: eval('{{permissionExport}}'),
+            LM_CAN_UPLOAD: eval('{{permissionUpload}}')
+        };
+
+        var lessonManagerOptions = {
+            language: '{{language}}',
+            resourceName: 'lessonManager',
+            permissions: permissionActionsLessonManager,
+            app: lessonManager,
+            appOptions: {}
+        };
+
+        valamisApp.execute('subapp:start', lessonManagerOptions);
+
+    });
 
 </script>
 

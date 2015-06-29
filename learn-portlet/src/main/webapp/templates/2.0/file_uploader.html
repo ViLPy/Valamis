@@ -1,17 +1,21 @@
 <script type="text/html" id="fileUploaderDropZone">
-  <div class="dropzone-wrapper">
-    <label id="dropzone" class="dropzone fileinput-button">
-      Drop files to upload<br>(or click)
-      <input id="fileupload" type="file" name="files[]" data-url="{{fileUploadEndpoint}}" multiple>
-    </label>
-  </div>
-  <div class="progress progress-striped active hidden">
-    <div class="progress-bar bar bar-success progress-bar-success" role="progressbar"></div>
-  </div>
+    <div class="file-uploader-wrapper">
+          <div class="dropzone-wrapper">
+            <label id="dropzone" class="dropzone fileinput-button">
+              <!--{{fileUploadMessage}}-->
+                Drop or <span style='color:#2974A6'> browse</span> files to upload.
+                <label style="font-size: smaller"> {{fileUploadAdditionalInfo}}</label>
+              <input id="fileupload" class="hidden js-file-uploader-input" type="file" name="files[]" data-url="{{fileUploadEndpoint}}" multiple>
+            </label>
+          </div>
+          <div class="progress progress-striped active hidden">
+            <div class="progress-bar bar bar-success progress-bar-success" role="progressbar"></div>
+          </div>
+    </div>
 </script>
 
 <script type="text/html" id="fileUploaderItem">
-  <div>
+  <div class="file-uploader-item-wrapper">
     <strong>{{filename}}</strong>
 
     <div class="progress progress-striped active">

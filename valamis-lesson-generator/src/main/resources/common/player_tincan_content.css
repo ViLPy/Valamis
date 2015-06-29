@@ -1,0 +1,321 @@
+/*--Matching Question--*/
+
+#scormQuestionData td{
+   padding: 3px;
+}
+
+/* ------------ Matching ----------------*/
+
+.playerMainArea .playerMatchingAnswers{
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 20px;
+    display: table;
+}
+.playerMatchingAnswers .maschingQuestionBlock
+{
+    width: 40%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.playerMatchingAnswers .maschingAnswerBlock
+{
+    width: 50%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock li {
+    background-color: #FFFFFF;
+    border: 2px dashed #FFFFFF;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+    color: #1c1c1c;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock .matchingAnswerBox
+{
+    width:100%;
+}
+
+.playerMatchingAnswers .maschingQuestionBlock li:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+
+.playerMatchingAnswers .matchingAnswerBox {
+    background-color: #DEDEDE;
+    border: 2px dashed #AAA;
+    padding: 4px;
+    border-radius: 3px;
+    margin: 5px;
+    text-align: center;
+    display: inline-block;
+    width:80%;
+    list-style-type: none;
+}
+
+
+.playerMatchingAnswers .matchingAnswerBox .answerContainer  li {
+    background-color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 10px;
+}
+
+.playerMatchingAnswers .matchingAnswerBox .answerContainer li:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+
+.playerMatchingAnswers .matchingAnswerBox:hover {
+    border-color: #2974A6;
+    color: #2974A6;
+}
+
+.matchingAnswerBox .answerContainer {
+    height: auto;
+    list-style-type: none;
+    margin: 0;
+    min-height: 70px;
+    padding: 5px;
+    width: 100%;
+}
+/* ------------ Choice Question ----------------*/
+/* for generator */
+.choiceAnswer .choiceTextContainer {
+    background-color: white;
+    height: 60px;
+    border-radius: 3px;
+    width: 100%;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.choiceAnswer .choiceTextContainer span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 60px;
+}
+
+.choiceAnswer .choiceTextContainer span p {
+    margin: 0;
+    float: left;
+    padding-left: 20px;
+}
+
+.choiceAnswer input[type=checkbox].checkbox:checked + label,
+.choiceAnswer input[type=radio].radio:checked + label {
+    box-shadow: inset 0 0 0 2px #2974A6;
+    color: #2974A6;
+}
+
+/* ------------ Short Answer Question ----------------*/
+
+.SCORMPlayerContentDisplay .playerMainArea .playerShortAnswerField {
+    background: #fff;
+    border: 2px solid #DEDEDE;
+    padding: 4px;
+    border-radius: 3px;
+    height: 60px;
+}
+
+/* ------------ Long Answer Question ----------------*/
+
+.SCORMPlayerContentDisplay .playerMainArea .playerLongAnswerField {
+    background: #fff;
+    border: 2px solid #DEDEDE;
+    padding: 4px;
+    border-radius: 3px;
+    font-size: 20px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+}
+
+/* ------------ Placing Question ----------------*/
+.playerMainArea .playerPlacingAnswers {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 20px;
+}
+
+.playerMainArea .playerPlacingAnswers ul {
+    list-style-type: none;
+    padding: 5px;
+    display:block;
+}
+
+.playerMainArea .playerPlacingAnswers ul li {
+    border: 2px solid #f6f6f6;
+    color:#1c1c1c;
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: move;
+    line-height: 1.2em;
+    border-radius: 3px;
+    background: #FFFFFF;
+    height: 60px;
+}
+
+.playerMainArea .playerPlacingAnswers ul li:hover {
+    border-color:#2974A6;
+    color:#2974A6;
+
+}
+
+.playerMainArea .playerPlacingAnswers ul li div{
+    display: inline-block;
+    padding: 2px;
+
+}
+.playerMainArea .playerPlacingAnswers .ui-state-highlight{
+    height: 60px;
+    line-height: 1.2em;
+    background-color: #DEDEDE;
+    border: 2px dashed #AAA;
+}
+/* ------------ Categorize Question ----------------*/
+
+.playerMainArea .playerCategorizeAnswers td ul,
+.playerMainArea .playerCategorizeAnswers td .categorizationAnswerBox {
+    box-sizing: border-box;
+}
+
+.playerMainArea .playerCategorizeAnswers ul.categorizationAnswerElements,
+.playerMainArea .playerCategorizeAnswers ul.answerContainer {
+    list-style-type: none;
+    height: 45px;
+    width: 100%;
+}
+
+.playerMainArea .playerCategorizeAnswers ul.categorizationAnswerElements {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.playerMainArea .playerCategorizeAnswers ul li {
+    padding: 5px;
+    min-width: 180px;
+    margin-bottom: 5px;
+    cursor: move;
+    line-height: 1.2em;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li:hover,
+.playerMainArea .playerCategorizeAnswers .answerContainer li:hover {
+    box-shadow: inset 0 0 0 2px #2974A6;
+}
+
+
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li:hover p,
+.playerMainArea .playerCategorizeAnswers .answerContainer li:hover p{
+    color: #2974A6;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li .val-icon-sort,
+.playerMainArea .playerCategorizeAnswers .answerContainer li .val-icon-sort {
+    color: #AAA;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox.hoverBox {
+    border-color: #2974A6;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox.noHoverBox {
+    border-color: #AAA;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox {
+    position: relative;
+    min-height: 140px;
+    min-width: 204px;
+    line-height: 1.2em;
+    background-color: #DEDEDE; /* $gray87 */
+    border: 2px dashed #AAA; /* $gray67 */
+    padding: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox .answerContainer span {
+    font-weight: normal;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li,
+.playerMainArea .playerCategorizeAnswers .answerContainer li {
+    color: #2c2c2c;
+    z-index: 1000;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li span,
+.playerMainArea .playerCategorizeAnswers .answerContainer li span {
+    display: table-cell;
+    vertical-align: middle;
+    height: 30px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements li span p,
+.playerMainArea .playerCategorizeAnswers .answerContainer li span p {
+    margin: 0;
+    float: left;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerElements {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.playerMainArea .playerCategorizeAnswers tr td {
+    text-align: center;
+}
+
+.categorizationAnswerBox th {
+    font-size: 14px;
+    font-weight: normal;
+    background: #666666;
+    font-size: 14px;
+    padding: 1px 2px 3px 2px;
+    color: #FFF;
+}
+
+.categorizationAnswerBox td {
+    background-color: #FFF;
+    min-height: 100px;
+    font-size: 14px;
+    padding: 0px !important;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox .answerContainer {
+    min-height: 100px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    list-style-type: none;
+    margin: 0;
+
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox .answerContainer ul {
+    padding-top: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.playerMainArea .playerCategorizeAnswers .categorizationAnswerBox .answerContainer li {
+    background: white;
+}
+
+.externalResourceIframe {
+    width: 100%;
+    border: #6B6B6B solid 1px;
+    margin: 0;
+    padding: 0;
+}

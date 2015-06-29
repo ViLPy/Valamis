@@ -2,7 +2,7 @@ package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.service.LFSequencingLocalServiceUtil
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.scorm.manifest.model.Sequencing
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import org.specs2.mock.Mockito
 import org.specs2.matcher.ThrownExpectations
 import org.specs2.mutable.SpecificationWithJUnit

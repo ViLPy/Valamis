@@ -1,3 +1,3 @@
 package com.arcusys.learn.exceptions
 
-class NotAuthorizedException extends Exception
+case class NotAuthorizedException(message: String = null) extends Exception(message)

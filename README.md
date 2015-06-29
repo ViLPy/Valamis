@@ -6,7 +6,7 @@
 
 Valamis is a social learning environment for sharing and receiving knowledge. We want to help people to share knowledge and learn using Liferay platform. You can use it as your organizations social learning environment.
 
-Supported Liferay version is currently 6.2 SP1 since release 1.6.6. Older versions has support of 6.1 GA2, 6.1.2 GA3, 6.1.20 EE, 6.1.30 EE
+Supported Liferay version is currently 6.1.1+
 The targeted version of SCORM is 2004 4th edition with support of SCORM 1.2.
 All server-side code is written using the Scala programming language for the JVM.
 
@@ -14,90 +14,21 @@ The current implementation is able to display SCORM and Tin Can content with res
 Application includes a question editor for creating quizes with different types of questions (single-/multi-choice, matching, short answer, etc.)
 
 Administrative features let you manage SCORM packages, uploading the them in standard zipped format.
-The user interface is available as a JSR-compliant portlets, which may be deployed into Liferay portal. The portlet version has been tested on Liferay 6.1.1 and 6.1.2, and depend on its specific features.
+The user interface is available as a JSR-compliant portlets, which may be deployed into Liferay portal. The portlet version has been tested on Liferay 6.1.1, and depend on its specific features.
 
 The solution uses Liferay database, so no need to install additional database.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
-### LRS
-TinCan LRS endpoint is set by default to use our internal LRS, so no need to configure something.
-Internal LRS endpoint is: `<your-domain>/learn-portlet/TincanApi`
-
-If you need to customize it, settings can be found in admin portlet on settings tab.
-
-TinCan LRS OAuth endpoint is: `<your-domain>/learn-portlet/oauth`
-
 ### Download 
-Github has deprecated the Download section. You can download the latest distributable from Liferay Marketplace
+Github has deprecated the Download section. You can download the latest distributable from here: **http://opensource.arcusys.com/learn/learn-web/1.4.5/**
 
 ###Post-deployment process
 Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
 
 ###Known issues
-**PermGen issue**: Valamis requires 512Mb of PermGen size. This is default size in Liferay bundled with glassfish, but permgen in Tomcat and jBoss bundles should be increased.
-
 Liferay 6.1 EE bundled with Tomcat 7 can throw errors while accessing uploaded content. To avoid this problems just turn off GZip conmpression:
 `com.liferay.portal.servlet.filters.gzip.GZipFilter=false`
-
-## Version 2.2 Update 11.12.2014
- - Uploading pptx presentation as TinCan package
- - Uploading pptx presentation as list of questions in Lesson Designer
- - Moving questions between courses, displaying all questions from Liferay instance
- - Logo change will affect only after Save action
- - Scandic letters problem fix
- - Time limit for passing package
- - Time limit between package retakes
- - Check mark for package which user already started, displaying remain attemps
- - PDF viewer
- - Theme selector for tincan
- - Randomization questions in tincan packages
- - Foreground video
- - Printing Learning transcript
- - Fluid card layout
- - Tincan signed statements support
- - Removed instructional sentences (such as "choose correct answers" ) from questions
- - UI improvements
-
-## Version 2.0 Update 19.6.2014
- - New UI with RWD
- - Gradebook for LRS
- - New reports
- - Updated curriculum functionality
- - Fullscreen mode for Lesson Viewer 
-
-## Version 1.7 Update 28.2.2014
- - OAuth identity provider for TinCan LRS
- - TinCan statements viewer and reporting
- - Separate Package manager and Administering portlets 
- - Personal scope for packages
- - Impoved user searching for certificates and achievements
- - Oracle DB support
- - Improvements and fixes
-
-## Version 1.6.6 Update 31.1.2014
-**Liferay 6.2 support. Liferay 6.1 is not supported since this version**
- - Liferay 6.2 support
- - Achievements portlets
-
-## Version 1.6.1 Update 10.1.2014
- - Tin Can API LRS - Learning Record Store implementation
- - Small improvements and fixes
-
-## Version 1.5.6 Update: 14.11.2013
- - Support for Liferay 6.1.2 GA3
- - Support for Liferay 6.1.30 EE
- - Special characters issue in LIFERAY_HOME path
- - Question management - Numberic question issue
- - Search hook fix for Liferay 6.1.2 GA3
- - Relative URL conversion fix in TinyMCE
- - Fix for Liferay web content scopes
- - Fix for Gradebook instance-wide visibility in multi-instance installation
- - Curriculum - Fix for user visibility issue in multi-instance installation
- - Curriculum - Fix for course site link issue
- - Fix for database update issue with Service Builder
- - Fix for Openbadges.me integration
- - Name refactoring - Removing SCORM references
 
 ## Version 1.5.1 Update: 16.10.2013
 

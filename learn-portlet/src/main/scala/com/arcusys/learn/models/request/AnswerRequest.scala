@@ -7,15 +7,15 @@ import org.scalatra.ScalatraBase
  * Created by Iliya Tryapitsin on 08.09.2014.
  */
 object AnswerRequest {
-  val ID = "id"
-  val QUESTION_ID = "questionID"
-  val TEXT = "text"
-  val IS_CORRECT = "isCorrect"
-  val RANGE_FROM = "rangeFrom"
-  val RANGE_TO = "rangeTo"
-  val MATCHING_TEXT = "matchingText"
-  val SCORE = "score"
-  val TYPE = "type"
+  val Id = "id"
+  val QuestionId = "questionID"
+  val Text = "text"
+  val IsCorrect = "isCorrect"
+  val RangeFrom = "rangeFrom"
+  val RangeTo = "rangeTo"
+  val MatchingText = "matchingText"
+  val Scope = "score"
+  val Type = "type"
 
   def apply(scalatra: ScalatraBase) = new Model(scalatra)
 
@@ -23,25 +23,25 @@ object AnswerRequest {
     implicit val httpRequest = scalatra.request
     implicit val _scalatra = scalatra
 
-    def action = QuestionActionType.withName(Parameter(ACTION).required.toUpperCase)
+    def action = QuestionActionType.withName(Parameter(Action).required.toUpperCase)
 
-    def id = Parameter(ID).intRequired
+    def id = Parameter(Id).intRequired
 
-    def questionID = Parameter(QUESTION_ID).longRequired
+    def questionID = Parameter(QuestionId).longRequired
 
-    def text = AntiSamyHelper.sanitize(Parameter(TEXT).withDefault(""))
+    def text = AntiSamyHelper.sanitize(Parameter(Text).withDefault(""))
 
-    def isCorrect = Parameter(IS_CORRECT).booleanOption.getOrElse(false)
+    def isCorrect = Parameter(IsCorrect).booleanOption.getOrElse(false)
 
-    def rangeFrom = Parameter(RANGE_FROM).bigDecimalOption.getOrElse(BigDecimal(0))
+    def rangeFrom = Parameter(RangeFrom).bigDecimalOption.getOrElse(BigDecimal(0))
 
-    def rangeTo = Parameter(RANGE_TO).bigDecimalOption.getOrElse(BigDecimal(0))
+    def rangeTo = Parameter(RangeTo).bigDecimalOption.getOrElse(BigDecimal(0))
 
-    def matchingText = AntiSamyHelper.sanitize(Parameter(MATCHING_TEXT).withDefault(""))
+    def matchingText = AntiSamyHelper.sanitize(Parameter(MatchingText).withDefault(""))
 
-    def score = Parameter(SCORE).doubleOption
+    def score = Parameter(Scope).doubleOption
 
-    def questionType = Parameter(TYPE).intRequired
+    def questionType = Parameter(Type).intRequired
   }
 
 }

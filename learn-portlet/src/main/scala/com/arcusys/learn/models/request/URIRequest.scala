@@ -2,20 +2,25 @@ package com.arcusys.learn.models.request
 
 import org.scalatra.{ ScalatraServlet, ScalatraBase }
 import com.arcusys.learn.service.util.Parameter
-import com.arcusys.learn.models.BaseCollectionRequestModel
 
 object URIRequest extends BaseCollectionFilteredRequest {
-  val TYPE = "type"
-  val ID = "id"
-  val CONTENT = "content"
-  val PREFIX_URI = "prefix"
+  val Type = "type"
+  val Id = "id"
+  val Content = "content"
+  val PrefixURI = "prefix"
+  val Action = "action"
+  val Start = "start"
+  val End = "end"
 
   def apply(controller: ScalatraServlet) = new Model(controller)
 
   class Model(scalatra: ScalatraBase) extends BaseCollectionFilteredRequestModel(scalatra) {
-    def objectType = Parameter(TYPE).required
-    def id = Parameter(ID).required
-    def content = Parameter(CONTENT).option
-    def prefix = Parameter(PREFIX_URI).required
+    def objectType = Parameter(Type).required
+    def id = Parameter(Id).required
+    def content = Parameter(Content).option
+    def prefix = Parameter(PrefixURI).required
+    def action = Parameter(Action).option
+    def start = Parameter(Start).intOption
+    def end = Parameter(End).intOption
   }
 }

@@ -4,65 +4,17 @@
         "http://www.liferay.com/dtd/liferay-resource-action-mapping_6_2_0.dtd">
 
 <resource-action-mapping>
+    <!--SCORMApplication-->
     <portlet-resource>
         <portlet-name>SCORMApplication</portlet-name>
         <permissions>
             <supports>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>ADD_TO_PAGE</action-key>
-                <action-key>CONFIGURATION</action-key>
-                <action-key>VIEW</action-key>
+                <action-key>SHARE_ACTION</action-key>
             </supports>
             <site-member-defaults>
-                <action-key>ADD_TO_PAGE</action-key>
                 <action-key>VIEW</action-key>
             </site-member-defaults>
             <guest-defaults>
-                <action-key>VIEW</action-key>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-    <portlet-resource>
-        <portlet-name>CurriculumUser</portlet-name>
-        <permissions>
-            <supports>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>ADD_TO_PAGE</action-key>
-                <action-key>CONFIGURATION</action-key>
-                <action-key>VIEW</action-key>
-            </supports>
-            <site-member-defaults>
-                <action-key>ADD_TO_PAGE</action-key>
-                <action-key>VIEW</action-key>
-            </site-member-defaults>
-            <guest-defaults>
-                <action-key>VIEW</action-key>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-    <portlet-resource>
-        <portlet-name>SCORMUserAccount</portlet-name>
-        <permissions>
-            <supports>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>ADD_TO_PAGE</action-key>
-                <action-key>CONFIGURATION</action-key>
-                <action-key>VIEW</action-key>
-            </supports>
-            <site-member-defaults>
-                <action-key>ADD_TO_PAGE</action-key>
-                <action-key>VIEW</action-key>
-            </site-member-defaults>
-            <guest-defaults>
-                <action-key>VIEW</action-key>
             </guest-defaults>
             <guest-unsupported>
                 <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -72,25 +24,584 @@
     </portlet-resource>
 
     <portlet-resource>
-        <portlet-name>Gradebook</portlet-name>
+        <portlet-name>SCORMQuizes</portlet-name>
         <permissions>
             <supports>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
                 <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>ADD_TO_PAGE</action-key>
                 <action-key>CONFIGURATION</action-key>
-                <action-key>VIEW</action-key>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <portlet-resource>
+        <portlet-name>Curriculum</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <portlet-resource>
+        <portlet-name>CurriculumUser</portlet-name>
+        <permissions>
+            <supports>
             </supports>
             <site-member-defaults>
                 <action-key>ADD_TO_PAGE</action-key>
                 <action-key>VIEW</action-key>
             </site-member-defaults>
             <guest-defaults>
-                <action-key>VIEW</action-key>
             </guest-defaults>
             <guest-unsupported>
-                <action-key>ADD_TO_PAGE</action-key>
                 <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
                 <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <portlet-resource>
+        <portlet-name>PackageManager</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>SET_VISIBLE</action-key>
+                <action-key>SET_DEFAULT</action-key>
+                <action-key>UPLOAD</action-key>
+                <action-key>EXPORT</action-key>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>SET_VISIBLE</action-key>
+                <action-key>SET_DEFAULT</action-key>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>UPLOAD</action-key>
+                <action-key>EXPORT</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <portlet-resource>
+        <portlet-name>Gradebook</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>VIEW_ALL</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>ADD_TO_PAGE</action-key>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>VIEW_ALL</action-key>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--AdminView-->
+    <portlet-resource>
+        <portlet-name>SCORMApplicationAdmin</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--CourseEventReportView-->
+    <portlet-resource>
+        <portlet-name>CourseEventReport</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+
+    <!--LearningTranscriptView-->
+    <portlet-resource>
+        <portlet-name>LearningTranscript</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>VIEW_ALL</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>ADD_TO_PAGE</action-key>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>VIEW_ALL</action-key>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--LRSToActivityMapperView-->
+    <portlet-resource>
+        <portlet-name>LRSToActivityMapper</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--ParticipantReportView-->
+    <portlet-resource>
+        <portlet-name>ParticipantReport</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--SocialActivitiesTinCanMapperView-->
+    <portlet-resource>
+        <portlet-name>SocialActivitiesTinCanMapper</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanCourseReportView-->
+    <portlet-resource>
+        <portlet-name>TinCanCourseReport</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanLatestStatementsView-->
+    <portlet-resource>
+        <portlet-name>TinCanLatestStatements</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanMostActiveStudentsView-->
+    <portlet-resource>
+        <portlet-name>TinCanMostActiveStudents</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanReportByPeriodView-->
+    <portlet-resource>
+        <portlet-name>TinCanReportByPeriod</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanReportViewerView-->
+    <portlet-resource>
+        <portlet-name>TinCanReportViewer</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanStatementViewerView-->
+    <portlet-resource>
+        <portlet-name>TinCanStatementViewer</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--TinCanStudentsLatestStatementsView-->
+    <portlet-resource>
+        <portlet-name>TinCanStudentsLatestStatements</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--TinCanStudentsLeaderboardView-->
+    <portlet-resource>
+        <portlet-name>TinCanStudentsLeaderboard</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--ValamisSlidesEditorView-->
+    <portlet-resource>
+        <portlet-name>ValamisSlidesEditor</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--CompetencesAdmin-->
+    <portlet-resource>
+        <portlet-name>CompetencesAdmin</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--CompetencesUser-->
+    <portlet-resource>
+        <portlet-name>CompetencesUser</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>MODIFY_ACTION</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--AchievedCertificates-->
+    <portlet-resource>
+        <portlet-name>AchievedCertificates</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--LearningPaths-->
+    <portlet-resource>
+        <portlet-name>LearningPaths</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--MyLessons-->
+    <portlet-resource>
+        <portlet-name>MyLessons</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--ValamisActivities-->
+    <portlet-resource>
+        <portlet-name>ValamisActivities</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--RecentLessons-->
+    <portlet-resource>
+        <portlet-name>RecentLessons</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+
+    <!--ContentManager-->
+    <portlet-resource>
+        <portlet-name>ContentManager</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>MODIFY_ACTION</action-key>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>MODIFY_ACTION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--ValamisSummary-->
+    <portlet-resource>
+        <portlet-name>ValamisStudySummary</portlet-name>
+        <permissions>
+            <supports>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--PhenomenizerStudio-->
+    <portlet-resource>
+        <portlet-name>PhenomenizerStudio</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </supports>
+            <site-member-defaults>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>MODIFY_ACTION</action-key>
+                <action-key>PUBLISH</action-key>
+            </guest-unsupported>
+        </permissions>
+    </portlet-resource>
+
+    <!--PhenomenizerReport-->
+    <portlet-resource>
+        <portlet-name>PhenomenizerReport</portlet-name>
+        <permissions>
+            <supports>
+                <action-key>VIEW_ALL</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>VIEW_ALL</action-key>
             </guest-unsupported>
         </permissions>
     </portlet-resource>

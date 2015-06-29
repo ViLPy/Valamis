@@ -65,7 +65,7 @@ LRS2ActivityMapperApp.module("ViewModule", function(ViewModule, LRS2ActivityMapp
     add: function() {
       var collection = LRS2ActivityMapperApp.request('event:list');
       var model = new LRS2ActivityMapperApp.Entities.ActivityMapperModel({
-        courseID: Utils.getCourseID()
+        courseId: Utils.getCourseId()
       });
 
       model.save().then(function(){

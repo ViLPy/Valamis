@@ -51,7 +51,7 @@ public class ClpSerializer {
 
 				Method getMethod = portletPropsClass.getMethod("get", new Class<?>[] {String.class});
 
-				String portletPropsServletContextName = (String)getMethod.invoke(null, "${pluginName}-deployment-context");
+				String portletPropsServletContextName = (String)getMethod.invoke(null, "learn-maven-plugin-deployment-context");
 
 				if (Validator.isNotNull(portletPropsServletContextName)) {
 					_servletContextName = portletPropsServletContextName;
@@ -65,7 +65,7 @@ public class ClpSerializer {
 
 			if (Validator.isNull(_servletContextName)) {
 				try {
-					String propsUtilServletContextName = PropsUtil.get("${pluginName}-deployment-context");
+					String propsUtilServletContextName = PropsUtil.get("learn-maven-plugin-deployment-context");
 
 					if (Validator.isNotNull(propsUtilServletContextName)) {
 						_servletContextName = propsUtilServletContextName;
@@ -79,7 +79,7 @@ public class ClpSerializer {
 			}
 
 			if (Validator.isNull(_servletContextName)) {
-				_servletContextName = "${pluginName}";
+				_servletContextName = "learn-maven-plugin";
 			}
 
 			return _servletContextName;

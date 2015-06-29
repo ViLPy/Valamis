@@ -1,0 +1,20 @@
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        getAPI().Initialize("");
+    });
+    function gatherData() {
+    }
+</script>
+<div class="SCORMPlayerContentDisplay">
+    {{{data}}}
+    <!-- Navigation -->
+    <div class="playerPageNavigation">
+        <div class="playerPrevious">
+            <button class="valamis button big grey icon-continue" type="button" onclick="scormQuizGotoPrevious()">Previous</button>
+        </div>
+        <div class="playerNext">
+            <button class="valamis button big grey icon-continue" type="button" onclick="scormQuizGotoNext()">Next</button>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

@@ -1,24 +1,21 @@
 package com.arcusys.learn.facades
 
-import java.io.InputStream
-
-import com.arcusys.learn.bl.services.QuestionServiceContract
-import com.arcusys.learn.export.question.{ QuestionImportProcessor, QuestionExportProcessor }
+import java.io.{ File, InputStream }
+import com.arcusys.learn.export.question.{ QuestionExportProcessor, QuestionImportProcessor }
 import com.arcusys.learn.ioc.Configuration
 import com.arcusys.learn.models.{ AnswerResponse, QuestionResponse }
-import com.arcusys.learn.questionbank.model.{ CategorizationQuestion, ChoiceQuestion, EmbeddedAnswerQuestion, EssayQuestion, MatchingQuestion, NumericQuestion, PositioningQuestion, TextQuestion, _ }
+import com.arcusys.valamis.questionbank.model._
+import com.arcusys.valamis.questionbank.service.QuestionService
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
-
-import scala.util.Try
 
 class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContract with Injectable {
   def this() = this(Configuration)
 
   implicit val bindingModule = configuration
 
-  val questionService = inject[QuestionServiceContract]
+  val questionService = inject[QuestionService]
 
-  def buildQuestion(question: Question[Answer]) = {
+  def buildQuestionResponse(question: Question[Answer]) = {
 
     // buildAnswersData method using in the QuestionResponse. May be should encapsulate?
     def buildAnswersData = {
@@ -26,7 +23,7 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
       question match {
         case e: ChoiceQuestion =>
           e.answers.map(answer => {
-            new AnswerResponse(answerText = answer.text, isCorrect = answer.isCorrect, questionId = e.id, score = answer.score)
+            new AnswerResponse(answerId = answer.id, answerText = answer.text, isCorrect = answer.isCorrect, questionId = e.id, score = answer.score)
           })
         case e: TextQuestion =>
           e.answers.map(answer => {
@@ -46,7 +43,7 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
           })
         case e: CategorizationQuestion =>
           e.answers.map(answer => {
-            new AnswerResponse(answerText = answer.text, matchingText = answer.answerCategoryText.getOrElse(""), questionId = e.id, score = answer.score)
+            new AnswerResponse(answerId = answer.id, answerText = answer.text, matchingText = answer.answerCategoryText.getOrElse(""), questionId = e.id, score = answer.score)
           })
         case e: EssayQuestion          => Seq[AnswerResponse]()
         case e: EmbeddedAnswerQuestion => Seq[AnswerResponse]()
@@ -77,15 +74,19 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
       isCaseSensitive = isCaseSensitive,
       answers = buildAnswersData,
       questionType = question.questionTypeCode,
-      categoryID = question.categoryID.getOrElse(-1))
+      categoryID = question.categoryID,
+      courseId = question.courseID.get,
+      rightAnswerText = question.rightAnswerText,
+      wrongAnswerText = question.wrongAnswerText,
+      uniqueId = "q_" + question.id)
   }
 
   def getQuestion(id: Int): QuestionResponse = {
-    buildQuestion(questionService.getQuestion(id))
+    buildQuestionResponse(questionService.getQuestion(id))
   }
 
   def getChildren(categoryID: Option[Int], courseID: Option[Int]): Seq[QuestionResponse] = {
-    questionService.getQuestionsByCategory(categoryID, courseID) map buildQuestion
+    questionService.getQuestionsByCategory(categoryID, courseID) map buildQuestionResponse
   }
 
   def createQuestion(categoryID: Option[Int],
@@ -93,24 +94,27 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
     title: String,
     text: String,
     explanationText: String,
+    rightAnswerText: String,
+    wrongAnswerText: String,
     forceCorrectCount: Boolean,
     isCaseSensitive: Boolean,
-    courseID: Option[Int]): QuestionResponse = {
+    courseID: Option[Int],
+    answers: Seq[AnswerResponse]): QuestionResponse = {
 
     // May be create enum for questionType?
     val entity = questionType match {
-      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
-      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, Nil, isCaseSensitive, courseID)
-      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
-      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, Nil, forceCorrectCount, courseID)
-      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 0 => new ChoiceQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseChoiceAnswer), forceCorrectCount, courseID)
+      case 1 => new TextQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseTextAnswer), isCaseSensitive, courseID)
+      case 2 => new NumericQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseNumericAnswer), courseID)
+      case 3 => new PositioningQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parsePositioningAnswer), forceCorrectCount, courseID)
+      case 4 => new MatchingQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseMatchingAnswer), courseID)
       case 5 => new EssayQuestion(0, categoryID, title, text, explanationText, courseID)
-      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText, courseID)
-      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, Nil, courseID)
+      case 6 => new EmbeddedAnswerQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, courseID)
+      case 7 => new CategorizationQuestion(0, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseCategorizationAnswer), courseID)
       case 8 => new PlainText(0, categoryID, title, text, courseID)
       case 9 => new PurePlainText(0, categoryID, title, text, courseID)
     }
-    buildQuestion(questionService.createQuestion(entity))
+    buildQuestionResponse(questionService.createQuestion(entity))
   }
 
   def updateQuestion(id: Int,
@@ -119,6 +123,8 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
     title: String,
     text: String,
     explanationText: String,
+    rightAnswerText: String,
+    wrongAnswerText: String,
     forceCorrectCount: Boolean,
     isCaseSensitive: Boolean,
     courseID: Option[Int],
@@ -126,20 +132,19 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
 
     // Duplicate: May be should create enum for a questionType?
     val entity = questionType match {
-      case 0 => new ChoiceQuestion(id, categoryID, title, text, explanationText, answers.map(parseChoiceAnswer(_)), forceCorrectCount, courseID)
-      case 1 => new TextQuestion(id, categoryID, title, text, explanationText, answers.map(parseTextAnswer(_)), isCaseSensitive, courseID)
-      case 2 => new NumericQuestion(id, categoryID, title, text, explanationText, answers.map(parseNumericAnswer(_)), courseID)
-      case 3 => new PositioningQuestion(id, categoryID, title, text, explanationText, answers.map(parsePositioningAnswer(_)), forceCorrectCount, courseID)
-      case 4 => new MatchingQuestion(id, categoryID, title, text, explanationText, answers.map(parseMatchingAnswer(_)), courseID)
+      case 0 => new ChoiceQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseChoiceAnswer), forceCorrectCount, courseID)
+      case 1 => new TextQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseTextAnswer), isCaseSensitive, courseID)
+      case 2 => new NumericQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseNumericAnswer), courseID)
+      case 3 => new PositioningQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parsePositioningAnswer), forceCorrectCount, courseID)
+      case 4 => new MatchingQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseMatchingAnswer), courseID)
       case 5 => new EssayQuestion(id, categoryID, title, text, explanationText, courseID)
-      case 6 => new EmbeddedAnswerQuestion(id, categoryID, title, text, explanationText, courseID)
-      case 7 => new CategorizationQuestion(id, categoryID, title, text, explanationText, answers.map(parseCategorizationAnswer(_)), courseID)
+      case 6 => new EmbeddedAnswerQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, courseID)
+      case 7 => new CategorizationQuestion(id, categoryID, title, text, explanationText, rightAnswerText, wrongAnswerText, answers.map(parseCategorizationAnswer), courseID)
       case 8 => new PlainText(id, categoryID, title, text, courseID)
       case 9 => new PurePlainText(id, categoryID, title, text, courseID)
     }
-    var question = questionService.updateQuestion(entity)
 
-    buildQuestion(question)
+    buildQuestionResponse(questionService.updateQuestion(entity))
   }
 
   def deleteQuestion(id: Int) {
@@ -148,7 +153,7 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
 
   def move(id: Int, index: Int, parentID: Option[Int]) {
     var question = questionService.moveQuestion(id, index, parentID)
-    buildQuestion(question)
+    buildQuestionResponse(question)
   }
 
   def moveToCourse(id: Int, courseID: Option[Int]) {
@@ -237,8 +242,8 @@ class QuestionFacade(configuration: BindingModule) extends QuestionFacadeContrac
     new QuestionExportProcessor().exportAll(courseID)
   }
 
-  override def importQuestions(filename: String, courseID: Int): Unit = {
-    new QuestionImportProcessor().importItems(filename, courseID)
+  override def importQuestions(file: File, courseID: Int): Unit = {
+    new QuestionImportProcessor().importItems(file, courseID)
   }
 
   override def exportQuestions(categoryIds: Seq[Int], questionIds: Seq[Int], courseID: Option[Int]): InputStream = {

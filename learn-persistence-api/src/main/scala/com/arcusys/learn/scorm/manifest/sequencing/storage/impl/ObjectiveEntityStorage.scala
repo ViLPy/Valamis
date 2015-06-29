@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl
 
-import com.arcusys.learn.scorm.manifest.sequencing.storage.{ ObjectiveMapStorage, ObjectiveStorage }
 import com.arcusys.learn.storage.impl.{ KeyedEntityStorageExt, EntityStorageExt }
-import com.arcusys.learn.scorm.manifest.model.Objective
+import com.arcusys.valamis.lesson.scorm.model.manifest.Objective
+import com.arcusys.valamis.lesson.scorm.storage.sequencing.{ ObjectiveStorage, ObjectiveMapStorage }
 
 /**
  * User: Yulia.Glushonkova

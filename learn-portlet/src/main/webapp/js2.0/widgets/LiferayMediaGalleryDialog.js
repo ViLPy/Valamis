@@ -7,27 +7,35 @@ LiferayImageModel = Backbone.Model.extend({
 
 LiferayImageGalleryService = new Backbone.Service({ url: path.root,
   sync: {
-    'read': function (collection, options) {
-      var filter = '';
-      if (jQuery('#gallerySearch').val() != undefined)
-        filter = jQuery('#gallerySearch').val();
-      var sort = 'true';
-      if (jQuery('#sortGallery').val() != undefined)
-        sort = jQuery('#sortGallery').val();
-
-      return path.api.liferay + '?action=GETIMAGES&groupID=' + jQuery('#courseID').val() +
-        '&filter=' + filter +
-        '&sortAscDirection=' + sort +
-        '&page=' + options.currentPage +
-        '&count=' + options.itemsOnPage;
+    'read': {
+      path: path.api.liferay,
+      'data': function (collection, options) {
+        return {
+          action: 'GETIMAGES',
+          courseId: Utils.getCourseId(),
+          filter: options.filter,
+          sortAscDirection: options.sort,
+          page: options.currentPage,
+          count: options.itemsOnPage
+        }
+      },
+      'method': 'get'
     }
   },
   targets: {
     'saveToFileStorage': {
-      'path': function (model, options) {
-        return path.api.files + '?action=ADD&contentType=document-library&folderId=' + options.folderID +
-          '&fileEntryID=' + options.fileID + '&file=' + options.fileName + '&fileVersion=' + options.version;
-      },
+      path: path.api.files,
+      'data': function (model, options) {
+        return {
+            action: 'ADD',
+            courseId: Utils.getCourseId(),
+            contentType: "document-library",
+            folderId:  options.folderID,
+            fileEntryID: options.fileID,
+            file: options.fileName,
+            fileVersion: options.version
+        }
+    },
       method: 'post'
     }
   }
@@ -47,12 +55,11 @@ LiferayGalleryElement = Backbone.View.extend({
     'click': 'addThis'
   },
   initialize: function () {
-    this.$el = jQuery('<div>');
   },
   render: function () {
     var template = Mustache.to_html(jQuery('#liferayGalleryElementView').html(), {
       title: this.model.get('title'),
-      imageUrl: '/documents/' + jQuery('#courseID').val() + '/0/' + this.model.get('title') + '/?version=' + this.model.get('version') + '&imageThumbnail=1'});
+      imageUrl: '/documents/' + Utils.getCourseId() + '/' + this.model.get('folderId') + '/' + this.model.get('title') + '/?version=' + this.model.get('version') + '&imageThumbnail=1'});
     this.$el.html(template);
     return this;
   },
@@ -61,17 +68,17 @@ LiferayGalleryElement = Backbone.View.extend({
   }
 });
 
-// Dialog
-
-GalleryView = Backbone.View.extend({
+var GalleryContainer = Backbone.View.extend({
+  SEARCH_TIMEOUT: 800,
   events: {
-  },
-  callback: function (certId, title) {
+    'keyup #gallerySearch': 'filterGallery',
+    'click .dropdown-menu > li': 'filterGallery'
   },
   initialize: function (options) {
-    this.saveToFileStorage = options.saveToFileStorage;
     this.language = options.language;
     this.folderID = options.folderID;
+    this.saveToFileStorage = options.saveToFileStorage;
+
     this.collection = new LiferayGallery();
     this.collection.on('select', this.pickUp, this);
     this.collection.on('reset', this.renderGallery, this);
@@ -79,28 +86,56 @@ GalleryView = Backbone.View.extend({
     this.collection.on('galleryCollection:updated', function (details) {
       that.updatePagination(details, that);
     });
+    this.paginatorModel = new PageModel();
+    this.paginatorModel.set({'itemsOnPage': 12});
+    this.render();    // TODO: causes that view renders twice
+  },
+  render: function () {
+    var template = Mustache.to_html(jQuery('#liferayImageGalleryDialogView').html(), this.language);
+    this.$el.html(template);
+    this.$el.find('.dropdown').valamisDropDown();
 
-    this.render();
+    var that = this;
+    this.paginator = new ValamisPaginator({
+      el: this.$el.find("#galleryPaginator"),
+      language: this.language,
+      model: this.paginatorModel
+    });
+    this.paginator.on('pageChanged', function () {
+      that.fetchGallery();
+    });
+    this.paginatorShowing = new ValamisPaginatorShowing({
+      el: this.$el.find("#galeryPagingShowing"),
+      language: this.language,
+      model: this.paginator.model
+    });
+
+    this.fetchFirstPage();
+    return this;
+  },
+
+  filterGallery: function () {
+    clearTimeout(this.inputTimeout);
+    this.inputTimeout = setTimeout(this.applyFilter.bind(this), this.SEARCH_TIMEOUT);
+  },
+  applyFilter: function () {
+    clearTimeout(this.inputTimeout);
+    this.fetchFirstPage();
   },
 
   addImage: function (item) {
     var view = new LiferayGalleryElement({ model: item });
-    this.$('#gallery').append(view.render().$el);
+    this.$('.gallery-modal-container').append(view.render().$el);
+  },
+  renderGallery: function () {
+    this.$('.gallery-modal-container').html('');
+    this.collection.each(this.addImage, this);
+    return this;
   },
   updatePagination: function (details, context) {
     this.paginator.updateItems(details.total);
-    jQuery('#imagesListedAmount').text(details.listed);
   },
-  render: function () {
-    var template = Mustache.to_html(jQuery('#liferayGalleryDialogView').html());
-    this.$el.html(template);
 
-    var that = this;
-    this.paginator = new ValamisPaginator({el: this.$('#galleryPaginator'), language: this.language});
-    this.paginator.on('pageChanged', function () {
-      that.fetchGallery();
-    });
-  },
   fetchFirstPage: function () {
     this.fetchGalleryCollection(1);
   },
@@ -108,19 +143,20 @@ GalleryView = Backbone.View.extend({
     this.fetchGalleryCollection(this.paginator.currentPage());
   },
   fetchGalleryCollection: function (page) {
-    this.collection.fetch({reset: true, currentPage: page, itemsOnPage: this.paginator.itemsOnPage()});
-  },
-  renderGallery: function () {
-    jQuery('#gallery').html('');
-    this.collection.each(this.addImage, this);
-    return this;
+    this.collection.fetch({
+      reset: true,
+      currentPage: page,
+      itemsOnPage: this.paginator.itemsOnPage(),
+      filter: this.$('#gallerySearch').val(),
+      sort: this.$('#sortGallery').data('value')
+    });
   },
 
   pickUp: function (model) {
     var that = this;
-    if (this.saveToFileStorage) {
+    if (this.saveToFileStorage && model.get('id') != undefined) {
       this.collection.saveToFileStorage({}, {
-        fileID: model.id,
+        fileID: model.get('id'),
         fileName: model.get('title'),
         version: model.get('version'),
         folderID: this.folderID}).then(function (res) {
@@ -130,59 +166,7 @@ GalleryView = Backbone.View.extend({
         toastr.error(that.language['overlayFailedMessageLabel']);
       });
     }
-    else  that.trigger('savedLogo', model);
-
-  }
-});
-
-
-var GalleryContainer = Backbone.View.extend({
-  events: {
-    'keyup #gallerySearch': 'filterGallery',
-    'change #sortGallery': 'filterGallery',
-    'click .menu-close': 'searchMenuToggle',
-    'click .menu-open': 'searchMenuToggle'
-  },
-  initialize: function (options) {
-    this.language = options.language;
-    this.folderID = options.folderID;
-    this.saveToFileStorage = options.saveToFileStorage;
-  },
-  render: function () {
-    var template = Mustache.to_html(jQuery('#liferayImageGalleryDialogView').html(), this.language);
-    this.$el.html(template);
-
-    this.listView = new GalleryView({
-      el: this.$('#galleryContainer'),
-      folderID: this.folderID,
-      language: this.language,
-      saveToFileStorage: this.saveToFileStorage });
-    this.listView.on('savedLogo', this.trigSaveLogo, this);
-
-    this.fetchGallery();
-    return this;
-  },
-  fetchGallery: function () {
-    this.listView.fetchFirstPage();
-  },
-  searchMenuToggle: function (e) {
-    e.preventDefault();
-    jQuery('#liferayGalleryWrapper').toggleClass('active');
-  },
-  trigCloseModal: function (model) {
-    this.trigger('closeModal', this);
-  },
-  trigSaveLogo: function (model) {
-    this.trigger('savedLogo', model);
-  },
-
-  filterGallery: function () {
-    clearTimeout(this.inputTimeout);
-    this.inputTimeout = setTimeout(this.applyFilter.bind(this), 800);
-  },
-  applyFilter: function () {
-    clearTimeout(this.inputTimeout);
-    this.fetchGallery();
+    else that.trigger('savedLogo', model);
   }
 
 });

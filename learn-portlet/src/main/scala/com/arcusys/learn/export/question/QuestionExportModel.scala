@@ -14,6 +14,8 @@ case class QuestionExport(
   title: String,
   text: String,
   explanationText: String,
+  rightAnswerText: Option[String],
+  wrongAnswerText: Option[String],
   forceCorrectCount: Boolean,
   isCaseSensitive: Boolean,
   answers: Seq[AnswerExport],

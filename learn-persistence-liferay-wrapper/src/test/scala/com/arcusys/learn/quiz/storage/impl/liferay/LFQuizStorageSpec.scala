@@ -1,10 +1,10 @@
 package com.arcusys.learn.quiz.storage.impl.liferay
 
+import com.arcusys.valamis.quiz.model.Quiz
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import com.arcusys.learn.storage.impl.KeyedEntityStorage
-import com.arcusys.learn.quiz.model.Quiz
-import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLocalService, LFQuizLocalService, LFQuizLocalServiceUtil }
+import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestCatLocalService, LFQuizLocalService, LFQuizLocalServiceUtil }
 
 /**
  * User: dkudinov
@@ -12,7 +12,7 @@ import com.arcusys.learn.persistence.liferay.service.{ LFQuizQuestionCategoryLoc
  */
 class LFQuizStorageSpec extends SpecificationWithJUnit with Mockito {
   val storageService: LFQuizLocalService = QuizMockEntityContainer.mockLocalService
-  val storageService2: LFQuizQuestionCategoryLocalService = QuizQuestionCategoryMockEntityContainer.mockLocalService
+  val storageService2: LFQuizQuestCatLocalService = QuizQuestionCategoryMockEntityContainer.mockLocalService
   val storage: KeyedEntityStorage[Quiz] = new LFQuizStorageImpl {}
 
   "Mockito" should {
@@ -28,7 +28,7 @@ class LFQuizStorageSpec extends SpecificationWithJUnit with Mockito {
       val quizPattern: Quiz = createQuizPattern()
       val quizId = storage.createAndGetID(quizPattern)
 
-      storage.getByID(quizId) must beEqualTo(Some(quizPattern.copy(id = quizId)))
+      storage.getByID(quizId) must beEqualTo(Some(quizPattern.copy(id = quizId, logo = null, maxDuration = Some(0))))
     }
 
     "update entity successfully" in {

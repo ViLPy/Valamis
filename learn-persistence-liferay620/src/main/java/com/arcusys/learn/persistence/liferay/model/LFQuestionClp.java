@@ -25,6 +25,8 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
     private String _title;
     private String _description;
     private String _explanationText;
+    private String _rightAnswerText;
+    private String _wrongAnswerText;
     private boolean _forceCorrectCount;
     private boolean _caseSensitive;
     private Integer _questionType;
@@ -74,6 +76,8 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         attributes.put("title", getTitle());
         attributes.put("description", getDescription());
         attributes.put("explanationText", getExplanationText());
+        attributes.put("rightAnswerText", getRightAnswerText());
+        attributes.put("wrongAnswerText", getWrongAnswerText());
         attributes.put("forceCorrectCount", getForceCorrectCount());
         attributes.put("caseSensitive", getCaseSensitive());
         attributes.put("questionType", getQuestionType());
@@ -113,6 +117,18 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
 
         if (explanationText != null) {
             setExplanationText(explanationText);
+        }
+
+        String rightAnswerText = (String) attributes.get("rightAnswerText");
+
+        if (rightAnswerText != null) {
+            setRightAnswerText(rightAnswerText);
+        }
+
+        String wrongAnswerText = (String) attributes.get("wrongAnswerText");
+
+        if (wrongAnswerText != null) {
+            setWrongAnswerText(wrongAnswerText);
         }
 
         Boolean forceCorrectCount = (Boolean) attributes.get(
@@ -252,6 +268,52 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
                         String.class);
 
                 method.invoke(_lfQuestionRemoteModel, explanationText);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public String getRightAnswerText() {
+        return _rightAnswerText;
+    }
+
+    @Override
+    public void setRightAnswerText(String rightAnswerText) {
+        _rightAnswerText = rightAnswerText;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setRightAnswerText",
+                        String.class);
+
+                method.invoke(_lfQuestionRemoteModel, rightAnswerText);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public String getWrongAnswerText() {
+        return _wrongAnswerText;
+    }
+
+    @Override
+    public void setWrongAnswerText(String wrongAnswerText) {
+        _wrongAnswerText = wrongAnswerText;
+
+        if (_lfQuestionRemoteModel != null) {
+            try {
+                Class<?> clazz = _lfQuestionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setWrongAnswerText",
+                        String.class);
+
+                method.invoke(_lfQuestionRemoteModel, wrongAnswerText);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -453,6 +515,8 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         clone.setTitle(getTitle());
         clone.setDescription(getDescription());
         clone.setExplanationText(getExplanationText());
+        clone.setRightAnswerText(getRightAnswerText());
+        clone.setWrongAnswerText(getWrongAnswerText());
         clone.setForceCorrectCount(getForceCorrectCount());
         clone.setCaseSensitive(getCaseSensitive());
         clone.setQuestionType(getQuestionType());
@@ -503,7 +567,7 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(21);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("{id=");
         sb.append(getId());
@@ -515,6 +579,10 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         sb.append(getDescription());
         sb.append(", explanationText=");
         sb.append(getExplanationText());
+        sb.append(", rightAnswerText=");
+        sb.append(getRightAnswerText());
+        sb.append(", wrongAnswerText=");
+        sb.append(getWrongAnswerText());
         sb.append(", forceCorrectCount=");
         sb.append(getForceCorrectCount());
         sb.append(", caseSensitive=");
@@ -532,7 +600,7 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(34);
+        StringBundler sb = new StringBundler(40);
 
         sb.append("<model><model-name>");
         sb.append("com.arcusys.learn.persistence.liferay.model.LFQuestion");
@@ -557,6 +625,14 @@ public class LFQuestionClp extends BaseModelImpl<LFQuestion>
         sb.append(
             "<column><column-name>explanationText</column-name><column-value><![CDATA[");
         sb.append(getExplanationText());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>rightAnswerText</column-name><column-value><![CDATA[");
+        sb.append(getRightAnswerText());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>wrongAnswerText</column-name><column-value><![CDATA[");
+        sb.append(getWrongAnswerText());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>forceCorrectCount</column-name><column-value><![CDATA[");

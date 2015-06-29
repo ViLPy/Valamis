@@ -1,9 +1,9 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
-import com.arcusys.learn.scorm.manifest.model.{ RollupConsiderationType, CompletionRollupContribution, SatisfactionRollupContribution, RollupContribution }
 import com.arcusys.learn.storage.impl.EntityStorage
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalServiceUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 
 /**
  * User: Yulia.Glushonkova

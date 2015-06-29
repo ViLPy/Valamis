@@ -1,0 +1,25 @@
+<script type="text/mustache" id="paginatorTemplate">
+    <div id="paginatorDisplay" class="select-element hidden-xs position-relative"></div>
+    <div class="pagination-group pull-right">
+        <div class="select-element-label-wrapper pull-left ">
+            <div class="select-element-label page-display">{{startElementNumber}}-{{endElementNumber}} {{ofLabel}}
+                {{totalElements}}
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="paginator-previous-page button valamis medium grey val-icon-previous no-text"></button>
+            <button class="paginator-next-page button valamis medium grey val-icon-next no-text"></button>
+        </div>
+    </div>
+</script>
+
+<script type="text/mustache" id="paginatorDisplayTemplate">
+    <div class="select-element-label">{{displayLabel}}</div>
+    <div class="val-select">
+        <select class="paginator-items-per-page">
+            {{#options}}
+            <option value="{{.}}"> {{.}} </option>
+            {{/options}}
+        </select>
+    </div>
+</script>

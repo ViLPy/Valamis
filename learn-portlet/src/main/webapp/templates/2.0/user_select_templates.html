@@ -1,0 +1,70 @@
+<script type="text/html" id="liferayUserDialogView">
+    <div class="filters-row clearfix">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="searchUsers" placeholder="{{searchPlaceholderLabel}}">
+        </div>
+        <div class="dropdown filter-element shift-left" id="userOrganization" data-value="-1">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{allOrganizationsLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="-1">{{allOrganizationsLabel}}</li>
+            </ul>
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="userListPagingShowing"></div>
+    </div>
+    <div class="filters-row clearfix">
+        {{^getAllUsers}}
+        <div class="filter-element shift-left">
+            <button id="selectAllUsers" class="button medium neutral">
+                <span class="val-icon-checkbutton"></span> {{selectAllLabel}}
+            </button>
+        </div>
+        {{/getAllUsers}}
+
+        <div id="sortUsers" class="dropdown filter-element shift-right" data-value="name:true">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{byNameAscLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+    </div>
+
+    <label id="noUsersLabel" class="text-center" style="display: none;"> {{noAvailableUsersLabel}}</label>
+    <table class="val-table medium list">
+        <tbody id="userList"></tbody>
+    </table>
+
+    <div class="val-paginator text-center" id="userListPaginator"></div>
+
+    {{^getAllUsers}}
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+
+        <button class="button big primary js-addUsers">
+            {{addUsersLabel}}
+        </button>
+    </div>
+    {{/getAllUsers}}
+</script>
+
+<script type="text/html" id="liferayUserElementView">
+    <td class="single-element-col"> {{#pageUrl}}
+        <a href="{{pageUrl}}" target="_blank">
+            {{/pageUrl}}
+            <img src="{{picture}}" alt="{{name}}" class="img-circle">
+            {{#pageUrl}}
+        </a>
+        {{/pageUrl}}
+    </td>
+    <td> {{name}}</td>
+    <td class="single-element-col">
+        <button id="toggleUser_{{id}}" class="button big {{^selected}}neutral{{/selected}}{{#selected}}primary{{/selected}} no-text js-toggle-user">
+            <span class="val-icon-checkbutton"></span> Select
+        </button>
+    </td>
+</script>

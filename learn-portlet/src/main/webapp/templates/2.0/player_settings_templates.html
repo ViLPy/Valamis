@@ -14,7 +14,7 @@
 
 <!--Package list view-->
 <script type="text/mustache" id="packageScopeRuleListTemplate">
-    <table class="valamis list-table medium-table" id="scormPackageTable" style="border-left: 1px">
+    <table class="table medium list" id="scormPackageTable" style="border-left: 1px">
         <thead>
         <tr>
             <th scope="col" class="scormPackageIDColumn listTitle"  >{{packageListIDHeaderLabel}}</th>
@@ -33,11 +33,13 @@
 
 <script type="text/html" id="personalPackageListItemTemplate">
     <div id="liferaySiteElement" class="div-row">
-        <div class="div-col">
+        <div class="div-col" style="padding: 18px 20px;">
             <b>{{title}}</b>
         </div>
-        <div class="div-col" style="width: 56px;">
-            <button id="selectPackageButton" data-package-id="{{id}}" class="button valamis big grey val-icon-check no-text toggleButton"></button>
+        <div class="div-col" style="width: 56px; padding: 10px 20px;">
+            <button id="selectPackageButton" data-package-id="{{id}}" class="button medium neutral no-text no-text js-toggle-site-button">
+                <span class="val-icon-checkbutton"></span>
+            </button>
         </div>
     </div>
 </script>

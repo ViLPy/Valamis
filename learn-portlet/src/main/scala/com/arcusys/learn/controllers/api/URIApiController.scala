@@ -1,9 +1,12 @@
 package com.arcusys.learn.controllers.api
 
-import com.arcusys.learn.bl.exceptions.EntityNotFoundException
-import com.arcusys.learn.facades.URIFacadeContract
+import com.arcusys.learn.exceptions.BadRequestException
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.models.request.URIRequest
+import com.arcusys.learn.models.request.{URIActionType, URIRequest}
+import com.arcusys.valamis.exception.EntityNotFoundException
+import com.arcusys.valamis.slide.service.SlideServiceContract
+import com.arcusys.valamis.uri.model.ValamisURIType
+import com.arcusys.valamis.uri.service.URIServiceContract
 import com.escalatesoft.subcut.inject.BindingModule
 
 /**
@@ -12,26 +15,42 @@ import com.escalatesoft.subcut.inject.BindingModule
 class URIApiController(configuration: BindingModule) extends BaseApiController(configuration) {
   def this() = this(Configuration)
 
-  val uriFacade = inject[URIFacadeContract]
+  val uriService = inject[URIServiceContract]
+  val slideService = inject[SlideServiceContract]
 
   before() {
     scentry.authenticate(LIFERAY_STRATEGY_NAME)
   }
 
-  get("/uri(/)")(action {
+  get("/uri(/)")(jsonAction {
     val uriRequest = URIRequest(this)
-    val result = uriFacade.getOrCreateURI(
-      uriRequest.prefix,
-      uriRequest.id,
-      uriRequest.objectType.toLowerCase,
-      uriRequest.content)
+    uriRequest.action match {
+      case None => {
+        val result = uriService.getOrCreate(
+          uriRequest.prefix,
+          uriRequest.id,
+          ValamisURIType.withName(uriRequest.objectType.toLowerCase),
+          uriRequest.content)
 
-    result.uri
+        result
+      }
+      case Some(URIActionType.GetAll) => {
+        uriService.getById(
+          uriRequest.start.getOrElse(-1),
+          uriRequest.end.getOrElse(-1),
+          uriRequest.filter)
+      }
+      case _ => throw new BadRequestException
+    }
+  })
+
+  get("/uri/verbs(/)")(jsonAction {
+    slideService.getTinCanVerbs
   })
 
   get("/uri/:objType/:objName")(action {
     val uri = request.getRequestURL.toString
-    val result = uriFacade.getByURI(uri)
+    val result = uriService.getByURI(uri)
     if (result.isDefined)
       halt(200, result.get.content)
     else

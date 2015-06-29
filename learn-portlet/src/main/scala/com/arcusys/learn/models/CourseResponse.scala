@@ -7,11 +7,3 @@ case class CourseResponse(id: Long,
   title: String,
   url: String,
   description: String)
-
-case class CertificateCourseResponse(id: Long,
-  certificateId: Int,
-  title: String,
-  url: String,
-  value: Option[Int],
-  period: String,
-  arrangementIndex: Int)

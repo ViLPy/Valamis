@@ -257,4 +257,12 @@ public interface LFPackageLocalService extends BaseLocalService,
 
     public void removeAll()
         throws com.liferay.portal.kernel.exception.SystemException;
+
+    public java.util.List<com.arcusys.learn.persistence.liferay.model.LFPackage> findByTitleAndCourseID(
+        java.lang.String titlePattern, java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException;
+
+    public int countByTitleAndCourseID(java.lang.String titlePattern,
+        java.lang.Integer[] courseIDs)
+        throws com.liferay.portal.kernel.exception.SystemException;
 }

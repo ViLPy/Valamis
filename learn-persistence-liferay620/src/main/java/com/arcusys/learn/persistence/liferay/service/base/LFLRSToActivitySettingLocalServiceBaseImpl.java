@@ -2,9 +2,6 @@ package com.arcusys.learn.persistence.liferay.service.base;
 
 import com.arcusys.learn.persistence.liferay.model.LFLRSToActivitySetting;
 import com.arcusys.learn.persistence.liferay.service.LFLRSToActivitySettingLocalService;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFAchievementUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityDataMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFActivityStateNodePersistence;
@@ -14,62 +11,40 @@ import com.arcusys.learn.persistence.liferay.service.persistence.LFAnswerPersist
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptDataPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFAttemptPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFBigDecimalPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateTincanStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFCertificateUserPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFChildrenSelectionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConditionRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFConfigPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFCoursePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFFileStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFGlobalObjectiveStatePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFGlblObjectiveStatePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFLRSToActivitySettingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFLessonLimitPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveMapPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectivePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFObjectiveStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageCommentPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageGradeStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageScopeRulePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFPackageVotePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFPlayerScopeRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionCategoryPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizAnswerScorePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionCategoryPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestCatPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizQuestionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFQuizTreeElementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRequiredActivityPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFResourcePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFRolePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupContributionPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRollupRulePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFRuleConditionPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPermissionsPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSeqPermissionsPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSequencingTrackingPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFSiteDependentConfigPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackagePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFSocialPackageTagPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActivityPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanActorPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanClientApiStoragePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanCtxActivitiesPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAgentProfilePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsAttachmentPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsContextPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsDocumentPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSlideEntityPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSlidePersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFSlideSetPersistence;
+import com.arcusys.learn.persistence.liferay.service.persistence.LFTCClntApiStoragePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsEndpointPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsResultPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatePersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsStatementRefPersistence;
-import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanLrsSubStatementPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanManifestActPersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanPackagePersistence;
 import com.arcusys.learn.persistence.liferay.service.persistence.LFTincanURIPersistence;
@@ -113,18 +88,6 @@ import javax.sql.DataSource;
 public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     extends BaseLocalServiceImpl implements LFLRSToActivitySettingLocalService,
         IdentifiableBean {
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFAchievementLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFAchievementLocalService lfAchievementLocalService;
-    @BeanReference(type = LFAchievementPersistence.class)
-    protected LFAchievementPersistence lfAchievementPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalService lfAchievementActivityLocalService;
-    @BeanReference(type = LFAchievementActivityPersistence.class)
-    protected LFAchievementActivityPersistence lfAchievementActivityPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalService lfAchievementUserLocalService;
-    @BeanReference(type = LFAchievementUserPersistence.class)
-    protected LFAchievementUserPersistence lfAchievementUserPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFActivityLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFActivityLocalService lfActivityLocalService;
     @BeanReference(type = LFActivityPersistence.class)
@@ -161,26 +124,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFBigDecimalLocalService lfBigDecimalLocalService;
     @BeanReference(type = LFBigDecimalPersistence.class)
     protected LFBigDecimalPersistence lfBigDecimalPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService lfCertificateLocalService;
-    @BeanReference(type = LFCertificatePersistence.class)
-    protected LFCertificatePersistence lfCertificatePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalService lfCertificateActivityLocalService;
-    @BeanReference(type = LFCertificateActivityPersistence.class)
-    protected LFCertificateActivityPersistence lfCertificateActivityPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService lfCertificateCourseLocalService;
-    @BeanReference(type = LFCertificateCoursePersistence.class)
-    protected LFCertificateCoursePersistence lfCertificateCoursePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalService lfCertificateTincanStatementLocalService;
-    @BeanReference(type = LFCertificateTincanStatementPersistence.class)
-    protected LFCertificateTincanStatementPersistence lfCertificateTincanStatementPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService lfCertificateUserLocalService;
-    @BeanReference(type = LFCertificateUserPersistence.class)
-    protected LFCertificateUserPersistence lfCertificateUserPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalService lfChildrenSelectionLocalService;
     @BeanReference(type = LFChildrenSelectionPersistence.class)
@@ -197,14 +140,10 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFCourseLocalService lfCourseLocalService;
     @BeanReference(type = LFCoursePersistence.class)
     protected LFCoursePersistence lfCoursePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalService lfFileStorageLocalService;
-    @BeanReference(type = LFFileStoragePersistence.class)
-    protected LFFileStoragePersistence lfFileStoragePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService lfGlobalObjectiveStateLocalService;
-    @BeanReference(type = LFGlobalObjectiveStatePersistence.class)
-    protected LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFGlblObjectiveStateLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFGlblObjectiveStateLocalService lfGlblObjectiveStateLocalService;
+    @BeanReference(type = LFGlblObjectiveStatePersistence.class)
+    protected LFGlblObjectiveStatePersistence lfGlblObjectiveStatePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFLessonLimitLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFLessonLimitLocalService lfLessonLimitLocalService;
     @BeanReference(type = LFLessonLimitPersistence.class)
@@ -229,10 +168,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFPackageLocalService lfPackageLocalService;
     @BeanReference(type = LFPackagePersistence.class)
     protected LFPackagePersistence lfPackagePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService lfPackageCommentLocalService;
-    @BeanReference(type = LFPackageCommentPersistence.class)
-    protected LFPackageCommentPersistence lfPackageCommentPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFPackageGradeStorageLocalService lfPackageGradeStorageLocalService;
     @BeanReference(type = LFPackageGradeStoragePersistence.class)
@@ -241,10 +176,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFPackageScopeRuleLocalService lfPackageScopeRuleLocalService;
     @BeanReference(type = LFPackageScopeRulePersistence.class)
     protected LFPackageScopeRulePersistence lfPackageScopeRulePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService lfPackageVoteLocalService;
-    @BeanReference(type = LFPackageVotePersistence.class)
-    protected LFPackageVotePersistence lfPackageVotePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFPlayerScopeRuleLocalService lfPlayerScopeRuleLocalService;
     @BeanReference(type = LFPlayerScopeRulePersistence.class)
@@ -265,30 +196,22 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFQuizAnswerScoreLocalService lfQuizAnswerScoreLocalService;
     @BeanReference(type = LFQuizAnswerScorePersistence.class)
     protected LFQuizAnswerScorePersistence lfQuizAnswerScorePersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFQuizQuestCatLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFQuizQuestCatLocalService lfQuizQuestCatLocalService;
+    @BeanReference(type = LFQuizQuestCatPersistence.class)
+    protected LFQuizQuestCatPersistence lfQuizQuestCatPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFQuizQuestionLocalService lfQuizQuestionLocalService;
     @BeanReference(type = LFQuizQuestionPersistence.class)
     protected LFQuizQuestionPersistence lfQuizQuestionPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService lfQuizQuestionCategoryLocalService;
-    @BeanReference(type = LFQuizQuestionCategoryPersistence.class)
-    protected LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFQuizTreeElementLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFQuizTreeElementLocalService lfQuizTreeElementLocalService;
     @BeanReference(type = LFQuizTreeElementPersistence.class)
     protected LFQuizTreeElementPersistence lfQuizTreeElementPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService lfRequiredActivityLocalService;
-    @BeanReference(type = LFRequiredActivityPersistence.class)
-    protected LFRequiredActivityPersistence lfRequiredActivityPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFResourceLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFResourceLocalService lfResourceLocalService;
     @BeanReference(type = LFResourcePersistence.class)
     protected LFResourcePersistence lfResourcePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFRoleLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFRoleLocalService lfRoleLocalService;
-    @BeanReference(type = LFRolePersistence.class)
-    protected LFRolePersistence lfRolePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFRollupContributionLocalService lfRollupContributionLocalService;
     @BeanReference(type = LFRollupContributionPersistence.class)
@@ -301,14 +224,14 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalService lfRuleConditionLocalService;
     @BeanReference(type = LFRuleConditionPersistence.class)
     protected LFRuleConditionPersistence lfRuleConditionPersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalService lfSeqPermissionsLocalService;
+    @BeanReference(type = LFSeqPermissionsPersistence.class)
+    protected LFSeqPermissionsPersistence lfSeqPermissionsPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSequencingLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFSequencingLocalService lfSequencingLocalService;
     @BeanReference(type = LFSequencingPersistence.class)
     protected LFSequencingPersistence lfSequencingPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService lfSequencingPermissionsLocalService;
-    @BeanReference(type = LFSequencingPermissionsPersistence.class)
-    protected LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalService lfSequencingTrackingLocalService;
     @BeanReference(type = LFSequencingTrackingPersistence.class)
@@ -317,74 +240,26 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     protected com.arcusys.learn.persistence.liferay.service.LFSiteDependentConfigLocalService lfSiteDependentConfigLocalService;
     @BeanReference(type = LFSiteDependentConfigPersistence.class)
     protected LFSiteDependentConfigPersistence lfSiteDependentConfigPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService lfSocialPackageLocalService;
-    @BeanReference(type = LFSocialPackagePersistence.class)
-    protected LFSocialPackagePersistence lfSocialPackagePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService lfSocialPackageTagLocalService;
-    @BeanReference(type = LFSocialPackageTagPersistence.class)
-    protected LFSocialPackageTagPersistence lfSocialPackageTagPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService lfTincanActivityLocalService;
-    @BeanReference(type = LFTincanActivityPersistence.class)
-    protected LFTincanActivityPersistence lfTincanActivityPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalService lfTincanActorLocalService;
-    @BeanReference(type = LFTincanActorPersistence.class)
-    protected LFTincanActorPersistence lfTincanActorPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanActProfileLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanActProfileLocalService lfTincanActProfileLocalService;
-    @BeanReference(type = LFTincanActProfilePersistence.class)
-    protected LFTincanActProfilePersistence lfTincanActProfilePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanClientApiStorageLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanClientApiStorageLocalService lfTincanClientApiStorageLocalService;
-    @BeanReference(type = LFTincanClientApiStoragePersistence.class)
-    protected LFTincanClientApiStoragePersistence lfTincanClientApiStoragePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanCtxActivitiesLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanCtxActivitiesLocalService lfTincanCtxActivitiesLocalService;
-    @BeanReference(type = LFTincanCtxActivitiesPersistence.class)
-    protected LFTincanCtxActivitiesPersistence lfTincanCtxActivitiesPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalService lfTincanLrsAgentProfileLocalService;
-    @BeanReference(type = LFTincanLrsAgentProfilePersistence.class)
-    protected LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService;
-    @BeanReference(type = LFTincanLrsAttachmentPersistence.class)
-    protected LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalService lfTincanLrsContextLocalService;
-    @BeanReference(type = LFTincanLrsContextPersistence.class)
-    protected LFTincanLrsContextPersistence lfTincanLrsContextPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalService lfTincanLrsDocumentLocalService;
-    @BeanReference(type = LFTincanLrsDocumentPersistence.class)
-    protected LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSlideLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFSlideLocalService lfSlideLocalService;
+    @BeanReference(type = LFSlidePersistence.class)
+    protected LFSlidePersistence lfSlidePersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSlideEntityLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFSlideEntityLocalService lfSlideEntityLocalService;
+    @BeanReference(type = LFSlideEntityPersistence.class)
+    protected LFSlideEntityPersistence lfSlideEntityPersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFSlideSetLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFSlideSetLocalService lfSlideSetLocalService;
+    @BeanReference(type = LFSlideSetPersistence.class)
+    protected LFSlideSetPersistence lfSlideSetPersistence;
+    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTCClntApiStorageLocalService.class)
+    protected com.arcusys.learn.persistence.liferay.service.LFTCClntApiStorageLocalService lftcClntApiStorageLocalService;
+    @BeanReference(type = LFTCClntApiStoragePersistence.class)
+    protected LFTCClntApiStoragePersistence lftcClntApiStoragePersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsEndpointLocalService lfTincanLrsEndpointLocalService;
     @BeanReference(type = LFTincanLrsEndpointPersistence.class)
     protected LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalService lfTincanLrsResultLocalService;
-    @BeanReference(type = LFTincanLrsResultPersistence.class)
-    protected LFTincanLrsResultPersistence lfTincanLrsResultPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalService lfTincanLrsStateLocalService;
-    @BeanReference(type = LFTincanLrsStatePersistence.class)
-    protected LFTincanLrsStatePersistence lfTincanLrsStatePersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalService lfTincanLrsStatementLocalService;
-    @BeanReference(type = LFTincanLrsStatementPersistence.class)
-    protected LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalService lfTincanLrsStatementRefLocalService;
-    @BeanReference(type = LFTincanLrsStatementRefPersistence.class)
-    protected LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence;
-    @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalService.class)
-    protected com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalService lfTincanLrsSubStatementLocalService;
-    @BeanReference(type = LFTincanLrsSubStatementPersistence.class)
-    protected LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence;
     @BeanReference(type = com.arcusys.learn.persistence.liferay.service.LFTincanManifestActLocalService.class)
     protected com.arcusys.learn.persistence.liferay.service.LFTincanManifestActLocalService lfTincanManifestActLocalService;
     @BeanReference(type = LFTincanManifestActPersistence.class)
@@ -640,120 +515,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
         LFLRSToActivitySetting lflrsToActivitySetting)
         throws SystemException {
         return lflrsToActivitySettingPersistence.update(lflrsToActivitySetting);
-    }
-
-    /**
-     * Returns the l f achievement local service.
-     *
-     * @return the l f achievement local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFAchievementLocalService getLFAchievementLocalService() {
-        return lfAchievementLocalService;
-    }
-
-    /**
-     * Sets the l f achievement local service.
-     *
-     * @param lfAchievementLocalService the l f achievement local service
-     */
-    public void setLFAchievementLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFAchievementLocalService lfAchievementLocalService) {
-        this.lfAchievementLocalService = lfAchievementLocalService;
-    }
-
-    /**
-     * Returns the l f achievement persistence.
-     *
-     * @return the l f achievement persistence
-     */
-    public LFAchievementPersistence getLFAchievementPersistence() {
-        return lfAchievementPersistence;
-    }
-
-    /**
-     * Sets the l f achievement persistence.
-     *
-     * @param lfAchievementPersistence the l f achievement persistence
-     */
-    public void setLFAchievementPersistence(
-        LFAchievementPersistence lfAchievementPersistence) {
-        this.lfAchievementPersistence = lfAchievementPersistence;
-    }
-
-    /**
-     * Returns the l f achievement activity local service.
-     *
-     * @return the l f achievement activity local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalService getLFAchievementActivityLocalService() {
-        return lfAchievementActivityLocalService;
-    }
-
-    /**
-     * Sets the l f achievement activity local service.
-     *
-     * @param lfAchievementActivityLocalService the l f achievement activity local service
-     */
-    public void setLFAchievementActivityLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFAchievementActivityLocalService lfAchievementActivityLocalService) {
-        this.lfAchievementActivityLocalService = lfAchievementActivityLocalService;
-    }
-
-    /**
-     * Returns the l f achievement activity persistence.
-     *
-     * @return the l f achievement activity persistence
-     */
-    public LFAchievementActivityPersistence getLFAchievementActivityPersistence() {
-        return lfAchievementActivityPersistence;
-    }
-
-    /**
-     * Sets the l f achievement activity persistence.
-     *
-     * @param lfAchievementActivityPersistence the l f achievement activity persistence
-     */
-    public void setLFAchievementActivityPersistence(
-        LFAchievementActivityPersistence lfAchievementActivityPersistence) {
-        this.lfAchievementActivityPersistence = lfAchievementActivityPersistence;
-    }
-
-    /**
-     * Returns the l f achievement user local service.
-     *
-     * @return the l f achievement user local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalService getLFAchievementUserLocalService() {
-        return lfAchievementUserLocalService;
-    }
-
-    /**
-     * Sets the l f achievement user local service.
-     *
-     * @param lfAchievementUserLocalService the l f achievement user local service
-     */
-    public void setLFAchievementUserLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFAchievementUserLocalService lfAchievementUserLocalService) {
-        this.lfAchievementUserLocalService = lfAchievementUserLocalService;
-    }
-
-    /**
-     * Returns the l f achievement user persistence.
-     *
-     * @return the l f achievement user persistence
-     */
-    public LFAchievementUserPersistence getLFAchievementUserPersistence() {
-        return lfAchievementUserPersistence;
-    }
-
-    /**
-     * Sets the l f achievement user persistence.
-     *
-     * @param lfAchievementUserPersistence the l f achievement user persistence
-     */
-    public void setLFAchievementUserPersistence(
-        LFAchievementUserPersistence lfAchievementUserPersistence) {
-        this.lfAchievementUserPersistence = lfAchievementUserPersistence;
     }
 
     /**
@@ -1098,196 +859,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
-     * Returns the l f certificate local service.
-     *
-     * @return the l f certificate local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService getLFCertificateLocalService() {
-        return lfCertificateLocalService;
-    }
-
-    /**
-     * Sets the l f certificate local service.
-     *
-     * @param lfCertificateLocalService the l f certificate local service
-     */
-    public void setLFCertificateLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFCertificateLocalService lfCertificateLocalService) {
-        this.lfCertificateLocalService = lfCertificateLocalService;
-    }
-
-    /**
-     * Returns the l f certificate persistence.
-     *
-     * @return the l f certificate persistence
-     */
-    public LFCertificatePersistence getLFCertificatePersistence() {
-        return lfCertificatePersistence;
-    }
-
-    /**
-     * Sets the l f certificate persistence.
-     *
-     * @param lfCertificatePersistence the l f certificate persistence
-     */
-    public void setLFCertificatePersistence(
-        LFCertificatePersistence lfCertificatePersistence) {
-        this.lfCertificatePersistence = lfCertificatePersistence;
-    }
-
-    /**
-     * Returns the l f certificate activity local service.
-     *
-     * @return the l f certificate activity local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalService getLFCertificateActivityLocalService() {
-        return lfCertificateActivityLocalService;
-    }
-
-    /**
-     * Sets the l f certificate activity local service.
-     *
-     * @param lfCertificateActivityLocalService the l f certificate activity local service
-     */
-    public void setLFCertificateActivityLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFCertificateActivityLocalService lfCertificateActivityLocalService) {
-        this.lfCertificateActivityLocalService = lfCertificateActivityLocalService;
-    }
-
-    /**
-     * Returns the l f certificate activity persistence.
-     *
-     * @return the l f certificate activity persistence
-     */
-    public LFCertificateActivityPersistence getLFCertificateActivityPersistence() {
-        return lfCertificateActivityPersistence;
-    }
-
-    /**
-     * Sets the l f certificate activity persistence.
-     *
-     * @param lfCertificateActivityPersistence the l f certificate activity persistence
-     */
-    public void setLFCertificateActivityPersistence(
-        LFCertificateActivityPersistence lfCertificateActivityPersistence) {
-        this.lfCertificateActivityPersistence = lfCertificateActivityPersistence;
-    }
-
-    /**
-     * Returns the l f certificate course local service.
-     *
-     * @return the l f certificate course local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService getLFCertificateCourseLocalService() {
-        return lfCertificateCourseLocalService;
-    }
-
-    /**
-     * Sets the l f certificate course local service.
-     *
-     * @param lfCertificateCourseLocalService the l f certificate course local service
-     */
-    public void setLFCertificateCourseLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFCertificateCourseLocalService lfCertificateCourseLocalService) {
-        this.lfCertificateCourseLocalService = lfCertificateCourseLocalService;
-    }
-
-    /**
-     * Returns the l f certificate course persistence.
-     *
-     * @return the l f certificate course persistence
-     */
-    public LFCertificateCoursePersistence getLFCertificateCoursePersistence() {
-        return lfCertificateCoursePersistence;
-    }
-
-    /**
-     * Sets the l f certificate course persistence.
-     *
-     * @param lfCertificateCoursePersistence the l f certificate course persistence
-     */
-    public void setLFCertificateCoursePersistence(
-        LFCertificateCoursePersistence lfCertificateCoursePersistence) {
-        this.lfCertificateCoursePersistence = lfCertificateCoursePersistence;
-    }
-
-    /**
-     * Returns the l f certificate tincan statement local service.
-     *
-     * @return the l f certificate tincan statement local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalService getLFCertificateTincanStatementLocalService() {
-        return lfCertificateTincanStatementLocalService;
-    }
-
-    /**
-     * Sets the l f certificate tincan statement local service.
-     *
-     * @param lfCertificateTincanStatementLocalService the l f certificate tincan statement local service
-     */
-    public void setLFCertificateTincanStatementLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFCertificateTincanStatementLocalService lfCertificateTincanStatementLocalService) {
-        this.lfCertificateTincanStatementLocalService = lfCertificateTincanStatementLocalService;
-    }
-
-    /**
-     * Returns the l f certificate tincan statement persistence.
-     *
-     * @return the l f certificate tincan statement persistence
-     */
-    public LFCertificateTincanStatementPersistence getLFCertificateTincanStatementPersistence() {
-        return lfCertificateTincanStatementPersistence;
-    }
-
-    /**
-     * Sets the l f certificate tincan statement persistence.
-     *
-     * @param lfCertificateTincanStatementPersistence the l f certificate tincan statement persistence
-     */
-    public void setLFCertificateTincanStatementPersistence(
-        LFCertificateTincanStatementPersistence lfCertificateTincanStatementPersistence) {
-        this.lfCertificateTincanStatementPersistence = lfCertificateTincanStatementPersistence;
-    }
-
-    /**
-     * Returns the l f certificate user local service.
-     *
-     * @return the l f certificate user local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService getLFCertificateUserLocalService() {
-        return lfCertificateUserLocalService;
-    }
-
-    /**
-     * Sets the l f certificate user local service.
-     *
-     * @param lfCertificateUserLocalService the l f certificate user local service
-     */
-    public void setLFCertificateUserLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFCertificateUserLocalService lfCertificateUserLocalService) {
-        this.lfCertificateUserLocalService = lfCertificateUserLocalService;
-    }
-
-    /**
-     * Returns the l f certificate user persistence.
-     *
-     * @return the l f certificate user persistence
-     */
-    public LFCertificateUserPersistence getLFCertificateUserPersistence() {
-        return lfCertificateUserPersistence;
-    }
-
-    /**
-     * Sets the l f certificate user persistence.
-     *
-     * @param lfCertificateUserPersistence the l f certificate user persistence
-     */
-    public void setLFCertificateUserPersistence(
-        LFCertificateUserPersistence lfCertificateUserPersistence) {
-        this.lfCertificateUserPersistence = lfCertificateUserPersistence;
-    }
-
-    /**
      * Returns the l f children selection local service.
      *
      * @return the l f children selection local service
@@ -1438,79 +1009,41 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
-     * Returns the l f file storage local service.
+     * Returns the l f glbl objective state local service.
      *
-     * @return the l f file storage local service
+     * @return the l f glbl objective state local service
      */
-    public com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalService getLFFileStorageLocalService() {
-        return lfFileStorageLocalService;
+    public com.arcusys.learn.persistence.liferay.service.LFGlblObjectiveStateLocalService getLFGlblObjectiveStateLocalService() {
+        return lfGlblObjectiveStateLocalService;
     }
 
     /**
-     * Sets the l f file storage local service.
+     * Sets the l f glbl objective state local service.
      *
-     * @param lfFileStorageLocalService the l f file storage local service
+     * @param lfGlblObjectiveStateLocalService the l f glbl objective state local service
      */
-    public void setLFFileStorageLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFFileStorageLocalService lfFileStorageLocalService) {
-        this.lfFileStorageLocalService = lfFileStorageLocalService;
+    public void setLFGlblObjectiveStateLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFGlblObjectiveStateLocalService lfGlblObjectiveStateLocalService) {
+        this.lfGlblObjectiveStateLocalService = lfGlblObjectiveStateLocalService;
     }
 
     /**
-     * Returns the l f file storage persistence.
+     * Returns the l f glbl objective state persistence.
      *
-     * @return the l f file storage persistence
+     * @return the l f glbl objective state persistence
      */
-    public LFFileStoragePersistence getLFFileStoragePersistence() {
-        return lfFileStoragePersistence;
+    public LFGlblObjectiveStatePersistence getLFGlblObjectiveStatePersistence() {
+        return lfGlblObjectiveStatePersistence;
     }
 
     /**
-     * Sets the l f file storage persistence.
+     * Sets the l f glbl objective state persistence.
      *
-     * @param lfFileStoragePersistence the l f file storage persistence
+     * @param lfGlblObjectiveStatePersistence the l f glbl objective state persistence
      */
-    public void setLFFileStoragePersistence(
-        LFFileStoragePersistence lfFileStoragePersistence) {
-        this.lfFileStoragePersistence = lfFileStoragePersistence;
-    }
-
-    /**
-     * Returns the l f global objective state local service.
-     *
-     * @return the l f global objective state local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService getLFGlobalObjectiveStateLocalService() {
-        return lfGlobalObjectiveStateLocalService;
-    }
-
-    /**
-     * Sets the l f global objective state local service.
-     *
-     * @param lfGlobalObjectiveStateLocalService the l f global objective state local service
-     */
-    public void setLFGlobalObjectiveStateLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService lfGlobalObjectiveStateLocalService) {
-        this.lfGlobalObjectiveStateLocalService = lfGlobalObjectiveStateLocalService;
-    }
-
-    /**
-     * Returns the l f global objective state persistence.
-     *
-     * @return the l f global objective state persistence
-     */
-    public LFGlobalObjectiveStatePersistence getLFGlobalObjectiveStatePersistence() {
-        return lfGlobalObjectiveStatePersistence;
-    }
-
-    /**
-     * Sets the l f global objective state persistence.
-     *
-     * @param lfGlobalObjectiveStatePersistence the l f global objective state persistence
-     */
-    public void setLFGlobalObjectiveStatePersistence(
-        LFGlobalObjectiveStatePersistence lfGlobalObjectiveStatePersistence) {
-        this.lfGlobalObjectiveStatePersistence = lfGlobalObjectiveStatePersistence;
+    public void setLFGlblObjectiveStatePersistence(
+        LFGlblObjectiveStatePersistence lfGlblObjectiveStatePersistence) {
+        this.lfGlblObjectiveStatePersistence = lfGlblObjectiveStatePersistence;
     }
 
     /**
@@ -1742,44 +1275,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
-     * Returns the l f package comment local service.
-     *
-     * @return the l f package comment local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService getLFPackageCommentLocalService() {
-        return lfPackageCommentLocalService;
-    }
-
-    /**
-     * Sets the l f package comment local service.
-     *
-     * @param lfPackageCommentLocalService the l f package comment local service
-     */
-    public void setLFPackageCommentLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFPackageCommentLocalService lfPackageCommentLocalService) {
-        this.lfPackageCommentLocalService = lfPackageCommentLocalService;
-    }
-
-    /**
-     * Returns the l f package comment persistence.
-     *
-     * @return the l f package comment persistence
-     */
-    public LFPackageCommentPersistence getLFPackageCommentPersistence() {
-        return lfPackageCommentPersistence;
-    }
-
-    /**
-     * Sets the l f package comment persistence.
-     *
-     * @param lfPackageCommentPersistence the l f package comment persistence
-     */
-    public void setLFPackageCommentPersistence(
-        LFPackageCommentPersistence lfPackageCommentPersistence) {
-        this.lfPackageCommentPersistence = lfPackageCommentPersistence;
-    }
-
-    /**
      * Returns the l f package grade storage local service.
      *
      * @return the l f package grade storage local service
@@ -1853,44 +1348,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     public void setLFPackageScopeRulePersistence(
         LFPackageScopeRulePersistence lfPackageScopeRulePersistence) {
         this.lfPackageScopeRulePersistence = lfPackageScopeRulePersistence;
-    }
-
-    /**
-     * Returns the l f package vote local service.
-     *
-     * @return the l f package vote local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService getLFPackageVoteLocalService() {
-        return lfPackageVoteLocalService;
-    }
-
-    /**
-     * Sets the l f package vote local service.
-     *
-     * @param lfPackageVoteLocalService the l f package vote local service
-     */
-    public void setLFPackageVoteLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFPackageVoteLocalService lfPackageVoteLocalService) {
-        this.lfPackageVoteLocalService = lfPackageVoteLocalService;
-    }
-
-    /**
-     * Returns the l f package vote persistence.
-     *
-     * @return the l f package vote persistence
-     */
-    public LFPackageVotePersistence getLFPackageVotePersistence() {
-        return lfPackageVotePersistence;
-    }
-
-    /**
-     * Sets the l f package vote persistence.
-     *
-     * @param lfPackageVotePersistence the l f package vote persistence
-     */
-    public void setLFPackageVotePersistence(
-        LFPackageVotePersistence lfPackageVotePersistence) {
-        this.lfPackageVotePersistence = lfPackageVotePersistence;
     }
 
     /**
@@ -2083,6 +1540,44 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
+     * Returns the l f quiz quest cat local service.
+     *
+     * @return the l f quiz quest cat local service
+     */
+    public com.arcusys.learn.persistence.liferay.service.LFQuizQuestCatLocalService getLFQuizQuestCatLocalService() {
+        return lfQuizQuestCatLocalService;
+    }
+
+    /**
+     * Sets the l f quiz quest cat local service.
+     *
+     * @param lfQuizQuestCatLocalService the l f quiz quest cat local service
+     */
+    public void setLFQuizQuestCatLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFQuizQuestCatLocalService lfQuizQuestCatLocalService) {
+        this.lfQuizQuestCatLocalService = lfQuizQuestCatLocalService;
+    }
+
+    /**
+     * Returns the l f quiz quest cat persistence.
+     *
+     * @return the l f quiz quest cat persistence
+     */
+    public LFQuizQuestCatPersistence getLFQuizQuestCatPersistence() {
+        return lfQuizQuestCatPersistence;
+    }
+
+    /**
+     * Sets the l f quiz quest cat persistence.
+     *
+     * @param lfQuizQuestCatPersistence the l f quiz quest cat persistence
+     */
+    public void setLFQuizQuestCatPersistence(
+        LFQuizQuestCatPersistence lfQuizQuestCatPersistence) {
+        this.lfQuizQuestCatPersistence = lfQuizQuestCatPersistence;
+    }
+
+    /**
      * Returns the l f quiz question local service.
      *
      * @return the l f quiz question local service
@@ -2118,44 +1613,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     public void setLFQuizQuestionPersistence(
         LFQuizQuestionPersistence lfQuizQuestionPersistence) {
         this.lfQuizQuestionPersistence = lfQuizQuestionPersistence;
-    }
-
-    /**
-     * Returns the l f quiz question category local service.
-     *
-     * @return the l f quiz question category local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService getLFQuizQuestionCategoryLocalService() {
-        return lfQuizQuestionCategoryLocalService;
-    }
-
-    /**
-     * Sets the l f quiz question category local service.
-     *
-     * @param lfQuizQuestionCategoryLocalService the l f quiz question category local service
-     */
-    public void setLFQuizQuestionCategoryLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFQuizQuestionCategoryLocalService lfQuizQuestionCategoryLocalService) {
-        this.lfQuizQuestionCategoryLocalService = lfQuizQuestionCategoryLocalService;
-    }
-
-    /**
-     * Returns the l f quiz question category persistence.
-     *
-     * @return the l f quiz question category persistence
-     */
-    public LFQuizQuestionCategoryPersistence getLFQuizQuestionCategoryPersistence() {
-        return lfQuizQuestionCategoryPersistence;
-    }
-
-    /**
-     * Sets the l f quiz question category persistence.
-     *
-     * @param lfQuizQuestionCategoryPersistence the l f quiz question category persistence
-     */
-    public void setLFQuizQuestionCategoryPersistence(
-        LFQuizQuestionCategoryPersistence lfQuizQuestionCategoryPersistence) {
-        this.lfQuizQuestionCategoryPersistence = lfQuizQuestionCategoryPersistence;
     }
 
     /**
@@ -2197,44 +1654,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
-     * Returns the l f required activity local service.
-     *
-     * @return the l f required activity local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService getLFRequiredActivityLocalService() {
-        return lfRequiredActivityLocalService;
-    }
-
-    /**
-     * Sets the l f required activity local service.
-     *
-     * @param lfRequiredActivityLocalService the l f required activity local service
-     */
-    public void setLFRequiredActivityLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFRequiredActivityLocalService lfRequiredActivityLocalService) {
-        this.lfRequiredActivityLocalService = lfRequiredActivityLocalService;
-    }
-
-    /**
-     * Returns the l f required activity persistence.
-     *
-     * @return the l f required activity persistence
-     */
-    public LFRequiredActivityPersistence getLFRequiredActivityPersistence() {
-        return lfRequiredActivityPersistence;
-    }
-
-    /**
-     * Sets the l f required activity persistence.
-     *
-     * @param lfRequiredActivityPersistence the l f required activity persistence
-     */
-    public void setLFRequiredActivityPersistence(
-        LFRequiredActivityPersistence lfRequiredActivityPersistence) {
-        this.lfRequiredActivityPersistence = lfRequiredActivityPersistence;
-    }
-
-    /**
      * Returns the l f resource local service.
      *
      * @return the l f resource local service
@@ -2270,43 +1689,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     public void setLFResourcePersistence(
         LFResourcePersistence lfResourcePersistence) {
         this.lfResourcePersistence = lfResourcePersistence;
-    }
-
-    /**
-     * Returns the l f role local service.
-     *
-     * @return the l f role local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFRoleLocalService getLFRoleLocalService() {
-        return lfRoleLocalService;
-    }
-
-    /**
-     * Sets the l f role local service.
-     *
-     * @param lfRoleLocalService the l f role local service
-     */
-    public void setLFRoleLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFRoleLocalService lfRoleLocalService) {
-        this.lfRoleLocalService = lfRoleLocalService;
-    }
-
-    /**
-     * Returns the l f role persistence.
-     *
-     * @return the l f role persistence
-     */
-    public LFRolePersistence getLFRolePersistence() {
-        return lfRolePersistence;
-    }
-
-    /**
-     * Sets the l f role persistence.
-     *
-     * @param lfRolePersistence the l f role persistence
-     */
-    public void setLFRolePersistence(LFRolePersistence lfRolePersistence) {
-        this.lfRolePersistence = lfRolePersistence;
     }
 
     /**
@@ -2424,6 +1806,44 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
+     * Returns the l f seq permissions local service.
+     *
+     * @return the l f seq permissions local service
+     */
+    public com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalService getLFSeqPermissionsLocalService() {
+        return lfSeqPermissionsLocalService;
+    }
+
+    /**
+     * Sets the l f seq permissions local service.
+     *
+     * @param lfSeqPermissionsLocalService the l f seq permissions local service
+     */
+    public void setLFSeqPermissionsLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFSeqPermissionsLocalService lfSeqPermissionsLocalService) {
+        this.lfSeqPermissionsLocalService = lfSeqPermissionsLocalService;
+    }
+
+    /**
+     * Returns the l f seq permissions persistence.
+     *
+     * @return the l f seq permissions persistence
+     */
+    public LFSeqPermissionsPersistence getLFSeqPermissionsPersistence() {
+        return lfSeqPermissionsPersistence;
+    }
+
+    /**
+     * Sets the l f seq permissions persistence.
+     *
+     * @param lfSeqPermissionsPersistence the l f seq permissions persistence
+     */
+    public void setLFSeqPermissionsPersistence(
+        LFSeqPermissionsPersistence lfSeqPermissionsPersistence) {
+        this.lfSeqPermissionsPersistence = lfSeqPermissionsPersistence;
+    }
+
+    /**
      * Returns the l f sequencing local service.
      *
      * @return the l f sequencing local service
@@ -2459,44 +1879,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     public void setLFSequencingPersistence(
         LFSequencingPersistence lfSequencingPersistence) {
         this.lfSequencingPersistence = lfSequencingPersistence;
-    }
-
-    /**
-     * Returns the l f sequencing permissions local service.
-     *
-     * @return the l f sequencing permissions local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService getLFSequencingPermissionsLocalService() {
-        return lfSequencingPermissionsLocalService;
-    }
-
-    /**
-     * Sets the l f sequencing permissions local service.
-     *
-     * @param lfSequencingPermissionsLocalService the l f sequencing permissions local service
-     */
-    public void setLFSequencingPermissionsLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFSequencingPermissionsLocalService lfSequencingPermissionsLocalService) {
-        this.lfSequencingPermissionsLocalService = lfSequencingPermissionsLocalService;
-    }
-
-    /**
-     * Returns the l f sequencing permissions persistence.
-     *
-     * @return the l f sequencing permissions persistence
-     */
-    public LFSequencingPermissionsPersistence getLFSequencingPermissionsPersistence() {
-        return lfSequencingPermissionsPersistence;
-    }
-
-    /**
-     * Sets the l f sequencing permissions persistence.
-     *
-     * @param lfSequencingPermissionsPersistence the l f sequencing permissions persistence
-     */
-    public void setLFSequencingPermissionsPersistence(
-        LFSequencingPermissionsPersistence lfSequencingPermissionsPersistence) {
-        this.lfSequencingPermissionsPersistence = lfSequencingPermissionsPersistence;
     }
 
     /**
@@ -2576,421 +1958,154 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     }
 
     /**
-     * Returns the l f social package local service.
+     * Returns the l f slide local service.
      *
-     * @return the l f social package local service
+     * @return the l f slide local service
      */
-    public com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService getLFSocialPackageLocalService() {
-        return lfSocialPackageLocalService;
+    public com.arcusys.learn.persistence.liferay.service.LFSlideLocalService getLFSlideLocalService() {
+        return lfSlideLocalService;
     }
 
     /**
-     * Sets the l f social package local service.
+     * Sets the l f slide local service.
      *
-     * @param lfSocialPackageLocalService the l f social package local service
+     * @param lfSlideLocalService the l f slide local service
      */
-    public void setLFSocialPackageLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFSocialPackageLocalService lfSocialPackageLocalService) {
-        this.lfSocialPackageLocalService = lfSocialPackageLocalService;
+    public void setLFSlideLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFSlideLocalService lfSlideLocalService) {
+        this.lfSlideLocalService = lfSlideLocalService;
     }
 
     /**
-     * Returns the l f social package persistence.
+     * Returns the l f slide persistence.
      *
-     * @return the l f social package persistence
+     * @return the l f slide persistence
      */
-    public LFSocialPackagePersistence getLFSocialPackagePersistence() {
-        return lfSocialPackagePersistence;
+    public LFSlidePersistence getLFSlidePersistence() {
+        return lfSlidePersistence;
     }
 
     /**
-     * Sets the l f social package persistence.
+     * Sets the l f slide persistence.
      *
-     * @param lfSocialPackagePersistence the l f social package persistence
+     * @param lfSlidePersistence the l f slide persistence
      */
-    public void setLFSocialPackagePersistence(
-        LFSocialPackagePersistence lfSocialPackagePersistence) {
-        this.lfSocialPackagePersistence = lfSocialPackagePersistence;
+    public void setLFSlidePersistence(LFSlidePersistence lfSlidePersistence) {
+        this.lfSlidePersistence = lfSlidePersistence;
     }
 
     /**
-     * Returns the l f social package tag local service.
+     * Returns the l f slide entity local service.
      *
-     * @return the l f social package tag local service
+     * @return the l f slide entity local service
      */
-    public com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService getLFSocialPackageTagLocalService() {
-        return lfSocialPackageTagLocalService;
+    public com.arcusys.learn.persistence.liferay.service.LFSlideEntityLocalService getLFSlideEntityLocalService() {
+        return lfSlideEntityLocalService;
     }
 
     /**
-     * Sets the l f social package tag local service.
+     * Sets the l f slide entity local service.
      *
-     * @param lfSocialPackageTagLocalService the l f social package tag local service
+     * @param lfSlideEntityLocalService the l f slide entity local service
      */
-    public void setLFSocialPackageTagLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFSocialPackageTagLocalService lfSocialPackageTagLocalService) {
-        this.lfSocialPackageTagLocalService = lfSocialPackageTagLocalService;
+    public void setLFSlideEntityLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFSlideEntityLocalService lfSlideEntityLocalService) {
+        this.lfSlideEntityLocalService = lfSlideEntityLocalService;
     }
 
     /**
-     * Returns the l f social package tag persistence.
+     * Returns the l f slide entity persistence.
      *
-     * @return the l f social package tag persistence
+     * @return the l f slide entity persistence
      */
-    public LFSocialPackageTagPersistence getLFSocialPackageTagPersistence() {
-        return lfSocialPackageTagPersistence;
+    public LFSlideEntityPersistence getLFSlideEntityPersistence() {
+        return lfSlideEntityPersistence;
     }
 
     /**
-     * Sets the l f social package tag persistence.
+     * Sets the l f slide entity persistence.
      *
-     * @param lfSocialPackageTagPersistence the l f social package tag persistence
+     * @param lfSlideEntityPersistence the l f slide entity persistence
      */
-    public void setLFSocialPackageTagPersistence(
-        LFSocialPackageTagPersistence lfSocialPackageTagPersistence) {
-        this.lfSocialPackageTagPersistence = lfSocialPackageTagPersistence;
+    public void setLFSlideEntityPersistence(
+        LFSlideEntityPersistence lfSlideEntityPersistence) {
+        this.lfSlideEntityPersistence = lfSlideEntityPersistence;
     }
 
     /**
-     * Returns the l f tincan activity local service.
+     * Returns the l f slide set local service.
      *
-     * @return the l f tincan activity local service
+     * @return the l f slide set local service
      */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService getLFTincanActivityLocalService() {
-        return lfTincanActivityLocalService;
+    public com.arcusys.learn.persistence.liferay.service.LFSlideSetLocalService getLFSlideSetLocalService() {
+        return lfSlideSetLocalService;
     }
 
     /**
-     * Sets the l f tincan activity local service.
+     * Sets the l f slide set local service.
      *
-     * @param lfTincanActivityLocalService the l f tincan activity local service
+     * @param lfSlideSetLocalService the l f slide set local service
      */
-    public void setLFTincanActivityLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanActivityLocalService lfTincanActivityLocalService) {
-        this.lfTincanActivityLocalService = lfTincanActivityLocalService;
+    public void setLFSlideSetLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFSlideSetLocalService lfSlideSetLocalService) {
+        this.lfSlideSetLocalService = lfSlideSetLocalService;
     }
 
     /**
-     * Returns the l f tincan activity persistence.
+     * Returns the l f slide set persistence.
      *
-     * @return the l f tincan activity persistence
+     * @return the l f slide set persistence
      */
-    public LFTincanActivityPersistence getLFTincanActivityPersistence() {
-        return lfTincanActivityPersistence;
+    public LFSlideSetPersistence getLFSlideSetPersistence() {
+        return lfSlideSetPersistence;
     }
 
     /**
-     * Sets the l f tincan activity persistence.
+     * Sets the l f slide set persistence.
      *
-     * @param lfTincanActivityPersistence the l f tincan activity persistence
+     * @param lfSlideSetPersistence the l f slide set persistence
      */
-    public void setLFTincanActivityPersistence(
-        LFTincanActivityPersistence lfTincanActivityPersistence) {
-        this.lfTincanActivityPersistence = lfTincanActivityPersistence;
+    public void setLFSlideSetPersistence(
+        LFSlideSetPersistence lfSlideSetPersistence) {
+        this.lfSlideSetPersistence = lfSlideSetPersistence;
     }
 
     /**
-     * Returns the l f tincan actor local service.
+     * Returns the l f t c clnt api storage local service.
      *
-     * @return the l f tincan actor local service
+     * @return the l f t c clnt api storage local service
      */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalService getLFTincanActorLocalService() {
-        return lfTincanActorLocalService;
+    public com.arcusys.learn.persistence.liferay.service.LFTCClntApiStorageLocalService getLFTCClntApiStorageLocalService() {
+        return lftcClntApiStorageLocalService;
     }
 
     /**
-     * Sets the l f tincan actor local service.
+     * Sets the l f t c clnt api storage local service.
      *
-     * @param lfTincanActorLocalService the l f tincan actor local service
+     * @param lftcClntApiStorageLocalService the l f t c clnt api storage local service
      */
-    public void setLFTincanActorLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanActorLocalService lfTincanActorLocalService) {
-        this.lfTincanActorLocalService = lfTincanActorLocalService;
+    public void setLFTCClntApiStorageLocalService(
+        com.arcusys.learn.persistence.liferay.service.LFTCClntApiStorageLocalService lftcClntApiStorageLocalService) {
+        this.lftcClntApiStorageLocalService = lftcClntApiStorageLocalService;
     }
 
     /**
-     * Returns the l f tincan actor persistence.
+     * Returns the l f t c clnt api storage persistence.
      *
-     * @return the l f tincan actor persistence
+     * @return the l f t c clnt api storage persistence
      */
-    public LFTincanActorPersistence getLFTincanActorPersistence() {
-        return lfTincanActorPersistence;
+    public LFTCClntApiStoragePersistence getLFTCClntApiStoragePersistence() {
+        return lftcClntApiStoragePersistence;
     }
 
     /**
-     * Sets the l f tincan actor persistence.
+     * Sets the l f t c clnt api storage persistence.
      *
-     * @param lfTincanActorPersistence the l f tincan actor persistence
+     * @param lftcClntApiStoragePersistence the l f t c clnt api storage persistence
      */
-    public void setLFTincanActorPersistence(
-        LFTincanActorPersistence lfTincanActorPersistence) {
-        this.lfTincanActorPersistence = lfTincanActorPersistence;
-    }
-
-    /**
-     * Returns the l f tincan act profile local service.
-     *
-     * @return the l f tincan act profile local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanActProfileLocalService getLFTincanActProfileLocalService() {
-        return lfTincanActProfileLocalService;
-    }
-
-    /**
-     * Sets the l f tincan act profile local service.
-     *
-     * @param lfTincanActProfileLocalService the l f tincan act profile local service
-     */
-    public void setLFTincanActProfileLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanActProfileLocalService lfTincanActProfileLocalService) {
-        this.lfTincanActProfileLocalService = lfTincanActProfileLocalService;
-    }
-
-    /**
-     * Returns the l f tincan act profile persistence.
-     *
-     * @return the l f tincan act profile persistence
-     */
-    public LFTincanActProfilePersistence getLFTincanActProfilePersistence() {
-        return lfTincanActProfilePersistence;
-    }
-
-    /**
-     * Sets the l f tincan act profile persistence.
-     *
-     * @param lfTincanActProfilePersistence the l f tincan act profile persistence
-     */
-    public void setLFTincanActProfilePersistence(
-        LFTincanActProfilePersistence lfTincanActProfilePersistence) {
-        this.lfTincanActProfilePersistence = lfTincanActProfilePersistence;
-    }
-
-    /**
-     * Returns the l f tincan client api storage local service.
-     *
-     * @return the l f tincan client api storage local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanClientApiStorageLocalService getLFTincanClientApiStorageLocalService() {
-        return lfTincanClientApiStorageLocalService;
-    }
-
-    /**
-     * Sets the l f tincan client api storage local service.
-     *
-     * @param lfTincanClientApiStorageLocalService the l f tincan client api storage local service
-     */
-    public void setLFTincanClientApiStorageLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanClientApiStorageLocalService lfTincanClientApiStorageLocalService) {
-        this.lfTincanClientApiStorageLocalService = lfTincanClientApiStorageLocalService;
-    }
-
-    /**
-     * Returns the l f tincan client api storage persistence.
-     *
-     * @return the l f tincan client api storage persistence
-     */
-    public LFTincanClientApiStoragePersistence getLFTincanClientApiStoragePersistence() {
-        return lfTincanClientApiStoragePersistence;
-    }
-
-    /**
-     * Sets the l f tincan client api storage persistence.
-     *
-     * @param lfTincanClientApiStoragePersistence the l f tincan client api storage persistence
-     */
-    public void setLFTincanClientApiStoragePersistence(
-        LFTincanClientApiStoragePersistence lfTincanClientApiStoragePersistence) {
-        this.lfTincanClientApiStoragePersistence = lfTincanClientApiStoragePersistence;
-    }
-
-    /**
-     * Returns the l f tincan ctx activities local service.
-     *
-     * @return the l f tincan ctx activities local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanCtxActivitiesLocalService getLFTincanCtxActivitiesLocalService() {
-        return lfTincanCtxActivitiesLocalService;
-    }
-
-    /**
-     * Sets the l f tincan ctx activities local service.
-     *
-     * @param lfTincanCtxActivitiesLocalService the l f tincan ctx activities local service
-     */
-    public void setLFTincanCtxActivitiesLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanCtxActivitiesLocalService lfTincanCtxActivitiesLocalService) {
-        this.lfTincanCtxActivitiesLocalService = lfTincanCtxActivitiesLocalService;
-    }
-
-    /**
-     * Returns the l f tincan ctx activities persistence.
-     *
-     * @return the l f tincan ctx activities persistence
-     */
-    public LFTincanCtxActivitiesPersistence getLFTincanCtxActivitiesPersistence() {
-        return lfTincanCtxActivitiesPersistence;
-    }
-
-    /**
-     * Sets the l f tincan ctx activities persistence.
-     *
-     * @param lfTincanCtxActivitiesPersistence the l f tincan ctx activities persistence
-     */
-    public void setLFTincanCtxActivitiesPersistence(
-        LFTincanCtxActivitiesPersistence lfTincanCtxActivitiesPersistence) {
-        this.lfTincanCtxActivitiesPersistence = lfTincanCtxActivitiesPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs agent profile local service.
-     *
-     * @return the l f tincan lrs agent profile local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalService getLFTincanLrsAgentProfileLocalService() {
-        return lfTincanLrsAgentProfileLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs agent profile local service.
-     *
-     * @param lfTincanLrsAgentProfileLocalService the l f tincan lrs agent profile local service
-     */
-    public void setLFTincanLrsAgentProfileLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsAgentProfileLocalService lfTincanLrsAgentProfileLocalService) {
-        this.lfTincanLrsAgentProfileLocalService = lfTincanLrsAgentProfileLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs agent profile persistence.
-     *
-     * @return the l f tincan lrs agent profile persistence
-     */
-    public LFTincanLrsAgentProfilePersistence getLFTincanLrsAgentProfilePersistence() {
-        return lfTincanLrsAgentProfilePersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs agent profile persistence.
-     *
-     * @param lfTincanLrsAgentProfilePersistence the l f tincan lrs agent profile persistence
-     */
-    public void setLFTincanLrsAgentProfilePersistence(
-        LFTincanLrsAgentProfilePersistence lfTincanLrsAgentProfilePersistence) {
-        this.lfTincanLrsAgentProfilePersistence = lfTincanLrsAgentProfilePersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs attachment local service.
-     *
-     * @return the l f tincan lrs attachment local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalService getLFTincanLrsAttachmentLocalService() {
-        return lfTincanLrsAttachmentLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs attachment local service.
-     *
-     * @param lfTincanLrsAttachmentLocalService the l f tincan lrs attachment local service
-     */
-    public void setLFTincanLrsAttachmentLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsAttachmentLocalService lfTincanLrsAttachmentLocalService) {
-        this.lfTincanLrsAttachmentLocalService = lfTincanLrsAttachmentLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs attachment persistence.
-     *
-     * @return the l f tincan lrs attachment persistence
-     */
-    public LFTincanLrsAttachmentPersistence getLFTincanLrsAttachmentPersistence() {
-        return lfTincanLrsAttachmentPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs attachment persistence.
-     *
-     * @param lfTincanLrsAttachmentPersistence the l f tincan lrs attachment persistence
-     */
-    public void setLFTincanLrsAttachmentPersistence(
-        LFTincanLrsAttachmentPersistence lfTincanLrsAttachmentPersistence) {
-        this.lfTincanLrsAttachmentPersistence = lfTincanLrsAttachmentPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs context local service.
-     *
-     * @return the l f tincan lrs context local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalService getLFTincanLrsContextLocalService() {
-        return lfTincanLrsContextLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs context local service.
-     *
-     * @param lfTincanLrsContextLocalService the l f tincan lrs context local service
-     */
-    public void setLFTincanLrsContextLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsContextLocalService lfTincanLrsContextLocalService) {
-        this.lfTincanLrsContextLocalService = lfTincanLrsContextLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs context persistence.
-     *
-     * @return the l f tincan lrs context persistence
-     */
-    public LFTincanLrsContextPersistence getLFTincanLrsContextPersistence() {
-        return lfTincanLrsContextPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs context persistence.
-     *
-     * @param lfTincanLrsContextPersistence the l f tincan lrs context persistence
-     */
-    public void setLFTincanLrsContextPersistence(
-        LFTincanLrsContextPersistence lfTincanLrsContextPersistence) {
-        this.lfTincanLrsContextPersistence = lfTincanLrsContextPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs document local service.
-     *
-     * @return the l f tincan lrs document local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalService getLFTincanLrsDocumentLocalService() {
-        return lfTincanLrsDocumentLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs document local service.
-     *
-     * @param lfTincanLrsDocumentLocalService the l f tincan lrs document local service
-     */
-    public void setLFTincanLrsDocumentLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsDocumentLocalService lfTincanLrsDocumentLocalService) {
-        this.lfTincanLrsDocumentLocalService = lfTincanLrsDocumentLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs document persistence.
-     *
-     * @return the l f tincan lrs document persistence
-     */
-    public LFTincanLrsDocumentPersistence getLFTincanLrsDocumentPersistence() {
-        return lfTincanLrsDocumentPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs document persistence.
-     *
-     * @param lfTincanLrsDocumentPersistence the l f tincan lrs document persistence
-     */
-    public void setLFTincanLrsDocumentPersistence(
-        LFTincanLrsDocumentPersistence lfTincanLrsDocumentPersistence) {
-        this.lfTincanLrsDocumentPersistence = lfTincanLrsDocumentPersistence;
+    public void setLFTCClntApiStoragePersistence(
+        LFTCClntApiStoragePersistence lftcClntApiStoragePersistence) {
+        this.lftcClntApiStoragePersistence = lftcClntApiStoragePersistence;
     }
 
     /**
@@ -3029,196 +2144,6 @@ public abstract class LFLRSToActivitySettingLocalServiceBaseImpl
     public void setLFTincanLrsEndpointPersistence(
         LFTincanLrsEndpointPersistence lfTincanLrsEndpointPersistence) {
         this.lfTincanLrsEndpointPersistence = lfTincanLrsEndpointPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs result local service.
-     *
-     * @return the l f tincan lrs result local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalService getLFTincanLrsResultLocalService() {
-        return lfTincanLrsResultLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs result local service.
-     *
-     * @param lfTincanLrsResultLocalService the l f tincan lrs result local service
-     */
-    public void setLFTincanLrsResultLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsResultLocalService lfTincanLrsResultLocalService) {
-        this.lfTincanLrsResultLocalService = lfTincanLrsResultLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs result persistence.
-     *
-     * @return the l f tincan lrs result persistence
-     */
-    public LFTincanLrsResultPersistence getLFTincanLrsResultPersistence() {
-        return lfTincanLrsResultPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs result persistence.
-     *
-     * @param lfTincanLrsResultPersistence the l f tincan lrs result persistence
-     */
-    public void setLFTincanLrsResultPersistence(
-        LFTincanLrsResultPersistence lfTincanLrsResultPersistence) {
-        this.lfTincanLrsResultPersistence = lfTincanLrsResultPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs state local service.
-     *
-     * @return the l f tincan lrs state local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalService getLFTincanLrsStateLocalService() {
-        return lfTincanLrsStateLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs state local service.
-     *
-     * @param lfTincanLrsStateLocalService the l f tincan lrs state local service
-     */
-    public void setLFTincanLrsStateLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsStateLocalService lfTincanLrsStateLocalService) {
-        this.lfTincanLrsStateLocalService = lfTincanLrsStateLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs state persistence.
-     *
-     * @return the l f tincan lrs state persistence
-     */
-    public LFTincanLrsStatePersistence getLFTincanLrsStatePersistence() {
-        return lfTincanLrsStatePersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs state persistence.
-     *
-     * @param lfTincanLrsStatePersistence the l f tincan lrs state persistence
-     */
-    public void setLFTincanLrsStatePersistence(
-        LFTincanLrsStatePersistence lfTincanLrsStatePersistence) {
-        this.lfTincanLrsStatePersistence = lfTincanLrsStatePersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs statement local service.
-     *
-     * @return the l f tincan lrs statement local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalService getLFTincanLrsStatementLocalService() {
-        return lfTincanLrsStatementLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs statement local service.
-     *
-     * @param lfTincanLrsStatementLocalService the l f tincan lrs statement local service
-     */
-    public void setLFTincanLrsStatementLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementLocalService lfTincanLrsStatementLocalService) {
-        this.lfTincanLrsStatementLocalService = lfTincanLrsStatementLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs statement persistence.
-     *
-     * @return the l f tincan lrs statement persistence
-     */
-    public LFTincanLrsStatementPersistence getLFTincanLrsStatementPersistence() {
-        return lfTincanLrsStatementPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs statement persistence.
-     *
-     * @param lfTincanLrsStatementPersistence the l f tincan lrs statement persistence
-     */
-    public void setLFTincanLrsStatementPersistence(
-        LFTincanLrsStatementPersistence lfTincanLrsStatementPersistence) {
-        this.lfTincanLrsStatementPersistence = lfTincanLrsStatementPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs statement ref local service.
-     *
-     * @return the l f tincan lrs statement ref local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalService getLFTincanLrsStatementRefLocalService() {
-        return lfTincanLrsStatementRefLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs statement ref local service.
-     *
-     * @param lfTincanLrsStatementRefLocalService the l f tincan lrs statement ref local service
-     */
-    public void setLFTincanLrsStatementRefLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsStatementRefLocalService lfTincanLrsStatementRefLocalService) {
-        this.lfTincanLrsStatementRefLocalService = lfTincanLrsStatementRefLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs statement ref persistence.
-     *
-     * @return the l f tincan lrs statement ref persistence
-     */
-    public LFTincanLrsStatementRefPersistence getLFTincanLrsStatementRefPersistence() {
-        return lfTincanLrsStatementRefPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs statement ref persistence.
-     *
-     * @param lfTincanLrsStatementRefPersistence the l f tincan lrs statement ref persistence
-     */
-    public void setLFTincanLrsStatementRefPersistence(
-        LFTincanLrsStatementRefPersistence lfTincanLrsStatementRefPersistence) {
-        this.lfTincanLrsStatementRefPersistence = lfTincanLrsStatementRefPersistence;
-    }
-
-    /**
-     * Returns the l f tincan lrs sub statement local service.
-     *
-     * @return the l f tincan lrs sub statement local service
-     */
-    public com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalService getLFTincanLrsSubStatementLocalService() {
-        return lfTincanLrsSubStatementLocalService;
-    }
-
-    /**
-     * Sets the l f tincan lrs sub statement local service.
-     *
-     * @param lfTincanLrsSubStatementLocalService the l f tincan lrs sub statement local service
-     */
-    public void setLFTincanLrsSubStatementLocalService(
-        com.arcusys.learn.persistence.liferay.service.LFTincanLrsSubStatementLocalService lfTincanLrsSubStatementLocalService) {
-        this.lfTincanLrsSubStatementLocalService = lfTincanLrsSubStatementLocalService;
-    }
-
-    /**
-     * Returns the l f tincan lrs sub statement persistence.
-     *
-     * @return the l f tincan lrs sub statement persistence
-     */
-    public LFTincanLrsSubStatementPersistence getLFTincanLrsSubStatementPersistence() {
-        return lfTincanLrsSubStatementPersistence;
-    }
-
-    /**
-     * Sets the l f tincan lrs sub statement persistence.
-     *
-     * @param lfTincanLrsSubStatementPersistence the l f tincan lrs sub statement persistence
-     */
-    public void setLFTincanLrsSubStatementPersistence(
-        LFTincanLrsSubStatementPersistence lfTincanLrsSubStatementPersistence) {
-        this.lfTincanLrsSubStatementPersistence = lfTincanLrsSubStatementPersistence;
     }
 
     /**

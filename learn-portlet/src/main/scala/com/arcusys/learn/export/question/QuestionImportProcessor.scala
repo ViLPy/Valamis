@@ -1,9 +1,10 @@
 package com.arcusys.learn.export.question
 
-import com.arcusys.learn.bl.export.ImportProcessor
+import java.io.File
 import com.arcusys.learn.facades._
-import com.arcusys.learn.models.AnswerResponse
-import com.arcusys.learn.util.JsonSupport
+import com.arcusys.valamis.export.ImportProcessor
+import com.arcusys.valamis.questionbank.service.QuestionService
+import com.arcusys.valamis.utils.JsonSupport
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.json4s.{ DefaultFormats, Formats }
 
@@ -12,22 +13,30 @@ class QuestionImportProcessor(implicit configuration: BindingModule) extends Imp
   override implicit def bindingModule: BindingModule = configuration
 
   private lazy val questionFacade = inject[QuestionFacadeContract]
-  private lazy val categoryFacade = inject[CategoryFacadeContract]
+  private lazy val questionService = inject[QuestionService]
 
-  def importItemsImpl(raw: String, courseID: Int, exportTempDirectory: String): Unit = {
-    implicit val fs: Formats = DefaultFormats
-    val questionCategories = parseJson[List[QuestionCategoryExport]](raw).get //OrElse(List())//throw new BadRequestException("Cannot deserialize lessons"))
-    questionCategories.foreach(qc => {
-      val categoryID = if (qc.title == "root") {
+  def importItems(items: List[QuestionCategoryExport], courseId: Long, tempDirectory: File, userId: Long): Unit = {
+    items.foreach(qc => {
+      val categoryId = if (qc.title == "root") {
         None
       } else {
-        Option(categoryFacade.create(qc.title, qc.description, None, Option(courseID)).id)
+        Option(questionService.createCategory(qc.title, qc.description, None, Option(courseId.toInt)).id)
       }
-      qc.children.map(q => {
-        val res = questionFacade.createQuestion(categoryID, q.questionType, q.title, q.text, q.explanationText, q.forceCorrectCount, q.isCaseSensitive, Option(courseID))
-        questionFacade.updateQuestion(res.id, categoryID, q.questionType, q.title, q.text, q.explanationText, q.forceCorrectCount, q.isCaseSensitive, Option(courseID),
-          q.answers.map(_.toAnswerResponse()).toList)
-      })
+      qc.children.map(q =>
+        questionFacade.createQuestion(
+          categoryId,
+          q.questionType,
+          q.title,
+          q.text,
+          q.explanationText,
+          q.rightAnswerText.getOrElse(""),
+          q.wrongAnswerText.getOrElse(""),
+          q.forceCorrectCount,
+          q.isCaseSensitive,
+          Option(courseId.toInt),
+          q.answers.map(_.toAnswerResponse()
+        ).toList)
+      )
     })
   }
 }

@@ -1,6 +1,14 @@
 var WordCloudStatModelService = new Backbone.Service({ url: '/',
     sync: {
-        'read': path.api.report + "?action=STATEMENT_VERBS"
+        'read': {
+            path: path.api.report,
+            'data': function () {
+                return {
+                    action: 'STATEMENT_VERBS'
+                }
+            },
+            'method': 'get'
+        }
     }
 });
 

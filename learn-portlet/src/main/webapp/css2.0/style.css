@@ -590,6 +590,10 @@ form {
     margin-left: 20px;
 }
 
+.bottom-paginator-padding {
+    padding: 20px;
+}
+
 .portlet-icon-back {
     color: #999 !important;
 }
@@ -598,6 +602,9 @@ form {
     color: #2C2C2C !important;
 }
 
+.padding-container {
+    padding: 10px;
+}
 
 
 
@@ -648,7 +655,6 @@ form {
         background-color: transparent!important;
     }
 
-    /*from certificates.css, package_manager.css*/
 
     .show-details-button {
         width: 31px;
@@ -728,25 +734,8 @@ form {
 
 }
 
-#toolbarWrapper {
-    padding: 20px;
-    padding-top: 0px;
-}
-
-#packageManagerMainRegion {
-    padding: 10px;
-}
-
-#bottomPaging {
-    padding: 20px;
-}
-
-#curriculum-content_Curriculum_WAR_learnportlet {
-    padding-top: 0px;
-}
-
-#curriculum-content_Curriculum_WAR_learnportlet .pull-right.full-width {
-    margin-bottom: 30px;
+.padding-curriculum-parinator {
+    padding: 20px 20px 0px 0px;
 }
 
 .no-margin {
@@ -761,6 +750,8 @@ form {
 .questionsCountToShowText {
     width: auto !important;
     margin-left: 20px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 .randomQuestionOrderingToggle {
     margin-left: 20px !important;
@@ -781,4 +772,130 @@ form {
 }
 #valamisCertificates .valamis-tile-item-wrapper {
     cursor: pointer;
+}
+
+/* Select Element */
+
+.select-element {
+    margin-left: 20px;
+    /*margin-right: 10px;*/
+    float: left;
+}
+
+.margin-element {
+    margin-right:  20px;
+}
+
+.select-element-label {
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 36px;
+    color: #777777;
+    text-transform: uppercase;
+}
+
+@-moz-document url-prefix()
+{
+    .select-element-label{
+        letter-spacing: 0;
+    }
+}
+
+.select-element select {
+    margin-bottom: 0px!important;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.select-element select:focus {
+    border-color: #a9cb4f;
+    outline: none;
+    color: #2f2f2f;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.paginatorData {
+    width: 115px;
+}
+
+.select-element .button {
+    /*margin-right: 0px;*/
+}
+
+.select-element .dropdown-container {
+    float: left;
+    overflow: visible;
+}
+
+.select-element .valamis-select {
+    float: left;
+    overflow: visible;
+}
+
+/* select list*/
+
+.valamis-select:before {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 1em;
+    z-index: -1;
+    content:  url(../images/icon-select-button.png);
+    height: 32px;
+    background:#FBFBFB;
+    padding-right: 20px;
+}
+
+.valamis-select select {
+    width: auto;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url(../images/icon-select-button.png) no-repeat;
+    background-color: #FBFBFB;
+
+    background-position: right;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    text-align: left;
+    /*font-family: Ubuntu;*/
+    color: #777777 !important;
+    border-color: #D4D4D4;
+    padding-right: 30px!important;
+    padding-left: 8px!important;
+    border-radius: 0;
+    height: 34px;
+    line-height: normal;
+    margin: 0!important;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.valamis-select select[disabled] {
+    background-color: #FBFBFB!important;
+}
+
+.valamis-select select::-ms-expand {
+    display: none;
+}
+
+.valamis-select select:focus {
+    outline: none;
+}
+
+:-moz-any(.valamis-select):before {
+    background-color: #FBFBFB;
+    -webkit-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.05);
+    margin: 1px;
+    pointer-events: none;
+    z-index: 1;
 }

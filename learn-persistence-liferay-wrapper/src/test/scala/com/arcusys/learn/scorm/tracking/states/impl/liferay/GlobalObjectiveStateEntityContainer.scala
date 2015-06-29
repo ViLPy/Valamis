@@ -1,26 +1,26 @@
 package com.arcusys.learn.scorm.tracking.states.impl.liferay
 
 import com.arcusys.learn.storage.impl.liferay.MockEntityContainer
-import com.arcusys.learn.persistence.liferay.service.LFGlobalObjectiveStateLocalService
-import com.arcusys.learn.persistence.liferay.model.LFGlobalObjectiveState
+import com.arcusys.learn.persistence.liferay.service.LFGlblObjectiveStateLocalService
+import com.arcusys.learn.persistence.liferay.model.LFGlblObjectiveState
 import scala.collection.JavaConverters._
 
-object GlobalObjectiveStateEntityContainer extends MockEntityContainer[LFGlobalObjectiveStateLocalService, LFGlobalObjectiveState] {
-  lazy val mockLocalService = mock[LFGlobalObjectiveStateLocalService]
-  lazy val mockServiceBeanName = classOf[LFGlobalObjectiveStateLocalService].getName
+object GlobalObjectiveStateEntityContainer extends MockEntityContainer[LFGlblObjectiveStateLocalService, LFGlblObjectiveState] {
+  lazy val mockLocalService = mock[LFGlblObjectiveStateLocalService]
+  lazy val mockServiceBeanName = classOf[LFGlblObjectiveStateLocalService].getName
 
   // service related mocks
   def createFunction = _.createLFGlobalObjectiveState()
-  def addFunction = _.addLFGlobalObjectiveState(_)
-  def deleteFunction = _.deleteLFGlobalObjectiveState(_)
-  def updateFunction = _.updateLFGlobalObjectiveState(_)
+  def addFunction = _.addLFGlblObjectiveState(_)
+  def deleteFunction = _.deleteLFGlblObjectiveState(_)
+  def updateFunction = _.updateLFGlblObjectiveState(_)
   def orNull = _.orNull
-  def getAllFunction = _.getLFGlobalObjectiveStates(_, _)
+  def getAllFunction = _.getLFGlblObjectiveStates(_, _)
   def removeAllFunction = _.removeAll()
 
   // entity related mocks
-  def createMockEntity() = mock[LFGlobalObjectiveState]
-  def mockEntityProperties(mockEntity: LFGlobalObjectiveState) {
+  def createMockEntity() = mock[LFGlblObjectiveState]
+  def mockEntityProperties(mockEntity: LFGlblObjectiveState) {
     mockIntegerProperty(mockEntity.setTreeID(_), _.getTreeID)
     mockBooleanProperty(mockEntity.setAttemptCompleted(_), _.getAttemptCompleted)
     mockStringProperty(mockEntity.setMapKey(_), _.getMapKey)

@@ -6,12 +6,12 @@ package com.arcusys.learn.models.request
 object AchievementActionType extends Enumeration {
   type AchievementActionType = Value
 
-  val ADD = Value("ADD")
-  val UPDATE = Value("UPDATE")
-  val DELETE = Value("DELETE")
-  val ALL = Value("ALL")
-  val CURRENT_USER = Value("CURRENTUSER")
-  val USER = Value("USER")
-  val APPLY = Value("APPLY")
-  val REMOVE = Value("REMOVE")
+  val Add = Value("ADD")
+  val Update = Value("UPDATE")
+  val Delete = Value("DELETE")
+  val All = Value("ALL")
+  val CurrentUser = Value("CURRENTUSER")
+  val User = Value("USER")
+  val Apply = Value("APPLY")
+  val Remove = Value("REMOVE")
 }

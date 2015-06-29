@@ -6,10 +6,10 @@ package com.arcusys.learn.models.request
 object FileActionType extends Enumeration {
   type FileActionType = Value
 
-  val ALL = Value("ALL")
-  val SCORM = Value("SCORM")
-  val TINCAN = Value("TINCAN")
-  val ADD = Value("ADD")
-  val UPDATE = Value("UPDATE")
-  val DELETE = Value("DELETE")
+  val All = Value("ALL")
+  val Scorm = Value("SCORM")
+  val Tincan = Value("TINCAN")
+  val Add = Value("ADD")
+  val Update = Value("UPDATE")
+  val Delete = Value("DELETE")
 }

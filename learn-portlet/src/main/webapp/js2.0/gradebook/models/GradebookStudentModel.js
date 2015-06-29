@@ -2,14 +2,60 @@
  * GradebookStudentModel
  * */
 var StudentGradesTargets = {
-    loadStudentInfo:    path.api.gradebooks + '?action=GRADES',//"api/gradebook?action=GRADES&studentId=1&courseId=1&page=0&count=10&sortAscDirection=true",
-    loadTotalGrade:     path.api.gradebooks + '?action=TOTAL_GRADE',
-    saveTotalGrade: {
-        path: function (model) {
-            return path.api.gradebooks + '?action=TOTAL_GRADE&studentId='+model.id+'&courseId='+jQuery1816Gradebook('#courseID').val()+
-                '&totalGrade='+model.get('gradeTotal')+'&gradeComment='+model.get('commentTotal');
+
+    'loadStudentInfo': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'GRADES',
+                studyCourseId: Utils.getCourseId(),
+                courseId: Utils.getCourseId(),
+                studentId: model.get('id'),
+                page: model.get('paginatorModel').get('currentPage'),
+                count: model.get('paginatorModel').get('itemsOnPage'),
+                sortAscDirection: true,
+                withStatements: false
+            };
         },
-        method:'POST'
+        'method': 'GET'
+    },
+
+    'loadTotalGrade': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'TOTAL_GRADE',
+                courseId: Utils.getCourseId(),
+                studentId: model.get('id')
+            };
+        },
+        'method': 'GET'
+    },
+
+    'saveTotalGrade': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'TOTAL_GRADE',
+                studentId: model.get('id'),
+                courseId: Utils.getCourseId(),
+                totalGrade: model.get('gradeTotal'),
+                gradeComment: model.get('commentTotal')
+            };
+        },
+        'method':'POST'
+    },
+
+    'loadLastModified': {
+        'path': path.api.gradebooks,
+        'data': function (model) {
+            return {
+                action: 'LAST_MODIFIED',
+                courseId: Utils.getCourseId(),
+                studentId: model.get('id')
+            };
+        },
+        'method': 'GET'
     }
 };
 
@@ -26,7 +72,8 @@ var GradebookStudentModel = Backbone.Model.extend({
         commentTotal: '',
         completedPackagesCount: 0,
         packagesCount: 0,
-        packageGrades: []
+        packageGrades: [],
+        paginatorModel: new PageModel({itemsOnPage: 10})
     }
 }).extend(StudentGradesService);
 

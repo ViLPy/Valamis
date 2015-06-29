@@ -4,10 +4,13 @@
             {
                 "elementType": "TextElementModule",
                 "width": 300,
+                "height": 150,
                 "left": 505,
                 "top": 90,
                 "content": "Single Horizontal Slide",
-                "borderWidth": 0
+                "borderWidth": 0,
+                "moduleName": "TextElementModule",
+                "type": "text"
             }
         ]
     }]

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <title>Learning Paths</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+<div id="learningPathsAppRegion">
+</div>
+<input type="hidden" id="SCORMContextPath" value="{{contextPath}}"/>
+</body>
+
+<script type="text/javascript">
+    var permissionActionsLearningPaths = {
+    };
+
+    var Valamis = Valamis || {};
+    Valamis.currentUserId = parseInt("{{userID}}");
+    Valamis.permissions = Valamis.permissions || {};
+    _.extend(Valamis.permissions, permissionActionsLearningPaths);
+
+    window.Valamis.language = window.Valamis.language || {};
+
+    jQueryValamis(document).ready(function () {
+        var language = '{{language}}';
+        if(!valamisApp.started) { valamisApp.start(); }
+
+        var onBankLanguageLoad  = function(properties) {
+            _.extend(window.Valamis.language , properties);
+            learningPaths.start({languageBank: properties});
+        };
+
+        var onBankLanguageError = function() {
+            alert('Translation resource loading failed!');
+        };
+
+        var getPackSource = function(language){
+            return Utils.getContextPath() + 'i18n/dashboard_' + language + '.properties';
+        };
+
+        var getLanguageBank = function (options) {
+            Backbone.emulateJSON = true;
+            var defaultURL = getPackSource('en');
+            var localizedURL = getPackSource(options.language);
+
+            Utils.i18nLoader(localizedURL, defaultURL, onBankLanguageLoad, onBankLanguageError);
+        };
+
+        getLanguageBank({language : language});
+    });
+
+</script>
+
+</html>

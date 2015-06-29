@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.manifest.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.service.LFChildrenSelectionLocalServiceUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import org.specs2.matcher.ThrownExpectations
-import com.arcusys.learn.scorm.manifest.model.{ RandomizationTimingType, ChildrenSelection }
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import org.specs2.specification.Scope

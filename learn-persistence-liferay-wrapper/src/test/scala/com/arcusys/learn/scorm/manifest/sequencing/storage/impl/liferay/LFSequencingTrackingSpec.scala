@@ -6,7 +6,7 @@ import org.specs2.specification.Scope
 import org.specs2.matcher.ThrownExpectations
 import com.arcusys.learn.persistence.liferay.service.LFSequencingTrackingLocalServiceUtil
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.SequencingTracking
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import com.arcusys.learn.scorm.sequencing.storage.impl.liferay.LFSequencingTrackingStorageImpl
 
 /**

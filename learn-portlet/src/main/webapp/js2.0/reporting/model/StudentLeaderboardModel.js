@@ -4,8 +4,19 @@ var StudentLeaderboardModel = Backbone.Model.extend({
 
 StudentLeaderboardModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
-        'read': function (collection, options) {
-            return path.api.report + '?action=LEADERBOARD&period='+jQuery('.show-mode').val()+'&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
+        'read': {
+            path: path.api.report,
+            'data': function (collection, options) {
+                return {
+                    action: 'LEADERBOARD',
+                    courseId: Utils.getCourseId(),
+                    period:jQueryValamis('.show-mode').val(),
+                    offset: (options.offset || 0),
+                    amount: (options.amount || 5)
+                }
+            },
+            'method': 'get'
+
         }
     }
 });

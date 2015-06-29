@@ -1,21 +1,20 @@
 package com.arcusys.learn.liferay.service
 
-import asset.AssetHelper
 import javax.servlet.http.{ HttpServletResponse, HttpServletRequest }
 import javax.portlet.{ WindowState, PortletMode, PortletRequest, PortletURL }
-import com.arcusys.learn.scorm.manifest.storage.{ ScormPackagesStorage }
+import com.arcusys.valamis.lesson.scorm.model.manifest
+import com.arcusys.valamis.lesson.scorm.model.manifest.Manifest
+import com.arcusys.valamis.lesson.scorm.storage.ScormPackagesStorage
 import utils.PortletKeys
 import com.arcusys.learn.ioc.InjectableFactory
-import com.arcusys.learn.liferay.services.LayoutLocalServiceHelper
+import com.arcusys.learn.liferay.services.{ AssetEntryLocalServiceHelper, LayoutLocalServiceHelper }
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.util._
 import com.arcusys.learn.liferay.constants._
-import com.arcusys.learn.scorm.manifest.model.Manifest
 
 // TODO remove repository using
 class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
   lazy val packageRepository = inject[ScormPackagesStorage]
-  lazy val assetHelper = new AssetHelper()
 
   override def execute(originalStrutsAction: LStrutsAction, request: HttpServletRequest, response: HttpServletResponse): String = {
     val themeDisplay = request.getAttribute(WebKeysHelper.THEME_DISPLAY).asInstanceOf[LThemeDisplay]
@@ -61,7 +60,7 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
     portletURL
   }
 
-  protected def getSCORMPackage(resourcePrimKey: Long): Manifest = {
+  protected def getSCORMPackage(resourcePrimKey: Long): manifest.Manifest = {
     try {
       packageRepository.getByRefID(resourcePrimKey).get
     } catch {
@@ -70,9 +69,12 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
   }
 
   protected def getPackageURL(plid: Long, privateLayout: Boolean, pkg: Manifest, request: HttpServletRequest): PortletURL = {
-    var layouts = LayoutLocalServiceHelper.getLayouts(assetHelper.getAssetFromManifest(pkg).getGroupId, privateLayout, LayoutConstantsHelper.TYPE_PORTLET)
+    if (!pkg.assetRefId.isDefined)
+      return null
+    val assetEntry = AssetEntryLocalServiceHelper.getAssetEntry(pkg.assetRefId.get)
+    var layouts = LayoutLocalServiceHelper.getLayouts(assetEntry.getGroupId, privateLayout, LayoutConstantsHelper.TYPE_PORTLET)
     val selLayout = LayoutLocalServiceHelper.getLayout(plid)
-    if ((selLayout.getGroupId == assetHelper.getAssetFromManifest(pkg).getGroupId) && selLayout.isTypePortlet) {
+    if ((selLayout.getGroupId == assetEntry.getGroupId) && selLayout.isTypePortlet) {
       layouts = ListUtilHelper.copy(layouts)
       layouts.remove(selLayout)
       layouts.add(0, selLayout)
@@ -98,8 +100,9 @@ class OpenPackageAction extends LBaseStrutsAction with InjectableFactory {
         val preferences = PortletPreferencesFactoryUtilHelper.getPortletSetup(layout, portlet.get.getPortletId, StringPoolHelper.BLANK)
         val resourcePrimKey: Long = GetterUtilHelper.getLong(preferences.getValue("resourcePrimKey", null))
         val selPkg = packageRepository.getByRefID(resourcePrimKey).get
-        val rootResourcePrimKey: Long = assetHelper.getAssetFromManifest(pkg).getPrimaryKey
-        val selRootResourcePrimKey: Long = assetHelper.getAssetFromManifest(selPkg).getPrimaryKey
+        val selAssetEntry = AssetEntryLocalServiceHelper.getAssetEntry(selPkg.assetRefId.get)
+        val rootResourcePrimKey: Long = assetEntry.getPrimaryKey
+        val selRootResourcePrimKey: Long = selAssetEntry.getPrimaryKey
         if (rootResourcePrimKey == selRootResourcePrimKey) {
           return getPackageURL(layout.getPlid, portlet.get.getPortletId, request)
         }

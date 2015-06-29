@@ -44,7 +44,7 @@ public class LFTincanURIModelImpl extends BaseModelImpl<LFTincanURI>
             { "objType", Types.VARCHAR },
             { "content", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanURI (uri VARCHAR(200) not null primary key,objID VARCHAR(75) null,objType VARCHAR(75) null,content VARCHAR(2000) null)";
+    public static final String TABLE_SQL_CREATE = "create table Learn_LFTincanURI (uri VARCHAR(200) not null primary key,objID VARCHAR(512) null,objType VARCHAR(512) null,content VARCHAR(2000) null)";
     public static final String TABLE_SQL_DROP = "drop table Learn_LFTincanURI";
     public static final String ORDER_BY_JPQL = " ORDER BY lfTincanURI.uri ASC";
     public static final String ORDER_BY_SQL = " ORDER BY Learn_LFTincanURI.uri ASC";

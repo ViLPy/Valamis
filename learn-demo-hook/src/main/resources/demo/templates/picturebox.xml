@@ -1,7 +1,0 @@
-<div class="picture_box">
-    #if($Picture && $Picture.data!="")
-    <div class="dynamic-crop">
-        <img src="$!Picture.data"/>
-    </div>
-    #end
-</div>

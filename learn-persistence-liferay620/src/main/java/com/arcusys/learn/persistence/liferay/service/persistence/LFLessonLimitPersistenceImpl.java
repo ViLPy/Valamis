@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -72,6 +73,36 @@ public class LFLessonLimitPersistenceImpl extends BasePersistenceImpl<LFLessonLi
     public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
             LFLessonLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_IDS = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
+            LFLessonLimitModelImpl.FINDER_CACHE_ENABLED,
+            LFLessonLimitImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+            "findByIDs",
+            new String[] {
+                Long.class.getName(),
+                
+            Integer.class.getName(), Integer.class.getName(),
+                OrderByComparator.class.getName()
+            });
+    public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_IDS = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
+            LFLessonLimitModelImpl.FINDER_CACHE_ENABLED,
+            LFLessonLimitImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+            "findByIDs", new String[] { Long.class.getName() },
+            LFLessonLimitModelImpl.ITEMID_COLUMN_BITMASK);
+    public static final FinderPath FINDER_PATH_COUNT_BY_IDS = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
+            LFLessonLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByIDs",
+            new String[] { Long.class.getName() });
+    public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_IDS = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
+            LFLessonLimitModelImpl.FINDER_CACHE_ENABLED, Long.class,
+            FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByIDs",
+            new String[] { Long.class.getName() });
+    private static final String _FINDER_COLUMN_IDS_ITEMID_NULL = "lfLessonLimit.itemID IS NULL";
+    private static final String _FINDER_COLUMN_IDS_ITEMID_2 = "lfLessonLimit.id.itemID = ?";
+    private static final String _FINDER_COLUMN_IDS_ITEMID_NULL_2 = "lfLessonLimit.itemID IS NULL ";
+    private static final String _FINDER_COLUMN_IDS_ITEMID_5 = "(" +
+        removeConjunction(_FINDER_COLUMN_IDS_ITEMID_2) + ")";
+    private static final String _FINDER_COLUMN_IDS_ITEMID_5_NULL = "(" +
+        _removeConjunction(_FINDER_COLUMN_IDS_ITEMID_NULL_2) + ")";
     public static final FinderPath FINDER_PATH_FETCH_BY_ITEMIDANDITEMTYPE = new FinderPath(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
             LFLessonLimitModelImpl.FINDER_CACHE_ENABLED,
             LFLessonLimitImpl.class, FINDER_CLASS_NAME_ENTITY,
@@ -124,6 +155,724 @@ public class LFLessonLimitPersistenceImpl extends BasePersistenceImpl<LFLessonLi
 
     public LFLessonLimitPersistenceImpl() {
         setModelClass(LFLessonLimit.class);
+    }
+
+    /**
+     * Returns all the l f lesson limits where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @return the matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long itemID) throws SystemException {
+        return findByIDs(itemID, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f lesson limits where itemID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param itemID the item i d
+     * @param start the lower bound of the range of l f lesson limits
+     * @param end the upper bound of the range of l f lesson limits (not inclusive)
+     * @return the range of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long itemID, int start, int end)
+        throws SystemException {
+        return findByIDs(itemID, start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f lesson limits where itemID = &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param itemID the item i d
+     * @param start the lower bound of the range of l f lesson limits
+     * @param end the upper bound of the range of l f lesson limits (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long itemID, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        boolean pagination = true;
+        FinderPath finderPath = null;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_IDS;
+            finderArgs = new Object[] { itemID };
+        } else {
+            finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_IDS;
+            finderArgs = new Object[] { itemID, start, end, orderByComparator };
+        }
+
+        List<LFLessonLimit> list = (List<LFLessonLimit>) FinderCacheUtil.getResult(finderPath,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFLessonLimit lfLessonLimit : list) {
+                if (!Validator.equals(itemID, lfLessonLimit.getItemID())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = null;
+
+            if (orderByComparator != null) {
+                query = new StringBundler(3 +
+                        (orderByComparator.getOrderByFields().length * 3));
+            } else {
+                query = new StringBundler(3);
+            }
+
+            query.append(_SQL_SELECT_LFLESSONLIMIT_WHERE);
+
+            if (itemID == null) {
+                query.append(_FINDER_COLUMN_IDS_ITEMID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_IDS_ITEMID_2);
+            }
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFLessonLimitModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (itemID != null) {
+                    qPos.add(itemID.longValue());
+                }
+
+                if (!pagination) {
+                    list = (List<LFLessonLimit>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFLessonLimit>(list);
+                } else {
+                    list = (List<LFLessonLimit>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Returns the first l f lesson limit in the ordered set where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f lesson limit
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException if a matching l f lesson limit could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFLessonLimit findByIDs_First(Long itemID,
+        OrderByComparator orderByComparator)
+        throws NoSuchLFLessonLimitException, SystemException {
+        LFLessonLimit lfLessonLimit = fetchByIDs_First(itemID, orderByComparator);
+
+        if (lfLessonLimit != null) {
+            return lfLessonLimit;
+        }
+
+        StringBundler msg = new StringBundler(4);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("itemID=");
+        msg.append(itemID);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFLessonLimitException(msg.toString());
+    }
+
+    /**
+     * Returns the first l f lesson limit in the ordered set where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the first matching l f lesson limit, or <code>null</code> if a matching l f lesson limit could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFLessonLimit fetchByIDs_First(Long itemID,
+        OrderByComparator orderByComparator) throws SystemException {
+        List<LFLessonLimit> list = findByIDs(itemID, 0, 1, orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the last l f lesson limit in the ordered set where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f lesson limit
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException if a matching l f lesson limit could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFLessonLimit findByIDs_Last(Long itemID,
+        OrderByComparator orderByComparator)
+        throws NoSuchLFLessonLimitException, SystemException {
+        LFLessonLimit lfLessonLimit = fetchByIDs_Last(itemID, orderByComparator);
+
+        if (lfLessonLimit != null) {
+            return lfLessonLimit;
+        }
+
+        StringBundler msg = new StringBundler(4);
+
+        msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+        msg.append("itemID=");
+        msg.append(itemID);
+
+        msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+        throw new NoSuchLFLessonLimitException(msg.toString());
+    }
+
+    /**
+     * Returns the last l f lesson limit in the ordered set where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the last matching l f lesson limit, or <code>null</code> if a matching l f lesson limit could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFLessonLimit fetchByIDs_Last(Long itemID,
+        OrderByComparator orderByComparator) throws SystemException {
+        int count = countByIDs(itemID);
+
+        if (count == 0) {
+            return null;
+        }
+
+        List<LFLessonLimit> list = findByIDs(itemID, count - 1, count,
+                orderByComparator);
+
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the l f lesson limits before and after the current l f lesson limit in the ordered set where itemID = &#63;.
+     *
+     * @param lfLessonLimitPK the primary key of the current l f lesson limit
+     * @param itemID the item i d
+     * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+     * @return the previous, current, and next l f lesson limit
+     * @throws com.arcusys.learn.persistence.liferay.NoSuchLFLessonLimitException if a l f lesson limit with the primary key could not be found
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public LFLessonLimit[] findByIDs_PrevAndNext(
+        LFLessonLimitPK lfLessonLimitPK, Long itemID,
+        OrderByComparator orderByComparator)
+        throws NoSuchLFLessonLimitException, SystemException {
+        LFLessonLimit lfLessonLimit = findByPrimaryKey(lfLessonLimitPK);
+
+        Session session = null;
+
+        try {
+            session = openSession();
+
+            LFLessonLimit[] array = new LFLessonLimitImpl[3];
+
+            array[0] = getByIDs_PrevAndNext(session, lfLessonLimit, itemID,
+                    orderByComparator, true);
+
+            array[1] = lfLessonLimit;
+
+            array[2] = getByIDs_PrevAndNext(session, lfLessonLimit, itemID,
+                    orderByComparator, false);
+
+            return array;
+        } catch (Exception e) {
+            throw processException(e);
+        } finally {
+            closeSession(session);
+        }
+    }
+
+    protected LFLessonLimit getByIDs_PrevAndNext(Session session,
+        LFLessonLimit lfLessonLimit, Long itemID,
+        OrderByComparator orderByComparator, boolean previous) {
+        StringBundler query = null;
+
+        if (orderByComparator != null) {
+            query = new StringBundler(6 +
+                    (orderByComparator.getOrderByFields().length * 6));
+        } else {
+            query = new StringBundler(3);
+        }
+
+        query.append(_SQL_SELECT_LFLESSONLIMIT_WHERE);
+
+        if (itemID == null) {
+            query.append(_FINDER_COLUMN_IDS_ITEMID_NULL_2);
+        } else {
+            query.append(_FINDER_COLUMN_IDS_ITEMID_2);
+        }
+
+        if (orderByComparator != null) {
+            String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+            if (orderByConditionFields.length > 0) {
+                query.append(WHERE_AND);
+            }
+
+            for (int i = 0; i < orderByConditionFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByConditionFields[i]);
+
+                if ((i + 1) < orderByConditionFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN_HAS_NEXT);
+                    } else {
+                        query.append(WHERE_LESSER_THAN_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(WHERE_GREATER_THAN);
+                    } else {
+                        query.append(WHERE_LESSER_THAN);
+                    }
+                }
+            }
+
+            query.append(ORDER_BY_CLAUSE);
+
+            String[] orderByFields = orderByComparator.getOrderByFields();
+
+            for (int i = 0; i < orderByFields.length; i++) {
+                query.append(_ORDER_BY_ENTITY_ALIAS);
+                query.append(orderByFields[i]);
+
+                if ((i + 1) < orderByFields.length) {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC_HAS_NEXT);
+                    } else {
+                        query.append(ORDER_BY_DESC_HAS_NEXT);
+                    }
+                } else {
+                    if (orderByComparator.isAscending() ^ previous) {
+                        query.append(ORDER_BY_ASC);
+                    } else {
+                        query.append(ORDER_BY_DESC);
+                    }
+                }
+            }
+        } else {
+            query.append(LFLessonLimitModelImpl.ORDER_BY_JPQL);
+        }
+
+        String sql = query.toString();
+
+        Query q = session.createQuery(sql);
+
+        q.setFirstResult(0);
+        q.setMaxResults(2);
+
+        QueryPos qPos = QueryPos.getInstance(q);
+
+        if (itemID != null) {
+            qPos.add(itemID.longValue());
+        }
+
+        if (orderByComparator != null) {
+            Object[] values = orderByComparator.getOrderByConditionValues(lfLessonLimit);
+
+            for (Object value : values) {
+                qPos.add(value);
+            }
+        }
+
+        List<LFLessonLimit> list = q.list();
+
+        if (list.size() == 2) {
+            return list.get(1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns all the l f lesson limits where itemID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param itemIDs the item i ds
+     * @return the matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long[] itemIDs)
+        throws SystemException {
+        return findByIDs(itemIDs, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+    }
+
+    /**
+     * Returns a range of all the l f lesson limits where itemID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param itemIDs the item i ds
+     * @param start the lower bound of the range of l f lesson limits
+     * @param end the upper bound of the range of l f lesson limits (not inclusive)
+     * @return the range of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long[] itemIDs, int start, int end)
+        throws SystemException {
+        return findByIDs(itemIDs, start, end, null);
+    }
+
+    /**
+     * Returns an ordered range of all the l f lesson limits where itemID = any &#63;.
+     *
+     * <p>
+     * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.arcusys.learn.persistence.liferay.model.impl.LFLessonLimitModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+     * </p>
+     *
+     * @param itemIDs the item i ds
+     * @param start the lower bound of the range of l f lesson limits
+     * @param end the upper bound of the range of l f lesson limits (not inclusive)
+     * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+     * @return the ordered range of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public List<LFLessonLimit> findByIDs(Long[] itemIDs, int start, int end,
+        OrderByComparator orderByComparator) throws SystemException {
+        if ((itemIDs != null) && (itemIDs.length == 1)) {
+            return findByIDs(itemIDs[0], start, end, orderByComparator);
+        }
+
+        boolean pagination = true;
+        Object[] finderArgs = null;
+
+        if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+                (orderByComparator == null)) {
+            pagination = false;
+            finderArgs = new Object[] { StringUtil.merge(itemIDs) };
+        } else {
+            finderArgs = new Object[] {
+                    StringUtil.merge(itemIDs),
+                    
+                    start, end, orderByComparator
+                };
+        }
+
+        List<LFLessonLimit> list = (List<LFLessonLimit>) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_IDS,
+                finderArgs, this);
+
+        if ((list != null) && !list.isEmpty()) {
+            for (LFLessonLimit lfLessonLimit : list) {
+                if (!ArrayUtil.contains(itemIDs, lfLessonLimit.getItemID())) {
+                    list = null;
+
+                    break;
+                }
+            }
+        }
+
+        if (list == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_SELECT_LFLESSONLIMIT_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((itemIDs != null) && (itemIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < itemIDs.length; i++) {
+                    if (itemIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_IDS_ITEMID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_IDS_ITEMID_5);
+                    }
+
+                    if ((i + 1) < itemIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            if (orderByComparator != null) {
+                appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+                    orderByComparator);
+            } else
+             if (pagination) {
+                query.append(LFLessonLimitModelImpl.ORDER_BY_JPQL);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (itemIDs != null) {
+                    for (Long itemID : itemIDs) {
+                        if (itemID != null) {
+                            qPos.add(itemID);
+                        }
+                    }
+                }
+
+                if (!pagination) {
+                    list = (List<LFLessonLimit>) QueryUtil.list(q,
+                            getDialect(), start, end, false);
+
+                    Collections.sort(list);
+
+                    list = new UnmodifiableList<LFLessonLimit>(list);
+                } else {
+                    list = (List<LFLessonLimit>) QueryUtil.list(q,
+                            getDialect(), start, end);
+                }
+
+                cacheResult(list);
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_IDS,
+                    finderArgs, list);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_FIND_BY_IDS,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Removes all the l f lesson limits where itemID = &#63; from the database.
+     *
+     * @param itemID the item i d
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public void removeByIDs(Long itemID) throws SystemException {
+        for (LFLessonLimit lfLessonLimit : findByIDs(itemID, QueryUtil.ALL_POS,
+                QueryUtil.ALL_POS, null)) {
+            remove(lfLessonLimit);
+        }
+    }
+
+    /**
+     * Returns the number of l f lesson limits where itemID = &#63;.
+     *
+     * @param itemID the item i d
+     * @return the number of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByIDs(Long itemID) throws SystemException {
+        FinderPath finderPath = FINDER_PATH_COUNT_BY_IDS;
+
+        Object[] finderArgs = new Object[] { itemID };
+
+        Long count = (Long) FinderCacheUtil.getResult(finderPath, finderArgs,
+                this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler(2);
+
+            query.append(_SQL_COUNT_LFLESSONLIMIT_WHERE);
+
+            if (itemID == null) {
+                query.append(_FINDER_COLUMN_IDS_ITEMID_NULL_2);
+            } else {
+                query.append(_FINDER_COLUMN_IDS_ITEMID_2);
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (itemID != null) {
+                    qPos.add(itemID.longValue());
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(finderPath, finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
+    }
+
+    /**
+     * Returns the number of l f lesson limits where itemID = any &#63;.
+     *
+     * @param itemIDs the item i ds
+     * @return the number of matching l f lesson limits
+     * @throws SystemException if a system exception occurred
+     */
+    @Override
+    public int countByIDs(Long[] itemIDs) throws SystemException {
+        Object[] finderArgs = new Object[] { StringUtil.merge(itemIDs) };
+
+        Long count = (Long) FinderCacheUtil.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_IDS,
+                finderArgs, this);
+
+        if (count == null) {
+            StringBundler query = new StringBundler();
+
+            query.append(_SQL_COUNT_LFLESSONLIMIT_WHERE);
+
+            boolean conjunctionable = false;
+
+            if ((itemIDs != null) && (itemIDs.length > 0)) {
+                if (conjunctionable) {
+                    query.append(WHERE_AND);
+                }
+
+                query.append(StringPool.OPEN_PARENTHESIS);
+
+                for (int i = 0; i < itemIDs.length; i++) {
+                    if (itemIDs[i] == null) {
+                        query.append(_FINDER_COLUMN_IDS_ITEMID_NULL);
+                    } else {
+                        query.append(_FINDER_COLUMN_IDS_ITEMID_5);
+                    }
+
+                    if ((i + 1) < itemIDs.length) {
+                        query.append(WHERE_OR);
+                    }
+                }
+
+                query.append(StringPool.CLOSE_PARENTHESIS);
+
+                conjunctionable = true;
+            }
+
+            String sql = query.toString();
+
+            Session session = null;
+
+            try {
+                session = openSession();
+
+                Query q = session.createQuery(sql);
+
+                QueryPos qPos = QueryPos.getInstance(q);
+
+                if (itemIDs != null) {
+                    for (Long itemID : itemIDs) {
+                        if (itemID != null) {
+                            qPos.add(itemID);
+                        }
+                    }
+                }
+
+                count = (Long) q.uniqueResult();
+
+                FinderCacheUtil.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_IDS,
+                    finderArgs, count);
+            } catch (Exception e) {
+                FinderCacheUtil.removeResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_IDS,
+                    finderArgs);
+
+                throw processException(e);
+            } finally {
+                closeSession(session);
+            }
+        }
+
+        return count.intValue();
     }
 
     /**
@@ -642,6 +1391,8 @@ public class LFLessonLimitPersistenceImpl extends BasePersistenceImpl<LFLessonLi
 
         boolean isNew = lfLessonLimit.isNew();
 
+        LFLessonLimitModelImpl lfLessonLimitModelImpl = (LFLessonLimitModelImpl) lfLessonLimit;
+
         Session session = null;
 
         try {
@@ -664,6 +1415,24 @@ public class LFLessonLimitPersistenceImpl extends BasePersistenceImpl<LFLessonLi
 
         if (isNew || !LFLessonLimitModelImpl.COLUMN_BITMASK_ENABLED) {
             FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+        }
+        else {
+            if ((lfLessonLimitModelImpl.getColumnBitmask() &
+                    FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_IDS.getColumnBitmask()) != 0) {
+                Object[] args = new Object[] {
+                        lfLessonLimitModelImpl.getOriginalItemID()
+                    };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_IDS, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_IDS,
+                    args);
+
+                args = new Object[] { lfLessonLimitModelImpl.getItemID() };
+
+                FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_IDS, args);
+                FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_IDS,
+                    args);
+            }
         }
 
         EntityCacheUtil.putResult(LFLessonLimitModelImpl.ENTITY_CACHE_ENABLED,
@@ -987,5 +1756,15 @@ public class LFLessonLimitPersistenceImpl extends BasePersistenceImpl<LFLessonLi
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+    }
+
+    private static String _removeConjunction(String sql) {
+        int pos = sql.indexOf(" AND ");
+
+        if (pos != -1) {
+            sql = sql.substring(0, pos);
+        }
+
+        return sql;
     }
 }

@@ -1,8 +1,8 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.EntityStorage
-import com.arcusys.learn.scorm.manifest.model.{ ConditionType, RuleCondition }
 import com.arcusys.learn.persistence.liferay.service.LFRuleConditionLocalServiceUtil
+import com.arcusys.valamis.lesson.scorm.model.manifest.{ ConditionType, RuleCondition }
 import scala.collection.JavaConverters._
 import com.arcusys.learn.persistence.liferay.model.LFRuleCondition
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon._

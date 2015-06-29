@@ -4,8 +4,18 @@ var StudentStatementModel = Backbone.Model.extend({
 
 StudentStatementModelCollectionService = new Backbone.Service({ url: '/',
     sync: {
-        'read': function (collection, options) {
-            return path.api.report + '?action=STUDENTS_LATEST_STATEMENTS&offset=' + (options.offset || 0)+ '&amount=' + (options.amount || 5);
+        'read': {
+            path: path.api.report,
+            'data': function (collection, options) {
+                return {
+                    action: 'STUDENTS_LATEST_STATEMENTS',
+                    courseId: Utils.getCourseId(),
+                    offset: (options.offset || 0),
+                    amount: (options.amount || 5)
+                }
+            },
+            'method': 'get'
+
         }
     }
 });

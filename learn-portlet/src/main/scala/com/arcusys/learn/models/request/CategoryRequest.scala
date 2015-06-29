@@ -1,29 +1,27 @@
 package com.arcusys.learn.models.request
 
+import com.arcusys.learn.liferay.permission.PermissionCredentials
 import org.scalatra.ScalatraServlet
 import com.arcusys.learn.service.util.{ AntiSamyHelper, Parameter }
 
 import scala.util.Try
 
-/**
- * Created by Iliya Tryapitsin on 10.04.2014.
- */
 object CategoryRequest extends BaseRequest {
 
-  val COURSE_ID = "courseID"
-  val NEW_COURSE_ID = "newCourseID"
-  val CATEGORY_ID = "categoryId"
-  val CATEGORY_IDs = "categoryIDs"
+  val NewCourseId = "newCourseID"
+  val CategoryId = "categoryId"
+  val CategoryIds = "categoryIDs"
 
-  val ID = "id"
-  val PARENT_ID = "parentId"
-  val CATEGORIES = "categories"
-  val QUESTIONS = "questions"
-  val TITLE = "title"
-  val DESCRIPTION = "description"
-  val DND_MODE = "dndMode"
-  val TARGET_ID = "targetId"
-  val ITEM_TYPE = "itemType"
+  val Id = "id"
+  val ParentId = "parentId"
+  val Categories = "categories"
+  val Questions = "questions"
+  val Title = "title"
+  val Description = "description"
+  val Index = "index"
+  val DndMode = "dndMode"
+  val TargetId = "targetId"
+  val ItemType = "itemType"
 
   def apply(controller: ScalatraServlet) = new Model(controller)
 
@@ -31,40 +29,44 @@ object CategoryRequest extends BaseRequest {
     implicit val _controller = controller
 
     def action = {
-      Parameter(ACTION).option match {
+      Parameter(Action).option match {
         case Some(value) => CategoryActionType.withName(value.toUpperCase)
         case None        => None
       }
     }
 
-    def itemType = Parameter(ITEM_TYPE).required
+    def permissionCredentials = PermissionCredentials(Parameter(CourseId).longRequired, Parameter(PortletId).required, Parameter(PrimaryKey).required)
 
-    def categoryId = Parameter(CATEGORY_ID).intOption
+    def itemType = Parameter(ItemType).required
 
-    def categoryIds = Parameter(CATEGORY_IDs).multiWithEmpty.map(x => Try(x.toInt).get)
+    def categoryId = Parameter(CategoryId).intOption
 
-    def courseId = Parameter(COURSE_ID).intOption
+    def categoryIds = Parameter(CategoryIds).multiWithEmpty.map(x => Try(x.toInt).get)
 
-    def newCourseId = Parameter(NEW_COURSE_ID).intOption
+    def courseId = Parameter(CourseId).intOption
 
-    def parentId = Parameter(PARENT_ID).intOption
+    def newCourseId = Parameter(NewCourseId).intOption
 
-    def id = Parameter(ID).intRequired
+    def parentId = Parameter(ParentId).intOption
 
-    def categoryIDSet = Parameter(CATEGORIES).multiRequired.map(x => x.toInt)
+    def id = Parameter(Id).intRequired
 
-    def questionsIDSet = Parameter(QUESTIONS).multiRequired.map(x => x.toInt)
+    def categoryIdSet = Parameter(Categories).multiRequired.map(x => x.toInt)
 
-    def title = AntiSamyHelper.sanitize(Parameter(TITLE).required)
+    def questionsIdSet = Parameter(Questions).multiRequired.map(x => x.toInt)
 
-    def description = Parameter(DESCRIPTION).option match {
+    def title = AntiSamyHelper.sanitize(Parameter(Title).required)
+
+    def description = Parameter(Description).option match {
       case Some(value) => AntiSamyHelper.sanitize(value)
       case None        => ""
     }
 
-    def targetId = Parameter(TARGET_ID).intRequired
+    def index = Parameter(Index).intRequired
 
-    def dndMode = DndModeType.withName(Parameter(DND_MODE).required.toUpperCase)
+    def targetId = Parameter(TargetId).intRequired
+
+    def dndMode = DndModeType.withName(Parameter(DndMode).required.toUpperCase)
   }
 
 }

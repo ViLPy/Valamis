@@ -25,6 +25,8 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
     public String title;
     public String description;
     public String explanationText;
+    public String rightAnswerText;
+    public String wrongAnswerText;
     public boolean forceCorrectCount;
     public boolean caseSensitive;
     public Integer questionType;
@@ -33,7 +35,7 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(21);
+        StringBundler sb = new StringBundler(25);
 
         sb.append("{id=");
         sb.append(id);
@@ -45,6 +47,10 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
         sb.append(description);
         sb.append(", explanationText=");
         sb.append(explanationText);
+        sb.append(", rightAnswerText=");
+        sb.append(rightAnswerText);
+        sb.append(", wrongAnswerText=");
+        sb.append(wrongAnswerText);
         sb.append(", forceCorrectCount=");
         sb.append(forceCorrectCount);
         sb.append(", caseSensitive=");
@@ -85,6 +91,18 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
             lfQuestionImpl.setExplanationText(explanationText);
         }
 
+        if (rightAnswerText == null) {
+            lfQuestionImpl.setRightAnswerText(StringPool.BLANK);
+        } else {
+            lfQuestionImpl.setRightAnswerText(rightAnswerText);
+        }
+
+        if (wrongAnswerText == null) {
+            lfQuestionImpl.setWrongAnswerText(StringPool.BLANK);
+        } else {
+            lfQuestionImpl.setWrongAnswerText(wrongAnswerText);
+        }
+
         lfQuestionImpl.setForceCorrectCount(forceCorrectCount);
         lfQuestionImpl.setCaseSensitive(caseSensitive);
         lfQuestionImpl.setQuestionType(questionType);
@@ -103,6 +121,8 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
         title = objectInput.readUTF();
         description = objectInput.readUTF();
         explanationText = objectInput.readUTF();
+        rightAnswerText = objectInput.readUTF();
+        wrongAnswerText = objectInput.readUTF();
         forceCorrectCount = objectInput.readBoolean();
         caseSensitive = objectInput.readBoolean();
         questionType = objectInput.readInt();
@@ -132,6 +152,18 @@ public class LFQuestionCacheModel implements CacheModel<LFQuestion>,
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(explanationText);
+        }
+
+        if (rightAnswerText == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(rightAnswerText);
+        }
+
+        if (wrongAnswerText == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(wrongAnswerText);
         }
 
         objectOutput.writeBoolean(forceCorrectCount);

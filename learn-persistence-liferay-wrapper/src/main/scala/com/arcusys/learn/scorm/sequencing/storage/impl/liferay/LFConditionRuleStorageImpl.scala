@@ -1,10 +1,10 @@
 package com.arcusys.learn.scorm.sequencing.storage.impl.liferay
 
 import com.arcusys.learn.storage.impl.{ KeyedEntityStorage, EntityStorage }
-import com.arcusys.learn.scorm.manifest.model._
 import com.arcusys.learn.persistence.liferay.service.LFConditionRuleLocalServiceUtil
 import com.arcusys.learn.storage.impl.liferay.LiferayCommon
 import com.arcusys.learn.persistence.liferay.model.LFConditionRule
+import com.arcusys.valamis.lesson.scorm.model.manifest._
 import scala.collection.JavaConverters._
 
 /**

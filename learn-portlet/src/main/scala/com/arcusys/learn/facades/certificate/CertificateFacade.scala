@@ -1,33 +1,42 @@
 package com.arcusys.learn.facades.certificate
 
-import java.io.InputStream
-import com.arcusys.learn.bl.services.CertificateServiceContract
+import java.io.{ File, InputStream }
+
+import com.arcusys.valamis.certificate.model.{CertificateStateFilter, CertificateStatus, CertificateSortBy}
+import CertificateSortBy.CertificateSortBy
 import com.arcusys.learn.facades.CertificateFacadeContract
 import com.arcusys.learn.ioc.Configuration
-import com.arcusys.learn.models._
 import com.arcusys.learn.models.response.CollectionResponse
 import com.arcusys.learn.models.response.certificates.{ CertificateResponse, _ }
-import com.arcusys.learn.tincan.model._
+import com.arcusys.valamis.certificate.service.{CertificateStateService, CertificateService}
+import com.arcusys.valamis.certificate.service.export.{ CertificateImportProcessor, CertificateExportProcessor }
+import com.arcusys.valamis.certificate.storage.CertificateRepository
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
-import com.arcusys.learn.bl.models.certificates.CertificateSortBy.CertificateSortBy
-import com.arcusys.learn.scorm.manifest.model.PeriodType
 
-class CertificateFacade(configuration: BindingModule) extends Injectable with CertificateFacadeContract
-    with CertificateResponseFactory with CertificateGoals with CertificateUsers {
+class CertificateFacade(
+    configuration: BindingModule)
+  extends Injectable
+  with CertificateFacadeContract
+  with CertificateResponseFactory
+  with CertificateGoals
+  with CertificateUsers {
 
   def this() = this(Configuration)
   implicit val bindingModule = configuration
 
-  private lazy val certificateService = inject[CertificateServiceContract]
+  // TODO remove primary storage usnig
+  private lazy val certificateRepository = inject[CertificateRepository]
+  private lazy val certificateService = inject[CertificateService]
+  private lazy val certificateStateService = inject[CertificateStateService]
 
-  def getAll(companyID: Int, skip: Int, take: Int, titleFilter: String, sortBy: CertificateSortBy,
-    isSortDirectionAsc: Boolean, isShortResult: Boolean): Seq[CertificateResponseContract] = {
-    certificateService.getAll(companyID, skip, take, titleFilter, sortBy, isSortDirectionAsc)
+  def getAll(companyId: Int, scope: Option[Long], page: Int, pageSize: Int, titleFilter: String, sortBy: CertificateSortBy,
+    isSortDirectionAsc: Boolean, isShortResult: Boolean): CollectionResponse[CertificateResponseContract] = {
+    val skip = (page - 1) * pageSize
+    val certificates = certificateService.getAll(companyId, scope, skip, pageSize, titleFilter, sortBy, isSortDirectionAsc)
       .map(toCertificateResponse(isShortResult)).toSeq
-  }
+    val certificatesCount = certificateService.allCount(companyId, titleFilter, scope)
 
-  def allCount(companyID: Int, titleFilter: String): Int = {
-    certificateService.allCount(companyID, titleFilter)
+    CollectionResponse(page, certificates, certificatesCount)
   }
 
   def create(companyId: Int, title: String, description: String): CertificateResponseContract = {
@@ -40,9 +49,17 @@ class CertificateFacade(configuration: BindingModule) extends Injectable with Ce
     toCertificateResponse(c)
   }
 
+  def getByCompanyAndTitleWithSucceedUsers(companyId: Long, title: String) = {
+    val certificates = certificateService.getBy(companyId = companyId, title = Some(title))
+
+    certificates
+      .map(toCertificateSuccessUsersResponse)
+      .flatten
+  }
+
   def change(id: Int, title: String, description: String, validPeriodType: String, validPeriodValue: Option[Int], isOpenBadgesIntegration: Boolean,
     shortDescription: String = "", companyId: Int, scope: Option[Long]): CertificateResponseContract = {
-    val c = certificateService.change(id, title, description, validPeriodType, validPeriodValue, isOpenBadgesIntegration, shortDescription, companyId, scope)
+    val c = certificateService.update(id, title, description, validPeriodType, validPeriodValue, isOpenBadgesIntegration, shortDescription, companyId, scope)
     toCertificateResponse(c)
   }
 
@@ -70,22 +87,32 @@ class CertificateFacade(configuration: BindingModule) extends Injectable with Ce
   }
 
   def exportCertificate(companyId: Int, certificateId: Int): InputStream = {
-    certificateService.exportCertificate(companyId, certificateId)
+    new CertificateExportProcessor().exportItems(Seq(certificateRepository.getById(certificateId)))
   }
 
   def exportCertificates(companyId: Int): InputStream = {
-    certificateService.exportCertificates(companyId)
+    new CertificateExportProcessor().exportItems(certificateRepository.getBy(companyId = companyId))
   }
 
-  def importCertificates(filename: String, companyID: Int): Unit = {
-    certificateService.importCertificates(filename, companyID)
+  def importCertificates(file: File, companyId: Int): Unit = {
+    new CertificateImportProcessor().importItems(file, companyId)
   }
 
-  def getAvailableStatements(page: Int, skip: Int, take: Int, filter: String, isSortDirectionAsc: Boolean): CollectionResponse[AvailableStatementResponse] = {
-    val resp = certificateService.getAvailableStatements(page, skip, take, filter, isSortDirectionAsc)
-    val inPage = resp.items.map(s =>
-      AvailableStatementResponse(s.verb.id, s.verb.display, s.obj.asInstanceOf[Activity].id, s.obj.asInstanceOf[Activity].name.getOrElse(Map[String, String]())))
+//  def getAvailableStatements(statementApi: StatementApi, page: Int, skip: Int, take: Int, filter: String, isSortDirectionAsc: Boolean): CollectionResponse[AvailableStatementResponse] = {
+//    val resp = certificateService.getAvailableStatements(statementApi ,page, skip, take, filter, isSortDirectionAsc)
+//    val inPage = resp.items
+//      .map { s =>
+//        AvailableStatementResponse(s._1.id, s._1.display, s._2._1, s._2._2)
+//      }
+//
+//    CollectionResponse(page, inPage, resp.total)
+//  }
 
-    CollectionResponse(page, inPage, resp.total)
+  def getStatesBy(userId: Long,
+                  statuses: Set[CertificateStatus.Value]) = {
+    val certificateStates = certificateStateService.getBy(CertificateStateFilter(userId = Some(userId), statuses = statuses))
+    val certificates = certificateService.getByIds(certificateStates.map(_.certificateId).toSet).map(c => c.id.toLong -> c).toMap
+
+    certificateStates.map(toStateResponse(certificates))
   }
 }

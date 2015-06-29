@@ -4,9 +4,10 @@ var DeleteConfirmationView = Backbone.View.extend({
   },
   initialize: function (options) {
     this.language = options.language;
+    this.template = options.template || '#deleteConfirmationTemplate';
   },
   render: function () {
-    var template = Mustache.to_html(jQuery('#deleteConfirmationTemplate').html(), this.language);
+    var template = Mustache.to_html(jQuery(this.template).html(), this.language);
     this.$el.html(template);
     return this;
   },

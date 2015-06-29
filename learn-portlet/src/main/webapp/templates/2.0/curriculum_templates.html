@@ -1,499 +1,391 @@
-<script type="text/mustache" id="curriculumHeaderTemplate">
-    <div class="pull-left button-upload-area">
-        {{#forcedView}}
-        <button class="filter-toggler button valamis big grey forced-menu-toggle menu-open val-icon-search"></button>
-        {{/forcedView}}
-
-        {{^forcedView}}
-        <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-        {{/forcedView}}
-    </div>
-
-    <h3 class="content-header-padded pull-left hidden-sm hidden-xs"> {{certificatesLabel}} </h3>
-
-    <div class="pull-right buttons-row">
-        <button id="addCertificate" class="button valamis big green val-icon-plus">{{addNewCertificateButtonLabel}}</button>
-    </div>
-</script>
-
-<script type="text/mustache" id="curriculumSearchTemplate">
-    {{#forcedView}}
-    <div class="forced-menu-toggle hidden-xs menu-close modal-close-div"/>
-    {{/forcedView}}
-
-    {{^forcedView}}
-    <div class="menu-toggle hidden-xs menu-close modal-close-div"/>
-    {{/forcedView}}
-
-    <div class="pull-right">
-    </div>
-
-    <h3 class="hidden-sm hidden-xs">{{refineSearchLabel}}</h3>
-
-    <div class="valamis-row">
-        <label class="h4label valamis">{{searchByNameLabel}}</label>
-        <input type="text" id="certificateFilter_{{portletID}}"
-               class="search form-control text-input valamis certificateFilter"
-               placeholder="{{searchLabel}}">
-    </div>
-
-    <div class="valamis-row position-relative">
-        <label class="h4label valamis"> {{sortLabel}} </label>
-
-        <div class="valamis-select" class="userSearchSelect">
-            <select id="certificateOrder_{{portletID}}" class=certificateOrder>
-                <option value="name:true">{{byNameAscLabel}}</option>
-                <option value="name:false">{{byNameDescLabel}}</option>
-                <option value="creationDate:true">{{byDateAscLabel}}</option>
-                <option value="creationDate:false">{{byDateDescLabel}}</option>
-            </select>
-        </div>
-    </div>
-
-    <!--{{#scopeAvailable}}-->
-    <div class="valamis-row position-relative">
-        <label class="h4label valamis"> {{scopeLabel}} </label>
-
-        <div class="valamis-select" class="userSearchSelect">
-            <select id="certificateScopeFilter_{{portletID}}" class="certificateScopeFilter">
-                <option value="">{{instanceScopeLabel}}</option>
-                <option value="{{currentCertificateID}}">{{currentSiteScopeLabel}}</option>
-            </select>
-        </div>
-    </div>
-    <!--{{/scopeAvailable}}-->
-</script>
-
-<script type="text/mustache" id="certificateListItemViewTemplate">
-
-    <div class="valamis-item-cover-image certificate-logo pull-left"
-                        {{#logo}}
-                        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
-                        {{/logo}}>
-        <!--{{^isPublished}}-->
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-green">{{unpublishedLabel}}</div>
-        </div>
-        <!--{{/isPublished}}-->
-    </div>
-    <div class="valamis-item-content pull-left">
-        <div class="valamis-item-title">{{title}}</div>
-        <div class="valamis-item-description">{{{description}}}</div>
-        <div class="certificate-users hidden-xs">
-            <label>{{userCount}}&nbsp;{{usersSubtitleLabel}}</label>
-        </div>
-        <div class="certificate-courses hidden-xs">
-            <label>{{goalsCount}}&nbsp;{{goalsSubtitleLabel}}</label>
-        </div>
-    </div>
-    <div class="valamis-item-buttons pull-right buttons-row">
-        <button class="button valamis big grey val-icon-edit no-text editCertificateCommand"></button>
-        <button class="button valamis big red val-icon-delete no-text deleteCertificateCommand"></button>
-
-    </div>
-</script>
-
-<script type="text/mustache" id="certificateTileItemViewTemplate">
-     <div class="valamis-tile-item-wrapper" >
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div class="valamis-item-cover-image certificate-logo"
-                        {{#logo}}
-                        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
-                        {{/logo}}>
-
-                        <!--{{^isPublished}}-->
-                        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-                            <div class="ribbon-green">{{unpublishedLabel}}</div>
-                        </div>
-                        <!--{{/isPublished}}-->
-                    </div>
-                    <div class="valamis-item-content">
-                        <div class="valamis-item-title">{{title}}</div>
-                        <div class="valamis-item-description">{{{description}}}</div>
-                    </div>
-                    <div class="valamis-item-footer">
-                        <div class="certificate-users">{{userCount}}&nbsp;{{usersSubtitleLabel}}</div>
-                        <div class="certificate-courses">{{goalsCount}}&nbsp;{{goalsSubtitleLabel}}</div>
-                    </div>
-                </div>
-                <div class="back ">
-                    <div class="hidden">
-                        <button class="button valamis medium grey val-icon-edit val-command editCertificateCommand">
-                            {{editCertificateLabel}}
-                        </button>
-                        <button class="button valamis medium grey val-icon-edit val-command editCourseCertificateCommand">
-                            {{editCoursesLabel}}
-                        </button>
-                        <button class="button valamis medium grey val-icon-edit val-command editUserCertificateCommand">
-                            {{editUsersLabel}}
-                        </button>
-                        <button class="button valamis medium grey val-icon-clone val-command cloneCertificateCommand">
-                            {{cloneCertificateLabel}}
-                        </button>
-                        <!--{{^isPublished}}-->
-                        <button class="button valamis medium grey val-icon-publish val-command publishCertificateCommand">
-                            {{publishCertificateLabel}}
-                        </button>
-                        <!--{{/isPublished}}-->
-                        <!--{{#isPublished}}-->
-                        <button class="button valamis medium grey val-icon-publish val-command unpublishCertificateCommand">
-                            {{unpublishCertificateLabel}}
-                        </button>
-                        <!--{{/isPublished}}-->
-                        <button class="button valamis medium grey val-icon-delete val-command deleteCertificateCommand">
-                            {{deleteCertificateLabel}}
-                        </button>
-                        <button class="button valamis medium grey val-icon-download val-command exportCertificateCommand" >
-                            {{export}}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-</script>
-
-<script type="text/mustache" id="certificatesListTemplate">
-
-
-    <div class="pull-right full-width">
-        <!--<button class="button valamis medium grey val-icon-check">Select All</button>-->
-        <!--<button class="button valamis medium grey dropdown-button active">Action</button>-->
-        <div class="pull-right valamis-paginator" id="certificateListPaginator"></div>
-
-        <div class="pull-right hidden-xs">
-            <div class="select-element-label">{{viewsLabel}}</div>
-            <div class="button-group">
-                <button class="button valamis medium grey val-icon-list-view
-                no-text {{^talesView}} active {{/talesView}}" id="certificatesListView">
-                </button>
-                <button class="button valamis medium grey val-icon-grid-view
-                no-text {{#talesView}} active {{/talesView}}"
-                        id="certificatesTilesView">
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="certificate-items clearfix grid-view"></div>
-
-    <div class="full-width pull-right valamis-paginator" id="certificateListBottomPaginator"></div>
-
-</script>
-
 <script type="text/template" id="certificate-modals-template">
     <div class="certificate-modals-container"></div>
 </script>
 
-<script type="text/mustache" id="certificateItemEditDetailsTemplate">
-    <div class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="clearfix">
+<script type="text/template" id="certificate-common-modal-template">
+    <div class="bbm-modal__topbar">
+        <h3 class="bbm-modal__title">{{certificateModalTitle}}</h3>
 
+        <div class="modal-close val-icon-exit">
+        </div>
+    </div>
 
-                <div class="sidebar-wrapper">
-                    <div>  <!--<div style="padding: 20px;">-->
-                        <h3>{{coverImageLabel}}</h3>
+    <div class="certificate-modal-content">
+    </div>
+</script>
 
-                        <div class="valamis-row centered-content">
-                            <img id='certificateIcon_{{id}}'
-                            {{#logo}}
-                            src="/delegate/files/images?folderId={{id}}&file={{logo}}"
-                            {{/logo}}
+<script type="text/html" id="curriculumLayoutTemplate">
+    <div class="val-row filters-row">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="certificateFilter_{{portletId}}" placeholder="{{searchLabel}}" class="js-certificate-filter">
+        </div>
 
-                            {{^logo}}
-                            src="/learn-portlet/img/certificate-default.jpg"
-                            {{/logo}}
-                            class='logo val-icon-upload'>
-                        </div>
-                        <button class="button valamis big green val-icon-upload wideButton">
-                            {{uploadLogoLabel}}
-                        </button>
-                        <div>
-                            <button class="designBadge button valamis big grey val-icon-design-new wideButton">
-                                {{designNewBadge}}
-                            </button>
-                        </div>
-                        <div>
-                            <button class="openMediaGallery button valamis big grey  val-icon-doc-lib wideButton">
-                                {{openMediaGalleryLabel}}
-                            </button>
-                        </div>
+        {{#scopeAvailable}}
+        <div id="certificateScopeFilter_{{portletId}}" class="dropdown filter-element shift-left js-filter-dropdown" data-value="">
+            <button class="button medium simple">
+                <span class="dropdown-text"> {{instanceScopeLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value=""> {{instanceScopeLabel}} </li>
+                <li data-value="{{currentCertificateID}}"> {{currentSiteScopeLabel}} </li>
+            </ul>
+        </div>
+        {{/scopeAvailable}}
 
-                        <input type="hidden" id="certificateLogo">
-                    </div>
+        {{#MODIFY}}
+        <div class="filter-element shift-right">
+            <button id="addCertificate" class="button medium primary shift-right">{{addNewCertificateButtonLabel}}</button>
+        </div>
+        {{/MODIFY}}
+    </div>
+
+    <div class="val-row filters-row">
+        <div class="shift-left filter-element paging-showing-label" id="certificateListPagingShowing"> </div>
+
+        <div id="certificateOrder_{{portletId}}" class="dropdown filter-element shift-right js-filter-dropdown" data-value="creationDate:false">
+            <button class="button medium simple">
+                <span class="dropdown-text"> {{newestLabel}} </span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="creationDate:false"> {{newestLabel}} </li>
+                <li data-value="creationDate:true"> {{oldestLabel}} </li>
+                <li data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+
+        <button class="button medium simple no-text hide-s shift-right js-tile-view">
+            <span class="val-icon-grid-view">Grid View</span>
+        </button>
+        <button class="button medium simple no-text hide-s shift-right js-list-view active">
+            <span class="val-icon-list-view">List View</span>
+        </button>
+    </div>
+
+    <div class="js-certificate-items val-row list">
+    </div>
+    <div class="val-paginator text-center" id="certificateListPaginator"></div>
+</script>
+
+<script type="text/html" id="certificateItemViewTemplate">
+    <div class="tile-content with-action">
+        <div class="image certificate"
+        {{#logo}}
+        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+        {{/logo}}>
+        </div>
+        <ul>
+            <li class="title">{{title}}</li>
+            <li class="description">{{decodedDescription}}</li>
+            <li class="categories"> {{userCount}}&nbsp;{{usersSubtitleLabel}} • {{goalsCount}}&nbsp;{{goalsSubtitleLabel}} </li>
+            {{^isPublished}}
+            <li class="status">
+                <span class="val-label">
+                    {{unpublishedLabel}}
+                </span>
+            </li>
+            {{/isPublished}}
+        </ul>
+        <div class="dropdown actions shift-right">
+            <button class="button medium neutral">
+                <span class="dropdown-text">{{actionsLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="js-editCertificateCommand">
+                    {{#MODIFY}} {{editCertificateLabel}} {{/MODIFY}}
+                    {{^MODIFY}} {{viewDetailsLabel}} {{/MODIFY}}
+                </li>
+                <li class="js-editCourseCertificateCommand">
+                    {{#MODIFY}}{{editCoursesLabel}} {{/MODIFY}}
+                    {{^MODIFY}}{{viewGoalsLabel}} {{/MODIFY}}
+                </li>
+                <li class="js-editUserCertificateCommand">
+                    {{#MODIFY}} {{editUsersLabel}} {{/MODIFY}}
+                    {{^MODIFY}} {{viewUsersLabel}} {{/MODIFY}}
+                </li>
+                {{#MODIFY}}
+                <li class="js-cloneCertificateCommand"> {{cloneCertificateLabel}} </li>
+                {{/MODIFY}}
+
+                {{#PUBLISH}}
+                <!--{{^isPublished}}-->
+                <li class="js-publishCertificateCommand"> {{publishCertificateLabel}} </li>
+                <!--{{/isPublished}}-->
+                <!--{{#isPublished}}-->
+                <li class="js-unpublishCertificateCommand"> {{unpublishCertificateLabel}} </li>
+                <!--{{/isPublished}}-->
+                {{/PUBLISH}}
+
+                {{#MODIFY}}
+                <li class="js-deleteCertificateCommand"> {{deleteCertificateLabel}} </li>
+                <li class="js-exportCertificateCommand"> {{export}} </li>
+                {{/MODIFY}}
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="certificateItemEditDetailsTemplate">
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{certificateTitleLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input id="certificateTitle" type="text" class="" value="{{title}}" {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+                       placeholder="{{newCertificatePlaceholderLabel}}"/>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{coverImageLabel}}
+            </div>
+            <div class="div-col content-col">
+                <div class="{{#MODIFY}} js-upload-logo {{/MODIFY}} shift-left">
+                    <img class="val-img-logo" id='certificateIcon_{{id}}'
+                    {{#logo}}
+                    src="/delegate/files/images?folderId={{id}}&file={{logo}}"
+                    {{/logo}}
+
+                    {{^logo}}
+                    src="/learn-portlet/img/certificate-default.jpg"
+                    {{/logo}}
+                    >
                 </div>
 
-                <div class="page-content">
-                    <div class="popup-content-header">
-                        <div class="valamis-row no-margin">
-                            <h3>{{detailsAnsSettingsLabel}}</h3>
-                        </div>
+                <div class="button-block shift-left">
+                    {{#MODIFY}}
+                    <button class="button medium primary js-upload-logo">
+                        {{uploadLogoLabel}}
+                    </button>
+                    <button class="button medium neutral js-design-badge">
+                        {{designNewBadge}}
+                    </button>
+                    <button class="button medium neutral js-open-media-gallery">
+                        {{openMediaGalleryLabel}}
+                    </button>
+                    {{/MODIFY}}
+                </div>
+                <input type="hidden" id="certificateLogo">
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{certificateDescriptionLabel}}
+            </div>
+            <div class="div-col content-col">
+                <textarea id="certificateDescription" rows="5" class=""  {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+                          placeholder="{{descriptionPlaceholderLabel}}">{{decodedDescription}}</textarea>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{certificateScopeLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="text" id="certificateScopeName" class="form-input" value="{{scopeName}}" disabled="disabled" />
 
-                        <div class="pull-right">
-                            <div class="menu-toggle upload-image" style="text-align: center;">
+                {{#MODIFY}}
+                <button class="button medium neutral" id="editScope">
+                    {{changeLabel}}
+                </button>
 
+                <button class="button medium danger" id="cleanScope">
+                    {{removeLabel}}
+                </button>
+                {{/MODIFY}}
+                <input type="hidden" id="certificateScopeID" value="{{scope.id}}"/>
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{validPeriodLabel}}
+            </div>
+            <div class="div-col content-col">
+                <div class="valid-div">
+                     <div>
+                        <input type="radio" value="true" name="validPeriod" class="shift-left" id="permanentPeriod" {{^MODIFY}} disabled="disabled" {{/MODIFY}}/>
+                        <label for="permanentPeriod">{{permanentLabel}}</label>
+                     </div>
+                    <div class="clearfix">
+                        <input type="radio" value="false" name="validPeriod" class="shift-left" id="nonPermanentPeriod" {{^MODIFY}} disabled="disabled" {{/MODIFY}}/>
+                        <label id="labelNonPermanentPeriod" for="nonPermanentPeriod" class="shift-left">{{validForLabel}}</label>
 
-                                <button class="button valamis big green val-icon-upload hidden-xs">
-                                    {{uploadLogoLabel}}
-                                </button>
+                        <div class="js-valid-period-value shift-left"></div>
 
-                                <button id="publishCertificate" class="button valamis big green ">
-                                    publish
-                                </button>
-
-                                <button id="unpublishCertificate" class="button valamis big green ">
-                                    unpublish
-                                </button>
-                                <img
-                                {{#logo}}
-                                src="/delegate/files/images?folderId={{id}}&file={{logo}}"
-                                {{/logo}}
-
-                                {{^logo}}
-                                src="/learn-portlet/img/certificate-default.jpg"
-                                {{/logo}}
-
-                                class="logo-xs val-icon-upload"/>
-                            </div>
+                        <div class="val-select shift-left">
+                            <select id="periodType">
+                                <option value="DAYS">{{daysLabel}}</option>
+                                <option value="WEEKS">{{weeksLabel}}</option>
+                                <option value="MONTH">{{monthLabel}}</option>
+                                <option value="YEAR">{{yearLabel}}</option>
+                            </select>
                         </div>
                     </div>
-
-                    <table class="valamis list-table big-table box-sizing">
-                        <tbody>
-                        <tr>
-                            <td class="title-column h4label valamis">{{certificateTitleLabel}}</td>
-                            <td class="buttons text-right">
-                                <input type="text"
-                                       class="text-input valamis certificateTitle box-sizing"
-                                       value="{{title}}"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="title-column h4label valamis">{{certificateScopeLabel}}</td>
-                            <td class="buttons text-right">
-                                <div class="clearfix div-table">
-                                    <div class="div-row">
-                                        <div class="div-col" style="padding: 15px 0px !important">
-                                            <input type="text" id="certificateScopeName"
-                                                   class="text-input valamis certificateTitle no-margin"
-                                                   value="{{scopeName}}" disabled="disabled"
-                                                   style="width:100%;"/>
-                                        </div>
-                                        <div class="div-col" style="width: 100px; padding: 15px 0px !important">
-                                            <button class="button valamis medium grey val-icon-edit no-text"
-                                                    id="editScope">Edit
-                                            </button>
-                                            <button class="button valamis medium red val-icon-delete no-text"
-                                                    id="cleanScope">Edit
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="certificateScopeID" value="{{scope.id}}"/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="title-column h4label valamis">{{certificateDescriptionLabel}}</td>
-                            <td class="buttons text-right">
-                                <textarea rows="5" class="textarea valamis certificateDescription box-sizing">{{description}}</textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="title-column h4label valamis">{{validPeriodLabel}}</td>
-                            <td class="no-padding-right">
-                                <div class="valid-div">
-                                    <div class="inline-valamis clearfix">
-                                        <input type="radio" value="true" name="validPeriod" id="permanentPeriod"
-                                               class="pull-left"/>
-                                        <label class="pull-left right-margined">{{permanentLabel}}</label>
-                                    </div>
-                                    <div class="inline-valamis clearfix">
-                                        <input type="radio" value="false" name="validPeriod" id="nonPermanentPeriod"
-                                               class="pull-left"/>
-                                        <label id="labelNonPermanentPeriod" class="pull-left">{{validForLabel}}</label>
-                                    </div>
-                                    <div class="select-element position-relative">
-                                        <input type="text" class="onlyDigits pull-left" id="validPeriodValue"/>
-
-                                        <div class="valamis-select" class="userSearchSelect">
-                                            <select id="periodType">
-                                                <option value="DAYS">{{daysLabel}}</option>
-                                                <option value="WEEKS">{{weeksLabel}}</option>
-                                                <option value="MONTH">{{monthLabel}}</option>
-                                                <option value="YEAR">{{yearLabel}}</option>
-                                            </select>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="title-column h4label valamis">{{openBadgesIntegrationLabel}}</td>
-                            <td class="checkbox-container">
-                                <div id="openBadgeIntegration"
-                                     class="checkbox valamis {{#isOpenBadgesIntegration}}checked{{/isOpenBadgesIntegration}}"></div>
-                            </td>
-                        </tr>
-                        <tr class="openBadgesDescription">
-                            <td class="title-column h4label valamis">{{shortDescriptionLabel}}</td>
-                            <td class="buttons">
-                                <input type="text" id="shortDescription" value="{{shortDescription}}"
-                                       class="text-input valamis box-sizing"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
 
                 </div>
             </div>
         </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{openBadgesIntegrationLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="checkbox" value="None" id="openBadgeIntegration" name="check" class="val-checkbox" {{^MODIFY}} disabled="disabled" {{/MODIFY}}/>
+                <label class="checkbox-label" for="openBadgeIntegration"></label>
+            </div>
+        </div>
+        <div class="div-row js-openBadgesDescription">
+            <div class="div-col name-col">
+                {{shortDescriptionLabel}}
+            </div>
+            <div class="div-col content-col">
+                <input type="text" id="shortDescription" value="{{shortDescription}}" {{^MODIFY}} disabled="disabled" {{/MODIFY}}/>
+            </div>
+        </div>
     </div>
 
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
 
-        <button class="button valamis big green val-icon-save-check saveCloseCertificate">
+        {{#MODIFY}}
+        <button class="button big primary js-saveCloseCertificate">
             {{certificateSaveButtonTooltipLabel}}
         </button>
-        <button class="button valamis big green val-icon-save-next saveNextCertificate">
+        <button class="button big primary js-saveNextCertificate">
             {{certificateContinueLabel}}
         </button>
+        {{/MODIFY}}
     </div>
-
 </script>
+
+<!-- extract this -->
 
 <script type="text/mustache" id="deleteConfirmationTemplate">
-    <div>{{warningDeleteCertificateMessageLabel}}<br/>
-        <button class='confirmation btn-valamis btn-primary'>{{yesLabel}}</button>
-        <button class='btn-valamis' style='margin: 0 8px 0 8px'>{{cancelLabel}}</button>
+    <div class="confirmation-question">{{warningDeleteCertificateMessageLabel}}</div>
+    <div>
+        <button class='confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
     </div>
 </script>
 
+<script type="text/mustache" id="certificateUnpublishConfirmationTemplate">
+    <div class="confirmation-question">{{warningUnpublishCertificateMessageLabel}}</div>
+    <div>
+        <button class='confirmation btn-primary'>{{yesLabel}}</button>
+        <button>{{cancelLabel}}</button>
+    </div>
+</script>
 
-<script type="text/mustache" id="certificateItemEditGoalsTemplate">
-    <div id="goalsContentWrapper" class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="clearfix">
+<!-- -->
 
-                <div class="page-content">
-                    <div class="popup-content-header">
-                        <div class="valamis-row">
-                            <div class="pull-left button-upload-area">
-                                <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
+<script type="text/html" id="certificateItemEditGoalsTemplate">
+    <div class="val-portlet">
+        <div class="portlet-wrapper">
+            <div class="portlet-sidebar">
+                <div class="sidebar-content no-header modal-sidebar">
+                    <div class="">
+                        <label for="goalSearch"> {{searchByNameLabel}} </label>
+                        <input placeholder="{{searchPlaceholderLabel}}" type="text" id="goalSearch" class="form-input"/>
+                    </div>
+                    <div class="val-row filter-by-type">
+                        <label class="h4label valamis"> {{filterByTypeLabel}} </label>
+                        <div>
+                            <input type="checkbox" value="None" id="toggleCourses" class="val-checkbox" checked/>
+                            <label class="checkbox-label" for="toggleCourses">{{coursesLabel}}</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" value="None" id="toggleStatements" class="val-checkbox" checked/>
+                            <label class="checkbox-label" for="toggleStatements">{{tincanstatementsLabel}}</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" value="None" id="toggleActivities" class="val-checkbox" checked/>
+                            <label class="checkbox-label" for="toggleActivities">{{activitiesLabel}}</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" value="None" id="toggleLessons" class="val-checkbox" checked/>
+                            <label class="checkbox-label" for="toggleLessons">{{lessonGoalsLabel}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <div class="filters-row clearfix">
+                        <div class="filter-element shift-left">
+                            <div class="val-icon-menu cursor-pointer js-toggle-sidebar">
+                                <span id="goalAmount">{{goalsCount}}</span>
+                                <span>{{goalsListedLabel}}</span>
                             </div>
-                            <div class="title-wrapper float-left">
-                                <h2 id="goalAmount" class="valamis hidden-xs">{{goalsCount}}</h2>
-                                <h2 class="valamis hidden-xs">{{goalsListedLabel}}</h2>
-                            </div>
-
-                            <div class="select-element pull-right">
-                                <button id="addGoals"
-                                        class="button valamis dropdown-button big green val-icon-plus">
-                                    {{addGoalLabel}}
-                                </button>
-                                <ul id="dropdownGoalsMenu" class="dropdown-button-menu unstyled ">
-                                    <li class="valamis">
-                                        <button class="addCourse button valamis medium grey val-icon-plus light ">
-                                            {{addCourse}}
-                                        </button>
-                                    </li>
-                                    <li class="valamis">
-                                        <button class="addStatement button valamis medium grey val-icon-plus light ">
-                                            {{addStatement}}
-                                        </button>
-                                    </li>
-                                    <li class="valamis">
-                                        <button class="addActivity button valamis medium grey val-icon-plus light ">
-                                            {{addActivity}}
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-
                         </div>
 
-                        <div class="hidden-xs valamis-row no-margin">
-                            <button id="selectAllGoals" class="button valamis medium grey val-icon-check pull-left">
-                                {{selectAllLabel}}
+                        {{^isPublished}}
+                        {{#MODIFY}}
+                        <div class="filter-element dropdown actions shift-right">
+                            <button class="button medium primary">
+                                <span class="dropdown-text">{{addGoalLabel}}</span>
+                                <span class="val-icon-dropdown val-icon-right"></span>
                             </button>
-                            <div class="select-element">
-                                <button id="chooseAction" class="button valamis medium grey dropdown-button">
-                                    {{actionLabel}}
+                            <ul class="dropdown-menu">
+                                <li class="js-addCourse" data-value="">{{addCourse}}</li>
+                                <li class="js-addStatement" data-value="">{{addStatement}}</li>
+                                <li class="js-addActivity" data-value="">{{addActivity}}</li>
+                                <li class="js-addLesson" data-value="">{{addLesson}}</li>
+                            </ul>
+                        </div>
+                        {{/MODIFY}}
+                        {{/isPublished}}
+                    </div>
+
+                    {{^isPublished}}
+                    {{#MODIFY}}
+                    <div class="filters-row clearfix">
+                            <div class="filter-element shift-left">
+                                <button id="selectAllGoals" class="button medium neutral">
+                                    <span class="val-icon-checkbutton"></span> {{selectAllLabel}}
                                 </button>
-                                <ul id="dropdownActionMenu" class="dropdown-button-menu unstyled ">
-                                    <li class="valamis">
-                                        <button class="deleteGoals button valamis medium grey light ">
-                                            {{deleteLabel}}
-                                        </button>
-                                    </li>
+                            </div>
+
+                            <div class="filter-element dropdown actions shift-left">
+                                <button class="button medium neutral">
+                                    <span class="dropdown-text">{{actionLabel}}</span>
+                                    <span class="val-icon-arrow-down val-icon-right"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="js-deleteGoals" data-value="1">{{deleteLabel}}</li>
                                 </ul>
                             </div>
-
-                        </div>
-
-                        <div class="sidebar-wrapper">
-                            <div>
-                                <div class="menu-toggle hidden-xs menu-close modal-close-div">
-                                </div>
-
-                                <h3>{{refineSearchLabel}}</h3>
-
-                                <div class="valamis-row filter-by-type">
-                                    <label class="h4label valamis"> {{filterByTypeLabel}} </label>
-
-
-                                    <div class="valamis-checkbox-row">
-                                        <div class="checkbox valamis checked" id="toggleCourses"/>
-                                        {{coursesLabel}}
-                                    </div>
-
-                                    <div class="valamis-checkbox-row">
-                                        <div class="checkbox valamis checked" id="toggleStatements"/>
-                                        {{tincanstatementsLabel}}
-                                    </div>
-
-                                    <div class="valamis-checkbox-row">
-                                        <div class="checkbox valamis checked" id="toggleActivities"/>
-                                        {{activitiesLabel}}
-                                    </div>
-                                </div>
-                                <div class="valamis-row">
-                                    <label class="h4label valamis"> {{searchByNameLabel}} </label>
-                                    <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text"
-                                           id="goalSearch"
-                                           class="search form-control text-input valamis"/>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+                    {{/MODIFY}}
+                    {{/isPublished}}
 
-
-                    <div id="certificateItemGoals">
+                    {{#isPublished}}
+                    <div class="filters-row valamis-info-label">
+                        {{cannotModifyPublishedCertificateLabel}}
                     </div>
+                    {{/isPublished}}
 
                 </div>
+
+                <div id="certificateItemGoals"></div>
             </div>
         </div>
     </div>
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
 
-
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-
-        <button class="button valamis big green val-icon-save-next saveNextCertificate">
+        {{#MODIFY}}
+        <button class="button big primary js-saveNextCertificate">
             {{certificateContinueLabel}}
         </button>
+        {{/MODIFY}}
     </div>
 </script>
 
-<script type="text/mustache" id="certificateGoalsListTemplate">
-    <div class="valamis-row">
-        <table id="certificateCoursesMainTable" class="valamis list-table medium-table">
+<script type="text/html" id="certificateGoalsListTemplate">
+    <div class="val-row">
+        <table id="certificateCoursesMainTable" class="val-table medium list">
             <tbody {{^sortableCourses}} id="certificateCoursesTable" {{/sortableCourses}}>
                 <tr>
                     <th colspan="4">{{coursesLabel}}</th>
@@ -501,14 +393,14 @@
             </tbody>
         </table>
         {{#sortableCourses}}
-        <ul id="certificateCoursesTable" style="list-style-type: none; margin-left: 0; padding-left:0;">
+        <ul id="certificateCoursesTable" class="val-table medium list" style="list-style-type: none; margin-left: 0; padding-left:0;">
 
         </ul>
         {{/sortableCourses}}
     </div>
 
-    <div class="valamis-row">
-        <table class="valamis list-table medium-table">
+    <div class="val-row">
+        <table class="val-table medium list">
             <tbody id="certificateStatementsTable">
             <tr>
                 <th colspan="4">{{tincanstatementsLabel}}</th>
@@ -517,8 +409,8 @@
         </table>
     </div>
 
-    <div class="valamis-row">
-        <table class="valamis list-table medium-table">
+    <div class="val-row">
+        <table class="val-table medium list">
             <tbody id="certificateActivitiesTable">
             <tr>
                 <th colspan="5">{{activitiesLabel}}</th>
@@ -526,41 +418,67 @@
             </tbody>
         </table>
     </div>
+
+    <div class="val-row">
+        <table class="val-table medium list">
+            <tbody id="lessonGoalsTable">
+            <tr>
+                <th colspan="4">{{lessonGoalsLabel}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </script>
 
-<script type="text/mustache" id="goalRowTemplate">
-    <td class="checkbox-container">
-        {{#canDelete}}
-        <div class="checkbox valamis"></div>
-        {{/canDelete}}
+<script type="text/html" id="goalRowTemplate">
+    <td class="checkbox-col">
+        {{#adminView}}
+        {{#MODIFY}}
+        <input type="checkbox" value="None" id="toggleGoal_{{goalNumber}}" name="check" class="val-checkbox js-toggle-goal"/>
+        <label class="checkbox-label" for="toggleGoal_{{goalNumber}}"></label>
+        {{/MODIFY}}
+        {{/adminView}}
     </td>
     {{#isActivity}}
-    <td class="amount"><input type="text" class="onlyDigits" id="goalsAmount" value="{{activityCount}}"/></td>
+    <td class="single-element-col">
+        <input type="text" class="onlyDigits" id="goalsAmount" value="{{activityCount}}"
+        {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+        {{^adminView}} disabled="disabled" {{/adminView}}  />
+    </td>
     {{/isActivity}}
-    <td class="statement user-name">{{#url}}<a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</td>
+    <td>{{#url}}
+        <a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}
+    </td>
 
-    <td class="duringPeriod">
-        <div class="select-element position-relative">
-            {{^noDate}}
-            <label class="pull-left">{{duringLabel}} </label>
-            <input type="text" class="onlyDigits pull-left" id="duringPeriod" value="{{value}}"
-            {{^canDelete}}disabled="disabled"{{/canDelete}} />
+    <td>
+        {{^noDate}}
+        <!--<label>{{duringLabel}} </label>-->
+        <div class="clearfix val-during-period shift-right">
+            <input type="text" class="onlyDigits shift-left" id="duringPeriod" value="{{value}}"
+            {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+            {{^adminView}} disabled="disabled" {{/adminView}} />
 
-            <div class="valamis-select" class="userSearchSelect">
-                <select id="duringPeriodType" {{^canDelete}}disabled="disabled"{{/canDelete}}>
-                <option value="DAYS">{{daysLabel}}</option>
-                <option value="WEEKS">{{weeksLabel}}</option>
-                <option value="MONTH">{{monthLabel}}</option>
-                <option value="YEAR">{{yearLabel}}</option>
+            <div class="val-select shift-left">
+                <select id="duringPeriodType"
+                {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+                {{^adminView}} disabled="disabled" {{/adminView}} >
+                    <option value="DAYS">{{daysLabel}}</option>
+                    <option value="WEEKS">{{weeksLabel}}</option>
+                    <option value="MONTH">{{monthLabel}}</option>
+                    <option value="YEAR">{{yearLabel}}</option>
                 </select>
             </div>
-            {{/noDate}}
         </div>
+        {{/noDate}}
     </td>
-    <td class="buttons text-right" style="width:1px; overflow:visible; padding-right: 5px;">
-        {{#canDelete}}
-        <button class="button valamis medium red val-icon-delete no-text">{{deleteLabel}}</button>
-        {{/canDelete}}
+    <td class="text-right {{#adminView}} single-element-col {{/adminView}} {{^adminView}} status-col {{/adminView}}">
+        {{#MODIFY}}
+        {{#adminView}}
+        <button class="button medium danger no-text js-goal-delete">
+            <span class="val-icon-trash"></span> {{deleteLabel}}
+        </button>
+        {{/adminView}}
+        {{/MODIFY}}
 
         {{#status}}
         {{status}}
@@ -568,41 +486,47 @@
     </td>
 </script>
 
-<script type="text/mustache" id="sortableCourseRowTemplate">
-    <td class="handle handle-container">
-        <span class='ui-icon ui-icon-carat-2-n-s'></span>
+<script type="text/html" id="sortableCourseRowTemplate">
+    <td class="checkbox-col handle">
+        <span class='val-icon-sort'></span>
     </td>
 
-    <td class="checkbox-container">
-        {{#canDelete}}
-        <div class="checkbox valamis"></div>
-        {{/canDelete}}
+    <td class="checkbox-col">
+        <input type="checkbox" value="None" id="toggleGoal_{{goalNumber}}" name="check" class="val-checkbox js-toggle-goal"/>
+        <label class="checkbox-label" for="toggleGoal_{{goalNumber}}"></label>
     </td>
 
-    <td class="user-name">{{#url}}<a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</td>
+    <td>
+        {{#url}}<a href="/web{{url}}" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}
+    </td>
 
-    <td class="duringPeriod">
-        <div class="select-element position-relative">
-            {{^noDate}}
-            <label class="pull-left">{{duringLabel}} </label>
-            <input type="text" class="onlyDigits pull-left" id="duringPeriod" value="{{value}}"
-            {{^canDelete}}disabled="disabled"{{/canDelete}} />
+    <td>
+        {{^noDate}}
+        <!--<label>{{duringLabel}} </label>-->
+        <div class="clearfix val-during-period shift-right">
+            <input type="text" class="onlyDigits shift-left" id="duringPeriod" value="{{value}}"
+            {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+            {{^adminView}} disabled="disabled" {{/adminView}} />
 
-            <div class="valamis-select" class="userSearchSelect">
-                <select id="duringPeriodType" {{^canDelete}}disabled="disabled"{{/canDelete}}>
+            <div class="val-select shift-left">
+                <select id="duringPeriodType"
+                {{^MODIFY}} disabled="disabled" {{/MODIFY}}
+                {{^adminView}} disabled="disabled" {{/adminView}} >
                 <option value="DAYS">{{daysLabel}}</option>
                 <option value="WEEKS">{{weeksLabel}}</option>
                 <option value="MONTH">{{monthLabel}}</option>
                 <option value="YEAR">{{yearLabel}}</option>
                 </select>
             </div>
-            {{/noDate}}
         </div>
+        {{/noDate}}
     </td>
-    <td class="buttons text-right" style="width:1px; overflow:visible; padding-right: 5px;">
-        {{#canDelete}}
-        <button class="button valamis medium red val-icon-delete no-text">{{deleteLabel}}</button>
-        {{/canDelete}}
+    <td class="single-element-col text-right">
+        {{#MODIFY}}
+        <button class="button medium danger no-text js-goal-delete">
+            <span class="val-icon-trash"></span> {{deleteLabel}}
+        </button>
+        {{/MODIFY}}
 
         {{#status}}
         {{status}}
@@ -610,125 +534,85 @@
     </td>
 </script>
 
+<script type="text/html" id="certificateItemEditMembers">
+    <div class="filters-row clearfix">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="searchMembers" placeholder="{{searchPlaceholderLabel}}">
+        </div>
+        <div class="dropdown filter-element shift-left" id="memberOrganization" data-value="-1">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{allOrganizationsLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="-1">{{allOrganizationsLabel}}</li>
+            </ul>
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="memberListPagingShowing"></div>
 
-<!--user views -->
-<script type="text/mustache" id="certificateItemEditMembers">
-    <div id="editMembersDialog" class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="clearfix">
-                <div class="popup-content-header">
-                    <div class="valamis-row no-margin">
-                        <div class="pull-left button-upload-area">
-                            <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-                        </div>
-                        <div class="title-wrapper">
-                            <h2 class="valamis amountLabel pull-left" id="membersListedAmount"></h2>
-                            <h2 class="valamis pull-left hidden-xs">&nbsp;{{usersListedLabel}}</h2>
-                            <h2 class="valamis pull-left hidden-md hidden-lg">&nbsp;{{listedLabel}}</h2>
-                        </div>
+        {{#MODIFY}}
+        <div class="filter-element shift-right">
+            <button id="addCertificateMembers" class="button medium primary shift-right">
+                {{addUsersLabel}}
+            </button>
+        </div>
+        {{/MODIFY}}
+    </div>
+    <div class="filters-row clearfix">
+        {{#MODIFY}}
+        <div class="filter-element shift-left">
+            <button id="selectAllMembers" class="button medium neutral shift-left">
+                <span class="val-icon-checkbutton"></span> {{selectAllLabel}}
+            </button>
+        </div>
 
-                        <button id="addCertificateMembers" class="button valamis big green val-icon-plus float-right">
-                            {{addUsersLabel}}
-                        </button>
-
-                    </div>
-
-                    <!--<div class="pull-left">-->
-                    <!--<div class="menu-toggle">-->
-
-                    <!--</div>-->
-                    <!--</div>-->
-
-                </div>
-                <div class="sidebar-wrapper">
-                    <div class="menu-toggle hidden-xs menu-close modal-close-div">
-                    </div>
-
-                    <h3 class="hidden-xs hidden-md">{{refineSearchLabel}}</h3>
-
-                    <div class="valamis-row">
-                        <label class="h4label valamis"> {{searchByNameLabel}} </label>
-                        <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="memberSearch"
-                               class="text-input valamis search"/>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{sortLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="sortMembers" class="userSearchSelect fixed-width">
-                                <option value="name:true">{{byNameAscLabel}}</option>
-                                <option value="name:false">{{byNameDescLabel}}</option>
-                                <option value="userJoined:true">{{byJoinDateAscLabel}}</option>
-                                <option value="userJoined:false">{{byJoinDateDescLabel}}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr class="hidden-xs hidden-md">
-
-
-                    <h3 class="hidden-xs hidden-md">{{filterByOrganizationLabel}}</h3>
-
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{selectOrganizationLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="memberOrganization" class="userSearchSelect fixed-width">
-                                <option value="-1"></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="allMembersList" class="page-content"></div>
-            </div>
+        <div class="dropdown actions filter-element shift-left">
+            <button class="button medium neutral">
+                <span class="dropdown-text">{{actionLabel}}</span>
+                <span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="js-deleteMembers" data-value="1">{{deleteLabel}}</li>
+            </ul>
+        </div>
+        {{/MODIFY}}
+        <div id="sortMembers" class="dropdown filter-element shift-right" data-value="name:true">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{byNameAscLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+                <li data-value="userJoined:true">{{byJoinDateAscLabel}}</li>
+                <li data-value="userJoined:false">{{byJoinDateDescLabel}}</li>
+            </ul>
         </div>
     </div>
 
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-        <button class="button valamis big green val-icon-save-check saveCloseCertificate">
+    <label id="noMembersLabel" class="valamis-info-label shifted" style="display: none;"> {{noAvailableUsersLabel}}</label>
+    <table class="val-table medium list">
+        <tbody id="membersList"></tbody>
+    </table>
+
+    <div class="val-paginator text-center" id="memberListPaginator"></div>
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        {{#MODIFY}}
+        <button class="button big primary js-saveCloseCertificate">
             {{certificateSaveButtonTooltipLabel}}
         </button>
+        {{/MODIFY}}
     </div>
 </script>
 
-<script type="text/mustache" id="certificateMembersListView">
-    <div id="allCertificateMembersList">
-        <div class="hidden-xs valamis-row select-row pull-left">
-            <button id="selectAllMembers" class="button valamis medium grey val-icon-check pull-left">
-                {{selectAllLabel}}
-            </button>
-            <div class="select-element">
-                <button class="button valamis medium grey dropdown-button ">{{actionLabel}}</button>
-                <ul class="dropdown-button-menu unstyled ">
-                    <li class="valamis">
-                        <button class="deleteMembers button valamis medium grey light ">
-                            {{deleteLabel}}
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="select-element pull-right paginator" id="memberListPaginator"></div>
-
-        <table class="valamis medium-table list-table">
-            <tbody id="membersList"></tbody>
-        </table>
-        <label id="noMembersLabel" class="h2label valamis" style="display: none; margin-left: 20px;">
-            {{noAvailableUsersLabel}}</label>
-    </div>
-
-</script>
-
-
-<script type="text/mustache" id="certificateMemberElementView">
-    <td class="checkbox">
-        <div id="selectMemberCheckbox" class="checkbox valamis"></div>
+<script type="text/html" id="certificateMemberElementView">
+    <td class="checkbox-col">
+        <input type="checkbox" value="None" id="toggleMember_{{id}}" name="check" class="val-checkbox js-toggle-member"/>
+        <label class="checkbox-label" for="toggleMember_{{id}}"></label>
     </td>
-    <td class="user-img"> {{#pageUrl}}
+
+    <td class="single-element-col"> {{#pageUrl}}
         <a href="{{pageUrl}}" target="_blank">
             {{/pageUrl}}
 
@@ -737,173 +621,47 @@
         </a>
         {{/pageUrl}}
     </td>
-    <td class="user-name"> {{name}}</td>
-    <td class="buttons text-right">
+    <td> {{name}}</td>
+    <td class="text-right">
         {{status}}
-        <button id="viewDetails" value={{id}} class="button valamis medium grey val-icon-preview no-text">
-            {{viewDetailsLabel}}
+        <button class="button medium neutral no-text js-member-details">
+            <span class="val-icon-preview"></span> {{viewDetailsLabel}}
         </button>
-        <button class="button valamis medium red val-icon-delete no-text"> {{removeLabel}}</button>
+        {{#MODIFY}}
+        <button class="button medium danger no-text js-member-delete">
+            <span class="val-icon-trash"></span> {{removeLabel}}
+        </button>
+        {{/MODIFY}}
     </td>
 </script>
 
-<script type="text/template" id="certificate-add-goal-modal-template">
-    <div class="bbm-modal__topbar add-members-modal">
-        <h3 class="bbm-modal__title valamis">{{headerTitle}}</h3>
-
-        <div class="modal-close">
-        </div>
-    </div>
-
-    <div class="bbm-modal__section certificate-addGoal-dialog certificateContent">
-    </div>
-</script>
-
-<script type="text/template" id="certificate-select-statements-modal-template">
-    <div class="bbm-modal__topbar add-members-modal">
-        <h3 class="bbm-modal__title valamis">Select TinCan Statements</h3>
-
-        <div class="modal-close">
-        </div>
-    </div>
-
-    <div class="bbm-modal__section certificate-selectStatements-dialog">
-    </div>
-</script>
-
-
-<script type="text/mustache" id="liferayUserDialogView">
-    <div id="liferayUserDialog" class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="clearfix">
-                <div class="popup-content-header">
-                    <div class="valamis-row no-margin">
-                        <div class="pull-left button-upload-area">
-                            <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-                        </div>
-                        <div class="title-wrapper">
-                            <h2 class="valamis amountLabel pull-left" id="usersListedAmount"></h2>
-                            <h2 class="valamis pull-left hidden-xs">&nbsp;{{usersListedLabel}}</h2>
-                            <h2 class="valamis pull-left hidden-md hidden-lg">&nbsp;{{listedLabel}}</h2>
-                        </div>
-
-                        <button class="button valamis medium grey val-icon-check margined pull-right"
-                                id="selectAllAvailableUsers">
-                            {{selectAllLabel}}
-                        </button>
-                        <div class="valamis-paginator pull-right" id="availableUserListPaginator"></div>
-                    </div>
-
-                </div>
-                <div class="sidebar-wrapper">
-                    <div class="menu-toggle hidden-xs menu-close modal-close-div">
-                    </div>
-
-
-                    <h3>{{refineSearchLabel}}</h3>
-
-                    <div class="valamis-row">
-                        <label class="h4label valamis"> {{searchByNameLabel}} </label>
-                        <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="userSearch"
-                               class="text-input valamis search"/>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{sortLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="sortUser" class="userSearchSelect fixed-width">
-                                <option value="true">{{sortOrderAscLabel}}</option>
-                                <option value="false">{{sortOrderDescLabel}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{selectOrganizationLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="userOrganization" class="userSearchSelect fixed-width">
-                                <option value="-1"></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="allUsersList" class="page-content"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-        <button class="button valamis big green val-icon-plus" id="addUsersButton">{{addUsersLabel}}</button>
-    </div>
-
-</script>
-
-
-<script type="text/mustache" id="liferayUserListView">
-    <div id="liferayUserList">
-        <table class="valamis medium-table list-table">
-            <tbody id="userList"></tbody>
-        </table>
-        <label id="noUsersLabel" class="h2label valamis" style="display: none; margin-left: 20px;">
-            {{noAvailableUsersLabel}} </label>
-    </div>
-</script>
-
-<script type="text/mustache" id="liferayUserElementView">
-
-    <td class="user-img"> {{#pageUrl}}
-        <a href="{{pageUrl}}" target="_blank">
-            {{/pageUrl}}
-
-            <img src="{{picture}}" alt="{{name}}" class="img-circle">
-            {{#pageUrl}}
-        </a>
-        {{/pageUrl}}
+<script type="text/html" id="liferayActivityElementView">
+    <td>{{title}}</td>
+    <td class="text-right">
+        <button class="button medium neutral no-text js-toggle-button">
+            <span class="val-icon-checkbutton"></span>
+        </button>
     </td>
-    <td class="user-name"> {{name}}</td>
-    <td class="checkbox-container">
-        <button id="toggleUserButton" class="button valamis big grey val-icon-check no-text toggleButton"></button>
-    </td>
-
 </script>
 
-<script type="text/mustache" id="certificateViewUserDetails">
-    <div id="userResultsList">
-    </div>
-</script>
-
-
-<script type="text/mustache" id="liferayActivityElementView">
-    <!--<td class="amount"><input type="text" class="onlyDigits" id="activitiesAmount" value="1"/></td>-->
-    <td class="user-name">{{title}}</td>
-    <td class="checkbox-container">
-        <button class="button valamis big grey val-icon-check no-text toggleButton"></button>
-    </td>
-
-</script>
-
-
-<script type="text/mustache" id="liferayActivityDialogView">
-
-    <table class="valamis list-table medium-table contentTable">
+<script type="text/html" id="liferayActivityDialogView">
+    <table class="val-table medium list">
         <tbody id="activityList">
         </tbody>
     </table>
 
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-        <button class="button valamis big green val-icon-plus addCourses">{{addActivitiesLabel}}</button>
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        <button class="button big primary js-addActivities">{{addActivitiesLabel}}</button>
     </div>
 </script>
 
-<script type="text/mustache" id="statementElementView">
-    <td class="user-name">{{actorLabel}}</td>
-    <td class="user-name">
+<script type="text/html" id="statementElementView">
+    <td>{{actorLabel}}</td>
+    <td>
         {{verbLabel}}
         <div class="select-element position-relative">
-            <div class="valamis-select">
+            <div class="val-select">
                 <select id="verbSelection">
                     {{#verbs}}
                     <option value="{{id}}"> {{title}}</option>
@@ -912,382 +670,225 @@
             </div>
         </div>
     </td>
-    <td class="buttons text-right">
-        <input id="objectSelection" type="text" class="text-input valamis box-sizing" value="{{obj}}" />
+    <td>
+        <input id="objectSelection" type="text" value="{{obj}}" />
     </td>
-    <td class="checkbox-container">
-        <button class="button valamis medium red val-icon-delete no-text"></button>
+    <td class="text-right">
+        <button class="button medium danger no-text js-statement-delete">
+            <span class="val-icon-trash"></span>
+        </button>
     </td>
 </script>
 
 
-<script type="text/mustache" id="statementDialogView">
-    <table class="valamis list-table medium-table contentTable">
+<script type="text/html" id="statementDialogView">
+    <table class="val-table medium list">
         <tbody id="statementList">
         </tbody>
     </table>
 
+    <div class="bbm-modal__bottombar">
+        <button class="button big primary js-newStatement pull-left">{{newStatementsLabel}}</button>
+        <button class="button big primary js-selectStatements pull-left">{{selectStatementsLabel}}</button>
 
-    <div class="bbm-modal__bottombar buttons-row">
-        <button class="button valamis big green newStatement pull-left">{{newStatementsLabel}}</button>
-        <button class="button valamis big green selectStatements pull-left">{{selectStatementsLabel}}</button>
-        <div class="inline-block-div">
-            <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-            <button class="button valamis big green val-icon-plus addStatements">{{addStatementsLabel}}</button>
-        </div>
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        <button class="button big primary js-addStatements">{{addStatementsLabel}}</button>
     </div>
 </script>
 
-<script type="text/mustache" id="selectStatementsDialogView">
-    <div id="liferayUserDialog" class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-            <div class="clearfix">
-                <div class="popup-content-header">
-                    <div class="valamis-row">
-                        <div class="pull-left button-upload-area">
-                            <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-                        </div>
-                        <div class="title-wrapper">
-                            <h2 class="valamis amountLabel pull-left" id="statementListedAmount"></h2>
-                            <h2 class="valamis pull-left hidden-xs">&nbsp;{{statementListedLabel}}</h2>
-                        </div>
+<script type="text/html" id="selectStatementsDialogView">
+    <div class="filters-row clearfix">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" placeholder="{{certificateSearchPlaceholderLabel}}" id="statementsSearch">
+        </div>
+        <div class="filter-element shift-left">
+            <button class="button medium neutral" id="selectAllStatements">
+                <span class="val-icon-checkbutton"></span> {{selectAllLabel}}
+            </button>
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="statementListPagingShowing"></div>
 
-                        <button class="button valamis medium grey val-icon-check margined pull-right"
-                                id="selectAllStatements">
-                            {{selectAllLabel}}
-                        </button>
-                        <div class="select-element valamis-paginator pull-right" id="statementListPaginator"></div>
-                    </div>
-
-                </div>
-                <div class="sidebar-wrapper">
-                    <div class="menu-toggle hidden-xs menu-close modal-close-div">
-                    </div>
-
-
-                    <h3>{{refineSearchLabel}}</h3>
-
-                    <div class="valamis-row">
-                        <label class="h4label valamis"> {{searchByNameLabel}} </label>
-                        <input placeholder="{{certificateSearchPlaceholderLabel}}" type="text" id="statementsSearch"
-                               class="text-input valamis search"/>
-                    </div>
-                    <div class="valamis-row position-relative">
-                        <label class="h4label valamis"> {{sortLabel}} </label>
-
-                        <div class="valamis-select">
-                            <select id="sortStatements" class="userSearchSelect fixed-width">
-                                <option value="true">{{sortOrderAscLabel}}</option>
-                                <option value="false">{{sortOrderDescLabel}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="allStatementsList" class="page-content"></div>
-            </div>
+        <div id="sortStatements" class="dropdown filter-element shift-right" data-value="true">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{byNameAscLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="true"> {{byNameAscLabel}} </li>
+                <li data-value="false"> {{byNameDescLabel}} </li>
+            </ul>
         </div>
     </div>
 
-    <div class="bbm-modal__bottombar buttons-row">
-        <a href="#" class="bbm-button button valamis big grey">{{cancelLabel}}</a>
-        <button class="button valamis big green val-icon-plus" id="addStatementsButton">{{selectStatementsLabel}}</button>
-    </div>
-
-</script>
-
-<script type="text/mustache" id="selectStatementsListView">
-<div id="liferayUserList">
-    <table class="valamis medium-table list-table">
+    <label id="noStatementsLabel" class="text-center" style="display: none;"> {{noAvailableStatementsLabel}}</label>
+    <table class="val-table medium list">
         <tbody id="statementsList"></tbody>
     </table>
-    <label id="noUsersLabel" class="h2label valamis" style="display: none; margin-left: 20px;">
-        {{noAvailableUsersLabel}} </label>
-</div>
+
+    <div class="val-paginator text-center" id="statementListPaginator"></div>
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        <button class="button big primary" id="addStatementsButton">{{selectStatementsLabel}}</button>
+    </div>
 </script>
 
-<script type="text/mustache" id="selectStatementsRowView">
-<td style="width: 130px;"><span class="verb">{{verbName}}</span></td>
-<td class="user-name"><span class="obj">{{objName}}</span></td>
-<td class="checkbox-container">
-    <button class="button valamis big grey val-icon-check no-text toggleButton"></button>
+<script type="text/html" id="selectStatementsRowView">
+<td>{{verbName}}</td>
+<td>{{objName}}</td>
+<td class="single-element-col">
+    <button class="button medium {{^selected}}neutral{{/selected}} {{#selected}}primary{{/selected}} no-text js-toggle-button">
+        <span class="val-icon-checkbutton"></span> Add
+    </button>
 </td>
+</script>
+
+<script type="text/template" id="curriculum-select-lesson-goals-dialog">
+    <div class="filters-row clearfix">
+        <div class="filter-element shift-left">
+            <span class="val-icon-search"></span>
+            <input type="text" id="searchLesson" placeholder="{{searchPlaceholderLabel}}">
+        </div>
+        <div class="dropdown filter-element shift-left" id="lessonListTags" data-value="">
+            <button class="button medium simple">
+                <span class="dropdown-text">{{allCategoriesLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="">{{allCategoriesLabel}}</li>
+            </ul>
+        </div>
+        <div class="filter-element paging-showing-label shift-left" id="lessonListPagingShowing"></div>
+        <div id="sortLesson" class="dropdown filter-element shift-right" data-value="name:true">
+            <button class="button meduim simple">
+                <span class="dropdown-text">{{byNameAscLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="selected" data-value="name:true"> {{byNameAscLabel}} </li>
+                <li data-value="name:false"> {{byNameDescLabel}} </li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="val-table medium list">
+        <tbody id="lessonList"></tbody>
+    </table>
+    <div class="val-paginator text-center" id="lessonListPaginator"></div>
+
+    <div class="bbm-modal__bottombar">
+        <a href="#" class="modal-close button big neutral">{{cancelLabel}}</a>
+        <button class="button big primary js-addLesson">{{addGoalLabel}}</button>
+    </div>
+</script>
+
+<script type="text/template" id="curriculum-select-lesson-goals-lesson">
+    <td>{{title}}</td>
+    <td class="text-right">
+        <button class="button medium {{^toggled}}neutral{{/toggled}} {{#toggled}}primary{{/toggled}} no-text js-toggle-button">
+            <span class="val-icon-checkbutton"></span> Add
+        </button>
+    </td>
 </script>
 
 <!-- curriculum user -->
 
-<script type="text/mustache" id="curriculumUserViewTemplate">
-    
-
-    <div class="valamis-tabs">
-        <div class="curriculum tabs-container">
-            <div class="pull-left button-upload-area">
-                {{#forcedView}}
-                <button class="filter-toggler button valamis big grey forced-menu-toggle menu-open val-icon-search"></button>
-                {{/forcedView}}
-
-                {{^forcedView}}
-                <button class="filter-toggler button valamis big grey menu-toggle menu-open val-icon-search"></button>
-                {{/forcedView}}
-            </div>
-            <ul class="nav nav-tabs" id="certificateCollectionTabs">
-                <li class="active"><a href="#myCertificates" data-toggle="tab" class="certificate-collection-tab">
-                    {{curriculumMyTabsHeaderLabel}} </a></li>
-                <li><a href="#availableCertificates" data-toggle="tab" class="certificate-collection-tab">{{curriculumAvailableTabsHeaderLabel}}</a>
-                </li>
-            </ul>
-        </div>
-
-        <div id='certificateSearchWrapper_{{portletID}}' class='sidebar-wrapper {{#forcedView}} forced-sidebar-wrapper {{/forcedView}}'></div>
-
-        <div class="tab-content" style="position: relative">
-            <div id="myCertificates" class="tab-pane active myCertificates-dialog"></div>
-            <div id="availableCertificates" class="tab-pane availableCertificates-dialog"></div>
-        </div>
-
+<script type="text/html" id="userCertificateItemViewTemplate">
+    <div class="tile-content with-action">
+        <div class="image certificate"
+        {{#logo}}
+        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+        {{/logo}}>
     </div>
-</script>
-
-
-<script type="text/mustache" id="userCertificatesListTemplate">
-    <div class="toolBar pull-right full-width">
-
-        <!--{{#isMyCollection}}-->
-        <div class="pull-right valamis-paginator" id="userMyCertificateListPaginator"></div>
-        <!--{{/isMyCollection}}-->
-
-        <!--{{^isMyCollection}}-->
-        <div class="pull-right valamis-paginator" id="userAvailableCertificateListPaginator"></div>
-        <!--{{/isMyCollection}}-->
-
-        <div class="pull-right hidden-xs">
-            <div class="select-element-label">{{viewsLabel}}</div>
-            <div class="button-group">
-                <button class="button valamis medium grey val-icon-list-view
-                no-text {{^talesView}} active {{/talesView}}" id="userCertificatesListView">
-                </button>
-                <button class="button valamis medium grey val-icon-grid-view
-                no-text {{#talesView}} active {{/talesView}}"
-                        id="userCertificatesTilesView">
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="certificate-items clearfix grid-view"></div>
-
-    <!--{{#isMyCollection}}-->
-    <div class="pull-right valamis-paginator" id="userMyCertificateListBottomPaginator"></div>
-    <!--{{/isMyCollection}}-->
-
-    <!--{{^isMyCollection}}-->
-    <div class="pull-right valamis-paginator" id="userAvailableCertificateListBottomPaginator"></div>
-    <!--{{/isMyCollection}}-->
-</script>
-
-<script type="text/mustache" id="userCertificateTileItemViewTemplate">
-     <div class="valamis-tile-item-wrapper" >
-        <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-            <div class="flipper">
-                <div class="front">
-                    <div class="valamis-item-cover-image certificate-logo"
-                        {{#logo}}
-                        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
-                        {{/logo}}>
-                        <!--{{#successStatus}}-->
-                        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-                            <div class="ribbon-green">{{Success}}</div>
-                        </div>
-                        <!--{{/successStatus}}-->
-                        <!--{{#failedStatus}}-->
-                        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-                            <div class="ribbon-red ribbon-green">{{Failed}}</div>
-                        </div>
-                        <!--{{/failedStatus}}-->
-                        <!--{{#overdueStatus}}-->
-                        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-                            <div class="ribbon-black ribbon-green">{{Overdue}}</div>
-                        </div>
-                        <!--{{/overdueStatus}}-->
-                    </div>
-                    <div class="valamis-item-content">
-                        <div class="valamis-item-title">{{title}}</div>
-                        <div class="valamis-item-description">{{{description}}}</div>
-                    </div>
-                    <div class="valamis-item-footer">
-                        <div class="certificate-users">{{userCount}}&nbsp;{{usersSubtitleLabel}}</div>
-                        <div class="certificate-courses">{{goalsCount}}&nbsp;{{goalsSubtitleLabel}}</div>
-                    </div>
-                </div>
-                <div class="back">
-                    <div class="hidden">
-                        <button class="button valamis medium grey val-icon-preview val-command viewCertificateDetailsCommand">
-                            {{viewDetailsLabel}}
-                        </button>
-                        <button class="button valamis medium grey val-icon-preview val-command viewCertificateGoalsCommand">
-                            {{viewGoalsLabel}}
-                        </button>
-
-                        <!--{{#isMyCollection}}-->
-                        <button class="button valamis medium grey val-command val-icon-minus leaveCertificateCommand">
-                            {{leaveCertificate}}
-                        </button>
-                        <!--{{/isMyCollection}}-->
-
-                        <!--{{^isMyCollection}}-->
-                        <button class="button valamis medium grey val-command val-icon-plus joinCertificateCommand">
-                            {{joinCertificate}}
-                        </button>
-                        <!--{{/isMyCollection}}-->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<script type="text/mustache" id="userCertificateListItemViewTemplate">
-
-    <div class="valamis-item-cover-image certificate-logo pull-left"
-                        {{#logo}}
-                        style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
-                        {{/logo}}>
-        <!--{{#successStatus}}-->
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-green">{{Success}}</div>
-        </div>
-        <!--{{/successStatus}}-->
-        <!--{{#failedStatus}}-->
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-red ribbon-green">{{Failed}}</div>
-        </div>
-        <!--{{/failedStatus}}-->
-        <!--{{#overdueStatus}}-->
-        <div class="ribbon-wrapper-green hidden-sm hidden-xs">
-            <div class="ribbon-black ribbon-green">{{Overdue}}</div>
-        </div>
-        <!--{{/overdueStatus}}-->
-
-    </div>
-    <div class="valamis-item-content pull-left">
-        <div class="valamis-item-title">{{title}}</div>
-        <div class="valamis-item-description">{{{description}}}</div>
-
-        <div class="certificate-users hidden-xs">
-            <label>{{userCount}}&nbsp;{{usersSubtitleLabel}}</label>
-        </div>
-        <div class="certificate-courses hidden-xs">
-            <label>{{goalsCount}}&nbsp;{{goalsSubtitleLabel}}</label>
-        </div>
-    </div>
-    <div class="valamis-item-buttons pull-right buttons-row">
-        <button class="button valamis medium grey val-icon-preview no-text viewCertificateDetailsCommand"> {{viewDetailsLabel}} </button>
-        <!--{{#isMyCollection}}-->
-        <button class="button valamis medium red val-icon-minus leaveCertificateCommand">
-            {{leaveCertificate}}
+    <ul>
+        <li class="title">{{title}}</li>
+        <li class="description">{{decodedDescription}}</li>
+        <li class="categories"> {{userCount}}&nbsp;{{usersSubtitleLabel}} • {{goalsCount}}&nbsp;{{goalsSubtitleLabel}} </li>
+        {{#status}}
+        <li class="status {{statusClass}}">
+            <span class="val-label">
+                {{status}}
+            </span>
+        </li>
+        {{/status}}
+    </ul>
+    <div class="dropdown actions shift-right">
+        <button class="button medium neutral">
+            <span class="dropdown-text">{{actionsLabel}}</span><span class="val-icon-arrow-down val-icon-right"></span>
         </button>
-        <!--{{/isMyCollection}}-->
-
-        <!--{{^isMyCollection}}-->
-        <button class="button valamis medium green val-icon-plus joinCertificateCommand">
-            {{joinCertificate}}
-        </button>
-        <!--{{/isMyCollection}}-->
+        <ul class="dropdown-menu">
+            <li class="js-editCertificateCommand"> {{viewDetailsLabel}} </li>
+            <li class="js-editCourseCertificateCommand"> {{viewGoalsLabel}} </li>
+            <!--{{^isMyCollection}}-->
+            <li class="js-joinCertificateCommand"> {{joinCertificate}} </li>
+            <!--{{/isMyCollection}}-->
+            <!--{{#isMyCollection}}-->
+            <li class="js-leaveCertificateCommand"> {{leaveCertificate}} </li>
+            <!--{{/isMyCollection}}-->
+        </ul>
+    </div>
     </div>
 </script>
 
-<script type="text/mustache" id="userCertificateItemEditDetailsTemplate">
-    <div class="content-wrapper clearfix">
-        <div class="page-content-wrapper" style="padding-top: 0px;">
-
-
-            <div class="sidebar-wrapper">
-                <div>
-                    <h3>{{coverImageLabel}}</h3>
-
-                    <div class="valamis-row centered-content">
-                        <img id='userCertificateIcon_{{id}}'
-                        {{#logo}}
-                        src="/delegate/files/images?folderId={{id}}&file={{logo}}"
-                        {{/logo}}
-
-                        {{^logo}}
-                        src="/learn-portlet/img/certificate-default.jpg"
-                        {{/logo}}
-                        class='logo val-icon-upload'>
-                    </div>
-                </div>
+<script type="text/html" id="userCertificateItemEditDetailsTemplate">
+    <div class="div-table val-info-table">
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{coverImageLabel}}
             </div>
 
-            <div class="page-content">
-                <div class="popup-content-header">
-                    <div class="valamis-row no-margin">
-                        <h3>{{detailsAnsSettingsLabel}}</h3>
-                    </div>
+            <div class="div-col content-col">
+                <div class="certificate-image shift-left" id="userCertificateIcon_{{id}}"
+                {{#logo}}
+                style="background-image: url('/delegate/files/images?folderId={{id}}&file={{logo}}')"
+                {{/logo}}>
 
-                    <div class="pull-right">
-                        <div class="menu-toggle upload-image">
-                            <img
-                            {{#logo}}
-                            src="/delegate/files/images?folderId={{id}}&file={{logo}}"
-                            {{/logo}}
-
-                            {{^logo}}
-                            src="/learn-portlet/img/certificate-default.jpg"
-                            {{/logo}}
-
-                            class="logo-xs val-icon-upload"/>
-                        </div>
-
-
-                        <!--{{#isOpenBadgesIntegration}}-->
-                        <!--{{#success}}-->
-                        <button id="issueBadge" class="button valamis medium grey ">{{earnbadge}}</button>
-                        <!--{{/success}}-->
-                        <!--{{/isOpenBadgesIntegration}}-->
-                    </div>
                 </div>
 
-                <table class="valamis list-table big-table box-sizing">
-                    <tbody>
-                    {{#status}}
-                    <tr>
-                        <td class="title-column h4label valamis">{{certificateStatusLabel}}</td>
-                        <td class="buttons text-right">
-                            <div style="text-align: left;">{{status}}</div>
-                        </td>
-                    </tr>
-                    {{/status}}
-                    <tr>
-                        <td class="title-column h4label valamis">{{certificateTitleLabel}}</td>
-                        <td class="buttons text-right">
-                            <input type="text"
-                                   class="text-input valamis certificateTitle box-sizing"
-                                   value="{{title}}" disabled="disabled"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="title-column h4label valamis">{{certificateDescriptionLabel}}</td>
-                        <td class="buttons text-right">
-                            <textarea rows="5" class="textarea valamis certificateDescription box-sizing"
-                                      disabled="disabled">{{description}}</textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="title-column h4label valamis">{{validPeriodLabel}}</td>
-                        <td class="no-padding-right">
-                            <div class="valid-div">
-                                <label id="permanentLabel"
-                                       class="pull-left right-margined">{{permanentLabel}}</label>
-                                <label id="nonPermanentLabel" class="pull-left">{{validForLabel}}</label>
-                            </div>
-                        </td>
-                    </tr>
-
-                    </tbody>
-                </table>
-
+                <div class="button-block">
+                    {{#isOpenBadgesIntegration}}
+                    {{#success}}
+                    <button id="issueBadge" class="button big primary">{{earnbadge}}</button>
+                    {{/success}}
+                    {{/isOpenBadgesIntegration}}
+                </div>
+            </div>
+        </div>
+        {{#status}}
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{certificateStatusLabel}}
+            </div>
+            <div class="div-col content-col">
+                {{status}}
+            </div>
+        </div>
+        {{/status}}
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{certificateTitleLabel}}
+            </div>
+            <div class="div-col content-col">
+                {{title}}
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{{certificateDescriptionLabel}}}
+            </div>
+            <div class="div-col content-col">
+                {{description}}
+            </div>
+        </div>
+        <div class="div-row">
+            <div class="div-col name-col">
+                {{validPeriodLabel}}
+            </div>
+            <div class="div-col content-col">
+                <div id="permanentLabel" class="shift-left">
+                    {{permanentLabel}}
+                </div>
+                <div id="nonPermanentLabel" class="shift-left">
+                    {{validForLabel}}
+                </div>
             </div>
         </div>
     </div>

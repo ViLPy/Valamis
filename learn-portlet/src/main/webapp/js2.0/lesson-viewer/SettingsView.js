@@ -6,7 +6,7 @@ SettingsView = Backbone.View.extend({
 
   initialize: function (options) {
     this.language= options.language;
-    this.$el = jQuery('<tr>');
+    this.$el = jQueryValamis('<tr>');
     this.$el.attr('id', this.model.id);
   },
 
@@ -23,7 +23,7 @@ SettingsView = Backbone.View.extend({
 
   updateIsDefaultValue: function () {
     this.model.save({
-      isdefault: this.$('#isDefault').is(':checked')
+      isDefault: this.$('#isDefault').is(':checked')
     });
     this.setActive();
     this.trigger('change-isDefault', this);
@@ -35,7 +35,7 @@ SettingsView = Backbone.View.extend({
   },
 
   showDefault: function () {
-    var template = Mustache.to_html(jQuery('#packageScopeRuleRow').html(), _.extend(this.model.toJSON(), this.language,
+    var template = Mustache.to_html(jQueryValamis('#packageScopeRuleRow').html(), _.extend(this.model.toJSON(), this.language,
       {isTincan: this.model.get('type') == 'tincan'}));
     this.$el.html(template);
   },
@@ -71,13 +71,13 @@ PlayerSettingsListView = Backbone.View.extend({
   },
 
   render: function () {
-    var template = Mustache.to_html(jQuery('#packageScopeRuleListTemplate').html(), this.language);
+    var template = Mustache.to_html(jQueryValamis('#packageScopeRuleListTemplate').html(), this.language);
     this.$el.html(template);
     this.scormPlayerSettingsPackageList = this.$('#SCORMPackageScopeRuleGrid').List();
-    this.$('.sortable').each(jQuery.proxy(function (index, element) {
-      var dom = jQuery(element);
+    this.$('.sortable').each(jQueryValamis.proxy(function (index, element) {
+      var dom = jQueryValamis(element);
       this.sortableAscOrder[dom.attr('ref')] = true;
-      var icon = jQuery('<div>');
+      var icon = jQueryValamis('<div>');
       icon.addClass('ui-icon');
       icon.addClass('ui-icon-triangle-1-n');
       icon.addClass('scormSortIcon');
@@ -92,10 +92,10 @@ PlayerSettingsListView = Backbone.View.extend({
   },
 
   sortPackages: function (event) {
-    var targetRow = jQuery(event.target);
+    var targetRow = jQueryValamis(event.target);
     var ref = targetRow.attr('ref');
     this.sortableAscOrder[ref] = !this.sortableAscOrder[ref];
-    jQuery('.ui-icon', targetRow).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
+    jQueryValamis('.ui-icon', targetRow).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
     this.scormPlayerSettingsPackageList.sort(ref, this.sortableAscOrder[ref] ? 'asc' : 'desc');
   },
 

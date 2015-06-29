@@ -2,8 +2,15 @@ CertificateMemberModelService = new Backbone.Service({ url: path.root,
   sync: {
     'delete': {
       'path': function (model) {
-        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS' +
-          '&userIDs=' + model.id;
+        return path.api.certificates + jQuery('#selectedCertificateID').val()
+      },
+      'data': function (model) {
+        return {
+            action: 'DELETEUSERS',
+            courseId: Utils.getCourseId(),
+            userIDs: model.id
+
+        }
       },
       'method': 'post'
     }
@@ -15,25 +22,52 @@ CertificateMemberModel = Backbone.Model.extend({
     memberId: '',
     name: '',
     selected: false
+  },
+  toggle: function(){
+    if(this.get("selected"))
+      this.set("selected", false);
+    else
+      this.set("selected", true);
   }
 }).extend(CertificateMemberModelService);
 
 CertificateMemberCollectionService = new Backbone.Service({ url: path.root,
   sync: {
-    'read': function (collection, options) {
-      return path.api.certificates + jQuery('#selectedCertificateID').val() +
-        '/users?action=GETSTUDENTS' +
-        '&orgId=' + jQuery('#memberOrganization').val() +
-        '&sortBy=' + options.sort[0] +
-        '&sortAscDirection=' + options.sort[1] +
-        '&filter=' + jQuery('#memberSearch').val() +
-        '&page=' + options.currentPage + '&count=' + options.itemsOnPage;
+    'read': {
+      'path': function (collection, options) {
+        return path.api.certificates + jQuery('#selectedCertificateID').val() + '/users';
+      },
+      'data': function (collection, options) {
+        var order = options.order;
+        var sortBy = order.split(':')[0];
+        var asc = order.split(':')[1];
+        return {
+          action: 'GETSTUDENTS',
+          orgId: options.orgId,
+          courseId: Utils.getCourseId(),
+          sortBy: sortBy,
+          sortAscDirection: asc,
+          filter: options.filter,
+          page: options.currentPage,
+          count: options.itemsOnPage
+        }
+      },
+      'method': 'get'
     }
   },
   targets: {
     'deleteFromCertificate': {
-      'path': function (model, options) {
-        return path.api.certificates + jQuery('#selectedCertificateID').val() + '?action=DELETEUSERS&' + options.users;
+      'path': function(model, options){
+       return path.api.certificates + jQuery('#selectedCertificateID').val();
+      },
+      'data': function (model, options) {
+        var params =  {
+            action: 'DELETEUSERS',
+            courseId: Utils.getCourseId()
+        }
+        _.extend(params, options.users);
+        return params;
+
       },
       method: 'post'
     }
@@ -62,8 +96,10 @@ CertificateMemberCollection = Backbone.Collection.extend({
 
 var CertificateMemberListElement = Backbone.View.extend({
   events: {
-    'click #selectMemberCheckbox': 'selectThis',
-    'click .val-icon-delete': 'deleteMember'
+    'change .js-toggle-member': 'toggleThis',
+    'click .js-member-delete': 'deleteMember',
+    'click .js-member-details': 'viewDetails'
+
   },
   initialize: function (options) {
     this.language = options.language;
@@ -74,9 +110,11 @@ var CertificateMemberListElement = Backbone.View.extend({
   },
   render: function () {
     var template = Mustache.to_html(jQuery('#certificateMemberElementView').html(), _.extend(
+      { status: this.language[this.model.get('status')] },
       this.model.toJSON(),
       this.language,
-      {status: this.language[this.model.get('status')]}));
+      permissionActionsCurriculum
+      ));
     this.$el.html(template);
     return this.$el;
   },
@@ -87,47 +125,38 @@ var CertificateMemberListElement = Backbone.View.extend({
     this.remove();
   },
 
-  selectThis: function () {
+  viewDetails: function() {
+    this.trigger('viewMemberDetails', this.model.id);
+  },
+
+  toggleThis: function () {
     this.model.trigger('unsetIsSelectedAll', this.model);
-    var alreadySelected = this.model.get('selected');
-    if (alreadySelected) {
-      this.setUnselected();
-    }
-    else {
-      this.setSelected();
-    }
-  },
-
-  setSelected: function () {
-    this.model.set({selected: true });
-    this.$('#selectMemberCheckbox').addClass('checked');
-  },
-  setUnselected: function () {
-    this.model.set({selected: false });
-    this.$('#selectMemberCheckbox').removeClass('checked');
+    this.model.toggle();
   }
-
 });
 
-// member list view
-
-var MemberList = Backbone.View.extend({
+var CertificateEditMembersDialog = Backbone.View.extend({
+  SEARCH_TIMEOUT: 800,
   events: {
-    'click .menu-toggle': 'searchActionMenuToggle',
-    'click .dropdown-button': 'toggleAction',
+    'keyup #searchMembers': 'filterMembers',
+    'click .dropdown-menu > li': 'filterMembers',
+    'click .js-saveCloseCertificate': 'saveClose',
+
     'click #selectAllMembers': 'selectAll',
-    'click .deleteMembers': 'deleteSelectedMembers'
+    'click .js-deleteMembers': 'deleteSelectedMembers'
   },
 
   initialize: function (options) {
     this.language = options.language;
-    this.collection = new CertificateMemberCollection();
+    this.organizations = new LiferayOrganizationCollection();
+    this.organizations.on('reset', this.appendOrganizations, this);
+    this.inputTimeout = null;
 
+    this.paginatorModel = new PageModel();
+    this.paginatorModel.set({'itemsOnPage': 10});
+    this.collection = new CertificateMemberCollection();
     this.collection.on('reset', this.showAll, this);
     this.collection.on('unsetIsSelectedAll', this.unsetIsSelectedAll, this);
-    this.collection.on('changeAmount', function () {
-      jQuery('#membersListedAmount').text(this.collection.length - 1);
-    }, this);
 
     var that = this;
     this.collection.on('userCollection:updated', function (details) {
@@ -135,13 +164,54 @@ var MemberList = Backbone.View.extend({
     });
 
     this.isSelectedAll = false;
+  },
+  render: function () {
+    var data = _.extend(this.language, permissionActionsCurriculum);
+    var renderedTemplate = Mustache.to_html(jQuery('#certificateItemEditMembers').html(), data);
+    this.$el.html(renderedTemplate);
 
-    this.render();
+    this.organizations.fetch({reset: true});
+
+    var that = this;
+    this.paginator = new ValamisPaginator({
+      el: this.$el.find("#memberListPaginator"),
+      language: this.language,
+      model: this.paginatorModel
+    });
+    this.paginator.on('pageChanged', function () {
+      that.reload();
+    });
+    this.paginatorShowing = new ValamisPaginatorShowing({
+      el: this.$el.find("#memberListPagingShowing"),
+      language: this.language,
+      model: this.paginator.model
+    });
+
+    this.reloadFirstPage();
+  },
+
+  appendOrganizations: function () {
+    this.organizations.each(function(item) {
+      this.$('#memberOrganization .dropdown-menu').append('<li data-value="' + item.id + '"> ' + item.get('name') + ' </li>');
+    }, this);
+    this.$('.dropdown').valamisDropDown();
+  },
+
+  filterMembers: function () {
+    clearTimeout(this.inputTimeout);
+    this.inputTimeout = setTimeout(this.applyFilter.bind(this), this.SEARCH_TIMEOUT);
+  },
+  applyFilter: function () {
+    clearTimeout(this.inputTimeout);
+    this.reloadFirstPage();
+  },
+
+  saveClose: function () {
+    this.trigger('closeCertificate', this);
   },
 
   updatePagination: function (details, context) {
     this.paginator.updateItems(details.total);
-    jQuery('#membersListedAmount').text(details.listed);
   },
 
   showAll: function () {
@@ -155,31 +225,31 @@ var MemberList = Backbone.View.extend({
   },
   showUser: function (user) {
     var view = new CertificateMemberListElement({model: user, language: this.language});
+    view.on('viewMemberDetails', this.viewDetails, this);
     var viewDOM = view.render();
     this.$('#membersList').append(viewDOM);
   },
 
-  render: function () {
-    var renderedTemplate = Mustache.to_html(jQuery('#certificateMembersListView').html(), this.language);
-    this.$el.html(renderedTemplate);
-
-    var that = this;
-    this.paginator = new ValamisPaginator({el: jQuery('#memberListPaginator'), language: this.language});
-    this.paginator.on('pageChanged', function () {
-      that.reload();
-    });
-
-    return this.$el;
+  viewDetails: function(id) {
+    this.trigger('viewMemberDetails', id);
   },
 
   reloadFirstPage: function () {
     jQuery('#noMembersLabel').hide();
-    var sort = jQuery('#sortMembers').val().split(':');
-    this.collection.fetch({reset: true, currentPage: 1, itemsOnPage: this.paginator.itemsOnPage(), sort: sort});
+    this.fetchCollection(1);
   },
   reload: function () {
-    var sort = jQuery('#sortMembers').val().split(':');
-    this.collection.fetch({reset: true, currentPage: this.paginator.currentPage(), itemsOnPage: this.paginator.itemsOnPage(), sort: sort});
+    this.fetchCollection(this.paginator.currentPage());
+  },
+  fetchCollection: function (page) {
+    this.collection.fetch({
+      reset: true,
+      currentPage: page,
+      itemsOnPage: this.paginator.itemsOnPage(),
+      filter: this.$('#searchMembers').val(),
+      orgId: this.$('#memberOrganization').data('value'),
+      order: this.$('#sortMembers').data('value')
+    });
   },
 
   selectAll: function () {
@@ -188,14 +258,10 @@ var MemberList = Backbone.View.extend({
   },
   setSelectAll: function (model) {
     var alreadySelected = model.get('selected');
-    if (alreadySelected != this.isSelectedAll) {
-      if (alreadySelected) {
-        model.trigger('setUnselected', this);
-      }
-      else {
-        model.trigger('setSelected', this);
-      }
 
+    if (alreadySelected != this.isSelectedAll) {
+      model.set('selected', this.isSelectedAll);
+      this.$('#toggleMember_' + model.id).prop('checked', model.get('selected'));
     }
   },
   unsetIsSelectedAll: function () {
@@ -214,86 +280,10 @@ var MemberList = Backbone.View.extend({
       var that = this;
       this.collection.deleteFromCertificate({}, {users: users}).then(function (res) {
         that.reload();
-        that.toggleAction();
         toastr.success(that.language['overlayCompleteMessageLabel']);
       }, function (err, res) {
         toastr.error(that.language['overlayFailedMessageLabel']);
       });
     }
-  },
-
-  toggleAction: function () {
-    this.$('.dropdown-button').toggleClass('active');
-    this.$('.dropdown-button-menu').toggleClass('dropdown-visible');
-  },
-  searchActionMenuToggle: function (e) {
-    e.preventDefault();
-    this.$('.popup-sidebar').toggleClass('hidden-xs');
-  }
-
-});
-
-
-// member dialog
-
-var CertificateEditMembersDialog = Backbone.View.extend({
-  events: {
-    'keyup #memberSearch': 'filterMembers',
-    'change #sortMembers': 'filterMembers',
-    'change #memberOrganization': 'filterMembers',
-    'click .saveCloseCertificate': 'saveClose',
-    'click .menu-toggle': 'searchMenuToggle'
-  },
-
-  initialize: function (options) {
-    this.$el = jQuery('<div>');
-    this.language = options.language;
-
-    this.organizations = new LiferayOrganizationCollection();
-    this.organizations.on('reset', this.showDefaultView, this);
-
-    this.inputTimeout = null;
-  },
-  render: function () {
-    var renderedTemplate = Mustache.to_html(jQuery('#certificateItemEditMembers').html(), this.language);
-    this.$el.html(renderedTemplate);
-
-    this.memberListView = new MemberList({el: this.$('#allMembersList'), language: this.language});
-
-    this.organizations.fetch({reset: true});
-
-    return this;
-  },
-
-  reload: function(){
-    this.memberListView.reloadFirstPage();
-  },
-
-  showDefaultView: function () {
-    this.organizations.each(this.appendOptions, this);
-    this.memberListView.reloadFirstPage();
-  },
-
-  appendOptions: function (item) {
-    jQuery('#memberOrganization').append('<option value="' + item.id + '"> ' + item.get('name') + ' </option>');
-  },
-
-  filterMembers: function () {
-    clearTimeout(this.inputTimeout);
-    this.inputTimeout = setTimeout(this.applyFilter.bind(this), 800);
-  },
-  applyFilter: function () {
-    clearTimeout(this.inputTimeout);
-
-    this.memberListView.reloadFirstPage();
-  },
-
-  saveClose: function () {
-    this.trigger('closeCertificate', this);
-  },
-
-  searchMenuToggle: function (e) {
-    e.preventDefault();
-    this.$('#editMembersDialog').toggleClass('active');
   }
 });

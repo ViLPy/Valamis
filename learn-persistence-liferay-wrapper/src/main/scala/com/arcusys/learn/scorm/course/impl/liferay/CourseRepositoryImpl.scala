@@ -2,14 +2,14 @@ package com.arcusys.learn.scorm.course.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFCourse
 import com.arcusys.learn.persistence.liferay.service.LFCourseLocalServiceUtil
-import com.arcusys.learn.scorm.course.CourseStorage
-import com.arcusys.learn.scorm.tracking.model.CourseGrade
+import com.arcusys.valamis.gradebook.model.CourseGrade
+import com.arcusys.valamis.gradebook.storage.CourseGradeStorage
 import org.joda.time.DateTime
 
 /**
  * Created by mminin on 15.10.14.
  */
-class CourseRepositoryImpl extends CourseStorage {
+class CourseRepositoryImpl extends CourseGradeStorage {
 
   override def renew(): Unit = {
     LFCourseLocalServiceUtil.removeAll()

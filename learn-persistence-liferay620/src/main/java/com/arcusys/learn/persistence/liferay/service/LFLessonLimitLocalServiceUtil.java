@@ -270,6 +270,12 @@ public class LFLessonLimitLocalServiceUtil {
         return getService().findByID(itemID, itemType);
     }
 
+    public static java.util.List<com.arcusys.learn.persistence.liferay.model.LFLessonLimit> findByIDs(
+        java.lang.Long[] ids)
+        throws com.liferay.portal.kernel.exception.SystemException {
+        return getService().findByIDs(ids);
+    }
+
     public static void clearService() {
         _service = null;
     }

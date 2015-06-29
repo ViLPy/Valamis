@@ -2,11 +2,10 @@ package com.arcusys.learn.scorm.manifest.storage.impl.liferay
 
 import com.arcusys.learn.persistence.liferay.model.LFActivity
 import com.arcusys.learn.persistence.liferay.service.LFActivityLocalServiceUtil
-import com.arcusys.learn.scorm.manifest.model._
-import com.arcusys.learn.scorm.manifest.sequencing.storage.SequencingStorage
-import com.arcusys.learn.scorm.manifest.storage.impl.ActivityCreator
-import com.arcusys.learn.scorm.manifest.storage.{ ActivityDataStorage, ActivityStorage }
-import com.arcusys.learn.util.TreeNode
+import com.arcusys.valamis.lesson.scorm.model.manifest._
+import com.arcusys.valamis.lesson.scorm.storage.sequencing.SequencingStorage
+import com.arcusys.valamis.lesson.scorm.storage.{ ActivityStorage, ActivityDataStorage }
+import com.arcusys.valamis.util.TreeNode
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -23,25 +22,25 @@ trait ActivityRepositoryImpl extends ActivityStorage {
     activityDataRepository.renew()
   }
 
-  override def getAllFlat(packageID: Int): Seq[Activity] = {
-    LFActivityLocalServiceUtil.findByPackageID(packageID).asScala
+  override def getAllFlat(packageID: Long): Seq[Activity] = {
+    LFActivityLocalServiceUtil.findByPackageID(packageID.toInt).asScala
       .sortBy(i => (i.getIndexNumber, i.getId)).map(extract)
   }
 
-  override def get(packageID: Int, id: String): Option[Activity] = {
-    Option(LFActivityLocalServiceUtil.findByPackageAndID(packageID, id)) map extract
+  override def get(packageId: Long, id: String): Option[Activity] = {
+    Option(LFActivityLocalServiceUtil.findByPackageAndID(packageId.toInt, id)) map extract
   }
 
   /**
    * Forms the activity path as the ordered series of activities from the Current Activity to the common ancestor
-   * @param packageID given package ID
+   * @param packageId given package ID
    * @param activityID given activity ID
    * @return activity path
    */
-  override def getActivityPath(packageID: Int, activityID: String): Seq[Activity] = {
+  override def getActivityPath(packageId: Long, activityID: String): Seq[Activity] = {
     //Find the activity that is the common ancestor of the Current Activity and the identified activity
-    val activities = getAllFlat(packageID)
-    val targetActivity = get(packageID, activityID).getOrElse(throw new Exception("Activity not found in package"))
+    val activities = getAllFlat(packageId)
+    val targetActivity = get(packageId, activityID).getOrElse(throw new Exception("Activity not found in package"))
     val mappedActivities = Map(activities.map(activity => (activity.id, activity)): _*)
     val activityPath = mutable.Buffer[Activity](targetActivity)
 
@@ -51,30 +50,30 @@ trait ActivityRepositoryImpl extends ActivityStorage {
     activityPath
   }
 
-  override def getParent(packageID: Int, activityID: String): Option[Activity] = {
-    val targetActivity = get(packageID, activityID)
+  override def getParent(packageId: Long, activityID: String): Option[Activity] = {
+    val targetActivity = get(packageId, activityID)
     targetActivity match {
       case Some(activity) => activity.parentID match {
-        case Some(parentID) => get(packageID, parentID)
+        case Some(parentID) => get(packageId, parentID)
         case _              => None
       }
       case _ => None
     }
   }
 
-  override def getAllOrganizations(packageID: Int): Seq[Organization] = {
-    LFActivityLocalServiceUtil.findByPackageIDAndParentID(packageID, null.asInstanceOf[String]).asScala
+  override def getAllOrganizations(packageId: Long): Seq[Organization] = {
+    LFActivityLocalServiceUtil.findByPackageIDAndParentID(packageId.toInt, null.asInstanceOf[String]).asScala
       .sortBy(i => (i.getIndexNumber, i.getId))
       .map(extract).map(_.asInstanceOf[Organization])
   }
 
-  override def getChildren(packageID: Int, activityID: Option[String]): Seq[Activity] = {
-    getAllFlat(packageID).filter(_.parentID == activityID)
+  override def getChildren(packageId: Long, activityID: Option[String]): Seq[Activity] = {
+    getAllFlat(packageId).filter(_.parentID == activityID)
   }
 
-  override def getOrganizationTree(packageID: Int, organizationID: String): TreeNode[Activity] = {
+  override def getOrganizationTree(packageId: Long, organizationID: String): TreeNode[Activity] = {
     TreeNode.parseNodes(
-      LFActivityLocalServiceUtil.findByPackageIDAndOrganizationID(packageID, organizationID).asScala
+      LFActivityLocalServiceUtil.findByPackageIDAndOrganizationID(packageId.toInt, organizationID).asScala
         .sortBy(i => (i.getIndexNumber, i.getId)).map(extract),
       (a: Activity) => a.id,
       (a: Activity) => a.parentID,
@@ -87,11 +86,11 @@ trait ActivityRepositoryImpl extends ActivityStorage {
       .sortBy(i => (i.getIndexNumber, i.getId)).map(extract)
   }
 
-  override def create(packageID: Int, entity: Activity): Unit = {
+  override def create(packageId: Long, entity: Activity): Unit = {
     val newEntity = LFActivityLocalServiceUtil.createLFActivity()
 
     newEntity.setId(entity.id)
-    newEntity.setPackageID(packageID)
+    newEntity.setPackageID(packageId.toInt)
     newEntity.setOrganizationID(entity.organizationID)
 
     newEntity.setParentID(entity.parentID.orNull)
@@ -116,9 +115,9 @@ trait ActivityRepositoryImpl extends ActivityStorage {
     LFActivityLocalServiceUtil.addLFActivity(newEntity)
 
     if (entity.isInstanceOf[LeafActivity])
-      entity.asInstanceOf[LeafActivity].data.foreach(data => activityDataRepository.create(packageID, entity.id, data))
+      entity.asInstanceOf[LeafActivity].data.foreach(data => activityDataRepository.create(packageId.toInt, entity.id, data))
 
-    sequencingStorage.create(packageID, entity.id, entity.sequencing)
+    sequencingStorage.create(packageId.toInt, entity.id, entity.sequencing)
   }
 
   private def extract(lfActivity: LFActivity) = {

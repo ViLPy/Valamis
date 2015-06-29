@@ -1,26 +1,12 @@
 PlayerPackageView = Backbone.View.extend({
     events: {
-        'click': 'setActive',
-        'click #startPackage': 'startPackage',
-        'click #resumePackage': 'resumePackage'
+      'click .js-share-package': 'sharePackage'
     },
 
     initialize: function (options) {
         this.language = options.language;
         this.template = options.template;
-    },
-
-    startPackage: function () {
-        this.trigger('start', this.model);
-    },
-
-    resumePackage: function () {
-        this.trigger('resume', this.model);
-    },
-
-    setActive: function () {
-        this.$el.addClass('SCORMHighlitedPackage');
-        this.trigger('change-active', this);
+        this.permissions = options.permissions;
     },
 
     render: function () {
@@ -33,9 +19,42 @@ PlayerPackageView = Backbone.View.extend({
         var remain = 0;
         var limit = this.model.get('passingLimit');
         if (limit > 0)
-          remain = limit - this.model.get('attemptCount');
-        var template = Mustache.to_html(jQuery(this.template).html(), _.extend(this.model.toJSON(), this.language, {remain: remain}));
+          remain = limit - this.model.get('attemptsCount');
+
+        var isSuspended = false;
+        if (this.model.get('suspendedID') != undefined)
+          isSuspended = true;
+
+        var winHref = window.location.href;
+        var shIndex = winHref.indexOf('#');
+        var href = winHref;
+        if (shIndex > -1)
+          href = winHref.substr(0, shIndex);
+
+        var link = href + '#/lesson/'+this.model.get('id')+'/'+this.model.get('packageType') + '/'+encodeURIComponent(this.model.get('title')) + '/' + isSuspended;
+
+        var tags = Array();
+        this.model.get('tags').forEach(function(item) {
+          tags.push(item.text);
+        });
+        var categories = tags.join(' • ');
+
+        var statusLabel = '';
+        if (this.model.get('suspendedID'))
+          statusLabel = 'suspendedPackageStatusLabel';
+        else
+          statusLabel = this.model.get('status') + 'PackageStatusLabel';
+
+        var template = Mustache.to_html(jQueryValamis(this.template).html(), _.extend({
+            remain: remain,
+            link: link,
+            categories: categories,
+            packageStatusLabel: this.language[statusLabel]
+          }, this.model.toJSON(), this.language, this.permissions));
         this.$el.html(template);
+    },
+    sharePackage: function() {
+        this.trigger('showSharePackageModal', this.model);
     }
 });
 
@@ -46,85 +65,78 @@ var PLAYER_LIST_VIEW_MODE = {
 
 var PlayerPackageListView = Backbone.View.extend({
     events: {
-        'click .menu-toggle': 'menuToggle',
-        'click #SCORMPackageListReload': 'reloadPackageList',
         'keyup #playerPackageFilter': 'filterPackages',
-        'change #playerPackageOrder': 'filterPackages',
-        'change #playerShowMode': 'updateSettings',
+        'click .js-filter-dropdown li': 'filterPackages',
         'click .js-list-view': 'renderAsList',
         'click .js-tile-view': 'renderAsTiles'
     },
 
     initialize: function (options) {
-        if (playerSettings.get('layout') === PLAYER_LIST_VIEW_MODE.LIST) {
-          this.viewMode = PLAYER_LIST_VIEW_MODE.LIST;
-        } else {
+        if (playerSettings.get('layout') === PLAYER_LIST_VIEW_MODE.TILE) {
           this.viewMode = PLAYER_LIST_VIEW_MODE.TILE;
+        } else {
+          this.viewMode = PLAYER_LIST_VIEW_MODE.LIST;
         }
 
+        this.permissions = options.permissions;
         this.language = options.language;
-        this.forcedView = options.forcedView;
         this.activePackageView = null;
         this.sortableAscOrder = [];
         this.childViews = [];
         this.paginatorModel = new PageModel();
-        this.collection.on('add', this.addPackage, this);
         this.collection.on('reset', this.addPackagesFromCollection, this);
         this.render();
-        this.setDisplayModeActiveState(this.viewMode);
-        if (playerSettings.get('sort')) this.$('#playerPackageOrder').val(playerSettings.get('sort'));
-        if (playerSettings.get('showIn')) this.$('#playerShowMode').val(playerSettings.get('showIn'));
-        this.changeViewOnWindowResize();
-
-
-
         var that = this;
+
+        this.setDisplayModeActiveState(this.viewMode);
+        this.tags = new Valamis.TagCollection();
+        this.tags.fetch({
+          success: function() {
+            that.addTags();
+          }
+        });
+
+        if (playerSettings.get('sort')) {
+          var elem = this.$el.find('#playerPackageOrder');
+          var sort = playerSettings.get('sort');
+          elem.data('value', sort);
+          var selected = this.$el.find('li[data-value="'+sort+'"]');
+          elem.find('li').removeClass('selected');
+          selected.addClass('selected');
+          elem.find('.dropdown-text').html(selected.html());
+        }
+
         this.collection.on('packageCollection:updated', function (details) {
             that.updatePagination(details, that);
         });
-
-        jQuery(window).on('resize', this.resize);
-        valamisTileResize(this.$el);
     },
 
-  resize: function () {
-    valamisTileResize(scormPlayerPackagesView.$el);
-  },
-
-    changeViewOnWindowResize: function () {
-        if (jQuery(window).width() < 768) { // mobile
-            this.renderAsList(null, true);
-        }
+    addTags: function() {
+      this.tags.each(function(item) {
+        this.$el.find('#playerPackageTags').find('.dropdown-menu').append('<li data-value="'+ item.get('id') +'"> '+ item.get('text') +' </li>');
+      }, this);
+      this.$('.dropdown').valamisDropDown();
     },
 
     render: function () {
-        var template = Mustache.to_html(jQuery('#packageListTemplate').html(), _.extend({forcedView: this.forcedView}, this.language));
-//        var template = Mustache.to_html(jQuery('#packageListTemplate').html(), _.extend({forcedView: (this.itemDisplayType == DISPLAY_TYPE.TILES)}, this.language));
-        this.$el.html(template);
-        this.$('#SCORMPackageDone').hide();
-
-
         var that = this;
-        this.paginator = new ValamisPaginator({
-            el: jQuery('#packageListPaginator'),
-            language: this.language,
-            model: this.paginatorModel,
-            needDisplay: true
+        var template = Mustache.to_html(jQueryValamis('#packageListTemplate').html(), _.extend(that.language));
+        this.$el.html(template);
+
+        that.paginator = new ValamisPaginator({
+            el: that.$el.find("#packageListPaginator"),
+            language: that.language,
+            model: that.paginatorModel
         });
-        this.paginator.on('pageChanged', function () {
+        that.paginator.on('pageChanged', function () {
             that.reload();
         });
 
-        this.paginatorBottom = new ValamisPaginator({
-            el: jQuery('#packageListBottomPaginator'),
-            language: this.language,
-            model: this.paginatorModel
+        that.paginatorShowing = new ValamisPaginatorShowing({
+            el: that.$el.find("#lessonViewerPagingShowing"),
+            language: that.language,
+            model: that.paginator.model
         });
-        this.paginatorBottom.on('pageChanged', function () {
-            that.reload();
-        });
-
-        return this.$el;
     },
     reloadFirstPage: function () {
         this.collection.fetch({
@@ -132,10 +144,6 @@ var PlayerPackageListView = Backbone.View.extend({
             currentPage: 1,
             itemsOnPage: this.paginatorModel.get('itemsOnPage'),
             portletID: this.portletID});
-    },
-    reloadWithMessage: function () {
-        toastr.success(this.language['overlayCompleteMessageLabel']);
-        this.reload();
     },
     reload: function () {
         this.collection.fetch({
@@ -148,40 +156,40 @@ var PlayerPackageListView = Backbone.View.extend({
     updatePagination: function (details, context) {
         this.paginator.updateItems(details.total);
     },
-    renderAsList: function(e, silent){
-        this.viewMode = PLAYER_LIST_VIEW_MODE.LIST;
+
+    renderAsTiles: function(e, silent){
+        this.viewMode = PLAYER_LIST_VIEW_MODE.TILE;
         if (!silent) {
           playerSettings.set('layout',this.viewMode);
           playerSettings.save();
         }
         this.setDisplayModeActiveState(this.viewMode);
-        this.addPackagesFromCollection();
+        jQueryValamis(window).trigger('viewModeChanged', this.$el);
+    },
+
+    renderAsList: function(){
+      this.viewMode = PLAYER_LIST_VIEW_MODE.LIST;
+      playerSettings.set('layout',this.viewMode);
+      playerSettings.save();
+      this.setDisplayModeActiveState(this.viewMode);
+      jQueryValamis(window).trigger('viewModeChanged', this.$el);
     },
 
     setDisplayModeActiveState: function(mode) {
       switch (mode) {
         case PLAYER_LIST_VIEW_MODE.LIST:
-          this.$('.js-tile-view').removeClass('active');
-          this.$('.js-list-view').addClass('active');
+          this.$el.find('.js-tile-view').removeClass('active');
+          this.$el.find('.js-list-view').addClass('active');
+          this.$el.find('.js-package-items').removeClass('tiles');
+          this.$el.find('.js-package-items').addClass('list');
           break;
         case PLAYER_LIST_VIEW_MODE.TILE:
-          this.$('.js-tile-view').addClass('active');
-          this.$('.js-list-view').removeClass('active');
+          this.$el.find('.js-tile-view').addClass('active');
+          this.$el.find('.js-list-view').removeClass('active');
+          this.$el.find('.js-package-items').removeClass('list');
+          this.$el.find('.js-package-items').addClass('tiles');
           break;
       }
-    },
-
-    renderAsTiles: function(){
-        this.viewMode = PLAYER_LIST_VIEW_MODE.TILE;
-        playerSettings.set('layout',this.viewMode);
-        playerSettings.save();
-        this.setDisplayModeActiveState(this.viewMode);
-        this.addPackagesFromCollection();
-    },
-
-    menuToggle: function (e) {
-        e.preventDefault();
-        this.$('#playerContentWrapper').toggleClass('active');
     },
 
     reloadPackageList: function () {
@@ -203,48 +211,24 @@ var PlayerPackageListView = Backbone.View.extend({
     },
 
     updateSettings: function() {
-      playerSettings.set('sort',this.$('#playerPackageOrder').val());
-      playerSettings.set('showIn',this.$('#playerShowMode').val());
+      playerSettings.set('sort',this.$el.find('#playerPackageOrder').data('value'));
       playerSettings.save();
     },
 
     addPackage: function (pkg) {
-        var view;
-        switch (this.viewMode) {
-            case PLAYER_LIST_VIEW_MODE.TILE:
-                view = new PlayerPackageView({
+        var view = new PlayerPackageView({
                     model: pkg,
                     language: this.language,
                     template: '#playerTileItemView',
-                    className: 'valamis-tile-item'
+                    className: 'tile s-12 m-4 l-2',
+                    permissions: this.permissions
                 });
-                break;
-            case PLAYER_LIST_VIEW_MODE.LIST:
-            default :
-                view = new PlayerPackageView({
-                    model: pkg,
-                    language: this.language,
-                    template: '#playerListItemView',
-                    className: 'valamis-list-item clearfix'
-                });
-                break;
-        }
-        this.listenTo(view, 'change-active', this.changeActive);
-        this.listenTo(view, 'start', function (id) {
-            this.trigger('start', id);
-        });
-        this.listenTo(view, 'resume', function (id) {
-            this.trigger('resume', id);
-        });
-        this.childViews.push(view);
-        this.$('.player.package-items').append(view.render().$el);
-    },
+        view.on('showSharePackageModal', function(model) {
+          this.trigger('showSharePackageModal', model);
+        }, this);
 
-    changeActive: function (view) {
-        if (!this.activeEditing) {
-            this.activePackageView = view;
-        }
-        this.$('tr[id!=' + this.activePackageView.model.id + ']').removeClass('SCORMHighlitedPackage');
+        this.childViews.push(view);
+        this.$el.find('.js-package-items').append(view.render().$el);
     },
 
     addPackagesFromCollection: function () {
@@ -252,7 +236,20 @@ var PlayerPackageListView = Backbone.View.extend({
             this.stopListening(e);
             e.remove();
         }, this);
-        this.$('.player.package-items').empty();
+        this.$('.js-package-items').empty();
         this.collection.each(this.addPackage, this);
+        jQueryValamis(window).trigger('portlet-ready');
     }
+});
+
+var SharePackageModalView = Backbone.View.extend({
+  initialize: function (options) {
+    this.language = options.language;
+  },
+  render: function () {
+    var template = Mustache.to_html(jQueryValamis('#sharePackageModalViewTemplate').html(), this.language);
+    this.$el.html(template);
+
+    return this;
+  }
 });

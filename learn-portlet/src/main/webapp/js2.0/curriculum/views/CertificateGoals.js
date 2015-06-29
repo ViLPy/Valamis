@@ -1,38 +1,78 @@
 var GOAL_TYPE = {
   COURSE: 1,
   STATEMENT: 2,
-  ACTIVITY: 3
+  ACTIVITY: 3,
+  PACKAGE: 4
 };
 
 GoalService = new Backbone.Service({ url: path.root,
   sync: {
     'update': {
       'path': function (model) {
-
         var certificateID = model.get('certificateID');
-        var action = "";
+        return path.api.certificates + certificateID;
+      },
+      'data': function (model) {
         if (model.get('type') == GOAL_TYPE.COURSE) {
-          action = path.api.certificates + certificateID + '?action=UPDATECOURSE&courseId=' + model.id;
+          return {
+            action: 'UPDATECOURSE',
+            courseId: Utils.getCourseId()
+          }
         }
         else if (model.get('type') == GOAL_TYPE.STATEMENT) {
-          action = path.api.certificates + certificateID + '?action=UPDATESTMNT';
+          parameters= {
+            action: 'UPDATESTMNT',
+            courseId: Utils.getCourseId()
+          }
         }
         else if (model.get('type') == GOAL_TYPE.ACTIVITY) {
-          action = path.api.certificates + certificateID + '?action=UPDATEACTIVITY&activityId=' + model.get('activityID');
+          parameters= {
+            action: 'UPDATEACTIVITY',
+            courseId: Utils.getCourseId()
+          }
         }
-        return action;
+        else if (model.get('type') == GOAL_TYPE.PACKAGE) {
+          parameters= {
+            action: 'UPDATEPACKAGE',
+            courseId: Utils.getCourseId()
+          }
+        }
+        _.extend(parameters, model.toJSON())
+        return parameters;
       },
       'method': 'post'
     },
     'delete': {
       'path': function (model) {
         var certificateID = model.get('certificateID');
+        return path.api.certificates + certificateID
+      },
+      'data': function (model) {
         if (model.get('type') == GOAL_TYPE.COURSE)
-            return path.api.certificates + certificateID + '?action=DELETECOURSE&courseId=' + model.id;
+          parameters= {
+            action: 'DELETECOURSE',
+            courseId: Utils.getCourseId(),
+            courseGoalId: model.id
+          }
         else if (model.get('type') == GOAL_TYPE.STATEMENT)
-            return path.api.certificates + certificateID + '?action=DELETETINCANSTMNT';
+          parameters= {
+            action: 'DELETETINCANSTMNT',
+            courseId: Utils.getCourseId()
+          }
         else if (model.get('type') == GOAL_TYPE.ACTIVITY)
-            return path.api.certificates + certificateID + '?action=DELETEACTIVITY&activityId=' + model.get('activityID');
+          parameters= {
+            action: 'DELETEACTIVITY',
+            courseId: Utils.getCourseId(),
+            activityId: model.get('activityID')
+          }
+        else if (model.get('type') == GOAL_TYPE.PACKAGE)
+          parameters= {
+            action: 'DELETEPACKAGE',
+            courseId: Utils.getCourseId(),
+            packageId: model.get('packageId')
+          }
+        _.extend(parameters, model.toJSON())
+        return parameters;
       },
       'method': 'post'
     }
@@ -51,8 +91,8 @@ var GoalModel = Backbone.Model.extend({
 
 var GoalView = Backbone.View.extend({
   events: {
-    'click .val-icon-delete': 'deleteThis',
-    'click .checkbox': 'selectThis',
+    'click .js-goal-delete': 'deleteThis',
+    'change .js-toggle-goal': 'selectThis',
     'blur #duringPeriod': 'updateThis',
     'change #duringPeriodType': 'updateThis',
     'blur #goalsAmount': 'updateThis'
@@ -66,6 +106,8 @@ var GoalView = Backbone.View.extend({
       this.$el = jQuery('<tr>');
     }
     this.language = options.language;
+    this.goalNumber = options.goalNumber;
+    this.isPublished = options.isPublished;
 
     this.model.set({ type: options.type, certificateID: options.certificateID});
     if (options.type == GOAL_TYPE.STATEMENT)
@@ -73,7 +115,7 @@ var GoalView = Backbone.View.extend({
 
     if (options.type == GOAL_TYPE.ACTIVITY) {
         var name = this.model.get('title');
-        this.model.set({activityID: this.model.get('title'), title: this.language[this.model.get('title')]});
+        this.model.set({activityId: this.model.get('title'), title: this.language[this.model.get('title')]});
         if (name == 'participation' || name == 'contribution')
             this.model.set({noDate: true });
     }
@@ -83,9 +125,12 @@ var GoalView = Backbone.View.extend({
   },
   render: function () {
     var templateName = "#goalRowTemplate";
-    if (this.model.get('type') ==  GOAL_TYPE.COURSE) templateName = "#sortableCourseRowTemplate";
+    if (this.model.get('type') ==  GOAL_TYPE.COURSE && !this.isPublished) templateName = "#sortableCourseRowTemplate";
 
-    var template = Mustache.to_html(jQuery(templateName).html(), _.extend(this.model.toJSON(), {canDelete: true}, this.language));
+    var template = Mustache.to_html(jQuery(templateName).html(), _.extend({
+      adminView: !this.isPublished,
+      goalNumber: this.goalNumber
+    }, this.model.toJSON(), this.language, permissionActionsCurriculum));
     this.$el.html(template);
     return this;
   },
@@ -102,7 +147,7 @@ var GoalView = Backbone.View.extend({
     this.model.save();
   },
   deleteThis: function () {
-    this.trigger('goalDelete', this);
+    this.trigger('goalDelete', this.goalNumber);
     this.model.destroy();
     this.remove();
   },
@@ -117,11 +162,11 @@ var GoalView = Backbone.View.extend({
   },
   setSelected: function () {
     this.model.set({selected: true });
-    this.$('.checkbox').addClass('checked');
+    this.$('.val-checkbox').prop('checked', true);
   },
   setUnselected: function () {
     this.model.set({selected: false });
-    this.$('.checkbox').removeClass('checked');
+    this.$('.val-checkbox').prop('checked', false);
   },
   isSelected: function(){
     return this.model.get('selected');
@@ -140,26 +185,22 @@ var GoalView = Backbone.View.extend({
 
 var CertificateGoalsView = Backbone.View.extend({
   events: {
-    'click #addGoals': 'toggleAddGoals',
-    'click #chooseAction': 'toggleAction',
-    'click .deleteGoals': 'deleteSelectedGoals',
+    'click .js-deleteGoals': 'deleteSelectedGoals',
     'click #selectAllGoals': 'selectAll',
-    'click .addCourse': 'addCourse',
-    'click .addStatement': 'addStatement',
-    'click .addActivity': 'addActivity',
-    'click .menu-toggle': 'searchMenuToggle',
     'keyup #goalSearch': 'searchGoals',
     'keypress .onlyDigits': 'preventNonDigits',
-    'click #toggleCourses': 'toggleCourses',
-    'click #toggleStatements': 'toggleStatements',
-    'click #toggleActivities': 'toggleActivities',
-    'click .saveNextCertificate': 'saveNext'
+    'change #toggleCourses': 'toggleCourses',
+    'change #toggleStatements': 'toggleStatements',
+    'change #toggleActivities': 'toggleActivities',
+    'change #toggleLessons': 'toggleLessons',
+    'click .js-saveNextCertificate': 'saveNext'
   },
   initialize: function (options) {
     this.options = options;
     this.isSelectedAll = false;
 
     this.model = new CertificateModel();
+    this.goalNumber = 0;
   },
 
   setCertificateID: function (certificateID) {
@@ -175,15 +216,18 @@ var CertificateGoalsView = Backbone.View.extend({
     if (this.model.get('courses') != undefined) this.goalAmount += this.model.get('courses').length;
     if (this.model.get('statements') != undefined) this.goalAmount += this.model.get('statements').length;
     if (this.model.get('activities') != undefined) this.goalAmount += this.model.get('activities').length;
+    if (this.model.get('packages') != undefined) this.goalAmount += this.model.get('packages').length;
 
     var renderedTemplate = _.template(
       Mustache.to_html(
         jQuery('#certificateItemEditGoalsTemplate').html(),
-        _.extend(this.model.toJSON(), _.extend({goalsCount: this.goalAmount}, language))));
+        _.extend(this.model.toJSON(), _.extend({goalsCount: this.goalAmount}, language, permissionActionsCurriculum))));
     this.$el.html(renderedTemplate);
+    this.$el.find('.js-toggle-sidebar').valamisSidebar();
+    this.$el.find('.dropdown').valamisDropDown();
 
     var goalsListTemplate = Mustache.to_html(jQuery('#certificateGoalsListTemplate').html(),
-      _.extend(this.model.toJSON(), _.extend({sortableCourses: true}, language)));
+      _.extend({sortableCourses: true}, this.model.toJSON(), language));
     this.$('#certificateItemGoals').html(goalsListTemplate);
 
     this.views = [];
@@ -193,6 +237,7 @@ var CertificateGoalsView = Backbone.View.extend({
     this.renderGoals(this.model.get('courses'), GOAL_TYPE.COURSE);
     this.renderGoals(this.model.get('statements'), GOAL_TYPE.STATEMENT);
     this.renderGoals(this.model.get('activities'), GOAL_TYPE.ACTIVITY);
+    this.renderGoals(this.model.get('packages'), GOAL_TYPE.PACKAGE);
 
     this.initSortableCourses();
 
@@ -217,9 +262,9 @@ var CertificateGoalsView = Backbone.View.extend({
       stop: jQuery.proxy(function (event, ui) {
         var sortedAnswers = this.$el.find("#certificateCoursesTable").sortable("toArray", {key: 'value'});
 
-        var ids = jQuery.param({'courseIds': sortedAnswers.map(function(i){ return i.replace('courseSortableItem_',''); })}, true);
+        var ids = jQuery.param({'courseGoalIds': sortedAnswers.map(function(i){ return i.replace('courseSortableItem_',''); })}, true);
 
-        window.LearnAjax.post(path.root + path.api.certificates + "?action=MOVECOURSE&id=" + this.model.id + "&" + ids);
+        window.LearnAjax.post(path.root + path.api.certificates + "?action=MOVECOURSE&id=" + this.model.id + "&courseId=" + Utils.getCourseId() +'&'+ ids);
       }, this)
     }).addClass("div-table valamis list-table medium-table")
       .find("li")
@@ -231,13 +276,17 @@ var CertificateGoalsView = Backbone.View.extend({
   renderGoals: function (goals, type) {
     if (goals != undefined) {
       for (var i = 0; i < goals.length; i++) {
+        this.goalNumber++;
         var item = new GoalModel(goals[i]);
         if (type == GOAL_TYPE.ACTIVITY) item.set({isActivity: true });
 
-        var view = new GoalView({model: item, certificateID: this.model.id, type: type, language: this.options.language});
-        view.on('goalDelete', function () {
+        var view = new GoalView({model: item, certificateID: this.model.get('id'), type: type, language: this.options.language, goalNumber: this.goalNumber, isPublished: this.model.get('isPublished')});
+        view.on('goalDelete', function (goalNumber) {
           this.goalAmount -= 1;
           this.$('#goalAmount').text(this.goalAmount);
+          this.views = this.views.filter(function(i) {
+            return i.goalNumber != goalNumber
+          });
         }, this);
         var template = view.render().$el;
         view.setPeriod();
@@ -251,6 +300,10 @@ var CertificateGoalsView = Backbone.View.extend({
         }
         else if (type == GOAL_TYPE.ACTIVITY) {
           this.$('#certificateActivitiesTable').append(template);
+          this.activities.push(item);
+        }
+        else if (type == GOAL_TYPE.PACKAGE) {
+          this.$('#lessonGoalsTable').append(template);
           this.activities.push(item);
         }
 
@@ -281,50 +334,27 @@ var CertificateGoalsView = Backbone.View.extend({
     }
   },
   toggleCourses: function () {
-    this.$('#toggleCourses').toggleClass('checked');
     this.$('#certificateCoursesTable').toggle();
     this.$('#certificateCoursesMainTable').toggle();
   },
   toggleStatements: function () {
-    this.$('#toggleStatements').toggleClass('checked');
     this.$('#certificateStatementsTable').toggle();
   },
   toggleActivities: function () {
-    this.$('#toggleActivities').toggleClass('checked');
     this.$('#certificateActivitiesTable').toggle();
   },
-  toggleAddGoals: function () {
-    this.$('#addGoals').toggleClass('active');
-    this.$('#dropdownGoalsMenu').toggleClass('dropdown-visible');
+  toggleLessons: function () {
+    this.$('#lessonGoalsTable').toggle();
   },
-
-  toggleAction: function () {
-    this.$('#chooseAction').toggleClass('active');
-    this.$('#dropdownActionMenu').toggleClass('dropdown-visible');
-  },
-
   deleteSelectedGoals: function () {
     this.views.filter(function(i){ return i.isSelected(); }).forEach(function (item) {
       item.deleteThis();
     });
-    this.toggleAction();
   },
 
   searchMenuToggle: function (e) {
     e.preventDefault();
     this.$('#goalsContentWrapper').toggleClass('active');
-  },
-
-  addCourse: function () {
-    this.toggleAddGoals();
-  },
-
-  addStatement: function () {
-    this.toggleAddGoals();
-  },
-
-  addActivity: function () {
-    this.toggleAddGoals();
   },
 
   saveNext: function () {

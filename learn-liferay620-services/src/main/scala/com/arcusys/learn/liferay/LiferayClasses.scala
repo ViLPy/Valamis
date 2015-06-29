@@ -3,7 +3,7 @@ package com.arcusys.learn.liferay
 import com.liferay.portal.kernel.upgrade.UpgradeProcess
 import com.liferay.portal.kernel.util.UnicodeProperties
 import com.liferay.portal.model._
-import com.liferay.portlet.social.model.{ SocialActivityFeedEntry, BaseSocialActivityInterpreter, SocialActivity }
+import com.liferay.portlet.social.model.{ SocialActivityFeedEntry, SocialActivity }
 import com.liferay.portlet.journal.model.JournalArticle
 import com.liferay.portal.theme.ThemeDisplay
 import com.liferay.portal.{ NoSuchLayoutException, NoSuchGroupException, NoSuchRoleException }
@@ -27,7 +27,6 @@ object LiferayClasses {
   type LBaseLocalService = BaseLocalService
   type LBaseModel[T] = BaseModel[T]
   type LBaseModelListener[T <: com.liferay.portal.model.BaseModel[T]] = BaseModelListener[T]
-  type LBaseSocialActivityInterpreter = BaseSocialActivityInterpreter
   type LBaseStrutsAction = BaseStrutsAction
   type LBooleanQuery = BooleanQuery
   type LDocument = Document
@@ -42,7 +41,6 @@ object LiferayClasses {
   type LLiferayPortletRequest = LiferayPortletRequest
   type LLiferayPortletResponse = LiferayPortletResponse
   type LPermissionChecker = PermissionChecker
-  type LRole = Role
   type LSearchContext = SearchContext
   type LServiceContext = ServiceContext
   type LSocialActivity = SocialActivity

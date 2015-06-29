@@ -1,6 +1,6 @@
 package com.arcusys.learn.models
 
-import com.arcusys.learn.questionbank.model.{ Answer, Question }
+import com.arcusys.valamis.questionbank.model.{ Question, Answer }
 
 case class QuizResponse(id: Int, title: String, description: String, logo: String, size: Int, maxDuration: Option[Int])
 
@@ -52,6 +52,7 @@ case class QuizQuestionBankResponse(
   question: Question[Answer],
   autoShowAnswer: Boolean,
   arrangementIndex: Int = 1,
+  questionTypeCode: Int,
   contentType: String = "question") extends QuizQuestionResponse
 
 case class QuizQuestionRevealJSResponse(
