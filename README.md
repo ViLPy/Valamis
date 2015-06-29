@@ -2,7 +2,7 @@
 
 **http://valamis.arcusys.com/**
 
-[![build status](https://api.travis-ci.org/igor-borisov/JSCORM.png)](http://travis-ci.org/igor-borisov/JSCORM)
+[![build status](https://api.travis-ci.org/arcusys/JSCORM.png)](http://travis-ci.org/arcusys/JSCORM)
 
 ###This is Valamis CE version - No support - No warranty
 ###To get supported Valamis Enterprise Edition contact us in http://valamis.arcusys.com/get-valamis
