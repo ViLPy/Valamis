@@ -26,7 +26,6 @@ object Version {
   val mockito           = "1.9.5"
   val slick             = "2.1.0"
   val slickJodaMapper   = "1.2.0"
-  val scalaMustache     = "1.0.0"
   val guiceScala        = "4.0.0"
   val guice             = "4.0"
   val scalatra          = "2.2.2"
@@ -57,7 +56,6 @@ object Libraries {
   val commonsLang       = "commons-lang"               %  "commons-lang"       % Version.commonLang
   val commonsFileUpload = "commons-fileupload"         %  "commons-fileupload" % Version.commonFileUpload
   val commonsIO         = "commons-io"                 %  "commons-io"         % Version.commonIO
-  val mustache          = "com.arcusys.scala-mustache" %  "scala-mustache"     % Version.scalaMustache
 
   // scalatra
   val scalatra     = "org.scalatra" %% "scalatra"      % Version.scalatra
