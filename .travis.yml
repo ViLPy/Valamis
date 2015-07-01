@@ -3,6 +3,6 @@ language: scala
 scala:
   - 2.10.5
 jdk:
-  - openjdk6
+  - oraclejdk7
 
 script: sbt portlet/compile
