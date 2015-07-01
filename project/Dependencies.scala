@@ -1,7 +1,7 @@
 import sbt._
 
 object Version {
-  val scala             = "2.10.4"
+  val scala             = "2.10.5"
   val json4s            = "3.2.11"
   val sprayJson         = "1.3.2"
   val scalatest         = "2.2.3"
@@ -85,7 +85,7 @@ object Libraries {
 
   // slick
   val slick          = "com.typesafe.slick" %% "slick"           % Version.slick
-  val slickDrivers   = "com.arcusys.slick"  %% "slick-drivers"   % "1.0" //Version.slick
+  val slickDrivers   = "com.arcusys.slick"  %% "slick-drivers"   % Version.slick
   val slickMigration = "com.arcusys.slick"  %% "slick-migration" % Version.slick
   val slickJodaMapper = "com.github.tototoshi" %% "slick-joda-mapper" % Version.slickJodaMapper
 
