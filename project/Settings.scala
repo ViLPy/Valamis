@@ -9,8 +9,10 @@ object Settings {
     scalaVersion := Version.scala,
     resolvers ++= Seq(
       Resolver.mavenLocal,
-      ArcusysResolvers.mavenCentral,
-      ArcusysResolvers.public
+      ArcusysResolvers.public,
+      Resolver.sonatypeRepo("releases"),
+      Resolver.typesafeIvyRepo("releases"),
+      DefaultMavenRepository
     ),
     libraryDependencies ++= Dependencies.common,
     publishMavenStyle             := true,
