@@ -39,13 +39,13 @@ class ActivityListener extends BaseModelListener[SocialActivity] with Injectable
     if (setting.isDefined) {
       val verb = setting.get match {
         case "completed" =>
-          Verb("http://adlnet.gov/expapi/verbs/completed", Map(Locale.US.toLanguageTag() -> "completed"))
+          Verb("http://adlnet.gov/expapi/verbs/completed", Map("en-US" -> "completed"))
         case "attempted" =>
-          Verb("http://adlnet.gov/expapi/verbs/attempted", Map(Locale.US.toLanguageTag()-> "attempted"))
+          Verb("http://adlnet.gov/expapi/verbs/attempted", Map("en-US" -> "attempted"))
         case "interacted" =>
-          Verb("http://adlnet.gov/expapi/verbs/interacted", Map(Locale.US.toLanguageTag() -> "interacted"))
+          Verb("http://adlnet.gov/expapi/verbs/interacted", Map("en-US" -> "interacted"))
         case "experienced" =>
-          Verb("http://adlnet.gov/expapi/verbs/experienced", Map(Locale.US.toLanguageTag() -> "experienced"))
+          Verb("http://adlnet.gov/expapi/verbs/experienced", Map("en-US" -> "experienced"))
         case _ => return
       }
 

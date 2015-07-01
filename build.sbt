@@ -27,7 +27,7 @@ lazy val questionbank = (project in file("valamis-questionbank"))
 lazy val lrssupport = (project in file("valamis-lrssupport"))
   .settings(Settings.common: _*)
   .settings(name := "valamis-lrssupport")
-  .settings(libraryDependencies ++= (Settings.liferay.dependencies ++ Dependencies.oauthClient ++ Seq(Libraries.lrsApi, Libraries.auth)))
+  .settings(libraryDependencies ++= (Settings.liferay.dependencies ++ Dependencies.oauthClient ++ Seq(Libraries.lrsApi)))
   .settings(libraryDependencies += Libraries.subcut)
   .dependsOn(lfService)
 
