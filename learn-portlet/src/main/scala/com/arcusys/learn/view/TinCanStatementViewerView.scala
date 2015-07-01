@@ -5,7 +5,7 @@ import javax.portlet.{RenderRequest, RenderResponse}
 import com.arcusys.learn.liferay.LiferayClasses.LUser
 import com.arcusys.learn.view.extensions._
 import com.arcusys.learn.view.liferay.LiferayHelpers
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 
 class TinCanStatementViewerView extends OAuthPortlet with BaseView {
 

@@ -9,8 +9,8 @@ import com.arcusys.learn.liferay.services.JournalArticleLocalServiceHelper
 import com.arcusys.learn.view.extensions.BaseView
 import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.valamis.settings.service.SettingService
-import com.arcusys.valamis.utils.JsonSupport
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.JsonSupport
+import com.arcusys.valamis.util.serialization.JsonHelper
 
 class ValamisSlidesEditorView extends GenericPortlet with BaseView with JsonSupport {
   private lazy val settingManager = inject[SettingService]

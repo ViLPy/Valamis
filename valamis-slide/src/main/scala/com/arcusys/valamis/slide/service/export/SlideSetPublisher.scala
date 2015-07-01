@@ -14,7 +14,7 @@ import com.arcusys.valamis.slide.service.{SlideElementServiceContract, SlideSetS
 import com.arcusys.valamis.uri.model.ValamisURIType
 import com.arcusys.valamis.uri.service.URIServiceContract
 import com.arcusys.valamis.util.mustache.Mustache
-import com.arcusys.valamis.utils.JsonSupport._
+import com.arcusys.valamis.util.JsonSupport._
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
 trait SlideSetPublisherContract {

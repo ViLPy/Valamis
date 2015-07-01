@@ -13,7 +13,7 @@ import com.arcusys.valamis.lrs.tincan.Agent
 import com.arcusys.valamis.lrs.util.TincanHelper
 import com.arcusys.valamis.model.ScopeType
 import com.arcusys.valamis.user.service.UserService
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.arcusys.learn.liferay.permission._
 
 class LessonViewerView extends OAuthPortlet with BaseView {

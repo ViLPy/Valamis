@@ -4,7 +4,7 @@ import java.sql.{Date, Timestamp}
 
 import com.arcusys.valamis.lrs.tincan._
 import com.arcusys.valamis.utils.Version
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import org.joda.time.{DateTime, Duration, LocalDate}
 
 import scala.slick.driver.JdbcDriver.simple._

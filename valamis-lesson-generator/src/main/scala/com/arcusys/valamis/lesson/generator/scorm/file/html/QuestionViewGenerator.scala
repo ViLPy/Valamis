@@ -3,7 +3,7 @@ package com.arcusys.valamis.lesson.generator.scorm.file.html
 import com.arcusys.valamis.lesson.generator.util.ResourceHelpers
 import com.arcusys.valamis.questionbank.model._
 import com.arcusys.valamis.util.mustache.Mustache
-import com.arcusys.valamis.utils.JsonSupport._
+import com.arcusys.valamis.util.JsonSupport._
 
 class QuestionViewGenerator(isPreview: Boolean) {
   private lazy val genericJS = scala.io.Source.fromInputStream(getResourceStream("questionScript.html")).mkString

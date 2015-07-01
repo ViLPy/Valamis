@@ -4,7 +4,7 @@ import com.arcusys.learn.liferay.services.SocialActivityLocalServiceHelper
 import com.arcusys.valamis.lrs.serializer.StatementSerializer
 import com.arcusys.valamis.lrs.tincan.{Activity, Statement}
 import com.arcusys.valamis.settings.service.LRSToActivitySettingService
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
 import scala.util.Try
 
