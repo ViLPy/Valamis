@@ -4,7 +4,7 @@ import com.arcusys.valamis.lrs.model.{AuthConstants, OAuthAuthInfo, OAuthParams}
 import com.arcusys.valamis.lrs.tincan.AuthorizationScope
 import com.arcusys.valamis.lrsEndpoint.model.LrsToken
 import com.arcusys.valamis.lrsEndpoint.storage.LrsTokenStorage
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
 import net.oauth._
 import net.oauth.client.OAuthClient

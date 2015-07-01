@@ -20,7 +20,7 @@ object Version {
   val portletApi        = "2.0"
   val servletApi        = "2.5"
   val javaxMail         = "1.4"
-  val liferay620        = "6.2.0-GA1"
+  val liferay620        = "6.2.0-ga1"
   val junit             = "4.10"
   val scalaMock         = "3.1.RC1"
   val mockito           = "1.9.5"
@@ -83,9 +83,7 @@ object Libraries {
   val mail       = "javax.mail"    % "mail"        % Version.javaxMail
 
   // valamis core / LRS
-  val auth   = "com.arcusys.valamis" %% "valamis-lrs-auth"    % Version.lrs
   val lrsApi = "com.arcusys.valamis" %% "valamis-lrs-api"     % Version.lrs
-  val lrsWeb = "com.arcusys.valamis" %% "valamis-lrs-liferay" % Version.lrs
 
   // slick
   val slick          = "com.typesafe.slick" %% "slick"           % Version.slick

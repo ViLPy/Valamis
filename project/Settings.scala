@@ -10,20 +10,15 @@ object Settings {
     resolvers ++= Seq(
       Resolver.mavenLocal,
       ArcusysResolvers.mavenCentral,
-      ArcusysResolvers.snapshots,
-      ArcusysResolvers.releases,
       ArcusysResolvers.public
     ),
     libraryDependencies ++= Dependencies.common,
+    publishMavenStyle             := true,
     publishArtifact in packageDoc := false,
     publishArtifact in packageSrc := false,
     publishMavenStyle             := true,
-    publishTo                     := {
-      if(version.value.trim.contains("SNAPSHOT"))
-        Some(ArcusysResolvers.snapshots)
-      else
-        Some(ArcusysResolvers.releases)
-    }
+    javacOptions ++= Seq("-source", "1.6", "-target", "1.6"),
+    scalacOptions        += "-target:jvm-1.6"
   )
 
   val liferay = Liferay620

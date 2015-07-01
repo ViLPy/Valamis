@@ -11,7 +11,7 @@ import com.arcusys.valamis.lrs.model._
 import com.arcusys.valamis.lrs.tincan.AuthorizationScope
 import com.arcusys.valamis.lrsEndpoint.model._
 import com.arcusys.valamis.lrsEndpoint.storage.{LrsEndpointStorage, LrsTokenStorage}
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
 import org.joda.time.DateTime
 import com.liferay.portal.util.PortalUtil
