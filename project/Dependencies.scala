@@ -20,6 +20,7 @@ object Version {
   val portletApi        = "2.0"
   val servletApi        = "2.5"
   val javaxMail         = "1.4"
+  val javaxInject       = "1"
   val liferay620        = "6.2.0-ga1"
   val junit             = "4.10"
   val scalaMock         = "3.1.RC1"
@@ -75,10 +76,11 @@ object Libraries {
   val lfUtilJava620      = "com.liferay.portal" % "util-java"      % Version.liferay620
 
   // javax
-  val portletApi = "javax.portlet" % "portlet-api" % Version.portletApi
-  val servletApi = "javax.servlet" % "servlet-api" % Version.servletApi
-  val jspApi     = "javax.servlet" % "jsp-api"     % Version.portletApi
-  val mail       = "javax.mail"    % "mail"        % Version.javaxMail
+  val portletApi = "javax.portlet" % "portlet-api"  % Version.portletApi
+  val servletApi = "javax.servlet" % "servlet-api"  % Version.servletApi
+  val jspApi     = "javax.servlet" % "jsp-api"      % Version.portletApi
+  val mail       = "javax.mail"    % "mail"         % Version.javaxMail
+  val inject     = "javax.inject"  % "javax.inject" % Version.javaxInject
 
   // valamis core / LRS
   val lrsApi = "com.arcusys.valamis" %% "valamis-lrs-api"     % Version.lrs
@@ -150,7 +152,7 @@ object Dependencies {
     json4sExt
   )
 
-  val javax = Seq(portletApi, servletApi, jspApi, mail).map( _ % Provided)
+  val  javax = Seq(portletApi, servletApi, jspApi, mail, inject).map( _ % Provided)
 
   val oauthClient = Seq(
     oauthCore,
