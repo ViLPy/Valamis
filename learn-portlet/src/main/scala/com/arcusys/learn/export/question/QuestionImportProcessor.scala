@@ -4,7 +4,7 @@ import java.io.File
 import com.arcusys.learn.facades._
 import com.arcusys.valamis.export.ImportProcessor
 import com.arcusys.valamis.questionbank.service.QuestionService
-import com.arcusys.valamis.utils.JsonSupport
+import com.arcusys.valamis.util.JsonSupport
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import org.json4s.{ DefaultFormats, Formats }
 

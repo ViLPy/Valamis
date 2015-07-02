@@ -77,6 +77,8 @@ lazy val slickPersistence = (project in file("valamis-slick-persistence"))
   .settings(Settings.common: _*)
   .settings(name := "valamis-slick-persistence")
   .settings(libraryDependencies ++= Dependencies.slick)
+  .settings(libraryDependencies ++= Dependencies.javax)
+  .settings(libraryDependencies ++= Seq(Libraries.lrsApi, Libraries.valamisCore))
   .settings(parallelExecution in test := false)
   .dependsOn(core, certificate, social)
 
@@ -199,7 +201,8 @@ lazy val portlet = (project in file("learn-portlet"))
         Libraries.quartz,
         Libraries.nimbusJose,
         Libraries.scalatraScalatest % Test,
-        Libraries.prettyTime
+        Libraries.prettyTime,
+        Libraries.valamisAuth
       )
     )
   )

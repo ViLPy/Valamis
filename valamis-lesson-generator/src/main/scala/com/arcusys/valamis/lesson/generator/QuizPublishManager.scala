@@ -13,7 +13,7 @@ import com.arcusys.valamis.quiz.service.QuizService
 import com.arcusys.valamis.quiz.storage.QuizQuestionCategoryStorage
 import com.arcusys.valamis.uri.model.ValamisURIType
 import com.arcusys.valamis.uri.service.URIServiceContract
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 
 class QuizPublishManager(implicit val bindingModule: BindingModule) extends Injectable {

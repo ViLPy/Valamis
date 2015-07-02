@@ -8,7 +8,7 @@ import org.apache.http.client.RedirectException
 import com.arcusys.learn.liferay.permission.PermissionUtil
 import com.arcusys.valamis.exception.{ EntityDuplicateException, EntityNotFoundException }
 import com.arcusys.valamis.lesson.exception.PassingLimitExceededException
-import com.arcusys.valamis.utils.JsonSupport
+import com.arcusys.valamis.util.JsonSupport
 import com.arcusys.learn.view.extensions.i18nSupport
 import com.escalatesoft.subcut.inject.{ BindingModule, Injectable }
 import com.liferay.portal.NoSuchUserException

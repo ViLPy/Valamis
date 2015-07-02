@@ -3,7 +3,7 @@ package com.arcusys.learn.web
 import org.scalatra.ScalatraServlet
 import com.escalatesoft.subcut.inject.Injectable
 import com.arcusys.learn.service.util.{ OldParameterBase, Parameter}
-import com.arcusys.valamis.utils.JsonSupport
+import com.arcusys.valamis.util.JsonSupport
 
 trait ServletBase extends ScalatraServlet with JsonSupport with Injectable {
 

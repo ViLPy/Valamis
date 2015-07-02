@@ -21,7 +21,7 @@ import com.arcusys.valamis.lrs.tincan.StatementResult
 import com.arcusys.valamis.lrs.util.{TinCanVerbs, TincanHelper}
 import com.arcusys.valamis.user.service.UserService
 import com.arcusys.valamis.util.Joda._
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 import com.escalatesoft.subcut.inject.{BindingModule, Injectable}
 import org.joda.time.DateTime
 

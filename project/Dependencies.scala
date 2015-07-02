@@ -1,7 +1,7 @@
 import sbt._
 
 object Version {
-  val scala             = "2.10.4"
+  val scala             = "2.10.5"
   val json4s            = "3.2.11"
   val sprayJson         = "1.3.2"
   val scalatest         = "2.2.3"
@@ -20,13 +20,13 @@ object Version {
   val portletApi        = "2.0"
   val servletApi        = "2.5"
   val javaxMail         = "1.4"
+  val javaxInject       = "1"
   val liferay620        = "6.2.0-ga1"
   val junit             = "4.10"
   val scalaMock         = "3.1.RC1"
   val mockito           = "1.9.5"
   val slick             = "2.1.0"
   val slickJodaMapper   = "1.2.0"
-  val scalaMustache     = "1.0.0"
   val guiceScala        = "4.0.0"
   val guice             = "4.0"
   val scalatra          = "2.2.2"
@@ -57,7 +57,6 @@ object Libraries {
   val commonsLang       = "commons-lang"               %  "commons-lang"       % Version.commonLang
   val commonsFileUpload = "commons-fileupload"         %  "commons-fileupload" % Version.commonFileUpload
   val commonsIO         = "commons-io"                 %  "commons-io"         % Version.commonIO
-  val mustache          = "com.arcusys.scala-mustache" %  "scala-mustache"     % Version.scalaMustache
 
   // scalatra
   val scalatra     = "org.scalatra" %% "scalatra"      % Version.scalatra
@@ -77,17 +76,20 @@ object Libraries {
   val lfUtilJava620      = "com.liferay.portal" % "util-java"      % Version.liferay620
 
   // javax
-  val portletApi = "javax.portlet" % "portlet-api" % Version.portletApi
-  val servletApi = "javax.servlet" % "servlet-api" % Version.servletApi
-  val jspApi     = "javax.servlet" % "jsp-api"     % Version.portletApi
-  val mail       = "javax.mail"    % "mail"        % Version.javaxMail
+  val portletApi = "javax.portlet" % "portlet-api"  % Version.portletApi
+  val servletApi = "javax.servlet" % "servlet-api"  % Version.servletApi
+  val jspApi     = "javax.servlet" % "jsp-api"      % Version.portletApi
+  val mail       = "javax.mail"    % "mail"         % Version.javaxMail
+  val inject     = "javax.inject"  % "javax.inject" % Version.javaxInject
 
   // valamis core / LRS
   val lrsApi = "com.arcusys.valamis" %% "valamis-lrs-api"     % Version.lrs
+  val valamisCore = "com.arcusys.valamis" %% "valamis-utils"  % Version.lrs
+  val valamisAuth = "com.arcusys.valamis" %% "valamis-lrs-auth"  % Version.lrs
 
   // slick
   val slick          = "com.typesafe.slick" %% "slick"           % Version.slick
-  val slickDrivers   = "com.arcusys.slick"  %% "slick-drivers"   % "1.0" //Version.slick
+  val slickDrivers   = "com.arcusys.slick"  %% "slick-drivers"   % Version.slick
   val slickMigration = "com.arcusys.slick"  %% "slick-migration" % Version.slick
   val slickJodaMapper = "com.github.tototoshi" %% "slick-joda-mapper" % Version.slickJodaMapper
 
@@ -152,7 +154,7 @@ object Dependencies {
     json4sExt
   )
 
-  val javax = Seq(portletApi, servletApi, jspApi, mail).map( _ % Provided)
+  val  javax = Seq(portletApi, servletApi, jspApi, mail, inject).map( _ % Provided)
 
   val oauthClient = Seq(
     oauthCore,
@@ -164,6 +166,7 @@ object Dependencies {
     Libraries.slick,
     slickDrivers,
     slickMigration,
+    slickJodaMapper,
     h2DB % Test
   )
 

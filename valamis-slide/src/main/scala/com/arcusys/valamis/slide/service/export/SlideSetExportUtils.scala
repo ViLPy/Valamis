@@ -7,7 +7,7 @@ import com.arcusys.valamis.questionbank.model._
 import com.arcusys.valamis.questionbank.service.QuestionService
 import com.arcusys.valamis.slide.model._
 import com.arcusys.valamis.util.FileSystemUtil
-import com.arcusys.valamis.utils.JsonSupport._
+import com.arcusys.valamis.util.JsonSupport._
 import com.arcusys.valamis.slide.model.SlideEntityType
 
 case class QuestionResponse(tpe: Int, json: String)

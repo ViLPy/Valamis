@@ -11,7 +11,7 @@ import com.arcusys.learn.view.liferay.LiferayHelpers
 import com.arcusys.valamis.lrs.serializer.AgentSerializer
 import com.arcusys.valamis.lrs.tincan.Agent
 import com.arcusys.valamis.lrs.util.TincanHelper
-import com.arcusys.valamis.utils.serialization.JsonHelper
+import com.arcusys.valamis.util.serialization.JsonHelper
 
 class GradebookView extends OAuthPortlet with BaseView {
 

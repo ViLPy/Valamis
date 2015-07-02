@@ -5,7 +5,7 @@ import com.arcusys.valamis.lesson.generator.util.ResourceHelpers
 import com.arcusys.valamis.questionbank.model._
 import com.arcusys.valamis.quiz.model.PPTXQuizQuestion
 import com.arcusys.valamis.util.mustache.Mustache
-import com.arcusys.valamis.utils.JsonSupport._
+import com.arcusys.valamis.util.JsonSupport._
 import scala.util.Random
 
 
