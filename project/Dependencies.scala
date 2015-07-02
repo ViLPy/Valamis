@@ -84,6 +84,8 @@ object Libraries {
 
   // valamis core / LRS
   val lrsApi = "com.arcusys.valamis" %% "valamis-lrs-api"     % Version.lrs
+  val valamisCore = "com.arcusys.valamis" %% "valamis-utils"  % Version.lrs
+  val valamisAuth = "com.arcusys.valamis" %% "valamis-lrs-auth"  % Version.lrs
 
   // slick
   val slick          = "com.typesafe.slick" %% "slick"           % Version.slick
@@ -164,6 +166,7 @@ object Dependencies {
     Libraries.slick,
     slickDrivers,
     slickMigration,
+    slickJodaMapper,
     h2DB % Test
   )
 
