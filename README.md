@@ -29,18 +29,13 @@ The solution uses Liferay database, so no need to install additional database.
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
 ### LRS
-TinCan LRS endpoint is set by default to use our internal LRS, so no need to configure something.
-Internal LRS endpoint is: `<your-domain>/learn-portlet/TincanApi`
-
-If you need to customize it, settings can be found in admin portlet on settings tab.
-
-TinCan LRS OAuth endpoint is: `<your-domain>/learn-portlet/oauth`
+Since 2.4 you need also to compile Valamis TinCan LRS (https://github.com/arcusys/valamis-lrs).
 
 ### Download 
 Download Valamis CE source code from this repository and compile the application yourself
 
 ###Post-deployment process
-Since version 1.2.1 it's required to manually add 2 roles in Liferay: Student and Teacher. Admin should manually set membership relations for user/roles
+
 
 ###Known issues
 **PermGen issue**: Valamis requires 512Mb of PermGen size. This is default size in Liferay bundled with glassfish, but permgen in Tomcat and jBoss bundles should be increased.
@@ -195,4 +190,4 @@ Fixed problems:
  
 ### Building
 
-This is Maven2 project, so you can use IDE that you like.
+This is SBT project.
