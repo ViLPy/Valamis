@@ -6,7 +6,7 @@ object Version {
   val sprayJson         = "1.3.2"
   val scalatest         = "2.2.3"
   val slf4j             = "1.6.4"
-  val commonLang        = "2.2"
+  val commonLang        = "2.6"
   val commonFileUpload  = "1.3.1"
   val commonIO          = "2.4"
 
@@ -155,6 +155,8 @@ object Dependencies {
   )
 
   val  javax = Seq(portletApi, servletApi, jspApi, mail, inject).map( _ % Provided)
+
+  val lrs = Seq(Libraries.lrsApi, Libraries.valamisCore, Libraries.commonsValidator, Libraries.commonsLang)
 
   val oauthClient = Seq(
     oauthCore,
