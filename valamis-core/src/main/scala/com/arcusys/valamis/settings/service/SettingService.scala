@@ -17,6 +17,10 @@ trait SettingService {
 
   def getIssuerURL(): String
 
+  def setIssuerEmail(value: String): Unit
+
+  def getIssuerEmail(): String
+
   def setSendMessages(value: Boolean): Unit
 
   def getSendMessages(): Boolean

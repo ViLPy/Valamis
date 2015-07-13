@@ -10,6 +10,7 @@ object AdminRequest extends BaseRequest {
   val IssuerName = "issuerName"
   val IssuerOrganisation = "issuerOrganization"
   val IssuerURL = "issuerUrl"
+  val IssuerEmail = "issuerEmail"
   val SendMessages = "sendMessages"
   val IsExternalLRS = "isExternalLrs"
   val Endpoint = "endpoint"
@@ -31,6 +32,7 @@ object AdminRequest extends BaseRequest {
     def issuerName = Parameter(AdminRequest.IssuerName).required
     def issuerOrganization = Parameter(AdminRequest.IssuerOrganisation).required
     def issuerUrl = Parameter(AdminRequest.IssuerURL).required
+    def issuerEmail = Parameter(AdminRequest.IssuerEmail).required
     def sendMessages = Parameter(AdminRequest.SendMessages).required
     def googleClientId = Parameter(AdminRequest.GoogleClientId).required
     def googleAppId = Parameter(AdminRequest.GoogleAppId).required

@@ -64,8 +64,8 @@ class AdminApiController(configuration: BindingModule) extends BaseApiController
 
   private def updateIssuerSettings(adminRequest: AdminRequest.Model) = {
     settingsManager.setIssuerName(adminRequest.issuerName)
-    settingsManager.setIssuerOrganization(adminRequest.issuerOrganization)
     settingsManager.setIssuerURL(adminRequest.issuerUrl)
+    settingsManager.setIssuerEmail(adminRequest.issuerEmail)
   }
 
   private def updateEmailSettings(adminRequest: AdminRequest.Model) = {

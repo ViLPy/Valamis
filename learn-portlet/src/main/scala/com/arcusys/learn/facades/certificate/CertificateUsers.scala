@@ -5,7 +5,7 @@ import CertificateSortBy.CertificateSortBy
 import com.arcusys.learn.facades.CertificateFacadeContract
 import com.arcusys.learn.models.response.certificates.CertificateResponseContract
 import com.arcusys.learn.models.response.users.{ UserShortResponse, UserResponseUtils, UserResponseWithCertificateStatus }
-import com.arcusys.valamis.certificate.model.badge.BadgeResponse
+import com.arcusys.valamis.certificate.model.badge.{IssuerModel, BadgeModel, BadgeResponse}
 import com.arcusys.valamis.certificate.service.{ CertificateStatusChecker, CertificateService }
 import com.arcusys.valamis.lrs.api.StatementApi
 import com.escalatesoft.subcut.inject.Injectable
@@ -98,4 +98,11 @@ trait CertificateUsers extends Injectable with CertificateResponseFactory with C
     certificateService.getIssuerBadge(certificateId, liferayUserId, rootUrl)
   }
 
+  def getBadgeModel(certificateId: Int, rootUrl: String): BadgeModel = {
+    certificateService.getBadgeModel(certificateId, rootUrl)
+  }
+
+  def getIssuerModel(rootUrl: String): IssuerModel = {
+    certificateService.getIssuerModel(rootUrl)
+  }
 }

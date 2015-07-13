@@ -3,7 +3,7 @@ package com.arcusys.learn.facades
 import java.io.{ File, InputStream }
 import com.arcusys.valamis.certificate.model.{CertificateStatus, CertificateSortBy}
 import CertificateSortBy.CertificateSortBy
-import com.arcusys.valamis.certificate.model.badge.BadgeResponse
+import com.arcusys.valamis.certificate.model.badge.{IssuerModel, BadgeModel, BadgeResponse}
 import com.arcusys.valamis.lrs.api.StatementApi
 import com.arcusys.valamis.model.PeriodTypes
 import PeriodTypes._
@@ -166,6 +166,11 @@ trait CertificateFacadeContract {
   def getIssuerBadge(certificateId: Int,
     liferayUserId: Int,
     rootUrl: String): BadgeResponse
+
+  def getBadgeModel(certificateId: Int,
+    rootUrl: String): BadgeModel
+
+  def getIssuerModel(rootUrl: String): IssuerModel
 
   def clone(certificateId: Int): CertificateResponseContract
 

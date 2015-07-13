@@ -32,6 +32,14 @@ class SettingServiceImpl(implicit val bindingModule: BindingModule) extends Sett
     settingStorage.getByKey(SettingType.IssuerURL).map(_.value).getOrElse("")
   }
 
+  override def getIssuerEmail(): String = {
+    settingStorage.getByKey(SettingType.IssuerEmail).map(_.value).getOrElse("")
+  }
+
+  override def setIssuerEmail(value: String): Unit = {
+    settingStorage.modify(SettingType.IssuerEmail, value)
+  }
+
   override def setSendMessages(value: Boolean): Unit = {
     settingStorage.modify(SettingType.SendMessages, value.toString)
   }
