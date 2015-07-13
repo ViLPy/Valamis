@@ -35,7 +35,12 @@ class CertificateApiController(
     val parameters = CertificateRequest(this)
 
     //OpenBadges do not need permission check
-    if(parameters.action(this) != CertificateActionType.GetIssuerBadge)
+    val openBadgesActions = Seq(
+      CertificateActionType.GetIssuerBadge,
+      CertificateActionType.GetBadgeModel,
+      CertificateActionType.GetIssuerModel)
+
+    if(!openBadgesActions.contains(parameters.action(this)))
       PermissionUtil.requirePermissionApi(ViewPermission,
         PortletName.CertificateManager,
         PortletName.CertificateViewer,
@@ -62,6 +67,15 @@ class CertificateApiController(
         parameters.id,
         parameters.userId,
         parameters.rootUrl)
+
+      case CertificateActionType.GetBadgeModel => certificateFacade.getBadgeModel(
+        parameters.id,
+        parameters.rootUrl
+      )
+
+      case CertificateActionType.GetIssuerModel => certificateFacade.getIssuerModel(
+        parameters.rootUrl
+      )
 
       case CertificateActionType.GetStatements =>
         lrsReader.verbApi(

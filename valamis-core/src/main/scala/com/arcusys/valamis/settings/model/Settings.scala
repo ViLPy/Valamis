@@ -17,6 +17,7 @@ object SettingType extends Enumeration {
   val IssuerName = Value("IssuerName")
   val IssuerURL = Value("IssuerURL")
   val IssuerOrganization = Value("IssuerOrganization")
+  val IssuerEmail = Value("IssuerEmail")
   val DBVersion = Value("DBVersion")
   val SendMessages = Value("SendMessages")
   val GoogleClientId = Value("GoogleClientId")

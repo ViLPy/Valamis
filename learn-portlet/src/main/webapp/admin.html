@@ -144,7 +144,7 @@
                             'action': 'UPDATEISSUERSETTINGS',
                             'issuerName': jQuery('#issuerName').val(),
                             'issuerUrl': jQuery('#issuerUrl').val(),
-                            'issuerOrganization': jQuery('#issuerOrganization').val()
+                            'issuerEmail': jQuery('#issuerEmail').val()
                         },
                         jQuery.proxy(function () {
                         }, this)
@@ -228,10 +228,10 @@
 
                     <div class="div-row">
                         <div class="div-col name-col">
-                            <label for="issuerOrganization">{{issuerOrganizationLabel}}</label>
+                            <label for="issuerEmail">{{issuerEmailLabel}}</label>
                         </div>
                         <div class="div-col content-col">
-                            <input class="fixed-width" type="text" id="issuerOrganization" value="{{issuerOrganization}}"/>
+                            <input class="fixed-width" type="text" id="issuerEmail" value="{{issuerEmail}}"/>
                         </div>
                     </div>
 

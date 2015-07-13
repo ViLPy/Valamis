@@ -5,7 +5,7 @@ import java.security.MessageDigest
 import com.arcusys.learn.liferay.LiferayClasses._
 import com.arcusys.learn.liferay.services.{PermissionHelper, UserLocalServiceHelper}
 import com.arcusys.valamis.certificate.model.CertificateSortBy.CertificateSortBy
-import com.arcusys.valamis.certificate.model.badge.{ BadgeModel, BadgeResponse, IssuerModel }
+import com.arcusys.valamis.certificate.model.badge._
 import com.arcusys.valamis.certificate.model._
 import com.arcusys.valamis.certificate.service.util.OpenBadgesHelper
 import com.arcusys.valamis.certificate.storage.{CertificateStateRepository, CertificateRepository}
@@ -264,40 +264,66 @@ trait CertificateUserServiceImpl extends Injectable with CertificateService {
   }
 
   def getIssuerBadge(certificateId: Int, liferayUserId: Int, rootUrl: String): BadgeResponse = {
-    val certificate = certificateRepository.getById(certificateId)
     val recipient = "sha256$" + hashEmail(userLocalServiceHelper.getUser(liferayUserId).getEmailAddress)
-    val issuerName = settingStorage
-      .getByKey(SettingType.IssuerName)
-      .getOrElse(model.EmptySetting(SettingType.IssuerName))
-      .value
-
-    val issuerOrganization = settingStorage
-      .getByKey(SettingType.IssuerOrganization)
-      .getOrElse(model.EmptySetting(SettingType.IssuerOrganization))
-      .value
-
-    val issuerUrl = settingStorage.getByKey(SettingType.IssuerURL)
-      .getOrElse(model.EmptySetting(SettingType.IssuerOrganization, rootUrl))
-      .value
-
     val issueOn = DateTime.now.toString("yyyy-MM-dd")
-    val imageUrl = if (certificate.logo == "")
-      "%s/learn-portlet/img/certificate-default.jpg".format(rootUrl)
-    else
-      "%s/delegate/files/images?folderId=%s&file=%s".format(rootUrl, certificate.id, certificate.logo)
 
-    val description = certificate.shortDescription.replaceAll("%20", " ")
+    val identity = IdentityModel(recipient)
+    val badgeUrl = "%s/delegate/certificates/%s?action=GETBADGEMODEL&userID=%s&rootUrl=%s".format(
+      rootUrl,
+      certificateId,
+      liferayUserId,
+      rootUrl)
 
-    val issue = IssuerModel(issuerUrl, issuerName, issuerOrganization)
-    val badge = BadgeModel(certificate.title, imageUrl, description, rootUrl, issue)
+    val verificationUrl = "%s/delegate/certificates/%s?action=GETISSUEBADGE&userID=%s&rootUrl=%s".format(
+      rootUrl,
+      certificateId,
+      liferayUserId,
+      rootUrl)
+    val verification = VerificationModel(url = verificationUrl)
 
-    BadgeResponse(recipient, issueOn, badge)
+    BadgeResponse(certificateId.toString, identity, badgeUrl, verification, issueOn)
   }
 
   private def hashEmail(email: String) = {
     val md = MessageDigest.getInstance("SHA-256")
     md.update(email.getBytes)
     HexHelper().toHexString(md.digest())
+  }
+
+  def getBadgeModel(certificateId: Int, rootUrl: String): BadgeModel = {
+    val certificate = certificateRepository.getById(certificateId)
+
+    val name = certificate.title.replaceAll("%20", " ")
+    val imageUrl = if (certificate.logo == "")
+      "%s/learn-portlet/img/certificate-default.jpg".format(rootUrl)
+    else
+      "%s/delegate/files/images?folderId=%s&file=%s".format(rootUrl, certificate.id, certificate.logo)
+
+    val description = certificate.shortDescription.replaceAll("%20", " ")
+    val issuerUrl = "%s/delegate/certificates/%s?action=GETISSUERMODEL&rootUrl=%s".format(
+      rootUrl,
+      certificateId,
+      rootUrl)
+
+    BadgeModel(name, description, imageUrl, rootUrl, issuerUrl)
+  }
+
+  def getIssuerModel(rootUrl: String): IssuerModel = {
+
+    val issuerName = settingStorage
+      .getByKey(SettingType.IssuerName)
+      .getOrElse(model.EmptySetting(SettingType.IssuerName))
+      .value
+
+    val issuerUrl = settingStorage.getByKey(SettingType.IssuerURL)
+      .getOrElse(model.EmptySetting(SettingType.IssuerURL, rootUrl))
+      .value
+
+    val issuerEmail = settingStorage.getByKey(SettingType.IssuerEmail)
+      .getOrElse(model.EmptySetting(SettingType.IssuerEmail))
+      .value
+
+    IssuerModel(issuerName, issuerUrl, issuerEmail)
   }
 
   def getUsers(c: Certificate) = certificateToUserRepository.getBy(CertificateStateFilter(certificateId = Some(c.id))).map(p => (p.userJoinedDate, UserLocalServiceHelper().getUser(p.userId)))

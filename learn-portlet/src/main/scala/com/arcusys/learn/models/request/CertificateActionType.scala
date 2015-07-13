@@ -35,6 +35,8 @@ object CertificateActionType extends Enumeration {
   val GetById = Value("GETBYID")
   val GetByUserId = Value("GETBYUSERID")
   val GetIssuerBadge = Value("GETISSUEBADGE")
+  val GetBadgeModel = Value("GETBADGEMODEL")
+  val GetIssuerModel = Value("GETISSUERMODEL")
   val GetStudents = Value("GETSTUDENTS")
   val GetNotContainedStudents = Value("GETNOTCONTAINEDSTUDENTS")
   val SetImage = Value("SETIMAGE")

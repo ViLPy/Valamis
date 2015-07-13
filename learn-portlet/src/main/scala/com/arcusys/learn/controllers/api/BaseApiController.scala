@@ -25,7 +25,7 @@ abstract class BaseApiController(configuration: BindingModule) extends ScalatraS
 
   def jsonAction(a: => Any)(implicit formats: Formats = Serialization.formats(NoTypeHints)): Any = {
     val userAgent = request.getHeader("User-Agent")
-    if (userAgent.contains("MSIE 9") || userAgent.contains("MSIE 8")) //Because IE with versions below 10 doesn't support application/json
+    if (userAgent != null && (userAgent.contains("MSIE 9") || userAgent.contains("MSIE 8"))) //Because IE with versions below 10 doesn't support application/json
       response.setHeader("Content-Type", "text/html; charset=UTF-8")
     else response.setHeader("Content-Type", "application/json; charset=UTF-8")
     action {

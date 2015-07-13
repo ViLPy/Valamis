@@ -4,7 +4,7 @@ import com.arcusys.learn.liferay.LiferayClasses.LUser
 import com.arcusys.valamis.certificate.model.Certificate
 import com.arcusys.valamis.certificate.model.CertificateSortBy.CertificateSortBy
 import com.arcusys.valamis.certificate.model.CertificateStatus.CertificateStatus
-import com.arcusys.valamis.certificate.model.badge.BadgeResponse
+import com.arcusys.valamis.certificate.model.badge.{IssuerModel, BadgeModel, BadgeResponse}
 import com.arcusys.valamis.certificate.model.goal._
 import com.arcusys.valamis.lrs.api.StatementApi
 import com.arcusys.valamis.lrs.tincan._
@@ -178,6 +178,8 @@ trait CertificateService {
     scope: Option[Long]): Int
 
   def getIssuerBadge(certificateId: Int, liferayUserId: Int, rootUrl: String): BadgeResponse
+  def getBadgeModel(certificateId: Int, rootUrl: String): BadgeModel
+  def getIssuerModel(rootUrl: String): IssuerModel
 
   def getUsers(c: Certificate): Seq[(DateTime, LUser)]
   def getUsersCount(c: Certificate): Int
