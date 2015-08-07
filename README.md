@@ -28,8 +28,8 @@ The solution uses Liferay database, so no need to install additional database.
 
 If deployed against a portlet container, the end-user features are available via the portlet's standard View mode, while administrative features are available via the Edit mode. Also there is another portlet for question editor, quiz editor and gradebook.
 
-### LRS
-Since 2.4 you need also to compile Valamis TinCan LRS (https://github.com/arcusys/valamis-lrs).
+### NOTE
+Since version 2.4 Valamis Community Edition is separated into two packages in GitHub: Valamis LRS (Learning Record Store, https://github.com/arcusys/valamis-lrs) and Valamis components (this repository). You need to compile both of these.
 
 ### Download 
 Download Valamis CE source code from this repository and compile the application yourself
