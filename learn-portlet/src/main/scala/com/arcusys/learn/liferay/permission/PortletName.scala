@@ -39,8 +39,6 @@ object PortletName {
 
   case object SlidesEditor extends PortletName("ValamisSlidesEditor")
 
-  case object CompetencesUser extends PortletName("CompetencesUser")
-
   case object AchievedCertificates extends PortletName("AchievedCertificates")
 
   case object RecentLessons extends PortletName("RecentLessons")

@@ -25,7 +25,7 @@ class UserApiController(configuration: BindingModule) extends BaseApiController(
 
   get("/users(/)(:userID)")(jsonAction {
     val userRequest = UserRequest(this)
-    if (!PermissionUtil.hasPermissionApi(ModifyPermission, PortletName.CertificateManager, PortletName.CompetencesUser)) {
+    if (!PermissionUtil.hasPermissionApi(ModifyPermission, PortletName.CertificateManager)) {
       PermissionUtil.requirePermissionApi(ViewPermission, PortletName.LearningTranscript, PortletName.UserPortfolio, PortletName.ValamisActivities)
     }
 
