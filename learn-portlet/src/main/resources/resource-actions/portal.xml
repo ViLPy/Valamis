@@ -400,43 +400,6 @@
         </permissions>
     </portlet-resource>
 
-    <!--CompetencesAdmin-->
-    <portlet-resource>
-        <portlet-name>CompetencesAdmin</portlet-name>
-        <permissions>
-            <supports>
-            </supports>
-            <site-member-defaults>
-            </site-member-defaults>
-            <guest-defaults>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-
-    <!--CompetencesUser-->
-    <portlet-resource>
-        <portlet-name>CompetencesUser</portlet-name>
-        <permissions>
-            <supports>
-                <action-key>MODIFY_ACTION</action-key>
-            </supports>
-            <site-member-defaults>
-                <action-key>VIEW</action-key>
-            </site-member-defaults>
-            <guest-defaults>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>MODIFY_ACTION</action-key>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-
     <!--AchievedCertificates-->
     <portlet-resource>
         <portlet-name>AchievedCertificates</portlet-name>
@@ -561,47 +524,6 @@
             <guest-unsupported>
                 <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
                 <action-key>CONFIGURATION</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-
-    <!--PhenomenizerStudio-->
-    <portlet-resource>
-        <portlet-name>PhenomenizerStudio</portlet-name>
-        <permissions>
-            <supports>
-                <action-key>MODIFY_ACTION</action-key>
-                <action-key>PUBLISH</action-key>
-            </supports>
-            <site-member-defaults>
-            </site-member-defaults>
-            <guest-defaults>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-                <action-key>MODIFY_ACTION</action-key>
-                <action-key>PUBLISH</action-key>
-            </guest-unsupported>
-        </permissions>
-    </portlet-resource>
-
-    <!--PhenomenizerReport-->
-    <portlet-resource>
-        <portlet-name>PhenomenizerReport</portlet-name>
-        <permissions>
-            <supports>
-                <action-key>VIEW_ALL</action-key>
-            </supports>
-            <site-member-defaults>
-                <action-key>VIEW</action-key>
-            </site-member-defaults>
-            <guest-defaults>
-            </guest-defaults>
-            <guest-unsupported>
-                <action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
-                <action-key>CONFIGURATION</action-key>
-                <action-key>VIEW_ALL</action-key>
             </guest-unsupported>
         </permissions>
     </portlet-resource>

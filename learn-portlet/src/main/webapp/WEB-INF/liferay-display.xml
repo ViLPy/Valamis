@@ -19,10 +19,6 @@
         <portlet id="Curriculum">Curriculum</portlet>
         <portlet id="CurriculumUser">Curriculum user</portlet>
         <portlet id="SCORMUserAccount">My Account</portlet>
-        <portlet id="CompetencesAdmin">Competences administration</portlet>
-        <portlet id="CompetencesUser">My Competences</portlet>
-        <portlet id="PhenomenizerStudio">Phenomenizer Studio</portlet>
-        <portlet id="PhenomenizerReport">Phenomenizer Report</portlet>
     </category>
 
     <category name="Valamis Lesson tools">
